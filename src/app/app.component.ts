@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-export class Profile {
-  id: number;
-  name: string;
-}
+import { Profile } from './profile';
 
 const PROFILES: Profile[] = [
   { id: 11, name: 'Mr. Nice' },
@@ -30,15 +26,7 @@ const PROFILES: Profile[] = [
 		    <span class="badge">{{profile.id}}</span> {{profile.name}}
 		  </li>
 		</ul>
-
-		<div *ngIf="selectedProfile">
-		  <h2>{{selectedProfile.name}} details!</h2>
-		  <div><label>id: </label>{{selectedProfile.id}}</div>
-		  <div>
-		      <label>name: </label>
-		      <input [(ngModel)]="selectedProfile.name" placeholder="name">
-		  </div>
-		</div>
+		<profile-detail [profile]="selectedProfile"></profile-detail>
   `,
   styles: [`
   .selected {
