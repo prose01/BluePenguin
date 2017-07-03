@@ -17,4 +17,5 @@ import { ProfileDetailComponent } from './app.profile-detail.component';
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

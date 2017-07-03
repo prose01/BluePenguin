@@ -1,18 +1,7 @@
-import { Component } from '@angular/core';
-import { Profile } from './profile';
+import { Component, OnInit } from '@angular/core';
 
-const PROFILES: Profile[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
-];
+import { Profile } from './profile';
+import { ProfileService } from './profile.service';
 
 @Component({
   selector: 'app-root',
@@ -76,15 +65,26 @@ const PROFILES: Profile[] = [
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-`]
+`],
+	providers: [ProfileService]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'BluePenguins';
-  profiles = PROFILES;
+  profiles: Profile[];
   selectedProfile: Profile;
 
+  constructor(private profileService: ProfileService) { }
+
+  getProfiles(): void {
+  	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
+  }
+
+  ngOnInit(): void {
+  	this.getProfiles();
+  }
+
   onSelect(profile: Profile): void {
-	  this.selectedProfile = profile;
-	}
+  	this.selectedProfile = profile;
+  }
 }

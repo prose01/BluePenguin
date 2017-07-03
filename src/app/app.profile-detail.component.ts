@@ -14,6 +14,7 @@ import { Profile } from './profile';
 		</div>
   `
 })
+
 export class ProfileDetailComponent {
 	@Input() profile: Profile;
 }
