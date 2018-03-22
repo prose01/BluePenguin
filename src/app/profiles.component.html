@@ -1,7 +1,7 @@
 <h2>My Profiles</h2>
 <ul class="profiles">
 	<li *ngFor="let profile of profiles" [class.selected]="profile === selectedProfile" (click)="onSelect(profile)">
-		<span class="badge">{{profile.id}}</span> {{profile.name}}
+		<span class="badge">{{profile.profileId}}</span> {{profile.name}}
 	</li>
 </ul>
 

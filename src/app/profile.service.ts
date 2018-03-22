@@ -1,15 +1,45 @@
 import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+
+import 'rxjs/add/operator/toPromise';
 
 import { Profile } from './profile';
-import { PROFILES } from './mock-profiles';
+//import { PROFILES } from './mock-profiles';
 
 @Injectable()
 export class ProfileService {
-	getProfiles(): Promise<Profile[]> {
-		return Promise.resolve(PROFILES);
+
+	// private profilesUrl = 'http://avalon20170809011156.azurewebsites.net/api/Profiles';  // URL to web api
+	private testUrl = 'https://8jbl3rnu01.execute-api.eu-central-1.amazonaws.com/Prod/api/values';  // URL to web api
+
+	constructor(private http: Http) { }
+
+	// getProfiles(): Promise<Profile[]> {
+	//   return this.http.get(this.profilesUrl)
+	//              .toPromise()
+	//              .then(response => response.json().data as Profile[])
+	//              .catch(this.handleError);
+	// }
+
+	getTest(): Promise<String> {
+	  return this.http.get(this.testUrl)
+	             .toPromise()
+	             .then(response => response.json().data as String)
+	             .catch(this.handleError);
+	}
+ 
+	private handleError(error: any): Promise<any> {
+	  console.error('An error occurred', error); // for demo purposes only
+	  return Promise.reject(error.message || error);
 	}
 
-  	getProfile(id: number): Promise<Profile> {
-		return this.getProfiles().then(profiles => profiles.find(profile => profile.id === id));
+
+
+	// getProfiles(): Promise<Profile[]> {
+	// 	return Promise.resolve(PROFILES);
+	// }
+
+  	getProfile(profileId: string): Promise<String> {
+		return this.getTest();
 	}
 }

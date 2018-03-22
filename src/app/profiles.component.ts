@@ -19,12 +19,12 @@ export class ProfilesComponent implements OnInit {
   	private profileService: ProfileService
   	) { }
 
-  getProfiles(): void {
-  	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
-  }
+  // getProfiles(): void {
+  // 	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
+  // }
 
   ngOnInit(): void {
-  	this.getProfiles();
+  	// this.getProfiles();
   }
 
   onSelect(profile: Profile): void {
@@ -32,6 +32,6 @@ export class ProfilesComponent implements OnInit {
   }
 
   gotoDetail(): void {
-	this.router.navigate(['/detail', this.selectedProfile.id]);
+	this.router.navigate(['/detail', this.selectedProfile.profileId]);
   }
 }

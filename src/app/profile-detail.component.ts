@@ -22,9 +22,9 @@ export class ProfileDetailComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-	  this.route.paramMap
-	    .switchMap((params: ParamMap) => this.profileService.getProfile(+params.get('id')))
-	    .subscribe(profile => this.profile = profile);
+	  // this.route.paramMap
+	  //   .switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId')))
+	  //   .subscribe(profile => this.profile = profile);
 	}
 
 	goBack(): void {
