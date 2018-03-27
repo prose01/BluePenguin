@@ -9,24 +9,24 @@ import { Profile } from './profile';
 @Injectable()
 export class ProfileService {
 
-	// private profilesUrl = 'http://avalon20170809011156.azurewebsites.net/api/Profiles';  // URL to web api
-	private testUrl = 'https://8jbl3rnu01.execute-api.eu-central-1.amazonaws.com/Prod/api/values';  // URL to web api
+	private profilesUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
+	//private testUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
 
 	constructor(private http: Http) { }
 
-	// getProfiles(): Promise<Profile[]> {
-	//   return this.http.get(this.profilesUrl)
-	//              .toPromise()
-	//              .then(response => response.json().data as Profile[])
-	//              .catch(this.handleError);
-	// }
-
-	getTest(): Promise<String> {
-	  return this.http.get(this.testUrl)
+	getProfiles(): Promise<Profile[]> {
+	  return this.http.get(this.profilesUrl)
 	             .toPromise()
-	             .then(response => response.json().data as String)
+	             .then(response => response.json())
 	             .catch(this.handleError);
 	}
+
+	// getTest(): Promise<String> {
+	//   return this.http.get(this.testUrl)
+	//              .toPromise()
+	//              .then(response => response.json().data as String)
+	//              .catch(this.handleError);
+	// }
  
 	private handleError(error: any): Promise<any> {
 	  console.error('An error occurred', error); // for demo purposes only
@@ -39,7 +39,10 @@ export class ProfileService {
 	// 	return Promise.resolve(PROFILES);
 	// }
 
-  	getProfile(profileId: string): Promise<String> {
-		return this.getTest();
+  	getProfile(profileId: string): Promise<Profile> {
+	  return this.http.get(this.profilesUrl + profileId)
+	             .toPromise()
+	             .then(response => response.json())
+	             .catch(this.handleError);
 	}
 }

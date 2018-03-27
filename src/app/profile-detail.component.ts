@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit } 		from '@angular/core';
+import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location }                 from '@angular/common';
 
@@ -13,7 +13,7 @@ import { Profile } from './profile';
 })
 
 export class ProfileDetailComponent implements OnInit {
-	profile : Profile;
+	@Input() profile : Profile;
 
 	constructor(
 	  private profileService: ProfileService,
@@ -22,9 +22,9 @@ export class ProfileDetailComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-	  // this.route.paramMap
-	  //   .switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId')))
-	  //   .subscribe(profile => this.profile = profile);
+	  this.route.paramMap
+	    .switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId')))
+	    .subscribe(profile => this.profile = profile);
 	}
 
 	goBack(): void {

@@ -19,12 +19,12 @@ export class ProfilesComponent implements OnInit {
   	private profileService: ProfileService
   	) { }
 
-  // getProfiles(): void {
-  // 	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
-  // }
+  getProfiles(): void {
+  	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
+  }
 
   ngOnInit(): void {
-  	// this.getProfiles();
+  	this.getProfiles();
   }
 
   onSelect(profile: Profile): void {

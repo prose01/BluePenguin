@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    // this.profileService.getProfiles().then(profiles => this.profiles = profiles.slice(5, 9));
-    this.profileService.getTest();
+    this.profileService.getProfiles().then(profiles => this.profiles = profiles.slice(5, 9));
+    //this.profileService.getTest();
   }
 }
