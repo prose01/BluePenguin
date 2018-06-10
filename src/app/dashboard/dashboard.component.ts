@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Profile } from './profile';
-import { ProfileService } from './profile.service';
+import { Profile } from '../models/profile';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'my-dashboard',

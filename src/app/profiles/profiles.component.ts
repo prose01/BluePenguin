@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Profile } from './profile';
-import { ProfileService } from './profile.service';
+import { Profile } from '../models/profile';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'my-profiles',

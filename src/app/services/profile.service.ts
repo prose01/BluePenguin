@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Profile } from './profile';
+import { Profile } from '../models/profile';
 //import { PROFILES } from './mock-profiles';
 
 @Injectable()

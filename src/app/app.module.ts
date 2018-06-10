@@ -6,10 +6,10 @@ import { HttpModule }       from '@angular/http';
 import { AppRoutingModule }       from './app-routing.module';
 
 import { AppComponent }           from './app.component';
-import { DashboardComponent }     from './dashboard.component';
-import { ProfileDetailComponent } from './profile-detail.component';
-import { ProfilesComponent }      from './profiles.component';
-import { ProfileService }         from './profile.service';
+import { DashboardComponent }     from './dashboard/dashboard.component';
+import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { ProfilesComponent }      from './profiles/profiles.component';
+import { ProfileService }         from './services/profile.service';
 
 @NgModule({
   declarations: [

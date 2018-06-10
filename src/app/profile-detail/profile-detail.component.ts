@@ -3,8 +3,8 @@ import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location }                 from '@angular/common';
 
-import { ProfileService } from './profile.service';
-import { Profile } from './profile';
+import { Profile } from '../models/profile';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'profile-detail',
