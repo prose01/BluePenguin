@@ -20,7 +20,7 @@ export class ProfilesComponent implements OnInit {
   	) { }
 
   getProfiles(): void {
-  	this.profileService.getProfiles().then(profiles => this.profiles = profiles);
+  	this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
   }
 
   ngOnInit(): void {
@@ -33,5 +33,9 @@ export class ProfilesComponent implements OnInit {
 
   gotoDetail(): void {
 	this.router.navigate(['/detail', this.selectedProfile.profileId]);
+  }
+
+  gotoEdit(): void {
+  this.router.navigate(['/edit', this.selectedProfile.profileId]);
   }
 }
