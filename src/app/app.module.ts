@@ -9,6 +9,7 @@ import { AppRoutingModule }       from './app-routing.module';
 import { AppComponent }           from './app.component';
 import { DashboardComponent }     from './dashboard/dashboard.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 import { ProfilesComponent }      from './profiles/profiles.component';
 import { ProfileService }         from './services/profile.service';
@@ -17,6 +18,7 @@ import { ProfileService }         from './services/profile.service';
   declarations: [
     AppComponent,
     DashboardComponent,
+    CreateProfileComponent,
     ProfileDetailComponent,
     EditProfileComponent,
     ProfilesComponent

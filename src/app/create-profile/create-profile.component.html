@@ -1,0 +1,28 @@
+<div>
+	<h3><i>A FormGroup with multiple FormControls</i></h3>
+	
+	<form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+
+	  <div style="margin-bottom: 1em">
+	    <button type="submit" 
+	            [disabled]="profileForm.pristine" class="btn btn-success">Save</button> &nbsp;
+	    <button type="button" (click)="revert()"
+	            [disabled]="profileForm.pristine" class="btn btn-danger">Revert</button>
+	  </div>
+
+	  <div class="form-group">
+	    <label class="center-block">Name:
+	      <input class="form-control" formControlName="name">
+	    </label>
+	  </div>
+	  <div class="form-group">
+	    <label class="center-block">Body:
+	      <input class="form-control" formControlName="body">
+	    </label>
+	  </div>  
+	</form>
+
+	<p>Form value: {{ profileForm.value | json }}</p>
+</div>
+
+<button (click)="goBack()">Back</button>

@@ -48,6 +48,13 @@ export class ProfileService {
 			    );
 	}
 
+	updateProfile(profile: Profile): Observable<Profile> {
+		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, httpOptions)
+		    	.pipe(
+		      	  catchError(this.handleError)
+		    	);
+	}
+
 
 	// Helper Lav en rigtig error handler inden produktion
 	// https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
