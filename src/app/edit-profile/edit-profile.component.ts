@@ -57,8 +57,8 @@ export class EditProfileComponent implements OnChanges {
 	      profileId: this.profile.profileId,
 	      name: formModel.name as string,
 	      body: formModel.body as string,
-	      updatedOn: formModel.name as string,	// sæt til ingenting eller datetime.now
-	      createdOn: formModel.name as string
+	      updatedOn: '2018-06-27T11:41:16.562Z' as string,	// sæt til ingenting eller datetime.now
+	      createdOn: '2018-06-27T11:41:16.562Z' as string
 	    };
 	    return saveProfile;
 	}

@@ -22,26 +22,12 @@ export class ProfileService {
 
 	constructor(private http: HttpClient) { }
 
-	// getProfiles(): Promise<Profile[]> {
-	//   return this.http.get(this.profilesUrl)
-	//              .toPromise()
-	//              .then(response => response.json())
-	//              .catch(this.handleError);
-	// }
-
 	getProfiles (): Observable<Profile[]> {
       return this.http.get<Profile[]>(this.profilesUrl)
 		      	.pipe(
 		        catchError(this.handleError)
 		      );
     }
-
- //  	getProfile(profileId: string): Promise<Profile> {
-	//   return this.http.get(this.profilesUrl + profileId)
-	//              .toPromise()
-	//              .then(response => response.json())
-	//              .catch(this.handleError);
-	// }
 
 	getProfile<Data>(profileId: string): Observable<Profile> {
 	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`)
@@ -56,7 +42,7 @@ export class ProfileService {
   	}
 
 	addProfile(profile: Profile): Observable<Profile> {
-	    return this.http.post<Profile>(this.profilesUrl, profile)
+	    return this.http.post<Profile>(this.profilesUrl, profile, httpOptions)
 			    .pipe(
 			      catchError(this.handleError)
 			    );

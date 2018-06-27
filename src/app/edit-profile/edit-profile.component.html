@@ -2,10 +2,10 @@
 	<h2>{{profile.name}} Detail</h2>
 	<h3><i>A FormGroup with multiple FormControls</i></h3>
 	
-	<form [formGroup]="profileForm">
+	<form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
 	  <div style="margin-bottom: 1em">
-	    <button type="submit" (click)="onSubmit()"
+	    <button type="submit" 
 	            [disabled]="profileForm.pristine" class="btn btn-success">Save</button> &nbsp;
 	    <button type="button" (click)="revert()"
 	            [disabled]="profileForm.pristine" class="btn btn-danger">Revert</button>
