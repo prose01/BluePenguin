@@ -1,4 +1,9 @@
 <h3>Top Profiles</h3>
+
+<button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
+<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+<router-outlet></router-outlet>
+
 <div class="grid grid-pad">
   <a *ngFor="let profile of profiles"  [routerLink]="['/detail', profile.profileId]"  class="col-1-4"> 
     <div class="module profile">

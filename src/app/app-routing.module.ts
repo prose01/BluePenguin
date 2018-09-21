@@ -8,6 +8,7 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
+  { path: 'implicit/callback', component: DashboardComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },
