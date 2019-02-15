@@ -14,6 +14,9 @@ import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 import { ProfilesComponent }      from './profiles/profiles.component';
 import { ProfileService }         from './services/profile.service';
 
+import { AuthService } from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,8 @@ import { ProfileService }         from './services/profile.service';
     CreateProfileComponent,
     ProfileDetailComponent,
     EditProfileComponent,
-    ProfilesComponent
+    ProfilesComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,10 @@ import { ProfileService }         from './services/profile.service';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [ProfileService],
+  providers: [
+    ProfileService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 

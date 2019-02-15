@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.4.7",
     "@angular/platform-browser-dynamic": "^4.4.7",
     "@angular/router": "^4.4.7",
+    "auth0-js": "^9.10.0",
     "core-js": "^2.5.7",
     "npm": "^6.4.1",
     "rxjs": "^5.5.12",
