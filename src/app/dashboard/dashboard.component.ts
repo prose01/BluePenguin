@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   }
 
   login() {
-    this.oktaAuth.loginRedirect('/profile');
+    this.oktaAuth.loginRedirect('/dashboard.component');
   }
 
   logout() {

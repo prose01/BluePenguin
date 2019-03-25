@@ -1,5 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OktaAuthModule, OktaCallbackComponent }  from '@okta/okta-angular';
 
 import { DashboardComponent }     from './dashboard/dashboard.component';
 import { ProfilesComponent }      from './profiles/profiles.component';
@@ -8,7 +9,7 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
-  { path: 'implicit/callback', component: DashboardComponent },
+  { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },

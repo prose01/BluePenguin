@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { OktaAuthService } from '@okta/okta-angular';
 
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs';
@@ -8,19 +9,18 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    //'Authorization': 'my-auth-token'
-  })
-};
 
 @Injectable()
 export class ProfileService {
 
 	private profilesUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
+	private accessToken;
 
-	constructor(private http: HttpClient) { }
+	constructor(private oktaAuth: OktaAuthService, private http: HttpClient) { }
+
+	async ngOnInit() {
+		this.accessToken = await this.oktaAuth.getAccessToken();
+  	}
 
 	getProfiles (): Observable<Profile[]> {
       return this.http.get<Profile[]>(this.profilesUrl)
@@ -30,7 +30,7 @@ export class ProfileService {
     }
 
 	getProfile<Data>(profileId: string): Observable<Profile> {
-	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`)
+	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`, this.headerOptions())
 	      .pipe(
 	        map(profile => profile),
 	        tap(h => {
@@ -42,17 +42,26 @@ export class ProfileService {
   	}
 
 	addProfile(profile: Profile): Observable<Profile> {
-	    return this.http.post<Profile>(this.profilesUrl, profile, httpOptions)
+	    return this.http.post<Profile>(this.profilesUrl, profile, this.headerOptions())
 			    .pipe(
 			      catchError(this.handleError)
 			    );
 	}
 
 	updateProfile(profile: Profile): Observable<Profile> {
-		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, httpOptions)
+		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, this.headerOptions())
 		    	.pipe(
 		      	  catchError(this.handleError)
 		    	);
+	}
+
+	private headerOptions() {
+		return {
+			  headers: new HttpHeaders({
+			    'Content-Type':  'application/json',
+			    'Authorization': `Bearer ` + this.accessToken,
+			  })
+			};
 	}
 
 

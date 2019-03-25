@@ -17,8 +17,9 @@ import { ProfileService }         from './services/profile.service';
 
 const config = {
   issuer: 'https://dev-473869.oktapreview.com/oauth2/default',
-  redirectUri: 'http://localhost:4200/dashboard/dashboard.component',
-  clientId: '0oagbo2stzMlAcTK90h7'
+  redirectUri: 'http://localhost:4200/dashboard.component',
+  clientId: '0oagbo2stzMlAcTK90h7',
+  scope: 'openid profile email'
 }
 
 @NgModule({
@@ -31,10 +32,10 @@ const config = {
     ProfilesComponent
   ],
   imports: [
-    OktaAuthModule.initAuth(config),
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    OktaAuthModule.initAuth(config),
     AppRoutingModule,
     ReactiveFormsModule
   ],
