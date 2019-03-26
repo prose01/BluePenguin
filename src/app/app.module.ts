@@ -17,7 +17,7 @@ import { ProfileService }         from './services/profile.service';
 
 const config = {
   issuer: 'https://dev-473869.oktapreview.com/oauth2/default',
-  redirectUri: 'http://localhost:4200/dashboard.component',
+  redirectUri: 'http://localhost:4200/implicit/callback',
   clientId: '0oagbo2stzMlAcTK90h7',
   scope: 'openid profile email'
 }
