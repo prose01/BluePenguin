@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OktaAuthService } from '@okta/okta-angular';
 
-import 'rxjs/add/operator/toPromise';
+
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 

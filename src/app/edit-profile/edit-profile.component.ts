@@ -1,4 +1,6 @@
-import 'rxjs/add/operator/switchMap';
+
+import {switchMap} from 'rxjs/operators';
+
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -66,8 +68,8 @@ export class EditProfileComponent implements OnChanges {
   	revert() { this.rebuildForm(); }
 
   	ngOnInit(): void {
-	  this.route.paramMap
-	    .switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId')))
+	  this.route.paramMap.pipe(
+	    switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId'))))
 	    .subscribe(profile => this.profile = profile);
 	    //this.rebuildForm();
 	}
