@@ -6,6 +6,8 @@ import { ReactiveFormsModule }                    from '@angular/forms';
 import { OktaAuthModule, OktaCallbackComponent }  from '@okta/okta-angular';
 
 import { AppRoutingModule }       from './app-routing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './app.auth.interceptor';
 
 import { AppComponent }           from './app.component';
 import { DashboardComponent }     from './dashboard/dashboard.component';
@@ -39,7 +41,7 @@ const config = {
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [ProfileService],
+  providers: [ProfileService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 
