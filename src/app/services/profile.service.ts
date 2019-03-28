@@ -17,7 +17,7 @@ export class ProfileService {
 	constructor(private http: HttpClient, private authService: AuthService) {}
 
 	getProfiles (): Observable<Profile[]> {
-      return this.http.get<Profile[]>(this.profilesUrl)
+      return this.http.get<Profile[]>(this.profilesUrl, this.headerOptions())
 		      	.pipe(
 		        catchError(this.handleError)
 		      );
