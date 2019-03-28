@@ -90,4 +90,8 @@ export class AuthService {
     return new Date().getTime() < this._expiresAt;
   }
 
+  public getAccessToken(): string {
+    return this._accessToken;
+  }
+
 }

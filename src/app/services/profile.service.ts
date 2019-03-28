@@ -2,29 +2,30 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 
 @Injectable()
 export class ProfileService {
 
 	private profilesUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
+  	private headers: HttpHeaders;
 
-	constructor(private http: HttpClient, private authService: AuthService) {}
+	constructor(private http: HttpClient) {
+		this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+	}
 
 	getProfiles (): Observable<Profile[]> {
-      return this.http.get<Profile[]>(this.profilesUrl, this.headerOptions())
+      return this.http.get<Profile[]>(this.profilesUrl, {headers: this.headers})
 		      	.pipe(
 		        catchError(this.handleError)
 		      );
     }
 
 	getProfile<Data>(profileId: string): Observable<Profile> {
-	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`, this.headerOptions())
+	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`, {headers: this.headers})
 	      .pipe(
 	        map(profile => profile),
 	        tap(h => {
@@ -36,28 +37,18 @@ export class ProfileService {
   	}
 
 	addProfile(profile: Profile): Observable<Profile> {
-	    return this.http.post<Profile>(this.profilesUrl, profile, this.headerOptions())
+	    return this.http.post<Profile>(this.profilesUrl, profile, {headers: this.headers})
 			    .pipe(
 			      catchError(this.handleError)
 			    );
 	}
 
 	updateProfile(profile: Profile): Observable<Profile> {
-		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, this.headerOptions())
+		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, {headers: this.headers})
 		    	.pipe(
 		      	  catchError(this.handleError)
 		    	);
 	}
-
-	private headerOptions() {
-		return {
-			  headers: new HttpHeaders({
-			    'Content-Type':  'application/json',
-			    'Authorization': `Bearer ${this.authService.accessToken}`,
-			  })
-			};
-	}
-
 
 	// Helper Lav en rigtig error handler inden produktion
 	// https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts

@@ -4,6 +4,8 @@ import { FormsModule }      from '@angular/forms';
 import { HttpClientModule }       from '@angular/common/http';
 import { ReactiveFormsModule }  from '@angular/forms';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './app.auth.interceptor';
 import { AppRoutingModule }       from './app-routing.module';
 
 import { AppComponent }           from './app.component';
@@ -36,7 +38,8 @@ import { CallbackComponent } from './callback/callback.component';
   ],
   providers: [
     ProfileService,
-    AuthService
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
