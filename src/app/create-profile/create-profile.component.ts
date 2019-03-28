@@ -1,4 +1,4 @@
-import 'rxjs/add/operator/switchMap';
+
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
