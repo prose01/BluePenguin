@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
@@ -13,7 +12,7 @@ export class DashboardComponent implements OnInit {
 
   profiles: Profile[] = [];
 
-  constructor(private profileService: ProfileService, public auth: AuthService) { }
+  constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
     this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles.slice(5, 9));
