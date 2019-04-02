@@ -18,6 +18,8 @@ import { ProfileService }         from './services/profile.service';
 
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
+import { ProfileListviewComponent } from './profile-listview/profile-listview.component';
+import { ProfileTileviewComponent } from './profile-tileview/profile-tileview.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { CallbackComponent } from './callback/callback.component';
     ProfileDetailComponent,
     EditProfileComponent,
     ProfilesComponent,
-    CallbackComponent
+    CallbackComponent,
+    ProfileListviewComponent,
+    ProfileTileviewComponent
   ],
   imports: [
     BrowserModule,

@@ -5,22 +5,23 @@ import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
-  selector: 'my-profiles',
-  templateUrl: './profiles.component.html',
-  styleUrls: [ './profiles.component.css' ]
+  selector: 'app-profile-listview',
+  templateUrl: './profile-listview.component.html',
+  styleUrls: ['./profile-listview.component.css']
 })
 
-export class ProfilesComponent implements OnInit {
+export class ProfileListviewComponent implements OnInit {
+  
   profiles: Profile[];
   selectedProfile: Profile;
 
   constructor(
   	private router: Router, 
   	private profileService: ProfileService
-  	) { }
+  	) { }  
 
   ngOnInit(): void {
-  	this.getProfiles();
+    this.getProfiles();
   }
 
   getProfiles(): void {
@@ -28,14 +29,6 @@ export class ProfilesComponent implements OnInit {
   }
 
   onSelect(profile: Profile): void {
- 	  this.selectedProfile = profile;
-  }
-
-  gotoDetail(): void {
-	  this.router.navigate(['/detail', this.selectedProfile.profileId]);
-  }
-
-  gotoEdit(): void {
-    this.router.navigate(['/edit', this.selectedProfile.profileId]);
+    this.router.navigate(['/detail', profile.profileId]);
   }
 }

@@ -1,14 +1,17 @@
-<div class="grid grid-pad" *ngIf="!auth.isAuthenticated()">
+<div *ngIf="!auth.isAuthenticated()">
 	<h4>
   		You are not logged in! Please <a (click)="auth.login()">Log In</a> to continue.
 	</h4>
 </div>
 
-<div class="grid grid-pad" *ngIf="auth.isAuthenticated()">
-	<h3>Top Profiles</h3>
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad" >
+	<!-- <h3>Top Profiles</h3>
 	  <a *ngFor="let profile of profiles"  [routerLink]="['/detail', profile.profileId]"  class="col-1-4"> 
 	    <div class="module profile">    	
 	      <h4>{{profile.name}}</h4>
 	    </div>
-	  </a>
+	  </a> -->
+
+	<!-- <app-profile-listview></app-profile-listview> -->
+	<app-profile-tileview></app-profile-tileview>
 </div>

@@ -1,0 +1,6 @@
+<h2>Profile Listview</h2>
+<ul class="profiles">
+	<li *ngFor="let profile of profiles" [class.selected]="profile === selectedProfile" (click)="onSelect(profile)">
+		<span class="badge">{{profile.profileId}}</span> {{profile.name}}
+	</li>
+</ul>
