@@ -4,7 +4,7 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule  }                    from '@angular/material';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
@@ -42,8 +42,9 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatButtonModule, 
-    MatCheckboxModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     ProfileService,
