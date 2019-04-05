@@ -6,4 +6,5 @@ export class Profile {
   updatedOn: string;
   createdOn: string;
   body: string;
+  email: string;
 }

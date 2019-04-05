@@ -28,7 +28,8 @@ export class EditProfileComponent implements OnChanges {
   	createForm() {
 	    this.profileForm = this.fb.group({
 	      name: ['', Validators.required ],		// sæt values fra start
-	      body: ''
+	      body: '',
+	      email: ''
 	    });
   	}
 
@@ -59,6 +60,7 @@ export class EditProfileComponent implements OnChanges {
 	      profileId: this.profile.profileId,
 	      name: formModel.name as string,
 	      body: formModel.body as string,
+	      email: formModel.email as string,
 	      updatedOn: '2018-06-27T11:41:16.562Z' as string,	// sæt til ingenting eller datetime.now
 	      createdOn: '2018-06-27T11:41:16.562Z' as string
 	    };
