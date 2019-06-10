@@ -9,6 +9,7 @@ import { ProfileService } from '../services/profile.service';
   templateUrl: './profile-tileview.component.html',
   styleUrls: ['./profile-tileview.component.css']
 })
+
 export class ProfileTileviewComponent implements OnInit {
 
   profiles: Profile[];
