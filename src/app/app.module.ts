@@ -4,9 +4,9 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule }                 from '@angular/material/paginator';
+import { MatSortModule }                      from '@angular/material/sort';
+import { MatTableModule }                     from '@angular/material/table';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
