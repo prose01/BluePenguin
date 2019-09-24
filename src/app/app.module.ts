@@ -7,6 +7,7 @@ import { BrowserAnimationsModule }            from '@angular/platform-browser/an
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
 import { MatTableModule }                     from '@angular/material/table';
+import { MatFormFieldModule }                 from '@angular/material';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
@@ -46,6 +47,7 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
+    MatFormFieldModule,
     MatSortModule
   ],
   providers: [
