@@ -44,10 +44,6 @@ export class ProfileListviewComponent implements OnInit {
         })
     }
 
-    onSelect(profile: Profile): void {
-        this.router.navigate(['/detail', profile.profileId]);
-    }
-
     goBack(): void {
         this.location.back();
     }

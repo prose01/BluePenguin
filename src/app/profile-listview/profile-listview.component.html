@@ -10,7 +10,8 @@
       <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
         <div class="element-detail"
              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-          <div class="element-diagram">
+          <div class="element-diagram" routerLink="/detail/{{element.profileId}}">
+            <!--Link på billed og tekst?-->
             <div class="element-position"> {{element.profileId}} </div>
             <div class="element-name"> {{element.name}} </div>
             <div class="element-weight"> {{element.email}} </div>
@@ -32,6 +33,8 @@
   </table>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  <button (click)="goBack()">Back</button>
+
 </div>
 
-<button (click)="goBack()">Back</button>
