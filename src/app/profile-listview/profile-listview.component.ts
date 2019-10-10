@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Location } from '@angular/common';
 
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
@@ -27,7 +28,7 @@ export class ProfileListviewComponent implements OnInit {
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-    constructor(private router: Router, private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
+    constructor(private router: Router, private profileService: ProfileService, private location: Location, private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
         this.getProfiles();
@@ -45,5 +46,9 @@ export class ProfileListviewComponent implements OnInit {
 
     onSelect(profile: Profile): void {
         this.router.navigate(['/detail', profile.profileId]);
+    }
+
+    goBack(): void {
+        this.location.back();
     }
 }
