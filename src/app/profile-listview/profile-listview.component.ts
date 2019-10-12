@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Location } from '@angular/common';
 
@@ -21,9 +22,10 @@ import { ProfileService } from '../services/profile.service';
 })
 export class ProfileListviewComponent implements OnInit {
     profiles: Profile[];
-    displayedColumns: string[] = ['profileId', 'name', 'email'];
+    displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
     dataSource: MatTableDataSource<Profile>;
     expandedElement: Profile | null;
+    selection = new SelectionModel<Profile>(true, []);
 
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -44,7 +46,30 @@ export class ProfileListviewComponent implements OnInit {
         })
     }
 
-    goBack(): void {
-        this.location.back();
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
     }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.data.forEach(row => this.selection.select(row));
+    }
+
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: Profile): string {
+        if (!row) {
+            return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
+    }
+
+    // Can probably be removed
+    //goBack(): void {
+    //    this.location.back();
+    //}
 }

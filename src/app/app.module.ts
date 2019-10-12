@@ -4,6 +4,7 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
+import { MatCheckboxModule }                  from '@angular/material'
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
 import { MatTableModule }                     from '@angular/material/table';
@@ -45,6 +46,7 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
