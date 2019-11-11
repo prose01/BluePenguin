@@ -68,6 +68,24 @@ export class ProfileListviewComponent implements OnInit {
         return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
     }
 
+    removeFavoritProfiles() {
+        console.log(this.selection)
+
+        //this.profileService.removeFavoritProfiles(this.selection.selected).subscribe((result) => {
+        //});
+
+        //this.getProfiles(); // Not sure this is right. Maybe removeFavoritProfiles should just return updated list.
+    }
+
+    addFavoritProfiles() {
+        console.log(this.selection)
+
+        //this.profileService.addFavoritProfiles(this.selection.selected).subscribe((result) => {
+        //});
+
+        //this.getProfiles(); // Not sure this is right. Maybe addFavoritProfiles should just return updated list.
+    }
+
     // Can probably be removed
     //goBack(): void {
     //    this.location.back();

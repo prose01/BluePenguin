@@ -22,8 +22,7 @@
     <!--<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
     <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-    </ng-container>--> 
-
+    </ng-container>-->
     <!-- ProfileId Column -->
     <ng-container matColumnDef="profileId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ProfileId </th>
@@ -42,7 +41,7 @@
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
 
-    <!-- CreatedOn Column --> 
+    <!-- CreatedOn Column -->
     <ng-container matColumnDef="createdOn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> CreatedOn </th>
       <td mat-cell *matCellDef="let element"> {{element.createdOn}} </td>
@@ -76,10 +75,15 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <div class="button-row">
+    <button (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
+    <button (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
+  </div>
 
-  <!--Can probably be removed-->
-  <!--<button (click)="goBack()">Back</button>-->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-</div>
+    <!--Can probably be removed-->
+    <!--<button (click)="goBack()">Back</button>-->
+
+  </div>
 
