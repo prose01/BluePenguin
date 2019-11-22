@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'dashboard',  component: DashboardComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'create', component: CreateProfileComponent },
-  { path: 'edit/:profileId', component: EditProfileComponent },
+  { path: 'edit', component: EditProfileComponent },
   // { path: 'profiles',     component: ProfilesComponent },
   { path: 'profiles',     component: ProfileListviewComponent },
   { path: 'callback', component: CallbackComponent }

@@ -29,7 +29,7 @@ export class ProfileDetailComponent implements OnInit {
 	    .subscribe(profile => this.profile = profile);
 	}
 
-	goBack(): void {
-	  this.location.back();
-	}
+	//goBack(): void {
+	//  this.location.back();
+	//}
 }

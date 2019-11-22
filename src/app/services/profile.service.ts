@@ -9,11 +9,23 @@ import { Profile } from '../models/profile';
 @Injectable()
 export class ProfileService {
 
-    private profilesUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
+    private profilesUrl = 'http://localhost:49260/Profiles/';  // URL to web api
     private headers: HttpHeaders;
 
     constructor(private http: HttpClient) {
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    }
+    
+    getCurrentUserProfile<Data>(): Observable<Profile> {
+        return this.http.get<Profile[]>(`${this.profilesUrl}GetCurrentUserProfile`, { headers: this.headers })
+            .pipe(
+                map(profile => profile),
+                tap(h => {
+                    const outcome = h ? `fetched` : `did not find`;
+                    //this.log(`${outcome} profile profileId=${profileId}`);
+                }),
+                catchError(this.handleError)
+            );
     }
 
     getProfiles(): Observable<Profile[]> {

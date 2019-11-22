@@ -64,7 +64,7 @@ export class CreateProfileComponent implements OnChanges {
   	ngOnInit(): void {
 	}
 
-	goBack(): void {
-	  this.location.back();
-	}
+	//goBack(): void {
+	//  this.location.back();
+	//}
 }

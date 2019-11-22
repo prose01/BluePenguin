@@ -28,7 +28,7 @@ export class ProfileTileviewComponent implements OnInit {
     this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
   }
 
-  onSelect(profile: Profile): void {
-    this.router.navigate(['/detail', profile.profileId]);
-  }
+  //onSelect(profile: Profile): void {
+  //  this.router.navigate(['/detail', profile.profileId]);
+  //}
 }

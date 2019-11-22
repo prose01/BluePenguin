@@ -69,15 +69,15 @@ export class EditProfileComponent implements OnChanges {
 
   	revert() { this.rebuildForm(); }
 
-  	ngOnInit(): void {
-	  this.route.paramMap.pipe(
-	    switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId'))))
-	    .subscribe(profile => this.profile = profile);
-	    //this.rebuildForm();
+  ngOnInit(): void {
+	    this.route.paramMap.pipe(
+            switchMap((params: ParamMap) => this.profileService.getCurrentUserProfile()))
+	      .subscribe(profile => this.profile = profile);
+	      //this.rebuildForm();
 	}
 
-	goBack(): void {
-	  this.location.back();
-	}
+	//goBack(): void {
+	//  this.location.back();
+	//}
 
 }
