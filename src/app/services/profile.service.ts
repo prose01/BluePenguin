@@ -54,8 +54,16 @@ export class ProfileService {
             );
     }
 
-    updateProfile(profile: Profile): Observable<Profile> {
-        return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, { headers: this.headers })
+    putProfile(profile: Profile): Observable<Profile> {
+        return this.http.put<Profile>(this.profilesUrl, profile, { headers: this.headers })
+            .pipe(
+                catchError(this.handleError)
+            );
+    }
+
+    // Does not work so use putProfile instead.
+    patchProfile(profile: Profile): Observable<Profile> {
+        return this.http.patch<Profile>(this.profilesUrl, { prof: profile }, { headers: this.headers })
             .pipe(
                 catchError(this.handleError)
             );
@@ -65,14 +73,14 @@ export class ProfileService {
     // Favorits
 
     // API is missing the Favorit Add/Remove endpoints!!!! ////
-    removeFavoritProfiles(profiles: Profile[]): Observable<Profile[]> {   // Do we need Observable?
+    removeFavoritProfiles(profiles: Profile[]): Observable<Profile[]> {   
         return this.http.post<Profile[]>(this.profilesUrl, profiles, { headers: this.headers })
             .pipe(
                 catchError(this.handleError)
             );
     }
 
-    addFavoritProfiles(profiles: Profile[]): Observable<Profile> {    // Do we need Observable?
+    addFavoritProfiles(profiles: Profile[]): Observable<Profile> {    
         return this.http.post<Profile>(this.profilesUrl, profiles, { headers: this.headers })
             .pipe(
                 catchError(this.handleError)

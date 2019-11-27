@@ -1,10 +1,5 @@
-
-import {switchMap} from 'rxjs/operators';
-
-import { Component, Input, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
@@ -15,41 +10,56 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./edit-profile.component.css']
 })
 
-export class EditProfileComponent implements OnChanges {
-	@Input() profile : Profile;
+export class EditProfileComponent {
+	profile : Profile;
 	profileForm: FormGroup;
 
-  	constructor(
-	  private profileService: ProfileService,
-	  private route: ActivatedRoute,
-	  private location: Location,
-	  private fb: FormBuilder) { this.createForm(); }
+  constructor(
+	private profileService: ProfileService,
+  private formBuilder: FormBuilder) { this.createForm(); }
 
-  	createForm() {
-	    this.profileForm = this.fb.group({
-	      name: ['', Validators.required ],		// sæt values fra start
-	      body: '',
-	      email: ''
+  createForm() {
+      this.profileForm = this.formBuilder.group({
+	      name: '',
+        description: '',
+        gender: ''
 	    });
-  	}
+  }
 
-  	ngOnChanges() { 
-    	//this.rebuildForm();			// skal denne være der?
-  	}
+  ngOnInit(): void {
+      this.getCurrentUserProfile();
+	}
 
-  	rebuildForm() {
+  getCurrentUserProfile(): void {
+      this.profileService.getCurrentUserProfile().subscribe(
+          res => {
+              this.profile = res;
+              this.prefilForm();
+          }
+      );
+  }
+
+  prefilForm() {
+      this.profileForm.patchValue({
+        name: this.profile.name,
+        description: this.profile.description,
+        gender: this.profile.gender
+      });
+  }
+
+  rebuildForm() {
   		this.profileForm.reset({
-	      name: this.profile.name
+        name: this.profile.name,
+        description: this.profile.description,
+        gender: this.profile.gender
 	    });
-    	// this.profileForm.reset();
-    	// this.profileForm.patchValue({
-     //  		name: this.profile.name
-    	// });
-  	}
+  }
 
-  	onSubmit() {
+  revert() { this.rebuildForm(); }
+
+  onSubmit() {
 	  this.profile = this.prepareSaveProfile();
-	  this.profileService.updateProfile(this.profile).subscribe(/* add error handling */);
+    this.profileService.putProfile(this.profile).subscribe(/* add error handling */);
 	  //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
 	}
 
@@ -58,26 +68,16 @@ export class EditProfileComponent implements OnChanges {
 
     const saveProfile: Profile = {
 	      profileId: this.profile.profileId,
-	      name: formModel.name as string,
-	      body: formModel.body as string,
-	      email: formModel.email as string,
-	      updatedOn: '2018-06-27T11:41:16.562Z' as string,	// sæt til ingenting eller datetime.now
-	      createdOn: '2018-06-27T11:41:16.562Z' as string
+        name: formModel.name as string,
+        description: formModel.description as string,
+        gender: formModel.gender as string,
+        body: '098' as string,
+        email: '098' as string,
+        updatedOn: this.profile.updatedOn,
+        createdOn: this.profile.createdOn
 	    };
-	    return saveProfile;
+
+    return saveProfile;
 	}
-
-  	revert() { this.rebuildForm(); }
-
-  ngOnInit(): void {
-	    this.route.paramMap.pipe(
-            switchMap((params: ParamMap) => this.profileService.getCurrentUserProfile()))
-	      .subscribe(profile => this.profile = profile);
-	      //this.rebuildForm();
-	}
-
-	//goBack(): void {
-	//  this.location.back();
-	//}
 
 }

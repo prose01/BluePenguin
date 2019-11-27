@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
@@ -16,7 +16,7 @@ export class ProfileTileviewComponent implements OnInit {
   selectedProfile: Profile;
 
   constructor(
-  	private router: Router, 
+  	//private router: Router, 
   	private profileService: ProfileService
   	) { }  
 

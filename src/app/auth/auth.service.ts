@@ -24,7 +24,7 @@ export class AuthService {
   constructor(public router: Router) {
     this._idToken = '';
     this._accessToken = '';
-    this._expiresAt = 0;
+    this._expiresAt = 86400;  // 24hours
   }
 
   get accessToken(): string {

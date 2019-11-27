@@ -7,6 +7,8 @@ export class Profile {
   createdOn: string;
   body: string;
   email: string;
+  description: string;
+  gender: string;
 }
 
 export interface Profile {
@@ -16,4 +18,6 @@ export interface Profile {
   createdOn: string;
   body: string;
   email: string;
+  description: string;
+  gender: string;
 }

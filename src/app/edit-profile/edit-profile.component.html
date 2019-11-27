@@ -1,34 +1,38 @@
 <div *ngIf="profile">
-	<h2>{{profile.name}} Detail</h2>
-	<h3><i>A FormGroup with multiple FormControls</i></h3>
-	
-	<form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+  <h2>{{profile.name}} Update your details</h2>
 
-	  <div style="margin-bottom: 1em">
-	    <button type="submit" 
-	            [disabled]="profileForm.pristine" class="btn btn-success">Save</button> &nbsp;
-	    <button type="button" (click)="revert()"
-	            [disabled]="profileForm.pristine" class="btn btn-danger">Revert</button>
-	  </div>
+  <form (ngSubmit)="onSubmit(profileForm)" [formGroup]="profileForm">
 
-	  <div class="form-group">
-	    <label class="center-block">Name:
-	      <input class="form-control" formControlName="name">
-	    </label>
-	  </div>
-	  <div class="form-group">
-	    <label class="center-block">Body:
-	      <input class="form-control" formControlName="body">
-	    </label>
-	  </div>  
-	  <div class="form-group">
-	    <label class="center-block">Email:
-	      <input class="form-control" formControlName="email">
-	    </label>
-	  </div> 
-	</form>
+    <div style="margin-bottom: 1em">
+      <button type="submit" (click)="onSubmit()"
+              [disabled]="profileForm.pristine" class="btn btn-success">
+        Save
+      </button> &nbsp;
+      <button type="button" (click)="revert()"
+              [disabled]="profileForm.pristine" class="btn btn-danger">
+        Revert
+      </button>
+    </div>
 
-	<p>Form value: {{ profileForm.value | json }}</p>
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Gender" formControlName="gender">
+          <mat-option value=0>Female</mat-option>
+          <mat-option value=1>Male</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </form>
+
+  <p>Form value: {{ profileForm.value | json }}</p>
+
 </div>
-
-<!--<button (click)="goBack()">Back</button>-->
