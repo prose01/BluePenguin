@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Profile, GenderType } from '../models/profile';
+import { Profile, GenderType, BodyType } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class EditProfileComponent {
 	profile : Profile;
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
+  bodyTypes = Object.keys(BodyType);
 
   constructor(
 	private profileService: ProfileService,
@@ -21,9 +22,17 @@ export class EditProfileComponent {
 
   createForm() {
       this.profileForm = this.formBuilder.group({
-	      name: '',
-        description: '',
-        genderType: ''
+          email: '', 
+          name: '',
+          createdOn: '',
+          updatedOn: '',
+          lastActive: '',
+          age: '',
+          height: '',
+          weight: '',
+          description: '',
+          genderType: '',
+          bodyType: ''
 	    });
   }
 
@@ -42,21 +51,37 @@ export class EditProfileComponent {
 
   prefilForm() {
       this.profileForm.patchValue({
-        name: this.profile.name,
-        description: this.profile.description,
-        genderType: this.profile.gender
+        email: this.profile.email,
+        name: this.profile.name as string,
+        createdOn: this.profile.createdOn,
+        updatedOn: this.profile.updatedOn,
+        lastActive: this.profile.lastActive,
+        age: this.profile.age as number,
+        height: this.profile.height as number,
+        weight: this.profile.weight as number,
+        description: this.profile.description as string,
+        genderType: this.profile.gender as GenderType,
+        bodyType: this.profile.body as BodyType,
       });
   }
 
-  rebuildForm() {
-  		this.profileForm.reset({
-        name: this.profile.name,
-        description: this.profile.description,
-        genderType: this.profile.gender
-	    });
-  }
+  //rebuildForm() {
+  //		this.profileForm.reset({
+  //      email: this.profile.email,
+  //      name: this.profile.name as string,
+  //      createdOn: this.profile.createdOn,
+  //      updatedOn: this.profile.updatedOn,
+  //      lastActive: this.profile.lastActive,
+  //      age: this.profile.age as number,
+  //      height: this.profile.height as number,
+  //      weight: this.profile.weight as number,
+  //      description: this.profile.description as string,
+  //      genderType: this.profile.gender as GenderType,
+  //      bodyType: this.profile.body as BodyType,
+	 //   });
+  //}
 
-  revert() { this.rebuildForm(); }
+  revert() { this.prefilForm(); }
 
   onSubmit() {
 	  this.profile = this.prepareSaveProfile();
@@ -68,14 +93,18 @@ export class EditProfileComponent {
     const formModel = this.profileForm.value;
 
     const saveProfile: Profile = {
-	      profileId: this.profile.profileId,
+        profileId: this.profile.profileId,
+        email: this.profile.email,
         name: formModel.name as string,
+        createdOn: this.profile.createdOn,
+        updatedOn: this.profile.updatedOn,
+        lastActive: this.profile.lastActive,
+        age: formModel.age as number,
+        height: formModel.height as number,
+        weight: formModel.weight as number,
         description: formModel.description as string,
         gender: formModel.gender as GenderType,
-        body: '098' as string,
-        email: this.profile.email,
-        updatedOn: this.profile.updatedOn,
-        createdOn: this.profile.createdOn
+        body: formModel.body as BodyType,
 	    };
 
     return saveProfile;

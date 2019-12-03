@@ -2,7 +2,7 @@
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Profile, GenderType } from '../models/profile';
+import { Profile, GenderType, BodyType } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -46,16 +46,20 @@ export class CreateProfileComponent implements OnChanges {
 	prepareSaveProfile(): Profile {
     const formModel = this.profileForm.value;
 
-    const saveProfile: Profile = {
-        profileId: this.profile.profileId,
-        name: formModel.name as string,
-        description: formModel.description as string,
-        gender: formModel.gender as GenderType,
-        body: '098' as string,
-        email: this.profile.email,
-        updatedOn: this.profile.updatedOn,
-        createdOn: this.profile.createdOn
-	    };
+        const saveProfile: Profile = {
+            profileId: this.profile.profileId,
+            email: this.profile.email,
+            name: formModel.name as string,
+            createdOn: this.profile.createdOn,
+            updatedOn: this.profile.updatedOn,
+            lastActive: this.profile.lastActive,
+            age: formModel.age,
+            height: formModel.height,
+            weight: formModel.weight,
+            description: formModel.description as string,
+            gender: formModel.gender as GenderType,
+            body: formModel.body as BodyType,
+        };
 
 	    return saveProfile;
 	}

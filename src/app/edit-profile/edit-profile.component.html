@@ -15,8 +15,37 @@
     </div>
 
     <div class="form-container">
+
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" [readonly]="isReadonly">
+      </mat-form-field>
+
       <mat-form-field>
         <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Updated" formControlName="updatedOn" [readonly]="isReadonly">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Active" formControlName="lastActive" [readonly]="isReadonly">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" matInput placeholder="Age" formControlName="age">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" matInput placeholder="Height in cm" formControlName="height">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
       </mat-form-field>
 
       <mat-form-field>
@@ -27,6 +56,14 @@
         <mat-select placeholder="Gender" formControlName="genderType" [(value)]="profile.genderType">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="profile.bodyType">
+          <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
+            {{ bodyType }}
           </mat-option>
         </mat-select>
       </mat-form-field>
