@@ -8,7 +8,7 @@ export class Profile {
   body: string;
   email: string;
   description: string;
-  gender: string;
+  gender: GenderType;
 }
 
 export interface Profile {
@@ -19,5 +19,10 @@ export interface Profile {
   body: string;
   email: string;
   description: string;
-  gender: string;
+  gender: GenderType;
+}
+
+export enum GenderType {
+    "Female" = "Female",
+    "Male" = "Male"
 }

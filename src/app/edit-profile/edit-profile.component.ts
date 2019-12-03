@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Profile } from '../models/profile';
+import { Profile, GenderType } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -12,7 +12,8 @@ import { ProfileService } from '../services/profile.service';
 
 export class EditProfileComponent {
 	profile : Profile;
-	profileForm: FormGroup;
+  profileForm: FormGroup;
+  genderTypes = Object.keys(GenderType);
 
   constructor(
 	private profileService: ProfileService,
@@ -22,7 +23,7 @@ export class EditProfileComponent {
       this.profileForm = this.formBuilder.group({
 	      name: '',
         description: '',
-        gender: ''
+        genderType: ''
 	    });
   }
 
@@ -43,7 +44,7 @@ export class EditProfileComponent {
       this.profileForm.patchValue({
         name: this.profile.name,
         description: this.profile.description,
-        gender: this.profile.gender
+        genderType: this.profile.gender
       });
   }
 
@@ -51,7 +52,7 @@ export class EditProfileComponent {
   		this.profileForm.reset({
         name: this.profile.name,
         description: this.profile.description,
-        gender: this.profile.gender
+        genderType: this.profile.gender
 	    });
   }
 
@@ -70,9 +71,9 @@ export class EditProfileComponent {
 	      profileId: this.profile.profileId,
         name: formModel.name as string,
         description: formModel.description as string,
-        gender: formModel.gender as string,
+        gender: formModel.gender as GenderType,
         body: '098' as string,
-        email: '098' as string,
+        email: this.profile.email,
         updatedOn: this.profile.updatedOn,
         createdOn: this.profile.createdOn
 	    };

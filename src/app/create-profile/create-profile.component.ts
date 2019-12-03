@@ -2,7 +2,7 @@
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Profile } from '../models/profile';
+import { Profile, GenderType } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class CreateProfileComponent implements OnChanges {
 	    this.profileForm = this.fb.group({
 	      name: ['', Validators.required ],
         description: '',
-        gender: '',
+        genderType: '',
 	      body: '',
 	      email: ''
 	    });
@@ -47,12 +47,12 @@ export class CreateProfileComponent implements OnChanges {
     const formModel = this.profileForm.value;
 
     const saveProfile: Profile = {
-	      profileId: this.profile.profileId,
+        profileId: this.profile.profileId,
         name: formModel.name as string,
         description: formModel.description as string,
-        gender: formModel.gender as string,
+        gender: formModel.gender as GenderType,
         body: '098' as string,
-        email: '098' as string,
+        email: this.profile.email,
         updatedOn: this.profile.updatedOn,
         createdOn: this.profile.createdOn
 	    };

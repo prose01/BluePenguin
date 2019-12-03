@@ -24,9 +24,10 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="gender">
-          <mat-option value=0>Female</mat-option>
-          <mat-option value=1>Male</mat-option>
+        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="profile.genderType">
+          <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
+            {{ genderType }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
