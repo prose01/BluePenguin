@@ -70,18 +70,16 @@ export class ProfileService {
     }
 
 
-    // Favorits
-
-    // API is missing the Favorit Add/Remove endpoints!!!! ////
-    removeFavoritProfiles(profiles: Profile[]): Observable<Profile[]> {   
-        return this.http.post<Profile[]>(this.profilesUrl, profiles, { headers: this.headers })
+    // Bookmarks
+    addFavoritProfiles(profiles: string[]): Observable<Profile> {
+        return this.http.post<Profile>(`${this.profilesUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
             .pipe(
                 catchError(this.handleError)
             );
     }
 
-    addFavoritProfiles(profiles: Profile[]): Observable<Profile> {    
-        return this.http.post<Profile>(this.profilesUrl, profiles, { headers: this.headers })
+    removeFavoritProfiles(profiles: string[]): Observable<Profile[]> {   
+        return this.http.post<Profile[]>(`${this.profilesUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
             .pipe(
                 catchError(this.handleError)
             );

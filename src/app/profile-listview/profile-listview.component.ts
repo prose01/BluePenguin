@@ -69,25 +69,22 @@ export class ProfileListviewComponent implements OnInit {
     }
 
     removeFavoritProfiles() {
-        console.log(this.selection)
-
-        //this.profileService.removeFavoritProfiles(this.selection.selected).subscribe((result) => {
-        //});
-
-        //this.getProfiles(); // Not sure this is right. Maybe removeFavoritProfiles should just return updated list.
+        this.profileService.removeFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
+        });
     }
 
     addFavoritProfiles() {
-        console.log(this.selection)
-
-        //this.profileService.addFavoritProfiles(this.selection.selected).subscribe((result) => {
-        //});
-
-        //this.getProfiles(); // Not sure this is right. Maybe addFavoritProfiles should just return updated list.
+        this.profileService.addFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
+        });
     }
 
-    // Can probably be removed
-    //goBack(): void {
-    //    this.location.back();
-    //}
+    selcetedProfiles(): string[] {
+        let profiles = new Array;
+
+        for (var _i = 0; _i < this.selection.selected.length; _i++) {
+            profiles.push(this.selection.selected[_i].profileId);
+        }
+
+        return profiles;
+    }
 }

@@ -86,7 +86,7 @@ export class EditProfileComponent {
   onSubmit() {
 	  this.profile = this.prepareSaveProfile();
     this.profileService.putProfile(this.profile).subscribe(/* add error handling */);
-	  //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
+    this.prefilForm(); // Hvad skal vi gøre når der er postet?
 	}
 
 	prepareSaveProfile(): Profile {
