@@ -20,7 +20,7 @@ import { DashboardComponent }                 from './dashboard/dashboard.compon
 import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { CreateProfileComponent }             from './create-profile/create-profile.component';
 import { EditProfileComponent }               from './edit-profile/edit-profile.component';
-import { ProfilesComponent }                  from './profiles/profiles.component';
+//import { ProfilesComponent }                  from './profiles/profiles.component';
 import { ProfileService }                     from './services/profile.service';
 
 import { AuthService }                        from './auth/auth.service';
@@ -35,7 +35,7 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
     CreateProfileComponent,
     ProfileDetailComponent,
     EditProfileComponent,
-    ProfilesComponent,
+    //ProfilesComponent,
     CallbackComponent,
     ProfileListviewComponent,
     ProfileTileviewComponent
