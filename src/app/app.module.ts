@@ -27,6 +27,7 @@ import { AuthService }                        from './auth/auth.service';
 import { CallbackComponent }                  from './callback/callback.component';
 import { ProfileListviewComponent }           from './profile-listview/profile-listview.component';
 import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
+import { ProfileSearchComponent } from './profile-search/profile-search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
     //ProfilesComponent,
     CallbackComponent,
     ProfileListviewComponent,
-    ProfileTileviewComponent
+    ProfileTileviewComponent,
+    ProfileSearchComponent
   ],
   imports: [
     BrowserModule,

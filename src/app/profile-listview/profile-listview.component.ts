@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Location } from '@angular/common';
 
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
@@ -21,19 +19,24 @@ import { ProfileService } from '../services/profile.service';
     ],
 })
 export class ProfileListviewComponent implements OnInit {
-    profiles: Profile[];
+    currentProfile: Profile;
+    //profiles: Profile[];
     displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
     dataSource: MatTableDataSource<Profile>;
     expandedElement: Profile | null;
     selection = new SelectionModel<Profile>(true, []);
 
+    @Input() resultProfiles: Profile[];
+
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-    constructor(private router: Router, private profileService: ProfileService, private location: Location, private cdr: ChangeDetectorRef) { }
+    constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-        this.getProfiles();
+        this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
+        //this.getProfiles();
+        this.setDataSource(); // Use this when Search component works and input haas profiles. Rememeber to turn of this.getProfiles();
     }
 
     getProfiles(): void {
@@ -44,6 +47,14 @@ export class ProfileListviewComponent implements OnInit {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
         })
+    }
+
+    setDataSource(): void {
+      this.dataSource = new MatTableDataSource<Profile>(this.resultProfiles);
+
+      this.cdr.detectChanges(); // Needed to get pagination & sort working.
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
 
     /** Whether the number of selected elements matches the total number of rows. */

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
@@ -9,11 +9,19 @@ import { Profile } from '../models/profile';
 @Injectable()
 export class ProfileService {
 
-    private profilesUrl = 'http://localhost:49260/Profiles/';  // URL to web api
+  private profilesUrl = 'http://localhost:49260/Profiles/';  // URL to web api
+  private profilesQueryUrl = 'http://localhost:49260/ProfilesQuery/';  // URL to web api
     private headers: HttpHeaders;
+
+    private currentProfileSource = new BehaviorSubject(new Profile());
+    currentProfile = this.currentProfileSource.asObservable();
 
     constructor(private http: HttpClient) {
         this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+    }
+
+    updateCurrentProfile(profile: Profile) {
+      this.currentProfileSource.next(profile)
     }
     
     getCurrentUserProfile<Data>(): Observable<Profile> {
@@ -83,6 +91,13 @@ export class ProfileService {
             .pipe(
                 catchError(this.handleError)
             );
+    }
+
+    getBookmarkedProfiles(): Observable<Profile[]> {
+      return this.http.get<Profile[]>(`${this.profilesQueryUrl}GetBookmarkedProfiles`, { headers: this.headers })
+        .pipe(
+          catchError(this.handleError)
+        );
     }
 
     // Helper Lav en rigtig error handler inden produktion

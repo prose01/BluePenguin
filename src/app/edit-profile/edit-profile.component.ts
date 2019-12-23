@@ -17,8 +17,7 @@ export class EditProfileComponent {
   bodyTypes = Object.keys(BodyType);
 
   constructor(
-	private profileService: ProfileService,
-  private formBuilder: FormBuilder) { this.createForm(); }
+	private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
       this.profileForm = this.formBuilder.group({
