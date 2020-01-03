@@ -1,0 +1,57 @@
+<form (ngSubmit)="onSubmit(profileForm)" [formGroup]="profileForm">
+
+  <div style="margin-bottom: 1em">
+    <button type="submit" (click)="onSubmit()"
+            [disabled]="profileForm.pristine" class="btn btn-success">
+      Search
+    </button> &nbsp;
+    <button type="button" (click)="revert()"
+            [disabled]="profileForm.pristine" class="btn btn-danger">
+      Revert
+    </button>
+  </div>
+
+  <div class="form-container">
+
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" matInput placeholder="Age" formControlName="age">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" matInput placeholder="Height in cm" formControlName="height">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
+    </mat-form-field>
+
+    <!--<mat-form-field>
+      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>-->
+
+    <mat-form-field>
+      <mat-select placeholder="Gender" formControlName="genderType" [(value)]="profile.genderType">
+        <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
+          {{ genderType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="profile.bodyType">
+        <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
+          {{ bodyType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</form>
+
+<div *ngIf="searchResultProfiles">
+  <app-profile-listview [resultProfiles]="searchResultProfiles"></app-profile-listview>
+</div>
