@@ -1,5 +1,5 @@
-<div *ngIf="profile">
-  <h2>{{profile.name}} Update your details</h2>
+<div *ngIf="currentUser">
+  <h2>{{currentUser.name}} Update your details</h2>
 
   <form (ngSubmit)="onSubmit(profileForm)" [formGroup]="profileForm">
 
@@ -53,7 +53,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="profile.genderType">
+        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUser.genderType">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -61,7 +61,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="profile.bodyType">
+        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUser.bodyType">
           <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
             {{ bodyType }}
           </mat-option>

@@ -47,25 +47,25 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.filter = this.prepareSearch();
+    //this.filter = this.prepareSearch();
     this.profileService.getBookmarkedProfiles().subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
   }
 
-  prepareSearch(): Profile {
-    const formModel = this.profileForm.value;
+  //prepareSearch(): Profile {
+  //  const formModel = this.profileForm.value;
 
-    const filterProfile: Profile = {
-      name: formModel.name as string,
-      age: formModel.age as number,
-      height: formModel.height as number,
-      weight: formModel.weight as number,
-      description: formModel.description as string,
-      gender: formModel.gender as GenderType,
-      body: formModel.body as BodyType,
-    };
+  //  const filterProfile: Profile = {
+  //    name: formModel.name as string,
+  //    age: formModel.age as number,
+  //    height: formModel.height as number,
+  //    weight: formModel.weight as number,
+  //    description: formModel.description as string,
+  //    gender: formModel.gender as GenderType,
+  //    body: formModel.body as BodyType,
+  //  };
 
-    return filterProfile;
-  }
+  //  return filterProfile;
+  //}
 
   // call profileService to get a search result and add it to this.searchResultProfiles
 
