@@ -10,8 +10,9 @@ import { CurrentUser } from '../models/currentUser';
 @Injectable()
 export class ProfileService {
 
-  private currentUserUrl = 'http://localhost:49260/CurrentUser/';  // URL to web api
-  private profilesQueryUrl = 'http://localhost:49260/ProfilesQuery/';  // URL to web api
+  private avalonUrl = 'http://localhost:49260/';  // URL to web api
+  //private currentUserUrl = 'http://localhost:49260/CurrentUser/';  // URL to web api
+  //private profilesQueryUrl = 'http://localhost:49260/ProfilesQuery/';  // URL to web api
   private headers: HttpHeaders;
 
   private currentProfileSource = new BehaviorSubject(new CurrentUser());
@@ -28,7 +29,7 @@ export class ProfileService {
   }
 
   getCurrentUserProfile<Data>(): Observable<CurrentUser> {
-    return this.http.get<CurrentUser[]>(`${this.currentUserUrl}GetCurrentUserProfile`, { headers: this.headers })
+    return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
       .pipe(
         map(currentUser => currentUser),
         tap(h => {
@@ -39,14 +40,14 @@ export class ProfileService {
   }
 
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.post<CurrentUser>(this.currentUserUrl, currentUser, { headers: this.headers })
+    return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   putProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.put<CurrentUser>(this.currentUserUrl, currentUser, { headers: this.headers })
+    return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -54,7 +55,7 @@ export class ProfileService {
 
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.patch<CurrentUser>(this.currentUserUrl, { prof: currentUser }, { headers: this.headers })
+    return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -63,21 +64,21 @@ export class ProfileService {
 
   // Bookmarks
   addFavoritProfiles(profiles: string[]): Observable<Profile> {
-    return this.http.post<Profile>(`${this.currentUserUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
+    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   removeFavoritProfiles(profiles: string[]): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.currentUserUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getBookmarkedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.profilesQueryUrl}GetBookmarkedProfiles`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -89,14 +90,14 @@ export class ProfileService {
   // Profile
 
   getProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(this.profilesQueryUrl, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getProfile<Data>(profileId: string): Observable<Profile> {
-    return this.http.get<Profile[]>(`${this.profilesQueryUrl}${profileId}`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {
