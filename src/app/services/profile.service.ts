@@ -11,8 +11,6 @@ import { CurrentUser } from '../models/currentUser';
 export class ProfileService {
 
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
-  //private currentUserUrl = 'http://localhost:49260/CurrentUser/';  // URL to web api
-  //private profilesQueryUrl = 'http://localhost:49260/ProfilesQuery/';  // URL to web api
   private headers: HttpHeaders;
 
   private currentProfileSource = new BehaviorSubject(new CurrentUser());
@@ -28,7 +26,7 @@ export class ProfileService {
     this.currentProfileSource.next(currentUser)
   }
 
-  getCurrentUserProfile<Data>(): Observable<CurrentUser> {
+  getCurrentUserProfile(): Observable<CurrentUser> {
     return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
       .pipe(
         map(currentUser => currentUser),
@@ -96,7 +94,7 @@ export class ProfileService {
       );
   }
 
-  getProfile<Data>(profileId: string): Observable<Profile> {
+  getProfileById(profileId: string): Observable<Profile> {
     return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
       .pipe(
         map(profile => profile),
@@ -107,6 +105,16 @@ export class ProfileService {
       );
   }
 
+  getProfileByFilter(profileFilter: Profile): Observable<Profile[]> {
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
+      .pipe(
+        map(profile => profile),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
 
 
   // Helper Lav en rigtig error handler inden produktion

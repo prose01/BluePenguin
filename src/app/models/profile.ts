@@ -1,6 +1,5 @@
 export class Profile {
-  //id: number;
-  //_id: string;
+  bookmarks: string[];
   profileId: string;
   name: string;
   email: string;

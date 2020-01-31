@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 
 import { ProfileService } from './services/profile.service';
-import { Profile } from './models/profile';
+import { CurrentUser } from './models/currentUser';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,7 @@ import { Profile } from './models/profile';
 })
 export class AppComponent implements OnInit {
   title = 'BluePenguins';
-  myProfile: Profile; /*find din profilId og indsæt her*/
-  currentProfile: Profile;
+  currentProfile: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService) {
     auth.handleAuthentication();

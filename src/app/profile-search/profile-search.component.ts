@@ -31,7 +31,7 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.profileService.getBookmarkedProfiles().subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
+    this.filter = new Profile();
   }
 
   rebuildForm() {
@@ -47,25 +47,33 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   onSubmit() {
-    //this.filter = this.prepareSearch();
-    this.profileService.getBookmarkedProfiles().subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
+    this.filter = this.prepareSearch();
+    this.profileService.getProfileByFilter(this.filter).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
   }
 
-  //prepareSearch(): Profile {
-  //  const formModel = this.profileForm.value;
+  revert() { this.rebuildForm(); }
 
-  //  const filterProfile: Profile = {
-  //    name: formModel.name as string,
-  //    age: formModel.age as number,
-  //    height: formModel.height as number,
-  //    weight: formModel.weight as number,
-  //    description: formModel.description as string,
-  //    gender: formModel.gender as GenderType,
-  //    body: formModel.body as BodyType,
-  //  };
+  prepareSearch(): Profile {
+    const formModel = this.profileForm.value;
 
-  //  return filterProfile;
-  //}
+    const filterProfile: Profile = {      // alle properties SKAL være sat til noget for at kaldet virker!!!!
+      bookmarks: ['Apple', 'Orange', 'Banana'] as string[],
+      profileId: '123ID' as string,
+      email: 'some@thing' as string,
+      name: formModel.name as string,
+      createdOn: new Date() as Date,
+      updatedOn: new Date() as Date,
+      lastActive: new Date() as Date,
+      age: formModel.age as number,
+      height: formModel.height as number,
+      weight: formModel.weight as number,
+      description: 'some@thing' as string,
+      gender: GenderType.Male as GenderType,
+      body: BodyType.Atletic as BodyType,
+    };
+
+    return filterProfile;
+  }
 
   // call profileService to get a search result and add it to this.searchResultProfiles
 

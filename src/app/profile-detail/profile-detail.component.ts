@@ -25,7 +25,7 @@ export class ProfileDetailComponent implements OnInit {
 
 	ngOnInit(): void {
 	  this.route.paramMap.pipe(
-	    switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId'))))
+	    switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
 	    .subscribe(profile => this.profile = profile);
 	}
 
