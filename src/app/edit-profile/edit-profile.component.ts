@@ -21,17 +21,17 @@ export class EditProfileComponent {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      email: '',
-      name: '',
-      createdOn: '',
-      updatedOn: '',
-      lastActive: '',
-      age: '',
-      height: '',
-      weight: '',
-      description: '',
-      genderType: '',
-      bodyType: ''
+      email: null,
+      name: null,
+      createdOn: null,
+      updatedOn: null,
+      lastActive: null,
+      age: null,
+      height: null,
+      weight: null,
+      description: null,
+      genderType: null,
+      bodyType: null
     });
   }
 

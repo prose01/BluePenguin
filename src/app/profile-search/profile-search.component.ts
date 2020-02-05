@@ -20,12 +20,12 @@ export class ProfileSearchComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      name: '',
-      age: '',
-      height: '',
-      weight: '',
-      description: '',
-      genderType: '',
+      name: null,
+      age: null,
+      height: null,
+      weight: null,
+      description: null,
+      genderType: GenderType.Female,
       bodyType: ''
     });
   }
@@ -35,15 +35,15 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   rebuildForm() {
-  		this.profileForm.reset({
-        name: '',
-        age: '',
-        height: '',
-        weight: '',
-        description: '',
-        genderType: '',
-        bodyType: ''
-	    });
+    this.profileForm.reset({
+      name: null,
+      age: null,
+      height: null,
+      weight: null,
+      description: null,
+      genderType: GenderType.Female,
+      bodyType: ''
+    });
   }
 
   onSubmit() {
