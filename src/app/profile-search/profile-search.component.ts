@@ -26,7 +26,7 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       genderType: GenderType.Female,
-      bodyType: ''
+      bodyType: BodyType.Atletic
     });
   }
 
@@ -42,7 +42,7 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       genderType: GenderType.Female,
-      bodyType: ''
+      bodyType: BodyType.Atletic
     });
   }
 
@@ -56,10 +56,10 @@ export class ProfileSearchComponent implements OnInit {
   prepareSearch(): Profile {
     const formModel = this.profileForm.value;
 
-    const filterProfile: Profile = {      // alle properties SKAL være sat til noget for at kaldet virker!!!!
-      bookmarks: ['Apple', 'Orange', 'Banana'] as string[],
-      profileId: '123ID' as string,
-      email: 'some@thing' as string,
+    const filterProfile: Profile = {
+      bookmarks: [] as string[],
+      profileId: null as string,
+      email: null as string,
       name: formModel.name as string,
       createdOn: new Date() as Date,
       updatedOn: new Date() as Date,
@@ -67,9 +67,9 @@ export class ProfileSearchComponent implements OnInit {
       age: formModel.age as number,
       height: formModel.height as number,
       weight: formModel.weight as number,
-      description: 'some@thing' as string,
-      gender: GenderType.Male as GenderType,
-      body: BodyType.Atletic as BodyType,
+      description: formModel.description as string,
+      gender: formModel.genderType as GenderType,
+      body: formModel.bodyType as BodyType,
     };
 
     return filterProfile;
