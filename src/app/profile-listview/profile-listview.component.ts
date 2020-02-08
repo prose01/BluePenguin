@@ -29,8 +29,8 @@ export class ProfileListviewComponent implements OnInit {
 
   @Input() resultProfiles: Profile[];
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
 
