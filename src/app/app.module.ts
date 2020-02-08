@@ -4,12 +4,13 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
-import { MatCheckboxModule }                  from '@angular/material'
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
 import { MatTableModule }                     from '@angular/material/table';
-import { MatFormFieldModule }                 from '@angular/material';
-import { MatSelectModule, MatInputModule  }   from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
