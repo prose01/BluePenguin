@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit(profileForm)" [formGroup]="profileForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
   <div style="margin-bottom: 1em">
     <button type="submit" (click)="onSubmit()"
@@ -34,7 +34,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Gender" formControlName="genderType" [(value)]="filter.genderType">
+      <mat-select placeholder="Gender" formControlName="genderType" [(value)]="filter.gender">
         <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
           {{ genderType }}
         </mat-option>
@@ -42,7 +42,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="filter.bodyType">
+      <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="filter.body">
         <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
           {{ bodyType }}
         </mat-option>

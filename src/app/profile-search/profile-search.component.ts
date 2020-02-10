@@ -25,8 +25,8 @@ export class ProfileSearchComponent implements OnInit {
       height: null,
       weight: null,
       description: null,
-      genderType: GenderType.Female,
-      bodyType: BodyType.Atletic
+      gender: GenderType.Female,
+      body: BodyType.Atletic
     });
   }
 
@@ -41,8 +41,8 @@ export class ProfileSearchComponent implements OnInit {
       height: null,
       weight: null,
       description: null,
-      genderType: GenderType.Female,
-      bodyType: BodyType.Atletic
+      gender: GenderType.Female,
+      body: BodyType.Atletic
     });
   }
 

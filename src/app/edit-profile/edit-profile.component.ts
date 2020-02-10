@@ -59,8 +59,8 @@ export class EditProfileComponent {
       height: this.currentUser.height as number,
       weight: this.currentUser.weight as number,
       description: this.currentUser.description as string,
-      genderType: this.currentUser.gender as GenderType,
-      bodyType: this.currentUser.body as BodyType,
+      gender: this.currentUser.gender as GenderType,
+      body: this.currentUser.body as BodyType,
     });
   }
 
