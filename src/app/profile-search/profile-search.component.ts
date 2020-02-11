@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Profile, GenderType, BodyType } from '../models/profile';
+import { ProfileFilter } from '../models/profileFilter';
+import { Profile } from '../models/profile';
+import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -10,11 +12,14 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./profile-search.component.css']
 })
 export class ProfileSearchComponent implements OnInit {
-  filter: Profile;
+  filter: ProfileFilter;
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
+  ageList: number[] = [...Array(10).keys()];
+  heightList: number[] = [...Array(10).keys()];
+  weightList: number[] = [...Array(10).keys()];
 
   constructor(private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -31,7 +36,7 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter = new Profile();
+    this.filter = new ProfileFilter();
   }
 
   rebuildForm() {
@@ -53,23 +58,20 @@ export class ProfileSearchComponent implements OnInit {
 
   revert() { this.rebuildForm(); }
 
-  prepareSearch(): Profile {
+  prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
-    const filterProfile: Profile = {
-      bookmarks: [] as string[],
-      profileId: null as string,
-      email: null as string,
+    const filterProfile: ProfileFilter = {
       name: formModel.name as string,
       createdOn: new Date() as Date,
       updatedOn: new Date() as Date,
       lastActive: new Date() as Date,
-      age: formModel.age as number,
-      height: formModel.height as number,
-      weight: formModel.weight as number,
+      age: formModel.age as number[],
+      height: formModel.height as number[],
+      weight: formModel.weight as number[],
       description: formModel.description as string,
-      gender: formModel.genderType as GenderType,
-      body: formModel.bodyType as BodyType,
+      gender: formModel.gender as GenderType,
+      body: formModel.body as BodyType,
     };
 
     return filterProfile;

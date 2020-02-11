@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
+import { ProfileFilter } from '../models/profileFilter';
 
 @Injectable()
 export class ProfileService {
@@ -105,8 +106,8 @@ export class ProfileService {
       );
   }
 
-  getProfileByFilter(profileFilter: Profile): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
+  getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
+    return this.http.post<ProfileFilter[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {

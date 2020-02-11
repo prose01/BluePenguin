@@ -18,15 +18,21 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input type="number" matInput placeholder="Age" formControlName="age">
+      <mat-select placeholder="Age" formControlName="age" multiple>
+        <mat-option *ngFor="let age of ageList" [value]="age">{{age}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <input type="number" matInput placeholder="Height in cm" formControlName="height">
+      <mat-select placeholder="Height in cm" formControlName="height" multiple>
+        <mat-option *ngFor="let height of heightList" [value]="height">{{height}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
+      <mat-select placeholder="Weight in kg" formControlName="weight" multiple>
+        <mat-option *ngFor="let weight of weightList" [value]="weight">{{weight}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -34,7 +40,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Gender" formControlName="genderType" [(value)]="filter.gender">
+      <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
         <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
           {{ genderType }}
         </mat-option>
@@ -42,7 +48,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="filter.body">
+      <mat-select placeholder="Body type" formControlName="body" [(value)]="filter.body">
         <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
           {{ bodyType }}
         </mat-option>

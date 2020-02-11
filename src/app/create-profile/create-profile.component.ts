@@ -2,7 +2,8 @@
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { CurrentUser, GenderType, BodyType } from '../models/currentUser';
+import { CurrentUser } from '../models/currentUser';
+import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({

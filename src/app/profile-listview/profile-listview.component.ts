@@ -7,6 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
+import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -23,7 +24,6 @@ import { ProfileService } from '../services/profile.service';
 })
 export class ProfileListviewComponent implements OnInit {
   currentProfile: CurrentUser;
-  //profiles: Profile[];
   displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
   dataSource: MatTableDataSource<Profile>;
   expandedElement: Profile | null;
@@ -38,8 +38,11 @@ export class ProfileListviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
-    //this.getProfiles();
-    this.setDataSource(); // Use this when Search component works and input haas profiles. Rememeber to turn of this.getProfiles();
+    this.setDataSource(); 
+  }
+
+  ngOnChanges(): void {
+    this.setDataSource();
   }
 
   getProfiles(): void {

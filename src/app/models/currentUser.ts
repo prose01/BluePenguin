@@ -1,6 +1,6 @@
+import { GenderType, BodyType } from '../models/enums';
+
 export class CurrentUser {
-  //id: number;
-  //_id: string;
   profileId: string;
   name: string;
   email: string;
@@ -28,17 +28,4 @@ export interface CurrentUser {
   description: string;
   gender: GenderType;
   body: BodyType;
-}
-
-export enum GenderType {
-  "Female" = "Female",
-  "Male" = "Male"
-}
-
-export enum BodyType {
-  "Atletic" = "Atletic",
-  "Chubby" = "Chubby",
-  "Normal" = "Normal",
-  "Robust" = "Robust",
-  "Slim" = "Slim"
 }
