@@ -4,14 +4,9 @@
 	</h4>
 </div>
 
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad" >
-	<!-- <h3>Top Profiles</h3>
-	  <a *ngFor="let profile of profiles"  [routerLink]="['/detail', profile.profileId]"  class="col-1-4"> 
-	    <div class="module profile">    	
-	      <h4>{{profile.name}}</h4>
-	    </div>
-	  </a> -->
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-	<!-- <app-profile-listview></app-profile-listview> -->
-	<app-profile-tileview></app-profile-tileview>
+	<mat-button-toggle (click)=toggleDisplayDivIf()>{{matButtonToggleText}}</mat-button-toggle>
+	<div *ngIf="isMatButtonToggled"><app-profile-tileview></app-profile-tileview></div>
+	<div *ngIf="!isMatButtonToggled"><app-profile-listview [resultProfiles]="bookmarkedProfiles"></app-profile-listview></div>
 </div>
