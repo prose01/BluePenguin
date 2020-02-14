@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
 
+import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
@@ -11,28 +11,11 @@ import { ProfileService } from '../services/profile.service';
 })
 export class DashboardComponent implements OnInit {
 
-  isAuthenticated: boolean;
   profiles: Profile[] = [];
 
-  constructor(private profileService: ProfileService, public oktaAuth: OktaAuthService) { 
-	// Subscribe to authentication state changes
-    this.oktaAuth.$authenticationState.subscribe(
-      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
-    );
-  }
+  constructor(public auth: AuthService, private profileService: ProfileService) { }
 
-  async ngOnInit() {
-  	// Get the authentication state for immediate use
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-
-    this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles.slice(5, 9));
-  }
-
-  login() {
-    this.oktaAuth.loginRedirect('/dashboard.component');
-  }
-
-  logout() {
-    this.oktaAuth.logout('/');
+  ngOnInit(): void {
+    //this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles.slice(5, 9));
   }
 }

@@ -1,12 +1,8 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import {switchMap} from 'rxjs/operators';
-
-import { Component, Input, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
-
-import { Profile } from '../models/profile';
+import { CurrentUser } from '../models/currentUser';
+import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -15,67 +11,103 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./edit-profile.component.css']
 })
 
-export class EditProfileComponent implements OnChanges {
-	@Input() profile : Profile;
-	profileForm: FormGroup;
+export class EditProfileComponent {
+  currentUser: CurrentUser;
+  profileForm: FormGroup;
+  genderTypes = Object.keys(GenderType);
+  bodyTypes = Object.keys(BodyType);
 
-  	constructor(
-	  private profileService: ProfileService,
-	  private route: ActivatedRoute,
-	  private location: Location,
-	  private fb: FormBuilder) { this.createForm(); }
+  constructor(
+    private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
-  	createForm() {
-	    this.profileForm = this.fb.group({
-	      name: ['', Validators.required ],		// sæt values fra start
-	      body: ''
-	    });
-  	}
+  createForm() {
+    this.profileForm = this.formBuilder.group({
+      email: null,
+      name: null,
+      createdOn: null,
+      updatedOn: null,
+      lastActive: null,
+      age: null,
+      height: null,
+      weight: null,
+      description: null,
+      genderType: null,
+      bodyType: null
+    });
+  }
 
-  	ngOnChanges() { 
-    	//this.rebuildForm();			// skal denne være der?
-  	}
+  ngOnInit(): void {
+    this.getCurrentUserProfile();
+  }
 
-  	rebuildForm() {
-  		this.profileForm.reset({
-	      name: this.profile.name
-	    });
-    	// this.profileForm.reset();
-    	// this.profileForm.patchValue({
-     //  		name: this.profile.name
-    	// });
-  	}
+  getCurrentUserProfile(): void {
+    this.profileService.getCurrentUserProfile().subscribe(
+      res => {
+        this.currentUser = res;
+        this.prefilForm();
+      }
+    );
+  }
 
-  	onSubmit() {
-	  this.profile = this.prepareSaveProfile();
-	  this.profileService.updateProfile(this.profile).subscribe(/* add error handling */);
-	  //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
-	}
+  prefilForm() {
+    this.profileForm.patchValue({
+      email: this.currentUser.email,
+      name: this.currentUser.name as string,
+      createdOn: this.currentUser.createdOn,
+      updatedOn: this.currentUser.updatedOn,
+      lastActive: this.currentUser.lastActive,
+      age: this.currentUser.age as number,
+      height: this.currentUser.height as number,
+      weight: this.currentUser.weight as number,
+      description: this.currentUser.description as string,
+      gender: this.currentUser.gender as GenderType,
+      body: this.currentUser.body as BodyType,
+    });
+  }
 
-	prepareSaveProfile(): Profile {
+  //rebuildForm() {
+  //		this.profileForm.reset({
+  //      email: this.profile.email,
+  //      name: this.profile.name as string,
+  //      createdOn: this.profile.createdOn,
+  //      updatedOn: this.profile.updatedOn,
+  //      lastActive: this.profile.lastActive,
+  //      age: this.profile.age as number,
+  //      height: this.profile.height as number,
+  //      weight: this.profile.weight as number,
+  //      description: this.profile.description as string,
+  //      genderType: this.profile.gender as GenderType,
+  //      bodyType: this.profile.body as BodyType,
+  //   });
+  //}
+
+  revert() { this.prefilForm(); }
+
+  onSubmit() {
+    this.currentUser = this.prepareSaveProfile();
+    this.profileService.putProfile(this.currentUser).subscribe(/* add error handling */);
+    this.prefilForm(); // Hvad skal vi gøre når der er postet?
+  }
+
+  prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
-    const saveProfile: Profile = {
-	      profileId: this.profile.profileId,
-	      name: formModel.name as string,
-	      body: formModel.body as string,
-	      updatedOn: '2018-06-27T11:41:16.562Z' as string,	// sæt til ingenting eller datetime.now
-	      createdOn: '2018-06-27T11:41:16.562Z' as string
-	    };
-	    return saveProfile;
-	}
+    const saveProfile: CurrentUser = {
+      profileId: this.currentUser.profileId,
+      email: this.currentUser.email,
+      name: formModel.name as string,
+      createdOn: this.currentUser.createdOn,
+      updatedOn: this.currentUser.updatedOn,
+      lastActive: this.currentUser.lastActive,
+      age: formModel.age as number,
+      height: formModel.height as number,
+      weight: formModel.weight as number,
+      description: formModel.description as string,
+      gender: formModel.gender as GenderType,
+      body: formModel.body as BodyType,
+    };
 
-  	revert() { this.rebuildForm(); }
-
-  	ngOnInit(): void {
-	  this.route.paramMap.pipe(
-	    switchMap((params: ParamMap) => this.profileService.getProfile(params.get('profileId'))))
-	    .subscribe(profile => this.profile = profile);
-	    //this.rebuildForm();
-	}
-
-	goBack(): void {
-	  this.location.back();
-	}
+    return saveProfile;
+  }
 
 }

@@ -1,41 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+//import { Component, OnInit } from '@angular/core';
+//import { Router } from '@angular/router';
 
-import { Profile } from '../models/profile';
-import { ProfileService } from '../services/profile.service';
+//import { Profile } from '../models/profile';
+//import { ProfileService } from '../services/profile.service';
 
-@Component({
-  selector: 'my-profiles',
-  templateUrl: './profiles.component.html',
-  styleUrls: [ './profiles.component.css' ]
-})
+//@Component({
+//  selector: 'my-profiles',
+//  templateUrl: './profiles.component.html',
+//  styleUrls: [ './profiles.component.css' ]
+//})
 
-export class ProfilesComponent implements OnInit {
-  profiles: Profile[];
-  selectedProfile: Profile;
+//export class ProfilesComponent implements OnInit {
+//  profiles: Profile[];
+//  selectedProfile: Profile;
 
-  constructor(
-  	private router: Router, 
-  	private profileService: ProfileService
-  	) { }
+//  constructor(
+//  	private router: Router, 
+//  	private profileService: ProfileService
+//  	) { }
 
-  getProfiles(): void {
-  	this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
-  }
+//  ngOnInit(): void {
+//  	this.getProfiles();
+//  }
 
-  ngOnInit(): void {
-  	this.getProfiles();
-  }
+//  getProfiles(): void {
+//    this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
+//  }
 
-  onSelect(profile: Profile): void {
- 	this.selectedProfile = profile;
-  }
+//  onSelect(profile: Profile): void {
+// 	  this.selectedProfile = profile;
+//  }
 
-  gotoDetail(): void {
-	this.router.navigate(['/detail', this.selectedProfile.profileId]);
-  }
+//  gotoDetail(): void {
+//	  this.router.navigate(['/detail', this.selectedProfile.profileId]);
+//  }
 
-  gotoEdit(): void {
-  this.router.navigate(['/edit', this.selectedProfile.profileId]);
-  }
-}
+//  gotoEdit(): void {
+//    this.router.navigate(['/edit', this.selectedProfile.profileId]);
+//  }
+//}

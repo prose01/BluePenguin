@@ -1,7 +1,6 @@
 import { GenderType, BodyType } from '../models/enums';
 
-export class Profile {
-  bookmarks: string[];
+export class CurrentUser {
   profileId: string;
   name: string;
   email: string;
@@ -16,7 +15,7 @@ export class Profile {
   body: BodyType;
 }
 
-export interface Profile {
+export interface CurrentUser {
   profileId: string;
   name: string;
   email: string;

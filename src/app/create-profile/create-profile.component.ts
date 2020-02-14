@@ -1,10 +1,9 @@
 
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
 
-import { Profile } from '../models/profile';
+import { CurrentUser } from '../models/currentUser';
+import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -14,55 +13,60 @@ import { ProfileService } from '../services/profile.service';
 })
 
 export class CreateProfileComponent implements OnChanges {
-	profile : Profile;
-	profileForm: FormGroup;
+  currentUser: CurrentUser;
+  profileForm: FormGroup;
 
   constructor(
-	  private profileService: ProfileService,
-	  private route: ActivatedRoute,
-	  private location: Location,
-	  private fb: FormBuilder) { this.createForm(); }
+    private profileService: ProfileService,
+    private fb: FormBuilder) { this.createForm(); }
 
   createForm() {
-	    this.profileForm = this.fb.group({
-	      name: ['', Validators.required ],
-	      body: ''
-	    });
-  	}
+    this.profileForm = this.fb.group({
+      name: ['', Validators.required],
+      description: '',
+      genderType: '',
+      body: '',
+      email: ''
+    });
+  }
 
-  	ngOnChanges() { 
-    	this.rebuildForm();
-  	}
+  ngOnChanges() {
+    this.rebuildForm();
+  }
 
-  	rebuildForm() {
-    	this.profileForm.reset();
-  	}
+  rebuildForm() {
+    this.profileForm.reset();
+  }
 
-  	onSubmit() {
-	  this.profile = this.prepareSaveProfile();
-	  this.profileService.addProfile(this.profile).subscribe(/* add error handling */);
-	  //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
-	}
+  onSubmit() {
+    this.currentUser = this.prepareSaveProfile();
+    this.profileService.addProfile(this.currentUser).subscribe(/* add error handling */);
+    //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
+  }
 
-	prepareSaveProfile(): Profile {
+  prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
-    const saveProfile: Profile = {
-	      profileId: '',									// sæt til noget eller fjern
-	      name: formModel.name as string,
-	      body: formModel.body as string,
-	      updatedOn: '2018-06-27T11:41:16.562Z' as string,	// sæt til ingenting eller datetime.now
-	      createdOn: '2018-06-27T11:41:16.562Z' as string
-	    };
-	    return saveProfile;
-	}
+    const saveProfile: CurrentUser = {
+      profileId: this.currentUser.profileId,
+      email: this.currentUser.email,
+      name: formModel.name as string,
+      createdOn: this.currentUser.createdOn,
+      updatedOn: this.currentUser.updatedOn,
+      lastActive: this.currentUser.lastActive,
+      age: formModel.age,
+      height: formModel.height,
+      weight: formModel.weight,
+      description: formModel.description as string,
+      gender: formModel.gender as GenderType,
+      body: formModel.body as BodyType,
+    };
 
-  	revert() { this.rebuildForm(); }
+    return saveProfile;
+  }
 
-  	ngOnInit(): void {
-	}
+  revert() { this.rebuildForm(); }
 
-	goBack(): void {
-	  this.location.back();
-	}
+  ngOnInit(): void {
+  }
 }

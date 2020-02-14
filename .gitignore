@@ -40,3 +40,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+*.js
+*.map
+*.sqlite
+src/app/.vs/VSWorkspaceState.json
+src/app/.vs/app/config/applicationhost.config
+src/app/.vs/app/v16/.suo

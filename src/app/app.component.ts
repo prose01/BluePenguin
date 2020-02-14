@@ -1,18 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+
+import { ProfileService } from './services/profile.service';
+import { CurrentUser } from './models/currentUser';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <h1>{{title}}</h1>
-    <nav>
-     <a routerLink="/dashboard">Dashboard</a>
-     <a routerLink="/profiles">Profiles</a>
-     <a routerLink="/create">Create new Profile</a>
-   	</nav>
-   	<router-outlet></router-outlet>
-  `,
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'BluePenguins';
+  currentProfile: CurrentUser;
+
+  constructor(public auth: AuthService, private profileService: ProfileService) {
+    auth.handleAuthentication();
+  }
+
+  ngOnInit() {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      this.auth.renewTokens();
+
+      this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
+    }
+  }
 }

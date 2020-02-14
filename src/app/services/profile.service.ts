@@ -1,76 +1,128 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
-
+import { CurrentUser } from '../models/currentUser';
+import { ProfileFilter } from '../models/profileFilter';
 
 @Injectable()
 export class ProfileService {
 
-	private profilesUrl = 'http://localhost:49260/api/Profiles/';  // URL to web api
-	//private accessToken;
-  	private headers: HttpHeaders;
+  private avalonUrl = 'http://localhost:49260/';  // URL to web api
+  private headers: HttpHeaders;
 
-	constructor(private http: HttpClient) {
-		this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
-	}
+  private currentProfileSource = new BehaviorSubject(new CurrentUser());
+  currentProfile = this.currentProfileSource.asObservable();
 
-	// async ngOnInit() {
-	// 	this.accessToken = await this.oktaAuth.getAccessToken();
- //  	}
+  constructor(private http: HttpClient) {
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+  }
 
-	getProfiles (): Observable<Profile[]> {
-      return this.http.get<Profile[]>(this.profilesUrl)
-		      	.pipe(
-		        catchError(this.handleError)
-		      );
-    }
+  //CurrentUser
 
-	getProfile<Data>(profileId: string): Observable<Profile> {
-	    return this.http.get<Profile[]>(`${this.profilesUrl}${profileId}`, {headers: this.headers})
-	      .pipe(
-	        map(profile => profile),
-	        tap(h => {
-	          const outcome = h ? `fetched` : `did not find`;
-	          //this.log(`${outcome} profile profileId=${profileId}`);
-	        }),
-	        catchError(this.handleError)
-	      );
-  	}
+  updateCurrentProfile(currentUser: CurrentUser) {
+    this.currentProfileSource.next(currentUser)
+  }
 
-	addProfile(profile: Profile): Observable<Profile> {
-	    return this.http.post<Profile>(this.profilesUrl, profile, {headers: this.headers})
-			    .pipe(
-			      catchError(this.handleError)
-			    );
-	}
+  getCurrentUserProfile(): Observable<CurrentUser> {
+    return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
+      .pipe(
+        map(currentUser => currentUser),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
 
-	updateProfile(profile: Profile): Observable<Profile> {
-		return this.http.put<Profile>(`${this.profilesUrl}${profile.profileId}`, profile, {headers: this.headers})
-		    	.pipe(
-		      	  catchError(this.handleError)
-		    	);
-	}
+  addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
+    return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
-	// private headerOptions() {
-	// 	return {
-	// 		  headers: new HttpHeaders({
-	// 		    'Content-Type':  'application/json',
-	// 		    'Authorization': `Bearer ` + this.accessToken,
-	// 		  })
-	// 		};
-	// }
+  putProfile(currentUser: CurrentUser): Observable<CurrentUser> {
+    return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  // Does not work so use putProfile instead.
+  patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
+    return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
 
-	// Helper Lav en rigtig error handler inden produktion
-	// https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
-	// Husk at opdater GET, POST etc this.handleError!
-	private handleError(error: any): Promise<any> {
-	  console.error('An error occurred', error); // for demo purposes only
-	  return Promise.reject(error.message || error);
-	}
+  // Bookmarks
+  addFavoritProfiles(profiles: string[]): Observable<Profile> {
+    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  removeFavoritProfiles(profiles: string[]): Observable<Profile[]> {
+    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getBookmarkedProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+
+
+  // Profile
+
+  getProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getProfileById(profileId: string): Observable<Profile> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
+      .pipe(
+        map(profile => profile),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
+    return this.http.post<ProfileFilter[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
+      .pipe(
+        map(profile => profile),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+
+  // Helper Lav en rigtig error handler inden produktion
+  // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
+  // Husk at opdater GET, POST etc this.handleError!
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
 }

@@ -20,9 +20,14 @@
 	      <input class="form-control" formControlName="body">
 	    </label>
 	  </div>  
+	  <div class="form-group">
+	    <label class="center-block">Email:
+	      <input class="form-control" formControlName="email">
+	    </label>
+	  </div> 
 	</form>
 
 	<p>Form value: {{ profileForm.value | json }}</p>
 </div>
 
-<button (click)="goBack()">Back</button>
+<!--<button (click)="goBack()">Back</button>-->
