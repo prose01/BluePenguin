@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 //import { Router } from '@angular/router';
 
 import { Profile } from '../models/profile';
-import { ProfileService } from '../services/profile.service';
+//import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -12,21 +12,19 @@ import { ProfileService } from '../services/profile.service';
 
 export class ProfileTileviewComponent implements OnInit {
 
-  profiles: Profile[];
   selectedProfile: Profile;
 
-  constructor(
-  	//private router: Router, 
-  	private profileService: ProfileService
-  	) { }  
+  @Input() profiles: Profile[];
+
+  constructor() { }  
 
   ngOnInit(): void {
-    this.getProfiles();
+    //this.getProfiles();
   }
 
-  getProfiles(): void {
-    this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
-  }
+  //getProfiles(): void {
+  //  this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
+  //}
 
   //onSelect(profile: Profile): void {
   //  this.router.navigate(['/detail', profile.profileId]);

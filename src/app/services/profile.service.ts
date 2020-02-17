@@ -117,6 +117,29 @@ export class ProfileService {
       );
   }
 
+  getLatestCreatedProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getLastUpdatedProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getLastActiveProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+
 
   // Helper Lav en rigtig error handler inden produktion
   // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
