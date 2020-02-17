@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
@@ -22,41 +21,24 @@ import { ProfileService } from '../services/profile.service';
     ]),
   ],
 })
-export class ProfileListviewComponent implements OnInit {
-  currentProfile: CurrentUser;
+export class ProfileListviewComponent {
   displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
   dataSource: MatTableDataSource<Profile>;
-  expandedElement: Profile | null;
   selection = new SelectionModel<Profile>(true, []);
 
-  @Input() resultProfiles: Profile[];
+  @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
-    this.setDataSource(); 
-  }
-
   ngOnChanges(): void {
     this.setDataSource();
   }
 
-  getProfiles(): void {
-    this.profileService.getProfiles().subscribe((result) => {
-      this.dataSource = new MatTableDataSource<Profile>(result);
-
-      this.cdr.detectChanges(); // Needed to get pagination & sort working.
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-  }
-
   setDataSource(): void {
-    this.dataSource = new MatTableDataSource<Profile>(this.resultProfiles);
+    this.dataSource = new MatTableDataSource<Profile>(this.profiles);
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
@@ -85,14 +67,13 @@ export class ProfileListviewComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
+/** Add or remove bookmarks */
   removeFavoritProfiles() {
-    this.profileService.removeFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
-    });
+    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles()).subscribe(() => {});
   }
 
   addFavoritProfiles() {
-    this.profileService.addFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
-    });
+    this.profileService.addProfilesToBookmarks(this.selcetedProfiles()).subscribe(() => {});
   }
 
   selcetedProfiles(): string[] {

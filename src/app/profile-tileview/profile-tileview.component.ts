@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-//import { Router } from '@angular/router';
 
 import { Profile } from '../models/profile';
-//import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -10,23 +8,11 @@ import { Profile } from '../models/profile';
   styleUrls: ['./profile-tileview.component.css']
 })
 
-export class ProfileTileviewComponent implements OnInit {
+export class ProfileTileviewComponent {
 
   selectedProfile: Profile;
 
-  @Input() profiles: Profile[];
+  @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
-  constructor() { }  
-
-  ngOnInit(): void {
-    //this.getProfiles();
-  }
-
-  //getProfiles(): void {
-  //  this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
-  //}
-
-  //onSelect(profile: Profile): void {
-  //  this.router.navigate(['/detail', profile.profileId]);
-  //}
+  constructor() { }
 }

@@ -76,11 +76,4 @@ export class ProfileSearchComponent implements OnInit {
 
     return filterProfile;
   }
-
-  // call profileService to get a search result and add it to this.searchResultProfiles
-
-  // add an *ngIf="searchResultProfiles is not empty" to the <app-profile-listview>
-
-  // Add a button link to the search page, add the search page to the routing etc.
-
 }

@@ -65,22 +65,6 @@ export class EditProfileComponent {
     });
   }
 
-  //rebuildForm() {
-  //		this.profileForm.reset({
-  //      email: this.profile.email,
-  //      name: this.profile.name as string,
-  //      createdOn: this.profile.createdOn,
-  //      updatedOn: this.profile.updatedOn,
-  //      lastActive: this.profile.lastActive,
-  //      age: this.profile.age as number,
-  //      height: this.profile.height as number,
-  //      weight: this.profile.weight as number,
-  //      description: this.profile.description as string,
-  //      genderType: this.profile.gender as GenderType,
-  //      bodyType: this.profile.body as BodyType,
-  //   });
-  //}
-
   revert() { this.prefilForm(); }
 
   onSubmit() {

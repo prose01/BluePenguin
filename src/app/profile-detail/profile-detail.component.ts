@@ -3,7 +3,6 @@ import {switchMap} from 'rxjs/operators';
 
 import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
 
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
@@ -19,8 +18,7 @@ export class ProfileDetailComponent implements OnInit {
 
 	constructor(
 	  private profileService: ProfileService,
-	  private route: ActivatedRoute,
-	  private location: Location
+	  private route: ActivatedRoute
 	) {}
 
 	ngOnInit(): void {
@@ -28,8 +26,4 @@ export class ProfileDetailComponent implements OnInit {
 	    switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
 	    .subscribe(profile => this.profile = profile);
 	}
-
-	//goBack(): void {
-	//  this.location.back();
-	//}
 }

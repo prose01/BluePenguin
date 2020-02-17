@@ -62,14 +62,14 @@ export class ProfileService {
 
 
   // Bookmarks
-  addFavoritProfiles(profiles: string[]): Observable<Profile> {
+  addProfilesToBookmarks(profiles: string[]): Observable<Profile> {
     return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  removeFavoritProfiles(profiles: string[]): Observable<Profile[]> {
+  removeProfilesFromBookmarks(profiles: string[]): Observable<Profile[]> {
     return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)

@@ -19,11 +19,6 @@
       </td>
     </ng-container>
 
-    <!--<ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-    </ng-container>-->
-    <!-- ProfileId Column -->
     <ng-container matColumnDef="profileId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ProfileId </th>
       <td mat-cell *matCellDef="let element"> {{element.profileId}} </td>
@@ -80,10 +75,7 @@
     <button (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
   </div>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-    <!--Can probably be removed-->
-    <!--<button (click)="goBack()">Back</button>-->
-
-  </div>
+</div>
 

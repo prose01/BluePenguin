@@ -2,7 +2,6 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent }     from './dashboard/dashboard.component';
-//import { ProfilesComponent }      from './profiles/profiles.component';
 import { ProfileListviewComponent } from './profile-listview/profile-listview.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
@@ -18,7 +17,6 @@ const routes: Routes = [
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: EditProfileComponent },
-  // { path: 'profiles',     component: ProfilesComponent },
   { path: 'callback', component: CallbackComponent }
 ];
 
