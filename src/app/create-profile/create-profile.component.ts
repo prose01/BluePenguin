@@ -1,7 +1,7 @@
-
 import { Component, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { AuthService } from './../auth/auth.service';
 import { CurrentUser } from '../models/currentUser';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
@@ -14,20 +14,30 @@ import { ProfileService } from '../services/profile.service';
 
 export class CreateProfileComponent implements OnChanges {
   currentUser: CurrentUser;
-  profileForm: FormGroup;
+  newUserForm: FormGroup;
+  genderTypes = Object.keys(GenderType);
+  bodyTypes = Object.keys(BodyType);
 
-  constructor(
-    private profileService: ProfileService,
-    private fb: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
-    this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      description: '',
-      genderType: '',
-      body: '',
-      email: ''
+    this.newUserForm = this.formBuilder.group({
+      email: null,
+      name: null,
+      createdOn: null,
+      updatedOn: null,
+      lastActive: null,
+      age: null,
+      height: null,
+      weight: null,
+      description: null,
+      genderType: null,
+      bodyType: null
     });
+  }
+
+  ngOnInit(): void {
+    this.currentUser = new CurrentUser;
   }
 
   ngOnChanges() {
@@ -35,8 +45,10 @@ export class CreateProfileComponent implements OnChanges {
   }
 
   rebuildForm() {
-    this.profileForm.reset();
+    this.newUserForm.reset();
   }
+
+  revert() { this.rebuildForm(); }
 
   onSubmit() {
     this.currentUser = this.prepareSaveProfile();
@@ -45,15 +57,15 @@ export class CreateProfileComponent implements OnChanges {
   }
 
   prepareSaveProfile(): CurrentUser {
-    const formModel = this.profileForm.value;
+    const formModel = this.newUserForm.value;
 
     const saveProfile: CurrentUser = {
-      profileId: this.currentUser.profileId,
-      email: this.currentUser.email,
+      profileId: null,
+      email: null,
       name: formModel.name as string,
-      createdOn: this.currentUser.createdOn,
-      updatedOn: this.currentUser.updatedOn,
-      lastActive: this.currentUser.lastActive,
+      createdOn: null,
+      updatedOn: null,
+      lastActive: null,
       age: formModel.age,
       height: formModel.height,
       weight: formModel.weight,
@@ -63,10 +75,5 @@ export class CreateProfileComponent implements OnChanges {
     };
 
     return saveProfile;
-  }
-
-  revert() { this.rebuildForm(); }
-
-  ngOnInit(): void {
   }
 }
