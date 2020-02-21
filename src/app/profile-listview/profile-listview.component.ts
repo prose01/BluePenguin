@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
+import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
@@ -31,10 +32,12 @@ export class ProfileListviewComponent {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
 
   ngOnChanges(): void {
-    this.setDataSource();
+    if (this.auth.isAuthenticated()) {
+      this.setDataSource();
+    }
   }
 
   setDataSource(): void {

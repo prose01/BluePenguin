@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { AuthService } from './../auth/auth.service';
+
 import { CurrentUser } from '../models/currentUser';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
@@ -17,8 +19,7 @@ export class EditProfileComponent {
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
 
-  constructor(
-    private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -37,7 +38,9 @@ export class EditProfileComponent {
   }
 
   ngOnInit(): void {
-    this.getCurrentUserProfile();
+    if (this.auth.isAuthenticated()) {
+      this.getCurrentUserProfile();
+    }
   }
 
   getCurrentUserProfile(): void {

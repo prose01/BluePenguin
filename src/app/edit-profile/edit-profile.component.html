@@ -1,77 +1,80 @@
-<div *ngIf="currentUser">
-  <h2>{{currentUser.name}} Update your details</h2>
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+  <div *ngIf="currentUser">
+    <h2>{{currentUser.name}} Update your details</h2>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+    <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
-    <div style="margin-bottom: 1em">
-      <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="btn btn-success">
-        Save
-      </button> &nbsp;
-      <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="btn btn-danger">
-        Revert
-      </button>
-    </div>
+      <div style="margin-bottom: 1em">
+        <button type="submit" (click)="onSubmit()"
+                [disabled]="profileForm.pristine" class="btn btn-success">
+          Save
+        </button> &nbsp;
+        <button type="button" (click)="revert()"
+                [disabled]="profileForm.pristine" class="btn btn-danger">
+          Revert
+        </button>
+      </div>
 
-    <div class="form-container">
+      <div class="form-container">
 
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="email" [readonly]="isReadonly">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" [readonly]="isReadonly">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Name" formControlName="name">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Updated" formControlName="updatedOn" [readonly]="isReadonly">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Updated" formControlName="updatedOn" [readonly]="isReadonly">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Last Active" formControlName="lastActive" [readonly]="isReadonly">
-      </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Last Active" formControlName="lastActive" [readonly]="isReadonly">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input type="number" matInput placeholder="Age" formControlName="age">
-      </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Age" formControlName="age">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input type="number" matInput placeholder="Height in cm" formControlName="height">
-      </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Height in cm" formControlName="height">
+        </mat-form-field>
 
-      <mat-form-field>
-        <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
-      </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
+        </mat-form-field>
 
-      <mat-form-field>
-        <textarea matInput placeholder="Description" formControlName="description"></textarea>
-      </mat-form-field>
+        <mat-form-field>
+          <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUser.gender">
-          <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
-            {{ genderType }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUser.gender">
+            <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
+              {{ genderType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUser.body">
-          <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
-            {{ bodyType }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUser.body">
+            <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
+              {{ bodyType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    </div>
+      </div>
 
-  </form>
+    </form>
 
-  <p>Form value: {{ profileForm.value | json }}</p>
+    <p>Form value: {{ profileForm.value | json }}</p>
+
+  </div>
 
 </div>

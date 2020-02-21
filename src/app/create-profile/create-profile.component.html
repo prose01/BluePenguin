@@ -1,4 +1,5 @@
-<div>
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+
   <h2>{{currentUser.name}} Create your profile</h2>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="newUserForm">

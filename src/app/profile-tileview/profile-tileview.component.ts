@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { AuthService } from './../auth/auth.service';
 
 import { Profile } from '../models/profile';
 
@@ -14,5 +16,5 @@ export class ProfileTileviewComponent {
 
   @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
-  constructor() { }
+  constructor(public auth: AuthService) { }
 }
