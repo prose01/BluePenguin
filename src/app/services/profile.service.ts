@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -14,17 +15,27 @@ export class ProfileService {
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
-  private currentProfileSource = new BehaviorSubject(new CurrentUser());
-  currentProfile = this.currentProfileSource.asObservable();
+  //private currentProfileSource = new BehaviorSubject(new CurrentUser());
+  //currentProfile = this.currentProfileSource.asObservable();
 
-  constructor(private http: HttpClient) {
+  private currentProfile: CurrentUser;
+
+  constructor(private http: HttpClient, public router: Router) {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
   //CurrentUser
 
-  updateCurrentProfile(currentUser: CurrentUser) {
-    this.currentProfileSource.next(currentUser)
+  //updateCurrentProfile(currentUser: CurrentUser) {
+  //  this.currentProfileSource.next(currentUser)
+  //}
+
+  verifyCurrentUserProfile(): void {
+    this.getCurrentUserProfile().subscribe(currentProfile => this.currentProfile = currentProfile);
+
+    if (this.currentProfile.email == null) {
+      this.router.navigate(['/create']);
+    }
   }
 
   getCurrentUserProfile(): Observable<CurrentUser> {

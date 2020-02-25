@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 
   ngOnInit(): void {
+    this.profileService.verifyCurrentUserProfile();
     this.getLatestCreatedProfiles();
   }
 
