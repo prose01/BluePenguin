@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
@@ -15,27 +15,22 @@ export class ProfileService {
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
-  //private currentProfileSource = new BehaviorSubject(new CurrentUser());
-  //currentProfile = this.currentProfileSource.asObservable();
-
-  private currentProfile: CurrentUser;
-
   constructor(private http: HttpClient, public router: Router) {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
-  //CurrentUser
+  // CurrentUser
 
-  //updateCurrentProfile(currentUser: CurrentUser) {
-  //  this.currentProfileSource.next(currentUser)
-  //}
+  async verifyCurrentUserProfile(): Promise<boolean> {
+    const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
 
-  verifyCurrentUserProfile(): void {
-    this.getCurrentUserProfile().subscribe(currentProfile => this.currentProfile = currentProfile);
-
-    if (this.currentProfile.email == null) {
+    if (currentUser.email == null) {
       this.router.navigate(['/create']);
+
+      return Promise.resolve(false);
     }
+
+    return Promise.resolve(true);
   }
 
   getCurrentUserProfile(): Observable<CurrentUser> {
