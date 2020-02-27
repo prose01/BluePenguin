@@ -39,7 +39,9 @@ export class EditProfileComponent {
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
-      this.getCurrentUserProfile();
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.getCurrentUserProfile(); }
+      });
     }
   }
 

@@ -37,7 +37,9 @@ export class CreateProfileComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    this.currentUser = new CurrentUser;
+    if (this.auth.isAuthenticated()) {
+      this.currentUser = new CurrentUser;
+    }
   }
 
   ngOnChanges() {

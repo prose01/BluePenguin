@@ -22,9 +22,12 @@ export class ProfileDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
-      this.route.paramMap.pipe(
-        switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
-        .subscribe(profile => this.profile = profile);
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) {
+          this.route.paramMap.pipe(
+            switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
+          .subscribe(profile => this.profile = profile); }
+      });
     }
 	}
 }

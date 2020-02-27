@@ -38,7 +38,9 @@ export class ProfileSearchComponent implements OnInit {
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
-      this.filter = new ProfileFilter();
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.filter = new ProfileFilter(); }
+      });
     }
   }
 
