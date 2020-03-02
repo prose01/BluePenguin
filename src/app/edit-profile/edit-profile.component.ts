@@ -23,6 +23,7 @@ export class EditProfileComponent {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
+      auth0Id: null,
       email: null,
       name: null,
       createdOn: null,
@@ -56,6 +57,7 @@ export class EditProfileComponent {
 
   prefilForm() {
     this.profileForm.patchValue({
+      auth0Id: this.currentUser.auth0Id,
       email: this.currentUser.email,
       name: this.currentUser.name as string,
       createdOn: this.currentUser.createdOn,
@@ -82,6 +84,7 @@ export class EditProfileComponent {
     const formModel = this.profileForm.value;
 
     const saveProfile: CurrentUser = {
+      auth0Id: this.currentUser.auth0Id, 
       profileId: this.currentUser.profileId,
       email: this.currentUser.email,
       name: formModel.name as string,

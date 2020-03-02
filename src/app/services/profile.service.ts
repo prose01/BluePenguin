@@ -24,7 +24,7 @@ export class ProfileService {
   async verifyCurrentUserProfile(): Promise<boolean> {
     const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
 
-    if (currentUser.email == null) {
+    if (currentUser.auth0Id == null) {
       this.router.navigate(['/create']);
 
       return Promise.resolve(false);
