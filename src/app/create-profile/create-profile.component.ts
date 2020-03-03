@@ -22,7 +22,6 @@ export class CreateProfileComponent implements OnChanges {
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
-      auth0Id: null,
       name: null,
       createdOn: null,
       updatedOn: null,
@@ -64,6 +63,7 @@ export class CreateProfileComponent implements OnChanges {
     const saveProfile: CurrentUser = {
       auth0Id: null,
       profileId: null,
+      admin: null,
       name: formModel.name as string,
       createdOn: null,
       updatedOn: null,
