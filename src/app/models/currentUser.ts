@@ -4,7 +4,6 @@ export class CurrentUser {
   auth0Id: string;
   profileId: string;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;
@@ -20,7 +19,6 @@ export interface CurrentUser {
   auth0Id: string;
   profileId: string;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;

@@ -23,7 +23,7 @@ import { ProfileService } from '../services/profile.service';
   ],
 })
 export class ProfileListviewComponent {
-  displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
+  displayedColumns: string[] = ['select', 'profileId', 'name'];
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
 
