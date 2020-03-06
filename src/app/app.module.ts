@@ -12,6 +12,7 @@ import { MatFormFieldModule }                 from '@angular/material/form-field
 import { MatInputModule }                     from '@angular/material/input';
 import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
+import { MatDialogModule }                    from '@angular/material/dialog';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
@@ -29,6 +30,7 @@ import { CallbackComponent }                  from './callback/callback.componen
 import { ProfileListviewComponent }           from './profile-listview/profile-listview.component';
 import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
+import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ProfileSearchComponent }             from './profile-search/profile-sea
     CallbackComponent,
     ProfileListviewComponent,
     ProfileTileviewComponent,
-    ProfileSearchComponent
+    ProfileSearchComponent,
+    DeleteProfileDialog
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { ProfileSearchComponent }             from './profile-search/profile-sea
     MatSortModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDialogModule
   ],
   providers: [
     ProfileService,

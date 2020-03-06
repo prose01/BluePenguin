@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from './../auth/auth.service';
 
+import { ProfileService } from '../services/profile.service';
 import { CurrentUser } from '../models/currentUser';
 import { GenderType, BodyType } from '../models/enums';
-import { ProfileService } from '../services/profile.service';
+import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'edit-profile',
@@ -19,7 +21,7 @@ export class EditProfileComponent {
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -96,6 +98,17 @@ export class EditProfileComponent {
     };
 
     return saveProfile;
+  }
+
+  openDeleteCurrentUserDialog(): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      width: '250px',
+      data: { profileId: this.currentUser.profileId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }

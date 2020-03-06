@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Hi {{data.profileId}}</h1>
+<div mat-dialog-content>
+  <p>So you want to delete your profile?</p>
+  <mat-form-field>
+    <mat-label>Are you really, really sure?</mat-label>
+    <input matInput [(ngModel)]="data.profileId">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.profileId" cdkFocusInitial>Ok</button>
+</div>
