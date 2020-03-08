@@ -58,6 +58,13 @@ export class ProfileService {
       );
   }
 
+  deleteCurrentUser(): Observable<CurrentUser> {
+    return this.http.delete(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
@@ -143,7 +150,13 @@ export class ProfileService {
         catchError(this.handleError)
       );
   }
-
+  
+  deleteProfiles(profiles: string[]): Observable<Profile> {
+    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
 
 

@@ -103,12 +103,9 @@ export class EditProfileComponent {
   openDeleteCurrentUserDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
       width: '250px',
-      data: { profileId: this.currentUser.profileId }
+      data: { profileIds: [] }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
 }

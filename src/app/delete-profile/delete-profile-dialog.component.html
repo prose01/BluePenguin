@@ -1,12 +1,8 @@
-<h1 mat-dialog-title>Hi {{data.profileId}}</h1>
 <div mat-dialog-content>
   <p>So you want to delete your profile?</p>
-  <mat-form-field>
-    <mat-label>Are you really, really sure?</mat-label>
-    <input matInput [(ngModel)]="data.profileId">
-  </mat-form-field>
+  <mat-checkbox [(ngModel)]="IsChecked">Yes delete my profile.</mat-checkbox>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.profileId" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>No Thanks</button>
+  <button mat-button [mat-dialog-close]="" (click)="onYesClick()">Ok</button>
 </div>
