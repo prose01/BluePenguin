@@ -93,7 +93,8 @@ export class ProfileListviewComponent {
 
   openDeleteProfilesDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      width: '250px',
+      height: '300px',
+      width: '300px',
       data: this.selcetedProfiles()
     });
   }

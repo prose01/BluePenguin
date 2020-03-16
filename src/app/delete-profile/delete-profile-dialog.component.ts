@@ -12,10 +12,16 @@ import { ProfileService } from '../services/profile.service';
 
 export class DeleteProfileDialog {
   IsChecked: boolean;
+  matDialogTitle: string;
+  matDialogContent: string;
 
   constructor(public auth: AuthService, private profileService: ProfileService,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
-    @Inject(MAT_DIALOG_DATA) public profileIds: string[]) { }
+    @Inject(MAT_DIALOG_DATA) public profileIds: string[]) {
+
+    this.matDialogTitle = (this.profileIds.length > 0 ? 'Do you want to delete profile(s)?' : 'Do you want to delete your profile?');
+    this.matDialogContent = (this.profileIds.length > 0 ? 'This will delete the profile(s) and cannot be undone.' : 'This will delete your profile and cannot be undone.');
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -28,7 +34,7 @@ export class DeleteProfileDialog {
       }
       else {
         this.profileService.deleteCurrentUser().subscribe(() => { });
-        //this.auth.logout()
+        this.auth.logout()
       }
     }
   }
