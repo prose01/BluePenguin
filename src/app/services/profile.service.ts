@@ -158,6 +158,13 @@ export class ProfileService {
       );
   }
 
+  uploadPhoto(formData: FormData): Observable<any> {
+    return this.http.post('https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
 
 
   // Helper Lav en rigtig error handler inden produktion

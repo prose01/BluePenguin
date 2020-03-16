@@ -8,6 +8,7 @@ import { ProfileDetailComponent } from './profile-detail/profile-detail.componen
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 import { CallbackComponent } from './callback/callback.component';
+import { UploadPhoto } from './uploadPhoto/uploadPhoto.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: EditProfileComponent },
-  { path: 'callback', component: CallbackComponent }
+  { path: 'callback', component: CallbackComponent },
+  { path: 'uploadPhoto', component: UploadPhoto }
 ];
 
 @NgModule({

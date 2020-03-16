@@ -13,6 +13,7 @@ import { MatInputModule }                     from '@angular/material/input';
 import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
+import { MatCardModule }                      from '@angular/material';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
@@ -31,6 +32,7 @@ import { ProfileListviewComponent }           from './profile-listview/profile-l
 import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
+import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { DeleteProfileDialog }                from './delete-profile/delete-prof
     ProfileListviewComponent,
     ProfileTileviewComponent,
     ProfileSearchComponent,
-    DeleteProfileDialog
+    DeleteProfileDialog,
+    UploadPhoto
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { DeleteProfileDialog }                from './delete-profile/delete-prof
     MatInputModule,
     MatSelectModule,
     MatButtonToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule
   ],
   providers: [
     ProfileService,
