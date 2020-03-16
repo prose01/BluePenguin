@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +10,7 @@ import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
+import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -32,7 +34,7 @@ export class ProfileListviewComponent {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {
@@ -87,5 +89,12 @@ export class ProfileListviewComponent {
     }
 
     return profiles;
+  }
+
+  openDeleteProfilesDialog(): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      width: '250px',
+      data: this.selcetedProfiles()
+    });
   }
 }

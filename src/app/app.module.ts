@@ -67,7 +67,10 @@ import { DeleteProfileDialog }                from './delete-profile/delete-prof
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    DeleteProfileDialog
+  ]
 })
 
 export class AppModule { }

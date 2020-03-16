@@ -28,7 +28,7 @@ export class DeleteProfileDialog {
       }
       else {
         this.profileService.deleteCurrentUser().subscribe(() => { });
-        this.auth.logout()
+        //this.auth.logout()
       }
     }
   }

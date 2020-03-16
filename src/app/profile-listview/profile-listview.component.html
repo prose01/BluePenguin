@@ -67,6 +67,7 @@
     <div class="button-row">
       <button (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
       <button (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
+      <button (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
     </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

@@ -105,7 +105,6 @@ export class EditProfileComponent {
       width: '250px',
       data: { profileIds: [] }
     });
-
   }
 
 }
