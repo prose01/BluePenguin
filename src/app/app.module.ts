@@ -13,7 +13,8 @@ import { MatInputModule }                     from '@angular/material/input';
 import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
-import { MatCardModule }                      from '@angular/material';
+//import { MatCardModule }                      from '@angular/material';
+import { ImageCropperModule }                 from './image-cropper/image-cropper.module';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
@@ -33,6 +34,7 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
 import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
+import { ImageUtilComponent }                 from './image-util/image-util.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.co
     ProfileTileviewComponent,
     ProfileSearchComponent,
     DeleteProfileDialog,
-    UploadPhoto
+    UploadPhoto,
+    ImageUtilComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.co
     MatSelectModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatCardModule
+    //MatCardModule
+    ImageCropperModule 
   ],
   providers: [
     ProfileService,
