@@ -51,16 +51,16 @@ export class UploadPhoto {
 
     this.fileUploadProgress = '0%';
 
-    this.profileService.uploadPhoto(formData)
-      .subscribe(events => {
-        if (events.type === HttpEventType.UploadProgress) {
-          this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          console.log(this.fileUploadProgress);
-        } else if (events.type === HttpEventType.Response) {
-          this.fileUploadProgress = '';
-          console.log(events.body);
-          alert('Your photo has been uploaded');
-        }
-      })
+    //this.profileService.uploadPhoto(formData)
+    //  .subscribe(events => {
+    //    if (events.type === HttpEventType.UploadProgress) {
+    //      this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
+    //      console.log(this.fileUploadProgress);
+    //    } else if (events.type === HttpEventType.Response) {
+    //      this.fileUploadProgress = '';
+    //      console.log(events.body);
+    //      alert('Your photo has been uploaded');
+    //    }
+    //  })
   }
 }

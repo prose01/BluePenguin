@@ -35,3 +35,5 @@
                  (loadImageFailed)="loadImageFailed()"></image-cropper>
 </div>
 <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+
+<button mat-button (click)="onSubmit()">Upload</button>

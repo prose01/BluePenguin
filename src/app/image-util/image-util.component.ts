@@ -1,6 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
+import { HttpEventType } from '@angular/common/http';
+
+import { AuthService } from './../auth/auth.service';
+
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'image-util',
@@ -16,6 +21,9 @@ export class ImageUtilComponent {
   showCropper = false;
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
+  fileUploadProgress: string = null;
+
+  constructor(public auth: AuthService, private profileService: ProfileService) { }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -106,5 +114,24 @@ export class ImageUtilComponent {
       ...this.transform,
       rotate: this.rotation
     };
+  }
+
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('photo', base64ToFile(this.croppedImage));
+
+    this.fileUploadProgress = '0%';
+
+    this.profileService.uploadPhoto(formData)
+      .subscribe(events => {
+        if (events.type === HttpEventType.UploadProgress) {
+          this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
+          console.log(this.fileUploadProgress);
+        } else if (events.type === HttpEventType.Response) {
+          this.fileUploadProgress = '';
+          console.log(events.body);
+          alert('Your photo has been uploaded');
+        }
+      })
   }
 }
