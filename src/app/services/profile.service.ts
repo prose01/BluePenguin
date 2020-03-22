@@ -165,8 +165,8 @@ export class ProfileService {
   //  });
   //}
 
-  uploadPhoto(formData: FormData): Observable<any> {
-    return this.http.post(`${this.avalonUrl}UploadPhoto`, formData, {
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
       reportProgress: true,
       observe: 'events'
     });

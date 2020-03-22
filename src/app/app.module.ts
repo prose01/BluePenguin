@@ -13,12 +13,13 @@ import { MatInputModule }                     from '@angular/material/input';
 import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
-//import { MatCardModule }                      from '@angular/material';
-import { ImageCropperModule }                 from './image-cropper/image-cropper.module';
+import { MatCardModule }                      from '@angular/material/card';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
 import { AppRoutingModule }                   from './app-routing.module';
+
+import { ImageCropperModule }                 from './image-cropper/image-cropper.module';
 
 import { AppComponent }                       from './app.component';
 import { DashboardComponent }                 from './dashboard/dashboard.component';
@@ -67,7 +68,7 @@ import { ImageUtilComponent }                 from './image-util/image-util.comp
     MatSelectModule,
     MatButtonToggleModule,
     MatDialogModule,
-    //MatCardModule
+    MatCardModule,
     ImageCropperModule 
   ],
   providers: [

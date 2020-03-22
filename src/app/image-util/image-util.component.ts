@@ -118,11 +118,11 @@ export class ImageUtilComponent {
 
   onSubmit() {
     const formData = new FormData();
-    formData.append('photo', base64ToFile(this.croppedImage));
+    formData.append('image', base64ToFile(this.croppedImage));
 
     this.fileUploadProgress = '0%';
 
-    this.profileService.uploadPhoto(formData)
+    this.profileService.uploadImage(formData)
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
