@@ -19,7 +19,7 @@ import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './auth/auth.interceptor';
 import { AppRoutingModule }                   from './app-routing.module';
 
-import { ImageCropperModule }                 from './image-cropper/image-cropper.module';
+import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 
 import { AppComponent }                       from './app.component';
 import { DashboardComponent }                 from './dashboard/dashboard.component';
@@ -35,7 +35,7 @@ import { ProfileTileviewComponent }           from './profile-tileview/profile-t
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
 import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
-import { ImageUtilComponent }                 from './image-util/image-util.component';
+import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,7 @@ import { ImageUtilComponent }                 from './image-util/image-util.comp
     ProfileSearchComponent,
     DeleteProfileDialog,
     UploadPhoto,
-    ImageUtilComponent
+    ImageUploadComponent
   ],
   imports: [
     BrowserModule,

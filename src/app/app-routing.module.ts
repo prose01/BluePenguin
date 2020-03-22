@@ -9,7 +9,7 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 import { CallbackComponent } from './callback/callback.component';
 //import { UploadPhoto } from './uploadPhoto/uploadPhoto.component';
-import { ImageUtilComponent } from './image-util/image-util.component';
+import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'edit', component: EditProfileComponent },
   { path: 'callback', component: CallbackComponent },
   //{ path: 'uploadPhoto', component: UploadPhoto },
-  { path: 'imageUtil', component: ImageUtilComponent }
+  { path: 'imageupload', component: ImageUploadComponent }
 ];
 
 @NgModule({

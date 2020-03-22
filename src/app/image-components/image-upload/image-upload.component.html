@@ -1,0 +1,40 @@
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+  <mat-card class="image-card">
+    <input type="file" (change)="fileChangeEvent($event)" />
+    <br />
+    <br />
+    <button *ngIf="showCropper" (click)="resetImage()">Reset image</button>
+    <button *ngIf="showCropper" (click)="rotateLeft()">Rotate left</button>
+    <button *ngIf="showCropper" (click)="rotateRight()">Rotate right</button>
+    <button *ngIf="showCropper" (click)="flipHorizontal()">Flip horizontal</button>
+    <button *ngIf="showCropper" (click)="flipVertical()">Flip vertical</button>
+    <br />
+    <br />
+    <button *ngIf="showCropper" (click)="zoomOut()">Zoom -</button>
+    <button *ngIf="showCropper" (click)="zoomIn()">Zoom +</button>
+
+    <div>
+      <image-cropper [imageChangedEvent]="imageChangedEvent"
+                     [maintainAspectRatio]="true"
+                     [containWithinAspectRatio]="containWithinAspectRatio"
+                     [aspectRatio]="4 / 3"
+                     [resizeToWidth]="256"
+                     [cropperMinWidth]="128"
+                     [onlyScaleDown]="true"
+                     [roundCropper]="false"
+                     [canvasRotation]="canvasRotation"
+                     [transform]="transform"
+                     [alignImage]="'left'"
+                     [style.display]="showCropper ? null : 'none'"
+                     format="png"
+                     (imageCropped)="imageCropped($event)"
+                     (imageLoaded)="imageLoaded()"
+                     (cropperReady)="cropperReady($event)"
+                     (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </div>
+    <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+
+    <button mat-button *ngIf="croppedImage" (click)="onSubmit()">Upload</button>
+
+  </mat-card>
+</div>

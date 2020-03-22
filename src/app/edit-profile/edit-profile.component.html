@@ -12,7 +12,9 @@
         <button type="button" (click)="revert()"
                 [disabled]="profileForm.pristine" class="btn btn-danger">
           Revert
-        </button>
+        </button> &nbsp;
+
+        <button routerLink="/imageupload">Add Photos</button>
       </div>
 
       <div class="form-container">
@@ -70,8 +72,6 @@
     </form>
 
     <button mat-raised-button (click)="openDeleteCurrentUserDialog()">Delete profile</button>
-
-    <a routerLink="/imageUtil">Add Photos</a>
 
   </div>
 

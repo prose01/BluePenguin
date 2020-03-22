@@ -1,18 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { HttpEventType } from '@angular/common/http';
 
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
-import { ProfileService } from '../services/profile.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
-  selector: 'image-util',
-  templateUrl: './image-util.component.html',
-  styleUrls: ['./image-util.component.css']
+  selector: 'image-upload',
+  templateUrl: './image-upload.component.html',
+  styleUrls: ['./image-upload.component.css']
 })
-export class ImageUtilComponent {
+
+export class ImageUploadComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   canvasRotation = 0;
@@ -31,20 +32,20 @@ export class ImageUtilComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    console.log(event, base64ToFile(event.base64));
+    //console.log(event, base64ToFile(event.base64));
   }
 
   imageLoaded() {
     this.showCropper = true;
-    console.log('Image loaded');
+    //console.log('Image loaded');
   }
 
   cropperReady(sourceImageDimensions: Dimensions) {
-    console.log('Cropper ready', sourceImageDimensions);
+    //console.log('Cropper ready', sourceImageDimensions);
   }
 
   loadImageFailed() {
-    console.log('Load failed');
+    //console.log('Load failed');
   }
 
   rotateLeft() {
@@ -129,7 +130,7 @@ export class ImageUtilComponent {
           console.log(this.fileUploadProgress);
         } else if (events.type === HttpEventType.Response) {
           this.fileUploadProgress = '';
-          console.log(events.body);
+          //console.log(events.body);
           alert('Your photo has been uploaded');
         }
       })
