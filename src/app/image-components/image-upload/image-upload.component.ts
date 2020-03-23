@@ -1,3 +1,10 @@
+/*
+ * Image cropper for Angular.
+ * https://github.com/Mawi137/ngx-image-cropper
+ * https://stackblitz.com/edit/image-cropper example code used in this app.
+ */
+
+
 import { Component } from '@angular/core';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';

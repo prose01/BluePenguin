@@ -20,6 +20,7 @@ import { AuthInterceptor }                    from './auth/auth.interceptor';
 import { AppRoutingModule }                   from './app-routing.module';
 
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
+import { NgxGalleryModule }                   from 'ngx-gallery';
 
 import { AppComponent }                       from './app.component';
 import { DashboardComponent }                 from './dashboard/dashboard.component';
@@ -69,7 +70,8 @@ import { ImageUploadComponent }               from './image-components/image-upl
     MatButtonToggleModule,
     MatDialogModule,
     MatCardModule,
-    ImageCropperModule 
+    ImageCropperModule,
+    NgxGalleryModule
   ],
   providers: [
     ProfileService,
