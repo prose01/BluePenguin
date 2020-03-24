@@ -20,7 +20,7 @@ import { AuthInterceptor }                    from './auth/auth.interceptor';
 import { AppRoutingModule }                   from './app-routing.module';
 
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
-import { NgxGalleryModule }                   from 'ngx-gallery';
+import { NgxImageGalleryModule }              from 'ngx-image-gallery';
 
 import { AppComponent }                       from './app.component';
 import { DashboardComponent }                 from './dashboard/dashboard.component';
@@ -37,6 +37,7 @@ import { ProfileSearchComponent }             from './profile-search/profile-sea
 import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
 import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
+import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ImageUploadComponent }               from './image-components/image-upl
     ProfileSearchComponent,
     DeleteProfileDialog,
     UploadPhoto,
-    ImageUploadComponent
+    ImageUploadComponent,
+    ImageGalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,7 @@ import { ImageUploadComponent }               from './image-components/image-upl
     MatDialogModule,
     MatCardModule,
     ImageCropperModule,
-    NgxGalleryModule
+    NgxImageGalleryModule 
   ],
   providers: [
     ProfileService,
