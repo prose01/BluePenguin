@@ -1,3 +1,9 @@
+/*
+ * ngx-image-gallery image gallery for Angular.
+ * https://www.npmjs.com/package/ngx-image-gallery/v/2.0.1 This is the version used here.
+ * https://www.npmjs.com/package/ngx-image-gallery/v/2.0.3 This is the lastest version used.
+ */
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxImageGalleryComponent} from "ngx-image-gallery";
 import { GALLERY_IMAGE } from "./IGALLERY_IMAGE";
@@ -23,17 +29,17 @@ export class ImageGalleryComponent implements OnInit {
   // gallery images
   images: GALLERY_IMAGE[] = [
     {
-      url: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=1260",
+      url: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
       altText: 'woman-in-black-blazer-holding-blue-cup',
       title: 'woman-in-black-blazer-holding-blue-cup',
-      thumbnailUrl: "https://images.pexels.com/photos/669013/pexels-photo-669013.jpeg?w=60"
+      thumbnailUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg'
     },
-    {
-      url: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=1260",
-      altText: 'two-woman-standing-on-the-ground-and-staring-at-the-mountain',
-      extUrl: 'https://www.pexels.com/photo/two-woman-standing-on-the-ground-and-staring-at-the-mountain-669006/',
-      thumbnailUrl: "https://images.pexels.com/photos/669006/pexels-photo-669006.jpeg?w=60"
-    },
+    //{
+    //  url: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
+    //  altText: 'two-woman-standing-on-the-ground-and-staring-at-the-mountain',
+    //  extUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
+    //  thumbnailUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg'
+    //},
   ];
 
   constructor() { }

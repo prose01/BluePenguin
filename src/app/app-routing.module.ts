@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'callback', component: CallbackComponent },
   //{ path: 'uploadPhoto', component: UploadPhoto },
   { path: 'imageupload', component: ImageUploadComponent },
-  { path: 'Imagegallery', component: ImageGalleryComponent }
+  { path: 'imagegallery', component: ImageGalleryComponent }
 ];
 
 @NgModule({
