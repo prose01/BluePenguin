@@ -5,12 +5,18 @@
  *
  * This library is being fully rewritten for next Angular versions from original abandoned library written by Łukasz Gałka.
  * Kolkov maintain full compatibility with the original library at the api level. https://github.com/lukasz-galka/ngx-gallery
+ *
+ * Der skal findes en løsning på brugen af fontawesome.com i HTML-filen. Det holder simpelthen ikke!!!!
+ * 
  */
 
 import { Component, OnInit } from '@angular/core';
-import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
-import { NgxGalleryImage } from '@kolkov/ngx-gallery';
-import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+
+import { AuthService } from '../../auth/auth.service';
+
+import { ProfileService } from '../../services/profile.service';
+import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'app-imageGallery.',
@@ -19,12 +25,21 @@ import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 })
 
 export class ImageGalleryComponent implements OnInit {
+  currentUser: CurrentUser;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor() { }
+  constructor(public auth: AuthService, private profileService: ProfileService) { }
 
   ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) {
+          // get image names
+        }
+      });
+    }
+
     this.galleryOptions = [
       {
         width: '600px',
