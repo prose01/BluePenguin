@@ -20,7 +20,7 @@ import { AuthInterceptor }                    from './auth/auth.interceptor';
 import { AppRoutingModule }                   from './app-routing.module';
 
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
-import { NgxImageGalleryModule }              from 'ngx-image-gallery';
+import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 
 import { AppComponent }                       from './app.component';
 import { DashboardComponent }                 from './dashboard/dashboard.component';
@@ -73,7 +73,7 @@ import { ImageGalleryComponent }              from './image-components/image-gal
     MatDialogModule,
     MatCardModule,
     ImageCropperModule,
-    NgxImageGalleryModule 
+    NgxGalleryModule 
   ],
   providers: [
     ProfileService,
