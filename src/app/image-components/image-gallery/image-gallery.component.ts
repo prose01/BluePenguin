@@ -30,7 +30,6 @@ export class ImageGalleryComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   images: any[] = [];
-  image: any;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private sanitizer: DomSanitizer) { }
 
@@ -43,38 +42,11 @@ export class ImageGalleryComponent implements OnInit {
   }
 
   ngAfterContentInit(): void {
-    this.setGalleryOptions();
-
-    this.setGalleryImages();
+    setTimeout(() => { this.setGalleryOptions(); this.setGalleryImages(); }, 2000);
   }
 
   getCurrentUserImages(): void {
-    //this.profileService.getImages().subscribe(images => this.images = images);
-    //this.profileService.getImage().subscribe((blob: any) => {
-    //  var uints = new Uint8Array(blob);
-    //  var base64 = btoa(String.fromCharCode(null, uints[0]));
-    //  var url = 'data:image/jpeg;base64,' + base64;
-    //  let objectURL = 'data:image/png;base64,' + blob;
-    //  this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL)
-    //  console.log('hej med dig - ' + url);
-    //});
-
-    //this.profileService.getImages().subscribe((blob: any) => {
-    //  var uints = new Uint8Array(blob);
-    //  var base64 = btoa(String.fromCharCode(null, uints[0]));
-    //  var url = 'data:image/jpeg;base64,' + base64;
-    //  let objectURL = 'data:image/png;base64,' + blob;
-    //  this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL)
-    //  console.log('hej med dig - ' + url);
-    //});
-
-    this.profileService.getImage().subscribe(image => {
-      this.image = 'data:image/png;base64,' + image;
-
-      var fileURL = (window.URL ? URL : webkitURL).createObjectURL(image);
-      window.open(fileURL);
-    });
-
+    this.profileService.getImages().subscribe(images => this.images = images);
   }
 
   setGalleryOptions(): void {
@@ -106,36 +78,15 @@ export class ImageGalleryComponent implements OnInit {
   }
 
   setGalleryImages(): void {
-    //console.log('hej med jer - ' + this.images.length);
-    //this.images.forEach(function (value) {
-    //  console.log('hej med dig');
-    //  //this.galleryImages.push({
-    //  //  small: 'https://preview.ibb.co/jrsA6R/img12.jpg',
-    //  //  medium: 'https://preview.ibb.co/jrsA6R/img12.jpg',
-    //  //  big: 'https://preview.ibb.co/jrsA6R/img12.jpg'
-    //  //})
-    //});
+    const pics = [];
+    this.images.forEach(element => pics.push(
+      {
+        small: 'data:image/png;base64,' + element,
+        medium: 'data:image/png;base64,' + element,
+        big: 'data:image/png;base64,' + element
+      }
+    ));
 
-    this.galleryImages = [
-      //{
-      //  small: this.image,
-      //  medium: this.image,
-      //  big: this.image
-      //},
-      {
-        small: 'https://preview.ibb.co/kPE1D6/clouds.jpg',
-        medium: 'https://preview.ibb.co/kPE1D6/clouds.jpg',
-        big: 'https://preview.ibb.co/kPE1D6/clouds.jpg'
-      },
-      {
-        small: 'https://preview.ibb.co/mwsA6R/img7.jpg',
-        medium: 'https://preview.ibb.co/mwsA6R/img7.jpg',
-        big: 'https://preview.ibb.co/mwsA6R/img7.jpg'
-      }, {
-        small: 'https://preview.ibb.co/kZGsLm/img8.jpg',
-        medium: 'https://preview.ibb.co/kZGsLm/img8.jpg',
-        big: 'https://preview.ibb.co/kZGsLm/img8.jpg'
-      },
-    ];
+    this.galleryImages = pics;
   }
 }

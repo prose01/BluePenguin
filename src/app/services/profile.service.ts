@@ -185,9 +185,9 @@ export class ProfileService {
   //    );
   //}
 
-  getImage(): Observable<any[]> {
+  getImage(): Observable<Blob> {
     //Make a call to Sprinf Boot to get the Image Bytes.
-    return this.http.post<any[]>(`${this.avalonUrl}GetImage`, { headers: this.headers })
+    return this.http.post<Blob>(`${this.avalonUrl}GetImage`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
