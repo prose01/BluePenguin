@@ -15,6 +15,12 @@ export class ProfileService {
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
+
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
+
+
   constructor(private http: HttpClient, public router: Router) {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
@@ -165,6 +171,27 @@ export class ProfileService {
     });
   }
 
+  getImages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetImages`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  //getImage(): Observable<Blob> {
+  //  return this.http.get<Blob>(`${this.avalonUrl}GetImage`, { headers: this.headers, responseType: 'blob' as 'json' })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
+
+  getImage(): Observable<any[]> {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    return this.http.post<any[]>(`${this.avalonUrl}GetImage`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
 
   // Helper Lav en rigtig error handler inden produktion
