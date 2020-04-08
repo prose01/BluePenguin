@@ -10,8 +10,9 @@
  * 
  */
 
+import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 import { AuthService } from '../../auth/auth.service';
@@ -31,22 +32,24 @@ export class ImageGalleryComponent implements OnInit {
   galleryImages: NgxGalleryImage[];
   images: any[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private sanitizer: DomSanitizer) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getCurrentUserImages() }
+        if (currentUser) { this.getProfileImages() }
       });
     }
   }
 
   ngAfterContentInit(): void {
-    setTimeout(() => { this.setGalleryOptions(); this.setGalleryImages(); }, 2000);
+    setTimeout(() => { this.setGalleryOptions(); this.setGalleryImages(); }, 2000);  // Find på noget bedre end at vente 2 sek.
   }
 
-  getCurrentUserImages(): void {
-    this.profileService.getImages().subscribe(images => this.images = images);
+  getProfileImages(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => this.profileService.getProfileImages(params.get('profileId'))))
+      .subscribe(images => this.images = images); 
   }
 
   setGalleryOptions(): void {

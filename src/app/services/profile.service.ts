@@ -71,6 +71,13 @@ export class ProfileService {
       );
   }
 
+  uploadCurrentUserImage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.avalonUrl}UploadCurrentUserImage`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
+
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
@@ -164,30 +171,8 @@ export class ProfileService {
       );
   }
 
-  uploadImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
-  }
-
-  getImages(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.avalonUrl}GetImages`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  //getImage(): Observable<Blob> {
-  //  return this.http.get<Blob>(`${this.avalonUrl}GetImage`, { headers: this.headers, responseType: 'blob' as 'json' })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  getImage(): Observable<Blob> {
-    //Make a call to Sprinf Boot to get the Image Bytes.
-    return this.http.post<Blob>(`${this.avalonUrl}GetImage`, { headers: this.headers })
+  getProfileImages(profileId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );

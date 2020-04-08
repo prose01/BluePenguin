@@ -8,7 +8,6 @@ import { ProfileDetailComponent } from './profile-detail/profile-detail.componen
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { EditProfileComponent }   from './edit-profile/edit-profile.component';
 import { CallbackComponent } from './callback/callback.component';
-//import { UploadPhoto } from './uploadPhoto/uploadPhoto.component';
 import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent } from './image-components/image-gallery/image-gallery.component';
 
@@ -21,9 +20,8 @@ const routes: Routes = [
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: EditProfileComponent },
   { path: 'callback', component: CallbackComponent },
-  //{ path: 'uploadPhoto', component: UploadPhoto },
   { path: 'imageupload', component: ImageUploadComponent },
-  { path: 'imagegallery', component: ImageGalleryComponent }
+  { path: 'imagegallery/:profileId', component: ImageGalleryComponent }
 ];
 
 @NgModule({
