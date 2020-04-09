@@ -1,9 +1,10 @@
 import { GenderType, BodyType } from '../models/enums';
 
 export class CurrentUser {
+  auth0Id: string;
   profileId: string;
+  admin: boolean;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;
@@ -16,9 +17,10 @@ export class CurrentUser {
 }
 
 export interface CurrentUser {
+  auth0Id: string;
   profileId: string;
+  admin: boolean;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;

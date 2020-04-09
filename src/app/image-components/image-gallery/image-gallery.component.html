@@ -1,0 +1,12 @@
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+  <mat-card class="image-card">
+    <div class="gallery-wrapper">
+      <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+    </div>
+  </mat-card>
+
+</div>

@@ -1,0 +1,11 @@
+p {
+  font-family: Lato;
+}
+
+image-cropper {
+  max-height: 33vh;
+}
+
+image-card {
+  max-width: 400px;
+}

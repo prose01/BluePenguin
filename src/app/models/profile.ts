@@ -2,9 +2,9 @@ import { GenderType, BodyType } from '../models/enums';
 
 export class Profile {
   bookmarks: string[];
+  auth0Id: string;
   profileId: string;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;
@@ -17,9 +17,9 @@ export class Profile {
 }
 
 export interface Profile {
+  auth0Id: string;
   profileId: string;
   name: string;
-  email: string;
   createdOn: Date;
   updatedOn: Date;
   lastActive: Date;

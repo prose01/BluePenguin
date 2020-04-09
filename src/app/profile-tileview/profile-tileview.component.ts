@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-//import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
+
+import { AuthService } from './../auth/auth.service';
 
 import { Profile } from '../models/profile';
-import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -10,25 +10,11 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./profile-tileview.component.css']
 })
 
-export class ProfileTileviewComponent implements OnInit {
+export class ProfileTileviewComponent {
 
-  profiles: Profile[];
   selectedProfile: Profile;
 
-  constructor(
-  	//private router: Router, 
-  	private profileService: ProfileService
-  	) { }  
+  @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
-  ngOnInit(): void {
-    this.getProfiles();
-  }
-
-  getProfiles(): void {
-    this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles);
-  }
-
-  //onSelect(profile: Profile): void {
-  //  this.router.navigate(['/detail', profile.profileId]);
-  //}
+  constructor(public auth: AuthService) { }
 }

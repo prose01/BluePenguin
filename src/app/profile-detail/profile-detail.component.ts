@@ -3,8 +3,8 @@ import {switchMap} from 'rxjs/operators';
 
 import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
 
+import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
@@ -17,19 +17,17 @@ import { ProfileService } from '../services/profile.service';
 export class ProfileDetailComponent implements OnInit {
 	@Input() profile : Profile;
 
-	constructor(
-	  private profileService: ProfileService,
-	  private route: ActivatedRoute,
-	  private location: Location
+  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute
 	) {}
 
-	ngOnInit(): void {
-	  this.route.paramMap.pipe(
-	    switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
-	    .subscribe(profile => this.profile = profile);
+  ngOnInit(): void {
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) {
+          this.route.paramMap.pipe(
+            switchMap((params: ParamMap) => this.profileService.getProfileById(params.get('profileId'))))
+          .subscribe(profile => this.profile = profile); }
+      });
+    }
 	}
-
-	//goBack(): void {
-	//  this.location.back();
-	//}
 }

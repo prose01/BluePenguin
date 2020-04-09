@@ -1,14 +1,16 @@
-import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { CurrentUser } from '../models/currentUser';
+import { AuthService } from './../auth/auth.service';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
+import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -22,41 +24,26 @@ import { ProfileService } from '../services/profile.service';
     ]),
   ],
 })
-export class ProfileListviewComponent implements OnInit {
-  currentProfile: CurrentUser;
-  displayedColumns: string[] = ['select', 'profileId', 'name', 'email'];
+export class ProfileListviewComponent {
+  displayedColumns: string[] = ['select', 'profileId', 'name'];
   dataSource: MatTableDataSource<Profile>;
-  expandedElement: Profile | null;
   selection = new SelectionModel<Profile>(true, []);
 
-  @Input() resultProfiles: Profile[];
+  @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
-
-  ngOnInit(): void {
-    this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
-    this.setDataSource(); 
-  }
+  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   ngOnChanges(): void {
-    this.setDataSource();
-  }
-
-  getProfiles(): void {
-    this.profileService.getProfiles().subscribe((result) => {
-      this.dataSource = new MatTableDataSource<Profile>(result);
-
-      this.cdr.detectChanges(); // Needed to get pagination & sort working.
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
+    if (this.auth.isAuthenticated()) {
+      this.setDataSource();
+    }
   }
 
   setDataSource(): void {
-    this.dataSource = new MatTableDataSource<Profile>(this.resultProfiles);
+    this.dataSource = new MatTableDataSource<Profile>(this.profiles);
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
@@ -85,14 +72,13 @@ export class ProfileListviewComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
+/** Add or remove bookmarks */
   removeFavoritProfiles() {
-    this.profileService.removeFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
-    });
+    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles()).subscribe(() => {});
   }
 
   addFavoritProfiles() {
-    this.profileService.addFavoritProfiles(this.selcetedProfiles()).subscribe((result) => {
-    });
+    this.profileService.addProfilesToBookmarks(this.selcetedProfiles()).subscribe(() => {});
   }
 
   selcetedProfiles(): string[] {
@@ -103,5 +89,13 @@ export class ProfileListviewComponent implements OnInit {
     }
 
     return profiles;
+  }
+
+  openDeleteProfilesDialog(): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      height: '300px',
+      width: '300px',
+      data: this.selcetedProfiles()
+    });
   }
 }

@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
+import { AuthService } from './../auth/auth.service';
+
+import { ProfileService } from '../services/profile.service';
 import { CurrentUser } from '../models/currentUser';
 import { GenderType, BodyType } from '../models/enums';
-import { ProfileService } from '../services/profile.service';
+import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'edit-profile',
@@ -17,12 +21,10 @@ export class EditProfileComponent {
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
 
-  constructor(
-    private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      email: null,
       name: null,
       createdOn: null,
       updatedOn: null,
@@ -37,7 +39,11 @@ export class EditProfileComponent {
   }
 
   ngOnInit(): void {
-    this.getCurrentUserProfile();
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.getCurrentUserProfile(); }
+      });
+    }
   }
 
   getCurrentUserProfile(): void {
@@ -51,7 +57,6 @@ export class EditProfileComponent {
 
   prefilForm() {
     this.profileForm.patchValue({
-      email: this.currentUser.email,
       name: this.currentUser.name as string,
       createdOn: this.currentUser.createdOn,
       updatedOn: this.currentUser.updatedOn,
@@ -65,22 +70,6 @@ export class EditProfileComponent {
     });
   }
 
-  //rebuildForm() {
-  //		this.profileForm.reset({
-  //      email: this.profile.email,
-  //      name: this.profile.name as string,
-  //      createdOn: this.profile.createdOn,
-  //      updatedOn: this.profile.updatedOn,
-  //      lastActive: this.profile.lastActive,
-  //      age: this.profile.age as number,
-  //      height: this.profile.height as number,
-  //      weight: this.profile.weight as number,
-  //      description: this.profile.description as string,
-  //      genderType: this.profile.gender as GenderType,
-  //      bodyType: this.profile.body as BodyType,
-  //   });
-  //}
-
   revert() { this.prefilForm(); }
 
   onSubmit() {
@@ -93,8 +82,9 @@ export class EditProfileComponent {
     const formModel = this.profileForm.value;
 
     const saveProfile: CurrentUser = {
+      auth0Id: this.currentUser.auth0Id, 
       profileId: this.currentUser.profileId,
-      email: this.currentUser.email,
+      admin: this.currentUser.admin,
       name: formModel.name as string,
       createdOn: this.currentUser.createdOn,
       updatedOn: this.currentUser.updatedOn,
@@ -108,6 +98,14 @@ export class EditProfileComponent {
     };
 
     return saveProfile;
+  }
+
+  openDeleteCurrentUserDialog(): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      height: '300px',
+      width: '300px',
+      data: { profileIds: [] }
+    });
   }
 
 }

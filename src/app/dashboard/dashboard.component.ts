@@ -11,11 +11,41 @@ import { ProfileService } from '../services/profile.service';
 })
 export class DashboardComponent implements OnInit {
 
-  profiles: Profile[] = [];
+  isMatButtonToggled = true;
+  matButtonToggleText: string = 'TileView';
+
+  profiles: Profile[];
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    //this.profileService.getProfiles().subscribe(profiles => this.profiles = profiles.slice(5, 9));
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.getLatestCreatedProfiles(); }
+      });
+    }
   }
+
+  getLatestCreatedProfiles() {
+    this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles);
+  }
+
+  getLastUpdatedProfiles() {
+    this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles);
+  }
+
+  getLastActiveProfiles() {
+    this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles);
+  }
+
+  getBookmarkedProfiles() {
+    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles);
+  }
+
+
+  toggleDisplay() {
+    this.isMatButtonToggled = !this.isMatButtonToggled;
+    this.matButtonToggleText = (this.isMatButtonToggled ? 'TileView' : 'ListView');
+  }
+
 }

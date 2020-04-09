@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { AuthService } from './../auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';
@@ -21,7 +22,7 @@ export class ProfileSearchComponent implements OnInit {
   heightList: number[] = [...Array(10).keys()];
   weightList: number[] = [...Array(10).keys()];
 
-  constructor(private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -36,7 +37,11 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filter = new ProfileFilter();
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.filter = new ProfileFilter(); }
+      });
+    }
   }
 
   rebuildForm() {
@@ -76,11 +81,4 @@ export class ProfileSearchComponent implements OnInit {
 
     return filterProfile;
   }
-
-  // call profileService to get a search result and add it to this.searchResultProfiles
-
-  // add an *ngIf="searchResultProfiles is not empty" to the <app-profile-listview>
-
-  // Add a button link to the search page, add the search page to the routing etc.
-
 }
