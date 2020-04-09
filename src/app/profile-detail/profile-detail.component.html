@@ -6,8 +6,8 @@
 			<label>name: </label>
 			<input [(ngModel)]="profile.name" placeholder="name">
 		</div>
-	</div>
 
-	<button routerLink="/imagegallery">Gallery</button>
+		<button routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
+	</div>
 
 </div>

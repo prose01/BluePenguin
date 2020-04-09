@@ -15,6 +15,12 @@ export class ProfileService {
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
+
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
+
+
   constructor(private http: HttpClient, public router: Router) {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
@@ -63,6 +69,13 @@ export class ProfileService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  uploadCurrentUserImage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.avalonUrl}UploadCurrentUserImage`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
   // Does not work so use putProfile instead.
@@ -158,13 +171,12 @@ export class ProfileService {
       );
   }
 
-  uploadImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
+  getProfileImages(profileId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
-
 
 
   // Helper Lav en rigtig error handler inden produktion

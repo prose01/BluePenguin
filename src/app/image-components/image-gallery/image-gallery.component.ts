@@ -1,13 +1,24 @@
 /*
- * ngx-image-gallery image gallery for Angular.
- * https://www.npmjs.com/package/ngx-image-gallery/v/2.0.1 This is the version used here.
- * https://www.npmjs.com/package/ngx-image-gallery/v/2.0.3 This is the lastest version used.
+ * @kolkov/ngx-gallery image gallery for Angular.
+ * https://www.npmjs.com/package/@kolkov/ngx-gallery This is the version used here.
+ * https://stackblitz.com/edit/kolkov-ngx-gallery Stackblitz example.
+ *
+ * This library is being fully rewritten for next Angular versions from original abandoned library written by Łukasz Gałka.
+ * Kolkov maintain full compatibility with the original library at the api level. https://github.com/lukasz-galka/ngx-gallery
+ *
+ * Der skal findes en løsning på brugen af fontawesome.com i HTML-filen. Det holder simpelthen ikke!!!!
+ * 
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgxImageGalleryComponent} from "ngx-image-gallery";
-import { GALLERY_IMAGE } from "./IGALLERY_IMAGE";
-import { GALLERY_CONF } from "./IGALLERY_CONF";
+import { switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+
+import { AuthService } from '../../auth/auth.service';
+
+import { ProfileService } from '../../services/profile.service';
+import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'app-imageGallery.',
@@ -16,87 +27,69 @@ import { GALLERY_CONF } from "./IGALLERY_CONF";
 })
 
 export class ImageGalleryComponent implements OnInit {
-  // get reference to gallery component
-  @ViewChild(NgxImageGalleryComponent) ngxImageGallery: NgxImageGalleryComponent;
+  currentUser: CurrentUser;
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
+  images: any[] = [];
 
-  // gallery configuration
-  conf: GALLERY_CONF = {
-    imageOffset: '0px',
-    showDeleteControl: false,
-    showImageTitle: false,
-  };
+  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute) { }
 
-  // gallery images
-  images: GALLERY_IMAGE[] = [
-    {
-      url: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
-      altText: 'woman-in-black-blazer-holding-blue-cup',
-      title: 'woman-in-black-blazer-holding-blue-cup',
-      thumbnailUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg'
-    },
-    //{
-    //  url: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
-    //  altText: 'two-woman-standing-on-the-ground-and-staring-at-the-mountain',
-    //  extUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg',
-    //  thumbnailUrl: 'C:/Peter Rose - Private/Photos/123/urxksocb.jpg'
-    //},
-  ];
-
-  constructor() { }
-
-  ngOnInit() { }
-
-  // METHODS
-  // open gallery
-  openGallery(index: number = 0) {
-    this.ngxImageGallery.open(index);
+  ngOnInit() {
+    if (this.auth.isAuthenticated()) {
+      this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        if (currentUser) { this.getProfileImages() }
+      });
+    }
   }
 
-  // close gallery
-  closeGallery() {
-    this.ngxImageGallery.close();
+  ngAfterContentInit(): void {
+    setTimeout(() => { this.setGalleryOptions(); this.setGalleryImages(); }, 2000);  // Find på noget bedre end at vente 2 sek.
   }
 
-  // set new active(visible) image in gallery
-  newImage(index: number = 0) {
-    this.ngxImageGallery.setActiveImage(index);
+  getProfileImages(): void {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => this.profileService.getProfileImages(params.get('profileId'))))
+      .subscribe(images => this.images = images); 
   }
 
-  // next image in gallery
-  nextImage(index: number = 0) {
-    this.ngxImageGallery.next();
+  setGalleryOptions(): void {
+    this.galleryOptions = [
+      {
+        width: '600px',
+        height: '400px',
+        thumbnailsColumns: 4,
+        arrowPrevIcon: 'fa fa-chevron-left',
+        arrowNextIcon: 'fa fa-chevron-right',
+        imageAnimation: NgxGalleryAnimation.Slide
+      },
+      // max-width 800
+      {
+        breakpoint: 800,
+        width: '100%',
+        height: '600px',
+        imagePercent: 80,
+        thumbnailsPercent: 20,
+        thumbnailsMargin: 20,
+        thumbnailMargin: 20
+      },
+      // max-width 400
+      {
+        breakpoint: 400,
+        preview: false
+      }
+    ];
   }
 
-  // prev image in gallery
-  prevImage(index: number = 0) {
-    this.ngxImageGallery.prev();
-  }
+  setGalleryImages(): void {
+    const pics = [];
+    this.images.forEach(element => pics.push(
+      {
+        small: 'data:image/png;base64,' + element,
+        medium: 'data:image/png;base64,' + element,
+        big: 'data:image/png;base64,' + element
+      }
+    ));
 
-  /**************************************************/
-
-  // EVENTS
-  // callback on gallery opened
-  galleryOpened(index) {
-    console.info('Gallery opened at index ', index);
-  }
-
-  // callback on gallery closed
-  galleryClosed() {
-    console.info('Gallery closed.');
-  }
-
-  // callback on gallery image clicked
-  galleryImageClicked(index) {
-    console.info('Gallery image clicked with index ', index);
-  }
-
-  // callback on gallery image changed
-  galleryImageChanged(index) {
-    console.info('Gallery image changed to index ', index);
-  }
-
-  // callback on user clicked delete button
-  deleteImage(index) {
-    console.info('Delete image at index ', index);
+    this.galleryImages = pics;
   }
 }
