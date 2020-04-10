@@ -30,6 +30,7 @@ export class ImageUploadComponent {
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
+  title: string = null;
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 
@@ -74,7 +75,6 @@ export class ImageUploadComponent {
       flipV: flippedH
     };
   }
-
 
   flipHorizontal() {
     this.transform = {
@@ -127,6 +127,7 @@ export class ImageUploadComponent {
   onSubmit() {
     const formData = new FormData();
     formData.append('image', base64ToFile(this.croppedImage));
+    formData.append('title', this.title);
 
     this.fileUploadProgress = '0%';
 

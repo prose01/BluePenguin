@@ -3,6 +3,9 @@
     <input type="file" (change)="fileChangeEvent($event)" />
     <br />
     <br />
+    <input *ngIf="croppedImage" [(ngModel)]="title" placeholder="Please insert an image title" />
+    <br />
+    <br />
     <button *ngIf="showCropper" (click)="resetImage()">Reset image</button>
     <button *ngIf="showCropper" (click)="rotateLeft()">Rotate left</button>
     <button *ngIf="showCropper" (click)="rotateRight()">Rotate right</button>
@@ -12,6 +15,7 @@
     <br />
     <button *ngIf="showCropper" (click)="zoomOut()">Zoom -</button>
     <button *ngIf="showCropper" (click)="zoomIn()">Zoom +</button>
+    <br />
 
     <div>
       <image-cropper [imageChangedEvent]="imageChangedEvent"
@@ -32,8 +36,12 @@
                      (cropperReady)="cropperReady($event)"
                      (loadImageFailed)="loadImageFailed()"></image-cropper>
     </div>
-    <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
 
+    <br />
+    <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" (change)="fileChangeEvent($event)"/>
+
+    <br />
+    <br />
     <button mat-button *ngIf="croppedImage" (click)="onSubmit()">Upload</button>
 
   </mat-card>
