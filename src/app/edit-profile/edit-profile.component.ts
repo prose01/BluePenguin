@@ -95,6 +95,7 @@ export class EditProfileComponent {
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
+      images: this.currentUser.images
     };
 
     return saveProfile;

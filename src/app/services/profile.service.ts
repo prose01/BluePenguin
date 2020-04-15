@@ -78,6 +78,19 @@ export class ProfileService {
     });
   }
 
+  getImagesById(imageId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetImagesById/${imageId}`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  //getImagesById(imageId: string): Promise<any[]> {
+  //  const image = this.http.get<any[]>(`${this.avalonUrl}GetImagesById/${imageId}`, { headers: this.headers }).toPromise();
+    
+  //  return Promise.resolve(image);
+  //}
+
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })

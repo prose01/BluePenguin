@@ -25,7 +25,7 @@ import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.com
   ],
 })
 export class ProfileListviewComponent {
-  displayedColumns: string[] = ['select', 'profileId', 'name'];
+  displayedColumns: string[] = ['select', 'profileId', 'name', 'createdOn'];
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
 

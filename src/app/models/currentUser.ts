@@ -1,4 +1,5 @@
 import { GenderType, BodyType } from '../models/enums';
+import { IImageModel } from './ImageModel';
 
 export class CurrentUser {
   auth0Id: string;
@@ -14,6 +15,7 @@ export class CurrentUser {
   description: string;
   gender: GenderType;
   body: BodyType;
+  images: Array<IImageModel>;
 }
 
 export interface CurrentUser {
@@ -30,4 +32,5 @@ export interface CurrentUser {
   description: string;
   gender: GenderType;
   body: BodyType;
+  images: Array<IImageModel>;
 }

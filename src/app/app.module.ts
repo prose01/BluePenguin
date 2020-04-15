@@ -35,9 +35,10 @@ import { ProfileListviewComponent }           from './profile-listview/profile-l
 import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
-import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
+import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
+import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 
 @NgModule({
   declarations: [
@@ -51,9 +52,10 @@ import { ImageGalleryComponent }              from './image-components/image-gal
     ProfileTileviewComponent,
     ProfileSearchComponent,
     DeleteProfileDialog,
-    UploadPhoto,
+    ImageBoardComponent,
     ImageUploadComponent,
-    ImageGalleryComponent
+    ImageGalleryComponent,
+    ImageTileviewComponent
   ],
   imports: [
     BrowserModule,
