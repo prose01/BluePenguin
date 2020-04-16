@@ -43,11 +43,11 @@ export class ImageBoardComponent implements OnInit {
   getCurrentUserImages(): void {
     this.imageModels.forEach((element, i) => {
       setTimeout(() => {
-        this.profileService.getImagesById(element.imageId).subscribe(images => this.images.push(images));
+        this.profileService.getImagesById(element.imageId).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
       }, i * 1000); // Find på noget bedre end at vente 1 sek.
     });
 
-    //setTimeout(() => { console.log(this.images); }, 2000); // Find på noget bedre end at vente 2 sek.
+    //setTimeout(() => { console.log(this.imageModels); }, 2000); // Find på noget bedre end at vente 2 sek.
   }
 
   toggleDisplay() {

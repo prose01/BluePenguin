@@ -1,11 +1,12 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
   <div class="grid grid-pad">
-    <a *ngFor="let imageModel of imageModels" class="col-1-4"
-       routerLink="/detail/{{imageModel.imageId}}">
+    <div *ngFor="let imageModel of imageModels" class="col-1-4">
+
+      <img class="images" src="{{imageModel.image}}" />
       <div class="module profile">
         <h4>{{imageModel.title}}</h4>
       </div>
-    </a>
+    </div>
   </div>
 
 </div>
