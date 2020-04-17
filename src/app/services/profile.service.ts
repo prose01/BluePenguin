@@ -71,8 +71,8 @@ export class ProfileService {
       );
   }
 
-  uploadCurrentUserImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.avalonUrl}UploadCurrentUserImage`, formData, {
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
       reportProgress: true,
       observe: 'events'
     });
@@ -85,11 +85,12 @@ export class ProfileService {
       );
   }
 
-  //getImagesById(imageId: string): Promise<any[]> {
-  //  const image = this.http.get<any[]>(`${this.avalonUrl}GetImagesById/${imageId}`, { headers: this.headers }).toPromise();
-    
-  //  return Promise.resolve(image);
-  //}
+  deleteImage(imageId: string[]): Observable<any> {
+    return this.http.post(`${this.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {

@@ -131,7 +131,7 @@ export class ImageUploadComponent {
 
     this.fileUploadProgress = '0%';
 
-    this.profileService.uploadCurrentUserImage(formData)
+    this.profileService.uploadImage(formData)
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';

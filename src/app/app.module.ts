@@ -39,6 +39,7 @@ import { ImageBoardComponent }                from './image-components/image-boa
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
 import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
+import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ImageTileviewComponent }             from './image-components/image-til
     ImageBoardComponent,
     ImageUploadComponent,
     ImageGalleryComponent,
-    ImageTileviewComponent
+    ImageTileviewComponent,
+    DeleteImageDialog
   ],
   imports: [
     BrowserModule,
