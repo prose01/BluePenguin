@@ -23,18 +23,18 @@ import { ImageCropperModule }                 from './image-components/image-cro
 import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 
 import { AppComponent }                       from './app.component';
-import { DashboardComponent }                 from './dashboard/dashboard.component';
-import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
-import { CreateProfileComponent }             from './create-profile/create-profile.component';
-import { EditProfileComponent }               from './edit-profile/edit-profile.component';
-import { ProfileService }                     from './services/profile.service';
-
 import { AuthService }                        from './auth/auth.service';
-import { CallbackComponent }                  from './callback/callback.component';
-import { ProfileListviewComponent }           from './profile-listview/profile-listview.component';
-import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
+import { CallbackComponent }                  from './authorisation/callback/callback.component';
+import { ProfileService }                     from './services/profile.service';
+import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
+import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
+import { DeleteProfileDialog }                from './currentUser/delete-profile/delete-profile-dialog.component';
+
+import { DashboardComponent }                 from './dashboard/dashboard.component';
+import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
+import { ProfileTileviewComponent }           from './views/profile-tileview/profile-tileview.component';
+import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
-import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';

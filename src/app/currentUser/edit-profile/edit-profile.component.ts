@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
-import { ProfileService } from '../services/profile.service';
-import { CurrentUser } from '../models/currentUser';
-import { GenderType, BodyType } from '../models/enums';
+import { ProfileService } from '../../services/profile.service';
+import { CurrentUser } from '../../models/currentUser';
+import { GenderType, BodyType } from '../../models/enums';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({

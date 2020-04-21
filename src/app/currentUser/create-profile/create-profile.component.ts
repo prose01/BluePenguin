@@ -1,10 +1,10 @@
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { AuthService } from './../auth/auth.service';
-import { CurrentUser } from '../models/currentUser';
-import { GenderType, BodyType } from '../models/enums';
-import { ProfileService } from '../services/profile.service';
+import { AuthService } from '../../auth/auth.service';
+import { CurrentUser } from '../../models/currentUser';
+import { GenderType, BodyType } from '../../models/enums';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'create-profile',

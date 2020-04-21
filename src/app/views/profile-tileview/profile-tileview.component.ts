@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
-import { Profile } from '../models/profile';
+import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'app-profile-tileview',

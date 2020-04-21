@@ -6,11 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { AuthService } from './../auth/auth.service';
-import { Profile } from '../models/profile';
-import { GenderType, BodyType } from '../models/enums';
-import { ProfileService } from '../services/profile.service';
-import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
+import { AuthService } from '../../auth/auth.service';
+import { Profile } from '../../models/profile';
+import { GenderType, BodyType } from '../../models/enums';
+import { ProfileService } from '../../services/profile.service';
+import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -24,6 +24,7 @@ import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.com
     ]),
   ],
 })
+
 export class ProfileListviewComponent {
   displayedColumns: string[] = ['select', 'profileId', 'name', 'createdOn'];
   dataSource: MatTableDataSource<Profile>;

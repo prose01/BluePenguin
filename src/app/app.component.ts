@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 
 import { ProfileService } from './services/profile.service';
-//import { CurrentUser } from './models/currentUser';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,6 @@ import { ProfileService } from './services/profile.service';
 })
 export class AppComponent implements OnInit {
   title = 'BluePenguins';
-  //currentProfile: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService) {
     auth.handleAuthentication();
@@ -20,8 +18,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
-
-      //this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
     }
   }
 }
