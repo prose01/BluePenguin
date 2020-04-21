@@ -16,14 +16,14 @@ import { MatDialogModule }                    from '@angular/material/dialog';
 import { MatCardModule }                      from '@angular/material/card';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
-import { AuthInterceptor }                    from './auth/auth.interceptor';
+import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
+import { AuthService }                        from './authorisation/auth/auth.service';
 import { AppRoutingModule }                   from './app-routing.module';
 
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 
 import { AppComponent }                       from './app.component';
-import { AuthService }                        from './auth/auth.service';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 import { ProfileService }                     from './services/profile.service';
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';

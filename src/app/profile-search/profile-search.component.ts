@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { Profile } from '../models/profile';
 import { GenderType, BodyType } from '../models/enums';

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { Profile } from '../../models/profile';
 

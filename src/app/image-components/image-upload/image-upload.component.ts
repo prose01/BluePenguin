@@ -10,7 +10,7 @@ import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { HttpEventType } from '@angular/common/http';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
 

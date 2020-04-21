@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
 import { Profile } from '../../models/profile';
 import { GenderType, BodyType } from '../../models/enums';
 import { ProfileService } from '../../services/profile.service';

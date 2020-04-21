@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ImageModel } from '../../models/imageModel';
 import { DeleteImageDialog } from '../delete-image/delete-image-dialog.component';

@@ -4,7 +4,7 @@ import {switchMap} from 'rxjs/operators';
 import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { AuthService } from './../auth/auth.service';
+import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
 import { ProfileService } from '../services/profile.service';
 
