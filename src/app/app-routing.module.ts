@@ -5,7 +5,7 @@ import { CallbackComponent } from './authorisation/callback/callback.component';
 import { CreateProfileComponent } from './currentUser/create-profile/create-profile.component';
 import { EditProfileComponent } from './currentUser/edit-profile/edit-profile.component';
 import { DashboardComponent }     from './dashboard/dashboard.component';
-import { ProfileListviewComponent } from './views/profile-listview/profile-listview.component';
+//import { ProfileListviewComponent } from './views/profile-listview/profile-listview.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { ImageBoardComponent } from './image-components/image-board/image-board.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: EditProfileComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'profiles', component: ProfileListviewComponent },
+  //{ path: 'profiles', component: ProfileListviewComponent },
   { path: 'profileSearch', component: ProfileSearchComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'imagesboard', component: ImageBoardComponent },

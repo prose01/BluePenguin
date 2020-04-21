@@ -6,6 +6,7 @@
 
 
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { HttpEventType } from '@angular/common/http';
@@ -32,7 +33,7 @@ export class ImageUploadComponent {
   fileUploadProgress: string = null;
   title: string = null;
 
-  constructor(public auth: AuthService, private profileService: ProfileService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private router: Router) { }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -135,11 +136,11 @@ export class ImageUploadComponent {
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          console.log(this.fileUploadProgress);
+          //console.log(this.fileUploadProgress);
+          alert('Your photo has been uploaded');
+          this.router.navigate(['/imagesboard']);
         } else if (events.type === HttpEventType.Response) {
           this.fileUploadProgress = '';
-          //console.log(events.body);
-          alert('Your photo has been uploaded');
         }
       })
   }

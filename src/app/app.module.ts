@@ -20,11 +20,11 @@ import { AuthInterceptor }                    from './authorisation/auth/auth.in
 import { AuthService }                        from './authorisation/auth/auth.service';
 import { AppRoutingModule }                   from './app-routing.module';
 
-import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
+
 import { ProfileService }                     from './services/profile.service';
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
@@ -33,8 +33,11 @@ import { DeleteProfileDialog }                from './currentUser/delete-profile
 import { DashboardComponent }                 from './dashboard/dashboard.component';
 import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
 import { ProfileTileviewComponent }           from './views/profile-tileview/profile-tileview.component';
+
 import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
+
+import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
