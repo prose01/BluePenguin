@@ -17,8 +17,6 @@ export class ImageBoardComponent implements OnInit {
   matButtonToggleText: string = 'Upload new photo';
 
   currentUser: CurrentUser;
-
-  images: any[] = [];
   imageModels: IImageModel[];
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
@@ -43,7 +41,7 @@ export class ImageBoardComponent implements OnInit {
   getCurrentUserImages(): void {
     this.imageModels.forEach((element, i) => {
       setTimeout(() => {
-        this.profileService.getImagesById(element.imageId).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
+        this.profileService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
       }, i * 1000); // Find på noget bedre end at vente 1 sek.
     });
 

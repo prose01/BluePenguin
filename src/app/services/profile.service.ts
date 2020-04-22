@@ -78,8 +78,8 @@ export class ProfileService {
     });
   }
 
-  getImagesById(imageId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.avalonUrl}GetImagesById/${imageId}`, { headers: this.headers })
+  getImageByFileName(fileName: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -187,6 +187,13 @@ export class ProfileService {
 
   getProfileImages(profileId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
