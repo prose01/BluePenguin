@@ -13,7 +13,7 @@ import { ProfileService } from '../services/profile.service';
   styleUrls: ['./profile-search.component.css']
 })
 export class ProfileSearchComponent implements OnInit {
-  filter: ProfileFilter;
+  filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
@@ -39,7 +39,7 @@ export class ProfileSearchComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.filter = new ProfileFilter(); }
+        if (currentUser) { }
       });
     }
   }
@@ -59,6 +59,25 @@ export class ProfileSearchComponent implements OnInit {
   onSubmit() {
     this.filter = this.prepareSearch();
     this.profileService.getProfileByFilter(this.filter).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
+
+    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+  }
+
+  getProfileImages(): void {
+    this.searchResultProfiles.forEach((element, i) => {
+      setTimeout(() => {
+        if (element.images != null && element.images.length > 0) {
+          // Take a random image from profile.
+          let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+          //Just insert it into the first[0] element as we will only show one image.
+          this.profileService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        }
+      }, i * 1000); // Find på noget bedre end at vente 1 sek.
+    });
+  }
+
+  randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   revert() { this.rebuildForm(); }

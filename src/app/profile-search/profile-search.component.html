@@ -1,5 +1,5 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+  <form [formGroup]="profileForm">
 
     <div style="margin-bottom: 1em">
       <button type="submit" (click)="onSubmit()"
