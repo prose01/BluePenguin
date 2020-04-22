@@ -1,5 +1,5 @@
 import { GenderType, BodyType } from '../models/enums';
-import { IImageModel } from './ImageModel';
+import { ImageModel } from './ImageModel';
 
 export class Profile {
   bookmarks: string[];
@@ -15,7 +15,7 @@ export class Profile {
   description: string;
   gender: GenderType;
   body: BodyType;
-  images: Array<IImageModel>;
+  images: Array<ImageModel>;
 }
 
 export interface Profile {
@@ -31,5 +31,5 @@ export interface Profile {
   description: string;
   gender: GenderType;
   body: BodyType;
-  images: Array<IImageModel>;
+  images: Array<ImageModel>;
 }

@@ -4,7 +4,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
-import { IImageModel } from '../../models/ImageModel';
+import { ImageModel } from '../../models/ImageModel';
 
 @Component({
   selector: 'image-board',
@@ -17,7 +17,7 @@ export class ImageBoardComponent implements OnInit {
   matButtonToggleText: string = 'Upload new photo';
 
   currentUser: CurrentUser;
-  imageModels: IImageModel[];
+  imageModels: ImageModel[];
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 

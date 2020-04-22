@@ -44,7 +44,7 @@
                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <div class="element-diagram" routerLink="/detail/{{element.profileId}}">
               <!--Link på billed og tekst?-->
-              <img *ngIf="element.images != null" class="images" src="{{element.images[0].image}}" />
+              <img *ngIf="element.images[0] != null" class="images" src="{{element.images[0].image}}" />
               <div class="element-position"> {{element.profileId}} </div>
               <div class="element-name"> {{element.name}} </div>
             </div>

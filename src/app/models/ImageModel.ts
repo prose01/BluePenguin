@@ -5,7 +5,7 @@ export class ImageModel {
   image: string;
 }
 
-export interface IImageModel {
+export interface ImageModel {
   imageId: string;
   fileName: string;
   title: string;

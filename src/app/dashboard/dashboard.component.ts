@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
-import { IImageModel } from '../models/ImageModel';
+import { ImageModel } from '../models/ImageModel';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -52,15 +52,20 @@ export class DashboardComponent implements OnInit {
   }
 
   getProfileImages(): void {
+    let defaultImageModel: ImageModel = new ImageModel();
+    this.profileService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
+
     this.profiles.forEach((element, i) => {
-      setTimeout(() => {
-        if (element.images != null && element.images.length > 0) {
-          // Take a random image from profile.
-          let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-          //Just insert it into the first[0] element as we will only show one image.
-          this.profileService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
-        }
-      }, i * 1000); // Find på noget bedre end at vente 1 sek.
+      if (element.images != null && element.images.length > 0) {
+        // Take a random image from profile.
+        let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+        //Just insert it into the first[0] element as we will only show one image.
+        this.profileService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+      }
+      else {
+        // Set default profile image.
+        element.images.push(defaultImageModel);
+      }
     });
   }
 
