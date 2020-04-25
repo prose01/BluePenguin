@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject  } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Profile } from '../models/profile';
@@ -15,6 +15,8 @@ export class ProfileService {
   private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
+  private currentUserSource = new BehaviorSubject<CurrentUser>(null);
+  currentUserSubject = this.currentUserSource.asObservable();
 
   retrievedImage: any;
   base64Data: any;
@@ -36,19 +38,27 @@ export class ProfileService {
       return Promise.resolve(false);
     }
 
+    // Use RxJS BehaviorSubject to hold CurrentUser for all other components.
+    this.currentUserSource.next(currentUser);
+
     return Promise.resolve(true);
   }
 
-  getCurrentUserProfile(): Observable<CurrentUser> {
-    return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
-      .pipe(
-        map(currentUser => currentUser),
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`;
-        }),
-        catchError(this.handleError)
-      );
+  async updateCurrentUserSubject() {
+    const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
+    this.currentUserSource.next(currentUser);
   }
+
+  //getCurrentUserProfile(): Observable<CurrentUser> {
+  //  return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
+  //    .pipe(
+  //      map(currentUser => currentUser),
+  //      tap(h => {
+  //        const outcome = h ? `fetched` : `did not find`;
+  //      }),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })

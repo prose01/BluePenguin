@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -7,6 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
+import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { GenderType, BodyType } from '../../models/enums';
 import { ProfileService } from '../../services/profile.service';
@@ -25,10 +26,12 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   ],
 })
 
-export class ProfileListviewComponent {
+export class ProfileListviewComponent implements OnInit {
   displayedColumns: string[] = ['select', 'profileId', 'name', 'createdOn'];
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
+
+  currentUserSubject: CurrentUser;
 
   @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
 
@@ -36,6 +39,14 @@ export class ProfileListviewComponent {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
+
+  ngOnInit() {
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+  }
+
+  updateCurrentUserSubject() {
+    this.profileService.updateCurrentUserSubject();
+  }
 
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {

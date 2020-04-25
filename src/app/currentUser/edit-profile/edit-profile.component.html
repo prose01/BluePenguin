@@ -1,6 +1,6 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <div *ngIf="currentUser">
-    <h2>{{currentUser.name}} Update your details</h2>
+  <div *ngIf="currentUserSubject">
+    <h2>{{currentUserSubject.name}} Update your details</h2>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
@@ -52,7 +52,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUser.gender">
+          <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUserSubject.gender">
             <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
               {{ genderType }}
             </mat-option>
@@ -60,7 +60,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUser.body">
+          <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUserSubject.body">
             <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
               {{ bodyType }}
             </mat-option>

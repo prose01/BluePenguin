@@ -16,7 +16,7 @@ export class ImageBoardComponent implements OnInit {
   isMatButtonToggled = true;
   matButtonToggleText: string = 'Upload new photo';
 
-  currentUser: CurrentUser;
+  currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
@@ -25,17 +25,15 @@ export class ImageBoardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getCurrentUserProfile(); }
+        if (currentUser) {
+          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images});
+        }
       });
     }
   }
 
   ngAfterContentInit(): void {
     setTimeout(() => { this.getCurrentUserImages(); }, 2000);  // Find på noget bedre end at vente 2 sek.
-  }
-
-  getCurrentUserProfile(): void {
-    this.profileService.getCurrentUserProfile().subscribe(currentUser => { this.currentUser = currentUser; this.imageModels = currentUser.images });
   }
 
   getCurrentUserImages(): void {

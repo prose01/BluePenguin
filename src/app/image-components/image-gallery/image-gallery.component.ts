@@ -18,7 +18,6 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov
 import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
-import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'app-imageGallery.',
@@ -27,7 +26,6 @@ import { CurrentUser } from '../../models/currentUser';
 })
 
 export class ImageGalleryComponent implements OnInit {
-  currentUser: CurrentUser;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   images: any[] = [];
