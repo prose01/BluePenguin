@@ -20,8 +20,6 @@ import { AuthInterceptor }                    from './authorisation/auth/auth.in
 import { AuthService }                        from './authorisation/auth/auth.service';
 import { AppRoutingModule }                   from './app-routing.module';
 
-import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
-
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 
@@ -37,12 +35,18 @@ import { ProfileTileviewComponent }           from './views/profile-tileview/pro
 import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 
+
+import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
 import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
+
+import { NgChatModule }                       from 'ng-chat';
+//import { HubConnection  }               from '@aspnet/signalr';
+//import { SignalRAdapter }                     from './signalr-adapter';
 
 @NgModule({
   declarations: [
@@ -80,7 +84,10 @@ import { DeleteImageDialog }                  from './image-components/delete-im
     MatDialogModule,
     MatCardModule,
     ImageCropperModule,
-    NgxGalleryModule 
+    NgxGalleryModule,
+    NgChatModule,
+    //HubConnection, 
+    //SignalRAdapter
   ],
   providers: [
     ProfileService,
