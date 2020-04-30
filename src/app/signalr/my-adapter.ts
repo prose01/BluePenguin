@@ -1,19 +1,21 @@
 import { ChatAdapter, IChatGroupAdapter, User, Group, Message, ChatParticipantStatus, ParticipantResponse, ParticipantMetadata, ChatParticipantType, IChatParticipant } from 'ng-chat';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { map, catchError, delay } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@aspnet/signalr";
 
 export class MyRAdapter extends ChatAdapter {
   public userId: string;
+  private mockedParticipants: IChatParticipant[];
 
   private hubConnection: signalR.HubConnection
-  public static serverBaseUrl: string = 'https://localhost:44328/'; 
+  private static serverBaseUrl: string = 'https://localhost:44328/';  // URL to Juno web api
+  private headers: HttpHeaders;
 
   constructor(private username: string, private http: HttpClient) {
     super();
-
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     this.initializeConnection();
   }
 
@@ -58,20 +60,52 @@ export class MyRAdapter extends ChatAdapter {
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-    // Sending the userId from the request body as this is just a demo 
-    //return this.http
-    //  .post(`${MyRAdapter.serverBaseUrl}listFriends`, { currentUserId: this.userId })
+    // Sending the userId from the request body as this is just a demo
+
+    this.http
+      .post(`${MyRAdapter.serverBaseUrl}listFriends`, { headers: this.headers })
+      .pipe(
+        map((res: any) => this.mockedParticipants),
+        catchError(this.handleError)
+    );
+
+    //let participantResponses: Observable<ParticipantResponse[]>;
+
+    //this.http
+    //  .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
     //  .pipe(
-    //    map((res: any) => res),
-    //    catchError((error: any) => Observable.throw(error.error || 'Server error'))
-    //  );
-    return of([]);
+    //    map((res: any) => participantResponses),
+    //    catchError(this.handleError)
+    //).toPromise();
+
+    //return participantResponses;
+
+    return this.http
+      .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
+      .pipe(
+        map((res: any) => res),
+        catchError(this.handleError)
+    );
+
+    //return of([]);
   }
 
   getMessageHistory(destinataryId: any): Observable<Message[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
-    return of([]);
+    let mockedHistory: Array<Message>;
+
+    mockedHistory = [
+      {
+        fromId: 1,
+        toId: 999,
+        message: "Hi there, just type any message bellow to test this Angular module.",
+        dateSent: new Date()
+      }
+    ];
+
+    return of(mockedHistory).pipe(delay(2000));
+    //return of([]);
   }
 
   sendMessage(message: Message): void {
@@ -81,5 +115,14 @@ export class MyRAdapter extends ChatAdapter {
 
   groupCreated(group: Group): void {
     console.log(group);
+  }
+
+
+  //TODO: Helper Lav en rigtig error handler inden produktion
+  // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
+  // Husk at opdater GET, POST etc this.handleError!
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 }

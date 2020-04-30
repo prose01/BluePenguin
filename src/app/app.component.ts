@@ -36,10 +36,11 @@ export class AppComponent implements OnInit {
     }
 
     //this.signalRAdapter = new SignalRGroupAdapter('Hans', this.http);
-    this.joinSignalRChatRoom();
+    //this.joinSignalRChatRoom();
   }
 
   //adapter: ChatAdapter = new DemoAdapter();
+  adapter: ChatAdapter = new MyRAdapter('Kurt', this.http);
 
   switchTheme(theme: string): void {
     this.currentTheme = theme;
