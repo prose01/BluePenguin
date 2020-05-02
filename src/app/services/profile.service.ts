@@ -18,9 +18,9 @@ export class ProfileService {
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
   currentUserSubject = this.currentUserSource.asObservable();
 
-  retrievedImage: any;
-  base64Data: any;
-  retrieveResonse: any;
+  retrievedImage: any; // Is this being used?
+  base64Data: any; // Is this being used?
+  retrieveResonse: any; // Is this being used?
 
 
   constructor(private http: HttpClient, public router: Router) {

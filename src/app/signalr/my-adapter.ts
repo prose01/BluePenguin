@@ -4,6 +4,7 @@ import { map, catchError, delay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@aspnet/signalr";
+import { AuthService } from '../authorisation/auth/auth.service';
 
 export class MyRAdapter extends ChatAdapter {
   public userId: string;
@@ -13,15 +14,16 @@ export class MyRAdapter extends ChatAdapter {
   private static serverBaseUrl: string = 'https://localhost:44328/';  // URL to Juno web api
   private headers: HttpHeaders;
 
-  constructor(private username: string, private http: HttpClient) {
+  constructor(public auth: AuthService, private username: string, private http: HttpClient) {
     super();
-    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-    this.initializeConnection();
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });    
+    
+    setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
   }
 
-  private initializeConnection(): void {
+  private initializeConnection(token: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${MyRAdapter.serverBaseUrl}chat`, { transport: signalR.HttpTransportType.LongPolling })
+      .withUrl(`${MyRAdapter.serverBaseUrl}chatHub`, { accessTokenFactory: () => token })
       .build();
 
     this.hubConnection
@@ -42,7 +44,7 @@ export class MyRAdapter extends ChatAdapter {
 
     this.hubConnection.on("messageReceived", (participant, message) => {
       // Handle the received message to ng-chat
-      console.log(message);
+      //console.log(message);
       this.onMessageReceived(participant, message);
     });
 
@@ -68,17 +70,6 @@ export class MyRAdapter extends ChatAdapter {
         map((res: any) => this.mockedParticipants),
         catchError(this.handleError)
     );
-
-    //let participantResponses: Observable<ParticipantResponse[]>;
-
-    //this.http
-    //  .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
-    //  .pipe(
-    //    map((res: any) => participantResponses),
-    //    catchError(this.handleError)
-    //).toPromise();
-
-    //return participantResponses;
 
     return this.http
       .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
@@ -113,9 +104,9 @@ export class MyRAdapter extends ChatAdapter {
       this.hubConnection.send("sendMessage", message);
   }
 
-  groupCreated(group: Group): void {
-    console.log(group);
-  }
+  //groupCreated(group: Group): void {
+  //  this.hubConnection.send("groupCreated", group);
+  //}
 
 
   //TODO: Helper Lav en rigtig error handler inden produktion

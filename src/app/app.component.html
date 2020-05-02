@@ -49,7 +49,8 @@
     </ng-chat>-->
 
     <!-- Offline bot instance -->
-    <ng-chat *ngIf="!signalRAdapter || (signalRAdapter && !signalRAdapter.userId)" [adapter]="adapter"
+    <ng-chat *ngIf="!signalRAdapter || (signalRAdapter && !signalRAdapter.userId)"
+             [adapter]="adapter"
              [groupAdapter]="adapter"
              [userId]="userId"
              [historyEnabled]="true"

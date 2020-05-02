@@ -6,9 +6,6 @@ import { ProfileService } from './services/profile.service';
 
 import { ChatAdapter } from 'ng-chat';
 import { MyRAdapter } from './signalr/my-adapter';
-import { SignalRAdapter } from './signalr/signalr-adapter';
-import { SignalRGroupAdapter } from './signalr/signalr-group-adapter';
-import { DemoAdapter } from './signalr/demo-adapter';
 
 
 @Component({
@@ -20,8 +17,6 @@ export class AppComponent implements OnInit {
   title = 'BluePenguins';
   currentTheme = 'dark-theme';
   triggeredEvents = [];
-  fileUploadUrl: string = `${SignalRAdapter.serverBaseUrl}UploadFile`;
-  signalRAdapter: SignalRGroupAdapter;
 
   userId: string = "offline-demo";
   username: string;
@@ -34,13 +29,9 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
-
-    //this.signalRAdapter = new SignalRGroupAdapter('Hans', this.http);
-    //this.joinSignalRChatRoom();
   }
 
-  //adapter: ChatAdapter = new DemoAdapter();
-  adapter: ChatAdapter = new MyRAdapter('Kurt', this.http);
+  adapter: ChatAdapter = new MyRAdapter(this.auth, 'Kurt', this.http); // Get UserName on!
 
   switchTheme(theme: string): void {
     this.currentTheme = theme;
@@ -50,9 +41,9 @@ export class AppComponent implements OnInit {
     this.triggeredEvents.push(event);
   }
 
-  joinSignalRChatRoom(): void {
-    const userName = prompt('Please enter a user name:');
+  //joinSignalRChatRoom(): void {
+  //  const userName = prompt('Please enter a user name:');
 
-    this.signalRAdapter = new SignalRGroupAdapter(userName, this.http);
-  }
+  //  this.signalRAdapter = new SignalRGroupAdapter(userName, this.http);
+  //}
 }
