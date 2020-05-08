@@ -1,10 +1,11 @@
-import { ChatAdapter, IChatGroupAdapter, User, Group, Message, ChatParticipantStatus, ParticipantResponse, ParticipantMetadata, ChatParticipantType, IChatParticipant } from 'ng-chat';
+import { ChatAdapter, ParticipantResponse, IChatParticipant } from 'ng-chat';
 import { Observable, of } from 'rxjs';
 import { map, catchError, delay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@aspnet/signalr";
 import { AuthService } from '../authorisation/auth/auth.service';
+import { ChatMessage } from '../models/chatMessage';
 
 export class MyRAdapter extends ChatAdapter {
   public userId: string;
@@ -16,8 +17,8 @@ export class MyRAdapter extends ChatAdapter {
 
   constructor(public auth: AuthService, private username: string, private http: HttpClient) {
     super();
-    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });    
-    
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
+
     setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
   }
 
@@ -42,10 +43,9 @@ export class MyRAdapter extends ChatAdapter {
       this.userId = userId;
     });
 
-    this.hubConnection.on("messageReceived", (participant, message) => {
+    this.hubConnection.on("messageReceived", (participant: IChatParticipant, message: ChatMessage) => {
       // Handle the received message to ng-chat
-      //console.log(message);
-      this.onMessageReceived(participant, message);
+      this.onMessageReceived(participant, message); 
     });
 
     this.hubConnection.on("friendsListChanged", (participantsResponse: Array<ParticipantResponse>) => {
@@ -81,26 +81,21 @@ export class MyRAdapter extends ChatAdapter {
     //return of([]);
   }
 
-  getMessageHistory(destinataryId: any): Observable<Message[]> {
+  getMessageHistory(destinataryId: any): Observable<ChatMessage[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
-    let mockedHistory: Array<Message>;
 
-    mockedHistory = [
-      {
-        fromId: 1,
-        toId: 999,
-        message: "Hi there, just type any message bellow to test this Angular module.",
-        dateSent: new Date()
-      }
-    ];
-
-    return of(mockedHistory).pipe(delay(2000));
-    //return of([]);
+    return this.http
+      .post(`${MyRAdapter.serverBaseUrl}messagehistory`, { headers: this.headers })
+      .pipe(
+        map((res: any) => res),
+        catchError(this.handleError),
+    );
   }
 
-  sendMessage(message: Message): void {
+  sendMessage(message: ChatMessage): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
+      message.fromId = this.userId;
       this.hubConnection.send("sendMessage", message);
   }
 

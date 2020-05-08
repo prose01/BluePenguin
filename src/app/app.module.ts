@@ -45,8 +45,7 @@ import { ImageTileviewComponent }             from './image-components/image-til
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 
 import { NgChatModule }                       from 'ng-chat';
-//import { HubConnection  }               from '@aspnet/signalr';
-//import { SignalRAdapter }                     from './signalr-adapter';
+import { ChatComponent }                      from './signalr/chat.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +63,8 @@ import { NgChatModule }                       from 'ng-chat';
     ImageUploadComponent,
     ImageGalleryComponent,
     ImageTileviewComponent,
-    DeleteImageDialog
+    DeleteImageDialog,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -85,9 +85,7 @@ import { NgChatModule }                       from 'ng-chat';
     MatCardModule,
     ImageCropperModule,
     NgxGalleryModule,
-    NgChatModule,
-    //HubConnection, 
-    //SignalRAdapter
+    NgChatModule
   ],
   providers: [
     ProfileService,

@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './authorisation/auth/auth.service';
 import { ProfileService } from './services/profile.service';
 
-import { ChatAdapter } from 'ng-chat';
-import { MyRAdapter } from './signalr/my-adapter';
-
+import { CurrentUser } from './models/currentUser';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +13,11 @@ import { MyRAdapter } from './signalr/my-adapter';
 })
 export class AppComponent implements OnInit {
   title = 'BluePenguins';
-  currentTheme = 'dark-theme';
-  triggeredEvents = [];
-
-  userId: string = "offline-demo";
-  username: string;
+  currentUserSubject: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private http: HttpClient) {
     auth.handleAuthentication();
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
   }
 
   ngOnInit() {
@@ -30,20 +25,4 @@ export class AppComponent implements OnInit {
       this.auth.renewTokens();
     }
   }
-
-  adapter: ChatAdapter = new MyRAdapter(this.auth, 'Kurt', this.http); // Get UserName on!
-
-  switchTheme(theme: string): void {
-    this.currentTheme = theme;
-  }
-
-  onEventTriggered(event: string): void {
-    this.triggeredEvents.push(event);
-  }
-
-  //joinSignalRChatRoom(): void {
-  //  const userName = prompt('Please enter a user name:');
-
-  //  this.signalRAdapter = new SignalRGroupAdapter(userName, this.http);
-  //}
 }
