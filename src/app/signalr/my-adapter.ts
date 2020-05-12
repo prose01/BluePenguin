@@ -1,15 +1,13 @@
-import { ChatAdapter, ParticipantResponse, IChatParticipant } from 'ng-chat';
+import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
 import { Observable, of } from 'rxjs';
 import { map, catchError, delay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@aspnet/signalr";
 import { AuthService } from '../authorisation/auth/auth.service';
-import { ChatMessage } from '../models/chatMessage';
 
 export class MyRAdapter extends ChatAdapter {
   public userId: string;
-  private mockedParticipants: IChatParticipant[];
 
   private hubConnection: signalR.HubConnection
   private static serverBaseUrl: string = 'https://localhost:44328/';  // URL to Juno web api
@@ -43,7 +41,7 @@ export class MyRAdapter extends ChatAdapter {
       this.userId = userId;
     });
 
-    this.hubConnection.on("messageReceived", (participant: IChatParticipant, message: ChatMessage) => {
+    this.hubConnection.on("messageReceived", (participant: IChatParticipant, message: Message) => {
       // Handle the received message to ng-chat
       this.onMessageReceived(participant, message); 
     });
@@ -62,29 +60,17 @@ export class MyRAdapter extends ChatAdapter {
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-    // Sending the userId from the request body as this is just a demo
-
-    this.http
-      .post(`${MyRAdapter.serverBaseUrl}listFriends`, { headers: this.headers })
-      .pipe(
-        map((res: any) => this.mockedParticipants),
-        catchError(this.handleError)
-    );
-
     return this.http
       .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
       .pipe(
         map((res: any) => res),
         catchError(this.handleError)
     );
-
-    //return of([]);
   }
 
-  getMessageHistory(destinataryId: any): Observable<ChatMessage[]> {
+  getMessageHistory(destinataryId: any): Observable<Message[]> {
     // This could be an API call to your web application that would go to the database
     // and retrieve a N amount of history messages between the users.
-
     return this.http
       .post(`${MyRAdapter.serverBaseUrl}messagehistory`, { headers: this.headers })
       .pipe(
@@ -93,15 +79,11 @@ export class MyRAdapter extends ChatAdapter {
     );
   }
 
-  sendMessage(message: ChatMessage): void {
+  sendMessage(message: Message): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
       message.fromId = this.userId;
       this.hubConnection.send("sendMessage", message);
   }
-
-  //groupCreated(group: Group): void {
-  //  this.hubConnection.send("groupCreated", group);
-  //}
 
 
   //TODO: Helper Lav en rigtig error handler inden produktion
