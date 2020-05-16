@@ -68,13 +68,11 @@ export class MyRAdapter extends ChatAdapter {
     );
   }
 
-  getMessageHistory(destinataryId: any): Observable<Message[]> {
-    // This could be an API call to your web application that would go to the database
-    // and retrieve a N amount of history messages between the users.
+  getMessageHistory(destinataryId: string): Observable<Message[]> {
     return this.http
-      .post(`${MyRAdapter.serverBaseUrl}messagehistory`, { headers: this.headers })
+      .post(`${MyRAdapter.serverBaseUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
       .pipe(
-        map((res: any) => res),
+        map((res: Message[]) => res),
         catchError(this.handleError),
     );
   }
