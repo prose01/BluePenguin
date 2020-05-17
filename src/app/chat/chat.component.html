@@ -1,15 +1,12 @@
-<div class="col-4">
-  <h3>Default Theme Options:</h3>
-  <button type="button" class="btn btn-light" (click)="switchTheme('light-theme')">Light</button>
-  <button type="button" class="btn btn-dark" (click)="switchTheme('dark-theme')">Dark</button>
-</div>
-
 <!-- Offline bot instance -->
 <ng-chat *ngIf="adapter"
+         [title]="MyChat"
          [adapter]="adapter"
          [groupAdapter]="adapter"
          [userId]="userId"
+         [isCollapsed]="true"
          [pollFriendsList]="true"
+         [pollingInterval]="10000"
          [historyEnabled]="true"
          [historyPageSize]="4"
          [hideFriendsList]="false"

@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as signalR from "@aspnet/signalr";
 import { AuthService } from '../authorisation/auth/auth.service';
 
-export class MyRAdapter extends ChatAdapter {
+export class SignalRAdapter extends ChatAdapter {
   public userId: string;
 
   private hubConnection: signalR.HubConnection
@@ -22,7 +22,7 @@ export class MyRAdapter extends ChatAdapter {
 
   private initializeConnection(token: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${MyRAdapter.serverBaseUrl}chatHub`, { accessTokenFactory: () => token })
+      .withUrl(`${SignalRAdapter.serverBaseUrl}chatHub`, { accessTokenFactory: () => token })
       .build();
 
     this.hubConnection
@@ -61,7 +61,7 @@ export class MyRAdapter extends ChatAdapter {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
     return this.http
-      .post(`${MyRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
+      .post(`${SignalRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
       .pipe(
         map((res: any) => res),
         catchError(this.handleError)
@@ -70,7 +70,7 @@ export class MyRAdapter extends ChatAdapter {
 
   getMessageHistory(destinataryId: string): Observable<Message[]> {
     return this.http
-      .post(`${MyRAdapter.serverBaseUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
+      .post(`${SignalRAdapter.serverBaseUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
       .pipe(
         map((res: Message[]) => res),
         catchError(this.handleError),

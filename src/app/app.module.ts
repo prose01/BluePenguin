@@ -45,7 +45,7 @@ import { ImageTileviewComponent }             from './image-components/image-til
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 
 import { NgChatModule }                       from 'ng-chat';
-import { ChatComponent }                      from './signalr/chat.component';
+import { ChatComponent }                      from './chat/chat.component';
 
 @NgModule({
   declarations: [

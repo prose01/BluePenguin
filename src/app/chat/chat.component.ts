@@ -5,7 +5,7 @@ import { AuthService } from './../authorisation/auth/auth.service';
 
 import { CurrentUser } from './../models/currentUser';
 import { ChatAdapter } from 'ng-chat';
-import { MyRAdapter } from './my-adapter';
+import { SignalRAdapter } from './signalr-adapter';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { MyRAdapter } from './my-adapter';
 export class ChatComponent implements OnInit {
   @Input() currentUser: CurrentUser;
 
-  currentTheme = 'dark-theme';
+  currentTheme = 'light-theme';
   triggeredEvents = [];
 
   userId: string;
@@ -25,15 +25,11 @@ export class ChatComponent implements OnInit {
   adapter: ChatAdapter;
 
   constructor(public auth: AuthService, private http: HttpClient) {
-    setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 1000);
+    setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);
   }
 
   ngOnInit(): void {
-    setTimeout(() => { this.adapter = new MyRAdapter(this.auth, this.username, this.http); }, 1000);
-  }
-
-  switchTheme(theme: string): void {
-    this.currentTheme = theme;
+    setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.username, this.http); }, 2000);
   }
 
   onEventTriggered(event: string): void {

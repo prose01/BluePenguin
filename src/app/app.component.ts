@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   title = 'BluePenguins';
   currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private http: HttpClient) {
+  constructor(public auth: AuthService, private profileService: ProfileService) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
   }
