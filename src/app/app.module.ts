@@ -14,6 +14,7 @@ import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
 import { MatCardModule }                      from '@angular/material/card';
+import { MatTabsModule }                      from '@angular/material/tabs';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -25,6 +26,7 @@ import { CallbackComponent }                  from './authorisation/callback/cal
 
 import { ProfileService }                     from './services/profile.service';
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
+import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
 import { DeleteProfileDialog }                from './currentUser/delete-profile/delete-profile-dialog.component';
 
@@ -46,6 +48,7 @@ import { DeleteImageDialog }                  from './image-components/delete-im
 
 import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './chat/chat.component';
+import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import { ChatComponent }                      from './chat/chat.component';
     DashboardComponent,
     CreateProfileComponent,
     ProfileDetailComponent,
+    CurrentUserBoardComponent,
     EditProfileComponent,
     CallbackComponent,
     ProfileListviewComponent,
@@ -64,7 +68,8 @@ import { ChatComponent }                      from './chat/chat.component';
     ImageGalleryComponent,
     ImageTileviewComponent,
     DeleteImageDialog,
-    ChatComponent
+    ChatComponent,
+    ChatMembersListviewComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +88,7 @@ import { ChatComponent }                      from './chat/chat.component';
     MatButtonToggleModule,
     MatDialogModule,
     MatCardModule,
+    MatTabsModule,
     ImageCropperModule,
     NgxGalleryModule,
     NgChatModule

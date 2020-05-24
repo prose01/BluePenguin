@@ -74,7 +74,8 @@ export class CreateProfileComponent implements OnChanges {
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
-      images: this.currentUser.images
+      images: this.currentUser.images,
+      chatMemberslist: this.currentUser.chatMemberslist
     };
 
     return saveProfile;

@@ -1,5 +1,6 @@
 import { GenderType, BodyType } from '../models/enums';
 import { ImageModel } from './ImageModel';
+import { ChatMember } from './ChatMember';
 
 export class CurrentUser {
   auth0Id: string;
@@ -16,6 +17,7 @@ export class CurrentUser {
   gender: GenderType;
   body: BodyType;
   images: Array<ImageModel>;
+  chatMemberslist: Array<ChatMember>;
 }
 
 export interface CurrentUser {
@@ -33,4 +35,5 @@ export interface CurrentUser {
   gender: GenderType;
   body: BodyType;
   images: Array<ImageModel>;
+  chatMemberslist: Array<ChatMember>;
 }

@@ -156,6 +156,28 @@ export class ProfileService {
       );
   }
 
+  //getProfilesById(profileIds: string[]): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesById/${profileIds}`, { headers: this.headers })
+  //    .pipe(
+  //      map(profile => profile),
+  //      tap(h => {
+  //        const outcome = h ? `fetched` : `did not find`;
+  //      }),
+  //      catchError(this.handleError)
+  //    );
+  //}
+
+  getChatMemberProfiles(): Observable<Profile[]> {
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers })
+      .pipe(
+        map(profile => profile),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
     return this.http.post<ProfileFilter[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
       .pipe(
