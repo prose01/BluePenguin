@@ -178,6 +178,17 @@ export class ProfileService {
       );
   }
 
+  blockChatMembers(profileIds: string[]): Observable<Profile[]> {
+    return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
+      .pipe(
+        map(profile => profile),
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
     return this.http.post<ProfileFilter[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
       .pipe(

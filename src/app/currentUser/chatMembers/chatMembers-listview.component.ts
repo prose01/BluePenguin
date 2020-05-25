@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -26,9 +26,9 @@ import { ProfileService } from '../../services/profile.service';
 })
 
 export class ChatMembersListviewComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'profileId', 'name', 'createdOn'];
-  dataSource: MatTableDataSource<Profile>;
-  selection = new SelectionModel<Profile>(true, []);
+  displayedColumns: string[] = ['select', 'profileId', 'name', 'blocked'];
+  dataSource: MatTableDataSource<ChatMember>;
+  selection = new SelectionModel<ChatMember>(true, []);
 
   currentUserSubject: CurrentUser;
   chatMembers: ChatMember[];
@@ -56,7 +56,14 @@ export class ChatMembersListviewComponent implements OnInit {
       this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles);
 
       setTimeout(() => {
-      console.log(this.profiles);
+
+        // Set the profile name for chatMember. Should be part of chatMemeber from start!
+        let profiles = this.profiles;
+        this.chatMembers.forEach(function (value) {
+          let profile = profiles.find(i => i.profileId === value.profileId);
+          value.name = profile.name;
+        });
+
         this.setDataSource()
       }, 1000);
 
@@ -65,23 +72,12 @@ export class ChatMembersListviewComponent implements OnInit {
 
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {
-
-      //let mb = new Array;
-      //this.currentUserSubject.chatMemberslist.forEach(function (member) {
-      //  mb.push(member);
-      //  //this.chatMembers.push(member);
-      //  //this.profileIds.push(member.profileId);
-      //});
-      //console.log('something ' + mb);
-
-      //this.profileService.getProfilesById(this.profileIds).subscribe(profiles => this.profiles = profiles);
-
       this.setDataSource();
     }
   }
 
   setDataSource(): void {
-    this.dataSource = new MatTableDataSource<Profile>(this.profiles);
+    this.dataSource = new MatTableDataSource<ChatMember>(this.chatMembers);
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
@@ -103,16 +99,16 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Profile): string {
+  checkboxLabel(row?: ChatMember): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
-  //blockChatMembers() {
-  //  this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { });
-  //}
+  blockChatMembers() {
+    this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { });
+  }
 
   selcetedProfiles(): string[] {
     let profiles = new Array;
