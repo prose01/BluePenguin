@@ -64,12 +64,11 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
 
-    <!--<div class="button-row">
-      <button (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
-      <button (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
+    <div class="button-row">
+      <button (click)="blockChatMembers()" mat-stroked-button color="primary">Block ChatMember(s)</button>
     </div>
 
-    <div *ngIf="currentUserSubject != null" class="button-row">
+    <!--<div *ngIf="currentUserSubject != null" class="button-row">
       <button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
     </div>-->
 
