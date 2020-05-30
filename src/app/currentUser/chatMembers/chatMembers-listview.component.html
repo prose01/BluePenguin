@@ -65,12 +65,8 @@
     </table>
 
     <div class="button-row">
-      <button (click)="blockChatMembers()" mat-stroked-button color="primary">Block ChatMember(s)</button>
+      <button (click)="blockChatMembers()" mat-stroked-button color="primary">(Un)Block ChatMember(s)</button>
     </div>
-
-    <!--<div *ngIf="currentUserSubject != null" class="button-row">
-      <button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
-    </div>-->
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 

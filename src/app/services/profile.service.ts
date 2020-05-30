@@ -156,6 +156,20 @@ export class ProfileService {
       );
   }
 
+  setAsAdmin(profile: Profile): Observable<Profile> {
+    return this.http.post(`${this.avalonUrl}SetAsAdmin`, profile, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  removeAdmin(profile: Profile): Observable<Profile> {
+    return this.http.post(`${this.avalonUrl}RemoveAdmin`, profile, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   //getProfilesById(profileIds: string[]): Observable<Profile[]> {
   //  return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesById/${profileIds}`, { headers: this.headers })
   //    .pipe(
