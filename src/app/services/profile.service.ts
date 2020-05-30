@@ -95,8 +95,15 @@ export class ProfileService {
       );
   }
 
-  deleteImage(imageId: string[]): Observable<any> {
+  deleteImage(imageId: string[]): Observable<CurrentUser> {
     return this.http.post(`${this.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  saveProfileFilter(profileFilter: ProfileFilter): Observable<CurrentUser> {
+    return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );

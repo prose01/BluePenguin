@@ -106,4 +106,9 @@ export class ProfileSearchComponent implements OnInit {
 
     return filterProfile;
   }
+
+  saveSearch() {
+    this.filter = this.prepareSearch();
+    this.profileService.saveProfileFilter(this.filter).subscribe();
+  }
 }

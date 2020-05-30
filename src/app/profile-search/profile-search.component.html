@@ -9,6 +9,10 @@
       <button type="button" (click)="revert()"
               [disabled]="profileForm.pristine" class="btn btn-danger">
         Revert
+      </button> &nbsp;
+      <button type="button" (click)="saveSearch()"
+              [disabled]="profileForm.pristine" class="btn btn-danger">
+        Save search
       </button>
     </div>
 
