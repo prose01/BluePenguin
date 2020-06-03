@@ -109,6 +109,13 @@ export class ProfileService {
       );
   }
 
+  loadProfileFilter(): Observable<ProfileFilter> {
+    return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })

@@ -57,6 +57,18 @@ export class ProfileSearchComponent implements OnInit {
     });
   }
 
+  loadForm() {
+    this.profileForm.reset({
+      name: this.filter.name,
+      age: this.filter.age,
+      height: this.filter.height,
+      weight: this.filter.weight,
+      description: this.filter.description,
+      gender: this.filter.gender,
+      body: this.filter.body
+    });
+  }
+
   onSubmit() {
     this.filter = this.prepareSearch();
     this.profileService.getProfileByFilter(this.filter).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
@@ -110,5 +122,11 @@ export class ProfileSearchComponent implements OnInit {
   saveSearch() {
     this.filter = this.prepareSearch();
     this.profileService.saveProfileFilter(this.filter).subscribe();
+  }
+
+  loadSearch() {
+    this.profileService.loadProfileFilter().subscribe(filter => this.filter = filter);
+
+    setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler. 
   }
 }
