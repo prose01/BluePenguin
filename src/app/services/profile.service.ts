@@ -228,6 +228,13 @@ export class ProfileService {
       );
   }
 
+  getProfileByCurrentUsersFilter(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getLatestCreatedProfiles(): Observable<Profile[]> {
     return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
       .pipe(

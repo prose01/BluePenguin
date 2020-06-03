@@ -7,6 +7,7 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
 	<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+		<mat-button-toggle (click)=getProfileByCurrentUsersFilter()>My filter</mat-button-toggle>
 		<mat-button-toggle (click)=getLatestCreatedProfiles()>Latest Profiles</mat-button-toggle>
 		<mat-button-toggle (click)=getLastUpdatedProfiles()>Last Updated Profiles</mat-button-toggle>
 		<mat-button-toggle (click)=getLastActiveProfiles()>Last Active Profiles</mat-button-toggle>

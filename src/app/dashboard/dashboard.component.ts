@@ -27,6 +27,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getProfileByCurrentUsersFilter() {
+    this.profileService.getProfileByCurrentUsersFilter().subscribe(profiles => this.profiles = profiles);
+
+    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+  }
+
   getLatestCreatedProfiles() {
     this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles);
 
