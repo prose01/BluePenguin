@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getLatestCreatedProfiles(); }
+        if (currentUser) { this.getProfileByCurrentUsersFilter(); }
       });
     }
   }
@@ -39,17 +39,17 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
   }
 
-  getLastUpdatedProfiles() {
-    this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles);
+  //getLastUpdatedProfiles() {
+  //  this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles);
 
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
-  }
+  //  setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+  //}
 
-  getLastActiveProfiles() {
-    this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles);
+  //getLastActiveProfiles() {
+  //  this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles);
 
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
-  }
+  //  setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+  //}
 
   getBookmarkedProfiles() {
     this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles);

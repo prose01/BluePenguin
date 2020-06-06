@@ -1,4 +1,7 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+
+  <mat-button-toggle (click)=toggleDisplayOrder()>{{matButtonToggleText}}</mat-button-toggle>
+
   <div class="grid grid-pad">
     <a *ngFor="let profile of profiles" class="col-1-4"
        routerLink="/detail/{{profile.profileId}}">

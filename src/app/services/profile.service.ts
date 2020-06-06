@@ -242,19 +242,19 @@ export class ProfileService {
       );
   }
 
-  getLastUpdatedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getLastUpdatedProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
-  getLastActiveProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getLastActiveProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
   
   deleteProfiles(profiles: string[]): Observable<Profile> {
     return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
