@@ -5,7 +5,7 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/ImageModel';
-import { GenderType, BodyType } from '../models/enums';
+import { GenderType, SexualOrientationType, BodyType } from '../models/enums';
 import { ProfileService } from '../services/profile.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class ProfileSearchComponent implements OnInit {
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
+  sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
   ageList: number[] = [...Array(10).keys()];
   heightList: number[] = [...Array(10).keys()];
@@ -33,7 +34,8 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       gender: GenderType.Female,
-      body: BodyType.Atletic
+      body: BodyType.Atletic,
+      SexualOrientationType: null
     });
   }
 
@@ -53,7 +55,8 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       gender: GenderType.Female,
-      body: BodyType.Atletic
+      body: BodyType.Atletic,
+      SexualOrientationType: null
     });
   }
 
@@ -65,7 +68,8 @@ export class ProfileSearchComponent implements OnInit {
       weight: this.filter.weight,
       description: this.filter.description,
       gender: this.filter.gender,
-      body: this.filter.body
+      body: this.filter.body,
+      SexualOrientationType: this.filter.sexualOrientation
     });
   }
 
@@ -114,6 +118,7 @@ export class ProfileSearchComponent implements OnInit {
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType
     };
 
     return filterProfile;

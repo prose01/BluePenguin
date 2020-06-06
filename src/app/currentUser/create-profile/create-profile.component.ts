@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
-import { GenderType, BodyType } from '../../models/enums';
+import { GenderType, SexualOrientationType, BodyType } from '../../models/enums';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class CreateProfileComponent implements OnChanges {
   currentUser: CurrentUser;
   newUserForm: FormGroup;
   genderTypes = Object.keys(GenderType);
+  sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
@@ -31,7 +32,8 @@ export class CreateProfileComponent implements OnChanges {
       weight: null,
       description: null,
       genderType: null,
-      bodyType: null
+      bodyType: null,
+      SexualOrientationType: null
     });
   }
 
@@ -73,6 +75,7 @@ export class CreateProfileComponent implements OnChanges {
       weight: formModel.weight,
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       images: this.currentUser.images,
       chatMemberslist: this.currentUser.chatMemberslist

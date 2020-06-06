@@ -3,6 +3,13 @@ export enum GenderType {
   "Male" = "Male"
 }
 
+export enum SexualOrientationType {
+  "Heterosexual" = "Heterosexual",
+  "Homosexual" = "Homosexual",
+  "Bisexual" = "Bisexual",
+  "Asexual" = "Asexual"
+}
+
 export enum BodyType {
   "Atletic" = "Atletic",
   "Chubby" = "Chubby",
@@ -10,3 +17,4 @@ export enum BodyType {
   "Robust" = "Robust",
   "Slim" = "Slim"
 }
+

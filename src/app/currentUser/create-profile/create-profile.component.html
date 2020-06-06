@@ -37,6 +37,14 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-select placeholder="SexualOrientation type" formControlName="sexualOrientationType" [(value)]="currentUser.body">
+          <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
+            {{ sexualOrientationType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
   </form>

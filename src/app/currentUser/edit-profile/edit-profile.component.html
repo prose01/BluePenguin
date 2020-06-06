@@ -22,7 +22,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly">
+          <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly"> <!--{{currentUserSubject.createdOn | date:'medium'}}-->
         </mat-form-field>
 
         <mat-form-field>
@@ -53,6 +53,14 @@
           <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUserSubject.gender">
             <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
               {{ genderType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="SexualOrientation" formControlName="sexualOrientationType" [(value)]="currentUserSubject.sexualOrientation">
+            <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
+              {{ sexualOrientationType }}
             </mat-option>
           </mat-select>
         </mat-form-field>

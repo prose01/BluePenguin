@@ -1,4 +1,4 @@
-import { GenderType, BodyType } from '../models/enums';
+import { GenderType, SexualOrientationType, BodyType } from '../models/enums';
 
 export class ProfileFilter {
   name: string;
@@ -10,6 +10,7 @@ export class ProfileFilter {
   weight: number[];
   description: string;
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
 }
 
@@ -23,5 +24,6 @@ export interface ProfileFilter {
   weight: number[];
   description: string;
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
 }

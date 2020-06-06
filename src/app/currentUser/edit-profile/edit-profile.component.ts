@@ -6,7 +6,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
-import { GenderType, BodyType } from '../../models/enums';
+import { GenderType, SexualOrientationType, BodyType } from '../../models/enums';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 
 @Component({
@@ -19,6 +19,7 @@ export class EditProfileComponent {
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
+  sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
@@ -34,7 +35,8 @@ export class EditProfileComponent {
       weight: null,
       description: null,
       genderType: null,
-      bodyType: null
+      sexualOrientationType: null,
+      bodyType: null,
     });
   }
 
@@ -59,6 +61,7 @@ export class EditProfileComponent {
       weight: this.currentUserSubject.weight as number,
       description: this.currentUserSubject.description as string,
       gender: this.currentUserSubject.gender as GenderType,
+      sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
       body: this.currentUserSubject.body as BodyType,
     });
   }
@@ -87,6 +90,7 @@ export class EditProfileComponent {
       weight: formModel.weight as number,
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       images: this.currentUserSubject.images,
       chatMemberslist: this.currentUserSubject.chatMemberslist

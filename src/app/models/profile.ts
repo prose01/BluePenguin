@@ -1,4 +1,4 @@
-import { GenderType, BodyType } from '../models/enums';
+import { GenderType, SexualOrientationType, BodyType } from '../models/enums';
 import { ImageModel } from './ImageModel';
 import { ChatMember } from './ChatMember';
 
@@ -15,6 +15,7 @@ export class Profile {
   weight: number;
   description: string;
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
   images: Array<ImageModel>;
   chatMemberslist: Array<ChatMember>;
@@ -32,6 +33,7 @@ export interface Profile {
   weight: number;
   description: string;
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
   images: Array<ImageModel>;
   chatMemberslist: Array<ChatMember>;
