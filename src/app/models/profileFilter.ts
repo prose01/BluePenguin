@@ -1,4 +1,17 @@
-import { GenderType, SexualOrientationType, BodyType } from '../models/enums';
+import {
+  GenderType,
+  BodyType,
+  SmokingHabitsType,
+  LocationType,
+  EducationType,
+  EducationStatusType,
+  EducationLevelType,
+  EmploymentStatusType,
+  SportsActivityType,
+  EatingHabitsType,
+  ClotheStyleType,
+  BodyArtType
+} from '../models/enums';
 
 export class ProfileFilter {
   name: string;
@@ -10,8 +23,20 @@ export class ProfileFilter {
   weight: number[];
   description: string;
   gender: GenderType;
-  sexualOrientation: SexualOrientationType;
   body: BodyType;
+  smokingHabits: SmokingHabitsType;
+  hasChildren: boolean;
+  wantChildren: boolean;
+  hasPets: boolean;
+  livesIn: LocationType;
+  education: EducationType;
+  educationStatus: EducationStatusType;
+  educationLevel: EducationLevelType;
+  employmentStatus: EmploymentStatusType;
+  sportsActivity: SportsActivityType;
+  eatingHabits: EatingHabitsType;
+  clotheStyle: ClotheStyleType;
+  bodyArt: BodyArtType;
 }
 
 export interface ProfileFilter {
@@ -24,6 +49,18 @@ export interface ProfileFilter {
   weight: number[];
   description: string;
   gender: GenderType;
-  sexualOrientation: SexualOrientationType;
   body: BodyType;
+  smokingHabits: SmokingHabitsType;
+  hasChildren: boolean;
+  wantChildren: boolean;
+  hasPets: boolean;
+  livesIn: LocationType;
+  education: EducationType;
+  educationStatus: EducationStatusType;
+  educationLevel: EducationLevelType;
+  employmentStatus: EmploymentStatusType;
+  sportsActivity: SportsActivityType;
+  eatingHabits: EatingHabitsType;
+  clotheStyle: ClotheStyleType;
+  bodyArt: BodyArtType;
 }

@@ -1,12 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ProfileService } from '../services/profile.service';
 import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/ImageModel';
-import { GenderType, SexualOrientationType, BodyType } from '../models/enums';
-import { ProfileService } from '../services/profile.service';
+import {
+  GenderType,
+  BodyType,
+  SmokingHabitsType,
+  LocationType,
+  EducationType,
+  EducationStatusType,
+  EducationLevelType,
+  EmploymentStatusType,
+  SportsActivityType,
+  EatingHabitsType,
+  ClotheStyleType,
+  BodyArtType
+} from '../models/enums';
 
 @Component({
   selector: 'app-profile-search',
@@ -17,12 +30,21 @@ export class ProfileSearchComponent implements OnInit {
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
-  genderTypes = Object.keys(GenderType);
-  sexualOrientationTypes = Object.keys(SexualOrientationType);
-  bodyTypes = Object.keys(BodyType);
   ageList: number[] = [...Array(10).keys()];
   heightList: number[] = [...Array(10).keys()];
   weightList: number[] = [...Array(10).keys()];
+  genderTypes = Object.keys(GenderType);
+  bodyTypes = Object.keys(BodyType);
+  smokingHabitsTypes = Object.keys(SmokingHabitsType);
+  locationTypes = Object.keys(LocationType);
+  educationTypes = Object.keys(EducationType);
+  educationStatusTypes = Object.keys(EducationStatusType);
+  educationLevelTypes = Object.keys(EducationLevelType);
+  employmentStatusType = Object.keys(EmploymentStatusType);
+  sportsActivityTypes = Object.keys(SportsActivityType);
+  eatingHabitsTypes = Object.keys(EatingHabitsType);
+  clotheStyleTypes = Object.keys(ClotheStyleType);
+  bodyArtTypes = Object.keys(BodyArtType);
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -34,8 +56,20 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       gender: GenderType.Female,
-      body: BodyType.Atlethic,
-      SexualOrientationType: null
+      body: BodyType.NotChosen,
+      smokingHabits: SmokingHabitsType.NotChosen,
+      hasChildren: null,
+      wantChildren: null,
+      hasPets: null,
+      livesIn: LocationType.NotChosen,
+      education: EducationType.NotChosen,
+      educationStatus: EducationStatusType.NotChosen,
+      educationLevel: EducationLevelType.NotChosen,
+      employmentStatus: EmploymentStatusType.NotChosen,
+      sportsActivity: SportsActivityType.NotChosen,
+      eatingHabits: EatingHabitsType.NotChosen,
+      clotheStyle: ClotheStyleType.NotChosen,
+      bodyArt: BodyArtType.NotChosen
     });
   }
 
@@ -48,16 +82,29 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   rebuildForm() {
-    this.profileForm.reset({
-      name: null,
-      age: null,
-      height: null,
-      weight: null,
-      description: null,
-      gender: GenderType.Female,
-      body: BodyType.Atlethic,
-      SexualOrientationType: null
-    });
+    this.profileForm.reset();
+    //this.profileForm.reset({
+    //  name: null,
+    //  age: null,
+    //  height: null,
+    //  weight: null,
+    //  description: null,
+    //  gender: GenderType.Female,
+    //  body: BodyType.NotChosen,
+    //  smokingHabits: SmokingHabitsType.NotChosen,
+    //  hasChildren: null,
+    //  wantChildren: null,
+    //  hasPets: null,
+    //  livesIn: LocationType.NotChosen,
+    //  education: EducationType.NotChosen,
+    //  educationStatus: EducationStatusType.NotChosen,
+    //  educationLevel: EducationLevelType.NotChosen,
+    //  employmentStatus: EmploymentStatusType.NotChosen,
+    //  sportsActivity: SportsActivityType.NotChosen,
+    //  eatingHabits: EatingHabitsType.NotChosen,
+    //  clotheStyle: ClotheStyleType.NotChosen,
+    //  bodyArt: BodyArtType.NotChosen
+    //});
   }
 
   loadForm() {
@@ -69,7 +116,20 @@ export class ProfileSearchComponent implements OnInit {
       description: this.filter.description,
       gender: this.filter.gender,
       body: this.filter.body,
-      SexualOrientationType: this.filter.sexualOrientation
+
+      smokingHabits: this.filter.smokingHabits,
+      hasChildren: this.filter.hasChildren,
+      wantChildren: this.filter.wantChildren,
+      hasPets: this.filter.hasPets,
+      livesIn: this.filter.livesIn,
+      education: this.filter.education,
+      educationStatus: this.filter.educationStatus,
+      educationLevel: this.filter.educationLevel,
+      employmentStatus: this.filter.employmentStatus,
+      sportsActivity: this.filter.sportsActivity,
+      eatingHabits: this.filter.eatingHabits,
+      clotheStyle: this.filter.clotheStyle,
+      bodyArt: this.filter.bodyArt
     });
   }
 
@@ -118,7 +178,19 @@ export class ProfileSearchComponent implements OnInit {
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
-      sexualOrientation: formModel.sexualOrientation as SexualOrientationType
+      smokingHabits: formModel.smokingHabits as SmokingHabitsType,
+      hasChildren: formModel.hasChildren as boolean,
+      wantChildren: formModel.wantChildren as boolean,
+      hasPets: formModel.hasPets as boolean,
+      livesIn: formModel.livesIn as LocationType,
+      education: formModel.education as EducationType,
+      educationStatus: formModel.educationStatus as EducationStatusType,
+      educationLevel: formModel.educationLevel as EducationLevelType,
+      employmentStatus: formModel.employmentStatus as EmploymentStatusType,
+      sportsActivity: formModel.sportsActivity as SportsActivityType,
+      eatingHabits: formModel.eatingHabits as EatingHabitsType,
+      clotheStyle: formModel.clotheStyle as ClotheStyleType,
+      bodyArt: formModel.bodyArt as BodyArtType
     };
 
     return filterProfile;

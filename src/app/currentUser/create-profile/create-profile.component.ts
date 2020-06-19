@@ -1,10 +1,24 @@
 import { Component, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
-import { GenderType, SexualOrientationType, BodyType } from '../../models/enums';
-import { ProfileService } from '../../services/profile.service';
+import {
+  GenderType,
+  SexualOrientationType,
+  BodyType,
+  SmokingHabitsType,
+  LocationType,
+  EducationType,
+  EducationStatusType,
+  EducationLevelType,
+  EmploymentStatusType,
+  SportsActivityType,
+  EatingHabitsType,
+  ClotheStyleType,
+  BodyArtType
+} from '../../models/enums';
 
 @Component({
   selector: 'create-profile',
@@ -18,6 +32,16 @@ export class CreateProfileComponent implements OnChanges {
   genderTypes = Object.keys(GenderType);
   sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
+  smokingHabitsTypes = Object.keys(SmokingHabitsType);
+  locationTypes = Object.keys(LocationType);
+  educationTypes = Object.keys(EducationType);
+  educationStatusTypes = Object.keys(EducationStatusType);
+  educationLevelTypes = Object.keys(EducationLevelType);
+  employmentStatusType = Object.keys(EmploymentStatusType);
+  sportsActivityTypes = Object.keys(SportsActivityType);
+  eatingHabitsTypes = Object.keys(EatingHabitsType);
+  clotheStyleTypes = Object.keys(ClotheStyleType);
+  bodyArtTypes = Object.keys(BodyArtType);
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -32,8 +56,22 @@ export class CreateProfileComponent implements OnChanges {
       weight: null,
       description: null,
       genderType: null,
+      sexualOrientationType: null,
       bodyType: null,
-      SexualOrientationType: null
+      smokingHabits: null,
+      hasChildren: null,
+      wantChildren: null,
+      hasPets: null,
+      livesIn: null,
+      education: null,
+      educationStatus: null,
+      educationLevel: null,
+      employmentStatus: null,
+      sportsActivity: null,
+      eatingHabits: null,
+      clotheStyle: null,
+      bodyArt: null
+
     });
   }
 
@@ -63,6 +101,7 @@ export class CreateProfileComponent implements OnChanges {
     const formModel = this.newUserForm.value;
 
     const saveProfile: CurrentUser = {
+      chatMemberslist: this.currentUser.chatMemberslist,
       auth0Id: null,
       profileId: null,
       admin: null,
@@ -74,11 +113,23 @@ export class CreateProfileComponent implements OnChanges {
       height: formModel.height,
       weight: formModel.weight,
       description: formModel.description as string,
+      images: this.currentUser.images,
       gender: formModel.gender as GenderType,
       sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
-      images: this.currentUser.images,
-      chatMemberslist: this.currentUser.chatMemberslist
+      smokingHabits: formModel.smokingHabits as SmokingHabitsType,
+      hasChildren: formModel.hasChildren as boolean,
+      wantChildren: formModel.wantChildren as boolean,
+      hasPets: formModel.hasPets as boolean,
+      livesIn: formModel.livesIn as LocationType,
+      education: formModel.education as EducationType,
+      educationStatus: formModel.educationStatus as EducationStatusType,
+      educationLevel: formModel.educationLevel as EducationLevelType,
+      employmentStatus: formModel.employmentStatus as EmploymentStatusType,
+      sportsActivity: formModel.sportsActivity as SportsActivityType,
+      eatingHabits: formModel.eatingHabits as EatingHabitsType,
+      clotheStyle: formModel.clotheStyle as ClotheStyleType,
+      bodyArt: formModel.bodyArt as BodyArtType
     };
 
     return saveProfile;
