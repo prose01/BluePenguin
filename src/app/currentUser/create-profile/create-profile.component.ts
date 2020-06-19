@@ -37,7 +37,7 @@ export class CreateProfileComponent implements OnChanges {
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
-  employmentStatusType = Object.keys(EmploymentStatusType);
+  employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
   clotheStyleTypes = Object.keys(ClotheStyleType);
@@ -58,19 +58,19 @@ export class CreateProfileComponent implements OnChanges {
       genderType: null,
       sexualOrientationType: null,
       bodyType: null,
-      smokingHabits: null,
+      smokingHabitsType: null,
       hasChildren: null,
       wantChildren: null,
       hasPets: null,
-      livesIn: null,
-      education: null,
-      educationStatus: null,
-      educationLevel: null,
-      employmentStatus: null,
-      sportsActivity: null,
-      eatingHabits: null,
-      clotheStyle: null,
-      bodyArt: null
+      locationType: null,
+      educationType: null,
+      educationStatusType: null,
+      educationLevelType: null,
+      employmentStatusType: null,
+      sportsActivityType: null,
+      eatingHabitsType: null,
+      clotheStyleType: null,
+      bodyArtType: null
 
     });
   }

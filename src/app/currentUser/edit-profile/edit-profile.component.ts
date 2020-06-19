@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
-
-import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { ProfileService } from '../../services/profile.service';
+import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
 import {
   GenderType,
@@ -40,7 +39,7 @@ export class EditProfileComponent {
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
-  employmentStatusType = Object.keys(EmploymentStatusType);
+  employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
   clotheStyleTypes = Object.keys(ClotheStyleType);
@@ -61,19 +60,19 @@ export class EditProfileComponent {
       genderType: null,
       sexualOrientationType: null,
       bodyType: null,
-      smokingHabits: null,
+      smokingHabitsType: null,
       hasChildren: null,
       wantChildren: null,
       hasPets: null,
-      livesIn: null,
-      education: null,
-      educationStatus: null,
-      educationLevel: null,
-      employmentStatus: null,
-      sportsActivity: null,
-      eatingHabits: null,
-      clotheStyle: null,
-      bodyArt: null
+      locationType: null,
+      educationType: null,
+      educationStatusType: null,
+      educationLevelType: null,
+      employmentStatusType: null,
+      sportsActivityType: null,
+      eatingHabitsType: null,
+      clotheStyleType: null,
+      bodyArtType: null
     });
   }
 
@@ -132,7 +131,7 @@ export class EditProfileComponent {
       auth0Id: this.currentUserSubject.auth0Id, 
       profileId: this.currentUserSubject.profileId,
       admin: this.currentUserSubject.admin,
-      name: formModel.name as string,
+      name: this.currentUserSubject.name,
       createdOn: this.currentUserSubject.createdOn,
       updatedOn: this.currentUserSubject.updatedOn,
       lastActive: this.currentUserSubject.lastActive,

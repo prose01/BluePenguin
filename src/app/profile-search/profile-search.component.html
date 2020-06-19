@@ -56,12 +56,93 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="body" [(value)]="filter.body">
+        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="filter.body">
           <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
             {{ bodyType }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="SmokingHabits type" formControlName="smokingHabitsType" [(value)]="filter.smokingHabits">
+          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
+            {{ smokingHabitsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="LocationType type" formControlName="locationType" [(value)]="filter.livesIn">
+          <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
+            {{ locationType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Education type" formControlName="educationType" [(value)]="filter.education">
+          <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
+            {{ educationType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="EducationStatus type" formControlName="educationStatusType" [(value)]="filter.educationStatus">
+          <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
+            {{ educationStatusType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="EducationLevel type" formControlName="educationLevelType" [(value)]="filter.educationLevel">
+          <mat-option *ngFor="let educationLevelType of educationLevelTypes" [value]="educationLevelType">
+            {{ educationLevelType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="EmploymentStatus type" formControlName="employmentStatusType" [(value)]="filter.employmentStatus">
+          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
+            {{ employmentStatusType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="SportsActivity type" formControlName="sportsActivityType" [(value)]="filter.sportsActivity">
+          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
+            {{ sportsActivityType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="EatingHabits type" formControlName="eatingHabitsType" [(value)]="filter.eatingHabits">
+          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
+            {{ eatingHabitsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="ClotheStyle type" formControlName="clotheStyleType" [(value)]="filter.clotheStyle">
+          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
+            {{ clotheStyleType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="BodyArt type" formControlName="bodyArtType" [(value)]="filter.bodyArt">
+          <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
+            {{ bodyArtType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
   </form>

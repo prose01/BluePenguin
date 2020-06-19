@@ -40,7 +40,7 @@ export class ProfileSearchComponent implements OnInit {
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
-  employmentStatusType = Object.keys(EmploymentStatusType);
+  employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
   clotheStyleTypes = Object.keys(ClotheStyleType);
@@ -56,20 +56,20 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       gender: GenderType.Female,
-      body: BodyType.NotChosen,
-      smokingHabits: SmokingHabitsType.NotChosen,
+      bodyType: BodyType.NotChosen,
+      smokingHabitsType: SmokingHabitsType.NotChosen,
       hasChildren: null,
       wantChildren: null,
       hasPets: null,
-      livesIn: LocationType.NotChosen,
-      education: EducationType.NotChosen,
-      educationStatus: EducationStatusType.NotChosen,
-      educationLevel: EducationLevelType.NotChosen,
-      employmentStatus: EmploymentStatusType.NotChosen,
-      sportsActivity: SportsActivityType.NotChosen,
-      eatingHabits: EatingHabitsType.NotChosen,
-      clotheStyle: ClotheStyleType.NotChosen,
-      bodyArt: BodyArtType.NotChosen
+      locationType: LocationType.NotChosen,
+      educationType: EducationType.NotChosen,
+      educationStatusType: EducationStatusType.NotChosen,
+      educationLevelType: EducationLevelType.NotChosen,
+      employmentStatusType: EmploymentStatusType.NotChosen,
+      sportsActivityType: SportsActivityType.NotChosen,
+      eatingHabitsType: EatingHabitsType.NotChosen,
+      clotheStyleType: ClotheStyleType.NotChosen,
+      bodyArtType: BodyArtType.NotChosen
     });
   }
 

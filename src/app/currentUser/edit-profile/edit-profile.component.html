@@ -73,6 +73,86 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-form-field>
+          <mat-select placeholder="SmokingHabits type" formControlName="smokingHabitsType" [(value)]="currentUserSubject.smokingHabits">
+            <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
+              {{ smokingHabitsType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="LocationType type" formControlName="locationType" [(value)]="currentUserSubject.livesIn">
+            <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
+              {{ locationType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Education type" formControlName="educationType" [(value)]="currentUserSubject.education">
+            <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
+              {{ educationType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="EducationStatus type" formControlName="educationStatusType" [(value)]="currentUserSubject.educationStatus">
+            <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
+              {{ educationStatusType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="EducationLevel type" formControlName="educationLevelType" [(value)]="currentUserSubject.educationLevel">
+            <mat-option *ngFor="let educationLevelType of educationLevelTypes" [value]="educationLevelType">
+              {{ educationLevelType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="EmploymentStatus type" formControlName="employmentStatusType" [(value)]="currentUserSubject.employmentStatus">
+            <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
+              {{ employmentStatusType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="SportsActivity type" formControlName="sportsActivityType" [(value)]="currentUserSubject.sportsActivity">
+            <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
+              {{ sportsActivityType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="EatingHabits type" formControlName="eatingHabitsType" [(value)]="currentUserSubject.eatingHabits">
+            <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
+              {{ eatingHabitsType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="ClotheStyle type" formControlName="clotheStyleType" [(value)]="currentUserSubject.clotheStyle">
+            <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
+              {{ clotheStyleType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="BodyArt type" formControlName="bodyArtType" [(value)]="currentUserSubject.bodyArt">
+            <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
+              {{ bodyArtType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </div>
 
     </form>
