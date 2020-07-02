@@ -82,7 +82,31 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="LocationType type" formControlName="locationType" [(value)]="currentUserSubject.livesIn">
+          <mat-select placeholder="HasChildren type" formControlName="hasChildrenType" [(value)]="currentUserSubject.hasChildren">
+            <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
+              {{ hasChildrenType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="WantChildren type" formControlName="wantChildrenType" [(value)]="currentUserSubject.wantChildren">
+            <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
+              {{ wantChildrenType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="HasPets type" formControlName="hasPetsType" [(value)]="currentUserSubject.hasPets">
+            <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
+              {{ hasPetsType }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Location type" formControlName="locationType" [(value)]="currentUserSubject.livesIn">
             <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
               {{ locationType }}
             </mat-option>

@@ -10,6 +10,9 @@ import {
   GenderType,
   BodyType,
   SmokingHabitsType,
+  HasChildrenType,
+  WantChildrenType,
+  HasPetsType,
   LocationType,
   EducationType,
   EducationStatusType,
@@ -36,6 +39,9 @@ export class ProfileSearchComponent implements OnInit {
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
+  hasChildrenTypes = Object.keys(HasChildrenType);
+  wantChildrenTypes = Object.keys(WantChildrenType);
+  hasPetsTypes = Object.keys(HasPetsType);
   locationTypes = Object.keys(LocationType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
@@ -58,9 +64,9 @@ export class ProfileSearchComponent implements OnInit {
       gender: GenderType.Female,
       bodyType: BodyType.NotChosen,
       smokingHabitsType: SmokingHabitsType.NotChosen,
-      hasChildren: null,
-      wantChildren: null,
-      hasPets: null,
+      hasChildrenType: HasChildrenType.NotChosen,
+      wantChildrenType: WantChildrenType.NotChosen,
+      hasPetsType: HasPetsType.NotChosen,
       locationType: LocationType.NotChosen,
       educationType: EducationType.NotChosen,
       educationStatusType: EducationStatusType.NotChosen,
@@ -116,7 +122,6 @@ export class ProfileSearchComponent implements OnInit {
       description: this.filter.description,
       gender: this.filter.gender,
       body: this.filter.body,
-
       smokingHabits: this.filter.smokingHabits,
       hasChildren: this.filter.hasChildren,
       wantChildren: this.filter.wantChildren,
@@ -179,9 +184,9 @@ export class ProfileSearchComponent implements OnInit {
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
-      hasChildren: formModel.hasChildren as boolean,
-      wantChildren: formModel.wantChildren as boolean,
-      hasPets: formModel.hasPets as boolean,
+      hasChildren: formModel.hasChildren as HasChildrenType,
+      wantChildren: formModel.wantChildren as WantChildrenType,
+      hasPets: formModel.hasPets as HasPetsType,
       livesIn: formModel.livesIn as LocationType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,

@@ -73,6 +73,27 @@ export enum EmploymentStatusType {
   "Other" = "Other"
 }
 
+export enum HasChildrenType {
+  "NotChosen" = "NotChosen",
+  "Yes" = "Yes",
+  "No" = "No",
+  "Other" = "Other"
+}
+
+export enum WantChildrenType {
+  "NotChosen" = "NotChosen",
+  "Yes" = "Yes",
+  "No" = "No",
+  "Other" = "Other"
+}
+
+export enum HasPetsType {
+  "NotChosen" = "NotChosen",
+  "Yes" = "Yes",
+  "No" = "No",
+  "Other" = "Other"
+}
+
 export enum LocationType {
   "NotChosen" = "NotChosen",
   "City" = "City",

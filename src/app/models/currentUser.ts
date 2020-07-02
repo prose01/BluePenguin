@@ -5,6 +5,9 @@ import {
   SexualOrientationType,
   BodyType,
   SmokingHabitsType,
+  HasChildrenType,
+  WantChildrenType,
+  HasPetsType,
   LocationType,
   EducationType,
   EducationStatusType,
@@ -35,9 +38,9 @@ export class CurrentUser {
   sexualOrientation: SexualOrientationType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
-  hasChildren: boolean;
-  wantChildren: boolean;
-  hasPets: boolean;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
   livesIn: LocationType;
   education: EducationType;
   educationStatus: EducationStatusType;
@@ -68,9 +71,9 @@ export interface CurrentUser {
   sexualOrientation: SexualOrientationType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
-  hasChildren: boolean;
-  wantChildren: boolean;
-  hasPets: boolean;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
   livesIn: LocationType;
   education: EducationType;
   educationStatus: EducationStatusType;

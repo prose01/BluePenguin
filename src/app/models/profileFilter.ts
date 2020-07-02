@@ -2,6 +2,9 @@ import {
   GenderType,
   BodyType,
   SmokingHabitsType,
+  HasChildrenType,
+  WantChildrenType,
+  HasPetsType,
   LocationType,
   EducationType,
   EducationStatusType,
@@ -25,9 +28,9 @@ export class ProfileFilter {
   gender: GenderType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
-  hasChildren: boolean;
-  wantChildren: boolean;
-  hasPets: boolean;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
   livesIn: LocationType;
   education: EducationType;
   educationStatus: EducationStatusType;
@@ -51,9 +54,9 @@ export interface ProfileFilter {
   gender: GenderType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
-  hasChildren: boolean;
-  wantChildren: boolean;
-  hasPets: boolean;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
   livesIn: LocationType;
   education: EducationType;
   educationStatus: EducationStatusType;

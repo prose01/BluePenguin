@@ -22,7 +22,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly"> <!--{{currentUserSubject.createdOn | date:'medium'}}-->
+        <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly"> <!--{{currentUser.createdOn | date:'medium'}}-->
       </mat-form-field>
 
       <mat-form-field>
@@ -50,7 +50,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUserSubject.gender">
+        <mat-select placeholder="Gender" formControlName="genderType" [(value)]="currentUser.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -58,7 +58,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="SexualOrientation type" formControlName="sexualOrientationType" [(value)]="currentUser.body">
+        <mat-select placeholder="SexualOrientation type" formControlName="sexualOrientationType" [(value)]="currentUser.sexualOrientation">
           <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
             {{ sexualOrientationType }}
           </mat-option>
@@ -82,7 +82,31 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="LocationType type" formControlName="locationType" [(value)]="currentUser.livesIn">
+        <mat-select placeholder="HasChildren type" formControlName="hasChildrenType" [(value)]="currentUser.hasChildren">
+          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
+            {{ hasChildrenType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="WantChildren type" formControlName="wantChildrenType" [(value)]="currentUser.wantChildren">
+          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
+            {{ wantChildrenType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="HasPets type" formControlName="hasPetsType" [(value)]="currentUser.hasPets">
+          <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
+            {{ hasPetsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Location type" formControlName="locationType" [(value)]="currentUser.livesIn">
           <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
             {{ locationType }}
           </mat-option>
@@ -156,7 +180,5 @@
     </div>
 
   </form>
-
-  <p>Form value: {{ newUserForm.value | json }}</p>
 
 </div>

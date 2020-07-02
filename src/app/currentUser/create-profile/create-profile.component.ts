@@ -9,6 +9,9 @@ import {
   SexualOrientationType,
   BodyType,
   SmokingHabitsType,
+  HasChildrenType,
+  WantChildrenType,
+  HasPetsType,
   LocationType,
   EducationType,
   EducationStatusType,
@@ -33,6 +36,9 @@ export class CreateProfileComponent implements OnChanges {
   sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
+  hasChildrenTypes = Object.keys(HasChildrenType);
+  wantChildrenTypes = Object.keys(WantChildrenType);
+  hasPetsTypes = Object.keys(HasPetsType);
   locationTypes = Object.keys(LocationType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
@@ -59,9 +65,9 @@ export class CreateProfileComponent implements OnChanges {
       sexualOrientationType: null,
       bodyType: null,
       smokingHabitsType: null,
-      hasChildren: null,
-      wantChildren: null,
-      hasPets: null,
+      hasChildrenType: null,
+      wantChildrenType: null,
+      hasPetsType: null,
       locationType: null,
       educationType: null,
       educationStatusType: null,
@@ -102,25 +108,25 @@ export class CreateProfileComponent implements OnChanges {
 
     const saveProfile: CurrentUser = {
       chatMemberslist: this.currentUser.chatMemberslist,
-      auth0Id: null,
-      profileId: null,
-      admin: null,
-      name: formModel.name as string,
-      createdOn: null,
-      updatedOn: null,
-      lastActive: null,
-      age: formModel.age,
-      height: formModel.height,
-      weight: formModel.weight,
-      description: formModel.description as string,
+      auth0Id: this.currentUser.auth0Id,
+      profileId: this.currentUser.profileId,
+      admin: this.currentUser.admin,
       images: this.currentUser.images,
+      createdOn: this.currentUser.createdOn,
+      updatedOn: this.currentUser.updatedOn,
+      lastActive: this.currentUser.lastActive,
+      name: formModel.name as string,
+      age: formModel.age as number,
+      height: formModel.height as number,
+      weight: formModel.weight as number,
+      description: formModel.description as string,
       gender: formModel.gender as GenderType,
       sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
-      hasChildren: formModel.hasChildren as boolean,
-      wantChildren: formModel.wantChildren as boolean,
-      hasPets: formModel.hasPets as boolean,
+      hasChildren: formModel.hasChildren as HasChildrenType,
+      wantChildren: formModel.wantChildren as WantChildrenType,
+      hasPets: formModel.hasPets as HasPetsType,
       livesIn: formModel.livesIn as LocationType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,
