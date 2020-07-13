@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ProfileService } from '../services/profile.service';
+import { ImageService } from '../services/image.service';
 import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { Profile } from '../models/profile';
@@ -52,7 +53,7 @@ export class ProfileSearchComponent implements OnInit {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -147,14 +148,14 @@ export class ProfileSearchComponent implements OnInit {
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
-    this.profileService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
+    this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
     this.searchResultProfiles.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.profileService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
       else {
         // Set default profile image.

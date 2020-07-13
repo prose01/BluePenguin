@@ -18,6 +18,7 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov
 import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-imageGallery.',
@@ -30,7 +31,7 @@ export class ImageGalleryComponent implements OnInit {
   galleryImages: NgxGalleryImage[];
   images: any[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
@@ -46,7 +47,7 @@ export class ImageGalleryComponent implements OnInit {
 
   getProfileImages(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => this.profileService.getProfileImages(params.get('profileId'))))
+      switchMap((params: ParamMap) => this.imageService.getProfileImages(params.get('profileId'))))
       .subscribe(images => this.images = images); 
   }
 

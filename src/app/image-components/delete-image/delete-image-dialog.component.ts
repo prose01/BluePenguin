@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from './../../authorisation/auth/auth.service';
 
 import { ProfileService } from './../../services/profile.service';
+import { ImageService } from './../../services/image.service';
 
 @Component({
   selector: 'delete-image-dialog',
@@ -15,7 +16,7 @@ export class DeleteImageDialog {
   matDialogTitle: string;
   matDialogContent: string;
 
-  constructor(public auth: AuthService, private profileService: ProfileService,
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
     public dialogRef: MatDialogRef<DeleteImageDialog>,
     @Inject(MAT_DIALOG_DATA) public imageId: string) {
 
@@ -31,7 +32,7 @@ export class DeleteImageDialog {
     if (this.IsChecked) {
       var id = [];
       id.push(this.imageId["imageId"]); // TODO: Fix this. Hack to get post to work. 
-      this.profileService.deleteImage(id).subscribe(() => { });
+      this.imageService.deleteImage(id).subscribe(() => { });
     }
   }
 

@@ -4,6 +4,7 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/ImageModel';
 import { ProfileService } from '../services/profile.service';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'my-dashboard',
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit {
 
   profiles: Profile[];
 
-  constructor(public auth: AuthService, private profileService: ProfileService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -59,14 +60,14 @@ export class DashboardComponent implements OnInit {
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
-    this.profileService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
+    this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
     this.profiles.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.profileService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
       else {
         // Set default profile image.

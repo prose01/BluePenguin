@@ -81,26 +81,26 @@ export class ProfileService {
       );
   }
 
-  uploadImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
-      reportProgress: true,
-      observe: 'events'
-    });
-  }
+  //uploadImage(formData: FormData): Observable<any> {
+  //  return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
+  //    reportProgress: true,
+  //    observe: 'events'
+  //  });
+  //}
 
-  getImageByFileName(fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getImageByFileName(fileName: string): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
-  deleteImage(imageId: string[]): Observable<CurrentUser> {
-    return this.http.post(`${this.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //deleteImage(imageId: string[]): Observable<CurrentUser> {
+  //  return this.http.post(`${this.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   saveProfileFilter(profileFilter: ProfileFilter): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
@@ -263,19 +263,19 @@ export class ProfileService {
       );
   }
 
-  getProfileImages(profileId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getProfileImages(profileId: string): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
-  getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
 
   // Helper Lav en rigtig error handler inden produktion

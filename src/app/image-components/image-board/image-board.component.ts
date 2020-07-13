@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
+import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/ImageModel';
 
@@ -19,7 +20,7 @@ export class ImageBoardComponent implements OnInit {
   currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
 
-  constructor(public auth: AuthService, private profileService: ProfileService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
 
   ngOnInit(): void {
@@ -39,7 +40,7 @@ export class ImageBoardComponent implements OnInit {
   getCurrentUserImages(): void {
     this.imageModels.forEach((element, i) => {
       setTimeout(() => {
-        this.profileService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
       }, i * 1000); // Find på noget bedre end at vente 1 sek.
     });
 

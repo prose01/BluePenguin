@@ -14,6 +14,7 @@ import { HttpEventType } from '@angular/common/http';
 import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'image-upload',
@@ -33,7 +34,7 @@ export class ImageUploadComponent {
   fileUploadProgress: string = null;
   title: string = null;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private router: Router) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private router: Router) { }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -132,7 +133,7 @@ export class ImageUploadComponent {
 
     this.fileUploadProgress = '0%';
 
-    this.profileService.uploadImage(formData)
+    this.imageService.uploadImage(formData)
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';

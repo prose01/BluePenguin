@@ -25,6 +25,7 @@ import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 
 import { ProfileService }                     from './services/profile.service';
+import { ImageService }                       from './services/image.service';
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
@@ -95,6 +96,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
   ],
   providers: [
     ProfileService,
+    ImageService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
