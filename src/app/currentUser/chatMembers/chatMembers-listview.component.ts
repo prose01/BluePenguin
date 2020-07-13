@@ -53,19 +53,7 @@ export class ChatMembersListviewComponent implements OnInit {
 
       this.chatMembers = chatMembers;
       this.profileIds = profileIds;
-      this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles);
-
-      setTimeout(() => {
-
-        // Set the profile name for chatMember. Should be part of chatMemeber from start!
-        let profiles = this.profiles;
-        this.chatMembers.forEach(function (value) {
-          let profile = profiles.find(i => i.profileId === value.profileId);
-          value.name = profile.name;
-        });
-
-        this.setDataSource()
-      }, 1000);
+      this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberNames() } );
 
     }, 500);
   }
@@ -118,5 +106,17 @@ export class ChatMembersListviewComponent implements OnInit {
     }
 
     return profiles;
+  }
+
+
+  setChatmemberNames() {
+    // Set the profile name for chatMember. Should be part of chatMemeber from start!
+    let profiles = this.profiles;
+    this.chatMembers.forEach(function (value) {
+      let profile = profiles.find(i => i.profileId === value.profileId);
+      value.name = profile.name;
+    });
+
+    this.setDataSource();
   }
 }

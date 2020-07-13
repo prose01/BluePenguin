@@ -33,7 +33,7 @@ export class DeleteProfileDialog {
         this.profileService.deleteProfiles(this.profileIds).subscribe(() => { });
       }
       else {
-        this.profileService.deleteCurrentUser().subscribe(() => { }, () => { },() => { this.auth.logout() });
+        this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
       }
     }
   }
