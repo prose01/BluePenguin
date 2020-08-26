@@ -45,6 +45,13 @@ export class ImageService {
       );
   }
 
+  deleteAllImagesForCurrentUser(): Observable<CurrentUser> {
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   // Profile
 
   getProfileImages(profileId: string): Observable<any[]> {
@@ -56,6 +63,13 @@ export class ImageService {
 
   getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteAllImagesForProfile(profileIds: string[]): Observable<CurrentUser> {
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfile`, profileIds, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
