@@ -209,10 +209,6 @@ export class ProfileService {
   blockChatMembers(profileIds: string[]): Observable<Profile[]> {
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
       .pipe(
-        map(profile => profile),
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`;
-        }),
         catchError(this.handleError)
       );
   }

@@ -44,17 +44,7 @@ export class ChatMembersListviewComponent implements OnInit {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
 
     setTimeout(() => {
-      let chatMembers = new Array;
-      let profileIds = new Array;
-      this.currentUserSubject.chatMemberslist.forEach(function (member) {
-        chatMembers.push(member);
-        profileIds.push(member.profileId);
-      });
-
-      this.chatMembers = chatMembers;
-      this.profileIds = profileIds;
-      this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberNames() } );
-
+      this.refreshChatmemberlist();
     }, 500);
   }
 
@@ -62,6 +52,10 @@ export class ChatMembersListviewComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.setDataSource();
     }
+  }
+
+  updateCurrentUserSubject() {
+    this.profileService.updateCurrentUserSubject();
   }
 
   setDataSource(): void {
@@ -95,7 +89,11 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   blockChatMembers() {
-    this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { });
+    this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
+
+    setTimeout(() => {
+      this.refreshChatmemberlist();
+    }, 500);
   }
 
   selcetedProfiles(): string[] {
@@ -108,9 +106,7 @@ export class ChatMembersListviewComponent implements OnInit {
     return profiles;
   }
 
-
-  setChatmemberNames() {
-    // Set the profile name for chatMember. Should be part of chatMemeber from start!
+  setChatmemberProperties() {
     let profiles = this.profiles;
     this.chatMembers.forEach(function (value) {
       let profile = profiles.find(i => i.profileId === value.profileId);
@@ -118,5 +114,18 @@ export class ChatMembersListviewComponent implements OnInit {
     });
 
     this.setDataSource();
+  }
+
+  refreshChatmemberlist() {
+    let chatMembers = new Array;
+    let profileIds = new Array;
+    this.currentUserSubject.chatMemberslist.forEach(function (member) {
+      chatMembers.push(member);
+      profileIds.push(member.profileId);
+    });
+
+    this.chatMembers = chatMembers;
+    this.profileIds = profileIds;
+    this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
   }
 }
