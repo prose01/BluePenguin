@@ -1,5 +1,6 @@
 
-import {switchMap} from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Component, OnInit, Input } 		from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -8,6 +9,7 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
 import { ProfileService } from '../services/profile.service';
+import { DeleteProfileDialog } from '../currentUser/delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'profile-detail',
@@ -20,7 +22,7 @@ export class ProfileDetailComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute
+  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute, private dialog: MatDialog
 	) {}
 
   ngOnInit(): void {
@@ -46,6 +48,14 @@ export class ProfileDetailComponent implements OnInit {
     if (this.currentUserSubject.admin) {
       this.profileService.removeAdmin(this.profile).subscribe(() => { });
     }
+  }
+
+  openDeleteProfilesDialog(): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      height: '300px',
+      width: '300px',
+      data: [this.profile.profileId]
+    });
   }
 
 }

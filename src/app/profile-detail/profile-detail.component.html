@@ -15,4 +15,8 @@
 			<button (click)="removeProfileAsAdmin()">Remove Profile as Admin</button>
 		</div>
 
+		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
+			<button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
+		</div>
+
 	</div>
