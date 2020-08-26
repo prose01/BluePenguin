@@ -15,7 +15,7 @@
 	</mat-button-toggle-group>
 
 	<mat-button-toggle (click)=toggleDisplay()>{{matButtonToggleText}}</mat-button-toggle>
-	<div *ngIf="isMatButtonToggled"><app-profile-tileview [profiles]="profiles"></app-profile-tileview></div>
-	<div *ngIf="!isMatButtonToggled"><app-profile-listview [profiles]="profiles"></app-profile-listview></div>
+	<div *ngIf="isTileView"><app-profile-tileview [profiles]="profiles"></app-profile-tileview></div>
+	<div *ngIf="!isTileView"><app-profile-listview [profiles]="profiles"></app-profile-listview></div>
 
 </div>

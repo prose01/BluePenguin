@@ -13,8 +13,8 @@ import { ImageService } from '../services/image.service';
 })
 export class DashboardComponent implements OnInit {
 
-  isMatButtonToggled = true;
-  matButtonToggleText: string = 'TileView';
+  isTileView = true;
+  matButtonToggleText: string = 'ListView';
 
   profiles: Profile[];
 
@@ -82,8 +82,8 @@ export class DashboardComponent implements OnInit {
 
 
   toggleDisplay() {
-    this.isMatButtonToggled = !this.isMatButtonToggled;
-    this.matButtonToggleText = (this.isMatButtonToggled ? 'TileView' : 'ListView');
+    this.isTileView = !this.isTileView;
+    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
   }
 
 }
