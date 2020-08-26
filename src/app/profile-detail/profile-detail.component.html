@@ -11,8 +11,8 @@
 
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button (click)="setProfileAsAdmin()">Set Profile as Admin</button>
-			<button (click)="removeProfileAsAdmin()">Remove Profile as Admin</button>
+			<button *ngIf="!profile.admin" (click)="setProfileAsAdmin()">Set Profile as Admin</button>
+			<button *ngIf="profile.admin" (click)="removeProfileAsAdmin()">Remove Profile as Admin</button>
 		</div>
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
