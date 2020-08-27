@@ -29,33 +29,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter().subscribe(profiles => this.profiles = profiles);
-
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+    this.profileService.getProfileByCurrentUsersFilter().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
   }
 
   getLatestCreatedProfiles() {
-    this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles);
-
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+    this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
   }
 
-  //getLastUpdatedProfiles() {
-  //  this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles);
-
-  //  setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
-  //}
-
-  //getLastActiveProfiles() {
-  //  this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles);
-
-  //  setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
-  //}
-
   getBookmarkedProfiles() {
-    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles);
-
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
   }
 
   getProfileImages(): void {
@@ -79,7 +61,6 @@ export class DashboardComponent implements OnInit {
   randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-
 
   toggleDisplay() {
     this.isTileView = !this.isTileView;
