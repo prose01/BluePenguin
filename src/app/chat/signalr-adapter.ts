@@ -10,19 +10,17 @@ export class SignalRAdapter extends ChatAdapter {
   public userId: string;
 
   private hubConnection: signalR.HubConnection
-  private static serverBaseUrl: string = 'https://localhost:44328/';  // URL to Juno web api
   private headers: HttpHeaders;
 
-  constructor(public auth: AuthService, private username: string, private http: HttpClient) {
+  constructor(public auth: AuthService, private junoUrl: string, private username: string, private http: HttpClient) {
     super();
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
-
     setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
   }
 
   private initializeConnection(token: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${SignalRAdapter.serverBaseUrl}chatHub`, { accessTokenFactory: () => token })
+      .withUrl(`${this.junoUrl}chatHub`, { accessTokenFactory: () => token })
       .build();
 
     this.hubConnection
@@ -61,7 +59,7 @@ export class SignalRAdapter extends ChatAdapter {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
     return this.http
-      .post(`${SignalRAdapter.serverBaseUrl}participantResponses`, { headers: this.headers })
+      .post(`${this.junoUrl}participantResponses`, { headers: this.headers })
       .pipe(
         map((res: any) => res),
         catchError(this.handleError)
@@ -70,7 +68,7 @@ export class SignalRAdapter extends ChatAdapter {
 
   getMessageHistory(destinataryId: string): Observable<Message[]> {
     return this.http
-      .post(`${SignalRAdapter.serverBaseUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
+      .post(`${this.junoUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
       .pipe(
         map((res: Message[]) => res),
         catchError(this.handleError),

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
 import { AuthService } from './authorisation/auth/auth.service';
-import { ProfileService } from './services/profile.service';
-
 import { CurrentUser } from './models/currentUser';
+import { ProfileService } from './services/profile.service';
 
 @Component({
   selector: 'app-root',

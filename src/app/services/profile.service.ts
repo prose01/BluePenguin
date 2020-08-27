@@ -8,11 +8,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
 import { ProfileFilter } from '../models/profileFilter';
+import { AppSettings } from '../models/appsettings';
+import { AppSettingsService } from './appsettings.service';
 
 @Injectable()
 export class ProfileService {
 
-  private avalonUrl = 'http://localhost:49260/';  // URL to web api
+  private settings: AppSettings;
+  //private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
@@ -23,14 +26,15 @@ export class ProfileService {
   retrieveResonse: any; // Is this being used?
 
 
-  constructor(private http: HttpClient, public router: Router) {
+  constructor(private appSettingsService: AppSettingsService, private http: HttpClient, public router: Router) {
+    this.appSettingsService.getSettings().subscribe(settings => this.settings = settings);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
   // CurrentUser
 
   async verifyCurrentUserProfile(): Promise<boolean> {
-    const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
+    const currentUser = await this.http.get<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
 
     if (currentUser.auth0Id == null) {
       this.router.navigate(['/create']);
@@ -45,12 +49,12 @@ export class ProfileService {
   }
 
   async updateCurrentUserSubject() {
-    const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
+    const currentUser = await this.http.get<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
     this.currentUserSource.next(currentUser);
   }
 
   //getCurrentUserProfile(): Observable<CurrentUser> {
-  //  return this.http.get<CurrentUser[]>(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
+  //  return this.http.get<CurrentUser[]>(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers })
   //    .pipe(
   //      map(currentUser => currentUser),
   //      tap(h => {
@@ -61,56 +65,56 @@ export class ProfileService {
   //}
 
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
+    return this.http.post<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   putProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
+    return this.http.put<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   deleteCurrentUser(): Observable<CurrentUser> {
-    return this.http.delete(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
+    return this.http.delete(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   //uploadImage(formData: FormData): Observable<any> {
-  //  return this.http.post(`${this.avalonUrl}UploadImage`, formData, {
+  //  return this.http.post(`${this.settings.avalonUrl}UploadImage`, formData, {
   //    reportProgress: true,
   //    observe: 'events'
   //  });
   //}
 
   //getImageByFileName(fileName: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
+  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );
   //}
 
   //deleteImage(imageId: string[]): Observable<CurrentUser> {
-  //  return this.http.post(`${this.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
+  //  return this.http.post(`${this.settings.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );
   //}
 
   saveProfileFilter(profileFilter: ProfileFilter): Observable<CurrentUser> {
-    return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
+    return this.http.post<CurrentUser>(`${this.settings.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   loadProfileFilter(): Observable<ProfileFilter> {
-    return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers })
+    return this.http.get<ProfileFilter>(`${this.settings.avalonUrl}LoadProfileFilter`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -118,7 +122,7 @@ export class ProfileService {
 
   // Does not work so use putProfile instead.
   patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
+    return this.http.patch<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -127,21 +131,21 @@ export class ProfileService {
 
   // Bookmarks
   addProfilesToBookmarks(profiles: string[]): Observable<Profile> {
-    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
+    return this.http.post<Profile>(`${this.settings.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   removeProfilesFromBookmarks(profiles: string[]): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.settings.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getBookmarkedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -153,14 +157,14 @@ export class ProfileService {
   // Profile
 
   getProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetAllProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getProfileById(profileId: string): Observable<Profile> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {
@@ -171,21 +175,21 @@ export class ProfileService {
   }
 
   setAsAdmin(profile: Profile): Observable<Profile> {
-    return this.http.post(`${this.avalonUrl}SetAsAdmin`, profile, { headers: this.headers })
+    return this.http.post(`${this.settings.avalonUrl}SetAsAdmin`, profile, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   removeAdmin(profile: Profile): Observable<Profile> {
-    return this.http.post(`${this.avalonUrl}RemoveAdmin`, profile, { headers: this.headers })
+    return this.http.post(`${this.settings.avalonUrl}RemoveAdmin`, profile, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   //getProfilesById(profileIds: string[]): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesById/${profileIds}`, { headers: this.headers })
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetProfilesById/${profileIds}`, { headers: this.headers })
   //    .pipe(
   //      map(profile => profile),
   //      tap(h => {
@@ -196,7 +200,7 @@ export class ProfileService {
   //}
 
   getChatMemberProfiles(): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.settings.avalonUrl}GetChatMemberProfiles`, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {
@@ -207,14 +211,14 @@ export class ProfileService {
   }
 
   blockChatMembers(profileIds: string[]): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.settings.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
-    return this.http.post<ProfileFilter[]>(`${this.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
+    return this.http.post<ProfileFilter[]>(`${this.settings.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {
@@ -225,49 +229,49 @@ export class ProfileService {
   }
 
   getProfileByCurrentUsersFilter(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getLatestCreatedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   //getLastUpdatedProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );
   //}
 
   //getLastActiveProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );
   //}
   
   deleteProfiles(profiles: string[]): Observable<Profile> {
-    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
+    return this.http.post(`${this.settings.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   //getProfileImages(profileId: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );
   //}
 
   //getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
+  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
   //    .pipe(
   //      catchError(this.handleError)
   //    );

@@ -24,6 +24,7 @@ import { AppRoutingModule }                   from './app-routing.module';
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 
+import { AppSettingsService }                 from "./services/appsettings.service";
 import { ProfileService }                     from './services/profile.service';
 import { ImageService }                       from './services/image.service';
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
@@ -95,6 +96,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     NgChatModule
   ],
   providers: [
+    AppSettingsService,
     ProfileService,
     ImageService,
     AuthService,
