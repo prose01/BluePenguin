@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   matButtonToggleText: string = 'ListView';
 
   profiles: Profile[];
+  showingBookmarkedProfilesList: boolean;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
@@ -30,14 +31,27 @@ export class DashboardComponent implements OnInit {
 
   getProfileByCurrentUsersFilter() {
     this.profileService.getProfileByCurrentUsersFilter().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
   }
 
   getLatestCreatedProfiles() {
     this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
   }
+
+  //getLastUpdatedProfiles() {
+  //  this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+  //  this.showingBookmarkedProfilesList = false;
+  //}
+
+  //getLastActiveProfiles() {
+  //  this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+  //  this.showingBookmarkedProfilesList = false;
+  //}
 
   getBookmarkedProfiles() {
     this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = true;
   }
 
   getProfileImages(): void {

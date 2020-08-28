@@ -33,7 +33,8 @@ export class ProfileListviewComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
 
-  @Input() profiles: Profile[]; // Brug RxJS BehaviorSubject !!!!! Således at add-remove bookmarks opdateret auto.
+  @Input() profiles: Profile[];
+  @Input() showingBookmarkedProfilesList: boolean;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -55,7 +56,7 @@ export class ProfileListviewComponent implements OnInit {
   }
 
   setDataSource(): void {
-    this.dataSource = new MatTableDataSource<Profile>(this.profiles);
+    this.dataSource = new MatTableDataSource(this.profiles);
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
@@ -86,7 +87,11 @@ export class ProfileListviewComponent implements OnInit {
 
 /** Add or remove bookmarks */
   removeFavoritProfiles() {
-    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles()).subscribe(() => {});
+    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles()).subscribe(() => { }, () => { }, () => {
+      this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => {
+        this.setDataSource()
+      })
+    });
   }
 
   addFavoritProfiles() {

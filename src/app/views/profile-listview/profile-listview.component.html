@@ -66,8 +66,8 @@
     </table>
 
     <div class="button-row">
-      <button (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
-      <button (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
+      <button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
+      <button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
     </div>
 
     <div *ngIf="currentUserSubject != null && currentUserSubject.admin"  class="button-row">
