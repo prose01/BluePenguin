@@ -39,15 +39,15 @@ export class DashboardComponent implements OnInit {
     this.showingBookmarkedProfilesList = false;
   }
 
-  //getLastUpdatedProfiles() {
-  //  this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-  //  this.showingBookmarkedProfilesList = false;
-  //}
+  getLastUpdatedProfiles() {
+    this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
 
-  //getLastActiveProfiles() {
-  //  this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-  //  this.showingBookmarkedProfilesList = false;
-  //}
+  getLastActiveProfiles() {
+    this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
 
   getBookmarkedProfiles() {
     this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });

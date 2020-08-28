@@ -53,17 +53,6 @@ export class ProfileService {
     this.currentUserSource.next(currentUser);
   }
 
-  //getCurrentUserProfile(): Observable<CurrentUser> {
-  //  return this.http.get<CurrentUser[]>(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers })
-  //    .pipe(
-  //      map(currentUser => currentUser),
-  //      tap(h => {
-  //        const outcome = h ? `fetched` : `did not find`;
-  //      }),
-  //      catchError(this.handleError)
-  //    );
-  //}
-
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
@@ -84,27 +73,6 @@ export class ProfileService {
         catchError(this.handleError)
       );
   }
-
-  //uploadImage(formData: FormData): Observable<any> {
-  //  return this.http.post(`${this.settings.avalonUrl}UploadImage`, formData, {
-  //    reportProgress: true,
-  //    observe: 'events'
-  //  });
-  //}
-
-  //getImageByFileName(fileName: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  //deleteImage(imageId: string[]): Observable<CurrentUser> {
-  //  return this.http.post(`${this.settings.avalonUrl}DeleteImage`, imageId, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
 
   saveProfileFilter(profileFilter: ProfileFilter): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.settings.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
@@ -170,6 +138,13 @@ export class ProfileService {
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
         }),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteProfiles(profiles: string[]): Observable<Profile> {
+    return this.http.post(`${this.settings.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
+      .pipe(
         catchError(this.handleError)
       );
   }
@@ -242,40 +217,19 @@ export class ProfileService {
       );
   }
 
-  //getLastUpdatedProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  //getLastActiveProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-  
-  deleteProfiles(profiles: string[]): Observable<Profile> {
-    return this.http.post(`${this.settings.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
+  getLastUpdatedProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  //getProfileImages(profileId: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetProfileImages/${profileId}`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  //getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.settings.avalonUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
+  getLastActiveProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
 
   // Helper Lav en rigtig error handler inden produktion
