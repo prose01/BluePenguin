@@ -5,6 +5,7 @@ import { Profile } from '../models/profile';
 import { ImageModel } from '../models/ImageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
+import { OrderByType } from '../models/enums';
 
 @Component({
   selector: 'my-dashboard',
@@ -29,29 +30,32 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  getLatestCreatedProfiles() {
-    this.profileService.getLatestCreatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  getLastUpdatedProfiles() {
-    this.profileService.getLastUpdatedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  getLastActiveProfiles() {
-    this.profileService.getLastActiveProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
 
   getBookmarkedProfiles() {
     this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
     this.showingBookmarkedProfilesList = true;
+  }
+
+  // Get Filtered Profiles with OrderByType.
+  getProfileByCurrentUsersFilter() {
+    this.profileService.getProfileByCurrentUsersFilter(OrderByType.CreatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
+
+  // Get latest Profiles with OrderByType.
+  getLatestCreatedProfiles() {
+    this.profileService.getLatestProfiles(OrderByType.CreatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
+
+  getLastUpdatedProfiles() {
+    this.profileService.getLatestProfiles(OrderByType.UpdatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
+
+  getLastActiveProfiles() {
+    this.profileService.getLatestProfiles(OrderByType.LastActive).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
   }
 
   getProfileImages(): void {

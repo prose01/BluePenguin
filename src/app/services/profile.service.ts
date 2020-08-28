@@ -10,6 +10,7 @@ import { CurrentUser } from '../models/currentUser';
 import { ProfileFilter } from '../models/profileFilter';
 import { AppSettings } from '../models/appsettings';
 import { AppSettingsService } from './appsettings.service';
+import { OrderByType } from '../models/enums';
 
 @Injectable()
 export class ProfileService {
@@ -192,8 +193,8 @@ export class ProfileService {
       );
   }
 
-  getProfileByFilter(profileFilter: ProfileFilter): Observable<Profile[]> {
-    return this.http.post<ProfileFilter[]>(`${this.settings.avalonUrl}GetProfileByFilter`, profileFilter, { headers: this.headers })
+  getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType): Observable<Profile[]> {
+    return this.http.post<ProfileFilter[]>(`${this.settings.avalonUrl}GetProfileByFilter`, { profileFilter, orderByType }, { headers: this.headers })
       .pipe(
         map(profile => profile),
         tap(h => {
@@ -203,33 +204,40 @@ export class ProfileService {
       );
   }
 
-  getProfileByCurrentUsersFilter(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers })
+  getProfileByCurrentUsersFilter(orderByType: OrderByType): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetProfileByCurrentUsersFilter/${orderByType}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getLatestCreatedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
+  getLatestProfiles(orderByType: OrderByType): Observable<Profile[]> {
+    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLatestProfiles/${orderByType}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getLastUpdatedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getLatestCreatedProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
-  getLastActiveProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  //getLastUpdatedProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
+
+  //getLastActiveProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      catchError(this.handleError)
+  //    );
+  //}
 
 
   // Helper Lav en rigtig error handler inden produktion

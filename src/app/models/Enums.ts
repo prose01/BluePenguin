@@ -134,3 +134,11 @@ export enum MaritalStatusType {
   "Divorced" = "Divorced",
   "Other" = "Other"
 }
+
+
+// Enum types used for other stuff than Profiles.
+export enum OrderByType {
+  "CreatedOn" = "CreatedOn",
+  "UpdatedOn" = "UpdatedOn",
+  "LastActive" = "LastActive"
+}

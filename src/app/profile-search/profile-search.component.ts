@@ -22,7 +22,8 @@ import {
   SportsActivityType,
   EatingHabitsType,
   ClotheStyleType,
-  BodyArtType
+  BodyArtType,
+  OrderByType
 } from '../models/enums';
 
 @Component({
@@ -141,7 +142,7 @@ export class ProfileSearchComponent implements OnInit {
 
   onSubmit() {
     this.filter = this.prepareSearch();
-    this.profileService.getProfileByFilter(this.filter).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
+    this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
 
     setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
   }
