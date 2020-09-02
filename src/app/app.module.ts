@@ -15,6 +15,8 @@ import { MatButtonToggleModule }              from '@angular/material/button-tog
 import { MatDialogModule }                    from '@angular/material/dialog';
 import { MatCardModule }                      from '@angular/material/card';
 import { MatTabsModule }                      from '@angular/material/tabs';
+import { MatButtonModule }                    from '@angular/material/button';
+import { MatTooltipModule }                   from '@angular/material/tooltip';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -91,6 +93,8 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     MatDialogModule,
     MatCardModule,
     MatTabsModule,
+    MatButtonModule,
+    MatTooltipModule,
     ImageCropperModule,
     NgxGalleryModule,
     NgChatModule

@@ -1,16 +1,30 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
 
   <mat-button-toggle (click)=toggleDisplayOrder()>{{matButtonToggleText}}</mat-button-toggle>
 
   <div class="grid grid-pad">
-    <a *ngFor="let profile of profiles" class="col-1-4"
-       routerLink="/detail/{{profile.profileId}}">
 
-      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
-      <div class="module profile">
-        <h4>{{profile.name}}</h4>
+    <div *ngFor="let profile of profiles" class="col-1-4">
+      <div class="button-row">
+        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="Remove from favorits">
+          <i class="material-icons">favorite</i>
+        </button>
+        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" matTooltip="Add to favorits">
+          <i class="material-icons">bookmark</i>
+        </button>
       </div>
-    </a>
+
+      <a routerLink="/detail/{{profile.profileId}}">
+
+        <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
+        <div class="module profile">
+          <h4>{{profile.name}}</h4>
+        </div>
+      </a>
+    </div>
+
   </div>
 
 </div>
