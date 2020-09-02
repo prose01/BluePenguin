@@ -8,6 +8,7 @@ import { DashboardComponent }     from './dashboard/dashboard.component';
 //import { ProfileListviewComponent } from './views/profile-listview/profile-listview.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { AboutComponent } from './about/about.component';
 import { ImageBoardComponent } from './image-components/image-board/image-board.component';
 import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent } from './image-components/image-gallery/image-gallery.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   //{ path: 'profiles', component: ProfileListviewComponent },
   { path: 'profileSearch', component: ProfileSearchComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'imagesboard', component: ImageBoardComponent },
   { path: 'imageupload', component: ImageUploadComponent },

@@ -40,6 +40,7 @@ import { ProfileTileviewComponent }           from './views/profile-tileview/pro
 
 import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
+import { AboutComponent }                     from './about/about.component';
 
 
 import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
@@ -60,6 +61,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     DashboardComponent,
     CreateProfileComponent,
     ProfileDetailComponent,
+    AboutComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
     CallbackComponent,
