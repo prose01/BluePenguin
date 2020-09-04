@@ -23,8 +23,10 @@ import {
   EatingHabitsType,
   ClotheStyleType,
   BodyArtType,
-  OrderByType
+  OrderByType,
+  SexualOrientationType
 } from '../models/enums';
+import { CurrentUser } from '../models/currentUser';
 
 @Component({
   selector: 'app-profile-search',
@@ -53,6 +55,9 @@ export class ProfileSearchComponent implements OnInit {
   eatingHabitsTypes = Object.keys(EatingHabitsType);
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
+
+  currentUserSubject: CurrentUser;
+  showGenderChoise: boolean;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -84,9 +89,16 @@ export class ProfileSearchComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { }
+        if (currentUser) {          
+          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });          
+        }
       });
     }
+  }
+
+  setShowGenderChoise(sexualOrientationType: SexualOrientationType) {
+    this.showGenderChoise = (sexualOrientationType == SexualOrientationType.Heterosexual || sexualOrientationType == SexualOrientationType.Homosexual) ? false : true;
+    console.log(this.showGenderChoise + ' - ' + sexualOrientationType);
   }
 
   rebuildForm() {

@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CallbackComponent } from './authorisation/callback/callback.component';
 import { CreateProfileComponent } from './currentUser/create-profile/create-profile.component';
-//import { EditProfileComponent } from './currentUser/edit-profile/edit-profile.component';
 import { DashboardComponent }     from './dashboard/dashboard.component';
-//import { ProfileListviewComponent } from './views/profile-listview/profile-listview.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { AboutComponent } from './about/about.component';
@@ -21,7 +19,6 @@ const routes: Routes = [
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: CurrentUserBoardComponent },
   { path: 'dashboard', component: DashboardComponent },
-  //{ path: 'profiles', component: ProfileListviewComponent },
   { path: 'profileSearch', component: ProfileSearchComponent },
   { path: 'about', component: AboutComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },

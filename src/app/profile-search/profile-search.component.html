@@ -47,7 +47,7 @@
         <textarea matInput placeholder="Description" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="showGenderChoise">
         <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
