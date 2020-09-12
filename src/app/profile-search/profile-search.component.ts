@@ -22,9 +22,9 @@ import {
   SportsActivityType,
   EatingHabitsType,
   ClotheStyleType,
-  BodyArtType,
-  OrderByType,
-  SexualOrientationType
+  BodyArtType,
+  SexualOrientationType,
+  OrderByType
 } from '../models/enums';
 import { CurrentUser } from '../models/currentUser';
 
@@ -69,20 +69,20 @@ export class ProfileSearchComponent implements OnInit {
       weight: null,
       description: null,
       gender: GenderType.Female,
-      bodyType: BodyType.NotChosen,
-      smokingHabitsType: SmokingHabitsType.NotChosen,
-      hasChildrenType: HasChildrenType.NotChosen,
-      wantChildrenType: WantChildrenType.NotChosen,
-      hasPetsType: HasPetsType.NotChosen,
-      locationType: LocationType.NotChosen,
-      educationType: EducationType.NotChosen,
-      educationStatusType: EducationStatusType.NotChosen,
-      educationLevelType: EducationLevelType.NotChosen,
-      employmentStatusType: EmploymentStatusType.NotChosen,
-      sportsActivityType: SportsActivityType.NotChosen,
-      eatingHabitsType: EatingHabitsType.NotChosen,
-      clotheStyleType: ClotheStyleType.NotChosen,
-      bodyArtType: BodyArtType.NotChosen
+      body: BodyType.NotChosen,
+      smokingHabits: SmokingHabitsType.NotChosen,
+      hasChildren: HasChildrenType.NotChosen,
+      wantChildren: WantChildrenType.NotChosen,
+      hasPets: HasPetsType.NotChosen,
+      location: LocationType.NotChosen,
+      education: EducationType.NotChosen,
+      educationStatus: EducationStatusType.NotChosen,
+      educationLevel: EducationLevelType.NotChosen,
+      employmentStatus: EmploymentStatusType.NotChosen,
+      sportsActivity: SportsActivityType.NotChosen,
+      eatingHabits: EatingHabitsType.NotChosen,
+      clotheStyle: ClotheStyleType.NotChosen,
+      bodyArt: BodyArtType.NotChosen
     });
   }
 
@@ -98,33 +98,6 @@ export class ProfileSearchComponent implements OnInit {
 
   setShowGenderChoise(sexualOrientationType: SexualOrientationType) {
     this.showGenderChoise = (sexualOrientationType == SexualOrientationType.Heterosexual || sexualOrientationType == SexualOrientationType.Homosexual) ? false : true;
-    console.log(this.showGenderChoise + ' - ' + sexualOrientationType);
-  }
-
-  rebuildForm() {
-    this.profileForm.reset();
-    //this.profileForm.reset({
-    //  name: null,
-    //  age: null,
-    //  height: null,
-    //  weight: null,
-    //  description: null,
-    //  gender: GenderType.Female,
-    //  body: BodyType.NotChosen,
-    //  smokingHabits: SmokingHabitsType.NotChosen,
-    //  hasChildren: null,
-    //  wantChildren: null,
-    //  hasPets: null,
-    //  livesIn: LocationType.NotChosen,
-    //  education: EducationType.NotChosen,
-    //  educationStatus: EducationStatusType.NotChosen,
-    //  educationLevel: EducationLevelType.NotChosen,
-    //  employmentStatus: EmploymentStatusType.NotChosen,
-    //  sportsActivity: SportsActivityType.NotChosen,
-    //  eatingHabits: EatingHabitsType.NotChosen,
-    //  clotheStyle: ClotheStyleType.NotChosen,
-    //  bodyArt: BodyArtType.NotChosen
-    //});
   }
 
   loadForm() {
@@ -154,6 +127,7 @@ export class ProfileSearchComponent implements OnInit {
 
   onSubmit() {
     this.filter = this.prepareSearch();
+    console.log(this.filter);
     this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
 
     setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
@@ -181,7 +155,7 @@ export class ProfileSearchComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  revert() { this.rebuildForm(); }
+  revert() { this.createForm(); }
 
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
@@ -211,6 +185,7 @@ export class ProfileSearchComponent implements OnInit {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType
     };
+    //console.log(formModel);
 
     return filterProfile;
   }
