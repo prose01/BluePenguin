@@ -96,9 +96,9 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Location" formControlName="location" [(value)]="filter.livesIn">
-          <mat-option *ngFor="let locationType of locationTypes" [value]="locationType">
-            {{ locationType }}
+        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="filter.livesIn">
+          <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
+            {{ livesInType }}
           </mat-option>
         </mat-select>
       </mat-form-field>

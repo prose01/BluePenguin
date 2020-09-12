@@ -12,7 +12,7 @@ import {
   HasChildrenType,
   WantChildrenType,
   HasPetsType,
-  LocationType,
+  LivesInType,
   EducationType,
   EducationStatusType,
   EducationLevelType,
@@ -39,7 +39,7 @@ export class CreateProfileComponent implements OnChanges {
   hasChildrenTypes = Object.keys(HasChildrenType);
   wantChildrenTypes = Object.keys(WantChildrenType);
   hasPetsTypes = Object.keys(HasPetsType);
-  locationTypes = Object.keys(LocationType);
+  livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
@@ -68,7 +68,7 @@ export class CreateProfileComponent implements OnChanges {
       hasChildrenType: null,
       wantChildrenType: null,
       hasPetsType: null,
-      locationType: null,
+      livesInType: null,
       educationType: null,
       educationStatusType: null,
       educationLevelType: null,
@@ -127,7 +127,7 @@ export class CreateProfileComponent implements OnChanges {
       hasChildren: formModel.hasChildrenType as HasChildrenType,
       wantChildren: formModel.wantChildrenType as WantChildrenType,
       hasPets: formModel.hasPetsType as HasPetsType,
-      livesIn: formModel.livesInType as LocationType,
+      livesIn: formModel.livesInType as LivesInType,
       education: formModel.educationType as EducationType,
       educationStatus: formModel.educationStatusType as EducationStatusType,
       educationLevel: formModel.educationLevelType as EducationLevelType,

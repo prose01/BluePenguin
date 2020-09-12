@@ -94,7 +94,7 @@ export enum HasPetsType {
   "Other" = "Other"
 }
 
-export enum LocationType {
+export enum LivesInType {
   "NotChosen" = "NotChosen",
   "City" = "City",
   "Suburb" = "Suburb",

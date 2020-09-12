@@ -8,7 +8,7 @@ import {
   HasChildrenType,
   WantChildrenType,
   HasPetsType,
-  LocationType,
+  LivesInType,
   EducationType,
   EducationStatusType,
   EducationLevelType,
@@ -41,7 +41,7 @@ export class CurrentUser {
   hasChildren: HasChildrenType;
   wantChildren: WantChildrenType;
   hasPets: HasPetsType;
-  livesIn: LocationType;
+  livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
   educationLevel: EducationLevelType;
@@ -74,7 +74,7 @@ export interface CurrentUser {
   hasChildren: HasChildrenType;
   wantChildren: WantChildrenType;
   hasPets: HasPetsType;
-  livesIn: LocationType;
+  livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
   educationLevel: EducationLevelType;

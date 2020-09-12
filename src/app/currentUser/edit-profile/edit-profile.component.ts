@@ -14,7 +14,7 @@ import {
   HasChildrenType,
   WantChildrenType,
   HasPetsType,
-  LocationType,
+  LivesInType,
   EducationType,
   EducationStatusType,
   EducationLevelType,
@@ -38,7 +38,7 @@ export class EditProfileComponent {
   sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
-  locationTypes = Object.keys(LocationType);
+  livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
@@ -67,7 +67,7 @@ export class EditProfileComponent {
       hasChildrenType: null,
       wantChildrenType: null,
       hasPetsType: null,
-      locationType: null,
+      livesInType: null,
       educationType: null,
       educationStatusType: null,
       educationLevelType: null,
@@ -106,7 +106,7 @@ export class EditProfileComponent {
       hasChildrenType: this.currentUserSubject.hasChildren as HasChildrenType,
       wantChildrenType: this.currentUserSubject.wantChildren as WantChildrenType,
       hasPetsType: this.currentUserSubject.hasPets as HasPetsType,
-      locationType: this.currentUserSubject.livesIn as LocationType,
+      livesInType: this.currentUserSubject.livesIn as LivesInType,
       educationType: this.currentUserSubject.education as EducationType,
       educationStatusType: this.currentUserSubject.educationStatus as EducationStatusType,
       educationLevelType: this.currentUserSubject.educationLevel as EducationLevelType,
@@ -150,7 +150,7 @@ export class EditProfileComponent {
       hasChildren: formModel.hasChildrenType as HasChildrenType,
       wantChildren: formModel.wantChildrenType as WantChildrenType,
       hasPets: formModel.hasPetsType as HasPetsType,
-      livesIn: formModel.locationType as LocationType,
+      livesIn: formModel.livesInType as LivesInType,
       education: formModel.educationType as EducationType,
       educationStatus: formModel.educationStatusType as EducationStatusType,
       educationLevel: formModel.educationLevelType as EducationLevelType,

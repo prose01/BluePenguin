@@ -14,7 +14,7 @@ import {
   HasChildrenType,
   WantChildrenType,
   HasPetsType,
-  LocationType,
+  LivesInType,
   EducationType,
   EducationStatusType,
   EducationLevelType,
@@ -46,7 +46,7 @@ export class ProfileSearchComponent implements OnInit {
   hasChildrenTypes = Object.keys(HasChildrenType);
   wantChildrenTypes = Object.keys(WantChildrenType);
   hasPetsTypes = Object.keys(HasPetsType);
-  locationTypes = Object.keys(LocationType);
+  livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
   educationLevelTypes = Object.keys(EducationLevelType);
@@ -74,7 +74,7 @@ export class ProfileSearchComponent implements OnInit {
       hasChildren: HasChildrenType.NotChosen,
       wantChildren: WantChildrenType.NotChosen,
       hasPets: HasPetsType.NotChosen,
-      location: LocationType.NotChosen,
+      livesIn: LivesInType.NotChosen,
       education: EducationType.NotChosen,
       educationStatus: EducationStatusType.NotChosen,
       educationLevel: EducationLevelType.NotChosen,
@@ -174,7 +174,7 @@ export class ProfileSearchComponent implements OnInit {
       hasChildren: formModel.hasChildren as HasChildrenType,
       wantChildren: formModel.wantChildren as WantChildrenType,
       hasPets: formModel.hasPets as HasPetsType,
-      livesIn: formModel.livesIn as LocationType,
+      livesIn: formModel.livesIn as LivesInType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,
       educationLevel: formModel.educationLevel as EducationLevelType,
