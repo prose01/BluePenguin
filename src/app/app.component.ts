@@ -9,7 +9,7 @@ import { ProfileService } from './services/profile.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'BluePenguins';
+  title = 'PlusOne';
   currentUserSubject: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService) {
