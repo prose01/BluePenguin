@@ -50,7 +50,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Gender type" formControlName="genderType" [(value)]="currentUser.gender">
+        <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -58,7 +58,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="SexualOrientation type" formControlName="sexualOrientationType" [(value)]="currentUser.sexualOrientation">
+        <mat-select placeholder="Sexual orientation" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation">
           <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
             {{ sexualOrientationType }}
           </mat-option>
@@ -66,7 +66,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="bodyType" [(value)]="currentUser.body">
+        <mat-select placeholder="Body type" formControlName="body" [(value)]="currentUser.body">
           <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
             {{ bodyType }}
           </mat-option>
@@ -74,7 +74,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="SmokingHabits type" formControlName="smokingHabitsType" [(value)]="currentUser.smokingHabits">
+        <mat-select placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="currentUser.smokingHabits">
           <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
             {{ smokingHabitsType }}
           </mat-option>
@@ -82,7 +82,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="HasChildren type" formControlName="hasChildrenType" [(value)]="currentUser.hasChildren">
+        <mat-select placeholder="Has children" formControlName="hasChildren" [(value)]="currentUser.hasChildren">
           <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
             {{ hasChildrenType }}
           </mat-option>
@@ -90,7 +90,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="WantChildren type" formControlName="wantChildrenType" [(value)]="currentUser.wantChildren">
+        <mat-select placeholder="Want children" formControlName="wantChildren" [(value)]="currentUser.wantChildren">
           <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
             {{ wantChildrenType }}
           </mat-option>
@@ -98,7 +98,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="HasPets type" formControlName="hasPetsType" [(value)]="currentUser.hasPets">
+        <mat-select placeholder="Has pets" formControlName="hasPets" [(value)]="currentUser.hasPets">
           <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
             {{ hasPetsType }}
           </mat-option>
@@ -106,7 +106,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Lives in" formControlName="livesInType" [(value)]="currentUser.livesIn">
+        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="currentUser.livesIn">
           <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
             {{ livesInType }}
           </mat-option>
@@ -114,7 +114,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Education type" formControlName="educationType" [(value)]="currentUser.education">
+        <mat-select placeholder="Education" formControlName="education" [(value)]="currentUser.education">
           <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
             {{ educationType }}
           </mat-option>
@@ -122,7 +122,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="EducationStatus type" formControlName="educationStatusType" [(value)]="currentUser.educationStatus">
+        <mat-select placeholder="Educational status" formControlName="educationStatus" [(value)]="currentUser.educationStatus">
           <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
             {{ educationStatusType }}
           </mat-option>
@@ -130,7 +130,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="EducationLevel type" formControlName="educationLevelType" [(value)]="currentUser.educationLevel">
+        <mat-select placeholder="Educational level" formControlName="educationLevel" [(value)]="currentUser.educationLevel">
           <mat-option *ngFor="let educationLevelType of educationLevelTypes" [value]="educationLevelType">
             {{ educationLevelType }}
           </mat-option>
@@ -138,7 +138,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="EmploymentStatus type" formControlName="employmentStatusType" [(value)]="currentUser.employmentStatus">
+        <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="currentUser.employmentStatus">
           <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
             {{ employmentStatusType }}
           </mat-option>
@@ -146,7 +146,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="SportsActivity type" formControlName="sportsActivityType" [(value)]="currentUser.sportsActivity">
+        <mat-select placeholder="Sports activity" formControlName="sportsActivity" [(value)]="currentUser.sportsActivity">
           <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
             {{ sportsActivityType }}
           </mat-option>
@@ -154,7 +154,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="EatingHabits type" formControlName="eatingHabitsType" [(value)]="currentUser.eatingHabits">
+        <mat-select placeholder="Eating habits" formControlName="eatingHabits" [(value)]="currentUser.eatingHabits">
           <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
             {{ eatingHabitsType }}
           </mat-option>
@@ -162,7 +162,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="ClotheStyle type" formControlName="clotheStyleType" [(value)]="currentUser.clotheStyle">
+        <mat-select placeholder="Fashion style" formControlName="clotheStyle" [(value)]="currentUser.clotheStyle">
           <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
             {{ clotheStyleType }}
           </mat-option>
@@ -170,7 +170,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="BodyArt type" formControlName="bodyArtType" [(value)]="currentUser.bodyArt">
+        <mat-select placeholder="Body art" formControlName="bodyArt" [(value)]="currentUser.bodyArt">
           <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
             {{ bodyArtType }}
           </mat-option>
