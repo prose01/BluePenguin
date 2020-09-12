@@ -37,9 +37,9 @@ export class ProfileSearchComponent implements OnInit {
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
-  ageList: number[] = [...Array(10).keys()];
-  heightList: number[] = [...Array(10).keys()];
-  weightList: number[] = [...Array(10).keys()];
+  ageList: number[] = [...Array(1 + 120 - 16).keys()].map(v => 16 + v);
+  heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
+  weightList: number[] = [...Array(1 + 700 - 0).keys()].map(v => 0 + v);
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
