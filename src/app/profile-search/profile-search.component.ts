@@ -127,10 +127,9 @@ export class ProfileSearchComponent implements OnInit {
 
   onSubmit() {
     this.filter = this.prepareSearch();
-    console.log(this.filter);
     this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
 
-    setTimeout(() => { this.getProfileImages(); }, 1000);  // Find på noget bedre end at vente 2 sek.
+    setTimeout(() => { this.getProfileImages(); }, 500); 
   }
 
   getProfileImages(): void {
@@ -151,7 +150,7 @@ export class ProfileSearchComponent implements OnInit {
     });
   }
 
-  randomIntFromInterval(min, max) { // min and max included 
+  randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
@@ -185,7 +184,6 @@ export class ProfileSearchComponent implements OnInit {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType
     };
-    //console.log(formModel);
 
     return filterProfile;
   }
