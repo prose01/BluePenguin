@@ -196,6 +196,8 @@ export class ProfileSearchComponent implements OnInit {
   loadSearch() {
     this.profileService.loadProfileFilter().subscribe(filter => this.filter = filter);
 
-    setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler. 
+    //setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
+
+    this.profileForm.markAsDirty();
   }
 }
