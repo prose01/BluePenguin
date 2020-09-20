@@ -154,7 +154,10 @@ export class ProfileSearchComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  revert() { this.createForm(); }
+  revert() {
+    this.createForm();
+    this.searchResultProfiles = [];
+  }
 
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
@@ -184,7 +187,7 @@ export class ProfileSearchComponent implements OnInit {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType
     };
-
+    console.log(filterProfile);
     return filterProfile;
   }
 

@@ -17,6 +17,7 @@ import { MatCardModule }                      from '@angular/material/card';
 import { MatTabsModule }                      from '@angular/material/tabs';
 import { MatButtonModule }                    from '@angular/material/button';
 import { MatTooltipModule }                   from '@angular/material/tooltip';
+import { MatSliderModule }                    from '@angular/material/slider';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -97,6 +98,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     MatTabsModule,
     MatButtonModule,
     MatTooltipModule,
+    MatSliderModule,
     ImageCropperModule,
     NgxGalleryModule,
     NgChatModule
