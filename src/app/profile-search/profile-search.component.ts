@@ -162,14 +162,18 @@ export class ProfileSearchComponent implements OnInit {
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
+    const ageRange: number[] = [0, formModel.age];    // TODO: Remove these ranges when slider can take two values!
+    const heightRange: number[] = [0, formModel.height];
+    const weightRange: number[] = [0, formModel.weight];
+
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
       createdOn: new Date() as Date,
       updatedOn: new Date() as Date,
       lastActive: new Date() as Date,
-      age: formModel.age as number[],
-      height: formModel.height as number[],
-      weight: formModel.weight as number[],
+      age: ageRange,
+      height: heightRange,
+      weight: weightRange,
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
@@ -187,7 +191,7 @@ export class ProfileSearchComponent implements OnInit {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType
     };
-    console.log(filterProfile);
+
     return filterProfile;
   }
 

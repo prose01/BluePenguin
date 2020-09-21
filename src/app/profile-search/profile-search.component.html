@@ -25,24 +25,19 @@
         <input matInput placeholder="Name" formControlName="name">
       </mat-form-field>
 
-      <!--<mat-form-field>
-  <mat-slider placeholder="Age" min="16" max="120" step="1" value="1" formControlName="age">
-    {{age}}
-  </mat-slider>-->
-      <!--<mat-select placeholder="Age" formControlName="age" multiple>
-    <mat-option *ngFor="let age of ageList" [value]="age">{{age}}</mat-option>
-  </mat-select>-->
-      <!--</mat-form-field>-->
-      <!--<mat-form-field>
-    <mat-label>Age Value</mat-label>
-    <input placeholder="Age" min="16" max="120" matInput type="number" [(ngModel)]="age" formControlName="age">
-  </mat-form-field>-->
-
       <mat-label>Age</mat-label>
-      <mat-slider placeholder="Age" min="16" max="120" step="1" [value]="age" thumbLabel tickInterval="1" formControlName="age" class="cdk-focused">
+      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel tickInterval="1" formControlName="age" class="cdk-focused">
       </mat-slider>
 
-      <mat-form-field>
+      <mat-label>Height in cm</mat-label>
+      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel tickInterval="1" formControlName="height" class="cdk-focused">
+      </mat-slider>
+
+      <mat-label>Weight in kg</mat-label>
+      <mat-slider min="1" max="700" step="1" [value]="weight" thumbLabel tickInterval="1" formControlName="weight" class="cdk-focused">
+      </mat-slider>
+
+      <!--<mat-form-field>
         <mat-select placeholder="Height in cm" formControlName="height" multiple>
           <mat-option *ngFor="let height of heightList" [value]="height">{{height}}</mat-option>
         </mat-select>
@@ -52,7 +47,7 @@
         <mat-select placeholder="Weight in kg" formControlName="weight" multiple>
           <mat-option *ngFor="let weight of weightList" [value]="weight">{{weight}}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field>-->
 
       <mat-form-field>
         <textarea matInput placeholder="Description" formControlName="description"></textarea>
