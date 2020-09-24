@@ -7,16 +7,16 @@
 			<input [(ngModel)]="profile.name" placeholder="name">
 		</div>
 
-		<button routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
+		<button mat-flat-button color="accent"  routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
 
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button *ngIf="!profile.admin" (click)="setProfileAsAdmin()">Set Profile as Admin</button>
-			<button *ngIf="profile.admin" (click)="removeProfileAsAdmin()">Remove Profile as Admin</button>
+			<button *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-flat-button color="accent" >Set Profile as Admin</button>
+			<button *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-flat-button color="accent" >Remove Profile as Admin</button>
 		</div>
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
+			<button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" >Delete profile(s)</button>
 		</div>
 
 	</div>

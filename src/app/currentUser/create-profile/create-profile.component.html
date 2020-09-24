@@ -6,11 +6,11 @@
 
     <div style="margin-bottom: 1em">
       <button type="submit"
-              [disabled]="newUserForm.pristine" class="btn btn-success">
+              [disabled]="newUserForm.pristine" class="btn btn-success" mat-flat-button color="accent" >
         Save
       </button> &nbsp;
       <button type="button" (click)="revert()"
-              [disabled]="newUserForm.pristine" class="btn btn-danger">
+              [disabled]="newUserForm.pristine" class="btn btn-danger" mat-flat-button color="accent" >
         Revert
       </button>
     </div>

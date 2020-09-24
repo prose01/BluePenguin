@@ -1,7 +1,4 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet">
-
   <mat-button-toggle (click)=toggleDisplayOrder()>{{matButtonToggleText}}</mat-button-toggle>
 
   <div class="grid grid-pad">
@@ -19,7 +16,7 @@
       <a routerLink="/detail/{{profile.profileId}}">
 
         <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
-        <div class="module profile">
+        <div class="color-accent-main">
           <h4>{{profile.name}}</h4>
         </div>
       </a>

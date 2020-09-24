@@ -66,12 +66,12 @@
     </table>
 
     <div class="button-row">
-      <button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" mat-stroked-button color="primary">Remove from list</button>
-      <button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" mat-stroked-button color="primary">Add to list</button>
+      <button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" mat-flat-button color="accent" >Remove from list</button>
+      <button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" mat-flat-button color="accent" >Add to list</button>
     </div>
 
     <div *ngIf="currentUserSubject != null && currentUserSubject.admin"  class="button-row">
-      <button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-stroked-button color="primary">Delete profile(s)</button>
+      <button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" >Delete profile(s)</button>
     </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

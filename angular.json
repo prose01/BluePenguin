@@ -25,6 +25,9 @@
               "src/favicon.ico"
             ],
             "styles": [
+				{
+					"input": "src/theme.scss"
+				},
               "src/styles.css"
             ],
             "scripts": []

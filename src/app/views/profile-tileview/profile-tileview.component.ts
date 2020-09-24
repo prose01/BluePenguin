@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { MatButton } from '@angular/material/button';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 

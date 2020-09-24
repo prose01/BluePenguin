@@ -6,15 +6,15 @@
     <input *ngIf="croppedImage" [(ngModel)]="title" placeholder="Please insert an image title" />
     <br />
     <br />
-    <button *ngIf="showCropper" (click)="resetImage()">Reset image</button>
-    <button *ngIf="showCropper" (click)="rotateLeft()">Rotate left</button>
-    <button *ngIf="showCropper" (click)="rotateRight()">Rotate right</button>
-    <button *ngIf="showCropper" (click)="flipHorizontal()">Flip horizontal</button>
-    <button *ngIf="showCropper" (click)="flipVertical()">Flip vertical</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="resetImage()">Reset image</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="rotateLeft()">Rotate left</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="rotateRight()">Rotate right</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="flipHorizontal()">Flip horizontal</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="flipVertical()">Flip vertical</button>
     <br />
     <br />
-    <button *ngIf="showCropper" (click)="zoomOut()">Zoom -</button>
-    <button *ngIf="showCropper" (click)="zoomIn()">Zoom +</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="zoomOut()">Zoom -</button>
+    <button mat-flat-button color="accent" *ngIf="showCropper" (click)="zoomIn()">Zoom +</button>
     <br />
 
     <div>
@@ -42,7 +42,7 @@
 
     <br />
     <br />
-    <button mat-button *ngIf="croppedImage" (click)="onSubmit()">Upload</button>
+    <button mat-flat-button color="accent"  *ngIf="croppedImage" (click)="onSubmit()">Upload</button>
 
   </mat-card>
 </div>

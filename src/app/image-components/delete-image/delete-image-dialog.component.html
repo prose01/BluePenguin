@@ -5,6 +5,6 @@
 <br />
 <mat-checkbox [(ngModel)]="IsChecked">Yes delete image.</mat-checkbox>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>No Thanks</button>
-  <button mat-button mat-dialog-close (click)="onYesClick()">Ok</button>
+  <button mat-flat-button color="accent"  (click)="onNoClick()" cdkFocusInitial>No Thanks</button>
+  <button mat-flat-button color="accent"  mat-dialog-close (click)="onYesClick()">Ok</button>
 </div>
