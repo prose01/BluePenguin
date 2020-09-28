@@ -164,11 +164,6 @@ body {
   --text-accent-darker-color: #{$light-primary-text};
 }
 
-/* everywhere else */
-/** {
-  font-family: #{$dark-primary-text};
-}*/
-
 $theme-accent: mat-palette($mat-accent, main, lighter, darker);
 
 /*#endregion Accent*/

@@ -12,22 +12,48 @@
         Log In
       </button>
 
-      <button id="qsLogoutBtn"
+      <!--<button id="qsLogoutBtn"
               class="btn btn-primary my-2 my-sm-0"
               *ngIf="auth.isAuthenticated()"
               (click)="auth.logout()" type="button"
               mat-flat-button color="accent" >
         Log Out
-      </button>
+      </button>-->
 
     </form>
   </div>
 
   <div *ngIf="auth.isAuthenticated()">
     <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/edit">Profile</a>
+    <!--<a routerLink="/edit">Profile</a>-->
     <a routerLink="/profileSearch">Search</a>
-    <a routerLink="/about">About</a>
+    <!--<a routerLink="/about">About</a>-->
+
+    
+    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+      <span class="material-icons">
+        menu
+      </span>
+    </button>
+    
+    <mat-menu #menu="matMenu">
+      <a routerLink="/edit" mat-menu-item>
+        Edit Profile
+        <i class="material-icons">person</i>
+      </a>
+      <a routerLink="/about" mat-menu-item>
+        About
+        <i class="material-icons">plus_one</i>
+      </a>
+
+      <button id="qsLogoutBtn"
+              class="mat-flat-button"
+              *ngIf="auth.isAuthenticated()"
+              (click)="auth.logout()" type="button"
+              mat-flat-button color="accent">
+        Log Out
+      </button>
+    </mat-menu>
 
     <chat-component [currentUser]="currentUserSubject"></chat-component>
   </div>

@@ -1,0 +1,9 @@
+.menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.mat-flat-button {
+  margin: 10px;
+}
