@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -48,7 +49,7 @@ export class EditProfileComponent {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
+  constructor(public auth: AuthService, private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -89,12 +90,15 @@ export class EditProfileComponent {
     }
   }
 
+  // TODO Remove datePipe when Pipe works!
+  //https://www.angularjswiki.com/angular/how-to-use-angular-pipes-in-components-and-services/
+
   prefilForm() {
     this.profileForm.patchValue({
       name: this.currentUserSubject.name as string,
-      createdOn: this.currentUserSubject.createdOn,
-      updatedOn: this.currentUserSubject.updatedOn,
-      lastActive: this.currentUserSubject.lastActive,
+      createdOn: this.datePipe.transform(this.currentUserSubject.createdOn, 'dd-MM-yyyy hh:mm'),
+      updatedOn: this.datePipe.transform(this.currentUserSubject.updatedOn, 'dd-MM-yyyy hh:mm'),
+      lastActive: this.datePipe.transform(this.currentUserSubject.lastActive, 'dd-MM-yyyy hh:mm'),
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
       weight: this.currentUserSubject.weight as number,
