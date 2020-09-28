@@ -1,45 +1,27 @@
-/* Remove if next lineyou don't like your style - https://material.angular.io/guide/theming */
-/*@import '@angular/material/prebuilt-themes/indigo-pink.css';*/
-
 /* Master Styles */
 h1 {
-  /*color: #369;*/
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+  font-size: 1.2em;
 }
+
 h2, h3 {
-  /*color: #444;*/
-  font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
+  font-size: 2em;
 }
+
+h4 {
+  font-weight: normal;
+  letter-spacing: 2px;
+}
+
 body {
   margin: 2em;
 }
-body, input[text], button {
-  /*color: #888;*/
-  font-family: Cambria, Georgia;
+
+/* everywhere else */
+* {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 }
-a {
-  cursor: pointer;
-  /*cursor: hand;*/
-}
-button {
-  font-family: Arial;
-  /*background-color: #eee;*/
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  /*cursor: hand;*/
-}
-/*button:hover {*/
-  /*background-color: #cfd8dc;*/
-/*}*/
-button:disabled {
-  /*background-color: #eee;*/
-  /*color: #aaa;*/
-  cursor: auto;
-}
+
 
 /* Navigation link styles */
 nav a {
@@ -47,37 +29,105 @@ nav a {
   text-decoration: none;
   margin-right: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
   display: inline-block;
-  /*background-color: #eee;*/
+  background-color: #eee;
   border-radius: 4px;
 }
-/*nav a:visited, a:link {
-  color: #607D8B;
-}*/
-/*nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}*/
-/*nav a.active {
-  color: #039be5;
-}*/
 
-/* everywhere else */
-* {
-  font-family: Arial, Helvetica, sans-serif;
+nav a:visited, a:link {
+  color: #607D8B;
+}
+
+nav a:hover {
+  color: #607D8B;
+  background-color: #CFD8DC;
+}
+
+nav a.active {
+  color: #e0e0e0;
+}
+
+
+/* columns / TileView */
+[class*='col-'] {
+  float: left;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+[class*='col-']:last-of-type {
+  padding-right: 0;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.col-1-4 {
+  width: 25%;
+}
+
+
+
+/* table / ListView */
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.expanded-row):hover {
+  background: #e0e0e0;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.element-description {
+  padding: 16px;
+}
+
+.element-description-attribution {
+  opacity: 0.5;
 }
 
 /* Start - Hack overwrite to make slider show always */
 .mat-slider-thumb-label {
-    transform: rotate(45deg) !important;
-    border-radius: 50% 50% 0 !important;
-  }
+  transform: rotate(45deg) !important;
+  border-radius: 50% 50% 0 !important;
+}
 
 .mat-slider-thumb {
-    transform: scale(0) !important;
+  transform: scale(0) !important;
 }
 
 .mat-slider-thumb-label-text {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }
 /* End - Hack overwrite to make slider show always */

@@ -6,7 +6,7 @@
     <div *ngFor="let profile of profiles" class="col-1-4">
       <div class="button-row">
         <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="Remove from favorits">
-          <i class="material-icons">favorite</i>
+          <i class="material-icons">bookmark_border</i>
         </button>
         <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" matTooltip="Add to favorits">
           <i class="material-icons">bookmark</i>

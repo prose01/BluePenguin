@@ -27,7 +27,7 @@ export class ChatComponent implements OnInit {
   adapter: ChatAdapter;
   settings: AppSettings;
 
-  title = 'MyChats';
+  title = 'Chats';
 
   constructor(public auth: AuthService, private appSettingsService: AppSettingsService, private http: HttpClient) {   
     setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);

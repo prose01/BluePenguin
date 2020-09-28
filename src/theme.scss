@@ -9,7 +9,7 @@
 // Icons
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-// Fonts
+/*#region Fonts*/
 @import 'https://fonts.googleapis.com/css?family=Material+Icons+Two+Tone';
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
@@ -83,20 +83,22 @@ $mat-dark-theme-foreground: (
 // Compute font config
 @include mat-core($fontConfig);
 
+/*#endregion Fonts*/
 
 // Theme Config
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 
-// Primary
+/*#region Primary*/
+
 $mat-primary: (
-      main: #5d99c6,
-      lighter: #cee0ee,
-      darker: #417cb1,
+      main: #6aaccc,
+      lighter: #d2e6f0,
+      darker: #4d92b9,
       200: #5d99c6, // For slide toggle,
       contrast : (
-        main: $dark-primary-text,
+        main: $light-primary-text,
         lighter: $dark-primary-text,
         darker: $light-primary-text
       )
@@ -106,7 +108,7 @@ $mat-primary: (
   background-color: mat-color($mat-primary, main);
   padding: 20px;
   text-align: center;
-  color: $dark-primary-text;
+  color: $light-primary-text;
   max-height: 120px;
   min-width: 120px;
   border-radius: 2px;
@@ -114,22 +116,27 @@ $mat-primary: (
 
 $theme-primary: mat-palette($mat-primary, main, lighter, darker);
 
+/*#endregion Primary*/
 
-// Accent
+/*#region Accent*/
 
-body {
-  --accent-color: #266b95;
-  --accent-lighter-color: #bed3df;
-  --accent-darker-color: #174e78;
-  --text-accent-color: #{$light-primary-text};
-  --text-accent-lighter-color: #{$dark-primary-text};
-  --text-accent-darker-color: #{$light-primary-text};
-}
-
-$mat-accent: (
+// More blueish alternative
+/*$mat-accent: (
     main: #266b95,
     lighter: #bed3df,
     darker: #174e78,
+    200: #266b95, // For slide toggle,
+    contrast: (
+      main: $light-primary-text,
+      lighter: $dark-primary-text,
+      darker: $light-primary-text
+    )
+);*/
+
+$mat-accent: (
+    main: #607D8B,
+    lighter: #cfd8dc,
+    darker: #44606e,
     200: #266b95, // For slide toggle,
     contrast: (
       main: $light-primary-text,
@@ -142,26 +149,32 @@ $mat-accent: (
   background-color: mat-color($mat-accent, main);
   padding: 20px;
   text-align: center;
-  color: $dark-primary-text;
+  color: $light-primary-text;
   max-height: 120px;
   min-width: 120px;
   border-radius: 2px;
 }
 
-$theme-accent: mat-palette($mat-accent, main, lighter, darker);
-
-
-// The warn palette is optional (defaults to red).
-
 body {
-  --warn-color: #f07537;
-  --warn-lighter-color: #fbd6c3;
-  --warn-darker-color: #e95823;
-  --text-warn-color: #{$dark-primary-text};
-  --text-warn-lighter-color: #{$dark-primary-text};
-  --text-warn-darker-color: #{$light-primary-text};
+  --accent-color: #266b95;
+  --accent-lighter-color: #bed3df;
+  --accent-darker-color: #174e78;
+  --text-accent-color: #{$light-primary-text};
+  --text-accent-lighter-color: #{$dark-primary-text};
+  --text-accent-darker-color: #{$light-primary-text};
 }
 
+/* everywhere else */
+/** {
+  font-family: #{$dark-primary-text};
+}*/
+
+$theme-accent: mat-palette($mat-accent, main, lighter, darker);
+
+/*#endregion Accent*/
+
+/*#region warn*/
+// The warn palette is optional (defaults to red).
 $mat-warn: (
     main: #f07537,
     lighter: #fbd6c3,
@@ -174,8 +187,28 @@ $mat-warn: (
     )
 );
 
+.color-warn-main {
+  background-color: mat-color($mat-warn, main);
+  padding: 20px;
+  text-align: center;
+  color: $light-primary-text;
+  max-height: 120px;
+  min-width: 120px;
+  border-radius: 2px;
+}
+
+body {
+  --warn-color: #f07537;
+  --warn-lighter-color: #fbd6c3;
+  --warn-darker-color: #e95823;
+  --text-warn-color: #{$dark-primary-text};
+  --text-warn-lighter-color: #{$dark-primary-text};
+  --text-warn-darker-color: #{$light-primary-text};
+}
+
 $theme-warn: mat-palette($mat-warn, main, lighter, darker);
 
+/*#endregion warn*/
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
