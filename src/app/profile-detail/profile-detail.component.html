@@ -11,12 +11,19 @@
 
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-flat-button color="accent" >Set Profile as Admin</button>
-			<button *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-flat-button color="accent" >Remove Profile as Admin</button>
+			<button mat-icon mat-flat-button color="accent" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" matTooltip="Set Profile as Admin">
+				<i class="material-icons">admin_panel_settings</i>
+			</button>
+
+			<button mat-icon mat-flat-button color="accent" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" matTooltip="Remove Profile as Admin">
+				<i class="material-icons">verified_user</i>
+			</button>
 		</div>
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" >Delete profile(s)</button>
+			<button mat-icon mat-flat-button color="accent" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" matTooltip="Delete profile(s)">
+				<i class="material-icons">delete</i>
+			</button>
 		</div>
 
 	</div>
