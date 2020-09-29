@@ -15,10 +15,17 @@ import { OrderByType } from '../models/enums';
 export class DashboardComponent implements OnInit {
 
   isTileView = true;
-  matButtonToggleText: string = 'ListView';
+  matButtonToggleText: string = 'line_style';
 
   profiles: Profile[];
   showingBookmarkedProfilesList: boolean;
+
+  orderBy: any[] = [
+    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },
+    { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
+    { value: OrderByType.LastActive, viewValue: 'LastActive' }
+  ];
+  selectedOrderBy = this.orderBy[0].value;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
@@ -31,32 +38,24 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  // Get latest Profiles.
+  getLatestProfiles() {
+    this.profileService.getLatestProfiles(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
+
+  // Get Filtered Profiles.
+  getProfileByCurrentUsersFilter() {
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.showingBookmarkedProfilesList = false;
+  }
+
+  // Get Bookmarked Profiles.
   getBookmarkedProfiles() {
     this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
     this.showingBookmarkedProfilesList = true;
   }
 
-  // Get Filtered Profiles with OrderByType.
-  getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter(OrderByType.CreatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  // Get latest Profiles with OrderByType.
-  getLatestCreatedProfiles() {
-    this.profileService.getLatestProfiles(OrderByType.CreatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  getLastUpdatedProfiles() {
-    this.profileService.getLatestProfiles(OrderByType.UpdatedOn).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
-
-  getLastActiveProfiles() {
-    this.profileService.getLatestProfiles(OrderByType.LastActive).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
-    this.showingBookmarkedProfilesList = false;
-  }
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
@@ -82,7 +81,7 @@ export class DashboardComponent implements OnInit {
 
   toggleDisplay() {
     this.isTileView = !this.isTileView;
-    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
+    this.matButtonToggleText = (this.isTileView ? 'line_style' : 'collections');
   }
 
 }

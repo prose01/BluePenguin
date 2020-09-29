@@ -15,11 +15,11 @@
   </div>
 
   <div *ngIf="auth.isAuthenticated()">
-    <!--<a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/profileSearch">Search</a>-->
-    <button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
+    <a routerLink="/dashboard">Dashboard</a>
+  <a routerLink="/profileSearch">Search</a>
+    <!--<button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
       <i class="material-icons">{{matButtonToggleText}}</i>
-    </button>
+    </button>-->
 
     <button mat-button [matMenuTriggerFor]="menu" class="menu">
       <span class="material-icons">
@@ -47,6 +47,7 @@
     </mat-menu>
 
     <chat-component [currentUser]="currentUserSubject"></chat-component>
+
   </div>
 
 </nav>
