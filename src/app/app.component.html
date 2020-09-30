@@ -15,12 +15,15 @@
   </div>
 
   <div *ngIf="auth.isAuthenticated()">
-    <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/profileSearch">Search</a>
-    <!--<button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-      <i class="material-icons">{{matButtonToggleText}}</i>
-    </button>-->
+    <!--Navigation buttons-->
+    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip="Dashboard">
+      <i class="material-icons">dashboard</i>
+    </button>
+    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip="Search">
+      <i class="material-icons">search</i>
+    </button>
 
+    <!--Upper right corner menu-->
     <button mat-button [matMenuTriggerFor]="menu" class="menu">
       <span class="material-icons">
         menu
@@ -46,6 +49,7 @@
       </button>
     </mat-menu>
 
+    <!--chat-component-->
     <chat-component [currentUser]="currentUserSubject"></chat-component>
 
   </div>

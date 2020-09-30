@@ -3,19 +3,19 @@
 
     <div style="margin-bottom: 1em">
       <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="btn btn-success" mat-flat-button color="accent" >
-        Search
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Search">
+        <i class="material-icons">search</i>
       </button> &nbsp;
       <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="btn btn-danger" mat-flat-button color="accent" >
-        Revert
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Revert">
+        <i class="material-icons">undo</i>
       </button> &nbsp;
       <button type="button" (click)="saveSearch()"
-              [disabled]="profileForm.pristine" class="btn btn-danger" mat-flat-button color="accent" >
-        Save search
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Save search">
+        <i class="material-icons">save</i>
       </button> &nbsp;
-      <button type="button" (click)="loadSearch()" class="btn btn-danger" mat-flat-button color="accent" >
-        Load search
+      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Load search">
+        <i class="material-icons">find_in_page</i>        
       </button>
     </div>
 

@@ -13,8 +13,6 @@ import { ProfileService } from './services/profile.service';
 export class AppComponent implements OnInit {
   title = 'PlusOne';
   currentUserSubject: CurrentUser;
-  isMatButtonToggled = true;
-  matButtonToggleText: string = 'search';
 
   constructor(public auth: AuthService, private router: Router, private profileService: ProfileService) {
     auth.handleAuthentication();
@@ -27,9 +25,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  toggleDisplayOrder() {
-    this.isMatButtonToggled = !this.isMatButtonToggled;
-    this.matButtonToggleText = (this.isMatButtonToggled ? 'search' : 'dashboard');
-    this.isMatButtonToggled ? this.router.navigate(['/dashboard']) : this.router.navigate(['/profileSearch']); 
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  goToProfileSearch() {
+    this.router.navigate(['/profileSearch']); 
   }
 }

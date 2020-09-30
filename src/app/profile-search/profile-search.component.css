@@ -4,3 +4,7 @@
   display: flex;
   flex-direction: column;
 }*/
+
+.mat-search-flat-button {
+  margin: 10px 0px 0px 0px;
+}

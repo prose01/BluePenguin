@@ -29,7 +29,7 @@ $fontConfig: (
     input: mat-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
 );
 
-$dark-text: #000000;
+$dark-text: #607D8B;
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -93,14 +93,14 @@ $mat-dark-theme-foreground: (
 /*#region Primary*/
 
 $mat-primary: (
-      main: #6aaccc,
-      lighter: #d2e6f0,
-      darker: #4d92b9,
-      200: #5d99c6, // For slide toggle,
+      main: #eeeeee,
+      lighter: #cfd8dc,
+      darker: #44606e,
+      200: #cfd8dc, // For slide toggle,
       contrast : (
-        main: $light-primary-text,
+        main: $dark-primary-text,
         lighter: $dark-primary-text,
-        darker: $light-primary-text
+        darker: $dark-primary-text
       )
 );
 
@@ -137,10 +137,10 @@ $mat-accent: (
     main: #607D8B,
     lighter: #cfd8dc,
     darker: #44606e,
-    200: #266b95, // For slide toggle,
+    200: #cfd8dc, // For slide toggle,
     contrast: (
       main: $light-primary-text,
-      lighter: $dark-primary-text,
+      lighter: $light-primary-text,
       darker: $light-primary-text
     )
 );
