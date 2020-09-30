@@ -65,14 +65,17 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
 
-    <div class="button-row">
-      <button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" mat-flat-button color="accent" >Remove from list</button>
-      <button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" mat-flat-button color="accent" >Add to list</button>
-    </div>
+    
+      <button type="button" *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="Remove from favorits">
+        <i class="material-icons">bookmark_border</i>
+      </button>
+      <button type="button" *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="Add to favorits">
+        <i class="material-icons">bookmark</i>
+      </button>    
 
-    <div *ngIf="currentUserSubject != null && currentUserSubject.admin"  class="button-row">
-      <button *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" >Delete profile(s)</button>
-    </div>
+      <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="Delete profile(s)">
+        <i class="material-icons">delete</i>
+      </button>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 

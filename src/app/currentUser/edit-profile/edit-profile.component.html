@@ -1,18 +1,18 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
   <div *ngIf="currentUserSubject">
-    <h2>{{currentUserSubject.name}} Update your details</h2>
+    <h4>Update your details</h4>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
       <div style="margin-bottom: 1em">
         <button type="submit" (click)="onSubmit()"
-                [disabled]="profileForm.pristine" class="btn btn-success" mat-flat-button color="accent" >
-          Save
-        </button> &nbsp;
+                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="Save">
+          <i class="material-icons">save</i>
+        </button>
         <button type="button" (click)="revert()"
-                [disabled]="profileForm.pristine" class="btn btn-danger" mat-flat-button color="accent" >
-          Revert
-        </button> &nbsp;
+                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="Revert">
+          <i class="material-icons">undo</i>
+        </button>
       </div>
 
       <div class="form-container">
@@ -181,7 +181,9 @@
 
     </form>
 
-    <button mat-flat-button color="accent"  (click)="openDeleteCurrentUserDialog()">Delete profile</button>
+    <button type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" matTooltip="Delete profile">
+      <i class="material-icons">delete</i>
+    </button>
 
   </div>
 

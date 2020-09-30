@@ -10,18 +10,18 @@
 		<button mat-flat-button color="accent"  routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
 
 
-		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button mat-icon mat-flat-button color="accent" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" matTooltip="Set Profile as Admin">
+		<div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+			<button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="Set Profile as Admin">
 				<i class="material-icons">admin_panel_settings</i>
 			</button>
 
-			<button mat-icon mat-flat-button color="accent" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" matTooltip="Remove Profile as Admin">
+			<button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="Remove Profile as Admin">
 				<i class="material-icons">verified_user</i>
 			</button>
 		</div>
 
-		<div *ngIf="currentUserSubject != null && currentUserSubject.admin" class="button-row">
-			<button mat-icon mat-flat-button color="accent" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" matTooltip="Delete profile(s)">
+		<div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+			<button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" matTooltip="Delete profile(s)">
 				<i class="material-icons">delete</i>
 			</button>
 		</div>

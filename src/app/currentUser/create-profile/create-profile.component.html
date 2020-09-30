@@ -1,17 +1,17 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <h2>{{currentUser.name}} Create your profile</h2>
+  <h4>Create your profile</h4>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="newUserForm">
 
     <div style="margin-bottom: 1em">
       <button type="submit"
-              [disabled]="newUserForm.pristine" class="btn btn-success" mat-flat-button color="accent" >
-        Save
-      </button> &nbsp;
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="Save">
+        <i class="material-icons">save</i>
+      </button>
       <button type="button" (click)="revert()"
-              [disabled]="newUserForm.pristine" class="btn btn-danger" mat-flat-button color="accent" >
-        Revert
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="Revert">
+        <i class="material-icons">undo</i>
       </button>
     </div>
 

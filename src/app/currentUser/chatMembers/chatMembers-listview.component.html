@@ -65,7 +65,9 @@
     </table>
 
     <div class="button-row">
-      <button (click)="blockChatMembers()" mat-flat-button color="accent" >(Un)Block ChatMember(s)</button>
+      <button type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="(Un)Block ChatMember(s)">
+        <i class="material-icons">security</i>
+      </button>
     </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

@@ -128,6 +128,10 @@ tr.element-row:not(.expanded-row):hover {
   margin-left: 10px;
 }
 
+button.mat-flat-button {
+  margin: 10px 10px 0px 0px;
+}
+
 .mat-select {
   /*width: 500px !important;*/
   /*border: solid 1px rgba(101,115,126, 0.5);*/

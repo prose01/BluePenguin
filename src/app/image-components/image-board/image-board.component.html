@@ -1,6 +1,9 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <mat-button-toggle (click)=toggleDisplay()>{{matButtonToggleText}}</mat-button-toggle>
+  <button type="button" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
+    <i class="material-icons">{{matButtonToggleIcon}}</i>
+  </button>
+
   <div *ngIf="isMatButtonToggled"><image-tileview [imageModels]="imageModels"></image-tileview></div>
   <div *ngIf="!isMatButtonToggled"><image-upload routerLink="/imageupload"></image-upload></div>
 

@@ -1,10 +1,13 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <mat-button-toggle (click)=toggleDisplayOrder()>{{matButtonToggleText}}</mat-button-toggle>
+  <!--<span class="fill-space"></span>-->
+  <button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" class="sortOrder" matTooltip="Flip sort order">
+    <i class="material-icons">{{matButtonToggleIcon}}</i>
+  </button>
 
   <div class="grid grid-pad">
 
     <div *ngFor="let profile of profiles" class="col-1-4">
-      <div class="button-row">
+      <div>
         <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="Remove from favorits">
           <i class="material-icons">bookmark_border</i>
         </button>
