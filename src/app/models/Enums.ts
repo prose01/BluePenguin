@@ -42,14 +42,6 @@ export enum EatingHabitsType {
   "Other" = "Other"
 }
 
-export enum EducationLevelType {
-  "NotChosen" = "NotChosen",
-  "Bachelor" = "Bachelor" ,
-  "Master" = "Master",
-  "Phd" = "Phd",
-  "Other" = "Other"
-}
-
 export enum EducationStatusType {
   "NotChosen" = "NotChosen",
   "Graduated" = "Graduated",

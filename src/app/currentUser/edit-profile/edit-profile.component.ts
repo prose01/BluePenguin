@@ -18,7 +18,6 @@ import {
   LivesInType,
   EducationType,
   EducationStatusType,
-  EducationLevelType,
   EmploymentStatusType,
   SportsActivityType,
   EatingHabitsType,
@@ -42,7 +41,6 @@ export class EditProfileComponent {
   livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
-  educationLevelTypes = Object.keys(EducationLevelType);
   employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
@@ -59,7 +57,6 @@ export class EditProfileComponent {
       lastActive: null,
       age: null,
       height: null,
-      weight: null,
       description: null,
       gender: null,
       sexualOrientation: null,
@@ -101,7 +98,6 @@ export class EditProfileComponent {
       lastActive: this.datePipe.transform(this.currentUserSubject.lastActive, 'dd-MM-yyyy hh:mm'),
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
-      weight: this.currentUserSubject.weight as number,
       description: this.currentUserSubject.description as string,
       gender: this.currentUserSubject.gender as GenderType,
       sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
@@ -113,7 +109,6 @@ export class EditProfileComponent {
       livesIn: this.currentUserSubject.livesIn as LivesInType,
       education: this.currentUserSubject.education as EducationType,
       educationStatus: this.currentUserSubject.educationStatus as EducationStatusType,
-      educationLevel: this.currentUserSubject.educationLevel as EducationLevelType,
       employmentStatus: this.currentUserSubject.employmentStatus as EmploymentStatusType,
       sportsActivity: this.currentUserSubject.sportsActivity as SportsActivityType,
       eatingHabits: this.currentUserSubject.eatingHabits as EatingHabitsType,
@@ -144,7 +139,6 @@ export class EditProfileComponent {
       lastActive: this.currentUserSubject.lastActive,
       age: formModel.age as number,
       height: formModel.height as number,
-      weight: formModel.weight as number,
       description: formModel.description as string,
       images: this.currentUserSubject.images,
       gender: formModel.gender as GenderType,
@@ -157,7 +151,6 @@ export class EditProfileComponent {
       livesIn: formModel.livesIn as LivesInType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,
-      educationLevel: formModel.educationLevel as EducationLevelType,
       employmentStatus: formModel.employmentStatus as EmploymentStatusType,
       sportsActivity: formModel.sportsActivity as SportsActivityType,
       eatingHabits: formModel.eatingHabits as EatingHabitsType,

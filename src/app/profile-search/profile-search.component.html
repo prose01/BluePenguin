@@ -37,10 +37,6 @@
       <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
-      <!--<mat-label>Weight in kg</mat-label>
-  <mat-slider min="1" max="700" step="1" [value]="weight" thumbLabel formControlName="weight" class="cdk-focused">
-  </mat-slider>-->
-
       <mat-form-field *ngIf="showGenderChoise">
         <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
@@ -112,14 +108,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!--<mat-form-field>
-    <mat-select placeholder="Educational level" formControlName="educationLevel" [(value)]="filter.educationLevel">
-      <mat-option *ngFor="let educationLevelType of educationLevelTypes" [value]="educationLevelType">
-        {{ educationLevelType }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>-->
 
       <mat-form-field>
         <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="filter.employmentStatus">

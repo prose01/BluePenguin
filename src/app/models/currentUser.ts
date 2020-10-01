@@ -11,7 +11,6 @@ import {
   LivesInType,
   EducationType,
   EducationStatusType,
-  EducationLevelType,
   EmploymentStatusType,
   SportsActivityType,
   EatingHabitsType,
@@ -31,7 +30,6 @@ export class CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
-  weight: number;
   description: string;
   images: Array<ImageModel>;
   gender: GenderType;
@@ -44,7 +42,6 @@ export class CurrentUser {
   livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
-  educationLevel: EducationLevelType;
   employmentStatus: EmploymentStatusType;
   sportsActivity: SportsActivityType;
   eatingHabits: EatingHabitsType;
@@ -64,7 +61,6 @@ export interface CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
-  weight: number;
   description: string;
   images: Array<ImageModel>;
   gender: GenderType;
@@ -77,7 +73,6 @@ export interface CurrentUser {
   livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
-  educationLevel: EducationLevelType;
   employmentStatus: EmploymentStatusType;
   sportsActivity: SportsActivityType;
   eatingHabits: EatingHabitsType;

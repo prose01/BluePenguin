@@ -8,7 +8,6 @@ import {
   LivesInType,
   EducationType,
   EducationStatusType,
-  EducationLevelType,
   EmploymentStatusType,
   SportsActivityType,
   EatingHabitsType,
@@ -23,7 +22,6 @@ export class ProfileFilter {
   lastActive: Date;
   age: number[];
   height: number[];
-  weight: number[];
   description: string;
   gender: GenderType;
   body: BodyType;
@@ -34,7 +32,6 @@ export class ProfileFilter {
   livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
-  educationLevel: EducationLevelType;
   employmentStatus: EmploymentStatusType;
   sportsActivity: SportsActivityType;
   eatingHabits: EatingHabitsType;
@@ -49,7 +46,6 @@ export interface ProfileFilter {
   lastActive: Date;
   age: number[];
   height: number[];
-  weight: number[];
   description: string;
   gender: GenderType;
   body: BodyType;
@@ -60,7 +56,6 @@ export interface ProfileFilter {
   livesIn: LivesInType;
   education: EducationType;
   educationStatus: EducationStatusType;
-  educationLevel: EducationLevelType;
   employmentStatus: EmploymentStatusType;
   sportsActivity: SportsActivityType;
   eatingHabits: EatingHabitsType;

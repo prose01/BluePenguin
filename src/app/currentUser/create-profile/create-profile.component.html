@@ -25,18 +25,6 @@
         <textarea matInput placeholder="Description" formControlName="description"></textarea>
       </mat-form-field>
 
-      <!--<mat-form-field>
-    <input matInput placeholder="Created" formControlName="createdOn" [readonly]="isReadonly"> {{currentUser.createdOn | date:'medium'}}
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput placeholder="Updated" formControlName="updatedOn" [readonly]="isReadonly">
-  </mat-form-field>
-
-  <mat-form-field>
-    <input matInput placeholder="Last Active" formControlName="lastActive" [readonly]="isReadonly">
-  </mat-form-field>-->
-
       <mat-form-field>
         <input type="number" matInput placeholder="Age" formControlName="age">
       </mat-form-field>
@@ -44,10 +32,6 @@
       <mat-form-field>
         <input type="number" matInput placeholder="Height in cm" formControlName="height">
       </mat-form-field>
-
-      <!--<mat-form-field>
-    <input type="number" matInput placeholder="Weight in kg" formControlName="weight">
-  </mat-form-field>-->
 
       <mat-form-field>
         <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender">
@@ -128,14 +112,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!--<mat-form-field>
-        <mat-select placeholder="Educational level" formControlName="educationLevel" [(value)]="currentUser.educationLevel">
-          <mat-option *ngFor="let educationLevelType of educationLevelTypes" [value]="educationLevelType">
-            {{ educationLevelType }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>-->
 
       <mat-form-field>
         <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="currentUser.employmentStatus">

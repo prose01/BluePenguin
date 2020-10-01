@@ -17,7 +17,6 @@ import {
   LivesInType,
   EducationType,
   EducationStatusType,
-  EducationLevelType,
   EmploymentStatusType,
   SportsActivityType,
   EatingHabitsType,
@@ -39,7 +38,6 @@ export class ProfileSearchComponent implements OnInit {
   profileForm: FormGroup;
   ageList: number[] = [...Array(1 + 120 - 16).keys()].map(v => 16 + v);
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
-  weightList: number[] = [...Array(1 + 700 - 0).keys()].map(v => 0 + v);
   genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
@@ -49,7 +47,6 @@ export class ProfileSearchComponent implements OnInit {
   livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
-  educationLevelTypes = Object.keys(EducationLevelType);
   employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
@@ -66,7 +63,6 @@ export class ProfileSearchComponent implements OnInit {
       name: null,
       age: null,
       height: null,
-      weight: null,
       description: null,
       gender: GenderType.Female,
       body: BodyType.NotChosen,
@@ -77,7 +73,6 @@ export class ProfileSearchComponent implements OnInit {
       livesIn: LivesInType.NotChosen,
       education: EducationType.NotChosen,
       educationStatus: EducationStatusType.NotChosen,
-      educationLevel: EducationLevelType.NotChosen,
       employmentStatus: EmploymentStatusType.NotChosen,
       sportsActivity: SportsActivityType.NotChosen,
       eatingHabits: EatingHabitsType.NotChosen,
@@ -105,7 +100,6 @@ export class ProfileSearchComponent implements OnInit {
       name: this.filter.name,
       age: this.filter.age,
       height: this.filter.height,
-      weight: this.filter.weight,
       description: this.filter.description,
       gender: this.filter.gender,
       body: this.filter.body,
@@ -116,7 +110,6 @@ export class ProfileSearchComponent implements OnInit {
       livesIn: this.filter.livesIn,
       education: this.filter.education,
       educationStatus: this.filter.educationStatus,
-      educationLevel: this.filter.educationLevel,
       employmentStatus: this.filter.employmentStatus,
       sportsActivity: this.filter.sportsActivity,
       eatingHabits: this.filter.eatingHabits,
@@ -164,7 +157,6 @@ export class ProfileSearchComponent implements OnInit {
 
     const ageRange: number[] = [0, formModel.age];    // TODO: Remove these ranges when slider can take two values!
     const heightRange: number[] = [0, formModel.height];
-    const weightRange: number[] = [0, formModel.weight];
 
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
@@ -173,7 +165,6 @@ export class ProfileSearchComponent implements OnInit {
       lastActive: new Date() as Date,
       age: ageRange,
       height: heightRange,
-      weight: weightRange,
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
@@ -184,7 +175,6 @@ export class ProfileSearchComponent implements OnInit {
       livesIn: formModel.livesIn as LivesInType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,
-      educationLevel: formModel.educationLevel as EducationLevelType,
       employmentStatus: formModel.employmentStatus as EmploymentStatusType,
       sportsActivity: formModel.sportsActivity as SportsActivityType,
       eatingHabits: formModel.eatingHabits as EatingHabitsType,

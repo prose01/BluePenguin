@@ -30,7 +30,7 @@ export class ProfileTileviewComponent {
   toggleDisplayOrder() {
     this.isMatButtonToggled = !this.isMatButtonToggled;
     this.matButtonToggleIcon = (this.isMatButtonToggled ? 'expand_less' : 'expand_more');
-    console.log(this.orderBy);
+    
     switch (this.orderBy) {
       case OrderByType.UpdatedOn: {
         this.profiles.sort((a, b) => (a.updatedOn > b.updatedOn) ? 1 : -1);

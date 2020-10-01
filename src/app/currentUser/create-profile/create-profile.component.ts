@@ -15,7 +15,6 @@ import {
   LivesInType,
   EducationType,
   EducationStatusType,
-  EducationLevelType,
   EmploymentStatusType,
   SportsActivityType,
   EatingHabitsType,
@@ -42,7 +41,6 @@ export class CreateProfileComponent implements OnChanges {
   livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
-  educationLevelTypes = Object.keys(EducationLevelType);
   employmentStatusTypes = Object.keys(EmploymentStatusType);
   sportsActivityTypes = Object.keys(SportsActivityType);
   eatingHabitsTypes = Object.keys(EatingHabitsType);
@@ -59,7 +57,6 @@ export class CreateProfileComponent implements OnChanges {
       lastActive: null,
       age: null,
       height: null,
-      weight: null,
       description: null,
       gender: null,
       sexualOrientation: null,
@@ -117,7 +114,6 @@ export class CreateProfileComponent implements OnChanges {
       name: formModel.name as string,
       age: formModel.age as number,
       height: formModel.height as number,
-      weight: formModel.weight as number,
       description: formModel.description as string,
       gender: formModel.gender as GenderType,
       sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
@@ -129,7 +125,6 @@ export class CreateProfileComponent implements OnChanges {
       livesIn: formModel.livesIn as LivesInType,
       education: formModel.education as EducationType,
       educationStatus: formModel.educationStatus as EducationStatusType,
-      educationLevel: formModel.educationLevel as EducationLevelType,
       employmentStatus: formModel.employmentStatus as EmploymentStatusType,
       sportsActivity: formModel.sportsActivity as SportsActivityType,
       eatingHabits: formModel.eatingHabits as EatingHabitsType,
