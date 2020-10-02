@@ -25,13 +25,13 @@
         <textarea matInput placeholder="Description" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field>
-        <input type="number" matInput placeholder="Age" formControlName="age">
-      </mat-form-field>
+      <mat-label>Age</mat-label>
+      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      </mat-slider>
 
-      <mat-form-field>
-        <input type="number" matInput placeholder="Height in cm" formControlName="height">
-      </mat-form-field>
+      <mat-label>Height in cm</mat-label>
+      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      </mat-slider>
 
       <mat-form-field>
         <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender">
