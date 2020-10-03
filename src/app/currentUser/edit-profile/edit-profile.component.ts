@@ -68,7 +68,6 @@ export class EditProfileComponent {
       livesIn: null,
       education: null,
       educationStatus: null,
-      educationLevel: null,
       employmentStatus: null,
       sportsActivity: null,
       eatingHabits: null,

@@ -1,4 +1,5 @@
 import { Component, OnChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
@@ -47,7 +48,7 @@ export class CreateProfileComponent implements OnChanges {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
@@ -60,20 +61,19 @@ export class CreateProfileComponent implements OnChanges {
       description: null,
       gender: null,
       sexualOrientation: null,
-      body: null,
-      smokingHabits: null,
-      hasChildren: null,
-      wantChildren: null,
-      hasPets: null,
-      livesIn: null,
-      education: null,
-      educationStatus: null,
-      educationLevel: null,
-      employmentStatus: null,
-      sportsActivity: null,
-      eatingHabits: null,
-      clotheStyle: null,
-      bodyArt: null
+      body: BodyType.NotChosen,
+      smokingHabits: SmokingHabitsType.NotChosen,
+      hasChildren: HasChildrenType.NotChosen,
+      wantChildren: WantChildrenType.NotChosen,
+      hasPets: HasPetsType.NotChosen,
+      livesIn: LivesInType.NotChosen,
+      education: EducationType.NotChosen,
+      educationStatus: EducationStatusType.NotChosen,
+      employmentStatus: EmploymentStatusType.NotChosen,
+      sportsActivity: SportsActivityType.NotChosen,
+      eatingHabits: EatingHabitsType.NotChosen,
+      clotheStyle: ClotheStyleType.NotChosen,
+      bodyArt: BodyArtType.NotChosen
     });
   }
 
@@ -96,6 +96,7 @@ export class CreateProfileComponent implements OnChanges {
   onSubmit() {
     this.currentUser = this.prepareSaveProfile();
     this.profileService.addProfile(this.currentUser).subscribe(/* add error handling */);
+    this.router.navigate(['/edit']);
     //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
   }
 
@@ -103,14 +104,14 @@ export class CreateProfileComponent implements OnChanges {
     const formModel = this.newUserForm.value;
 
     const saveProfile: CurrentUser = {
-      chatMemberslist: this.currentUser.chatMemberslist,
-      auth0Id: this.currentUser.auth0Id,
-      profileId: this.currentUser.profileId,
-      admin: this.currentUser.admin,
-      images: this.currentUser.images,
-      createdOn: this.currentUser.createdOn,
-      updatedOn: this.currentUser.updatedOn,
-      lastActive: this.currentUser.lastActive,
+      chatMemberslist: null,
+      auth0Id: null,
+      profileId: null,
+      admin: false,
+      images: null,
+      createdOn: new Date(),
+      updatedOn: new Date(),
+      lastActive: new Date(),
       name: formModel.name as string,
       age: formModel.age as number,
       height: formModel.height as number,

@@ -119,13 +119,17 @@ export class ChatMembersListviewComponent implements OnInit {
   refreshChatmemberlist() {
     let chatMembers = new Array;
     let profileIds = new Array;
-    this.currentUserSubject.chatMemberslist.forEach(function (member) {
-      chatMembers.push(member);
-      profileIds.push(member.profileId);
-    });
+    if (this.currentUserSubject != null) {
+      if (this.currentUserSubject.chatMemberslist.length > 0) {
+        this.currentUserSubject.chatMemberslist.forEach(function (member) {
+          chatMembers.push(member);
+          profileIds.push(member.profileId);
+        });
 
-    this.chatMembers = chatMembers;
-    this.profileIds = profileIds;
-    this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
+        this.chatMembers = chatMembers;
+        this.profileIds = profileIds;
+        this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
+      }
+    }
   }
 }

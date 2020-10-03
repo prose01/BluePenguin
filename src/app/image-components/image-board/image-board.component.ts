@@ -39,12 +39,15 @@ export class ImageBoardComponent implements OnInit {
   }
 
   getCurrentUserImages(): void {
-    this.imageModels.forEach((element, i) => {
-      setTimeout(() => {
-        this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
-      }, i * 1000); // Find på noget bedre end at vente 1 sek.
-    });
-
+    if (this.imageModels != null) {
+      if (this.imageModels.length > 0) {
+        this.imageModels.forEach((element, i) => {
+          setTimeout(() => {
+            this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/png;base64,' + images.toString());
+          }, i * 1000); // Find på noget bedre end at vente 1 sek.
+        });
+      }
+    }
     //setTimeout(() => { console.log(this.imageModels); }, 2000); // Find på noget bedre end at vente 2 sek.
   }
 
