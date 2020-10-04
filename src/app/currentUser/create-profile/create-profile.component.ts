@@ -1,6 +1,6 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -29,7 +29,7 @@ import {
   styleUrls: ['./create-profile.component.css']
 })
 
-export class CreateProfileComponent implements OnChanges {
+export class CreateProfileComponent {
   currentUser: CurrentUser;
   newUserForm: FormGroup;
   genderTypes = Object.keys(GenderType);
@@ -52,7 +52,7 @@ export class CreateProfileComponent implements OnChanges {
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
-      name: null,
+      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       createdOn: null,
       updatedOn: null,
       lastActive: null,
@@ -83,21 +83,20 @@ export class CreateProfileComponent implements OnChanges {
     }
   }
 
-  ngOnChanges() {
-    this.rebuildForm();
-  }
-
-  rebuildForm() {
+  revert() {
     this.newUserForm.reset();
   }
 
-  revert() { this.rebuildForm(); }
-
   onSubmit() {
     this.currentUser = this.prepareSaveProfile();
+    if (this.newUserForm.invalid) {
+      this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
+      return;
+    }
+    else if (this.newUserForm.valid) {
     this.profileService.addProfile(this.currentUser).subscribe(/* add error handling */);
-    this.router.navigate(['/edit']);
-    //this.rebuildForm(); // Hvad skal vi gøre når der er postet?
+    this.router.navigate(['/edit']);  // TODO: Still not working!
+    }
   }
 
   prepareSaveProfile(): CurrentUser {

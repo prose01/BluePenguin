@@ -15,10 +15,22 @@
       </button>
     </div>
 
+    <div class="error" *ngIf="newUserForm.hasError('newUserForm')">
+      <div *ngIf="newUserForm.controls.name.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="newUserForm.controls.name.errors.minlength">
+        Name must be at least 4 characters long.
+      </div>
+      <div *ngIf="newUserForm.controls.name.errors.maxlength">
+        Name cannot be more than 20 characters long.
+      </div>
+    </div>
+
     <div class="form-container">
 
       <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name">
+        <input matInput placeholder="Name" formControlName="name" required minlength="3">
       </mat-form-field>
 
       <mat-form-field>
