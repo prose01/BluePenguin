@@ -20,10 +20,16 @@
         Name is required.
       </div>
       <div *ngIf="newUserForm.controls.name.errors.minlength">
-        Name must be at least 4 characters long.
+        Name must be at least 3 characters long.
       </div>
       <div *ngIf="newUserForm.controls.name.errors.maxlength">
         Name cannot be more than 20 characters long.
+      </div>
+      <div *ngIf="newUserForm.controls.gender.errors != null && newUserForm.controls.gender.errors.required">
+        Gender is required.
+      </div>
+      <div *ngIf="newUserForm.controls.sexualOrientation.errors != null && newUserForm.controls.sexualOrientation.errors.required">
+        Sexual orientation is required.
       </div>
     </div>
 
@@ -46,7 +52,7 @@
       </mat-slider>
 
       <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender">
+        <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender" required>
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -54,7 +60,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Sexual orientation" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation">
+        <mat-select placeholder="Sexual orientation" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation" required>
           <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
             {{ sexualOrientationType }}
           </mat-option>

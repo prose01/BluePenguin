@@ -17,6 +17,11 @@ body {
   margin: 2em;
 }
 
+/* Error or warning font */
+.error {
+  color: #f07537;
+}
+
 /* everywhere else */
 * {
   font-family: Roboto, Arial, Helvetica, sans-serif;
