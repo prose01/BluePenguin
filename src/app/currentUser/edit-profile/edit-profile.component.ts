@@ -38,6 +38,9 @@ export class EditProfileComponent {
   sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
+  hasChildrenTypes = Object.keys(HasChildrenType);
+  wantChildrenTypes = Object.keys(WantChildrenType);
+  hasPetsTypes = Object.keys(HasPetsType);
   livesInTypes = Object.keys(LivesInType);
   educationTypes = Object.keys(EducationType);
   educationStatusTypes = Object.keys(EducationStatusType);
