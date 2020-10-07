@@ -7,6 +7,7 @@
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { HttpEventType } from '@angular/common/http';
@@ -23,6 +24,7 @@ import { ImageService } from '../../services/image.service';
 })
 
 export class ImageUploadComponent {
+  uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
   croppedImage: any = '';
   canvasRotation = 0;
@@ -34,7 +36,16 @@ export class ImageUploadComponent {
   fileUploadProgress: string = null;
   title: string = null;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private router: Router) { }
+  constructor(public auth: AuthService, private imageService: ImageService, private router: Router, private formBuilder: FormBuilder) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.uploadImageForm = this.formBuilder.group({
+      file: null,
+      title: [null, [Validators.required, Validators.maxLength(20)]]
+    });
+  }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -127,22 +138,29 @@ export class ImageUploadComponent {
   }
 
   onSubmit() {
-    const formData = new FormData();
-    formData.append('image', base64ToFile(this.croppedImage));
-    formData.append('title', this.title);
+    console.log(this.uploadImageForm);
+    if (this.uploadImageForm.invalid) {
+      this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
+      return;
+    }
+    else if (this.uploadImageForm.valid) {
+      const formData = new FormData();
+      formData.append('image', base64ToFile(this.croppedImage));
+      formData.append('title', this.title);
 
-    this.fileUploadProgress = '0%';
+      this.fileUploadProgress = '0%';
 
-    this.imageService.uploadImage(formData)
-      .subscribe(events => {
-        if (events.type === HttpEventType.UploadProgress) {
-          this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          //console.log(this.fileUploadProgress);
-          alert('Your photo has been uploaded');
-          this.router.navigate(['/imagesboard']);
-        } else if (events.type === HttpEventType.Response) {
-          this.fileUploadProgress = '';
-        }
-      })
+      this.imageService.uploadImage(formData)
+        .subscribe(events => {
+          if (events.type === HttpEventType.UploadProgress) {
+            this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
+            //console.log(this.fileUploadProgress);
+            alert('Your photo has been uploaded');
+            this.router.navigate(['/imagesboard']);
+          } else if (events.type === HttpEventType.Response) {
+            this.fileUploadProgress = '';
+          }
+        });
+    }
   }
 }

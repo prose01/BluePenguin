@@ -15,7 +15,7 @@ import { ImageModel } from '../../models/ImageModel';
 
 export class ImageBoardComponent implements OnInit {
   isMatButtonToggled = true;
-  matButtonToggleIcon: string = 'cloud_upload';
+  matButtonToggleIcon: string = 'add_photo_alternate';
   matButtonToggleText: string = 'Upload new photo';
 
   currentUserSubject: CurrentUser;
@@ -54,6 +54,6 @@ export class ImageBoardComponent implements OnInit {
   toggleDisplay() {
     this.isMatButtonToggled = !this.isMatButtonToggled;
     this.matButtonToggleText = (this.isMatButtonToggled ? 'Upload new photo' : 'TileView');
-    this.matButtonToggleIcon = (this.isMatButtonToggled ? 'cloud_upload' : 'collections');
+    this.matButtonToggleIcon = (this.isMatButtonToggled ? 'add_photo_alternate' : 'collections');
   }
 }
