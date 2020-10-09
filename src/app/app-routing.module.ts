@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'detail/:profileId', component: ProfileDetailComponent },
   { path: 'imagesboard', component: ImageBoardComponent },
-  { path: 'imageupload', component: ImageUploadComponent },
+  //{ path: 'imageupload', component: ImageUploadComponent },
   { path: 'imagegallery/:profileId', component: ImageGalleryComponent },
   { path: 'chatMembers', component: ChatMembersListviewComponent }
 ];

@@ -13,8 +13,6 @@ import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { HttpEventType } from '@angular/common/http';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
-
-import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 
 @Component({
@@ -35,6 +33,7 @@ export class ImageUploadComponent {
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
   title: string = null;
+  titlePlaceholder: string = "Please insert an image title.";
 
   constructor(public auth: AuthService, private imageService: ImageService, private router: Router, private formBuilder: FormBuilder) {
     this.createForm();
@@ -46,6 +45,20 @@ export class ImageUploadComponent {
       title: [null, [Validators.required, Validators.maxLength(20)]]
     });
   }
+
+  onChange(): void {
+    if (this.uploadImageForm.invalid) {
+      this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
+
+      if (this.uploadImageForm.controls.title.errors.required) {
+        this.titlePlaceholder = "Please insert an image title";
+      }
+
+      if (this.uploadImageForm.controls.title.errors.maxlength) {
+        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+      }
+    }
+  } 
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -138,9 +151,17 @@ export class ImageUploadComponent {
   }
 
   onSubmit() {
-    console.log(this.uploadImageForm);
     if (this.uploadImageForm.invalid) {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
+
+      if (this.uploadImageForm.controls.title.errors.required) {
+        this.titlePlaceholder = "Please insert an image title";
+      }
+
+      if (this.uploadImageForm.controls.title.errors.maxlength) {
+        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+      }
+
       return;
     }
     else if (this.uploadImageForm.valid) {
