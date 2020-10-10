@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   showingBookmarkedProfilesList: boolean;
 
   orderBy: any[] = [
-    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },
+    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
     { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
     { value: OrderByType.LastActive, viewValue: 'LastActive' }
   ];

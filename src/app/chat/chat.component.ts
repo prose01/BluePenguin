@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from './../authorisation/auth/auth.service';
@@ -16,7 +16,7 @@ import { SignalRAdapter } from './signalr-adapter';
   styleUrls: ['./chat.component.css'],
 })
 
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnChanges {
   @Input() currentUser: CurrentUser;
 
   currentTheme = 'light-theme';
@@ -30,12 +30,14 @@ export class ChatComponent implements OnInit {
   title = 'Chats';
 
   constructor(public auth: AuthService, private appSettingsService: AppSettingsService, private http: HttpClient) {   
-    setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.appSettingsService.getSettings().subscribe(settings => this.settings = settings, () => { }, () => {
-      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.settings.junoUrl, this.username, this.http); }, 2000);
+      if (this.currentUser != null) {
+        setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);
+        setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.settings.junoUrl, this.username, this.http); }, 2000);
+      }
     });
   }
 
