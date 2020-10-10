@@ -2,8 +2,8 @@
   <div class="grid grid-pad">
     <div *ngFor="let imageModel of imageModels" class="col-1-4">
 
-      <img class="images" src="{{imageModel.image}}" />
-      <div *ngIf="imageModel.title != 'null'" class="color-accent-main">
+      <img src="{{imageModel.image}}" />
+      <div class="color-accent-main">
         <h4>{{imageModel.title}}</h4>
         <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="Delete image">
           <i class="material-icons">delete</i>

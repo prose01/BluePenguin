@@ -15,10 +15,6 @@ export class ImageService {
   private settings: AppSettings;
   private headers: HttpHeaders;
 
-  //retrievedImage: any; // Is this being used?
-  //base64Data: any; // Is this being used?
-  //retrieveResonse: any; // Is this being used?
-
   constructor(private appSettingsService: AppSettingsService, private http: HttpClient, public router: Router) {
     this.appSettingsService.getSettings().subscribe(settings => this.settings = settings);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
@@ -28,7 +24,6 @@ export class ImageService {
 
   uploadImage(formData: FormData): Observable<any> {
     return this.http.post(`${this.settings.artemisUrl}UploadImage`, formData, {
-      reportProgress: true,
       observe: 'events'
     });
   }

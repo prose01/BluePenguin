@@ -48,6 +48,10 @@ export class CreateProfileComponent {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
+  namePlaceholder: string = "Name";
+  genderPlaceholder: string = "Gender";
+  sexualOrientationPlaceholder: string = "Sexual orientation";
+
   constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
@@ -85,12 +89,46 @@ export class CreateProfileComponent {
 
   revert() {
     this.newUserForm.reset();
+    this.namePlaceholder = "Name";
+    this.genderPlaceholder = "Gender";
+    this.sexualOrientationPlaceholder = "Sexual orientation";
   }
+
+  onChange(): void {
+    if (this.newUserForm.invalid) {
+      this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
+
+      if (this.newUserForm.controls.name.errors != null && this.newUserForm.controls.name.errors.maxlength) {
+        this.namePlaceholder = "Name cannot be more than 20 characters long.";
+      }
+    }
+  } 
 
   onSubmit() {
     this.currentUser = this.prepareSaveProfile();
     if (this.newUserForm.invalid) {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
+
+      if (this.newUserForm.controls.name.errors.required) {
+        this.namePlaceholder = "Name is required.";
+      }
+
+      if (this.newUserForm.controls.name.errors.minlength) {
+        this.namePlaceholder = "Name must be at least 3 characters long.";
+      }
+
+      if (this.newUserForm.controls.name.errors.maxlength) {
+        this.namePlaceholder = "Name cannot be more than 20 characters long.";
+      }
+
+      if (this.newUserForm.controls.gender.errors != null && this.newUserForm.controls.gender.errors.required) {
+        this.genderPlaceholder = "Gender is required.";
+      }
+
+      if (this.newUserForm.controls.sexualOrientation.errors != null && this.newUserForm.controls.sexualOrientation.errors.required) {
+        this.sexualOrientationPlaceholder = "Sexual orientation is required.";
+      }
+
       return;
     }
     else if (this.newUserForm.valid) {

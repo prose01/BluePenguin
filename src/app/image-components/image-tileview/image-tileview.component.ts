@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -17,6 +17,7 @@ export class ImageTileviewComponent {
   selectedImageModel: ImageModel;
 
   @Input() imageModels: ImageModel[];
+  @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private dialog: MatDialog) { }
 
@@ -25,6 +26,10 @@ export class ImageTileviewComponent {
       height: '300px',
       width: '300px',
       data: { imageId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshCurrentUserImages.emit(); 
     });
   }
 }

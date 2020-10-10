@@ -15,7 +15,7 @@
       </button>
     </div>
 
-    <div class="error" *ngIf="newUserForm.hasError('newUserForm')">
+    <!--<div class="error" *ngIf="newUserForm.hasError('newUserForm')">
       <div *ngIf="newUserForm.controls.name.errors.required">
         Name is required.
       </div>
@@ -31,12 +31,12 @@
       <div *ngIf="newUserForm.controls.sexualOrientation.errors != null && newUserForm.controls.sexualOrientation.errors.required">
         Sexual orientation is required.
       </div>
-    </div>
+    </div>-->
 
     <div class="form-container">
 
       <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name" required minlength="3">
+        <input matInput placeholder="{{namePlaceholder}}" formControlName="name" (ngModelChange)="onChange()" required minlength="3">
       </mat-form-field>
 
       <mat-form-field>
@@ -52,7 +52,7 @@
       </mat-slider>
 
       <mat-form-field>
-        <mat-select placeholder="Gender" formControlName="gender" [(value)]="currentUser.gender" required>
+        <mat-select placeholder="{{genderPlaceholder}}" formControlName="gender" [(value)]="currentUser.gender" required>
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -60,7 +60,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Sexual orientation" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation" required>
+        <mat-select placeholder="{{sexualOrientationPlaceholder}}" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation" required>
           <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
             {{ sexualOrientationType }}
           </mat-option>

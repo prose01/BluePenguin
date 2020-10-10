@@ -8,9 +8,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
+import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
-import { HttpEventType } from '@angular/common/http';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { ImageService } from '../../services/image.service';
@@ -32,7 +31,6 @@ export class ImageUploadComponent {
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
-  title: string = null;
   titlePlaceholder: string = "Please insert an image title.";
 
   constructor(public auth: AuthService, private imageService: ImageService, private router: Router, private formBuilder: FormBuilder) {
@@ -66,16 +64,10 @@ export class ImageUploadComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    //console.log(event, base64ToFile(event.base64));
   }
 
   imageLoaded() {
     this.showCropper = true;
-    //console.log('Image loaded');
-  }
-
-  cropperReady(sourceImageDimensions: Dimensions) {
-    //console.log('Cropper ready', sourceImageDimensions);
   }
 
   loadImageFailed() {
@@ -165,23 +157,15 @@ export class ImageUploadComponent {
       return;
     }
     else if (this.uploadImageForm.valid) {
+      const uploadModel = this.uploadImageForm.value;
       const formData = new FormData();
       formData.append('image', base64ToFile(this.croppedImage));
-      formData.append('title', this.title);
+      formData.append('title', uploadModel.title as string);
 
-      this.fileUploadProgress = '0%';
-
-      this.imageService.uploadImage(formData)
-        .subscribe(events => {
-          if (events.type === HttpEventType.UploadProgress) {
-            this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-            //console.log(this.fileUploadProgress);
-            alert('Your photo has been uploaded');
-            this.router.navigate(['/imagesboard']);
-          } else if (events.type === HttpEventType.Response) {
-            this.fileUploadProgress = '';
-          }
-        });
+      this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
     }
+
+    //setTimeout(() => { this.router.navigate(['/imagesboard']); }, 500);
+    
   }
 }

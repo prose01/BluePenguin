@@ -1,14 +1,5 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <!--<mat-button-toggle (click)=toggleDisplay()>{{matButtonToggleText}}</mat-button-toggle>-->
-  
-
-  <!--<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle (click)=getLatestProfiles()>All</mat-button-toggle>
-    <mat-button-toggle (click)=getProfileByCurrentUsersFilter()>My filter</mat-button-toggle>
-    <mat-button-toggle (click)=getBookmarkedProfiles()>Bookmarked Profiles</mat-button-toggle>
-  </mat-button-toggle-group>-->
-
   <div style="margin-bottom: 1em">
 
     <button type="button" (click)="toggleDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
