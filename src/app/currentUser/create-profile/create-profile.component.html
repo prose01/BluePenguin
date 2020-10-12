@@ -15,25 +15,22 @@
       </button>
     </div>
 
-    <!--<div class="error" *ngIf="newUserForm.hasError('newUserForm')">
-      <div *ngIf="newUserForm.controls.name.errors.required">
-        Name is required.
-      </div>
-      <div *ngIf="newUserForm.controls.name.errors.minlength">
-        Name must be at least 3 characters long.
-      </div>
-      <div *ngIf="newUserForm.controls.name.errors.maxlength">
-        Name cannot be more than 20 characters long.
-      </div>
-      <div *ngIf="newUserForm.controls.gender.errors != null && newUserForm.controls.gender.errors.required">
-        Gender is required.
-      </div>
-      <div *ngIf="newUserForm.controls.sexualOrientation.errors != null && newUserForm.controls.sexualOrientation.errors.required">
-        Sexual orientation is required.
-      </div>
-    </div>-->
-
     <div class="form-container">
+
+      <mat-form-field class="tag-list">
+        <mat-chip-list #chipList aria-label="Fruit selection" formControlName="tags">
+          <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"
+                    [removable]="removable" (removed)="remove(tag)">
+            {{tag}}
+            <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
+          </mat-chip>
+          <input placeholder="Tags"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="{{namePlaceholder}}" formControlName="name" (ngModelChange)="onChange()" required minlength="3">

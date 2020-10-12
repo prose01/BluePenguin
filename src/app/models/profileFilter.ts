@@ -23,6 +23,7 @@ export class ProfileFilter {
   age: number[];
   height: number[];
   description: string;
+  tags: string[];
   gender: GenderType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
@@ -47,6 +48,7 @@ export interface ProfileFilter {
   age: number[];
   height: number[];
   description: string;
+  tags: string[];
   gender: GenderType;
   body: BodyType;
   smokingHabits: SmokingHabitsType;

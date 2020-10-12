@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -63,6 +65,7 @@ export class CreateProfileComponent {
       age: null,
       height: null,
       description: null,
+      tags: null,
       gender: [null, [Validators.required]],
       sexualOrientation: [null, [Validators.required]],
       body: BodyType.NotChosen,
@@ -88,6 +91,7 @@ export class CreateProfileComponent {
   }
 
   revert() {
+    this.tagsList.length = 0;
     this.newUserForm.reset();
     this.namePlaceholder = "Name";
     this.genderPlaceholder = "Gender";
@@ -153,6 +157,7 @@ export class CreateProfileComponent {
       age: formModel.age as number,
       height: formModel.height as number,
       description: formModel.description as string,
+      tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
       sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
@@ -171,5 +176,44 @@ export class CreateProfileComponent {
     };
 
     return saveProfile;
+  }
+
+  // Tag section //
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagsList: string[] = [];
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+      //this.currentUserSubject.tags.push(value.trim());
+      this.tagsList.push(value.trim());
+      this.newUserForm.markAsDirty();
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(tag: string): void {
+    //const index = this.currentUserSubject.tags.indexOf(tag);
+
+    //if (index >= 0) {
+    //  this.currentUserSubject.tags.splice(index, 1);
+    //}
+    const index = this.tagsList.indexOf(tag);
+
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+      this.newUserForm.markAsDirty();
+    }
   }
 }

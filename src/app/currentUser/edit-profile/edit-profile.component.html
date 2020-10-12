@@ -5,7 +5,7 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
       <div style="margin-bottom: 1em">
-        <button type="submit" (click)="onSubmit()"
+        <button type="submit" 
                 [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="Save">
           <i class="material-icons">save</i>
         </button>
@@ -17,8 +17,23 @@
 
       <div class="form-container">
 
+        <mat-form-field class="tag-list">
+          <mat-chip-list #chipList aria-label="Fruit selection" formControlName="tags">
+            <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"
+                      [removable]="removable" (removed)="remove(tag)">
+              {{tag}}
+              <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
+            </mat-chip>
+            <input placeholder="Tags"
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+        </mat-form-field>
+
         <mat-form-field>
-          <input matInput placeholder="Name" formControlName="name"  [readonly]="true">
+          <input matInput placeholder="Name" formControlName="name" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>

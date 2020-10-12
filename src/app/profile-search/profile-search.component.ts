@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
@@ -64,6 +66,7 @@ export class ProfileSearchComponent implements OnInit {
       age: null,
       height: null,
       description: null,
+      tags: null,
       gender: GenderType.Female,
       body: BodyType.NotChosen,
       smokingHabits: SmokingHabitsType.NotChosen,
@@ -101,6 +104,7 @@ export class ProfileSearchComponent implements OnInit {
       age: this.filter.age,
       height: this.filter.height,
       description: this.filter.description,
+      tags: this.filter.tags,
       gender: this.filter.gender,
       body: this.filter.body,
       smokingHabits: this.filter.smokingHabits,
@@ -116,6 +120,8 @@ export class ProfileSearchComponent implements OnInit {
       clotheStyle: this.filter.clotheStyle,
       bodyArt: this.filter.bodyArt
     });
+
+    this.tagsList.push.apply(this.tagsList, this.filter.tags);
   }
 
   onSubmit() {
@@ -166,6 +172,7 @@ export class ProfileSearchComponent implements OnInit {
       age: ageRange,
       height: heightRange,
       description: formModel.description as string,
+      tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
@@ -196,5 +203,39 @@ export class ProfileSearchComponent implements OnInit {
     //setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
 
     this.profileForm.markAsDirty();
+  }
+
+
+  // Tag section //
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagsList: string[] = [];
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+      this.tagsList.push(value.trim());
+      this.profileForm.markAsDirty();
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(tag: string): void {
+    const index = this.tagsList.indexOf(tag);
+
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+      this.profileForm.markAsDirty();
+    }
   }
 }

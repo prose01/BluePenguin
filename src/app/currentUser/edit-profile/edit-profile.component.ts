@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { first } from 'rxjs/operators';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
@@ -61,6 +64,7 @@ export class EditProfileComponent {
       age: null,
       height: null,
       description: null,
+      tags: null,
       gender: null,
       sexualOrientation: null,
       body: null,
@@ -83,7 +87,7 @@ export class EditProfileComponent {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
+          this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
         }
       });
     }
@@ -101,6 +105,7 @@ export class EditProfileComponent {
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
       description: this.currentUserSubject.description as string,
+      tags: this.currentUserSubject.tags as string[],
       gender: this.currentUserSubject.gender as GenderType,
       sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
       body: this.currentUserSubject.body as BodyType,
@@ -117,14 +122,19 @@ export class EditProfileComponent {
       clotheStyle: this.currentUserSubject.clotheStyle as ClotheStyleType,
       bodyArt: this.currentUserSubject.bodyArt as BodyArtType
     });
+
+    this.tagsList.push.apply(this.tagsList, this.currentUserSubject.tags);
   }
 
-  revert() { this.prefilForm(); }
+  revert() {
+    this.tagsList.length = 0;
+    this.prefilForm();
+  }
 
   onSubmit() {
     this.currentUserSubject = this.prepareSaveProfile();
     this.profileService.putProfile(this.currentUserSubject).subscribe(/* add error handling */);
-    this.prefilForm(); // Hvad skal vi gøre når der er postet?
+    // Hvad skal vi gøre når der er postet?
   }
 
   prepareSaveProfile(): CurrentUser {
@@ -143,6 +153,7 @@ export class EditProfileComponent {
       height: formModel.height as number,
       description: formModel.description as string,
       images: this.currentUserSubject.images,
+      tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
       sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
@@ -169,6 +180,45 @@ export class EditProfileComponent {
       width: '300px',
       data: { profileIds: [] }
     });
+  }
+
+  // Tag section //
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagsList: string[] = [];
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+      //this.currentUserSubject.tags.push(value.trim());
+      this.tagsList.push(value.trim());
+      this.profileForm.markAsDirty();
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(tag: string): void {
+    //const index = this.currentUserSubject.tags.indexOf(tag);
+
+    //if (index >= 0) {
+    //  this.currentUserSubject.tags.splice(index, 1);
+    //}
+    const index = this.tagsList.indexOf(tag);
+
+    if (index >= 0) {
+      this.tagsList.splice(index, 1);
+      this.profileForm.markAsDirty();
+    }
   }
 
 }

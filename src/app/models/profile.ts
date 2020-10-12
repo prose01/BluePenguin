@@ -31,6 +31,7 @@ export class Profile {
   height: number;
   description: string;
   images: Array<ImageModel>;
+  tags: string[];
   gender: GenderType;
   sexualOrientation: SexualOrientationType;
   body: BodyType;
@@ -61,6 +62,7 @@ export interface Profile {
   height: number;
   description: string;
   images: Array<ImageModel>;
+  tags: string[];
   gender: GenderType;
   sexualOrientation: SexualOrientationType;
   body: BodyType;
