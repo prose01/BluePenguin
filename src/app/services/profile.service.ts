@@ -16,7 +16,6 @@ import { OrderByType } from '../models/enums';
 export class ProfileService {
 
   private settings: AppSettings;
-  //private avalonUrl = 'http://localhost:49260/';  // URL to web api
   private headers: HttpHeaders;
 
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
@@ -196,10 +195,6 @@ export class ProfileService {
   getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType): Observable<Profile[]> {
     return this.http.post<ProfileFilter[]>(`${this.settings.avalonUrl}GetProfileByFilter`, { profileFilter, orderByType }, { headers: this.headers })
       .pipe(
-        map(profile => profile),
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`;
-        }),
         catchError(this.handleError)
       );
   }
@@ -217,27 +212,6 @@ export class ProfileService {
         catchError(this.handleError)
       );
   }
-
-  //getLatestCreatedProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLatestCreatedProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  //getLastUpdatedProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastUpdatedProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
-
-  //getLastActiveProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.settings.avalonUrl}GetLastActiveProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      catchError(this.handleError)
-  //    );
-  //}
 
 
   // Helper Lav en rigtig error handler inden produktion

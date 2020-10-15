@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
     let defaultImageModel: ImageModel = new ImageModel();
     this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
-    this.profiles.forEach((element, i) => {
+    this.profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);

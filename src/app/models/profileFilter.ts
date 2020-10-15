@@ -17,9 +17,6 @@ import {
 
 export class ProfileFilter {
   name: string;
-  createdOn: Date;
-  updatedOn: Date;
-  lastActive: Date;
   age: number[];
   height: number[];
   description: string;
@@ -42,9 +39,6 @@ export class ProfileFilter {
 
 export interface ProfileFilter {
   name: string;
-  createdOn: Date;
-  updatedOn: Date;
-  lastActive: Date;
   age: number[];
   height: number[];
   description: string;

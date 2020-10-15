@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -53,6 +53,7 @@ export class CreateProfileComponent {
   namePlaceholder: string = "Name";
   genderPlaceholder: string = "Gender";
   sexualOrientationPlaceholder: string = "Sexual orientation";
+  tagsPlaceholder: string = "Tags";
 
   constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -183,16 +184,28 @@ export class CreateProfileComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
   tagsList: string[] = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
+    if (this.tagsList.length >= 10) {
+      this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
+      this.tagsPlaceholder = "Max 10 tags.";
+      return;
+    }
+
     // Add our tag
     if ((value || '').trim()) {
-      //this.currentUserSubject.tags.push(value.trim());
+
+      if (value.trim().length >= 20) {
+        this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
+        this.tagsPlaceholder = "Max 20 characters long.";
+        return;
+      }
+
       this.tagsList.push(value.trim());
       this.newUserForm.markAsDirty();
     }
@@ -204,11 +217,6 @@ export class CreateProfileComponent {
   }
 
   remove(tag: string): void {
-    //const index = this.currentUserSubject.tags.indexOf(tag);
-
-    //if (index >= 0) {
-    //  this.currentUserSubject.tags.splice(index, 1);
-    //}
     const index = this.tagsList.indexOf(tag);
 
     if (index >= 0) {

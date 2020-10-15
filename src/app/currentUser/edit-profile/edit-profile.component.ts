@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,6 +52,8 @@ export class EditProfileComponent {
   eatingHabitsTypes = Object.keys(EatingHabitsType);
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
+
+  tagsPlaceholder: string = "Tags";
 
   constructor(public auth: AuthService, private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
 
@@ -187,16 +189,28 @@ export class EditProfileComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
   tagsList: string[] = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
+    if (this.tagsList.length >= 10) {
+      this.profileForm.controls.tags.setErrors({ 'incorrect': true });
+      this.tagsPlaceholder = "Max 10 tags.";
+      return;
+    }   
+
     // Add our tag
     if ((value || '').trim()) {
-      //this.currentUserSubject.tags.push(value.trim());
+
+      if (value.trim().length >= 20) {
+        this.profileForm.controls.tags.setErrors({ 'incorrect': true });
+        this.tagsPlaceholder = "Max 20 characters long.";
+        return;
+      }
+
       this.tagsList.push(value.trim());
       this.profileForm.markAsDirty();
     }
@@ -208,11 +222,6 @@ export class EditProfileComponent {
   }
 
   remove(tag: string): void {
-    //const index = this.currentUserSubject.tags.indexOf(tag);
-
-    //if (index >= 0) {
-    //  this.currentUserSubject.tags.splice(index, 1);
-    //}
     const index = this.tagsList.indexOf(tag);
 
     if (index >= 0) {

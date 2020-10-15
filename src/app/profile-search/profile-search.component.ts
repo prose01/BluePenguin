@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 
@@ -57,6 +57,7 @@ export class ProfileSearchComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   showGenderChoise: boolean;
+  tagsPlaceholder: string = "Tags";
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private formBuilder: FormBuilder) { this.createForm(); }
 
@@ -135,7 +136,7 @@ export class ProfileSearchComponent implements OnInit {
     let defaultImageModel: ImageModel = new ImageModel();
     this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
-    this.searchResultProfiles.forEach((element, i) => {
+    this.searchResultProfiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
@@ -154,6 +155,7 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   revert() {
+    this.tagsList.length = 0;
     this.createForm();
     this.searchResultProfiles = [];
   }
@@ -161,14 +163,11 @@ export class ProfileSearchComponent implements OnInit {
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
-    const ageRange: number[] = [0, formModel.age];    // TODO: Remove these ranges when slider can take two values!
-    const heightRange: number[] = [0, formModel.height];
+    const ageRange: number[] = [0, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    const heightRange: number[] = [0, Number(formModel.height)];
 
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
-      createdOn: new Date() as Date,
-      updatedOn: new Date() as Date,
-      lastActive: new Date() as Date,
       age: ageRange,
       height: heightRange,
       description: formModel.description as string,
@@ -198,9 +197,9 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   loadSearch() {
-    this.profileService.loadProfileFilter().subscribe(filter => this.filter = filter);
+    this.profileService.loadProfileFilter().subscribe(filter => this.filter = filter, () => { }, () => { });
 
-    //setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
+    setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
 
     this.profileForm.markAsDirty();
   }
@@ -211,15 +210,28 @@ export class ProfileSearchComponent implements OnInit {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
   tagsList: string[] = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
+    if (this.tagsList.length >= 10) {
+      this.profileForm.controls.tags.setErrors({ 'incorrect': true });
+      this.tagsPlaceholder = "Max 10 tags.";
+      return;
+    }   
+
     // Add our tag
     if ((value || '').trim()) {
+
+      if (value.trim().length >= 20) {
+        this.profileForm.controls.tags.setErrors({ 'incorrect': true });
+        this.tagsPlaceholder = "Max 20 characters long.";
+        return;
+      }
+
       this.tagsList.push(value.trim());
       this.profileForm.markAsDirty();
     }
