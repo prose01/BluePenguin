@@ -4,9 +4,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 import { ProfileService } from '../services/profile.service';
+import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ImageService } from '../services/image.service';
 import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
+import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/ImageModel';
 import {
@@ -27,7 +29,6 @@ import {
   SexualOrientationType,
   OrderByType
 } from '../models/enums';
-import { CurrentUser } from '../models/currentUser';
 
 @Component({
   selector: 'app-profile-search',
@@ -56,10 +57,12 @@ export class ProfileSearchComponent implements OnInit {
   bodyArtTypes = Object.keys(BodyArtType);
 
   currentUserSubject: CurrentUser;
+  currentProfileFilterSubject: ProfileFilter;
+  currentSearchResultProfilesSubject: Profile[];
   showGenderChoise: boolean;
   tagsPlaceholder: string = "Tags";
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -90,6 +93,22 @@ export class ProfileSearchComponent implements OnInit {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {          
           this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });          
+
+          // Get and load previous ProfileFilter.
+          this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+            if (currentProfileFilterSubject) {
+              this.filter = currentProfileFilterSubject;
+              this.loadForm();
+              this.profileForm.markAsDirty();
+            }
+          });
+
+          // Get previous SearchResultProfiles.
+          this.behaviorSubjectService.currentSearchResultProfilesSubject.subscribe(currentSearchResultProfilesSubject => {
+            if (currentSearchResultProfilesSubject) {
+              this.searchResultProfiles = currentSearchResultProfilesSubject;
+            }
+          });
         }
       });
     }
@@ -127,8 +146,13 @@ export class ProfileSearchComponent implements OnInit {
 
   onSubmit() {
     this.filter = this.prepareSearch();
-    this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => this.searchResultProfiles = searchResultProfiles);
 
+    this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => {
+      this.searchResultProfiles = searchResultProfiles;
+      this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
+    });
+
+    this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
     setTimeout(() => { this.getProfileImages(); }, 500); 
   }
 

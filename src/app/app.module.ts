@@ -32,7 +32,9 @@ import { CallbackComponent }                  from './authorisation/callback/cal
 
 import { AppSettingsService }                 from "./services/appsettings.service";
 import { ProfileService }                     from './services/profile.service';
+import { BehaviorSubjectService }             from './services/behaviorSubjec.service';
 import { ImageService }                       from './services/image.service';
+
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
@@ -112,6 +114,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     AppSettingsService,
     DatePipe,
     ProfileService,
+    BehaviorSubjectService,
     ImageService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
