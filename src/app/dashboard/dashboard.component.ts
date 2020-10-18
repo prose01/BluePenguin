@@ -15,7 +15,8 @@ import { OrderByType } from '../models/enums';
 export class DashboardComponent implements OnInit {
 
   isTileView = true;
-  matButtonToggleText: string = 'line_style';
+  matButtonToggleText: string = 'ListView';
+  matButtonToggleIcon: string = 'line_style';
 
   profiles: Profile[];
   showingBookmarkedProfilesList: boolean;
@@ -81,7 +82,8 @@ export class DashboardComponent implements OnInit {
 
   toggleDisplay() {
     this.isTileView = !this.isTileView;
-    this.matButtonToggleText = (this.isTileView ? 'line_style' : 'collections');
+    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
+    this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
   }
 
 }

@@ -1,13 +1,89 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 	<div *ngIf="profile">
-		<h2>{{profile.name}} details!</h2>
-		<div><label>profileId: </label>{{profile.profileId}}</div>
+		<h2>{{profile.name}}</h2>
+
 		<div>
-			<label>name: </label>
-			<input [(ngModel)]="profile.name" placeholder="name">
+			<label>CreatedOn: </label>{{profile.createdOn | date:'medium'}}
 		</div>
 
-		<button mat-flat-button color="accent"  routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
+		<div>
+			<label>Last UpdatedOn: </label>{{profile.updatedOn | date:'medium'}}
+		</div>
+
+		<div>
+			<label>LastActive: </label>{{profile.lastActive | date:'medium'}}
+		</div>
+
+		<div *ngIf="profile.age > 0">
+			<label>Age: </label>{{profile.age}}
+		</div>
+
+		<div *ngIf="profile.height > 0">
+			<label>Height: </label>{{profile.height}}
+		</div>
+
+		<div *ngIf="profile.description != null">
+			<label>Description: </label>{{profile.description}}
+		</div>
+
+		<div *ngIf="profile.tags.length > 0">
+			<label>Tags: </label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
+		</div>
+
+		<div *ngIf="profile.body != 'NotChosen'">
+			<label>BodyType: </label>{{profile.body}}
+		</div>
+
+		<div *ngIf="profile.smokingHabits != 'NotChosen'">
+			<label>SmokingHabits: </label>{{profile.smokingHabits}}
+		</div>
+
+		<div *ngIf="profile.hasChildren != 'NotChosen'">
+			<label>HasChildren: </label>{{profile.hasChildren}}
+		</div>
+
+		<div *ngIf="profile.wantChildren != 'NotChosen'">
+			<label>WantChildren: </label>{{profile.wantChildren}}
+		</div>
+
+		<div *ngIf="profile.hasPets != 'NotChosen'">
+			<label>HasPets: </label>{{profile.hasPets}}
+		</div>
+
+		<div *ngIf="profile.livesIn != 'NotChosen'">
+			<label>LivesIn: </label>{{profile.livesIn}}
+		</div>
+
+		<div *ngIf="profile.education != 'NotChosen'">
+			<label>Education: </label>{{profile.education}}
+		</div>
+
+		<div *ngIf="profile.educationStatus != 'NotChosen'">
+			<label>EducationStatus: </label>{{profile.educationStatus}}
+		</div>
+
+		<div *ngIf="profile.employmentStatus != 'NotChosen'">
+			<label>EmploymentStatus: </label>{{profile.employmentStatus}}
+		</div>
+
+		<div *ngIf="profile.sportsActivity != 'NotChosen'">
+			<label>SportsActivity: </label>{{profile.sportsActivity}}
+		</div>
+
+		<div *ngIf="profile.eatingHabits != 'NotChosen'">
+			<label>EatingHabits: </label>{{profile.eatingHabits}}
+		</div>
+
+		<div *ngIf="profile.clotheStyle != 'NotChosen'">
+			<label>ClotheStyle: </label>{{profile.clotheStyle}}
+		</div>
+
+		<div *ngIf="profile.bodyArt != 'NotChosen'">
+			<label>BodyArt: </label>{{profile.bodyArt}}
+		</div>
+
+
+		<button mat-flat-button color="accent" routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
 
 
 		<div *ngIf="currentUserSubject != null && currentUserSubject.admin">
