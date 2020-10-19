@@ -13,12 +13,12 @@ import { OrderByType } from '../models/enums';
   styleUrls: [ './dashboard.component.css' ]
 })
 export class DashboardComponent implements OnInit {
-
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
 
   profiles: Profile[];
+  displayedColumns: string[] = ['select', 'name', 'lastActive']; // Add columns after user's choise or just default?
   showingBookmarkedProfilesList: boolean;
 
   orderBy: any[] = [

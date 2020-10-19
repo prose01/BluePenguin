@@ -62,6 +62,8 @@ export class ProfileSearchComponent implements OnInit {
   showGenderChoise: boolean;
   tagsPlaceholder: string = "Tags";
 
+  displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
+
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {

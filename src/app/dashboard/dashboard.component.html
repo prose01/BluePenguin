@@ -27,6 +27,6 @@
   </div>
 
   <div *ngIf="isTileView"><app-profile-tileview [profiles]="profiles" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" [orderBy]="selectedOrderBy" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-tileview></div>
-  <div *ngIf="!isTileView"><app-profile-listview [profiles]="profiles" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-listview></div>
+  <div *ngIf="!isTileView"><app-profile-listview [profiles]="profiles" [displayedColumns]="displayedColumns" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-listview></div>
 
 </div>

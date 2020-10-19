@@ -27,13 +27,13 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 })
 
 export class ProfileListviewComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'profileId', 'name', 'createdOn'];
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
 
   currentUserSubject: CurrentUser;
 
   @Input() profiles: Profile[];
+  @Input() displayedColumns: string[];
   @Input() showingBookmarkedProfilesList: boolean;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
