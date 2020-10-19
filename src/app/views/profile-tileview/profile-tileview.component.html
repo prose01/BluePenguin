@@ -4,7 +4,7 @@
     <i class="material-icons">{{matButtonToggleIcon}}</i>
   </button>
 
-  <div class="grid grid-pad">
+  <!--<div class="grid grid-pad">
 
     <div *ngFor="let profile of profiles" class="col-1-4">
       <div>
@@ -25,12 +25,32 @@
       </a>
     </div>
 
-  </div>
-
+  </div>-->
   <!--<div class="row">
     <div class="column" *ngFor="let profile of profiles; let indexOfimage=index;">
-      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" style="{{imageSizes[indexOfimage]}}" /> 
-    </div>    
+      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" style="{{imageSizes[indexOfimage]}}" />
+    </div>
   </div>-->
 
- </div>
+
+  <ul class="mdc-image-list my-image-list" *ngFor="let profile of profiles">
+    <li class="mdc-image-list__item">
+      <div class="mdc-image-list__image-aspect-container">
+        <img *ngIf="profile.images[0] != null" class="mdc-image-list__image" src="{{profile.images[0].image}}">
+      </div>
+      <div class="mdc-image-list__supporting">
+        <span class="mdc-image-list__label">{{profile.name}}</span>
+      </div>
+    </li>
+  </ul>
+
+  <!--<ul class="mdc-image-list mdc-image-list--masonry my-masonry-image-list" *ngFor="let profile of profiles">
+    <li class="mdc-image-list__item">
+      <img *ngIf="profile.images[0] != null"  class="mdc-image-list__image" src="{{profile.images[0].image}}">
+      <div class="mdc-image-list__supporting">
+        <span class="mdc-image-list__label">{{profile.name}}</span>
+      </div>
+    </li>
+  </ul>-->
+
+</div>
