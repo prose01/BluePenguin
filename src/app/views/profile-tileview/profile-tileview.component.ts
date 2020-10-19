@@ -19,6 +19,8 @@ export class ProfileTileviewComponent {
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'expand_less';
 
+  imageSizes: string[] = ['width:25%', 'width:75%', 'width:50%', 'width:100%', 'width:50%', 'width:25%', 'width:75%'];
+
   @Input() profiles: Profile[];
   @Input() showingBookmarkedProfilesList: boolean;
   @Input() orderBy: OrderByType;
