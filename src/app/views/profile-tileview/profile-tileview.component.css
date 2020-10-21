@@ -43,7 +43,7 @@
   }
 }*/
 
-@use "@material/floating-label/mdc-floating-label";
+/*@use "@material/floating-label/mdc-floating-label";*/
 /*@use "@material/line-ripple/mdc-line-ripple";*/
 /*@use "@material/notched-outline/mdc-notched-outline";*/
 /*@use "@material/textfield";*/
@@ -55,12 +55,12 @@
 }*/
 
 
-@import '~@material/image-list/mdc-image-list';
+/*@import '~@material/image-list/mdc-image-list';
 @import '~@material/image-list';
 
 .my-image-list {
   @include image-list.standard-columns(5);
-}
+}*/
 
 /*npm install @material/floating-label
 npm install @material/line-ripple
