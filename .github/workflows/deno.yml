@@ -1,11 +1,10 @@
-name: Build 
-
+name: Build
 on:
   push:
-    branches: 
-        - Development
-        
- jobs:
+    branches:
+      - Development
+
+jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
