@@ -2,8 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [Development]
-          
+    branches: 
+        - Development
+        
  jobs:
   build:
     runs-on: ubuntu-latest
