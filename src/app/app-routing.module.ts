@@ -1,5 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OktaAuthModule, OktaCallbackComponent }  from '@okta/okta-angular';
 
 import { CallbackComponent } from './authorisation/callback/callback.component';
 import { CreateProfileComponent } from './currentUser/create-profile/create-profile.component';
@@ -14,6 +15,7 @@ import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMemb
 import { CurrentUserBoardComponent } from './currentUser/currentUser-board/currentUser-board.component';
 
 const routes: Routes = [
+  { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'callback', component: CallbackComponent },
   { path: 'create', component: CreateProfileComponent },
