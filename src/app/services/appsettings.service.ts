@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { catchError } from 'rxjs/operators';
-import { AppSettings } from "../models/appsettings";
+import { AppSettings } from "../models/appSettings";
 
 const SETTINGS_LOCATION = "assets/appsettings.json";
 

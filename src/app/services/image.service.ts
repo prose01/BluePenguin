@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { CurrentUser } from '../models/currentUser';
-import { AppSettings } from '../models/appsettings';
+import { AppSettings } from '../models/appSettings';
 import { AppSettingsService } from './appsettings.service';
 
 @Injectable()

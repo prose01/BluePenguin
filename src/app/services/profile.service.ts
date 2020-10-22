@@ -8,7 +8,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
 import { ProfileFilter } from '../models/profileFilter';
-import { AppSettings } from '../models/appsettings';
+import { AppSettings } from '../models/appSettings';
 import { AppSettingsService } from './appsettings.service';
 import { OrderByType } from '../models/enums';
 

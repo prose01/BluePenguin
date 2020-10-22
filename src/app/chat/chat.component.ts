@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { AppSettingsService } from '../services/appsettings.service';
-import { AppSettings } from '../models/appsettings';
+import { AppSettings } from '../models/appSettings';
 
 import { CurrentUser } from './../models/currentUser';
 import { ChatAdapter } from 'ng-chat';
