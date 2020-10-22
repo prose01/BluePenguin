@@ -5,7 +5,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
-import { ImageModel } from '../../models/ImageModel';
+import { ImageModel } from '../../models/imageModel';
 
 @Component({
   selector: 'image-board',

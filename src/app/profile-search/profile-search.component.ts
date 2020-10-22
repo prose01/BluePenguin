@@ -10,7 +10,7 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
-import { ImageModel } from '../models/ImageModel';
+import { ImageModel } from '../models/imageModel';
 import {
   GenderType,
   BodyType,

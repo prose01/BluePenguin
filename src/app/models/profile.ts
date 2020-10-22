@@ -1,5 +1,5 @@
-import { ImageModel } from './ImageModel';
-import { ChatMember } from './ChatMember';
+import { ImageModel } from './imageModel';
+import { ChatMember } from './chatMember';
 import {
   GenderType,
   SexualOrientationType,

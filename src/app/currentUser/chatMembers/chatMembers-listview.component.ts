@@ -9,7 +9,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
-import { ChatMember } from '../../models/ChatMember';
+import { ChatMember } from '../../models/chatMember';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
