@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
-import { ImageModel } from '../models/ImageModel';
+import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
 import { OrderByType } from '../models/enums';
