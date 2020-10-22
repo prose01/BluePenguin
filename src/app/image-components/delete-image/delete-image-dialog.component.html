@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{matDialogTitle}}</h2>
+<div mat-dialog-content>
+  {{matDialogContent}}
+</div>
+<br />
+<mat-checkbox [(ngModel)]="IsChecked">Yes delete image.</mat-checkbox>
+<div mat-dialog-actions>
+  <button mat-flat-button color="accent"  (click)="onNoClick()" cdkFocusInitial>No Thanks</button>
+  <button mat-flat-button color="accent"  mat-dialog-close (click)="onYesClick()">Ok</button>
+</div>

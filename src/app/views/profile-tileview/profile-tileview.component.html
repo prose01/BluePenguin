@@ -1,0 +1,36 @@
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+  <!--<span class="fill-space"></span>-->
+  <button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" class="sortOrder" matTooltip="Flip sort order">
+    <i class="material-icons">{{matButtonToggleIcon}}</i>
+  </button>
+
+  <div class="grid grid-pad">
+
+    <div *ngFor="let profile of profiles" class="col-1-4">
+      <div>
+        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="Remove from favorits">
+          <i class="material-icons">bookmark_border</i>
+        </button>
+        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" matTooltip="Add to favorits">
+          <i class="material-icons">bookmark</i>
+        </button>
+      </div>
+
+      <a routerLink="/detail/{{profile.profileId}}">
+
+        <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
+        <div class="color-accent-main">
+          <h4>{{profile.name}}</h4>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <!--<div class="row">
+    <div class="column" *ngFor="let profile of profiles; let indexOfimage=index;">
+      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" style="{{imageSizes[indexOfimage]}}" /> 
+    </div>    
+  </div>-->
+
+ </div>

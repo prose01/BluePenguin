@@ -1,6 +1,26 @@
-import { GenderType, BodyType } from '../models/enums';
+import { ImageModel } from './ImageModel';
+import { ChatMember } from './ChatMember';
+import {
+  GenderType,
+  SexualOrientationType,
+  BodyType,
+  SmokingHabitsType,
+  HasChildrenType,
+  WantChildrenType,
+  HasPetsType,
+  LivesInType,
+  EducationType,
+  EducationStatusType,
+  EmploymentStatusType,
+  SportsActivityType,
+  EatingHabitsType,
+  ClotheStyleType,
+  BodyArtType
+} from '../models/enums';
 
 export class CurrentUser {
+  //bookmarks: string[];
+  chatMemberslist: Array<ChatMember>;
   auth0Id: string;
   profileId: string;
   admin: boolean;
@@ -10,13 +30,29 @@ export class CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
-  weight: number;
   description: string;
+  images: Array<ImageModel>;
+  tags: string[];
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
+  smokingHabits: SmokingHabitsType;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
+  livesIn: LivesInType;
+  education: EducationType;
+  educationStatus: EducationStatusType;
+  employmentStatus: EmploymentStatusType;
+  sportsActivity: SportsActivityType;
+  eatingHabits: EatingHabitsType;
+  clotheStyle: ClotheStyleType;
+  bodyArt: BodyArtType;
 }
 
 export interface CurrentUser {
+  //bookmarks: string[];
+  chatMemberslist: Array<ChatMember>;
   auth0Id: string;
   profileId: string;
   admin: boolean;
@@ -26,8 +62,22 @@ export interface CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
-  weight: number;
   description: string;
+  images: Array<ImageModel>;
+  tags: string[];
   gender: GenderType;
+  sexualOrientation: SexualOrientationType;
   body: BodyType;
+  smokingHabits: SmokingHabitsType;
+  hasChildren: HasChildrenType;
+  wantChildren: WantChildrenType;
+  hasPets: HasPetsType;
+  livesIn: LivesInType;
+  education: EducationType;
+  educationStatus: EducationStatusType;
+  employmentStatus: EmploymentStatusType;
+  sportsActivity: SportsActivityType;
+  eatingHabits: EatingHabitsType;
+  clotheStyle: ClotheStyleType;
+  bodyArt: BodyArtType;
 }

@@ -1,20 +1,32 @@
-<div *ngIf="!auth.isAuthenticated()">
-	<h4>
-  		You are not logged in! Please <a (click)="auth.login()">Log In</a> to continue.
-	</h4>
-</div>
-
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-	<mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-		<mat-button-toggle (click)=getLatestCreatedProfiles()>Latest Profiles</mat-button-toggle>
-		<mat-button-toggle (click)=getLastUpdatedProfiles()>Last Updated Profiles</mat-button-toggle>
-		<mat-button-toggle (click)=getLastActiveProfiles()>Last Active Profiles</mat-button-toggle>
-		<mat-button-toggle (click)=getBookmarkedProfiles()>Bookmarked Profiles</mat-button-toggle>
-	</mat-button-toggle-group>
+  <div style="margin-bottom: 1em">
 
-	<mat-button-toggle (click)=toggleDisplay()>{{matButtonToggleText}}</mat-button-toggle>
-	<div *ngIf="isMatButtonToggled"><app-profile-tileview [profiles]="profiles"></app-profile-tileview></div>
-	<div *ngIf="!isMatButtonToggled"><app-profile-listview [profiles]="profiles"></app-profile-listview></div>
+    <button type="button" (click)="toggleDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
+      <i class="material-icons">{{matButtonToggleIcon}}</i>
+    </button>
+
+    <button type="button" (click)="getLatestProfiles()" class="mat-dashboard-flat-button"  mat-flat-button color="accent" matTooltip="All">
+      All
+    </button>
+
+    <button type="button" (click)="getProfileByCurrentUsersFilter()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="My Search Filter">
+      <i class="material-icons">tune</i>
+    </button>
+
+    <button type="button" (click)="getBookmarkedProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="Favorits">
+      <i class="material-icons">bookmarks</i>
+    </button>
+
+    <mat-form-field>
+      <mat-select [(value)]="selectedOrderBy" panelClass="space-grey">
+        <mat-option *ngFor="let option of orderBy" [value]="option.value">{{ option.viewValue }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div *ngIf="isTileView"><app-profile-tileview [profiles]="profiles" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" [orderBy]="selectedOrderBy" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-tileview></div>
+  <div *ngIf="!isTileView"><app-profile-listview [profiles]="profiles" [displayedColumns]="displayedColumns" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-listview></div>
 
 </div>

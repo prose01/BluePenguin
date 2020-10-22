@@ -6,13 +6,13 @@
 
 
 import { Component } from '@angular/core';
-import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
+import { Router } from '@angular/router';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
-import { HttpEventType } from '@angular/common/http';
 
-import { AuthService } from '../../auth/auth.service';
-
-import { ProfileService } from '../../services/profile.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'image-upload',
@@ -21,6 +21,7 @@ import { ProfileService } from '../../services/profile.service';
 })
 
 export class ImageUploadComponent {
+  uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
   croppedImage: any = '';
   canvasRotation = 0;
@@ -30,8 +31,32 @@ export class ImageUploadComponent {
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
+  titlePlaceholder: string = "Please insert an image title.";
 
-  constructor(public auth: AuthService, private profileService: ProfileService) { }
+  constructor(public auth: AuthService, private imageService: ImageService, private router: Router, private formBuilder: FormBuilder) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.uploadImageForm = this.formBuilder.group({
+      file: null,
+      title: [null, [Validators.required, Validators.maxLength(20)]]
+    });
+  }
+
+  onChange(): void {
+    if (this.uploadImageForm.invalid) {
+      this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
+
+      if (this.uploadImageForm.controls.title.errors.required) {
+        this.titlePlaceholder = "Please insert an image title";
+      }
+
+      if (this.uploadImageForm.controls.title.errors.maxlength) {
+        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+      }
+    }
+  } 
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -39,16 +64,10 @@ export class ImageUploadComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    //console.log(event, base64ToFile(event.base64));
   }
 
   imageLoaded() {
     this.showCropper = true;
-    //console.log('Image loaded');
-  }
-
-  cropperReady(sourceImageDimensions: Dimensions) {
-    //console.log('Cropper ready', sourceImageDimensions);
   }
 
   loadImageFailed() {
@@ -74,7 +93,6 @@ export class ImageUploadComponent {
       flipV: flippedH
     };
   }
-
 
   flipHorizontal() {
     this.transform = {
@@ -125,21 +143,29 @@ export class ImageUploadComponent {
   }
 
   onSubmit() {
-    const formData = new FormData();
-    formData.append('image', base64ToFile(this.croppedImage));
+    if (this.uploadImageForm.invalid) {
+      this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
 
-    this.fileUploadProgress = '0%';
+      if (this.uploadImageForm.controls.title.errors.required) {
+        this.titlePlaceholder = "Please insert an image title";
+      }
 
-    this.profileService.uploadCurrentUserImage(formData)
-      .subscribe(events => {
-        if (events.type === HttpEventType.UploadProgress) {
-          this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          console.log(this.fileUploadProgress);
-        } else if (events.type === HttpEventType.Response) {
-          this.fileUploadProgress = '';
-          //console.log(events.body);
-          alert('Your photo has been uploaded');
-        }
-      })
+      if (this.uploadImageForm.controls.title.errors.maxlength) {
+        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+      }
+
+      return;
+    }
+    else if (this.uploadImageForm.valid) {
+      const uploadModel = this.uploadImageForm.value;
+      const formData = new FormData();
+      formData.append('image', base64ToFile(this.croppedImage));
+      formData.append('title', uploadModel.title as string);
+
+      this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
+    }
+
+    //setTimeout(() => { this.router.navigate(['/imagesboard']); }, 500);
+    
   }
 }

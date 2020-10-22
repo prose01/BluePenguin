@@ -1,32 +1,58 @@
-<h1>{{title}}</h1>
-    <nav>
+<h2>{{title}}</h2>
+<nav>
 
-     <div class="container-fluid">
-      <form class="form-inline">
+  <div *ngIf="!auth.isAuthenticated()">
+    <button id="qsLoginBtn"
+            *ngIf="!auth.isAuthenticated()"
+            (click)="auth.login()" type="button"
+            mat-flat-button color="accent">
+      Log In
+    </button>
 
-        <button id="qsLoginBtn"
-          class="btn btn-primary my-2 my-sm-0"
-          *ngIf="!auth.isAuthenticated()"
-          (click)="auth.login()" type="button">
-            Log In
-        </button>
+    <h3>
+      You are not logged in! Please Log In to continue.
+    </h3>
+  </div>
 
-        <button id="qsLogoutBtn"
-          class="btn btn-primary my-2 my-sm-0"
-          *ngIf="auth.isAuthenticated()"
-          (click)="auth.logout()" type="button">
-            Log Out
-        </button>
+  <div *ngIf="auth.isAuthenticated()">
+    <!--Navigation buttons-->
+    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Dashboard">
+      <i class="material-icons">dashboard</i>
+    </button>
+    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Search">
+      <i class="material-icons">search</i>
+    </button>
 
-      </form>
-    </div>
+    <!--Upper right corner menu-->
+    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+      <span class="material-icons">
+        menu
+      </span>
+    </button>
 
-    <div *ngIf="auth.isAuthenticated()">
-      <a routerLink="/dashboard">Dashboard</a>
-      <a routerLink="/edit">Edit Profile</a>
-      <a routerLink="/profileSearch">Search</a>
-    </div>
+    <mat-menu #menu="matMenu">
+      <a routerLink="/edit" mat-menu-item>
+        Edit Profile
+        <i class="material-icons">person</i>
+      </a>
+      <a routerLink="/about" mat-menu-item>
+        About
+        <i class="material-icons">plus_one</i>
+      </a>
 
-     
-    </nav>
+      <button id="qsLogoutBtn"
+              class="mat-menu-flat-button"
+              *ngIf="auth.isAuthenticated()"
+              (click)="auth.logout()" type="button"
+              mat-flat-button color="accent">
+        Log Out
+      </button>
+    </mat-menu>
+
+    <!--chat-component-->
+    <chat-component [currentUser]="currentUserSubject"></chat-component>
+
+  </div>
+
+</nav>
     <router-outlet></router-outlet>

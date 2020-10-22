@@ -1,46 +1,58 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+  <form [formGroup]="profileForm">
 
     <div style="margin-bottom: 1em">
       <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="btn btn-success">
-        Search
-      </button> &nbsp;
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Search">
+        <i class="material-icons">search</i>
+      </button>
       <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="btn btn-danger">
-        Revert
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Revert">
+        <i class="material-icons">undo</i>
+      </button>
+      <button type="button" (click)="saveSearch()"
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Save Search Filter">
+        <i class="material-icons">save</i>
+      </button>
+      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Load Search Filter">
+        <i class="material-icons">find_in_page</i>        
       </button>
     </div>
 
     <div class="form-container">
+
+      <mat-form-field class="tag-list">
+        <mat-chip-list #chipList formControlName="tags">
+          <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"
+                    [removable]="removable" (removed)="remove(tag)">
+            {{tag}}
+            <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
+          </mat-chip>
+          <input matInput placeholder="{{tagsPlaceholder}}"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="Name" formControlName="name">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Age" formControlName="age" multiple>
-          <mat-option *ngFor="let age of ageList" [value]="age">{{age}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select placeholder="Height in cm" formControlName="height" multiple>
-          <mat-option *ngFor="let height of heightList" [value]="height">{{height}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select placeholder="Weight in kg" formControlName="weight" multiple>
-          <mat-option *ngFor="let weight of weightList" [value]="weight">{{weight}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
         <textarea matInput placeholder="Description" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-label>Age</mat-label>
+      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      </mat-slider>
+
+      <mat-label>Height in cm</mat-label>
+      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      </mat-slider>
+
+      <mat-form-field *ngIf="showGenderChoise">
         <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
@@ -55,12 +67,109 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="filter.smokingHabits">
+          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
+            {{ smokingHabitsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Has children" formControlName="hasChildren" [(value)]="filter.hasChildren">
+          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
+            {{ hasChildrenType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Want children" formControlName="wantChildren" [(value)]="filter.wantChildren">
+          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
+            {{ wantChildrenType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Has pets" formControlName="hasPets" [(value)]="filter.hasPets">
+          <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
+            {{ hasPetsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="filter.livesIn">
+          <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
+            {{ livesInType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Education" formControlName="education" [(value)]="filter.education">
+          <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
+            {{ educationType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Educational status" formControlName="educationStatus" [(value)]="filter.educationStatus">
+          <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
+            {{ educationStatusType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="filter.employmentStatus">
+          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
+            {{ employmentStatusType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Sports activity" formControlName="sportsActivity" [(value)]="filter.sportsActivity">
+          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
+            {{ sportsActivityType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Eating habits" formControlName="eatingHabits" [(value)]="filter.eatingHabits">
+          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
+            {{ eatingHabitsType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Fashion style" formControlName="clotheStyle" [(value)]="filter.clotheStyle">
+          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
+            {{ clotheStyleType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Body art" formControlName="bodyArt" [(value)]="filter.bodyArt">
+          <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
+            {{ bodyArtType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
   </form>
 
   <div *ngIf="searchResultProfiles">
-    <app-profile-listview [profiles]="searchResultProfiles"></app-profile-listview>
+    <app-profile-listview [profiles]="searchResultProfiles" [displayedColumns]="displayedColumns"></app-profile-listview>
   </div>
 
 </div>

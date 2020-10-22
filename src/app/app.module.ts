@@ -4,6 +4,7 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
+import { DatePipe }                           from '@angular/common';
 import { MatCheckboxModule }                  from '@angular/material/checkbox';
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
@@ -14,30 +15,51 @@ import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
 import { MatCardModule }                      from '@angular/material/card';
+import { MatTabsModule }                      from '@angular/material/tabs';
+import { MatButtonModule }                    from '@angular/material/button';
+import { MatTooltipModule }                   from '@angular/material/tooltip';
+import { MatSliderModule }                    from '@angular/material/slider';
+import { MatMenuModule }                      from '@angular/material/menu';
+import { MatChipsModule }                     from '@angular/material/chips';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
-import { AuthInterceptor }                    from './auth/auth.interceptor';
+import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
+import { AuthService }                        from './authorisation/auth/auth.service';
 import { AppRoutingModule }                   from './app-routing.module';
 
-import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
-import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
-
 import { AppComponent }                       from './app.component';
-import { DashboardComponent }                 from './dashboard/dashboard.component';
-import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
-import { CreateProfileComponent }             from './create-profile/create-profile.component';
-import { EditProfileComponent }               from './edit-profile/edit-profile.component';
-import { ProfileService }                     from './services/profile.service';
+import { CallbackComponent }                  from './authorisation/callback/callback.component';
 
-import { AuthService }                        from './auth/auth.service';
-import { CallbackComponent }                  from './callback/callback.component';
-import { ProfileListviewComponent }           from './profile-listview/profile-listview.component';
-import { ProfileTileviewComponent }           from './profile-tileview/profile-tileview.component';
+import { AppSettingsService }                 from "./services/appsettings.service";
+import { ProfileService }                     from './services/profile.service';
+import { BehaviorSubjectService }             from './services/behaviorSubjec.service';
+import { ImageService }                       from './services/image.service';
+
+import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
+import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
+import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
+import { DeleteProfileDialog }                from './currentUser/delete-profile/delete-profile-dialog.component';
+
+import { DashboardComponent }                 from './dashboard/dashboard.component';
+import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
+import { ProfileTileviewComponent }           from './views/profile-tileview/profile-tileview.component';
+
+import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
-import { DeleteProfileDialog }                from './delete-profile/delete-profile-dialog.component';
-import { UploadPhoto }                        from './uploadPhoto/uploadPhoto.component';
+import { AboutComponent }                     from './about/about.component';
+
+
+import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
+import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
+import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
+import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
+import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
+
+import { NgChatModule }                       from 'ng-chat';
+import { ChatComponent }                      from './chat/chat.component';
+import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
 
 @NgModule({
   declarations: [
@@ -45,15 +67,21 @@ import { ImageGalleryComponent }              from './image-components/image-gal
     DashboardComponent,
     CreateProfileComponent,
     ProfileDetailComponent,
+    AboutComponent,
+    CurrentUserBoardComponent,
     EditProfileComponent,
     CallbackComponent,
     ProfileListviewComponent,
     ProfileTileviewComponent,
     ProfileSearchComponent,
     DeleteProfileDialog,
-    UploadPhoto,
+    ImageBoardComponent,
     ImageUploadComponent,
-    ImageGalleryComponent
+    ImageGalleryComponent,
+    ImageTileviewComponent,
+    DeleteImageDialog,
+    ChatComponent,
+    ChatMembersListviewComponent
   ],
   imports: [
     BrowserModule,
@@ -72,11 +100,22 @@ import { ImageGalleryComponent }              from './image-components/image-gal
     MatButtonToggleModule,
     MatDialogModule,
     MatCardModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatSliderModule,
+    MatMenuModule,
+    MatChipsModule,
     ImageCropperModule,
-    NgxGalleryModule 
+    NgxGalleryModule,
+    NgChatModule
   ],
   providers: [
+    AppSettingsService,
+    DatePipe,
     ProfileService,
+    BehaviorSubjectService,
+    ImageService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

@@ -1,0 +1,9 @@
+tr.detail-row {
+  height: 0;
+}
+
+.button-row button {
+  margin-right: 8px;
+  margin-left: 8px;
+  margin-top: 8px;
+}

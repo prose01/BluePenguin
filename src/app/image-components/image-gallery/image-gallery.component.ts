@@ -15,10 +15,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
-import { CurrentUser } from '../../models/currentUser';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-imageGallery.',
@@ -27,12 +27,11 @@ import { CurrentUser } from '../../models/currentUser';
 })
 
 export class ImageGalleryComponent implements OnInit {
-  currentUser: CurrentUser;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   images: any[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private route: ActivatedRoute) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
@@ -48,7 +47,7 @@ export class ImageGalleryComponent implements OnInit {
 
   getProfileImages(): void {
     this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => this.profileService.getProfileImages(params.get('profileId'))))
+      switchMap((params: ParamMap) => this.imageService.getProfileImages(params.get('profileId'))))
       .subscribe(images => this.images = images); 
   }
 

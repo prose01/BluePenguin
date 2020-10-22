@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+import { Router } from '@angular/router';
 
+import { AuthService } from './authorisation/auth/auth.service';
+import { CurrentUser } from './models/currentUser';
 import { ProfileService } from './services/profile.service';
-//import { CurrentUser } from './models/currentUser';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +11,25 @@ import { ProfileService } from './services/profile.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'BluePenguins';
-  //currentProfile: CurrentUser;
+  title = 'PlusOne';
+  currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private profileService: ProfileService) {
+  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService) {
     auth.handleAuthentication();
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
   }
 
   ngOnInit() {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
-
-      //this.profileService.currentProfile.subscribe(currentProfile => this.currentProfile = currentProfile);
     }
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  goToProfileSearch() {
+    this.router.navigate(['/profileSearch']); 
   }
 }

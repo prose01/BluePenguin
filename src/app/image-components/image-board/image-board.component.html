@@ -1,0 +1,10 @@
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+
+  <button type="button" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
+    <i class="material-icons">{{matButtonToggleIcon}}</i>
+  </button>
+
+  <div *ngIf="isMatButtonToggled"><image-tileview [imageModels]="imageModels" (refreshCurrentUserImages)="refreshCurrentUserImages()"></image-tileview></div>
+  <div *ngIf="!isMatButtonToggled"><image-upload></image-upload></div>
+
+</div>

@@ -1,0 +1,20 @@
+<!-- Offline bot instance -->
+<ng-chat *ngIf="adapter && userId"
+         [title]="title"
+         [adapter]="adapter"
+         [groupAdapter]="adapter"
+         [userId]="userId"
+         [isCollapsed]="true"
+         [pollingInterval]="2000"
+         [historyEnabled]="true"
+         [historyPageSize]="4"
+         [hideFriendsList]="false"
+         [theme]="currentTheme"
+         [audioEnabled]="false"
+         (onParticipantClicked)="onEventTriggered('ParticipantClicked triggered')"
+         (onParticipantChatOpened)="onEventTriggered('ParticipantChatOpened triggered')"
+         (onParticipantChatClosed)="onEventTriggered('ParticipantChatClosed triggered')"
+         (onMessagesSeen)="onEventTriggered('MessageSeen triggered')">
+</ng-chat>
+
+<!--[pollFriendsList]="true"-->
