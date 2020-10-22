@@ -1,4 +1,4 @@
-import { ImageModel } from './imageModel';
+import { ImageModel } from './imageModel'; 
 import { ChatMember } from './chatMember';
 import {
   GenderType,
