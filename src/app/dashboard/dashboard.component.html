@@ -1,12 +1,16 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
+  <h1 i18n="Profile page title | A title for the Profile page @@profilePageTitle">
+    Profile
+  </h1>
+
   <div style="margin-bottom: 1em">
 
     <button type="button" (click)="toggleDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
       <i class="material-icons">{{matButtonToggleIcon}}</i>
     </button>
 
-    <button type="button" (click)="getLatestProfiles()" class="mat-dashboard-flat-button"  mat-flat-button color="accent" matTooltip="All">
+    <button type="button" (click)="getLatestProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="All">
       All
     </button>
 

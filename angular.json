@@ -7,6 +7,11 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
+					"i18n": {
+					  "locales": {
+						"da": "src/locale/messages.da.xlf"
+					  }
+					},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -55,7 +60,10 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
-            }
+            },
+			  "da": {
+				  "localize": ["da"]
+				}
           }
         },
         "serve": {
@@ -66,9 +74,12 @@
           "configurations": {
             "production": {
               "browserTarget": "blue-penguin-app:build:production"
-            }
+            },
+			"da": {
+              "browserTarget": "blue-penguin-app:build:da"
+            },
           }
-        },
+        },		
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
