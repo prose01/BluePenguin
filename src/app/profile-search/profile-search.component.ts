@@ -160,7 +160,6 @@ export class ProfileSearchComponent implements OnInit {
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
-    this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
     this.searchResultProfiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {

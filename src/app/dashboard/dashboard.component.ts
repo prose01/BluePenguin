@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getProfileByCurrentUsersFilter(); }
+        if (currentUser) { this.getLatestProfiles(); }
       });
     }
   }
@@ -60,7 +60,6 @@ export class DashboardComponent implements OnInit {
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
-    this.imageService.getProfileImageByFileName('0', 'person-icon').subscribe(images => defaultImageModel.image = 'data:image/png;base64,' + images.toString());
 
     this.profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
