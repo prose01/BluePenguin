@@ -1,8 +1,8 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <h1 i18n="Profile page title | A title for the Profile page @@profilePageTitle">
+  <!--<h1 i18n="Profile page title | A title for the Profile page @@profilePageTitle">
     Profile
-  </h1>
+  </h1>-->
 
   <div style="margin-bottom: 1em">
 
@@ -10,15 +10,15 @@
       <i class="material-icons">{{matButtonToggleIcon}}</i>
     </button>
 
-    <button type="button" (click)="getLatestProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="All">
+    <button type="button" (click)="getLatestProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="All | All @@all" matTooltip="All">
       All
     </button>
 
-    <button type="button" (click)="getProfileByCurrentUsersFilter()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="My Search Filter">
+    <button type="button" (click)="getProfileByCurrentUsersFilter()" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
       <i class="material-icons">tune</i>
     </button>
 
-    <button type="button" (click)="getBookmarkedProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip="Favorits">
+    <button type="button" (click)="getBookmarkedProfiles()" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="Favorits | Favorits @@favorits" matTooltip="Favorits">
       <i class="material-icons">bookmarks</i>
     </button>
 

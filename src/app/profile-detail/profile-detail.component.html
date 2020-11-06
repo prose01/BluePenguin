@@ -1,105 +1,105 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-	<div *ngIf="profile">
-		<h2>{{profile.name}}</h2>
+  <div *ngIf="profile">
+    <h2>{{profile.name}}</h2>
 
-		<div>
-			<label>CreatedOn: </label>{{profile.createdOn | date:'medium'}}
-		</div>
+    <div>
+      <label i18n="Profile CreatedOn | A CreatedOn for the Profile @@profileCreatedOn">CreatedOn: </label>{{profile.createdOn | date:'medium'}}
+    </div>
 
-		<div>
-			<label>Last UpdatedOn: </label>{{profile.updatedOn | date:'medium'}}
-		</div>
+    <div>
+      <label i18n="Profile UpdatedOn | A UpdatedOn for the Profile @@profileUpdatedOn">Last UpdatedOn: </label>{{profile.updatedOn | date:'medium'}}
+    </div>
 
-		<div>
-			<label>LastActive: </label>{{profile.lastActive | date:'medium'}}
-		</div>
+    <div>
+      <label i18n="Profile LastActive | A Last Active for the Profile @@profileLastActive">LastActive: </label>{{profile.lastActive | date:'medium'}}
+    </div>
 
-		<div *ngIf="profile.age > 0">
-			<label>Age: </label>{{profile.age}}
-		</div>
+    <div *ngIf="profile.age > 0">
+      <label i18n="Profile Age | A Age for the Profile @@profileAge">Age: </label>{{profile.age}}
+    </div>
 
-		<div *ngIf="profile.height > 0">
-			<label>Height: </label>{{profile.height}}
-		</div>
+    <div *ngIf="profile.height > 0">
+      <label i18n="Profile Height | A Height for the Profile @@profileHeight">Height: </label>{{profile.height}}
+    </div>
 
-		<div *ngIf="profile.description != null">
-			<label>Description: </label>{{profile.description}}
-		</div>
+    <div *ngIf="profile.description != null">
+      <label i18n="Profile Description | A Description for the Profile @@profileDescription">Description: </label>{{profile.description}}
+    </div>
 
-		<div *ngIf="profile.tags.length > 0">
-			<label>Tags: </label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
-		</div>
+    <div *ngIf="profile.tags.length > 0">
+      <label i18n="Profile Tags | Tags for the Profile @@profileTags">Tags: </label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
+    </div>
 
-		<div *ngIf="profile.body != 'NotChosen'">
-			<label>BodyType: </label>{{profile.body}}
-		</div>
+    <div *ngIf="profile.body != 'NotChosen'">
+      <label i18n="Profile BodyType | A BodyType for the Profile @@profileBodyType">BodyType: </label>{{profile.body}}
+    </div>
 
-		<div *ngIf="profile.smokingHabits != 'NotChosen'">
-			<label>SmokingHabits: </label>{{profile.smokingHabits}}
-		</div>
+    <div *ngIf="profile.smokingHabits != 'NotChosen'">
+      <label i18n="Profile SmokingHabitsType | A SmokingHabitsType for the Profile @@profileSmokingHabitsType">SmokingHabits: </label>{{profile.smokingHabits}}
+    </div>
 
-		<div *ngIf="profile.hasChildren != 'NotChosen'">
-			<label>HasChildren: </label>{{profile.hasChildren}}
-		</div>
+    <div *ngIf="profile.hasChildren != 'NotChosen'">
+      <label i18n="Profile HasChildrenType | A HasChildrenType for the Profile @@profileHasChildrenType">HasChildren: </label>{{profile.hasChildren}}
+    </div>
 
-		<div *ngIf="profile.wantChildren != 'NotChosen'">
-			<label>WantChildren: </label>{{profile.wantChildren}}
-		</div>
+    <div *ngIf="profile.wantChildren != 'NotChosen'">
+      <label i18n="Profile WantChildrenType | A WantChildrenType for the Profile @@profileWantChildrenType">WantChildren: </label>{{profile.wantChildren}}
+    </div>
 
-		<div *ngIf="profile.hasPets != 'NotChosen'">
-			<label>HasPets: </label>{{profile.hasPets}}
-		</div>
+    <div *ngIf="profile.hasPets != 'NotChosen'">
+      <label i18n="Profile HasPetsType | A HasPetsType for the Profile @@profileHasPetsType">HasPets: </label>{{profile.hasPets}}
+    </div>
 
-		<div *ngIf="profile.livesIn != 'NotChosen'">
-			<label>LivesIn: </label>{{profile.livesIn}}
-		</div>
+    <div *ngIf="profile.livesIn != 'NotChosen'">
+      <label i18n="Profile LivesInType | A LivesInType for the Profile @@profileLivesInType">LivesIn: </label>{{profile.livesIn}}
+    </div>
 
-		<div *ngIf="profile.education != 'NotChosen'">
-			<label>Education: </label>{{profile.education}}
-		</div>
+    <div *ngIf="profile.education != 'NotChosen'">
+      <label i18n="Profile EducationType | A EducationType for the Profile @@profileEducationType">Education: </label>{{profile.education}}
+    </div>
 
-		<div *ngIf="profile.educationStatus != 'NotChosen'">
-			<label>EducationStatus: </label>{{profile.educationStatus}}
-		</div>
+    <div *ngIf="profile.educationStatus != 'NotChosen'">
+      <label i18n="Profile EducationStatusType | A EducationStatusType for the Profile @@profileEducationStatusType">EducationStatus: </label>{{profile.educationStatus}}
+    </div>
 
-		<div *ngIf="profile.employmentStatus != 'NotChosen'">
-			<label>EmploymentStatus: </label>{{profile.employmentStatus}}
-		</div>
+    <div *ngIf="profile.employmentStatus != 'NotChosen'">
+      <label i18n="Profile EmploymentStatusType | A EmploymentStatusType for the Profile @@profileEmploymentStatusType">EmploymentStatus: </label>{{profile.employmentStatus}}
+    </div>
 
-		<div *ngIf="profile.sportsActivity != 'NotChosen'">
-			<label>SportsActivity: </label>{{profile.sportsActivity}}
-		</div>
+    <div *ngIf="profile.sportsActivity != 'NotChosen'">
+      <label i18n="Profile SportsActivityType | A SportsActivityType for the Profile @@profileSportsActivityType">SportsActivity: </label>{{profile.sportsActivity}}
+    </div>
 
-		<div *ngIf="profile.eatingHabits != 'NotChosen'">
-			<label>EatingHabits: </label>{{profile.eatingHabits}}
-		</div>
+    <div *ngIf="profile.eatingHabits != 'NotChosen'">
+      <label i18n="Profile EatingHabitsType | A EatingHabitsType for the Profile @@profileEatingHabitsType">EatingHabits: </label>{{profile.eatingHabits}}
+    </div>
 
-		<div *ngIf="profile.clotheStyle != 'NotChosen'">
-			<label>ClotheStyle: </label>{{profile.clotheStyle}}
-		</div>
+    <div *ngIf="profile.clotheStyle != 'NotChosen'">
+      <label i18n="Profile ClotheStyleType | A ClotheStyleType for the Profile @@profileClotheStyleType">ClotheStyle: </label>{{profile.clotheStyle}}
+    </div>
 
-		<div *ngIf="profile.bodyArt != 'NotChosen'">
-			<label>BodyArt: </label>{{profile.bodyArt}}
-		</div>
-
-
-		<button mat-flat-button color="accent" routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
+    <div *ngIf="profile.bodyArt != 'NotChosen'">
+      <label i18n="Profile BodyArtType | A BodyArtType for the Profile @@profileBodyArtType">BodyArt: </label>{{profile.bodyArt}}
+    </div>
 
 
-		<div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-			<button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="Set Profile as Admin">
-				<i class="material-icons">admin_panel_settings</i>
-			</button>
+    <button mat-flat-button color="accent" routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
 
-			<button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="Remove Profile as Admin">
-				<i class="material-icons">verified_user</i>
-			</button>
-		</div>
 
-		<div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-			<button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" matTooltip="Delete profile(s)">
-				<i class="material-icons">delete</i>
-			</button>
-		</div>
+    <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+      <button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
+        <i class="material-icons">admin_panel_settings</i>
+      </button>
 
-	</div>
+      <button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
+        <i class="material-icons">verified_user</i>
+      </button>
+    </div>
+
+    <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+      <button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
+        <i class="material-icons">delete</i>
+      </button>
+    </div>
+
+  </div>

@@ -5,7 +5,7 @@
       <img src="{{imageModel.image}}" />
       <div class="color-accent-main">
         <h4>{{imageModel.title}}</h4>
-        <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="Delete image">
+        <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" i18n-matTooltip="Delete image | Delete image @@deleteImage" matTooltip="Delete image">
           <i class="material-icons">delete</i>
         </button>
       </div>

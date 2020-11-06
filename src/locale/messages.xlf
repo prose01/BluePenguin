@@ -13,6 +13,20 @@
         <note priority="1" from="description"> A title for the Profile page </note>
         <note priority="1" from="meaning">Profile page title </note>
       </trans-unit>
+      <trans-unit id="c82752e43953550ed4b006e362da82b8108971ff" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{matButtonToggleText}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

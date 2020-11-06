@@ -9,33 +9,40 @@
       Log In
     </button>
 
-    <h3>
+    <h3 i18n="Not logged in | Profile is not logged in @@profileNotLoggedIn">
       You are not logged in! Please Log In to continue.
     </h3>
   </div>
 
   <div *ngIf="auth.isAuthenticated()">
     <!--Navigation buttons-->
-    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Dashboard">
+    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" i18n-matTooltip="Dashboard | Dashboard @@dashboard" matTooltip="Dashboard">
       <i class="material-icons">dashboard</i>
     </button>
-    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Search">
+    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
       <i class="material-icons">search</i>
     </button>
 
     <!--Upper right corner menu-->
     <button mat-button [matMenuTriggerFor]="menu" class="menu">
-      <span class="material-icons">
+      <span class="material-icons" i18n="Menu | Menu @@menu">
         menu
       </span>
     </button>
 
     <mat-menu #menu="matMenu">
-      <a routerLink="/edit" mat-menu-item>
+
+      <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (change)="onChange(language.value)" class="language">
+      <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+        {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+      </mat-option>
+    </mat-select>
+
+      <a routerLink="/edit" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
         Edit Profile
         <i class="material-icons">person</i>
       </a>
-      <a routerLink="/about" mat-menu-item>
+      <a routerLink="/about" mat-menu-item i18n="AboutUs | AboutPage @@about">
         About
         <i class="material-icons">plus_one</i>
       </a>

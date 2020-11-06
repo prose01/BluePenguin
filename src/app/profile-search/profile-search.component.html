@@ -3,19 +3,19 @@
 
     <div style="margin-bottom: 1em">
       <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Search">
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
         <i class="material-icons">search</i>
       </button>
       <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Revert">
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
         <i class="material-icons">undo</i>
       </button>
       <button type="button" (click)="saveSearch()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Save Search Filter">
+              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
         <i class="material-icons">save</i>
       </button>
-      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Load Search Filter">
-        <i class="material-icons">find_in_page</i>        
+      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
+        <i class="material-icons">find_in_page</i>
       </button>
     </div>
 
@@ -37,23 +37,23 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name">
+        <input matInput i18n-placeholder="Profile Name | A Name for the Profile @@profileName" placeholder="Name" formControlName="name">
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        <textarea matInput i18n-placeholder="Profile Description | A Description for the Profile @@profileDescription" placeholder="Description" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-label>Age</mat-label>
+      <mat-label i18n="Profile Age | A Age for the Profile @@profileAge">Age</mat-label>
       <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
       </mat-slider>
 
-      <mat-label>Height in cm</mat-label>
+      <mat-label i18n="Profile Height | A Height for the Profile @@profileHeight">Height in cm</mat-label>
       <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
       <mat-form-field *ngIf="showGenderChoise">
-        <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
+        <mat-select i18n-placeholder="Profile Gender | A Gender for the Profile @@profileGender" placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -61,7 +61,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="body" [(value)]="filter.body">
+        <mat-select i18n-placeholder="Profile BodyType | A BodyType for the Profile @@profileBodyType" placeholder="Body type" formControlName="body" [(value)]="filter.body">
           <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
             {{ bodyType }}
           </mat-option>
@@ -69,7 +69,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="filter.smokingHabits">
+        <mat-select i18n-placeholder="Profile SmokingHabitsType | A SmokingHabitsType for the Profile @@profileSmokingHabitsType" placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="filter.smokingHabits">
           <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
             {{ smokingHabitsType }}
           </mat-option>
@@ -77,7 +77,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has children" formControlName="hasChildren" [(value)]="filter.hasChildren">
+        <mat-select i18n-placeholder="Profile HasChildrenType | A HasChildrenType for the Profile @@profileHasChildrenType" placeholder="Has children" formControlName="hasChildren" [(value)]="filter.hasChildren">
           <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
             {{ hasChildrenType }}
           </mat-option>
@@ -85,7 +85,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Want children" formControlName="wantChildren" [(value)]="filter.wantChildren">
+        <mat-select i18n-placeholder="Profile WantChildrenType | A WantChildrenType for the Profile @@profileWantChildrenType" placeholder="Want children" formControlName="wantChildren" [(value)]="filter.wantChildren">
           <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
             {{ wantChildrenType }}
           </mat-option>
@@ -93,7 +93,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has pets" formControlName="hasPets" [(value)]="filter.hasPets">
+        <mat-select i18n-placeholder="Profile HasPetsType | A HasPetsType for the Profile @@profileHasPetsType" placeholder="Has pets" formControlName="hasPets" [(value)]="filter.hasPets">
           <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
             {{ hasPetsType }}
           </mat-option>
@@ -101,7 +101,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="filter.livesIn">
+        <mat-select i18n-placeholder="Profile LivesInType | A LivesInType for the Profile @@profileLivesInType" placeholder="Lives in" formControlName="livesIn" [(value)]="filter.livesIn">
           <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
             {{ livesInType }}
           </mat-option>
@@ -109,7 +109,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Education" formControlName="education" [(value)]="filter.education">
+        <mat-select i18n-placeholder="Profile EducationType | A EducationType for the Profile @@profileEducationType" placeholder="Education" formControlName="education" [(value)]="filter.education">
           <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
             {{ educationType }}
           </mat-option>
@@ -117,7 +117,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Educational status" formControlName="educationStatus" [(value)]="filter.educationStatus">
+        <mat-select i18n-placeholder="Profile EducationStatusType | A EducationStatusType for the Profile @@profileEducationStatusType" placeholder="Educational status" formControlName="educationStatus" [(value)]="filter.educationStatus">
           <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
             {{ educationStatusType }}
           </mat-option>
@@ -125,7 +125,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="filter.employmentStatus">
+        <mat-select i18n-placeholder="Profile EmploymentStatusType | A EmploymentStatusType for the Profile @@profileEmploymentStatusType" placeholder="Employment status" formControlName="employmentStatus" [(value)]="filter.employmentStatus">
           <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
             {{ employmentStatusType }}
           </mat-option>
@@ -133,7 +133,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Sports activity" formControlName="sportsActivity" [(value)]="filter.sportsActivity">
+        <mat-select i18n-placeholder="Profile SportsActivityType | A SportsActivityType for the Profile @@profileSportsActivityType" placeholder="Sports activity" formControlName="sportsActivity" [(value)]="filter.sportsActivity">
           <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
             {{ sportsActivityType }}
           </mat-option>
@@ -141,7 +141,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Eating habits" formControlName="eatingHabits" [(value)]="filter.eatingHabits">
+        <mat-select i18n-placeholder="Profile EatingHabitsType | A EatingHabitsType for the Profile @@profileEatingHabitsType" placeholder="Eating habits" formControlName="eatingHabits" [(value)]="filter.eatingHabits">
           <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
             {{ eatingHabitsType }}
           </mat-option>
@@ -149,7 +149,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Fashion style" formControlName="clotheStyle" [(value)]="filter.clotheStyle">
+        <mat-select i18n-placeholder="Profile ClotheStyleType | A ClotheStyleType for the Profile @@profileClotheStyleType" placeholder="Fashion style" formControlName="clotheStyle" [(value)]="filter.clotheStyle">
           <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
             {{ clotheStyleType }}
           </mat-option>
@@ -157,7 +157,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body art" formControlName="bodyArt" [(value)]="filter.bodyArt">
+        <mat-select i18n-placeholder="Profile BodyArtType | A BodyArtType for the Profile @@profileBodyArtType" placeholder="Body art" formControlName="bodyArt" [(value)]="filter.bodyArt">
           <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
             {{ bodyArtType }}
           </mat-option>

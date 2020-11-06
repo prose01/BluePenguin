@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './authorisation/auth/auth.service';
@@ -14,6 +14,14 @@ export class AppComponent implements OnInit {
   title = 'PlusOne';
   currentUserSubject: CurrentUser;
 
+  isDev = isDevMode();
+  siteLanguage: string
+  siteLocale: string
+  languageList = [
+    { code: 'en', label: 'English', alpha2: 'gb' },
+    { code: 'da', label: 'Danish', alpha2: 'dk' }
+  ]
+
   constructor(public auth: AuthService, private router: Router, private profileService: ProfileService) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
@@ -23,6 +31,21 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
+
+    if (this.auth.isAuthenticated()) {
+      this.siteLocale = window.location.pathname.split('/')[1]
+      this.siteLanguage = this.languageList.find(
+        (f) => f.code === this.siteLocale
+      )?.label
+      if (!this.siteLanguage) {
+        this.onChange(this.languageList[0].code)
+      }
+    }
+  }
+
+  onChange(selectedLangCode: string) {
+    window.location.href = `/${selectedLangCode}`
+    console.log(selectedLangCode); // Does not seem to work
   }
 
   goToDashboard() {
@@ -30,6 +53,6 @@ export class AppComponent implements OnInit {
   }
 
   goToProfileSearch() {
-    this.router.navigate(['/profileSearch']); 
+    this.router.navigate(['/profileSearch']);
   }
 }
