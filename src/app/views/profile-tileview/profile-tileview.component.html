@@ -8,10 +8,10 @@
 
     <div *ngFor="let profile of profiles" class="col-1-4">
       <div>
-        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorits | Remove from favorits @@removeFromFavorits" matTooltip="Remove from favorits">
+        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
           <i class="material-icons">bookmark_border</i>
         </button>
-        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorits | Add to favorits @@addToFavorits" matTooltip="Add to favorits">
+        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
           <i class="material-icons">bookmark</i>
         </button>
       </div>

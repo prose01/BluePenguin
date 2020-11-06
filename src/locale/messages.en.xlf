@@ -1,31 +1,841 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en" datatype="plaintext" original="ng2.template">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="profilePageTitle" datatype="html">
+      <trans-unit id="profileNotLoggedIn" datatype="html">
         <source>
-    Profile
-  </source>
+      You are not logged in! Please Log In to continue.
+    </source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <note priority="1" from="description"> Profile is not logged in </note>
+        <note priority="1" from="meaning">Not logged in </note>
+      </trans-unit>
+      <trans-unit id="dashboard" datatype="html">
+        <source>Dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description"> Dashboard </note>
+        <note priority="1" from="meaning">Dashboard </note>
+      </trans-unit>
+      <trans-unit id="search" datatype="html">
+        <source>Search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description"> Search </note>
+        <note priority="1" from="meaning">Search </note>
+      </trans-unit>
+      <trans-unit id="menu" datatype="html">
+        <source>
+        menu
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <note priority="1" from="description"> Menu </note>
+        <note priority="1" from="meaning">Menu </note>
+      </trans-unit>
+      <trans-unit id="profileLanguage" datatype="html">
+        <source>Language</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description"> A Language for the Profile </note>
+        <note priority="1" from="meaning">Profile Language </note>
+      </trans-unit>
+      <trans-unit id="profileEdit" datatype="html">
+        <source>
+        Edit Profile
+        <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/>person<x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="description"> Edit the Profile </note>
+        <note priority="1" from="meaning">Profile Edit </note>
+      </trans-unit>
+      <trans-unit id="about" datatype="html">
+        <source>
+        About
+        <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/>plus_one<x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/app.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/about/about.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
-        <note priority="1" from="description"> A title for the Profile page </note>
-        <note priority="1" from="meaning">Profile page title </note>
+        <note priority="1" from="description"> AboutPage </note>
+        <note priority="1" from="meaning">AboutUs </note>
       </trans-unit>
-      <trans-unit id="c82752e43953550ed4b006e362da82b8108971ff" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{matButtonToggleText}}"/></source>
+      <trans-unit id="all" datatype="html">
+        <source>All</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description"> All </note>
+        <note priority="1" from="meaning">All </note>
+      </trans-unit>
+      <trans-unit id="mySearchFilter" datatype="html">
+        <source>My Search Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description"> My Search Filter </note>
+        <note priority="1" from="meaning">My Search Filter </note>
+      </trans-unit>
+      <trans-unit id="favorits" datatype="html">
+        <source>Favorits</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description"> Favorits </note>
+        <note priority="1" from="meaning">Favorits </note>
+      </trans-unit>
+      <trans-unit id="save" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
           <context context-type="linenumber">9</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description"> Save </note>
+        <note priority="1" from="meaning">Save </note>
       </trans-unit>
-      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
+      <trans-unit id="revert" datatype="html">
+        <source>Revert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description"> Revert </note>
+        <note priority="1" from="meaning">Revert </note>
+      </trans-unit>
+      <trans-unit id="profileDescription" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description"> A Description for the Profile </note>
+        <note priority="1" from="meaning">Profile Description </note>
+      </trans-unit>
+      <trans-unit id="profileAge" datatype="html">
+        <source>Age</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/chatMembers/chatMembers-listview.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description"> A Age for the Profile </note>
+        <note priority="1" from="meaning">Profile Age </note>
+      </trans-unit>
+      <trans-unit id="profileHeight" datatype="html">
+        <source>Height in cm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <note priority="1" from="description"> A Height for the Profile </note>
+        <note priority="1" from="meaning">Profile Height </note>
+      </trans-unit>
+      <trans-unit id="profileBodyType" datatype="html">
+        <source>Body type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <note priority="1" from="description"> A BodyType for the Profile </note>
+        <note priority="1" from="meaning">Profile BodyType </note>
+      </trans-unit>
+      <trans-unit id="profileSmokingHabitsType" datatype="html">
+        <source>Smoking habits</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <note priority="1" from="description"> A SmokingHabitsType for the Profile </note>
+        <note priority="1" from="meaning">Profile SmokingHabitsType </note>
+      </trans-unit>
+      <trans-unit id="profileHasChildrenType" datatype="html">
+        <source>Has children</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <note priority="1" from="description"> A HasChildrenType for the Profile </note>
+        <note priority="1" from="meaning">Profile HasChildrenType </note>
+      </trans-unit>
+      <trans-unit id="profileWantChildrenType" datatype="html">
+        <source>Want children</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <note priority="1" from="description"> A WantChildrenType for the Profile </note>
+        <note priority="1" from="meaning">Profile WantChildrenType </note>
+      </trans-unit>
+      <trans-unit id="profileHasPetsType" datatype="html">
+        <source>Has pets</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <note priority="1" from="description"> A HasPetsType for the Profile </note>
+        <note priority="1" from="meaning">Profile HasPetsType </note>
+      </trans-unit>
+      <trans-unit id="profileLivesInType" datatype="html">
+        <source>Lives in</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <note priority="1" from="description"> A LivesInType for the Profile </note>
+        <note priority="1" from="meaning">Profile LivesInType </note>
+      </trans-unit>
+      <trans-unit id="profileEducationType" datatype="html">
+        <source>Education</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <note priority="1" from="description"> A EducationType for the Profile </note>
+        <note priority="1" from="meaning">Profile EducationType </note>
+      </trans-unit>
+      <trans-unit id="profileEducationStatusType" datatype="html">
+        <source>Educational status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+        <note priority="1" from="description"> A EducationStatusType for the Profile </note>
+        <note priority="1" from="meaning">Profile EducationStatusType </note>
+      </trans-unit>
+      <trans-unit id="profileEmploymentStatusType" datatype="html">
+        <source>Employment status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">132</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <note priority="1" from="description"> A EmploymentStatusType for the Profile </note>
+        <note priority="1" from="meaning">Profile EmploymentStatusType </note>
+      </trans-unit>
+      <trans-unit id="profileSportsActivityType" datatype="html">
+        <source>Sports activity</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <note priority="1" from="description"> A SportsActivityType for the Profile </note>
+        <note priority="1" from="meaning">Profile SportsActivityType </note>
+      </trans-unit>
+      <trans-unit id="profileEatingHabitsType" datatype="html">
+        <source>Eating habits</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+        <note priority="1" from="description"> A EatingHabitsType for the Profile </note>
+        <note priority="1" from="meaning">Profile EatingHabitsType </note>
+      </trans-unit>
+      <trans-unit id="profileClotheStyleType" datatype="html">
+        <source>Fashion style</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <note priority="1" from="description"> A ClotheStyleType for the Profile </note>
+        <note priority="1" from="meaning">Profile ClotheStyleType </note>
+      </trans-unit>
+      <trans-unit id="profileBodyArtType" datatype="html">
+        <source>Body art</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/create-profile/create-profile.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">176</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">160</context>
+        </context-group>
+        <note priority="1" from="description"> A BodyArtType for the Profile </note>
+        <note priority="1" from="meaning">Profile BodyArtType </note>
+      </trans-unit>
+      <trans-unit id="yesDeleteProfile" datatype="html">
+        <source>Yes delete profile.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/delete-profile/delete-profile-dialog.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description"> Yes delete profile </note>
+        <note priority="1" from="meaning">Yes delete profile </note>
+      </trans-unit>
+      <trans-unit id="noThanks" datatype="html">
+        <source>No Thanks</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/delete-profile/delete-profile-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/delete-image/delete-image-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description"> No Thanks </note>
+        <note priority="1" from="meaning">No Thanks </note>
+      </trans-unit>
+      <trans-unit id="ok" datatype="html">
+        <source>Ok</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/delete-profile/delete-profile-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/delete-image/delete-image-dialog.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description"> Ok </note>
+        <note priority="1" from="meaning">Ok </note>
+      </trans-unit>
+      <trans-unit id="profileCreatedOn" datatype="html">
+        <source>CreatedOn: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description"> A CreatedOn for the Profile </note>
+        <note priority="1" from="meaning">Profile CreatedOn </note>
+      </trans-unit>
+      <trans-unit id="profileUpdatedOn" datatype="html">
+        <source>Last UpdatedOn: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description"> A UpdatedOn for the Profile </note>
+        <note priority="1" from="meaning">Profile UpdatedOn </note>
+      </trans-unit>
+      <trans-unit id="profileLastActive" datatype="html">
+        <source>LastActive: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description"> A Last Active for the Profile </note>
+        <note priority="1" from="meaning">Profile LastActive </note>
+      </trans-unit>
+      <trans-unit id="profileTags" datatype="html">
+        <source>Tags: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <note priority="1" from="description"> Tags for the Profile </note>
+        <note priority="1" from="meaning">Profile Tags </note>
+      </trans-unit>
+      <trans-unit id="setProfileAsAdmin" datatype="html">
+        <source>Set Profile as Admin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+        <note priority="1" from="description"> Set Profile as Admin </note>
+        <note priority="1" from="meaning">Set Profile as Admin </note>
+      </trans-unit>
+      <trans-unit id="removeProfileAsAdmin" datatype="html">
+        <source>Remove Profile as Admin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <note priority="1" from="description"> Remove Profile as Admin </note>
+        <note priority="1" from="meaning">Remove Profile as Admin </note>
+      </trans-unit>
+      <trans-unit id="deleteProfile" datatype="html">
+        <source>Delete profile(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-detail/profile-detail.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">187</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
+        <note priority="1" from="description"> Delete profile </note>
+        <note priority="1" from="meaning">Delete profile </note>
+      </trans-unit>
+      <trans-unit id="aboutUsText" datatype="html">
+        <source>
+      Here is something about us :)
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/about/about.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description"> AboutPageText </note>
+        <note priority="1" from="meaning">AboutUsText </note>
+      </trans-unit>
+      <trans-unit id="profileName" datatype="html">
         <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
           <context context-type="linenumber">40</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/chatMembers/chatMembers-listview.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <note priority="1" from="description"> A Name for the Profile </note>
+        <note priority="1" from="meaning">Profile Name </note>
+      </trans-unit>
+      <trans-unit id="profileGender" datatype="html">
+        <source>Gender</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <note priority="1" from="description"> A Gender for the Profile </note>
+        <note priority="1" from="meaning">Profile Gender </note>
+      </trans-unit>
+      <trans-unit id="profileSexualOrientation" datatype="html">
+        <source>Sexual orientation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/edit-profile/edit-profile.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <note priority="1" from="description"> A SexualOrientation for the Profile </note>
+        <note priority="1" from="meaning">Profile SexualOrientation </note>
+      </trans-unit>
+      <trans-unit id="removeFromFavorits" datatype="html">
+        <source>Remove from favorits</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-tileview/profile-tileview.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description"> Remove from favorits </note>
+        <note priority="1" from="meaning">Remove from favorits </note>
+      </trans-unit>
+      <trans-unit id="addToFavorits" datatype="html">
+        <source>Add to favorits</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-listview/profile-listview.component.html</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-tileview/profile-tileview.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description"> Add to favorits </note>
+        <note priority="1" from="meaning">Add to favorits </note>
+      </trans-unit>
+      <trans-unit id="flipSortOrder" datatype="html">
+        <source>Flip sort order</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/views/profile-tileview/profile-tileview.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description"> Flip sort order </note>
+        <note priority="1" from="meaning">Flip sort order </note>
+      </trans-unit>
+      <trans-unit id="saveSearchFilter" datatype="html">
+        <source>Save Search Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description"> Save Search Filter </note>
+        <note priority="1" from="meaning">Save Search Filter </note>
+      </trans-unit>
+      <trans-unit id="loadSearchFilter" datatype="html">
+        <source>Load Search Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/profile-search/profile-search.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description"> Load Search Filter </note>
+        <note priority="1" from="meaning">Load Search Filter </note>
+      </trans-unit>
+      <trans-unit id="chooseFile" datatype="html">
+        <source>Choose File</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description"> Choose File </note>
+        <note priority="1" from="meaning">Choose File </note>
+      </trans-unit>
+      <trans-unit id="upload" datatype="html">
+        <source>Upload</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description"> Upload </note>
+        <note priority="1" from="meaning">Upload </note>
+      </trans-unit>
+      <trans-unit id="resetImage" datatype="html">
+        <source>Reset image</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description"> Reset image </note>
+        <note priority="1" from="meaning">Reset image </note>
+      </trans-unit>
+      <trans-unit id="zoomIn" datatype="html">
+        <source>Zoom +</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description"> Zoom in </note>
+        <note priority="1" from="meaning">Zoom in </note>
+      </trans-unit>
+      <trans-unit id="ZoomOut" datatype="html">
+        <source>Zoom -</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description"> Zoom out </note>
+        <note priority="1" from="meaning">Zoom out </note>
+      </trans-unit>
+      <trans-unit id="rotateRight" datatype="html">
+        <source>Rotate right</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description"> Rotate right </note>
+        <note priority="1" from="meaning">Rotate right </note>
+      </trans-unit>
+      <trans-unit id="rotateLeft" datatype="html">
+        <source>Rotate left</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <note priority="1" from="description"> Rotate left </note>
+        <note priority="1" from="meaning">Rotate left </note>
+      </trans-unit>
+      <trans-unit id="flipHorizontal" datatype="html">
+        <source>Flip horizontal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description"> Flip horizontal </note>
+        <note priority="1" from="meaning">Flip horizontal </note>
+      </trans-unit>
+      <trans-unit id="flipVertical" datatype="html">
+        <source>Flip vertical</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-upload/image-upload.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description"> Flip vertical </note>
+        <note priority="1" from="meaning">Flip vertical </note>
+      </trans-unit>
+      <trans-unit id="deleteImage" datatype="html">
+        <source>Delete image</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/image-components/image-tileview/image-tileview.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description"> Delete image </note>
+        <note priority="1" from="meaning">Delete image </note>
+      </trans-unit>
+      <trans-unit id="profileBlocked" datatype="html">
+        <source> Blocked </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/chatMembers/chatMembers-listview.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description"> Is Profile Blocked </note>
+        <note priority="1" from="meaning">Profile Blocked </note>
+      </trans-unit>
+      <trans-unit id="blockChatMember" datatype="html">
+        <source>(Un)Block ChatMember(s)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/currentUser/chatMembers/chatMembers-listview.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <note priority="1" from="description"> Block ChatMember </note>
+        <note priority="1" from="meaning">Block ChatMember </note>
       </trans-unit>
     </body>
   </file>
