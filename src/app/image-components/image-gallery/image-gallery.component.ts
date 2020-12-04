@@ -23,7 +23,7 @@ import { ImageService } from '../../services/image.service';
 @Component({
   selector: 'app-imageGallery.',
   templateUrl: './image-gallery.component.html',
-  styleUrls: ['./image-gallery.component.css'],
+  styleUrls: ['./image-gallery.component.scss'],
 })
 
 export class ImageGalleryComponent implements OnInit {

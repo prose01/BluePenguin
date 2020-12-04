@@ -15,7 +15,7 @@ import { ProfileService } from '../../services/profile.service';
 @Component({
   selector: 'chatMemebers-listview',
   templateUrl: './chatMembers-listview.component.html',
-  styleUrls: ['./chatMembers-listview.component.css'],
+  styleUrls: ['./chatMembers-listview.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

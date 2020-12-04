@@ -10,7 +10,7 @@ import { OrderByType } from '../../models/enums';
 @Component({
   selector: 'app-profile-tileview',
   templateUrl: './profile-tileview.component.html',
-  styleUrls: ['./profile-tileview.component.css']
+  styleUrls: ['./profile-tileview.component.scss']
 })
 
 export class ProfileTileviewComponent {

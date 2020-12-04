@@ -17,7 +17,7 @@ import { ImageService } from '../../services/image.service';
 @Component({
   selector: 'image-upload',
   templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.css']
+  styleUrls: ['./image-upload.component.scss']
 })
 
 export class ImageUploadComponent {

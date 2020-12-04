@@ -13,7 +13,7 @@ import { SignalRAdapter } from './signalr-adapter';
 @Component({
   selector: 'chat-component',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.scss'],
 })
 
 export class ChatComponent implements OnChanges {

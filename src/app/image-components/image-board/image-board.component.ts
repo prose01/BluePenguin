@@ -10,7 +10,7 @@ import { ImageModel } from '../../models/imageModel';
 @Component({
   selector: 'image-board',
   templateUrl: './image-board.component.html',
-  styleUrls: ['./image-board.component.css']
+  styleUrls: ['./image-board.component.scss']
 })
 
 export class ImageBoardComponent implements OnInit {

@@ -33,7 +33,7 @@ import {
 @Component({
   selector: 'app-profile-search',
   templateUrl: './profile-search.component.html',
-  styleUrls: ['./profile-search.component.css']
+  styleUrls: ['./profile-search.component.scss']
 })
 export class ProfileSearchComponent implements OnInit {
   filter: ProfileFilter = new ProfileFilter();

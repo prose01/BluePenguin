@@ -16,7 +16,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 @Component({
   selector: 'app-profile-listview',
   templateUrl: './profile-listview.component.html',
-  styleUrls: ['./profile-listview.component.css'],
+  styleUrls: ['./profile-listview.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

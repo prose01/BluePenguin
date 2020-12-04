@@ -9,7 +9,7 @@ import { DeleteImageDialog } from '../delete-image/delete-image-dialog.component
 @Component({
   selector: 'image-tileview',
   templateUrl: './image-tileview.component.html',
-  styleUrls: ['./image-tileview.component.css']
+  styleUrls: ['./image-tileview.component.scss']
 })
 
 export class ImageTileviewComponent {

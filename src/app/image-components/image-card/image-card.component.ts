@@ -10,7 +10,7 @@ import { DeleteImageDialog } from '../delete-image/delete-image-dialog.component
 @Component({
   selector: 'image-card',
   templateUrl: 'image-card.component.html',
-  styleUrls: ['image-card.component.css'],
+  styleUrls: ['image-card.component.scss'],
 })
 
 export class ImageCardComponent {
