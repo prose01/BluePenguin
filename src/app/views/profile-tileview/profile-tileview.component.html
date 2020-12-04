@@ -4,59 +4,31 @@
     <i class="material-icons">{{matButtonToggleIcon}}</i>
   </button>
 
-  <div class="grid grid-pad">
+  <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
+    <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
-    <div *ngFor="let profile of profiles" class="col-1-4">
-      <!--<div>
-      <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
-        <i class="material-icons">bookmark_border</i>
-      </button>
-      <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
-        <i class="material-icons">bookmark</i>
-      </button>
-    </div>-->
+      <!--<image-card [showingBookmarkedProfilesList]="false" [profile]="profile" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" (getBookmarkedProfiles)="getBookmarkedProfiles()"></image-card>-->
 
-      <image-card [showingBookmarkedProfilesList]="false" [profile]="profile" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" (getBookmarkedProfiles)="getBookmarkedProfiles()"></image-card>
-
-      <!--<a routerLink="/detail/{{profile.profileId}}">
-
-        <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
-        <div class="color-accent-main">
-          <h4>{{profile.name}}</h4>
-        </div>
-      </a>
-    </div>-->
-
-    </div>
-
-    <!--<br />
-
-    <div *ngFor="let profile of profiles" class="col-1-4">
       <div>
-      <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
-        <i class="material-icons">bookmark_border</i>
-      </button>
-      <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
-        <i class="material-icons">bookmark</i>
-      </button>
-    </div>
+        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+          <i class="material-icons">bookmark_border</i>
+        </button>
+        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+          <i class="material-icons">bookmark</i>
+        </button>
+      </div>
 
-      
       <a routerLink="/detail/{{profile.profileId}}">
+        <img class="mdc-image-list__image" [src]="profile.images[0].image">
 
-        <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
-        <div class="color-accent-main">
-          <h4>{{profile.name}}</h4>
+        <div class="mdc-image-list--with-text-protection">
+          <div class="mdc-image-list__supporting">
+            <span class="mdc-image-list__label">{{profile.name}}</span>
+          </div>
         </div>
       </a>
-    </div>
 
-    </div>-->
+    </li>
+  </ul>
 
-    <!--<div class="row">
-    <div class="column" *ngFor="let profile of profiles; let indexOfimage=index;">
-      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" style="{{imageSizes[indexOfimage]}}" />
-    </div>
-  </div>-->
-
-  </div>
+</div>
