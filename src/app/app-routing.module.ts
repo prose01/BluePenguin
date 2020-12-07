@@ -8,7 +8,7 @@ import { ProfileSearchComponent } from './profile-search/profile-search.componen
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { AboutComponent } from './about/about.component';
 import { ImageBoardComponent } from './image-components/image-board/image-board.component';
-import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
+//import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
 import { ImageGalleryComponent } from './image-components/image-gallery/image-gallery.component';
 import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
 import { CurrentUserBoardComponent } from './currentUser/currentUser-board/currentUser-board.component';

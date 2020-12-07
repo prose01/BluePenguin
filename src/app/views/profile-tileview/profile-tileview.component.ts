@@ -19,8 +19,6 @@ export class ProfileTileviewComponent {
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'expand_less';
 
-  //imageSizes: string[] = ['width:25%', 'width:75%', 'width:50%', 'width:100%', 'width:50%', 'width:25%', 'width:75%'];
-
   @Input() profiles: Profile[];
   @Input() showingBookmarkedProfilesList: boolean;
   @Input() orderBy: OrderByType;
@@ -47,7 +45,6 @@ export class ProfileTileviewComponent {
         break;
       }
     } 
-    //this.profiles = (this.isMatButtonToggled ? this.profiles.sort((a, b) => (a.createdOn > b.createdOn) ? 1 : -1) : this.profiles.sort((a, b) => (a.updatedOn > b.updatedOn) ? 1 : -1));
   }
 
   // Get Bookmarked Profiles.
@@ -56,18 +53,18 @@ export class ProfileTileviewComponent {
   }
 
 
-  ///** Add or remove bookmarks */
-  //removeFavoritProfiles(profileId: string) {
-  //  let selcetedProfiles = new Array;
-  //  selcetedProfiles.push(profileId);
+  /** Add or remove bookmarks */
+  removeFavoritProfiles(profileId: string) {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
 
-  //  this.profileService.removeProfilesFromBookmarks(selcetedProfiles).subscribe(() => { }, () => { }, () => { this.getBookmarkedProfiles.emit(); });
-  //}
+    this.profileService.removeProfilesFromBookmarks(selcetedProfiles).subscribe(() => { }, () => { }, () => { this.getBookmarkedProfiles.emit(); });
+  }
 
-  //addFavoritProfiles(profileId: string) {
-  //  let selcetedProfiles = new Array;
-  //  selcetedProfiles.push(profileId);
+  addFavoritProfiles(profileId: string) {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
 
-  //  this.profileService.addProfilesToBookmarks(selcetedProfiles).subscribe(() => { });
-  //}
+    this.profileService.addProfilesToBookmarks(selcetedProfiles).subscribe(() => { });
+  }
 }
