@@ -57,7 +57,7 @@ import { ImageBoardComponent }                from './image-components/image-boa
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
 import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
-import { ImageCardComponent }                 from './image-components/image-card/image-card.component';
+//import { ImageCardComponent }                 from './image-components/image-card/image-card.component';
 
 import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './chat/chat.component';
@@ -83,7 +83,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     ImageUploadComponent,
     ImageTileviewComponent,
     DeleteImageDialog,
-    ImageCardComponent,
+    //ImageCardComponent,
     ChatComponent,
     ChatMembersListviewComponent
   ],
