@@ -5,12 +5,8 @@ import { CallbackComponent } from './authorisation/callback/callback.component';
 import { CreateProfileComponent } from './currentUser/create-profile/create-profile.component';
 import { DashboardComponent }     from './dashboard/dashboard.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
-import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { ProfileDetailsBoardComponent } from './profile-details/profile-details-board/profile-details-board.component';
 import { AboutComponent } from './about/about.component';
-import { ImageBoardComponent } from './image-components/image-board/image-board.component';
-//import { ImageUploadComponent } from './image-components/image-upload/image-upload.component';
-import { ImageGalleryComponent } from './image-components/image-gallery/image-gallery.component';
-import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
 import { CurrentUserBoardComponent } from './currentUser/currentUser-board/currentUser-board.component';
 
 const routes: Routes = [
@@ -19,13 +15,9 @@ const routes: Routes = [
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: CurrentUserBoardComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'profileSearch', component: ProfileSearchComponent },
+  { path: 'search', component: ProfileSearchComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'detail/:profileId', component: ProfileDetailComponent },
-  { path: 'imagesboard', component: ImageBoardComponent },
-  //{ path: 'imageupload', component: ImageUploadComponent },
-  { path: 'imagegallery/:profileId', component: ImageGalleryComponent },
-  { path: 'chatMembers', component: ChatMembersListviewComponent }
+  { path: 'details/:profileId', component: ProfileDetailsBoardComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,8 @@
+<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+
+  <mat-tab-group>
+    <mat-tab i18n-tab="Profile Details | Profile Details @@profileDetails" label="Profile Details"> <profile-details [profile]="profile"></profile-details> </mat-tab>
+    <mat-tab i18n-tab="Profile Images | Profile Images tab @@profileImages" label="Profile Images"> <profile-images [images]="images"></profile-images> </mat-tab>
+  </mat-tab-group>
+
+</div>

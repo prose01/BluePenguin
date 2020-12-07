@@ -83,8 +83,6 @@
     </div>
 
 
-    <button mat-flat-button color="accent" routerLink="/imagegallery/{{profile.profileId}}">Gallery</button>
-
 
     <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
       <button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">

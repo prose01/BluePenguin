@@ -10,46 +10,38 @@
  * 
  */
 
-import { switchMap } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
-
 import { ProfileService } from '../../services/profile.service';
-import { ImageService } from '../../services/image.service';
 
 @Component({
-  selector: 'app-imageGallery',
-  templateUrl: './image-gallery.component.html',
-  styleUrls: ['./image-gallery.component.scss'],
+  selector: 'profile-images',
+  templateUrl: './profile-images.component.html'
 })
 
-export class ImageGalleryComponent implements OnInit {
+export class ProfileImagesComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
-  images: any[] = [];
+  @Input() images: any[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private route: ActivatedRoute) { }
+  constructor(public auth: AuthService, private profileService: ProfileService) { }
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getProfileImages() }
+        if (currentUser) {
+          this.setGalleryOptions();
+          this.setGalleryImages();
+        }
       });
     }
   }
 
-  ngAfterContentInit(): void {
-    setTimeout(() => { this.setGalleryOptions(); this.setGalleryImages(); }, 2000);  // Find på noget bedre end at vente 2 sek.
-  }
-
-  getProfileImages(): void {
-    this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => this.imageService.getProfileImages(params.get('profileId'))))
-      .subscribe(images => this.images = images); 
-  }
+  //ngAfterContentInit(): void {
+  //  setTimeout(() => { v }, 2000);  // Find på noget bedre end at vente 2 sek.
+  //}
 
   setGalleryOptions(): void {
     this.galleryOptions = [

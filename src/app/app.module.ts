@@ -44,7 +44,10 @@ import { DashboardComponent }                 from './dashboard/dashboard.compon
 import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
 import { ProfileTileviewComponent }           from './views/profile-tileview/profile-tileview.component';
 
-import { ProfileDetailComponent }             from './profile-detail/profile-detail.component';
+import { ProfileDetailsBoardComponent }       from './profile-details/profile-details-board/profile-details-board.component';
+import { ProfileDetailsComponent }            from './profile-details/profile-details/profile-details.component';
+import { ProfileImagesComponent }             from './profile-details/profile-images/profile-images.component';
+
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
 
@@ -53,7 +56,6 @@ import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
-import { ImageGalleryComponent }              from './image-components/image-gallery/image-gallery.component';
 import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 import { ImageCardComponent }                 from './image-components/image-card/image-card.component';
@@ -67,7 +69,9 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     AppComponent,
     DashboardComponent,
     CreateProfileComponent,
-    ProfileDetailComponent,
+    ProfileDetailsBoardComponent,
+    ProfileDetailsComponent,
+    ProfileImagesComponent,
     AboutComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
@@ -78,7 +82,6 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     DeleteProfileDialog,
     ImageBoardComponent,
     ImageUploadComponent,
-    ImageGalleryComponent,
     ImageTileviewComponent,
     DeleteImageDialog,
     ImageCardComponent,

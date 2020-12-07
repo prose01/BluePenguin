@@ -53,6 +53,6 @@ export class AppComponent implements OnInit {
   }
 
   goToProfileSearch() {
-    this.router.navigate(['/profileSearch']);
+    this.router.navigate(['/search']);
   }
 }
