@@ -51,7 +51,6 @@ import { ProfileImagesComponent }             from './profile-details/profile-im
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
 
-
 import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
