@@ -1,0 +1,48 @@
+name: BluePenguin Build & Deploy
+
+on:
+  push:
+    branches: [ Development ]
+    
+env:
+    AZURE_WEBAPP_NAME: BluePenguin-FreeTrail                        # set this to your application's name
+    AZURE_WEBAPP_PACKAGE_PATH: './dist/bluePenguin'                 # set this to the path to your web app project, defaults to the repository root
+    NODE_VERSION: '12.x'                                            # set this to the node version to use
+
+jobs:
+    build-and-deploy:
+        name: Build and Deploy Code
+        runs-on: ubuntu-latest
+        
+        steps:
+        # Checkout the repo
+        - uses: actions/checkout@v2
+        
+        # Cache node modules
+        - name: Cache node modules
+            uses: actions/cache@v1
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-node-
+            
+        # Run dotnet build and publish
+        - name: Use Node.js ${{ env.NODE_VERSION }}
+            uses: actions/setup-node@v1
+            with:
+                node-version: ${{ env.NODE_VERSION }}
+
+        - name: npm install and build
+           run: |
+               npm install
+               npm run build -- --prod
+      
+        # Deploy to Azure Web apps    
+        - name: 'Run Azure webapp deploy action using publish profile credentials'
+          uses: azure/webapps-deploy@v2
+          with: 
+            app-name: ${{ env.AZURE_WEBAPP_NAME }}
+            publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+            package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+

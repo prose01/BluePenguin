@@ -6,6 +6,7 @@ import { CreateProfileComponent } from './currentUser/create-profile/create-prof
 import { DashboardComponent }     from './dashboard/dashboard.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileDetailsBoardComponent } from './profile-details/profile-details-board/profile-details-board.component';
+import { ImageBoardComponent } from './image-components/image-board/image-board.component';
 import { AboutComponent } from './about/about.component';
 import { CurrentUserBoardComponent } from './currentUser/currentUser-board/currentUser-board.component';
 
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'search', component: ProfileSearchComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'details/:profileId', component: ProfileDetailsBoardComponent }
+  { path: 'details/:profileId', component: ProfileDetailsBoardComponent },
+  { path: 'imagesboard', component: ImageBoardComponent }
 ];
 
 @NgModule({

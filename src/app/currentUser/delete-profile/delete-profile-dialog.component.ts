@@ -32,11 +32,11 @@ export class DeleteProfileDialog {
     if (this.IsChecked) {
       if (this.profileIds.length > 0) {
         this.imageService.deleteAllImagesForProfile(this.profileIds).subscribe(() => { });
-        this.profileService.deleteProfiles(this.profileIds).subscribe(() => { });
+        //this.profileService.deleteProfiles(this.profileIds).subscribe(() => { });
       }
       else {
         this.imageService.deleteAllImagesForCurrentUser().subscribe(() => { });
-        this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
+        //this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
       }
     }
   }

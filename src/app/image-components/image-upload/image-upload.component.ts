@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { ImageService } from '../../services/image.service';
@@ -20,6 +21,7 @@ import { ImageService } from '../../services/image.service';
   styleUrls: ['./image-upload.component.scss']
 })
 
+@AutoUnsubscribe()
 export class ImageUploadComponent {
   uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
@@ -162,7 +164,7 @@ export class ImageUploadComponent {
       formData.append('image', base64ToFile(this.croppedImage));
       formData.append('title', uploadModel.title as string);
 
-      this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
+      this.imageService.uploadImage(formData).pipe(takeWhileAlive(this)).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
     }
 
     //setTimeout(() => { this.router.navigate(['/imagesboard']); }, 500);
