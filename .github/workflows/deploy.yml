@@ -6,7 +6,7 @@ on:
     
 env:
     AZURE_WEBAPP_NAME: BluePenguin-FreeTrail                        # set this to your application's name
-    AZURE_WEBAPP_PACKAGE_PATH: './dist/bluePenguin'                 # set this to the path to your web app project, defaults to the repository root
+    AZURE_WEBAPP_PACKAGE_PATH: '.'                 # set this to the path to your web app project, defaults to the repository root
     NODE_VERSION: '12.x'                                            # set this to the node version to use
 
 jobs:
@@ -20,23 +20,23 @@ jobs:
         
         # Cache node modules
         - name: Cache node modules
-            uses: actions/cache@v1
-            with:
-              path: ~/.npm
-              key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-              restore-keys: |
+          uses: actions/cache@v1
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
                 ${{ runner.os }}-node-
             
         # Run dotnet build and publish
         - name: Use Node.js ${{ env.NODE_VERSION }}
-            uses: actions/setup-node@v1
-            with:
-                node-version: ${{ env.NODE_VERSION }}
+          uses: actions/setup-node@v1
+          with:
+              node-version: ${{ env.NODE_VERSION }}
 
         - name: npm install and build
-           run: |
-               npm install
-               npm run build --if-present
+          run: |
+              npm install
+              npm run build --if-present
       
         # Deploy to Azure WebApp    
         - name: 'Run Azure webapp deploy action using publish profile credentials'
