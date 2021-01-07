@@ -10,7 +10,7 @@
     "start:en": "npm  start -- --configuration=en --port 4200",
     "start:da": "npm  start -- --configuration=da --port 4201",
     "build:i18n": "npm run build -- --localize",
-    "build": "ng build --prod",
+    "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
