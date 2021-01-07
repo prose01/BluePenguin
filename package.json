@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "clean": "rimraf ./dist",
-    "start": "node .",
+    "start": "sudo ng serve",
     "extract": "ng xi18n --output-path=locale",
     "start:en": "npm  start -- --configuration=en --port 4200",
     "start:da": "npm  start -- --configuration=da --port 4201",
