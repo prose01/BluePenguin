@@ -17,15 +17,6 @@ jobs:
         steps:
         # Checkout the repo
         - uses: actions/checkout@v2
-        
-        # Cache node modules
-        - name: Cache node modules
-          uses: actions/cache@v1
-          with:
-            path: ~/.npm
-            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-                ${{ runner.os }}-node-
             
         # Run dotnet build and publish
         - name: Use Node.js ${{ env.NODE_VERSION }}
@@ -36,7 +27,7 @@ jobs:
         - name: npm install and build
           run: |
               npm install
-              npm run build --if-present
+              npm run build --prod
       
         # Deploy to Azure WebApp    
         - name: 'Run Azure webapp deploy action using publish profile credentials'
