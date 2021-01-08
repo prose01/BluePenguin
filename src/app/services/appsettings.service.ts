@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 import { catchError } from 'rxjs/operators';
 import { AppSettings } from "../models/appSettings";
 
-const SETTINGS_LOCATION = "assets/appsettings.json";
+const SETTINGS_LOCATION = "/assets/appsettings.json";
 
 @Injectable()
 export class AppSettingsService {
