@@ -26,7 +26,7 @@ jobs:
 
         - name: npm install and build
           run: |
-            npm install
+            npm install --production
             npm run build --prod
       
         # Deploy to Azure WebApp    
