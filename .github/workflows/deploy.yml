@@ -26,8 +26,8 @@ jobs:
 
         - name: npm install and build
           run: |
-              npm ci
-              npm run build:ci
+            npm install
+            npm run build --prod
       
         # Deploy to Azure WebApp    
         - name: 'Run Azure webapp deploy action using publish profile credentials'
