@@ -34,6 +34,10 @@ export class ProfileService {
   // CurrentUser
 
   async verifyCurrentUserProfile(): Promise<boolean> {
+    if (this.settings.avalonUrl == '') {
+      this.appSettingsService.getSettings().subscribe(settings => this.settings = settings);
+    }
+
     const currentUser = await this.http.get<CurrentUser>(`${this.settings.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
 
     if (currentUser.auth0Id == null) {
