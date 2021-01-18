@@ -16,9 +16,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-			 "allowedCommonJsDependencies": [
-				"rxjs-compat"
-			 ],
+            "allowedCommonJsDependencies": [
+              "rxjs-compat"
+            ],
             "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
@@ -30,9 +30,10 @@
               "src/favicon.ico"
             ],
             "styles": [
-				{
-					"input": "src/theme.scss"
-				},
+              {
+                "input": "src/theme.scss",
+                "inject": true
+              },
               "src/styles.scss"
             ],
             "scripts": []
@@ -48,7 +49,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
