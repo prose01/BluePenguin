@@ -55,7 +55,7 @@ import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
-import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
+//import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 //import { ImageCardComponent }                 from './image-components/image-card/image-card.component';
 
@@ -81,7 +81,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     DeleteProfileDialog,
     ImageBoardComponent,
     ImageUploadComponent,
-    ImageTileviewComponent,
+    //ImageTileviewComponent,
     DeleteImageDialog,
     //ImageCardComponent,
     ChatComponent,

@@ -3,3 +3,24 @@
 .masonry-image-list {
   @include mdc-image-list-masonry-columns(5);
 }
+
+.mdc-image-list__item {
+  border-style: solid;
+  border-color: #607d8b;
+  border-radius: 10px;
+}
+
+.mdc-image-list__image {
+  border-radius: 7px 7px 0px 0px;
+}
+
+.mdc-image-list__supporting {
+  border-radius: 0px 0px 10px 10px;
+}
+
+.button {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1;
+}
