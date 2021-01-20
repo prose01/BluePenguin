@@ -33,18 +33,33 @@ export class ProfileTileviewComponent {
     
     switch (this.orderBy) {
       case OrderByType.UpdatedOn: {
-        this.profiles.sort((a, b) => (a.updatedOn > b.updatedOn) ? 1 : -1);
+        if (new Date(this.profiles[0].updatedOn) < new Date(this.profiles[this.profiles.length - 1].updatedOn)) {
+          this.profiles.sort((a, b) => (new Date(a.updatedOn) < new Date(b.updatedOn)) ? 1 : -1);
+        }
+        else {
+          this.profiles.sort((a, b) => (new Date(a.updatedOn) > new Date(b.updatedOn)) ? 1 : -1);
+        }
         break;
       }
       case OrderByType.LastActive: {
-        this.profiles.sort((a, b) => (a.lastActive > b.lastActive) ? 1 : -1);
+        if (new Date(this.profiles[0].lastActive) < new Date(this.profiles[this.profiles.length - 1].lastActive)) {
+          this.profiles.sort((a, b) => (new Date(a.lastActive) < new Date(b.lastActive)) ? 1 : -1);
+        }
+        else {
+          this.profiles.sort((a, b) => (new Date(a.lastActive) > new Date(b.lastActive)) ? 1 : -1);
+        }
         break;
       }
       default: {
-        this.profiles.sort((a, b) => (a.createdOn > b.createdOn) ? 1 : -1);
+        if (new Date(this.profiles[0].createdOn) < new Date(this.profiles[this.profiles.length - 1].createdOn)) {
+          this.profiles.sort((a, b) => (new Date(a.createdOn) < new Date(b.createdOn)) ? 1 : -1);
+        }
+        else {
+          this.profiles.sort((a, b) => (new Date(a.createdOn) > new Date(b.createdOn)) ? 1 : -1);
+        }
         break;
       }
-    } 
+    }
   }
 
   // Get Bookmarked Profiles.
