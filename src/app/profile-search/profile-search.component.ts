@@ -36,6 +36,10 @@ import {
   styleUrls: ['./profile-search.component.scss']
 })
 export class ProfileSearchComponent implements OnInit {
+  isTileView = true;
+  matButtonToggleText: string = 'ListView';
+  matButtonToggleIcon: string = 'line_style';
+
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
   profileForm: FormGroup;
@@ -64,7 +68,20 @@ export class ProfileSearchComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
+  orderBy: any[] = [
+    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
+    { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
+    { value: OrderByType.LastActive, viewValue: 'LastActive' }
+  ];
+  selectedOrderBy = this.orderBy[0].value;
+
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
+
+  toggleDisplay() {
+    this.isTileView = !this.isTileView;
+    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
+    this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
+  }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -149,7 +166,7 @@ export class ProfileSearchComponent implements OnInit {
   onSubmit() {
     this.filter = this.prepareSearch();
 
-    this.profileService.getProfileByFilter(this.filter, OrderByType.CreatedOn).subscribe(searchResultProfiles => {
+    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy).subscribe(searchResultProfiles => {
       this.searchResultProfiles = searchResultProfiles;
       this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
     });
