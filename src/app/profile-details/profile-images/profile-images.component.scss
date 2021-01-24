@@ -1,0 +1,10 @@
+@import '~@material/image-list/mdc-image-list';
+
+.masonry-image-list {
+  @include mdc-image-list-masonry-columns(5);
+}
+
+.mdc-image-list__item {
+  border-style: solid;
+  border-color: #607d8b;
+}

@@ -47,6 +47,7 @@ import { ProfileTileviewComponent }           from './views/profile-tileview/pro
 import { ProfileDetailsBoardComponent }       from './profile-details/profile-details-board/profile-details-board.component';
 import { ProfileDetailsComponent }            from './profile-details/profile-details/profile-details.component';
 import { ProfileImagesComponent }             from './profile-details/profile-images/profile-images.component';
+import { ProfileImageDialog }                 from './profile-details/profile-image-dialog/profile-image-dialog.component';
 
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
@@ -55,9 +56,7 @@ import { NgxGalleryModule }                   from '@kolkov/ngx-gallery';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
-//import { ImageTileviewComponent }             from './image-components/image-tileview/image-tileview.component';
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
-//import { ImageCardComponent }                 from './image-components/image-card/image-card.component';
 
 import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './chat/chat.component';
@@ -71,6 +70,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     ProfileDetailsBoardComponent,
     ProfileDetailsComponent,
     ProfileImagesComponent,
+    ProfileImageDialog,
     AboutComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
@@ -81,9 +81,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     DeleteProfileDialog,
     ImageBoardComponent,
     ImageUploadComponent,
-    //ImageTileviewComponent,
     DeleteImageDialog,
-    //ImageCardComponent,
     ChatComponent,
     ChatMembersListviewComponent
   ],
