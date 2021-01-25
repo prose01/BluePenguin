@@ -1,5 +1,19 @@
 
-<div mat-dialog-content>
-  <img class="mdc-image-list__image" [src]="data.images[data.index]" width="100%" height="100%">
+
+<div mat-dialog-content class="container">
+  <button type="button" class="close" (click)="onCloseClick()" mat-button i18n-matTooltip="close | close @@close" matTooltip="close">
+    <i class="material-icons">close</i>
+  </button>
+
+  <img class="mdc-image-list__image" [src]="data.images[index]">
+
+  <button type="button" class="next" (click)="onNextClick()" mat-button i18n-matTooltip="Next | Next @@Next" matTooltip="Next">
+    <i class="material-icons">navigate_next</i>
+  </button>
+
+  <button type="button" class="before" (click)="onBeforeClick()" mat-button i18n-matTooltip="Before | Before @@Before" matTooltip="Before">
+    <i class="material-icons">navigate_before</i>
+  </button>
+
 </div>
 <h3 mat-dialog-title>{{data.titles[data.index]}}</h3>

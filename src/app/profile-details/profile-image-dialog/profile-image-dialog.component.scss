@@ -1,0 +1,44 @@
+
+.container {
+  position: relative;
+  width: auto;
+  height: auto;
+}
+
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+.container .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.container .close:hover {
+  background-color: #44606e;
+}
+
+.container .next {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 9px);
+  z-index: 1;
+}
+
+.container .next:hover {
+  background-color: #44606e;
+}
+
+.container .before {
+  position: absolute;
+  left: 0;
+  top: calc(50% - 9px);
+  z-index: 1;
+}
+
+.container .before:hover {
+  background-color: #44606e;
+}
