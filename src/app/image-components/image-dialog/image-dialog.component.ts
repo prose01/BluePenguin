@@ -2,15 +2,15 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'profile-image-dialog',
-  templateUrl: './profile-image-dialog.component.html',
-  styleUrls: ['./profile-image-dialog.component.scss']
+  selector: 'image-dialog',
+  templateUrl: './image-dialog.component.html',
+  styleUrls: ['./image-dialog.component.scss']
 })
 
-export class ProfileImageDialog {
+export class ImageDialog {
   index: number;
 
-  constructor(public dialogRef: MatDialogRef<ProfileImageDialog>,
+  constructor(public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.index = this.data.index;

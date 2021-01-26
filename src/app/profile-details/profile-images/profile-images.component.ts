@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
-import { ProfileImageDialog } from '../../profile-details/profile-image-dialog/profile-image-dialog.component';
+import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { Profile } from '../../models/profile';
 
 @Component({
@@ -49,8 +49,8 @@ export class ProfileImagesComponent implements OnInit {
     this.imagesTitles = imageTitles;
   }
 
-  openProfileImageDialog(indexOfelement: any): void {
-    const dialogRef = this.dialog.open(ProfileImageDialog, {
+  openImageDialog(indexOfelement: any): void {
+    const dialogRef = this.dialog.open(ImageDialog, {
       //height: '80%',
       //width: '80%',
       data: {
