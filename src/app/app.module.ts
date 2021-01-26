@@ -39,6 +39,7 @@ import { CreateProfileComponent }             from './currentUser/create-profile
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
 import { DeleteProfileDialog }                from './currentUser/delete-profile/delete-profile-dialog.component';
+import { CurrentUserImagesComponent }         from './currentUser/currentUser-images/currentUser-images.component';
 
 import { DashboardComponent }                 from './dashboard/dashboard.component';
 import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
@@ -73,6 +74,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     AboutComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
+    CurrentUserImagesComponent,
     CallbackComponent,
     ProfileListviewComponent,
     ProfileTileviewComponent,

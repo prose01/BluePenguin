@@ -2,6 +2,7 @@
 
   <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
     <li class="mdc-image-list__item" *ngFor="let image of galleryImages;let indexOfelement=index;">
+
       <a (click)="openProfileImageDialog(indexOfelement)">
         <img class="mdc-image-list__image" [src]="image">
         <div class="mdc-image-list--with-text-protection">
