@@ -167,7 +167,7 @@ export class ImageUploadComponent {
       this.resizeImage(image, 1080, 1350).then(res => {
         formData.append('image', res);
         console.log('blob.size - ' + res.size);
-        console.log('blob - ' + res);
+        console.log('blob - ' + res.stream.toString());
         formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
       });
