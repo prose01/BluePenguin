@@ -4,18 +4,20 @@
     <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
       <li class="mdc-image-list__item" *ngFor="let imageModel of imageModels;let indexOfelement=index;">
 
-        <!--<a (click)="openImageDialog(indexOfelement)">-->
+        <a (click)="openImageDialog(indexOfelement)">
           <img class="mdc-image-list__image" [src]="imageModel.image">
+        </a>
 
-          <div class="mdc-image-list--with-text-protection">
-            <div class="mdc-image-list__supporting">
-              <span class="mdc-image-list__label">{{imageModel.title}}</span>
-              <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" i18n-matTooltip="Delete image | Delete image @@deleteImage" matTooltip="Delete image">
-                <i class="material-icons">delete</i>
-              </button>
-            </div>
+        <div class="mdc-image-list--with-text-protection">
+          <div class="overlay">
+            <!--<div class="mdc-image-list--with-text-protection">-->
+            <span class="mdc-image-list__label">{{imageModel.title}}</span>
+            <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" i18n-matTooltip="Delete image | Delete image @@deleteImage" matTooltip="Delete image">
+              <i class="material-icons">delete</i>
+            </button>
+            <!--</div>-->
           </div>
-        <!--</a>-->
+        </div>
 
       </li>
     </ul>
