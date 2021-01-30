@@ -54,7 +54,9 @@
 
   <div style="margin: 1em">
     <image-cropper [imageChangedEvent]="imageChangedEvent"
-                   [aspectRatio]="4 / 3"
+                   [resizeToWidth]="1080"
+                   [resizeToHeight]="1350"
+                   [aspectRatio]="4 / 5"
                    [maintainAspectRatio]="false"
                    [onlyScaleDown]="true"
                    [roundCropper]="false"
@@ -62,16 +64,16 @@
                    [transform]="transform"
                    [alignImage]="'left'"
                    [style.display]="showCropper ? null : 'none'"
-                   format="png"
+                   [format]="jpeg"
                    (imageCropped)="imageCropped($event)"
                    (imageLoaded)="imageLoaded()"
                    (loadImageFailed)="loadImageFailed()"></image-cropper>
 
     <!--
     [containWithinAspectRatio]="containWithinAspectRatio"
-    [resizeToWidth]="256"
     [cropperMinWidth]="128"
     (cropperReady)="cropperReady($event)"
+    [imageQuality]="80" 
     -->
 
   </div>

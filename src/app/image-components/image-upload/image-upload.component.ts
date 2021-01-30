@@ -159,13 +159,54 @@ export class ImageUploadComponent {
     else if (this.uploadImageForm.valid) {
       const uploadModel = this.uploadImageForm.value;
       const formData = new FormData();
-      formData.append('image', base64ToFile(this.croppedImage));
-      formData.append('title', uploadModel.title as string);
+      const image: any = base64ToFile(this.croppedImage);
+      image.lastModifiedDate = new Date();
+      image.name = 'tempname';
 
-      this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
-    }
+      // Hardcoded to 1080x1350 TODO: Change to config.
+      this.resizeImage(image, 1080, 1350).then(res => {
+        formData.append('image', res);
+        formData.append('title', uploadModel.title as string);
+        this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
+      });
+    }    
+  }
 
-    //setTimeout(() => { this.router.navigate(['/imagesboard']); }, 500);
-    
+  // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/
+  resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      let image = new Image();
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        let width = image.width;
+        let height = image.height;
+
+        if (width <= maxWidth && height <= maxHeight) {
+          resolve(file);
+        }
+
+        let newWidth;
+        let newHeight;
+
+        if (width > height) {
+          newHeight = height * (maxWidth / width);
+          newWidth = maxWidth;
+        } else {
+          newWidth = width * (maxHeight / height);
+          newHeight = maxHeight;
+        }
+
+        let canvas = document.createElement('canvas');
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        let context = canvas.getContext('2d');
+
+        context.drawImage(image, 0, 0, newWidth, newHeight);
+
+        canvas.toBlob(resolve, file.type);
+      };
+      image.onerror = reject;
+    });
   }
 }

@@ -4,7 +4,7 @@
     <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
       <li class="mdc-image-list__item" *ngFor="let imageModel of imageModels;let indexOfelement=index;">
 
-        <a (click)="openImageDialog(indexOfelement)">
+        <!--<a (click)="openImageDialog(indexOfelement)">-->
           <img class="mdc-image-list__image" [src]="imageModel.image">
 
           <div class="mdc-image-list--with-text-protection">
@@ -15,7 +15,7 @@
               </button>
             </div>
           </div>
-        </a>
+        <!--</a>-->
 
       </li>
     </ul>
