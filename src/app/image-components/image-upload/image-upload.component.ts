@@ -159,18 +159,20 @@ export class ImageUploadComponent {
     else if (this.uploadImageForm.valid) {
       const uploadModel = this.uploadImageForm.value;
       const formData = new FormData();
-      const image: any = base64ToFile(this.croppedImage);
-      image.lastModifiedDate = new Date();
-      image.name = 'tempname';
+      //const image: any = base64ToFile(this.croppedImage);
+      //image.lastModifiedDate = new Date();
+      //image.name = 'tempname';
 
       // Hardcoded to 1080x1350 TODO: Change to config.
-      this.resizeImage(image, 1080, 1350).then(res => {
-        formData.append('image', res);
-        console.log('blob.size - ' + res.size);
-        console.log('blob - ' + res.stream.toString());
-        formData.append('title', uploadModel.title as string);
-        this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
-      });
+      //this.resizeImage(image, 1080, 1350).then(res => {
+      //  formData.append('image', res);
+      //  formData.append('title', uploadModel.title as string);
+      //  this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
+      //});
+
+      formData.append('image', base64ToFile(this.croppedImage));
+      formData.append('title', uploadModel.title as string);
+      this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
     }    
   }
 
@@ -207,9 +209,6 @@ export class ImageUploadComponent {
         context.drawImage(image, 0, 0, newWidth, newHeight);
 
         canvas.toBlob(resolve, file.type);
-
-        console.log('image.width - ' + image.width + ' image.height - ' + image.height);
-        console.log('canvas.width - ' + canvas.width + ' canvas.height - ' + canvas.height);
       };
       image.onerror = reject;
     });
