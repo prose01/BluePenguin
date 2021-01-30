@@ -25,7 +25,9 @@ export class ImageService {
   uploadImage(formData: FormData): Observable<any> {
     return this.http.post(`${this.settings.artemisUrl}UploadImage`, formData, {
       observe: 'events'
-    });
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getImageByFileName(fileName: string): Observable<any[]> {
