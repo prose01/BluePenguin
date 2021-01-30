@@ -167,6 +167,7 @@ export class ImageUploadComponent {
       this.resizeImage(image, 1080, 1350).then(res => {
         formData.append('image', res);
         console.log('blob.size - ' + res.size);
+        console.log('blob - ' + res);
         formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
       });
@@ -207,8 +208,8 @@ export class ImageUploadComponent {
 
         canvas.toBlob(resolve, file.type);
 
-        console.log('image.width - ' + image.width + 'image.height - ' + image.height);
-        console.log('canvas.width - ' + canvas.width + 'canvas.height - ' + canvas.height);
+        console.log('image.width - ' + image.width + ' image.height - ' + image.height);
+        console.log('canvas.width - ' + canvas.width + ' canvas.height - ' + canvas.height);
       };
       image.onerror = reject;
     });
