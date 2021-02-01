@@ -23,9 +23,8 @@ export class ImageService {
   // CurrentUser
 
   uploadImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.settings.artemisUrl}UploadImage`, formData, {
-      observe: 'events'
-    }).pipe(
+    return this.http.post(`${this.settings.artemisUrl}UploadImage`, formData, { headers: this.headers })
+      .pipe(
       catchError(this.handleError)
     );
   }
