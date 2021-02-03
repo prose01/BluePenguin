@@ -183,7 +183,7 @@ export class ProfileSearchComponent implements OnInit {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/jpeg;base64,' + images.toString());
       }
       else {
         // Set default profile image.

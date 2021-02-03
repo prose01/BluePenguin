@@ -141,7 +141,7 @@ export class ImageCropperComponent implements OnChanges, OnInit {
     private initCropper(): void {
         this.imageVisible = false;
         this.transformedImage = null;
-        this.safeImgDataUrl = 'data:image/png;base64,iVBORw0KGg'
+        this.safeImgDataUrl = 'data:image/jpeg;base64,iVBORw0KGg'
             + 'oAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAU'
             + 'AAarVyFEAAAAASUVORK5CYII=';
         this.moveStart = {

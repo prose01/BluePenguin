@@ -165,8 +165,8 @@ export class ImageUploadComponent {
 
       // Hardcoded to 1080x1350 TODO: Change to config.
       this.resizeImage(image, 1080, 1350).then(res => {
-        formData.append('Image', res);
-        formData.append('Image', uploadModel.title as string);
+        formData.append('image', res);
+        formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData).subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
       });
 
