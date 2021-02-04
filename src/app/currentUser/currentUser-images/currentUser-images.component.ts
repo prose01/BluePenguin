@@ -25,16 +25,16 @@ export class CurrentUserImagesComponent {
 
   constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
 
-  ngOnInit() {
-    if (this.auth.isAuthenticated()) {
-      this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) {
-          //this.setImagesAndTitles();
-          setTimeout(() => { this.setImagesAndTitles(); }, 1000);     // TODO: Find på noget bedre!
-        }
-      });
-    }
-  }
+  //ngOnInit() {
+  //  if (this.auth.isAuthenticated()) {
+  //    this.profileService.verifyCurrentUserProfile().then(currentUser => {
+  //      if (currentUser) {
+  //        //this.setImagesAndTitles();
+  //        setTimeout(() => { this.setImagesAndTitles(); }, 1000);     // TODO: Find på noget bedre!
+  //      }
+  //    });
+  //  }
+  //}
 
   setImagesAndTitles(): void {
     const pics = [];
@@ -53,6 +53,8 @@ export class CurrentUserImagesComponent {
   }
 
   openImageDialog(indexOfelement: any): void {
+    this.setImagesAndTitles();
+
     const dialogRef = this.dialog.open(ImageDialog, {
       //height: '80%',
       //width: '80%',

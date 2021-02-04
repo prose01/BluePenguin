@@ -2,12 +2,13 @@
 .container {
   position: relative;
   width: auto;
-  height: auto;
+  height: 80vh;
+  overflow: hidden;
 }
 
 .container img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
 }
 
 .container .close {
@@ -15,6 +16,7 @@
   right: 0;
   top: 0;
   z-index: 1;
+  background-color: #ffffff;
 }
 
 .container .close:hover {
@@ -26,6 +28,7 @@
   right: 0;
   top: calc(50% - 9px);
   z-index: 1;
+  background-color: #ffffff;
 }
 
 .container .next:hover {
@@ -37,6 +40,7 @@
   left: 0;
   top: calc(50% - 9px);
   z-index: 1;
+  background-color: #ffffff;
 }
 
 .container .before:hover {
