@@ -24,8 +24,7 @@ export class ProfileImagesComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.setGalleryImages();
-          setTimeout(() => { this.setImageTitles(); }, 1000);     // TODO: Find på noget bedre!
+          setTimeout(() => { this.setGalleryImages(); this.setImageTitles(); }, 1000);     // TODO: Find på noget bedre!
         }
       });
     }
