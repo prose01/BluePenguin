@@ -57,7 +57,9 @@
     </mat-menu>
 
     <!--chat-component-->
-    <chat-component [currentUser]="currentUserSubject"></chat-component>
+    <div *ngIf="useChat">
+      <chat-component [currentUser]="currentUserSubject"></chat-component>
+    </div>
 
   </div>
 

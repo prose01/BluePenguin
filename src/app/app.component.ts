@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
   title = 'PlusOne';
   currentUserSubject: CurrentUser;
 
+  useChat = false; // Get from Config! Turns off Chat :)
+
   isDev = isDevMode();
   siteLanguage: string
   siteLocale: string
