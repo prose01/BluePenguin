@@ -30,7 +30,7 @@ import { AppRoutingModule }                   from './app-routing.module';
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 
-import { AppSettingsService }                 from "./services/appsettings.service";
+import { ConfigurationModule }                from "./configuration/configuration.module";
 import { ProfileService }                     from './services/profile.service';
 import { BehaviorSubjectService }             from './services/behaviorSubjec.service';
 import { ImageService }                       from './services/image.service';
@@ -89,6 +89,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
   imports: [
     BrowserModule,
     FormsModule,
+    ConfigurationModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -113,7 +114,6 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     NgChatModule
   ],
   providers: [
-    AppSettingsService,
     DatePipe,
     ProfileService,
     BehaviorSubjectService,

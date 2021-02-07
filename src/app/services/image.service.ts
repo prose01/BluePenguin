@@ -6,24 +6,23 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { CurrentUser } from '../models/currentUser';
-import { AppSettings } from '../models/appSettings';
-import { AppSettingsService } from './appsettings.service';
+import { ConfigurationLoader } from '../configuration/configuration-loader.service';
 
 @Injectable()
 export class ImageService {
 
-  private settings: AppSettings;
+  private artemisUrl: string;
   private headers: HttpHeaders;
 
-  constructor(private appSettingsService: AppSettingsService, private http: HttpClient, public router: Router) {
-    this.appSettingsService.getSettings().subscribe(settings => this.settings = settings);
+  constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient, public router: Router) {
+    this.artemisUrl = configurationLoader.getConfiguration().artemisUrl;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
   // CurrentUser
 
   uploadImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.settings.artemisUrl}UploadImage`, formData, {
+    return this.http.post(`${this.artemisUrl}UploadImage`, formData, {
       observe: 'events'
     }).pipe(
       catchError(this.handleError)
@@ -31,21 +30,21 @@ export class ImageService {
   }
 
   getImageByFileName(fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.settings.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
+    return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   deleteImage(imageId: string[]): Observable<CurrentUser> {
-    return this.http.post(`${this.settings.artemisUrl}DeleteImage`, imageId, { headers: this.headers })
+    return this.http.post(`${this.artemisUrl}DeleteImage`, imageId, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   deleteAllImagesForCurrentUser(): Observable<CurrentUser> {
-    return this.http.post(`${this.settings.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers })
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
@@ -54,21 +53,21 @@ export class ImageService {
   // Profile
 
   getProfileImages(profileId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.settings.artemisUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.settings.artemisUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
+    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   deleteAllImagesForProfile(profileIds: string[]): Observable<CurrentUser> {
-    return this.http.post(`${this.settings.artemisUrl}DeleteAllImagesForProfile`, profileIds, { headers: this.headers })
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfile`, profileIds, { headers: this.headers })
       .pipe(
         catchError(this.handleError)
       );
