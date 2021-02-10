@@ -43,7 +43,7 @@ export class ImageBoardComponent implements OnInit {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
           setTimeout(() => {
-            this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/jpeg;base64,' + images.toString());
+            this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
           }, i * 500); // Find på noget bedre.
         });
       }

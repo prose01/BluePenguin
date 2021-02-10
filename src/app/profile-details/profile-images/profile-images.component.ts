@@ -33,7 +33,7 @@ export class ProfileImagesComponent implements OnInit {
   setGalleryImages(images: any[]): void {
     const pics = [];
     images.forEach(element => pics.push(
-        'data:image/jpeg;base64,' + element
+        'data:image/jpg;base64,' + element
     ));
 
     this.galleryImages = pics;

@@ -70,7 +70,7 @@ export class ImageCropperComponent implements OnChanges, OnInit {
         }
     }
 
-    @Input() format: 'png' | 'jpeg' | 'bmp' | 'webp' | 'ico' = 'png';
+    @Input() format: 'png' | 'jpg' | 'bmp' | 'webp' | 'ico' = 'png';
     @Input() maintainAspectRatio = true;
     @Input() transform: ImageTransform = {};
     @Input() aspectRatio = 1;
@@ -141,7 +141,7 @@ export class ImageCropperComponent implements OnChanges, OnInit {
     private initCropper(): void {
         this.imageVisible = false;
         this.transformedImage = null;
-        this.safeImgDataUrl = 'data:image/jpeg;base64,iVBORw0KGg'
+        this.safeImgDataUrl = 'data:image/jpg;base64,iVBORw0KGg'
             + 'oAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAU'
             + 'AAarVyFEAAAAASUVORK5CYII=';
         this.moveStart = {
