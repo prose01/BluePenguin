@@ -24,24 +24,24 @@ export class ProfileImagesComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          setTimeout(() => { this.setGalleryImages(); this.setImageTitles(); }, 1000);     // TODO: Find på noget bedre!
+          setTimeout(() => { this.setGalleryImages(this.images); this.setImageTitles(this.profile); }, 1000);     // TODO: Find på noget bedre!
         }
       });
     }
   }
 
-  setGalleryImages(): void {
+  setGalleryImages(images: any[]): void {
     const pics = [];
-    this.images.forEach(element => pics.push(
+    images.forEach(element => pics.push(
         'data:image/jpeg;base64,' + element
     ));
 
     this.galleryImages = pics;
   }
 
-  setImageTitles(): void {
+  setImageTitles(profile: Profile): void {
     const imageTitles = [];
-    this.profile.images.forEach(element => imageTitles.push(
+    profile.images.forEach(element => imageTitles.push(
       element.title
     ));
 
