@@ -17,7 +17,7 @@
       </div>-->
 
       <a routerLink="/details/{{profile.profileId}}">
-        <img class="mdc-image-list__image" [src]="profile.images[0].image">
+        <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="defaultImage">
       </a>
 
       <div class="overlay">

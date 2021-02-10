@@ -4,7 +4,7 @@
     <li class="mdc-image-list__item" *ngFor="let image of galleryImages;let indexOfelement=index;">
 
       <a (click)="openImageDialog(indexOfelement)">
-        <img class="mdc-image-list__image" [src]="image">
+        <img class="mdc-image-list__image" [lazyLoad]="image" [defaultImage]="defaultImage">
         <div class="mdc-image-list--with-text-protection">
           <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{imagesTitles[indexOfelement]}}</span>

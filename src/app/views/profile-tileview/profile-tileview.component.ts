@@ -18,6 +18,7 @@ export class ProfileTileviewComponent {
   selectedProfile: Profile;
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'expand_less';
+  defaultImage = '../assets/default-person-icon.jpg';
 
   @Input() profiles: Profile[];
   @Input() showingBookmarkedProfilesList: boolean;

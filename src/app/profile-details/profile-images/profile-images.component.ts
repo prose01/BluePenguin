@@ -17,6 +17,7 @@ export class ProfileImagesComponent implements OnInit {
   @Input() images: any[] = [];
   galleryImages: any[] = [];
   imagesTitles: string[] = [];
+  defaultImage = '../assets/default-person-icon.jpg';
 
   constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
 
