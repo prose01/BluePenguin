@@ -6,6 +6,7 @@ import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
+import { ImageSizeEnum } from '../../models/imageSizeEnum';
 
 @Component({
   selector: 'image-board',
@@ -20,6 +21,7 @@ export class ImageBoardComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
+  smallImageModels: ImageModel[];
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
@@ -28,14 +30,14 @@ export class ImageBoardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images});
+          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images});
         }
       });
     }
   }
 
   ngAfterContentInit(): void {
-    setTimeout(() => { this.getCurrentUserImages(); }, 2000);  // Find på noget bedre end at vente 2 sek.
+    setTimeout(() => { this.getCurrentUserSmallImages(); }, 1000, () => { }, () => { this.getCurrentUserImages(); }); 
   }
 
   getCurrentUserImages(): void {
@@ -43,15 +45,25 @@ export class ImageBoardComponent implements OnInit {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
           setTimeout(() => {
-            this.imageService.getImageByFileName(element.fileName).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
           }, i * 500); // Find på noget bedre.
         });
       }
     }
   }
 
+  getCurrentUserSmallImages(): void {
+    if (this.smallImageModels != null) {
+      if (this.smallImageModels.length > 0) {
+        this.smallImageModels.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+        });
+      }
+    }
+  }
+
   refreshCurrentUserImages(): void {
-    setTimeout(() => { this.getCurrentUserImages(); }, 500); // Find på noget bedre.
+    setTimeout(() => { this.getCurrentUserSmallImages(); }, 500, () => { }, () => { this.getCurrentUserImages(); }); 
   }
 
   toggleDisplay() {

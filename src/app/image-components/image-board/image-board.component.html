@@ -4,7 +4,7 @@
     <i class="material-icons">{{matButtonToggleIcon}}</i>
   </button>
 
-  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="imageModels" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>
+  <div *ngIf="isMatButtonToggled"><currentUser-images [smallImageModels]="smallImageModels" [imageModels]="imageModels" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>
   <div *ngIf="!isMatButtonToggled"><image-upload></image-upload></div>
 
 </div>

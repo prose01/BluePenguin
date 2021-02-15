@@ -14,10 +14,11 @@ import { Profile } from '../../models/profile';
 
 export class ProfileImagesComponent implements OnInit {
   @Input() profile: Profile;
+  @Input() smallImages: any[] = [];
   @Input() images: any[] = [];
   galleryImages: any[] = [];
   imagesTitles: string[] = [];
-  defaultImage = '../assets/default-person-icon.jpg';
+  defaultImage: any[] = [];
 
   constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
 
@@ -25,10 +26,20 @@ export class ProfileImagesComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          setTimeout(() => { this.setGalleryImages(this.images); this.setImageTitles(this.profile); }, 3000);     // TODO: Find på noget bedre!
+          setTimeout(() => { this.setSmallGalleryImages(this.smallImages); this.setImageTitles(this.profile); }, 500);     // TODO: Find på noget bedre!
+          setTimeout(() => { this.setGalleryImages(this.images); this.setImageTitles(this.profile); }, 1000);     // TODO: Find på noget bedre!
         }
       });
     }
+  }
+
+  setSmallGalleryImages(smallImages: any[]): void {
+    const pics = [];
+    smallImages.forEach(element => pics.push(
+      'data:image/jpg;base64,' + element
+    ));
+
+    this.defaultImage = pics;
   }
 
   setGalleryImages(images: any[]): void {

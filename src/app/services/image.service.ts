@@ -6,6 +6,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
+import { ImageSizeEnum } from '../models/imageSizeEnum';
 
 @Injectable()
 export class ImageService {
@@ -29,16 +30,16 @@ export class ImageService {
     );
   }
 
-  getImageByFileName(fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //getImageByFileName(fileName: string): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
-  deleteImage(imageId: string[]): Observable<any> {
-    return this.http.post(`${this.artemisUrl}DeleteImage`, imageId, { headers: this.headers })
+  deleteImagesForCurrentUser(imageId: string[]): Observable<any> {
+    return this.http.post(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageId, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -55,16 +56,16 @@ export class ImageService {
 
   // Profile
 
-  getProfileImages(profileId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId}`, { headers: this.headers })
+  getProfileImages(profileId: string, size: ImageSizeEnum): Observable<any[]> {
+    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId},${size}`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  getProfileImageByFileName(profileId: string, fileName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName}`, { headers: this.headers })
+  getProfileImageByFileName(profileId: string, fileName: string, size: ImageSizeEnum): Observable<any[]> {
+    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)

@@ -11,6 +11,7 @@ import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/imageModel';
+import { ImageSizeEnum } from '../models/imageSizeEnum';
 import {
   GenderType,
   BodyType,
@@ -183,7 +184,7 @@ export class ProfileSearchComponent implements OnInit {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.large).subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
       }
       else {
         // Set default profile image.

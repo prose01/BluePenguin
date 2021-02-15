@@ -19,8 +19,8 @@ export class CurrentUserImagesComponent {
   selectedImageModel: ImageModel;
   images: any[] = [];
   titles: string[] = [];
-  defaultImage = '../assets/default-person-icon.jpg';
 
+  @Input() smallImageModels: ImageModel[];
   @Input() imageModels: ImageModel[];
   @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 

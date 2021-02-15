@@ -6,6 +6,7 @@ import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
 import { OrderByType } from '../models/enums';
+import { ImageSizeEnum } from '../models/imageSizeEnum';
 
 @Component({
   selector: 'my-dashboard',
@@ -38,25 +39,51 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  // https://paulrohan.medium.com/angular-avoiding-subscribe-method-by-replacing-it-with-an-asynpipe-when-possible-a92c20793357
+  //ngOnDestroy() {
+  //  if (this.subscription) {
+  //    this.subscription.unsubscribe();
+  //  }
+  //}
 
   // Get latest Profiles.
   getLatestProfiles() {
-    this.profileService.getLatestProfiles(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.profileService.getLatestProfiles(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = false;
   }
 
   // Get Filtered Profiles.
   getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() })  });
     this.showingBookmarkedProfilesList = false;
   }
 
   // Get Bookmarked Profiles.
   getBookmarkedProfiles() {
-    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getProfileImages() });
+    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() })  });
     this.showingBookmarkedProfilesList = true;
   }
 
+  imageNumber: number;
+
+  getSmallProfileImages(): Promise<void> {
+    let defaultImageModel: ImageModel = new ImageModel();
+
+    this.profiles?.forEach((element, i) => {
+      if (element.images != null && element.images.length > 0) {
+        // Take a random image from profile.
+        this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+        //Just insert it into the first[0] element as we will only show one image.
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.small).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+      }
+      else {
+        // Set default profile image.
+        element.images.push(defaultImageModel);
+      }
+    });
+
+    return Promise.resolve();
+  }
 
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
@@ -64,9 +91,9 @@ export class DashboardComponent implements OnInit {
     this.profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
-        let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+        //let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
       else {
         // Set default profile image.
