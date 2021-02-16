@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
     this.showingBookmarkedProfilesList = true;
   }
 
-  imageNumber: number;
+  imageNumber: number; // TODO: Find på noget bedre!
 
   getSmallProfileImages(): Promise<void> {
     let defaultImageModel: ImageModel = new ImageModel();

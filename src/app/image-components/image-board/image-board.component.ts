@@ -30,15 +30,16 @@ export class ImageBoardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images});
+          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
+          this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
         }
       });
     }
   }
 
-  ngAfterContentInit(): void {
-    setTimeout(() => { this.getCurrentUserSmallImages(); }, 1000, () => { }, () => { this.getCurrentUserImages(); }); 
-  }
+  //ngAfterContentInit(): void {
+  //  setTimeout(() => { this.getCurrentUserSmallImages(); }, 1000, () => { }, () => { this.getCurrentUserImages(); }); 
+  //}
 
   getCurrentUserImages(): void {
     if (this.imageModels != null) {
@@ -46,13 +47,13 @@ export class ImageBoardComponent implements OnInit {
         this.imageModels.forEach((element, i) => {
           setTimeout(() => {
             this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
-          }, i * 500); // Find på noget bedre.
+          }, i * 500); // TODO: Find på noget bedre.
         });
       }
     }
   }
 
-  getCurrentUserSmallImages(): void {
+  getCurrentUserSmallImages(): Promise<void> {
     if (this.smallImageModels != null) {
       if (this.smallImageModels.length > 0) {
         this.smallImageModels.forEach((element, i) => {
@@ -60,10 +61,12 @@ export class ImageBoardComponent implements OnInit {
         });
       }
     }
+    return Promise.resolve();
   }
 
   refreshCurrentUserImages(): void {
-    setTimeout(() => { this.getCurrentUserSmallImages(); }, 500, () => { }, () => { this.getCurrentUserImages(); }); 
+    //setTimeout(() => { this.getCurrentUserSmallImages(); }, 500, () => { }, () => { this.getCurrentUserImages(); }); // TODO: Find på noget bedre.
+    this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
   }
 
   toggleDisplay() {
