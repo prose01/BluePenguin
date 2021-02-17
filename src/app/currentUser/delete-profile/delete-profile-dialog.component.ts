@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -17,7 +16,7 @@ export class DeleteProfileDialog {
   matDialogTitle: string;
   matDialogContent: string;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private router: Router,
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
     @Inject(MAT_DIALOG_DATA) public profileIds: string[]) {
 
@@ -33,7 +32,7 @@ export class DeleteProfileDialog {
     if (this.IsChecked) {
       if (this.profileIds.length > 0) {
         this.imageService.deleteAllImagesForProfile(this.profileIds).subscribe(() => { });
-        this.profileService.deleteProfiles(this.profileIds).subscribe(() => { }, () => { }, () => { this.router.navigate(['/dashboard']); });
+        this.profileService.deleteProfiles(this.profileIds).subscribe();
       }
       else {
         this.imageService.deleteAllImagesForCurrentUser().subscribe(() => { });
