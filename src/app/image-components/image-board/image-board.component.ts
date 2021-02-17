@@ -35,7 +35,7 @@ export class ImageBoardComponent implements OnInit {
           this.profileService.currentUserSubject
             .pipe(takeWhileAlive(this))
             .subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
-          this.getCurrentUserSmallImages();
+          this.getCurrentUserImages();
         }
       });
     }
