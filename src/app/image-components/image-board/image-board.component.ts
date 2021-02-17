@@ -35,7 +35,7 @@ export class ImageBoardComponent implements OnInit {
           this.profileService.currentUserSubject
             .pipe(takeWhileAlive(this))
             .subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
-          this.getCurrentUserImages();
+          this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
         }
       });
     }
@@ -49,11 +49,9 @@ export class ImageBoardComponent implements OnInit {
     if (this.imageModels != null) {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
-          setTimeout(() => {
-            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-              .pipe(takeWhileAlive(this))
-              .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
-          }, i * 500); // TODO: Find på noget bedre.
+          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
         });
       }
     }
