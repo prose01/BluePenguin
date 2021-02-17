@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -24,6 +25,7 @@ import { ProfileService } from '../../services/profile.service';
   ],
 })
 
+@AutoUnsubscribe()
 export class ChatMembersListviewComponent implements OnInit {
   displayedColumns: string[] = ['select', 'profileId', 'name', 'blocked'];
   dataSource: MatTableDataSource<ChatMember>;
@@ -40,7 +42,9 @@ export class ChatMembersListviewComponent implements OnInit {
   constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    this.profileService.currentUserSubject
+      .pipe(takeWhileAlive(this))
+      .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
 
     setTimeout(() => {
       this.refreshChatmemberlist();
@@ -88,7 +92,9 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   blockChatMembers() {
-    this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
+    this.profileService.blockChatMembers(this.selcetedProfiles())
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
 
     setTimeout(() => {
       this.refreshChatmemberlist();
@@ -127,7 +133,9 @@ export class ChatMembersListviewComponent implements OnInit {
 
         this.chatMembers = chatMembers;
         this.profileIds = profileIds;
-        this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
+        this.profileService.getChatMemberProfiles()
+          .pipe(takeWhileAlive(this))
+          .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
       }
     }
   }

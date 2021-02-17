@@ -5,11 +5,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
-import { GenderType, BodyType } from '../../models/enums';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 
@@ -26,6 +26,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   ],
 })
 
+@AutoUnsubscribe()
 export class ProfileListviewComponent implements OnInit {
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
@@ -87,15 +88,21 @@ export class ProfileListviewComponent implements OnInit {
 
 /** Add or remove bookmarks */
   removeFavoritProfiles() {
-    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles()).subscribe(() => { }, () => { }, () => {
-      this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => {
+    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.getBookmarkedProfiles()
+          .pipe(takeWhileAlive(this))
+          .subscribe(profiles => this.profiles = profiles, () => { }, () => {
         this.setDataSource()
       })
     });
   }
 
   addFavoritProfiles() {
-    this.profileService.addProfilesToBookmarks(this.selcetedProfiles()).subscribe(() => {});
+    this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { });
   }
 
   selcetedProfiles(): string[] {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
@@ -13,6 +14,8 @@ import { ImageSizeEnum } from '../models/imageSizeEnum';
   templateUrl: './dashboard.component.html',
   styleUrls: [ './dashboard.component.scss' ]
 })
+
+@AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
   isTileView = true;
   matButtonToggleText: string = 'ListView';
@@ -48,19 +51,25 @@ export class DashboardComponent implements OnInit {
 
   // Get latest Profiles.
   getLatestProfiles() {
-    this.profileService.getLatestProfiles(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
+    this.profileService.getLatestProfiles(this.selectedOrderBy)
+      .pipe(takeWhileAlive(this))
+      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = false;
   }
 
   // Get Filtered Profiles.
   getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy).subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() })  });
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy)
+      .pipe(takeWhileAlive(this))
+      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = false;
   }
 
   // Get Bookmarked Profiles.
   getBookmarkedProfiles() {
-    this.profileService.getBookmarkedProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() })  });
+    this.profileService.getBookmarkedProfiles()
+      .pipe(takeWhileAlive(this))
+      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = true;
   }
 
@@ -74,7 +83,9 @@ export class DashboardComponent implements OnInit {
         // Take a random image from profile.
         this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.small).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.small)
+          .pipe(takeWhileAlive(this))
+          .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
       else {
         // Set default profile image.
@@ -93,7 +104,9 @@ export class DashboardComponent implements OnInit {
         // Take a random image from profile.
         //let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large).subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
+          .pipe(takeWhileAlive(this))
+          .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
       else {
         // Set default profile image.

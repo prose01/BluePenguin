@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
@@ -14,6 +15,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
   styleUrls: ['./image-board.component.scss']
 })
 
+@AutoUnsubscribe()
 export class ImageBoardComponent implements OnInit {
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'add_photo_alternate';
@@ -30,7 +32,9 @@ export class ImageBoardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
+          this.profileService.currentUserSubject
+            .pipe(takeWhileAlive(this))
+            .subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
           this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
         }
       });
@@ -46,7 +50,9 @@ export class ImageBoardComponent implements OnInit {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
           setTimeout(() => {
-            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
+              .pipe(takeWhileAlive(this))
+              .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
           }, i * 500); // TODO: Find på noget bedre.
         });
       }
@@ -57,7 +63,9 @@ export class ImageBoardComponent implements OnInit {
     if (this.smallImageModels != null) {
       if (this.smallImageModels.length > 0) {
         this.smallImageModels.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small).subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
         });
       }
     }

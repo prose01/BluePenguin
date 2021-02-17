@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
@@ -36,6 +37,8 @@ import {
   templateUrl: './profile-search.component.html',
   styleUrls: ['./profile-search.component.scss']
 })
+
+@AutoUnsubscribe()
 export class ProfileSearchComponent implements OnInit {
   isTileView = true;
   matButtonToggleText: string = 'ListView';
@@ -167,7 +170,9 @@ export class ProfileSearchComponent implements OnInit {
   onSubmit() {
     this.filter = this.prepareSearch();
 
-    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy).subscribe(searchResultProfiles => {
+    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy)
+      .pipe(takeWhileAlive(this))
+      .subscribe(searchResultProfiles => {
       this.searchResultProfiles = searchResultProfiles;
       this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
     });
@@ -184,7 +189,9 @@ export class ProfileSearchComponent implements OnInit {
         // Take a random image from profile.
         let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
         //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.large).subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.large)
+          .pipe(takeWhileAlive(this))
+          .subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
       }
       else {
         // Set default profile image.
@@ -236,11 +243,15 @@ export class ProfileSearchComponent implements OnInit {
 
   saveSearch() {
     this.filter = this.prepareSearch();
-    this.profileService.saveProfileFilter(this.filter).subscribe();
+    this.profileService.saveProfileFilter(this.filter)
+      .pipe(takeWhileAlive(this))
+      .subscribe();
   }
 
   loadSearch() {
-    this.profileService.loadProfileFilter().subscribe(filter => this.filter = filter, () => { }, () => { });
+    this.profileService.loadProfileFilter()
+      .pipe(takeWhileAlive(this))
+      .subscribe(filter => this.filter = filter, () => { }, () => { });
 
     setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
 

@@ -1,4 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
@@ -13,6 +14,7 @@ import { OrderByType } from '../../models/enums';
   styleUrls: ['./profile-tileview.component.scss']
 })
 
+@AutoUnsubscribe()
 export class ProfileTileviewComponent {
 
   selectedProfile: Profile;
@@ -74,13 +76,17 @@ export class ProfileTileviewComponent {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
-    this.profileService.removeProfilesFromBookmarks(selcetedProfiles).subscribe(() => { }, () => { }, () => { this.getBookmarkedProfiles.emit(); });
+    this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => { this.getBookmarkedProfiles.emit(); });
   }
 
   addFavoritProfiles(profileId: string) {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
-    this.profileService.addProfilesToBookmarks(selcetedProfiles).subscribe(() => { });
+    this.profileService.addProfilesToBookmarks(selcetedProfiles)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { });
   }
 }
