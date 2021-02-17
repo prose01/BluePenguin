@@ -45,7 +45,7 @@ export class ImageBoardComponent implements OnInit {
   //  setTimeout(() => { this.getCurrentUserSmallImages(); }, 1000, () => { }, () => { this.getCurrentUserImages(); }); 
   //}
 
-  getCurrentUserImages(): void {
+  getCurrentUserImages(): Promise<void> {
     if (this.imageModels != null) {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
@@ -55,6 +55,7 @@ export class ImageBoardComponent implements OnInit {
         });
       }
     }
+    return Promise.resolve();
   }
 
   getCurrentUserSmallImages(): Promise<void> {
