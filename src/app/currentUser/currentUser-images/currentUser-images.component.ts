@@ -16,26 +16,14 @@ import { DeleteImageDialog } from '../../image-components/delete-image/delete-im
 
 export class CurrentUserImagesComponent {
 
-  selectedImageModel: ImageModel;
   images: any[] = [];
   titles: string[] = [];
 
-  @Input() smallImageModels: ImageModel[];
   @Input() imageModels: ImageModel[];
   @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) {  }
 
-  //ngOnInit() {
-  //  if (this.auth.isAuthenticated()) {
-  //    this.profileService.verifyCurrentUserProfile().then(currentUser => {
-  //      if (currentUser) {
-  //        //this.setImagesAndTitles();
-  //        setTimeout(() => { this.setImagesAndTitles(); }, 1000);     // TODO: Find på noget bedre!
-  //      }
-  //    });
-  //  }
-  //}
 
   setImagesAndTitles(): void {
     const pics = [];

@@ -3,6 +3,7 @@ export class ImageModel {
   fileName: string;
   title: string;
   image: string = '../assets/default-person-icon.jpg';
+  smallimage: string = '../assets/default-person-icon.jpg';
 }
 
 export interface ImageModel {
@@ -10,4 +11,5 @@ export interface ImageModel {
   fileName: string;
   title: string;
   image: string;
+  smallimage: string;
 }

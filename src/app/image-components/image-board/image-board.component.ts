@@ -23,7 +23,6 @@ export class ImageBoardComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
-  smallImageModels: ImageModel[];
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
@@ -34,18 +33,14 @@ export class ImageBoardComponent implements OnInit {
         if (currentUser) {
           this.profileService.currentUserSubject
             .pipe(takeWhileAlive(this))
-            .subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; this.smallImageModels = currentUserSubject.images });
+            .subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.imageModels = currentUserSubject.images; });
           this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
         }
       });
     }
   }
 
-  //ngAfterContentInit(): void {
-  //  setTimeout(() => { this.getCurrentUserSmallImages(); }, 1000, () => { }, () => { this.getCurrentUserImages(); }); 
-  //}
-
-  getCurrentUserImages(): Promise<void> {
+  getCurrentUserImages(): void {
     if (this.imageModels != null) {
       if (this.imageModels.length > 0) {
         this.imageModels.forEach((element, i) => {
@@ -55,16 +50,15 @@ export class ImageBoardComponent implements OnInit {
         });
       }
     }
-    return Promise.resolve();
   }
 
   getCurrentUserSmallImages(): Promise<void> {
-    if (this.smallImageModels != null) {
-      if (this.smallImageModels.length > 0) {
-        this.smallImageModels.forEach((element, i) => {
+    if (this.imageModels != null) {
+      if (this.imageModels.length > 0) {
+        this.imageModels.forEach((element, i) => {
           this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
             .pipe(takeWhileAlive(this))
-            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
         });
       }
     }
@@ -72,7 +66,6 @@ export class ImageBoardComponent implements OnInit {
   }
 
   refreshCurrentUserImages(): void {
-    //setTimeout(() => { this.getCurrentUserSmallImages(); }, 500, () => { }, () => { this.getCurrentUserImages(); }); // TODO: Find på noget bedre.
     this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
   }
 
