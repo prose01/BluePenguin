@@ -137,8 +137,7 @@ export class CreateProfileComponent {
       return;
     }
     else if (this.newUserForm.valid) {
-    this.profileService.addProfile(this.currentUser).subscribe(/* add error handling */);
-    this.router.navigate(['/edit']);  // TODO: Still not working!
+      this.profileService.addProfile(this.currentUser).subscribe(() => { }, () => { }, () => { this.router.navigate(['/edit']); }); // TODO: Call fails as it is posted twice!
     }
   }
 
