@@ -6,6 +6,7 @@ import { Profile } from '../models/profile';
 import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
+import { ProfilesDataSource } from '../services/profilesDataSource.service';
 import { OrderByType } from '../models/enums';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
 
@@ -17,6 +18,7 @@ import { ImageSizeEnum } from '../models/imageSizeEnum';
 
 @AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
+  dataSource: ProfilesDataSource;
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
@@ -37,7 +39,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getLatestProfiles(); }
+        if (currentUser) {
+          this.dataSource = new ProfilesDataSource(this.profileService);
+          this.getLatestProfiles();
+        }
       });
     }
   }
@@ -51,11 +56,31 @@ export class DashboardComponent implements OnInit {
 
   // Get latest Profiles.
   getLatestProfiles() {
-    this.profileService.getLatestProfiles(this.selectedOrderBy)
+    //this.dataSource.loadProfiles(OrderByType.CreatedOn, 'desc', '1', '2');
+    //this.dataSource.currentProfilesSubject.subscribe(profiles => this.profiles = profiles);
+    this.profileService.getLatestProfiles(this.selectedOrderBy, 'desc', '0', '5')
       .pipe(takeWhileAlive(this))
-      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
+      .subscribe(
+
+        (response: any) => {
+
+          this.profiles = new Array;
+          //this.profiles.length = 30;
+          this.profiles.push(...response);
+
+          this.profiles.length = this.profiles.length + 1;
+        }
+
+        //profiles => this.profiles = profiles
+        , () => { }
+        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+      );
     this.showingBookmarkedProfilesList = false;
   }
+
+  //loadLessonsPage(value) {
+  //  this.dataSource.loadProfiles(OrderByType.CreatedOn, 'desc', value.pageIndex.toString(), value.pageSize.toString());
+  //}
 
   // Get Filtered Profiles.
   getProfileByCurrentUsersFilter() {

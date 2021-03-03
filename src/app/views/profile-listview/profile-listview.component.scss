@@ -11,3 +11,18 @@ tr.detail-row {
 .mat-flat-button {
   margin: 10px 00px 0px 10px;
 }
+
+.spinner-container {
+  height: 360px;
+  width: 390px;
+  position: fixed;
+}
+
+.spinner-container mat-spinner {
+  margin: 130px auto 0 auto;
+}
+
+/*Important in order stop hide MatPaginator items per page.*/
+::ng-deep .mat-paginator-range-label {
+  display: none !important;
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { Observable, BehaviorSubject, throwError  } from 'rxjs';
@@ -214,8 +214,14 @@ export class ProfileService {
       );
   }
 
-  getLatestProfiles(orderByType: OrderByType): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles/${orderByType}`, { headers: this.headers })
+  getLatestProfiles(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string): Observable<any> {
+    const params = new HttpParams()
+      .set('OrderByType', orderByType)
+      .set('SortDirection', sortDirection)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<any>(`${this.avalonUrl}GetLatestProfiles/`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)

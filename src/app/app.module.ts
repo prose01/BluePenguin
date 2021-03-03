@@ -8,6 +8,7 @@ import { DatePipe }                           from '@angular/common';
 import { MatCheckboxModule }                  from '@angular/material/checkbox';
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
+import { MatProgressSpinnerModule }           from '@angular/material/progress-spinner';
 import { MatTableModule }                     from '@angular/material/table';
 import { MatFormFieldModule }                 from '@angular/material/form-field';
 import { MatInputModule }                     from '@angular/material/input';
@@ -96,6 +97,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,

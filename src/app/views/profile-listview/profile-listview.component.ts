@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -12,6 +12,7 @@ import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
+import { OrderByType } from '../../models/enums';
 
 @Component({
   selector: 'app-profile-listview',
@@ -28,6 +29,13 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 
 @AutoUnsubscribe()
 export class ProfileListviewComponent implements OnInit {
+  pageEvent: PageEvent;
+  datasource: null;
+  pageIndex: number;
+  pageSize: number;
+  length: number;
+  loading: boolean = true;
+
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
 
@@ -36,6 +44,7 @@ export class ProfileListviewComponent implements OnInit {
   @Input() profiles: Profile[];
   @Input() displayedColumns: string[];
   @Input() showingBookmarkedProfilesList: boolean;
+  @Output() loadLessonsPage: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -46,9 +55,9 @@ export class ProfileListviewComponent implements OnInit {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
-  updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject();
-  }
+  //updateCurrentUserSubject() {
+  //  this.profileService.updateCurrentUserSubject();
+  //}
 
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {
@@ -56,8 +65,47 @@ export class ProfileListviewComponent implements OnInit {
     }
   }
 
+  getNextData(currentSize: number, pageIndex: string, pageSize: string) {
+    this.profileService.getLatestProfiles(OrderByType.CreatedOn, 'desc', pageIndex, pageSize).pipe(takeWhileAlive(this))
+      .subscribe((response: any) => {
+        this.loading = false;
+
+        this.profiles.length = currentSize;
+
+        this.profiles.push(...response);
+
+        this.profiles.length = this.profiles.length + 1;
+
+
+        this.dataSource = new MatTableDataSource<Profile>(this.profiles);
+        this.dataSource._updateChangeSubscription();
+
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  pageChanged(event) {
+    this.loading = true;
+
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+
+    let previousIndex = event.previousPageIndex;
+
+    let previousSize = pageSize * pageIndex;
+
+    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
+  }
+
+
+  //public getServerData(event?: PageEvent) {
+  //  this.loadLessonsPage.emit({ pageIndex: event.pageIndex, pageSize: event.pageSize });
+  //  console.log('profile size ' + this.profiles.length);
+  //}
+
   setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.profiles);
+    this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
