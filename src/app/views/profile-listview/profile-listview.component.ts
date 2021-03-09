@@ -13,6 +13,7 @@ import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { OrderByType } from '../../models/enums';
+import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 
 @Component({
   selector: 'app-profile-listview',
@@ -42,9 +43,9 @@ export class ProfileListviewComponent implements OnInit {
   currentUserSubject: CurrentUser;
 
   @Input() profiles: Profile[];
+  @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
-  @Input() showingBookmarkedProfilesList: boolean;
-  @Output() loadLessonsPage: EventEmitter<any> = new EventEmitter();
+  @Output() getNextData: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -55,33 +56,10 @@ export class ProfileListviewComponent implements OnInit {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
-  //updateCurrentUserSubject() {
-  //  this.profileService.updateCurrentUserSubject();
-  //}
-
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {
       this.setDataSource();
     }
-  }
-
-  getNextData(currentSize: number, pageIndex: string, pageSize: string) {
-    this.profileService.getLatestProfiles(OrderByType.CreatedOn, 'desc', pageIndex, pageSize).pipe(takeWhileAlive(this))
-      .subscribe((response: any) => {
-        this.loading = false;
-
-        this.profiles.length = currentSize;
-
-        this.profiles.push(...response);
-
-        this.profiles.length = this.profiles.length + 1;
-
-
-        this.dataSource = new MatTableDataSource<Profile>(this.profiles);
-        this.dataSource._updateChangeSubscription();
-
-        this.dataSource.paginator = this.paginator;
-      });
   }
 
   pageChanged(event) {
@@ -89,19 +67,10 @@ export class ProfileListviewComponent implements OnInit {
 
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
 
-    let previousIndex = event.previousPageIndex;
-
-    let previousSize = pageSize * pageIndex;
-
-    this.getNextData(previousSize, (pageIndex).toString(), pageSize.toString());
+    this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString()});
   }
-
-
-  //public getServerData(event?: PageEvent) {
-  //  this.loadLessonsPage.emit({ pageIndex: event.pageIndex, pageSize: event.pageSize });
-  //  console.log('profile size ' + this.profiles.length);
-  //}
 
   setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.profiles);

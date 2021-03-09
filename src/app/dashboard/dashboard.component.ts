@@ -6,9 +6,9 @@ import { Profile } from '../models/profile';
 import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
-import { ProfilesDataSource } from '../services/profilesDataSource.service';
 import { OrderByType } from '../models/enums';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
+import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 
 @Component({
   selector: 'my-dashboard',
@@ -18,12 +18,12 @@ import { ImageSizeEnum } from '../models/imageSizeEnum';
 
 @AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
-  dataSource: ProfilesDataSource;
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
 
   profiles: Profile[];
+  viewFilterType: ViewFilterTypeEnum;
   displayedColumns: string[] = ['select', 'name', 'lastActive']; // Add columns after user's choise or just default?
   showingBookmarkedProfilesList: boolean;
 
@@ -39,10 +39,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) {
-          this.dataSource = new ProfilesDataSource(this.profileService);
-          this.getLatestProfiles();
-        }
+        if (currentUser) { this.getLatestProfiles(); }
       });
     }
   }
@@ -54,33 +51,48 @@ export class DashboardComponent implements OnInit {
   //  }
   //}
 
+  getNextData(event) {
+    switch (event.viewFilterType) {
+      case ViewFilterTypeEnum.LatestProfiles: {
+        this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      case ViewFilterTypeEnum.FilterProfiles: {
+
+        break;
+      }
+      case ViewFilterTypeEnum.BookmarkedProfiles: {
+        
+        break;
+      }
+      default: {
+        this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+    }
+  }
+
   // Get latest Profiles.
-  getLatestProfiles() {
-    //this.dataSource.loadProfiles(OrderByType.CreatedOn, 'desc', '1', '2');
-    //this.dataSource.currentProfilesSubject.subscribe(profiles => this.profiles = profiles);
-    this.profileService.getLatestProfiles(this.selectedOrderBy, 'desc', '0', '5')
+  getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getLatestProfiles(this.selectedOrderBy, 'desc', pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
-
         (response: any) => {
 
           this.profiles = new Array;
-          //this.profiles.length = 30;
+
+          this.profiles.length = currentSize;
+          
           this.profiles.push(...response);
 
           this.profiles.length = this.profiles.length + 1;
         }
-
-        //profiles => this.profiles = profiles
         , () => { }
         , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
       );
     this.showingBookmarkedProfilesList = false;
+    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
   }
-
-  //loadLessonsPage(value) {
-  //  this.dataSource.loadProfiles(OrderByType.CreatedOn, 'desc', value.pageIndex.toString(), value.pageSize.toString());
-  //}
 
   // Get Filtered Profiles.
   getProfileByCurrentUsersFilter() {
@@ -88,6 +100,7 @@ export class DashboardComponent implements OnInit {
       .pipe(takeWhileAlive(this))
       .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = false;
+    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }
 
   // Get Bookmarked Profiles.
@@ -96,6 +109,7 @@ export class DashboardComponent implements OnInit {
       .pipe(takeWhileAlive(this))
       .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
     this.showingBookmarkedProfilesList = true;
+    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }
 
   imageNumber: number; // TODO: Find på noget bedre!

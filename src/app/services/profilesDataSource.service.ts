@@ -9,35 +9,35 @@ import { ProfileService } from "./profile.service";
 @AutoUnsubscribe()
 export class ProfilesDataSource implements DataSource<Profile> {
 
-  private profilensSubject = new BehaviorSubject<Profile[]>([]);
-  currentProfilesSubject = this.profilensSubject.asObservable();
+  //private profilesSubject = new BehaviorSubject<Profile[]>([]);
+  //currentProfilesSubject = this.profilesSubject.asObservable();
 
-  private loadingSubject = new BehaviorSubject<boolean>(false);
+  //private loadingSubject = new BehaviorSubject<boolean>(false);
 
-  public loading$ = this.loadingSubject.asObservable();
+  //public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private profileService: ProfileService) { }
+  //constructor(private profileService: ProfileService) { }
 
-  loadProfiles(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string) {
-    this.loadingSubject.next(true);
+  //loadProfiles(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string) {
+  //  this.loadingSubject.next(true);
 
-    //this.profileService.getLatestProfiles(orderByType, sortDirection, pageIndex, pageSize).pipe(
-    //  takeWhileAlive(this),
-    //  catchError(() => of([])),
-    //  finalize(() => this.loadingSubject.next(false))
-    //)
-    //  .subscribe(lessons => this.profilensSubject.next(lessons));
-  }
+  //  //this.profileService.getLatestProfiles(orderByType, sortDirection, pageIndex, pageSize).pipe(
+  //  //  takeWhileAlive(this),
+  //  //  catchError(() => of([])),
+  //  //  finalize(() => this.loadingSubject.next(false))
+  //  //)
+  //  //  .subscribe(lessons => this.profilesSubject.next(lessons));
+  //}
 
-  connect(collectionViewer: CollectionViewer): Observable<Profile[]> {
-    console.log("Connecting data source");
-    return this.profilensSubject.asObservable();
-  }
+  //connect(collectionViewer: CollectionViewer): Observable<Profile[]> {
+  //  console.log("Connecting data source");
+  //  return this.profilesSubject.asObservable();
+  //}
 
-  disconnect(collectionViewer: CollectionViewer): void {
-    console.log("Disconnecting data source");
-    this.profilensSubject.complete();
-    this.loadingSubject.complete();
-  }
+  //disconnect(collectionViewer: CollectionViewer): void {
+  //  console.log("Disconnecting data source");
+  //  this.profilesSubject.complete();
+  //  this.loadingSubject.complete();
+  //}
 
 }

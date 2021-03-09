@@ -98,10 +98,10 @@
     </table>
 
 
-    <button type="button" *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorits" matTooltip="Remove from favorites">
+    <button type="button" *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="removeFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorits" matTooltip="Remove from favorites">
       <i class="material-icons">bookmark_border</i>
     </button>
-    <button type="button" *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorits" matTooltip="Add to favorites">
+    <button type="button" *ngIf="viewFilterType != 'BookmarkedProfiles'" (click)="addFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorits" matTooltip="Add to favorites">
       <i class="material-icons">bookmark</i>
     </button>
 

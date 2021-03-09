@@ -13,6 +13,7 @@ import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/imageModel';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
+import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import {
   GenderType,
   BodyType,
@@ -46,6 +47,7 @@ export class ProfileSearchComponent implements OnInit {
 
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
+  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   profileForm: FormGroup;
   ageList: number[] = [...Array(1 + 120 - 16).keys()].map(v => 16 + v);
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
@@ -130,6 +132,7 @@ export class ProfileSearchComponent implements OnInit {
           this.behaviorSubjectService.currentSearchResultProfilesSubject.subscribe(currentSearchResultProfilesSubject => {
             if (currentSearchResultProfilesSubject) {
               this.searchResultProfiles = currentSearchResultProfilesSubject;
+              this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
             }
           });
         }
@@ -168,7 +171,9 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.filter = this.prepareSearch();
+    this.filter = this.prepareSearch(); // Keep this but remove all else except....
+    // Just call this "private" method to filter with default parameters. 
+    this.getProfileByFilter();
 
     this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy)
       .pipe(takeWhileAlive(this))
@@ -178,7 +183,53 @@ export class ProfileSearchComponent implements OnInit {
     });
 
     this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
-    setTimeout(() => { this.getProfileImages(); }, 500); 
+    setTimeout(() => { this.getSmallProfileImages(); }, 500);
+  }
+
+  // Get Profiles by searchfilter. Add parameters to Avalon and uncomment this sectio to run once onSubmit() is clean ;)
+  getProfileByFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    //this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy, 'desc', pageIndex, pageSize)
+    //  .pipe(takeWhileAlive(this))
+    //  .subscribe(
+    //    (response: any) => {
+
+    //      this.searchResultProfiles = new Array;
+
+    //      this.searchResultProfiles.length = currentSize;
+
+    //      this.searchResultProfiles.push(...response);
+
+    //      this.searchResultProfiles.length = this.searchResultProfiles.length + 1;
+    //    }
+    //    , () => { }
+    //    , () => {
+    //      this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(this.searchResultProfiles);
+    //      this.getSmallProfileImages().then(() => { this.getProfileImages() })
+    //    }
+    //);
+
+    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
+  }
+
+  getSmallProfileImages(): Promise<void> {
+    let defaultImageModel: ImageModel = new ImageModel();
+
+    this.searchResultProfiles?.forEach((element, i) => {
+      if (element.images != null && element.images.length > 0) {
+        // Take a random image from profile.
+        let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+        //Just insert it into the first[0] element as we will only show one image.
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.small)
+          .pipe(takeWhileAlive(this))
+          .subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
+      }
+      else {
+        // Set default profile image.
+        element.images.push(defaultImageModel);
+      }
+    });
+
+    return Promise.resolve();
   }
 
   getProfileImages(): void {
@@ -256,6 +307,13 @@ export class ProfileSearchComponent implements OnInit {
     setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
 
     this.profileForm.markAsDirty();
+  }
+
+  getNextData(event) {
+    console.log('search currentSize ' + event.currentSize);
+    console.log('search pageIndex ' + event.pageIndex);
+    console.log('search pageSize ' + event.pageSize);
+    this.getProfileByFilter(event.currentSize, event.pageIndex, event.pageSize);
   }
 
 
