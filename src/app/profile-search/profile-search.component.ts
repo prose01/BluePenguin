@@ -175,38 +175,38 @@ export class ProfileSearchComponent implements OnInit {
     // Just call this "private" method to filter with default parameters. 
     this.getProfileByFilter();
 
-    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy)
-      .pipe(takeWhileAlive(this))
-      .subscribe(searchResultProfiles => {
-      this.searchResultProfiles = searchResultProfiles;
-      this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
-    });
+    //this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy)
+    //  .pipe(takeWhileAlive(this))
+    //  .subscribe(searchResultProfiles => {
+    //  this.searchResultProfiles = searchResultProfiles;
+    //  this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
+    //});
 
-    this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
-    setTimeout(() => { this.getSmallProfileImages(); }, 500);
+    //this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
+    //setTimeout(() => { this.getSmallProfileImages(); }, 500);
   }
 
-  // Get Profiles by searchfilter. Add parameters to Avalon and uncomment this sectio to run once onSubmit() is clean ;)
+  // Get Profiles by searchfilter. Add parameters to Avalon and uncomment this sectio to run once onSubmit() is clean ;)      // TODO: Update Avalon GetProfileByFilter([FromBody] RequestBody requestBody) // Is OrderByType part of RequestBody or ParameterFilter?
   getProfileByFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    //this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy, 'desc', pageIndex, pageSize)
-    //  .pipe(takeWhileAlive(this))
-    //  .subscribe(
-    //    (response: any) => {
+    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
 
-    //      this.searchResultProfiles = new Array;
+          this.searchResultProfiles = new Array;
 
-    //      this.searchResultProfiles.length = currentSize;
+          this.searchResultProfiles.length = currentSize;
 
-    //      this.searchResultProfiles.push(...response);
+          this.searchResultProfiles.push(...response);
 
-    //      this.searchResultProfiles.length = this.searchResultProfiles.length + 1;
-    //    }
-    //    , () => { }
-    //    , () => {
-    //      this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(this.searchResultProfiles);
-    //      this.getSmallProfileImages().then(() => { this.getProfileImages() })
-    //    }
-    //);
+          this.searchResultProfiles.length = this.searchResultProfiles.length + 1;
+        }
+        , () => { }
+        , () => {
+          this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(this.searchResultProfiles);
+          this.getSmallProfileImages().then(() => { this.getProfileImages() })
+        }
+    );
 
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }

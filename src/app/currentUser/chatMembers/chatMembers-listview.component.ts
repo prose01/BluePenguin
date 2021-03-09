@@ -133,7 +133,7 @@ export class ChatMembersListviewComponent implements OnInit {
 
         this.chatMembers = chatMembers;
         this.profileIds = profileIds;
-        this.profileService.getChatMemberProfiles()
+        this.profileService.getChatMemberProfiles('0', '5')   // TODO: Add pagination to this!!!!!!!!!!!!!!!!!!!!!!
           .pipe(takeWhileAlive(this))
           .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
       }

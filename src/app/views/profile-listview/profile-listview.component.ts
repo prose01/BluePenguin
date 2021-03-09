@@ -108,7 +108,7 @@ export class ProfileListviewComponent implements OnInit {
     this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
-        this.profileService.getBookmarkedProfiles('desc', '0', '5')   // TODO: Add pagination to this!!!!!!!!!!!!!!!!!!!!!!
+        this.profileService.getBookmarkedProfiles('0', '5')   // TODO: Add pagination to this!!!!!!!!!!!!!!!!!!!!!!
           .pipe(takeWhileAlive(this))
           .subscribe(profiles => this.profiles = profiles, () => { }, () => {
         this.setDataSource()

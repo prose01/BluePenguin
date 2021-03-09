@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
   // Get latest Profiles.
   getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getLatestProfiles(this.selectedOrderBy, 'desc', pageIndex, pageSize)
+    this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
 
   // Get Filtered Profiles.
   getProfileByCurrentUsersFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, 'desc', pageIndex, pageSize)
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -110,16 +110,15 @@ export class DashboardComponent implements OnInit {
           this.profiles.length = this.profiles.length + 1;
         }
         , () => { }
-        , () => {
-          this.getSmallProfileImages().then(() => { this.getProfileImages() })
-      });
+        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+      );
     this.showingBookmarkedProfilesList = false;
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }
 
   // Get Bookmarked Profiles.
   getBookmarkedProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getBookmarkedProfiles('desc', pageIndex, pageSize)
+    this.profileService.getBookmarkedProfiles(pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -133,9 +132,8 @@ export class DashboardComponent implements OnInit {
           this.profiles.length = this.profiles.length + 1;
         }
         , () => { }
-        , () => {
-          this.getSmallProfileImages().then(() => { this.getProfileImages() })
-      });
+        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+      );
     this.showingBookmarkedProfilesList = true;
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }

@@ -102,7 +102,7 @@ export class ProfileService {
 
 
   // Bookmarks
-  addProfilesToBookmarks(profiles: string[]): Observable<Profile> {
+  addProfilesToBookmarks(profiles: string[]): Observable<Profile> {   // TODO: Should not return all profiles
     return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -110,7 +110,7 @@ export class ProfileService {
       );
   }
 
-  removeProfilesFromBookmarks(profiles: string[]): Observable<Profile[]> {
+  removeProfilesFromBookmarks(profiles: string[]): Observable<Profile[]> {  // TODO: Should not return all profiles
     return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -118,9 +118,8 @@ export class ProfileService {
       );
   }
 
-  getBookmarkedProfiles(sortDirection: string, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getBookmarkedProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
     const params = new HttpParams()
-      .set('SortDirection', sortDirection)
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
@@ -136,7 +135,7 @@ export class ProfileService {
 
   // Profile
 
-  getProfiles(): Observable<Profile[]> {
+  getProfiles(): Observable<Profile[]> { // TODO: Should not return all profiles
     return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -176,26 +175,19 @@ export class ProfileService {
       );
   }
 
-  //getProfilesById(profileIds: string[]): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesById/${profileIds}`, { headers: this.headers })
-  //    .pipe(
-  //      map(profile => profile),
-  //      tap(h => {
-  //        const outcome = h ? `fetched` : `did not find`;
-  //      }),
-  //      catchError(this.handleError)
-  //    );
-  //}
+  getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
 
-  getChatMemberProfiles(): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  blockChatMembers(profileIds: string[]): Observable<Profile[]> {
+  blockChatMembers(profileIds: string[]): Observable<Profile[]> { // TODO: Should not return all profiles
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
       .pipe(
         retry(3),
@@ -203,18 +195,22 @@ export class ProfileService {
       );
   }
 
-  getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType): Observable<Profile[]> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter, orderByType }, { headers: this.headers })
+  getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('OrderByType', orderByType)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter, orderByType }, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  getProfileByCurrentUsersFilter(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
-      .set('SortDirection', sortDirection)
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
@@ -225,14 +221,13 @@ export class ProfileService {
       );
   }
 
-  getLatestProfiles(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string): Observable<any> {
+  getLatestProfiles(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
-      .set('SortDirection', sortDirection)
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<any>(`${this.avalonUrl}GetLatestProfiles/`, { headers: this.headers, params: params })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles/`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
