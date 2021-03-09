@@ -118,8 +118,13 @@ export class ProfileService {
       );
   }
 
-  getBookmarkedProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers })
+  getBookmarkedProfiles(sortDirection: string, pageIndex: string, pageSize: string): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('SortDirection', sortDirection)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -206,8 +211,14 @@ export class ProfileService {
       );
   }
 
-  getProfileByCurrentUsersFilter(orderByType: OrderByType): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter/${orderByType}`, { headers: this.headers })
+  getProfileByCurrentUsersFilter(orderByType: OrderByType, sortDirection: string, pageIndex: string, pageSize: string): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('OrderByType', orderByType)
+      .set('SortDirection', sortDirection)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter/`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)

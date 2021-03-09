@@ -58,11 +58,11 @@ export class DashboardComponent implements OnInit {
         break;
       }
       case ViewFilterTypeEnum.FilterProfiles: {
-
+        this.getProfileByCurrentUsersFilter(event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
-        
+        this.getBookmarkedProfiles(event.currentSize, event.pageIndex, event.pageSize);        
         break;
       }
       default: {
@@ -95,19 +95,47 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Filtered Profiles.
-  getProfileByCurrentUsersFilter() {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy)
+  getProfileByCurrentUsersFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, 'desc', pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
-      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
+      .subscribe(
+        (response: any) => {
+
+          this.profiles = new Array;
+
+          this.profiles.length = currentSize;
+
+          this.profiles.push(...response);
+
+          this.profiles.length = this.profiles.length + 1;
+        }
+        , () => { }
+        , () => {
+          this.getSmallProfileImages().then(() => { this.getProfileImages() })
+      });
     this.showingBookmarkedProfilesList = false;
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }
 
   // Get Bookmarked Profiles.
-  getBookmarkedProfiles() {
-    this.profileService.getBookmarkedProfiles()
+  getBookmarkedProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getBookmarkedProfiles('desc', pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
-      .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) });
+      .subscribe(
+        (response: any) => {
+
+          this.profiles = new Array;
+
+          this.profiles.length = currentSize;
+
+          this.profiles.push(...response);
+
+          this.profiles.length = this.profiles.length + 1;
+        }
+        , () => { }
+        , () => {
+          this.getSmallProfileImages().then(() => { this.getProfileImages() })
+      });
     this.showingBookmarkedProfilesList = true;
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }
