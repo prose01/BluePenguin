@@ -12,7 +12,6 @@ import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
-import { OrderByType } from '../../models/enums';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 
 @Component({

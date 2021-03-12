@@ -33,8 +33,8 @@ export class ChatMembersListviewComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   chatMembers: ChatMember[];
-  profileIds: string[] = [];
   profiles: Profile[];
+  loading: boolean = true;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -47,7 +47,7 @@ export class ChatMembersListviewComponent implements OnInit {
       .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
 
     setTimeout(() => {
-      this.refreshChatmemberlist();
+      this.refreshChatmemberlist(); // TODO: Find på noget bedre
     }, 500);
   }
 
@@ -63,6 +63,7 @@ export class ChatMembersListviewComponent implements OnInit {
 
   setDataSource(): void {
     this.dataSource = new MatTableDataSource<ChatMember>(this.chatMembers);
+    this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.paginator = this.paginator;
@@ -111,6 +112,50 @@ export class ChatMembersListviewComponent implements OnInit {
     return profiles;
   }
 
+  pageChanged(event) {
+    this.loading = true;
+
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
+
+    this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
+  }
+
+  refreshChatmemberlist() {
+    let chatMembers = new Array;
+    if (this.currentUserSubject != null) {
+      if (this.currentUserSubject.chatMemberslist.length > 0) {
+        this.currentUserSubject.chatMemberslist.forEach(function (member) {
+          chatMembers.push(member);
+        });
+
+        this.chatMembers = chatMembers;
+
+        this.getChatMemberProfiles();
+      }
+    }
+  }
+
+  getChatMemberProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getChatMemberProfiles(pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.profiles = new Array;
+
+          this.profiles.length = currentSize;
+
+          this.profiles.push(...response);
+
+          this.profiles.length = this.profiles.length + 1;
+        }
+        , () => { }
+        , () => { this.setChatmemberProperties() }
+      );
+  }
+
   setChatmemberProperties() {
     let profiles = this.profiles;
     this.chatMembers.forEach(function (value) {
@@ -118,25 +163,6 @@ export class ChatMembersListviewComponent implements OnInit {
       value.name = profile.name;
     });
 
-    this.setDataSource();
-  }
-
-  refreshChatmemberlist() {
-    let chatMembers = new Array;
-    let profileIds = new Array;
-    if (this.currentUserSubject != null) {
-      if (this.currentUserSubject.chatMemberslist.length > 0) {
-        this.currentUserSubject.chatMemberslist.forEach(function (member) {
-          chatMembers.push(member);
-          profileIds.push(member.profileId);
-        });
-
-        this.chatMembers = chatMembers;
-        this.profileIds = profileIds;
-        this.profileService.getChatMemberProfiles('0', '5')   // TODO: Add pagination to this!!!!!!!!!!!!!!!!!!!!!!
-          .pipe(takeWhileAlive(this))
-          .subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
-      }
-    }
+    this.setDataSource(); // TODO: Find på noget bedre end at gøre dette igen
   }
 }

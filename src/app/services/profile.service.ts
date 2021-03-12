@@ -180,7 +180,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)

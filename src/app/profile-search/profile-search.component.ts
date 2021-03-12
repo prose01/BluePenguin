@@ -171,22 +171,11 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   onSubmit() {
-    this.filter = this.prepareSearch(); // Keep this but remove all else except....
-    // Just call this "private" method to filter with default parameters. 
+    this.filter = this.prepareSearch(); 
     this.getProfileByFilter();
-
-    //this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy)
-    //  .pipe(takeWhileAlive(this))
-    //  .subscribe(searchResultProfiles => {
-    //  this.searchResultProfiles = searchResultProfiles;
-    //  this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(searchResultProfiles);
-    //});
-
-    //this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
-    //setTimeout(() => { this.getSmallProfileImages(); }, 500);
   }
 
-  // Get Profiles by searchfilter. Add parameters to Avalon and uncomment this sectio to run once onSubmit() is clean ;)      // TODO: Update Avalon GetProfileByFilter([FromBody] RequestBody requestBody) // Is OrderByType part of RequestBody or ParameterFilter?
+  // Get Profiles by searchfilter. 
   getProfileByFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
     this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -204,7 +193,7 @@ export class ProfileSearchComponent implements OnInit {
         , () => { }
         , () => {
           this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(this.searchResultProfiles);
-          this.getSmallProfileImages().then(() => { this.getProfileImages() })
+          this.getSmallProfileImages().then(() => { this.getProfileImages() });
         }
     );
 
@@ -310,9 +299,6 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   getNextData(event) {
-    console.log('search currentSize ' + event.currentSize);
-    console.log('search pageIndex ' + event.pageIndex);
-    console.log('search pageSize ' + event.pageSize);
     this.getProfileByFilter(event.currentSize, event.pageIndex, event.pageSize);
   }
 
