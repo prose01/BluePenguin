@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -28,7 +28,7 @@ import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 })
 
 @AutoUnsubscribe()
-export class ProfileListviewComponent implements OnInit {
+export class ProfileListviewComponent implements OnInit, OnChanges {
   pageEvent: PageEvent;
   datasource: null;
   pageIndex: number;
@@ -104,15 +104,27 @@ export class ProfileListviewComponent implements OnInit {
 
 /** Add or remove bookmarks */
   removeFavoritProfiles() {
-    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
+    let profileIds = this.selcetedProfiles();
+
+    this.profileService.removeProfilesFromBookmarks(profileIds)
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
-        this.profileService.getBookmarkedProfiles('0', '5')   // TODO: Add pagination to this!!!!!!!!!!!!!!!!!!!!!!
-          .pipe(takeWhileAlive(this))
-          .subscribe(profiles => this.profiles = profiles, () => { }, () => {
-        this.setDataSource()
-      })
+        this.removeFavoritFromProfileslist(profileIds);
     });
+  }
+
+  removeFavoritFromProfileslist(profileIds: string[]) {
+    let profiles = this.profiles;
+    profileIds.forEach(function (value) {
+      let pos = profiles.findIndex(i => i?.profileId === value);
+      
+      if (pos > -1) {
+        profiles.splice(pos, 1);
+      }
+    });
+
+    this.profiles = profiles;
+    this.setDataSource(); // TODO: Find på noget bedre end at gøre dette igen
   }
 
   addFavoritProfiles() {
@@ -129,6 +141,10 @@ export class ProfileListviewComponent implements OnInit {
     }
 
     return profiles;
+  }
+
+  clearSelcetedProfiles() {
+    this.selection.clear();
   }
 
   openDeleteProfilesDialog(): void {

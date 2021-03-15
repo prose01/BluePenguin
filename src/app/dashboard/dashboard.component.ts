@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from './../authorisation/auth/auth.service';
@@ -9,6 +9,7 @@ import { ImageService } from '../services/image.service';
 import { OrderByType } from '../models/enums';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
+import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
 
 @Component({
   selector: 'my-dashboard',
@@ -18,6 +19,9 @@ import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 
 @AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
+  @ViewChild(ProfileListviewComponent)
+  private listviewComponent: ProfileListviewComponent;
+
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
@@ -190,4 +194,7 @@ export class DashboardComponent implements OnInit {
     this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
   }
 
+  clearSelcetedProfiles() {
+    this.listviewComponent.clearSelcetedProfiles();
+  }
 }
