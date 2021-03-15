@@ -143,8 +143,10 @@ export class ProfileListviewComponent implements OnInit, OnChanges {
     return profiles;
   }
 
-  clearSelcetedProfiles() {
+  resetSelectionPagination() {
     this.selection.clear();
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 5;
   }
 
   openDeleteProfilesDialog(): void {

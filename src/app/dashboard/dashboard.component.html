@@ -10,15 +10,15 @@
       <i class="material-icons">{{matButtonToggleIcon}}</i>
     </button>
 
-    <button type="button" (click)="getLatestProfiles(); clearSelcetedProfiles();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="All | All @@all" matTooltip="All">
+    <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="All | All @@all" matTooltip="All">
       All
     </button>
 
-    <button type="button" (click)="getProfileByCurrentUsersFilter(); clearSelcetedProfiles();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
+    <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
       <i class="material-icons">tune</i>
     </button>
 
-    <button type="button" (click)="getBookmarkedProfiles(); clearSelcetedProfiles();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
+    <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
       <i class="material-icons">bookmarks</i>
     </button>
 

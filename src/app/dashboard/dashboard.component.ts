@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit {
     this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
   }
 
-  clearSelcetedProfiles() {
-    this.listviewComponent.clearSelcetedProfiles();
+  resetSelectionPagination() {
+    this.listviewComponent.resetSelectionPagination();
   }
 }
