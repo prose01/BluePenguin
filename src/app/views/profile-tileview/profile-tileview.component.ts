@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -15,7 +15,7 @@ import { OrderByType } from '../../models/enums';
 })
 
 @AutoUnsubscribe()
-export class ProfileTileviewComponent {
+export class ProfileTileviewComponent implements OnChanges {
 
   selectedProfile: Profile;
   isMatButtonToggled = true;
@@ -29,6 +29,13 @@ export class ProfileTileviewComponent {
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 
+
+  ngOnChanges(): void {
+    // Remove empty profile from array.
+    this.profiles = this.profiles?.filter(function (el) {
+      return el != null;
+    });
+  }
 
   toggleDisplayOrder() {
     this.isMatButtonToggled = !this.isMatButtonToggled;
