@@ -22,6 +22,16 @@ export class ProfileTileviewComponent implements OnChanges {
   matButtonToggleIcon: string = 'expand_less';
   defaultImage = '../assets/default-person-icon.jpg';
 
+  ///////
+
+  //sum = 40;
+  throttle = 1;
+  scrollDistance = 2;
+  scrollUpDistance = 3;
+  //direction = '';
+
+  ///////
+
   @Input() profiles: Profile[];
   @Input() showingBookmarkedProfilesList: boolean;
   @Input() orderBy: OrderByType;
@@ -36,6 +46,35 @@ export class ProfileTileviewComponent implements OnChanges {
       return el != null;
     });
   }
+
+  //////
+
+  //addItems(startIndex, endIndex, _method) {
+  //  //for (let i = 0; i < this.sum; ++i) {
+  //  //  this.data[_method]([i, ' ', this.generateName()].join(''));
+  //  console.log('method ' + _method);
+  //  //}
+  //}
+
+  //appendItems(startIndex, endIndex) {
+  //  this.addItems(startIndex, endIndex, 'push');
+  //}
+
+  //prependItems(startIndex, endIndex) {
+  //  this.addItems(startIndex, endIndex, 'unshift');
+  //}
+
+  onScrollDown() {
+    console.log('scrolled down!!');
+    this.profiles = this.profiles.concat(this.profiles);
+    console.log('length' + this.profiles.length);
+  }
+
+  onScrollUp() {
+    console.log('scrolled up!!');
+  }
+
+  //////
 
   toggleDisplayOrder() {
     this.isMatButtonToggled = !this.isMatButtonToggled;

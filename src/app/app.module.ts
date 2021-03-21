@@ -54,6 +54,7 @@ import { ProfileSearchComponent }             from './profile-search/profile-sea
 import { AboutComponent }                     from './about/about.component';
 
 import { LazyLoadImageModule }                from 'ng-lazyload-image';
+import { InfiniteScrollModule }               from 'ngx-infinite-scroll';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
 import { ImageUploadComponent }               from './image-components/image-upload/image-upload.component';
@@ -114,6 +115,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     MatMenuModule,
     MatChipsModule,
     LazyLoadImageModule,
+    InfiniteScrollModule,
     ImageCropperModule,
     NgChatModule
   ],

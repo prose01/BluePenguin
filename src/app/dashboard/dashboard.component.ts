@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get latest Profiles.
-  getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
     this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
