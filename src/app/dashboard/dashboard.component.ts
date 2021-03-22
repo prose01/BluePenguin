@@ -12,7 +12,7 @@ import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
 
 @Component({
-  selector: 'my-dashboard',
+  selector: 'dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: [ './dashboard.component.scss' ]
 })

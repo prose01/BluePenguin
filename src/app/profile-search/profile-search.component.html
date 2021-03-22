@@ -1,39 +1,6 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
   <form [formGroup]="profileForm">
 
-    <div style="margin-bottom: 1em">
-
-      <button type="button" (click)="toggleDisplay()" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-        <i class="material-icons">{{matButtonToggleIcon}}</i>
-      </button>
-
-      <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
-        <i class="material-icons">search</i>
-      </button>
-
-      <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
-        <i class="material-icons">undo</i>
-      </button>
-
-      <button type="button" (click)="saveSearch()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
-        <i class="material-icons">save</i>
-      </button>
-
-      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
-        <i class="material-icons">find_in_page</i>
-      </button>
-
-      <mat-form-field>
-        <mat-select [(value)]="selectedOrderBy" panelClass="space-grey">
-          <mat-option *ngFor="let option of orderBy" [value]="option.value">{{ option.viewValue }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-    </div>
-
     <div class="form-container">
 
       <mat-form-field class="tag-list">

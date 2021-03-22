@@ -1,67 +1,152 @@
-<h2>{{title}}</h2>
-<nav>
+<!--<nav>-->
 
-  <div *ngIf="!auth.isAuthenticated()">
-    <button id="qsLoginBtn"
-            *ngIf="!auth.isAuthenticated()"
-            (click)="auth.login()" type="button"
-            mat-flat-button color="accent">
-      Log In
-    </button>
+<div *ngIf="!auth.isAuthenticated()">
+  <button id="qsLoginBtn"
+          *ngIf="!auth.isAuthenticated()"
+          (click)="auth.login()" type="button"
+          mat-flat-button color="accent">
+    Log In
+  </button>
 
-    <h3 i18n="Not logged in | Profile is not logged in @@profileNotLoggedIn">
-      You are not logged in! Please Log In to continue.
-    </h3>
-  </div>
+  <h3 i18n="Not logged in | Profile is not logged in @@profileNotLoggedIn">
+    You are not logged in! Please Log In to continue.
+  </h3>
+</div>
 
-  <div *ngIf="auth.isAuthenticated()">
+<div *ngIf="auth.isAuthenticated()">
+
+  <div id="navbar">
+    <h2>{{title}}</h2>
+
     <!--Navigation buttons-->
-    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" i18n-matTooltip="Dashboard | Dashboard @@dashboard" matTooltip="Dashboard">
-      <i class="material-icons">dashboard</i>
+    <button type="button" (click)="toggleDisplay()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
+      <i class="material-icons">{{matButtonToggleIcon}}</i>
     </button>
-    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
-      <i class="material-icons">search</i>
+
+    <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
+      <i class="material-icons">{{matButtonViewToggleIcon}}</i>
     </button>
+
+    <!--Dashboard menu-->
+    <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
+      <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
+        All
+      </button>
+
+      <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
+        <i class="material-icons">tune</i>
+      </button>
+
+      <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
+        <i class="material-icons">bookmarks</i>
+      </button>
+    </div>
+
+    <!--Search menu-->
+    <div *ngIf="pageView === 'Search'" class="menu-buttons">
+      <!--[disabled]="profileForm.pristine"-->
+      <button type="submit" (click)="onSubmit()"
+              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
+        <i class="material-icons">search</i>
+      </button>
+
+      <!--[disabled]="profileForm.pristine"-->
+      <button type="button" (click)="revert()"
+              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
+        <i class="material-icons">undo</i>
+      </button>
+
+      <!--[disabled]="profileForm.pristine"-->
+      <button type="button" (click)="saveSearch()"
+              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
+        <i class="material-icons">save</i>
+      </button>
+
+      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
+        <i class="material-icons">find_in_page</i>
+      </button>
+    </div>
+
+    <!--Sort profiles by-->
+    <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
+      <mat-form-field class="dropdownmenu">
+        <mat-select [(value)]="selectedOrderBy">
+          <mat-option *ngFor="let option of orderBy" [value]="option.value">{{ option.viewValue }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
     <!--Upper right corner menu-->
-    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+    <button type="button" [matMenuTriggerFor]="menu" class="menu" mat-flat-button color="accent">
       <span class="material-icons" i18n="Menu | Menu @@menu">
         menu
       </span>
     </button>
+  </div>
 
-    <mat-menu #menu="matMenu">
+  <mat-menu #menu="matMenu">
 
-      <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (change)="onChange(language.value)" class="language">
+    <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (change)="onChange(language.value)" class="language">
       <mat-option *ngFor="let lang of languageList" [value]="lang.code">
         {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
       </mat-option>
     </mat-select>
 
-      <a routerLink="/edit" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
-        Edit Profile
-        <i class="material-icons">person</i>
-      </a>
-      <a routerLink="/about" mat-menu-item i18n="AboutUs | AboutPage @@about">
-        About
-        <i class="material-icons">plus_one</i>
-      </a>
+    <a routerLink="/edit" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
+      Edit Profile
+      <i class="material-icons">person</i>
+    </a>
+    <a routerLink="/about" mat-menu-item i18n="AboutUs | AboutPage @@about">
+      About
+      <i class="material-icons">plus_one</i>
+    </a>
+    <button type="button" (click)="loadAbout()" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="AboutUs | AboutPage @@about" matTooltip="AboutUs">
+      About
+      <i class="material-icons">plus_one</i>
+    </button>
 
-      <button id="qsLogoutBtn"
-              class="mat-menu-flat-button"
-              *ngIf="auth.isAuthenticated()"
-              (click)="auth.logout()" type="button"
-              mat-flat-button color="accent">
-        Log Out
-      </button>
-    </mat-menu>
+    <button type="button" (click)="loadEdit()" class="mat-search-flat-button" mat-flat-button color="accent" i18n-matTooltip="AboutUs | AboutPage @@about" matTooltip="AboutUs">
+      Edit Profile
+      <i class="material-icons">person</i>
+    </button>
 
-    <!--chat-component-->
-    <div *ngIf="useChat">
-      <chat-component [currentUser]="currentUserSubject"></chat-component>
-    </div>
+    <button id="qsLogoutBtn"
+            class="mat-menu-flat-button"
+            *ngIf="auth.isAuthenticated()"
+            (click)="auth.logout()" type="button"
+            mat-flat-button color="accent">
+      Log Out
+    </button>
+  </mat-menu>
 
+
+  <!--<router-outlet></router-outlet>-->
+  <div *ngIf="pageView === 'Dashboard'">
+    <dashboard></dashboard>
   </div>
 
-</nav>
-    <router-outlet></router-outlet>
+  <div *ngIf="pageView === 'Search'">
+    <app-profile-search></app-profile-search>
+  </div>
+
+  <div *ngIf="pageView === 'About'">
+    <about></about>
+  </div>
+
+  <div *ngIf="pageView === 'Edit'">
+    <currentUserBoard><edit-profile></edit-profile></currentUserBoard>
+  </div>
+
+  <div *ngIf="pageView === 'Details'">         <!-- Tile and List should call details-page with Profile as input -->
+    <profileDetailsBoard><profile-details></profile-details></profileDetailsBoard>
+  </div>
+
+  <!--chat-component-->
+  <div *ngIf="useChat">
+    <chat-component [currentUser]="currentUserSubject"></chat-component>
+  </div>
+
+
+</div>
+
+<!--</nav>-->

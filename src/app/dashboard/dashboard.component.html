@@ -1,35 +1,5 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <!--<h1 i18n="Profile page title | A title for the Profile page @@profilePageTitle">
-    Profile
-  </h1>-->
-
-  <div style="margin-bottom: 1em">
-
-    <button type="button" (click)="toggleDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-      <i class="material-icons">{{matButtonToggleIcon}}</i>
-    </button>
-
-    <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="All | All @@all" matTooltip="All">
-      All
-    </button>
-
-    <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
-      <i class="material-icons">tune</i>
-    </button>
-
-    <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="accent" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
-      <i class="material-icons">bookmarks</i>
-    </button>
-
-    <mat-form-field>
-      <mat-select [(value)]="selectedOrderBy" panelClass="space-grey">
-        <mat-option *ngFor="let option of orderBy" [value]="option.value">{{ option.viewValue }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-  </div>
-
   <div *ngIf="isTileView"><app-profile-tileview [profiles]="profiles" [showingBookmarkedProfilesList]="showingBookmarkedProfilesList" [orderBy]="selectedOrderBy" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-tileview></div>
   <div *ngIf="!isTileView"><app-profile-listview [profiles]="profiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" [displayedColumns]="displayedColumns" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-listview></div>
 

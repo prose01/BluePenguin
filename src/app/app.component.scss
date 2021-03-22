@@ -1,6 +1,24 @@
+#navbar {
+  background-color: #607d8b; /* Black background color */
+  position: sticky; /* Make it stick/fixed */
+  top: 0; /* Stay on top */
+  left: 0; /* Stay on top */
+  width: 100%; /* Full width */
+  transition: top 0.3s; /* Transition effect when sliding down (and up) */
+  z-index: 2;
+  margin-bottom: 10px;
+}
+
+.menu-buttons {
+  display: inline;
+}
+
 .menu {
+  color: #cfd8dc;
   position: absolute;
-  right: 0;
+  right: 0em;
+  padding: 0px;
+  margin: 10px 0px 0px 0px;
   top: 0;
 }
 

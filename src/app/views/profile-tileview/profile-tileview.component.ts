@@ -76,40 +76,40 @@ export class ProfileTileviewComponent implements OnChanges {
 
   //////
 
-  toggleDisplayOrder() {
-    this.isMatButtonToggled = !this.isMatButtonToggled;
-    this.matButtonToggleIcon = (this.isMatButtonToggled ? 'expand_less' : 'expand_more');
+  //toggleDisplayOrder() {
+  //  this.isMatButtonToggled = !this.isMatButtonToggled;
+  //  this.matButtonToggleIcon = (this.isMatButtonToggled ? 'expand_less' : 'expand_more');
     
-    switch (this.orderBy) {
-      case OrderByType.UpdatedOn: {
-        if (new Date(this.profiles[0].updatedOn) < new Date(this.profiles[this.profiles.length - 1].updatedOn)) {
-          this.profiles.sort((a, b) => (new Date(a.updatedOn) < new Date(b.updatedOn)) ? 1 : -1);
-        }
-        else {
-          this.profiles.sort((a, b) => (new Date(a.updatedOn) > new Date(b.updatedOn)) ? 1 : -1);
-        }
-        break;
-      }
-      case OrderByType.LastActive: {
-        if (new Date(this.profiles[0].lastActive) < new Date(this.profiles[this.profiles.length - 1].lastActive)) {
-          this.profiles.sort((a, b) => (new Date(a.lastActive) < new Date(b.lastActive)) ? 1 : -1);
-        }
-        else {
-          this.profiles.sort((a, b) => (new Date(a.lastActive) > new Date(b.lastActive)) ? 1 : -1);
-        }
-        break;
-      }
-      default: {
-        if (new Date(this.profiles[0].createdOn) < new Date(this.profiles[this.profiles.length - 1].createdOn)) {
-          this.profiles.sort((a, b) => (new Date(a.createdOn) < new Date(b.createdOn)) ? 1 : -1);
-        }
-        else {
-          this.profiles.sort((a, b) => (new Date(a.createdOn) > new Date(b.createdOn)) ? 1 : -1);
-        }
-        break;
-      }
-    }
-  }
+  //  switch (this.orderBy) {
+  //    case OrderByType.UpdatedOn: {
+  //      if (new Date(this.profiles[0].updatedOn) < new Date(this.profiles[this.profiles.length - 1].updatedOn)) {
+  //        this.profiles.sort((a, b) => (new Date(a.updatedOn) < new Date(b.updatedOn)) ? 1 : -1);
+  //      }
+  //      else {
+  //        this.profiles.sort((a, b) => (new Date(a.updatedOn) > new Date(b.updatedOn)) ? 1 : -1);
+  //      }
+  //      break;
+  //    }
+  //    case OrderByType.LastActive: {
+  //      if (new Date(this.profiles[0].lastActive) < new Date(this.profiles[this.profiles.length - 1].lastActive)) {
+  //        this.profiles.sort((a, b) => (new Date(a.lastActive) < new Date(b.lastActive)) ? 1 : -1);
+  //      }
+  //      else {
+  //        this.profiles.sort((a, b) => (new Date(a.lastActive) > new Date(b.lastActive)) ? 1 : -1);
+  //      }
+  //      break;
+  //    }
+  //    default: {
+  //      if (new Date(this.profiles[0].createdOn) < new Date(this.profiles[this.profiles.length - 1].createdOn)) {
+  //        this.profiles.sort((a, b) => (new Date(a.createdOn) < new Date(b.createdOn)) ? 1 : -1);
+  //      }
+  //      else {
+  //        this.profiles.sort((a, b) => (new Date(a.createdOn) > new Date(b.createdOn)) ? 1 : -1);
+  //      }
+  //      break;
+  //    }
+  //  }
+  //}
 
   // Get Bookmarked Profiles.
   triggerBookmarkedProfiles() {

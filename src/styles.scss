@@ -3,7 +3,16 @@ h1 {
   font-size: 1.2em;
 }
 
-h2, h3 {
+h2 {
+  color: #ffffff;
+  display: inline;
+  padding: 16px;
+  font-weight: lighter;
+  font-size: 2em;
+}
+
+h3 {
+  color: #607D8B;
   font-weight: lighter;
   font-size: 2em;
 }
@@ -28,7 +37,7 @@ body {
 }
 
 /* Navigation link styles */
-nav a {
+/*nav a {
   padding: 5px 10px;
   text-decoration: none;
   margin-right: 10px;
@@ -50,7 +59,7 @@ nav a:hover {
 
 nav a.active {
   color: #e0e0e0;
-}
+}*/
 
 
 /* columns / TileView */
@@ -127,6 +136,12 @@ tr.element-row:not(.expanded-row):hover {
   margin-left: 10px;
 }
 */
+
+.dropdownmenu {
+  background: #cfd8dc;
+  margin-left: 10px;
+}
+
 .space-grey.mat-select-panel {
   /*background: red;*/
   margin-right: 10px;
