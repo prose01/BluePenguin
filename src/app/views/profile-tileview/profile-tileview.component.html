@@ -1,8 +1,8 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <!--<button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" class="sortOrder" i18n-matTooltip="Flip sort order | Flip sort order @@flipSortOrder" matTooltip="Flip sort order">
-    <i class="material-icons">{{matButtonToggleIcon}}</i>
-  </button>-->
+  <!--<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>-->
 
   <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list"
       infinite-scroll
@@ -11,8 +11,7 @@
       [infiniteScrollThrottle]="throttle"
       [scrollWindow]="true"
       (scrolled)="onScrollDown()"
-      (scrolledUp)="onScrollUp()"
-      >
+      (scrolledUp)="onScrollUp()">
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
       <a routerLink="/details/{{profile.profileId}}">
@@ -25,10 +24,10 @@
           <span class="mdc-image-list__label">{{profile.name}}</span>
         </div>
         <div class="button">
-          <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+          <button mat-icon-button *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
             <i class="material-icons">bookmark_border</i>
           </button>
-          <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+          <button mat-icon-button *ngIf="viewFilterType !== 'BookmarkedProfiles'" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
             <i class="material-icons">bookmark</i>
           </button>
         </div>

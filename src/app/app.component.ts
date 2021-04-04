@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     this.dashboardComponent.toggleDisplay();
   }
 
-  // DashboardComponent
+  // Calls to DashboardComponent
   getLatestProfiles() {
     this.dashboardComponent.getLatestProfiles();
   }
@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // ProfileSearchComponent
+  // Calls to ProfileSearchComponent
   onSubmit() {
     this.profileSearchComponent.onSubmit();
   }
@@ -122,21 +122,21 @@ export class AppComponent implements OnInit {
     this.profileSearchComponent.loadSearch();
   }
 
-  // About
+  // Load About page
   loadAbout() {
     this.pageView = pageViewEnum.About;
     this.matButtonToggleText = 'Dashboard';
     this.matButtonToggleIcon = 'dashboard';
   }
 
-  // Edit
+  // Load Edit page
   loadEdit() {
     this.pageView = pageViewEnum.Edit;
     this.matButtonToggleText = 'Dashboard';
     this.matButtonToggleIcon = 'dashboard';
   }
 
-  // Edit
+  // Load Detalails page  // TODO: Tile and list view need to call this.
   loadDetails() {
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = 'Dashboard';

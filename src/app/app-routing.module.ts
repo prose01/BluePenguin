@@ -11,7 +11,7 @@ import { AboutComponent } from './about/about.component';
 import { CurrentUserBoardComponent } from './currentUser/currentUser-board/currentUser-board.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },    // Todo: a lot of these can be removed.
   { path: 'callback', component: CallbackComponent },
   { path: 'create', component: CreateProfileComponent },
   { path: 'edit', component: CurrentUserBoardComponent },

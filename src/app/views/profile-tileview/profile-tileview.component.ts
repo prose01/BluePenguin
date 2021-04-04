@@ -6,6 +6,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { OrderByType } from '../../models/enums';
+import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 
 
 @Component({
@@ -18,23 +19,21 @@ import { OrderByType } from '../../models/enums';
 export class ProfileTileviewComponent implements OnChanges {
 
   selectedProfile: Profile;
-  isMatButtonToggled = true;
-  matButtonToggleIcon: string = 'expand_less';
-  defaultImage = '../assets/default-person-icon.jpg';
-
-  ///////
-
-  //sum = 40;
+  pageIndex: number;
+  pageSize: number = 20;
+  loading: boolean = true;
+  //isMatButtonToggled = true;
+  //matButtonToggleIcon: string = 'expand_less';
   throttle = 1;
   scrollDistance = 2;
   scrollUpDistance = 3;
-  //direction = '';
-
-  ///////
+  defaultImage = '../assets/default-person-icon.jpg';
 
   @Input() profiles: Profile[];
-  @Input() showingBookmarkedProfilesList: boolean;
+  //@Input() showingBookmarkedProfilesList: boolean;    // Todo: Remove showingBookmarkedProfilesList
+  @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
+  @Output() getNextTileData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
@@ -47,34 +46,20 @@ export class ProfileTileviewComponent implements OnChanges {
     });
   }
 
-  //////
-
-  //addItems(startIndex, endIndex, _method) {
-  //  //for (let i = 0; i < this.sum; ++i) {
-  //  //  this.data[_method]([i, ' ', this.generateName()].join(''));
-  //  console.log('method ' + _method);
-  //  //}
-  //}
-
-  //appendItems(startIndex, endIndex) {
-  //  this.addItems(startIndex, endIndex, 'push');
-  //}
-
-  //prependItems(startIndex, endIndex) {
-  //  this.addItems(startIndex, endIndex, 'unshift');
-  //}
-
   onScrollDown() {
     console.log('scrolled down!!');
-    this.profiles = this.profiles.concat(this.profiles);
-    console.log('length' + this.profiles.length);
+
+    let pageIndex = 2; // TODO: auto count up ++
+    let currentSize = this.pageSize * pageIndex;
+
+    this.getNextTileData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
   }
 
   onScrollUp() {
     console.log('scrolled up!!');
-  }
 
-  //////
+    //this.getPreviousData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
+  }
 
   //toggleDisplayOrder() {
   //  this.isMatButtonToggled = !this.isMatButtonToggled;
@@ -116,9 +101,8 @@ export class ProfileTileviewComponent implements OnChanges {
     this.getBookmarkedProfiles.emit();
   }
 
-
   /** Add or remove bookmarks */
-  removeFavoritProfiles(profileId: string) {
+  removeFavoritProfiles(profileId: string) {          // Todo: Update to be similar to ListView
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 

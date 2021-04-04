@@ -33,7 +33,7 @@ export class ProfileListviewComponent implements OnInit, OnChanges {
   datasource: null;
   pageIndex: number;
   pageSize: number;
-  length: number;
+  //length: number;
   loading: boolean = true;
 
   dataSource: MatTableDataSource<Profile>;

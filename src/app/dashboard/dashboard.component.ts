@@ -26,9 +26,11 @@ export class DashboardComponent implements OnInit {
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
 
-  profiles: Profile[];
+  previousProfiles: Profile[];
+  currentProfiles: Profile[];
+  nextProfiles: Profile[];
   viewFilterType: ViewFilterTypeEnum;
-  displayedColumns: string[] = ['select', 'name', 'lastActive']; // Add columns after user's choise or just default?
+  displayedColumns: string[] = ['select', 'name', 'lastActive']; // TODO: Add columns after user's choise or just default?
   showingBookmarkedProfilesList: boolean;
 
   orderBy: any[] = [
@@ -43,7 +45,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { this.getLatestProfiles(); }
+        if (currentUser) {
+          this.getLatestProfiles();
+          this.getLatestProfilesNext(20, '1', '20');
+        }
       });
     }
   }
@@ -76,6 +81,37 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getNextTileData(event) {
+    //this.previousProfiles = this.currentProfiles.length > event.pageSize ? this.currentProfiles.splice(0, event.pageSize) : this.currentProfiles; // TODO: Try to set array index to 0?
+    this.currentProfiles = this.currentProfiles.concat(this.nextProfiles); // TODO: Wrong! This just adds a lot of profiles to array without removing any!!!
+
+    //this.previousProfiles = [...this.currentProfiles]; // TODO: This alternative makes page jumpy and array index cannot be reset to 0 so we end up at buttom.
+    //this.currentProfiles = [...this.nextProfiles]; 
+
+    switch (event.viewFilterType) {
+      case ViewFilterTypeEnum.LatestProfiles: {
+        this.getLatestProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      case ViewFilterTypeEnum.FilterProfiles: {
+        this.getProfileByCurrentUsersFilterNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      case ViewFilterTypeEnum.BookmarkedProfiles: {
+        this.getBookmarkedProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      default: {
+        this.getLatestProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+    }
+  }
+
+  getPreviousTileData(event) {
+    // TODO: Need to do the this.previousProfiles part if user scrolls back.
+  }
+
   // Get latest Profiles.
   getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
     this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
@@ -83,19 +119,38 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         (response: any) => {
 
-          this.profiles = new Array;
+          this.currentProfiles = new Array;
 
-          this.profiles.length = currentSize;
+          this.currentProfiles.length = currentSize;
           
-          this.profiles.push(...response);
+          this.currentProfiles.push(...response);
 
-          this.profiles.length = this.profiles.length + 1;
+          this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
       );
     this.showingBookmarkedProfilesList = false;
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
+  }
+
+  getLatestProfilesNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
+    this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.nextProfiles = new Array;
+
+          this.nextProfiles.length = currentSize;
+
+          this.nextProfiles.push(...response);
+
+          this.nextProfiles.length = this.nextProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+      );
   }
 
   // Get Filtered Profiles.
@@ -105,19 +160,38 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         (response: any) => {
 
-          this.profiles = new Array;
+          this.currentProfiles = new Array;
 
-          this.profiles.length = currentSize;
+          this.currentProfiles.length = currentSize;
 
-          this.profiles.push(...response);
+          this.currentProfiles.push(...response);
 
-          this.profiles.length = this.profiles.length + 1;
+          this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
       );
     this.showingBookmarkedProfilesList = false;
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
+  }
+
+  getProfileByCurrentUsersFilterNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.nextProfiles = new Array;
+
+          this.nextProfiles.length = currentSize;
+
+          this.nextProfiles.push(...response);
+
+          this.nextProfiles.length = this.nextProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+      );
   }
 
   // Get Bookmarked Profiles.
@@ -127,27 +201,48 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         (response: any) => {
 
-          this.profiles = new Array;
+          this.currentProfiles = new Array;
 
-          this.profiles.length = currentSize;
+          this.currentProfiles.length = currentSize;
 
-          this.profiles.push(...response);
+          this.currentProfiles.push(...response);
 
-          this.profiles.length = this.profiles.length + 1;
+          this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages().then(() => { this.getProfileImages() }) }
+        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
       );
     this.showingBookmarkedProfilesList = true;
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }
 
-  imageNumber: number; // TODO: Find på noget bedre!
+  getBookmarkedProfilesNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getBookmarkedProfiles(pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
 
-  getSmallProfileImages(): Promise<void> {
+          this.nextProfiles = new Array;
+
+          this.nextProfiles.length = currentSize;
+
+          this.nextProfiles.push(...response);
+
+          this.nextProfiles.length = this.nextProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+      );
+  }
+
+  // Get Profile Images.
+
+  imageNumber: number = 0;
+
+  getSmallProfileImages(profiles: Profile[]): Promise<void> {
     let defaultImageModel: ImageModel = new ImageModel();
 
-    this.profiles?.forEach((element, i) => {
+    profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
@@ -165,10 +260,10 @@ export class DashboardComponent implements OnInit {
     return Promise.resolve();
   }
 
-  getProfileImages(): void {
+  getProfileImages(profiles: Profile[]): void {
     let defaultImageModel: ImageModel = new ImageModel();
 
-    this.profiles?.forEach((element, i) => {
+    profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
         // Take a random image from profile.
         //let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
