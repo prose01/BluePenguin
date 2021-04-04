@@ -33,12 +33,12 @@ export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'lastActive']; // TODO: Add columns after user's choise or just default?
   showingBookmarkedProfilesList: boolean;
 
-  orderBy: any[] = [
-    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
-    { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
-    { value: OrderByType.LastActive, viewValue: 'LastActive' }
-  ];
-  selectedOrderBy = this.orderBy[0].value;
+  //orderBy: any[] = [
+  //  { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
+  //  { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
+  //  { value: OrderByType.LastActive, viewValue: 'LastActive' }
+  //];
+  //selectedOrderBy = this.orderBy[0].value;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
 
@@ -46,8 +46,8 @@ export class DashboardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
-          this.getLatestProfiles();
-          this.getLatestProfilesNext(20, '1', '20');
+          this.getLatestProfiles(OrderByType.CreatedOn);
+          this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '1', '20');
         }
       });
     }
@@ -113,8 +113,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get latest Profiles.
-  getLatestProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
-    this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
+  getLatestProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
+    this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -134,8 +134,8 @@ export class DashboardComponent implements OnInit {
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
   }
 
-  getLatestProfilesNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
-    this.profileService.getLatestProfiles(this.selectedOrderBy, pageIndex, pageSize)
+  getLatestProfilesNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
+    this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -154,8 +154,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Filtered Profiles.
-  getProfileByCurrentUsersFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, pageIndex, pageSize)
+  getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -175,8 +175,8 @@ export class DashboardComponent implements OnInit {
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }
 
-  getProfileByCurrentUsersFilterNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByCurrentUsersFilter(this.selectedOrderBy, pageIndex, pageSize)
+  getProfileByCurrentUsersFilterNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Bookmarked Profiles.
-  getBookmarkedProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  getBookmarkedProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {     // TODO: Add OrderByType to bookmarks also. Remeber Avalon
     this.profileService.getBookmarkedProfiles(pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(

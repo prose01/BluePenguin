@@ -33,12 +33,16 @@ export class AppComponent implements OnInit {
 
   isAbout = false;
 
-  orderBy: any[] = [
-    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
-    { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
-    { value: OrderByType.LastActive, viewValue: 'LastActive' }
-  ];
-  selectedOrderBy = this.orderBy[0].value;
+  //orderBy: any[] = [
+  //  { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
+  //  { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
+  //  { value: OrderByType.LastActive, viewValue: 'LastActive' }
+  //];
+  selectedOrderBy = OrderByType.CreatedOn;
+
+  matButtonOrderByText: string = 'CreatedOn';
+  matButtonOrderByIcon: string = 'schedule';
+  orderByButtonCounter: number = 0;
 
   siteLanguage: string
   siteLocale: string
@@ -86,13 +90,40 @@ export class AppComponent implements OnInit {
     this.dashboardComponent.toggleDisplay();
   }
 
+  toggleOrderBy() {
+    switch (this.orderByButtonCounter) {
+      case 0: {
+        this.matButtonOrderByText = 'UpdatedOn';
+        this.matButtonOrderByIcon = 'update';
+        this.selectedOrderBy = OrderByType.UpdatedOn;
+        this.orderByButtonCounter++;
+        break;
+      }
+      case 1: {
+        this.matButtonOrderByText = 'LastActive';
+        this.matButtonOrderByIcon = 'watch_later';
+        this.selectedOrderBy = OrderByType.LastActive;
+        this.orderByButtonCounter++;
+        break;
+      }
+      case 2: {
+        this.matButtonOrderByText = 'CreatedOn';
+        this.matButtonOrderByIcon = 'schedule';
+        this.selectedOrderBy = OrderByType.CreatedOn;
+        this.orderByButtonCounter = 0;
+        break;
+      }
+    }
+
+  }
+
   // Calls to DashboardComponent
   getLatestProfiles() {
-    this.dashboardComponent.getLatestProfiles();
+    this.dashboardComponent.getLatestProfiles(this.selectedOrderBy);
   }
 
   getProfileByCurrentUsersFilter() {
-    this.dashboardComponent.getProfileByCurrentUsersFilter();
+    this.dashboardComponent.getProfileByCurrentUsersFilter(this.selectedOrderBy);
   }
 
   getBookmarkedProfiles() {

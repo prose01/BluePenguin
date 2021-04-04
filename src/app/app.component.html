@@ -68,13 +68,17 @@
     </div>
 
     <!--Sort profiles by-->
-    <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
+    <!--<div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
       <mat-form-field class="dropdownmenu">
         <mat-select [(value)]="selectedOrderBy">
           <mat-option *ngFor="let option of orderBy" [value]="option.value">{{ option.viewValue }}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div>-->
+
+    <button type="button" (click)="toggleOrderBy()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonOrderByText}}>
+      <i class="material-icons">{{matButtonOrderByIcon}}</i>
+    </button>
 
     <!--Upper right corner menu-->
     <button type="button" [matMenuTriggerFor]="menu" class="menu" mat-flat-button color="accent">
