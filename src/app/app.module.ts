@@ -21,6 +21,7 @@ import { MatButtonModule }                    from '@angular/material/button';
 import { MatTooltipModule }                   from '@angular/material/tooltip';
 import { MatSliderModule }                    from '@angular/material/slider';
 import { MatMenuModule }                      from '@angular/material/menu';
+import { MatSidenavModule }                     from '@angular/material/sidenav';
 import { MatChipsModule }                     from '@angular/material/chips';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
@@ -113,6 +114,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     MatTooltipModule,
     MatSliderModule,
     MatMenuModule,
+    MatSidenavModule,
     MatChipsModule,
     LazyLoadImageModule,
     InfiniteScrollModule,

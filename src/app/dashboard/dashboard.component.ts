@@ -283,7 +283,7 @@ export class DashboardComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  toggleDisplay() {
+  toggleViewDisplay() {
     this.isTileView = !this.isTileView;
     this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
     this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');

@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from './authorisation/auth/auth.service';
@@ -13,7 +14,7 @@ import { ProfileService } from './services/profile.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
@@ -51,9 +52,17 @@ export class AppComponent implements OnInit {
     { code: 'da', label: 'Danish', alpha2: 'dk' }
   ]
 
-  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService) {
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+
+  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit() {
@@ -72,6 +81,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
   onChange(selectedLangCode: string) {
     window.location.href = `/${selectedLangCode}`
     console.log(selectedLangCode); // Does not seem to work
@@ -87,7 +100,7 @@ export class AppComponent implements OnInit {
     this.isTileView = !this.isTileView;
     this.matButtonViewToggleText = (this.isTileView ? 'ListView' : 'TileView');
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
-    this.dashboardComponent.toggleDisplay();
+    this.dashboardComponent.toggleViewDisplay();
   }
 
   toggleOrderBy() {
