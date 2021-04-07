@@ -22,15 +22,13 @@ export class ProfileTileviewComponent implements OnChanges {
   pageIndex: number;
   pageSize: number = 20;
   loading: boolean = true;
-  //isMatButtonToggled = true;
-  //matButtonToggleIcon: string = 'expand_less';
   throttle = 1;
   scrollDistance = 2;
   scrollUpDistance = 3;
   defaultImage = '../assets/default-person-icon.jpg';
+  noProfiles: boolean = false;
 
   @Input() profiles: Profile[];
-  //@Input() showingBookmarkedProfilesList: boolean;    // Todo: Remove showingBookmarkedProfilesList
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
   @Output() getNextTileData: EventEmitter<any> = new EventEmitter();
@@ -44,6 +42,8 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
+
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
   onScrollDown() {

@@ -4,6 +4,12 @@
     <mat-spinner></mat-spinner>
   </div>-->
 
+  <div *ngIf="noProfiles" class="noResults">
+    <p i18n="NoResultsText | No results text @@noResultsText">
+      Sorry no results :(
+    </p>
+  </div>
+
   <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list"
       infinite-scroll
       [infiniteScrollDistance]="scrollDistance"
