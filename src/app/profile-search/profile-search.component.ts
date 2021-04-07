@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -6,13 +6,10 @@ import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
-import { ImageService } from '../services/image.service';
 import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
-import { ImageModel } from '../models/imageModel';
-import { ImageSizeEnum } from '../models/imageSizeEnum';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import {
   GenderType,
@@ -29,8 +26,7 @@ import {
   EatingHabitsType,
   ClotheStyleType,
   BodyArtType,
-  SexualOrientationType,
-  OrderByType
+  SexualOrientationType
 } from '../models/enums';
 
 @Component({
@@ -68,26 +64,14 @@ export class ProfileSearchComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   currentProfileFilterSubject: ProfileFilter;
-  currentSearchResultProfilesSubject: Profile[];
   showGenderChoise: boolean;
   tagsPlaceholder: string = "Tags";
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
-  orderBy: any[] = [
-    { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
-    { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
-    { value: OrderByType.LastActive, viewValue: 'LastActive' }
-  ];
-  selectedOrderBy = this.orderBy[0].value;
+  @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
-
-  toggleDisplay() {
-    this.isTileView = !this.isTileView;
-    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
-    this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
-  }
+  constructor(public auth: AuthService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -122,17 +106,8 @@ export class ProfileSearchComponent implements OnInit {
           // Get and load previous ProfileFilter.
           this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
             if (currentProfileFilterSubject) {
-              this.filter = currentProfileFilterSubject;
-              this.loadForm();
+              this.loadForm(currentProfileFilterSubject);
               this.profileForm.markAsDirty();
-            }
-          });
-
-          // Get previous SearchResultProfiles.
-          this.behaviorSubjectService.currentSearchResultProfilesSubject.subscribe(currentSearchResultProfilesSubject => {
-            if (currentSearchResultProfilesSubject) {
-              this.searchResultProfiles = currentSearchResultProfilesSubject;
-              this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
             }
           });
         }
@@ -144,104 +119,36 @@ export class ProfileSearchComponent implements OnInit {
     this.showGenderChoise = (sexualOrientationType == SexualOrientationType.Heterosexual || sexualOrientationType == SexualOrientationType.Homosexual) ? false : true;
   }
 
-  loadForm() {
+  loadForm(filter: ProfileFilter) {
     this.profileForm.reset({
-      name: this.filter.name,
-      age: this.filter.age,
-      height: this.filter.height,
-      description: this.filter.description,
-      tags: this.filter.tags,
-      gender: this.filter.gender,
-      body: this.filter.body,
-      smokingHabits: this.filter.smokingHabits,
-      hasChildren: this.filter.hasChildren,
-      wantChildren: this.filter.wantChildren,
-      hasPets: this.filter.hasPets,
-      livesIn: this.filter.livesIn,
-      education: this.filter.education,
-      educationStatus: this.filter.educationStatus,
-      employmentStatus: this.filter.employmentStatus,
-      sportsActivity: this.filter.sportsActivity,
-      eatingHabits: this.filter.eatingHabits,
-      clotheStyle: this.filter.clotheStyle,
-      bodyArt: this.filter.bodyArt
+      name: filter.name,
+      age: filter.age[1],
+      height: filter.height[1],
+      description: filter.description,
+      tags: filter.tags,
+      gender: filter.gender,
+      body: filter.body,
+      smokingHabits: filter.smokingHabits,
+      hasChildren: filter.hasChildren,
+      wantChildren: filter.wantChildren,
+      hasPets: filter.hasPets,
+      livesIn: filter.livesIn,
+      education: filter.education,
+      educationStatus: filter.educationStatus,
+      employmentStatus: filter.employmentStatus,
+      sportsActivity: filter.sportsActivity,
+      eatingHabits: filter.eatingHabits,
+      clotheStyle: filter.clotheStyle,
+      bodyArt: filter.bodyArt
     });
 
-    this.tagsList.push.apply(this.tagsList, this.filter.tags);
+    this.tagsList.push.apply(this.tagsList, filter.tags);
   }
 
   onSubmit() {
-    this.filter = this.prepareSearch(); 
-    this.getProfileByFilter();
-  }
-
-  // Get Profiles by searchfilter. 
-  getProfileByFilter(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByFilter(this.filter, this.selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.searchResultProfiles = new Array;
-
-          this.searchResultProfiles.length = currentSize;
-
-          this.searchResultProfiles.push(...response);
-
-          this.searchResultProfiles.length = this.searchResultProfiles.length + 1;
-        }
-        , () => { }
-        , () => {
-          this.behaviorSubjectService.updateCurrentSearchResultProfilesSubject(this.searchResultProfiles);
-          this.getSmallProfileImages().then(() => { this.getProfileImages() });
-        }
-    );
-
-    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-  }
-
-  getSmallProfileImages(): Promise<void> {
-    let defaultImageModel: ImageModel = new ImageModel();
-
-    this.searchResultProfiles?.forEach((element, i) => {
-      if (element.images != null && element.images.length > 0) {
-        // Take a random image from profile.
-        let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-        //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.small)
-          .pipe(takeWhileAlive(this))
-          .subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
-      }
-      else {
-        // Set default profile image.
-        element.images.push(defaultImageModel);
-      }
-    });
-
-    return Promise.resolve();
-  }
-
-  getProfileImages(): void {
-    let defaultImageModel: ImageModel = new ImageModel();
-
-    this.searchResultProfiles?.forEach((element, i) => {
-      if (element.images != null && element.images.length > 0) {
-        // Take a random image from profile.
-        let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-        //Just insert it into the first[0] element as we will only show one image.
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[imageNumber].fileName, ImageSizeEnum.large)
-          .pipe(takeWhileAlive(this))
-          .subscribe(images => element.images[0].image = 'data:image/jpg;base64,' + images.toString());
-      }
-      else {
-        // Set default profile image.
-        element.images.push(defaultImageModel);
-      }
-    });
-  }
-
-  randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    this.filter = this.prepareSearch();
+    this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
+    this.getProfileByFilter.emit(this.filter);
   }
 
   revert() {
@@ -291,15 +198,11 @@ export class ProfileSearchComponent implements OnInit {
   loadSearch() {
     this.profileService.loadProfileFilter()
       .pipe(takeWhileAlive(this))
-      .subscribe(filter => this.filter = filter, () => { }, () => { });
+      .subscribe(filter => { this.loadForm(filter); console.log(filter); }, () => { }, () => { });
 
-    setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
+    //setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
 
     this.profileForm.markAsDirty();
-  }
-
-  getNextData(event) {
-    this.getProfileByFilter(event.currentSize, event.pageIndex, event.pageSize);
   }
 
 

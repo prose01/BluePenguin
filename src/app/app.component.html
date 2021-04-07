@@ -19,12 +19,12 @@
     <h2>{{title}}</h2>
 
     <!--Navigation buttons-->
-    <button type="button" (click)="snav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
+    <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
       <i class="material-icons">{{matButtonToggleIcon}}</i>
     </button>
 
     <!--ViewToggle button-->
-    <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
+    <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
       <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
         <i class="material-icons">{{matButtonViewToggleIcon}}</i>
       </button>
@@ -114,9 +114,9 @@
 
   <mat-sidenav-container class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 220 : 0">
-    <mat-sidenav #snav [fixedInViewport]="mobileQuery.matches" fixedTopGap="220">
+    <mat-sidenav #sidenav [fixedInViewport]="mobileQuery.matches" fixedTopGap="220">
       <div *ngIf="pageView === 'Search'">
-        <app-profile-search></app-profile-search>
+        <app-profile-search (getProfileByFilter)="getProfileByFilter($event)"></app-profile-search>
       </div>
     </mat-sidenav>
 

@@ -150,9 +150,4 @@
 
   </form>
 
-  <div *ngIf="searchResultProfiles">
-    <div *ngIf="isTileView"><app-profile-tileview [profiles]="searchResultProfiles" [orderBy]="selectedOrderBy" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-tileview></div>
-    <div *ngIf="!isTileView"><app-profile-listview [profiles]="searchResultProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" [displayedColumns]="displayedColumns" (getBookmarkedProfiles)="getBookmarkedProfiles()"></app-profile-listview></div>
-  </div>
-
 </div>

@@ -10,6 +10,8 @@ import { OrderByType } from '../models/enums';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
+import { ProfileFilter } from '../models/profileFilter';
+import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 
 @Component({
   selector: 'dashboard',
@@ -29,18 +31,12 @@ export class DashboardComponent implements OnInit {
   previousProfiles: Profile[];
   currentProfiles: Profile[];
   nextProfiles: Profile[];
+  filter: ProfileFilter = new ProfileFilter();
   viewFilterType: ViewFilterTypeEnum;
   displayedColumns: string[] = ['select', 'name', 'lastActive']; // TODO: Add columns after user's choise or just default?
-  showingBookmarkedProfilesList: boolean;
 
-  //orderBy: any[] = [
-  //  { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
-  //  { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
-  //  { value: OrderByType.LastActive, viewValue: 'LastActive' }
-  //];
-  //selectedOrderBy = this.orderBy[0].value;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService) { }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -48,6 +44,11 @@ export class DashboardComponent implements OnInit {
         if (currentUser) {
           this.getLatestProfiles(OrderByType.CreatedOn);
           this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '1', '20');
+
+          // Get and load previous ProfileFilter.
+          this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+            this.filter = currentProfileFilterSubject;
+          });
         }
       });
     }
@@ -72,6 +73,10 @@ export class DashboardComponent implements OnInit {
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
         this.getBookmarkedProfiles(event.currentSize, event.pageIndex, event.pageSize);        
+        break;
+      }
+      case ViewFilterTypeEnum.ProfilesSearch: {
+        this.getProfileByFilter(this.filter, OrderByType.CreatedOn, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       default: {
@@ -99,6 +104,10 @@ export class DashboardComponent implements OnInit {
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
         this.getBookmarkedProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      case ViewFilterTypeEnum.ProfilesSearch: {
+        this.getProfileByFilterNext(this.filter, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       default: {
@@ -129,8 +138,8 @@ export class DashboardComponent implements OnInit {
         }
         , () => { }
         , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
-      );
-    this.showingBookmarkedProfilesList = false;
+    );
+
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
   }
 
@@ -170,8 +179,8 @@ export class DashboardComponent implements OnInit {
         }
         , () => { }
         , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
-      );
-    this.showingBookmarkedProfilesList = false;
+    );
+
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
   }
 
@@ -211,8 +220,8 @@ export class DashboardComponent implements OnInit {
         }
         , () => { }
         , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
-      );
-    this.showingBookmarkedProfilesList = true;
+    );
+
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }
 
@@ -232,6 +241,50 @@ export class DashboardComponent implements OnInit {
         }
         , () => { }
         , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+      );
+  }
+
+  // Get Profiles by searchfilter. 
+  getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.currentProfiles = new Array;
+
+          this.currentProfiles.length = currentSize;
+
+          this.currentProfiles.push(...response);
+
+          this.currentProfiles.length = this.currentProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) });
+        }
+      );
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
+  }
+
+  getProfileByFilterNext(filter: ProfileFilter, selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.nextProfiles = new Array;
+
+          this.nextProfiles.length = currentSize;
+
+          this.nextProfiles.push(...response);
+
+          this.nextProfiles.length = this.nextProfiles.length + 1;
+        }
+        , () => { }
+        , () => {
+          this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) });
+        }
       );
   }
 
@@ -265,9 +318,6 @@ export class DashboardComponent implements OnInit {
 
     profiles?.forEach((element, i) => {
       if (element.images != null && element.images.length > 0) {
-        // Take a random image from profile.
-        //let imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-        //Just insert it into the first[0] element as we will only show one image.
         this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
           .pipe(takeWhileAlive(this))
           .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());

@@ -1,11 +1,14 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 import { AuthService } from './authorisation/auth/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CurrentUser } from './models/currentUser';
 import { OrderByType } from './models/enums';
+import { Profile } from './models/profile';
+import { ProfileFilter } from './models/profileFilter';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileService } from './services/profile.service';
 
@@ -16,6 +19,7 @@ import { ProfileService } from './services/profile.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
 
@@ -143,6 +147,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dashboardComponent.getBookmarkedProfiles();
   }
 
+  getProfileByFilter($event) {
+    var filter: ProfileFilter = $event;
+    this.dashboardComponent.getProfileByFilter(filter, this.selectedOrderBy);
+    this.toggleDisplay();
+  }
+
   resetSelectionPagination() {
     if (!this.isTileView) {
       this.dashboardComponent.resetSelectionPagination();
@@ -152,6 +162,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // Calls to ProfileSearchComponent
   onSubmit() {
     this.profileSearchComponent.onSubmit();
+    this.sidenav.toggle();
   }
 
   revert() {
