@@ -20,9 +20,7 @@
       (scrolledUp)="onScrollUp()">
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
-      <a routerLink="/details/{{profile.profileId}}">
-        <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].image">
-      </a>
+      <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].image" (click)="loadDetails(profile.profileId)">
 
       <div class="overlay">
         <!--<div class="mdc-image-list--with-text-protection">-->

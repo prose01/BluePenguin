@@ -38,16 +38,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isAbout = false;
 
-  //orderBy: any[] = [
-  //  { value: OrderByType.CreatedOn, viewValue: 'CreatedOn' },   //most recent
-  //  { value: OrderByType.UpdatedOn, viewValue: 'UpdatedOn' },
-  //  { value: OrderByType.LastActive, viewValue: 'LastActive' }
-  //];
   selectedOrderBy = OrderByType.CreatedOn;
 
   matButtonOrderByText: string = 'CreatedOn';
   matButtonOrderByIcon: string = 'schedule';
   orderByButtonCounter: number = 0;
+
+  profileIdForDetails: string;
 
   siteLanguage: string
   siteLocale: string
@@ -95,7 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplay() {
-    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About) {
+    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Details) {
       console.log('from edit');
       this.pageView = pageViewEnum.Dashboard;
       this.matButtonToggleText = 'Search';
@@ -201,8 +198,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matButtonToggleIcon = 'dashboard';
   }
 
-  // Load Detalails page  // TODO: Tile and list view need to call this.
-  loadDetails() {
+  // Load Details page
+  loadDetails(profileId: string) {
+    this.profileIdForDetails = profileId;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = 'Dashboard';
     this.matButtonToggleIcon = 'dashboard';

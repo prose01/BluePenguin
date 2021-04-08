@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { AuthService } from './../authorisation/auth/auth.service';
@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
   viewFilterType: ViewFilterTypeEnum;
   displayedColumns: string[] = ['select', 'name', 'lastActive']; // TODO: Add columns after user's choise or just default?
 
+  @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService) { }
 
@@ -341,5 +342,9 @@ export class DashboardComponent implements OnInit {
 
   resetSelectionPagination() {
     this.listviewComponent.resetSelectionPagination();
+  }
+
+  loadProfileDetails(profileId: string) {
+    this.loadDetails.emit(profileId);
   }
 }

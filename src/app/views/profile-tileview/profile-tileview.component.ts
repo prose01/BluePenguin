@@ -31,8 +31,9 @@ export class ProfileTileviewComponent implements OnChanges {
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
-  @Output() getNextTileData: EventEmitter<any> = new EventEmitter();
+  @Output("getNextTileData") getNextTileData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService) { }
 
@@ -96,13 +97,18 @@ export class ProfileTileviewComponent implements OnChanges {
   //  }
   //}
 
+  // Load Detalails page  // TODO: Tile and list view need to call this.
+  loadDetails(profileId: string) {
+    this.loadProfileDetails.emit(profileId);
+  }
+
   // Get Bookmarked Profiles.
   triggerBookmarkedProfiles() {
     this.getBookmarkedProfiles.emit();
   }
 
   /** Add or remove bookmarks */
-  removeFavoritProfiles(profileId: string) {          // Todo: Update to be similar to ListView
+  removeFavoritProfiles(profileId: string) {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
