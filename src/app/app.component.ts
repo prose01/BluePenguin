@@ -95,9 +95,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplay() {
-    this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard); 
-    this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? 'Search' : 'Dashboard');
-    this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
+    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About) {
+      console.log('from edit');
+      this.pageView = pageViewEnum.Dashboard;
+      this.matButtonToggleText = 'Search';
+      this.matButtonToggleIcon = 'search';
+      this.sidenav.toggle();
+    }
+    else {
+      console.log('from other');
+      this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
+      this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? 'Search' : 'Dashboard');
+      this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
+    }
   }
 
   toggleViewDisplay() {
