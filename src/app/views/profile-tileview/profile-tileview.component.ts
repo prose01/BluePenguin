@@ -98,8 +98,8 @@ export class ProfileTileviewComponent implements OnChanges {
   //}
 
   // Load Detalails page  // TODO: Tile and list view need to call this.
-  loadDetails(profileId: string) {
-    this.loadProfileDetails.emit(profileId);
+  loadDetails(profile: Profile) {
+    this.loadProfileDetails.emit(profile);
   }
 
   // Get Bookmarked Profiles.

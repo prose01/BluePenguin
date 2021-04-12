@@ -1,7 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
 
 import { AuthService } from './authorisation/auth/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -44,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   matButtonOrderByIcon: string = 'schedule';
   orderByButtonCounter: number = 0;
 
-  profileIdForDetails: string;
+  profile: Profile;
 
   siteLanguage: string
   siteLocale: string
@@ -57,7 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
@@ -199,8 +198,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Details page
-  loadDetails(profileId: string) {
-    this.profileIdForDetails = profileId;
+  loadDetails(profile: Profile) {
+    this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = 'Dashboard';
     this.matButtonToggleIcon = 'dashboard';

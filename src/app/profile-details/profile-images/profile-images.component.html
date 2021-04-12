@@ -1,10 +1,14 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
+  <div class="spinner-container" *ngIf="loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+
   <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
-    <li class="mdc-image-list__item" *ngFor="let image of galleryImages;let indexOfelement=index;">
+    <li class="mdc-image-list__item" *ngFor="let image of defaultImage;let indexOfelement=index;">
 
       <a (click)="openImageDialog(indexOfelement)">
-        <img class="mdc-image-list__image" [lazyLoad]="image" [defaultImage]="defaultImage">
+        <img class="mdc-image-list__image" [lazyLoad]="galleryImages[indexOfelement]" [defaultImage]="defaultImage[indexOfelement]">
         <div class="mdc-image-list--with-text-protection">
           <div class="mdc-image-list__supporting">
             <span class="mdc-image-list__label">{{imagesTitles[indexOfelement]}}</span>

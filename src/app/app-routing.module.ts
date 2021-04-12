@@ -13,13 +13,13 @@ import { CurrentUserBoardComponent } from './currentUser/currentUser-board/curre
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },    // Todo: a lot of these can be removed.
   { path: 'callback', component: CallbackComponent },
-  { path: 'create', component: CreateProfileComponent },
-  { path: 'edit', component: CurrentUserBoardComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'search', component: ProfileSearchComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'details/:profileId', component: ProfileDetailsBoardComponent },
-  { path: 'imagesboard', component: ImageBoardComponent }
+  //{ path: 'create', component: CreateProfileComponent },
+  //{ path: 'edit', component: CurrentUserBoardComponent },
+  { path: 'dashboard', component: DashboardComponent }
+  //{ path: 'search', component: ProfileSearchComponent },
+  //{ path: 'about', component: AboutComponent },
+  //{ path: 'details/:profileId', component: ProfileDetailsBoardComponent },
+  //{ path: 'imagesboard', component: ImageBoardComponent }
 ];
 
 @NgModule({

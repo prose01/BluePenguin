@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit {
     this.listviewComponent.resetSelectionPagination();
   }
 
-  loadProfileDetails(profileId: string) {
-    this.loadDetails.emit(profileId);
+  loadProfileDetails(profile: Profile) {
+    this.loadDetails.emit(profile);
   }
 }

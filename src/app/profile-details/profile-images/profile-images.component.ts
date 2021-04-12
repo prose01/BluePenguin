@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
-import { ProfileService } from '../../services/profile.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { Profile } from '../../models/profile';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'profile-images',
@@ -13,22 +13,46 @@ import { Profile } from '../../models/profile';
 })
 
 export class ProfileImagesComponent implements OnInit {
-  @Input() profile: Profile;
-  @Input() smallImages: any[] = [];
-  @Input() images: any[] = [];
-  galleryImages: any[] = [];
-  imagesTitles: string[] = [];
-  defaultImage: any[] = [];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
+  private _smallImages = new BehaviorSubject<any[]>([]);
+  private _images = new BehaviorSubject<any[]>([]);
+
+  @Input() profile: Profile;
+  @Input() set smallImages(value: any[]) {
+    this._smallImages.next(value);
+  }
+  @Input() set images(value: any[]) {
+    this._images.next(value);
+  }
+
+  imagesTitles: string[] = [];
+  galleryImages: any[] = [];
+  defaultImage: any[] = [];
+  loading: boolean = true;
+
+
+  constructor(public auth: AuthService, private dialog: MatDialog) { }
+
+  //get smallImages() {
+  //  return this._smallImages.getValue();
+  //}
+
+  //get images() {
+  //  return this._images.getValue();
+  //}
+
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {
-      this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) {
-          setTimeout(() => { this.setSmallGalleryImages(this.smallImages); this.setImageTitles(this.profile); }, 500);     // TODO: Find på noget bedre!
-          setTimeout(() => { this.setGalleryImages(this.images); this.setImageTitles(this.profile); }, 1000);     // TODO: Find på noget bedre!
-        }
+
+      this.setImageTitles(this.profile);
+
+      this._smallImages.subscribe(x => {
+        this.setSmallGalleryImages(x);
+      });
+
+      this._images.subscribe(x => {
+        this.setGalleryImages(x);
       });
     }
   }
@@ -47,7 +71,6 @@ export class ProfileImagesComponent implements OnInit {
     images.forEach(element => pics.push(
         'data:image/jpg;base64,' + element
     ));
-
     this.galleryImages = pics;
   }
 
@@ -66,7 +89,7 @@ export class ProfileImagesComponent implements OnInit {
       //width: '80%',
       data: {
         index: indexOfelement,
-        images: this.galleryImages,
+        images: this.galleryImages, // TODO: use defaultImage first, then galleryImage
         titles: this.imagesTitles
       }
     });

@@ -1,5 +1,3 @@
-<!--<nav>-->
-
 <div *ngIf="!auth.isAuthenticated()">
   <button id="qsLoginBtn"
           *ngIf="!auth.isAuthenticated()"
@@ -139,7 +137,7 @@
 
       <div *ngIf="pageView === 'Details'">
         <!-- Tile and List should call details-page with Profile as input -->
-        <profileDetailsBoard [profileId]="profileIdForDetails"><profile-details></profile-details></profileDetailsBoard>
+        <profileDetailsBoard [profile]="profile"><profile-details></profile-details></profileDetailsBoard>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>  
@@ -151,5 +149,3 @@
 
 
 </div>
-
-<!--</nav>-->
