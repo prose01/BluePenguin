@@ -26,8 +26,8 @@ export class ProfileImagesComponent implements OnInit {
   }
 
   imagesTitles: string[] = [];
+  defaultImages: any[] = [];
   galleryImages: any[] = [];
-  defaultImage: any[] = [];
   loading: boolean = true;
 
 
@@ -63,7 +63,7 @@ export class ProfileImagesComponent implements OnInit {
       'data:image/jpg;base64,' + element
     ));
 
-    this.defaultImage = pics;
+    this.defaultImages = pics;
   }
 
   setGalleryImages(images: any[]): void {
@@ -89,7 +89,8 @@ export class ProfileImagesComponent implements OnInit {
       //width: '80%',
       data: {
         index: indexOfelement,
-        images: this.galleryImages, // TODO: use defaultImage first, then galleryImage
+        smallimages: this.defaultImages,
+        images: this.galleryImages, 
         titles: this.imagesTitles
       }
     });

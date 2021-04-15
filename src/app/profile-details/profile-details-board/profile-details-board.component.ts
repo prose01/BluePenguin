@@ -19,7 +19,7 @@ export class ProfileDetailsBoardComponent {
   smallImages: any[] = [];
   images: any[] = [];
 
-  constructor(public auth: AuthService,  private imageService: ImageService) { }
+  constructor(public auth: AuthService, private imageService: ImageService) { }
 
   ngOnInit() {
     if (this.auth.isAuthenticated()) {

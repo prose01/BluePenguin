@@ -3,7 +3,7 @@
     <i class="material-icons">close</i>
   </button>
 
-  <img class="mdc-image-list__image" [src]="data.images[index]">
+  <img class="mdc-image-list__image" [lazyLoad]="data.images[index]" [defaultImage]="data.smallimages[index]">
 
   <button type="button" class="next" (click)="onNextClick()" mat-button i18n-matTooltip="Next | Next @@Next" matTooltip="Next">
     <i class="material-icons">navigate_next</i>

@@ -9,11 +9,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export class ImageDialog {
   index: number;
+  defaultImage = '../assets/default-person-icon.jpg';
 
   constructor(public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.index = this.data.index;
+    console.log(this.data.smallimages.length);
+    console.log(this.data.images.length);
   }
 
   onCloseClick(): void {
