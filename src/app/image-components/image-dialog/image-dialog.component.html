@@ -14,4 +14,9 @@
   </button>
 
 </div>
-<h3 mat-dialog-title>{{data.titles[index]}}</h3>
+
+<h3 class="title" mat-dialog-title>{{data.titles[index]}}</h3>
+
+<button type="button" class="loadDetails" (click)="loadDetailsClick()" mat-button i18n-matTooltip="Profile details | Profile details @@Profile details" matTooltip="Profile details">
+  <i class="material-icons">person</i>
+</button>

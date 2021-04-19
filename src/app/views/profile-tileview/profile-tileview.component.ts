@@ -158,7 +158,14 @@ export class ProfileTileviewComponent implements OnChanges {
           titles: this.imagesTitles
         }
       });
-    }, 5000);
+
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res === true) { this.loadDetails(profile) }
+        }
+      );
+
+    }, 5000); // TODO: Find something better
 
     //const dialogRef = this.dialog.open(ImageDialog, {
     //  //height: '80%',

@@ -20,7 +20,7 @@
       (scrolledUp)="onScrollUp()">
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
-      <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].image" (click)="loadDetails(profile)">
+      <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].image" (click)="openImageDialog(profile)">
 
       <div class="overlay">
         <!--<div class="mdc-image-list--with-text-protection">-->

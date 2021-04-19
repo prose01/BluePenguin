@@ -46,3 +46,9 @@
 .container .before:hover {
   background-color: #44606e;
 }
+
+.title, .loadDetails {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0;
+}

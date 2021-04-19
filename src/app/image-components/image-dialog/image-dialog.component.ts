@@ -20,7 +20,7 @@ export class ImageDialog {
   }
 
   onCloseClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   onNextClick(): void {
@@ -33,6 +33,10 @@ export class ImageDialog {
     if (0 < (this.data.images.length - 1) && 0 < this.index) {
       this.index--;
     }
+  }
+
+  loadDetailsClick(): void {
+    this.dialogRef.close(true);
   }
 
 }
