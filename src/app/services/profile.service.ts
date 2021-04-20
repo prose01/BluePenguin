@@ -118,8 +118,9 @@ export class ProfileService {
       );
   }
 
-  getBookmarkedProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getBookmarkedProfiles(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
     const params = new HttpParams()
+      .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 

@@ -205,8 +205,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Bookmarked Profiles.
-  getBookmarkedProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {     // TODO: Add OrderByType to bookmarks also. Remeber Avalon
-    this.profileService.getBookmarkedProfiles(pageIndex, pageSize)
+  getBookmarkedProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {     // TODO: Add OrderByType to bookmarks also. Remeber Avalon
+    this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -226,8 +226,8 @@ export class DashboardComponent implements OnInit {
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
   }
 
-  getBookmarkedProfilesNext(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getBookmarkedProfiles(pageIndex, pageSize)
+  getBookmarkedProfilesNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {

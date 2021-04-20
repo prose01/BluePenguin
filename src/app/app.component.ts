@@ -177,7 +177,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   getBookmarkedProfiles() {
     this.lastCalledFilter = "getBookmarkedProfiles"
-    this.dashboardComponent.getBookmarkedProfiles();
+    this.dashboardComponent.getBookmarkedProfiles(this.selectedOrderBy);
   }
 
   getProfileByFilter($event, newOrderBy: boolean) {
