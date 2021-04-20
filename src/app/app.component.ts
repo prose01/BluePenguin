@@ -44,6 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
   orderByButtonCounter: number = 0;
 
   profile: Profile;
+  filter: ProfileFilter;
+  lastCalledFilter: string = "getLatestProfiles";
 
   siteLanguage: string
   siteLocale: string
@@ -92,14 +94,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   toggleDisplay() {
     if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Details) {
-      console.log('from edit');
       this.pageView = pageViewEnum.Dashboard;
       this.matButtonToggleText = 'Search';
       this.matButtonToggleIcon = 'search';
       this.sidenav.toggle();
     }
     else {
-      console.log('from other');
       this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
       this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? 'Search' : 'Dashboard');
       this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
@@ -120,6 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByIcon = 'update';
         this.selectedOrderBy = OrderByType.UpdatedOn;
         this.orderByButtonCounter++;
+        this.callApiWithNewSelectedOrderBy();
         break;
       }
       case 1: {
@@ -127,6 +128,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByIcon = 'watch_later';
         this.selectedOrderBy = OrderByType.LastActive;
         this.orderByButtonCounter++;
+        this.callApiWithNewSelectedOrderBy();
         break;
       }
       case 2: {
@@ -134,28 +136,56 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByIcon = 'schedule';
         this.selectedOrderBy = OrderByType.CreatedOn;
         this.orderByButtonCounter = 0;
+        this.callApiWithNewSelectedOrderBy();
         break;
       }
     }
 
   }
 
+  callApiWithNewSelectedOrderBy() {
+    switch (this.lastCalledFilter) {
+      case "getLatestProfiles": {
+        this.getLatestProfiles();
+        break;
+      }
+      case "getProfileByCurrentUsersFilter": {
+        this.getProfileByCurrentUsersFilter() 
+        break;
+      }
+      case "getBookmarkedProfiles": {
+        this.getBookmarkedProfiles()
+        break;
+      }
+      case "getProfileByFilter": {  
+        this.getProfileByFilter(null, true)
+        break;
+      }
+    }
+  }
+
   // Calls to DashboardComponent
   getLatestProfiles() {
+    this.lastCalledFilter = "getLatestProfiles"
     this.dashboardComponent.getLatestProfiles(this.selectedOrderBy);
   }
 
   getProfileByCurrentUsersFilter() {
+    this.lastCalledFilter = "getProfileByCurrentUsersFilter"
     this.dashboardComponent.getProfileByCurrentUsersFilter(this.selectedOrderBy);
   }
 
   getBookmarkedProfiles() {
+    this.lastCalledFilter = "getBookmarkedProfiles"
     this.dashboardComponent.getBookmarkedProfiles();
   }
 
-  getProfileByFilter($event) {
-    var filter: ProfileFilter = $event;
-    this.dashboardComponent.getProfileByFilter(filter, this.selectedOrderBy);
+  getProfileByFilter($event, newOrderBy: boolean) {
+    this.lastCalledFilter = "getProfileByFilter";
+    if (!newOrderBy) {
+      this.filter = $event;
+    }
+    this.dashboardComponent.getProfileByFilter(this.filter, this.selectedOrderBy);
     this.toggleDisplay();
   }
 

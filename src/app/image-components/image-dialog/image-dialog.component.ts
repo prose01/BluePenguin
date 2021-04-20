@@ -13,10 +13,7 @@ export class ImageDialog {
 
   constructor(public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
     this.index = this.data.index;
-    console.log(this.data.smallimages.length);
-    console.log(this.data.images.length);
   }
 
   onCloseClick(): void {
