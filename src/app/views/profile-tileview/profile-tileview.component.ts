@@ -12,6 +12,7 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { BehaviorSubject } from 'rxjs';
+import { CurrentUser } from '../../models/currentUser';
 
 
 @Component({
@@ -23,6 +24,7 @@ import { BehaviorSubject } from 'rxjs';
 @AutoUnsubscribe()
 export class ProfileTileviewComponent implements OnChanges {
 
+  currentUserSubject: CurrentUser;
   selectedProfile: Profile;
   pageIndex: number;
   pageSize: number = 20;
@@ -40,7 +42,9 @@ export class ProfileTileviewComponent implements OnChanges {
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) {
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+  }
 
 
   ngOnChanges(): void {

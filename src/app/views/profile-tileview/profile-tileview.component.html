@@ -19,14 +19,19 @@
       (scrolled)="onScrollDown()"
       (scrolledUp)="onScrollUp()">
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
+      <!--[ngClass]="profile.profileId === '3ad101be-e831-4eec-a15e-b21331baeb52' ? 'visited' : 'mdc-image-list__image'"-->
 
       <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].image" (click)="openImageDialog(profile)">
+      <i class="material-icons icon-orange" *ngIf="currentUserSubject.visited[profile.profileId]" i18n-matTooltip="Visited | Visited @@Visited" matTooltip="This profile has visited your profile">adjust</i>
+      <!--<i class="material-icons icon-orange" *ngIf="currentUserSubject.isBookmarked[profile.profileId]" i18n-matTooltip="IsBookmarked | IsBookmarked @@IsBookmarked" matTooltip="This profile has bookmarked your profile">bookmark_added</i>-->
 
       <div class="overlay">
         <!--<div class="mdc-image-list--with-text-protection">-->
         <div class="mdc-image-list__supporting">
           <span class="mdc-image-list__label">{{profile.name}}</span>
         </div>
+
+
         <div class="button">
           <button mat-icon-button *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
             <i class="material-icons">bookmark_border</i>

@@ -34,6 +34,24 @@
   height: 50px;
 }
 
+/*.list__item {
+  border-style: solid;
+  border-color: #607d8b;
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+
+.visited {
+  border-style: solid;
+  border-color: #f07537;
+  margin-bottom: 10px;
+  list-style-type: none;
+}
+
+.list__item:hover .overlay {
+  height: 50px;
+}*/
+
 .overlay {
   background-color: #44606e;
   position: absolute;
@@ -66,4 +84,14 @@
 
 .material-icons {
   color: #FFFFFF;
+}
+
+i.icon-orange {
+  color: #f07537;
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  padding: 5px;
+  background: #44606e;
+  border-radius: 50%;
 }

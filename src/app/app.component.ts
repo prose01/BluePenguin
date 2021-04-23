@@ -229,6 +229,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Load Details page
   loadDetails(profile: Profile) {
+    this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = 'Dashboard';

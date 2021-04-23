@@ -170,7 +170,8 @@ export class EditProfileComponent {
       sportsActivity: formModel.sportsActivity as SportsActivityType,
       eatingHabits: formModel.eatingHabits as EatingHabitsType,
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
-      bodyArt: formModel.bodyArt as BodyArtType
+      bodyArt: formModel.bodyArt as BodyArtType,
+      visited: this.currentUserSubject.visited
     };
 
     return saveProfile;

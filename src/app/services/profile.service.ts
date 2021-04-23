@@ -152,6 +152,14 @@ export class ProfileService {
       );
   }
 
+  addVisitedToProfiles(profileId: string): Observable<any> {
+    return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+    );
+  }
+
   deleteProfiles(profiles: string[]): Observable<{}> {
     return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
       .pipe(

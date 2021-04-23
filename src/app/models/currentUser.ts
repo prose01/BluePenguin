@@ -1,5 +1,6 @@
 import { ImageModel } from './imageModel';
 import { ChatMember } from './chatMember';
+import { Visited } from './visited';
 import {
   GenderType,
   SexualOrientationType,
@@ -48,6 +49,7 @@ export class CurrentUser {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  visited: Array<Visited>;
 }
 
 export interface CurrentUser {
@@ -80,4 +82,5 @@ export interface CurrentUser {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  visited: Array<Visited>;
 }

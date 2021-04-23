@@ -172,7 +172,8 @@ export class CreateProfileComponent {
       sportsActivity: formModel.sportsActivity as SportsActivityType,
       eatingHabits: formModel.eatingHabits as EatingHabitsType,
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
-      bodyArt: formModel.bodyArt as BodyArtType
+      bodyArt: formModel.bodyArt as BodyArtType,
+      visited: null
     };
 
     return saveProfile;
