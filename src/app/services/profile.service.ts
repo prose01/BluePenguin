@@ -20,9 +20,9 @@ export class ProfileService {
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
   currentUserSubject = this.currentUserSource.asObservable();
 
-  retrievedImage: any; // Is this being used?
-  base64Data: any; // Is this being used?
-  retrieveResonse: any; // Is this being used?
+  //retrievedImage: any; // Is this being used?
+  //base64Data: any; // Is this being used?
+  //retrieveResonse: any; // Is this being used?
 
 
   constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient, public router: Router) {
@@ -144,13 +144,13 @@ export class ProfileService {
       );
   }
 
-  getProfileById(profileId: string): Observable<Profile> {
-    return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //getProfileById(profileId: string): Observable<Profile> {
+  //  return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   addVisitedToProfiles(profileId: string): Observable<any> {
     return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers })

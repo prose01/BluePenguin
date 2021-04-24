@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -28,12 +28,11 @@ import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 })
 
 @AutoUnsubscribe()
-export class ProfileListviewComponent implements OnInit, OnChanges {
+export class ProfileListviewComponent implements OnChanges {
   pageEvent: PageEvent;
   datasource: null;
   pageIndex: number;
   pageSize: number;
-  //length: number;
   loading: boolean = true;
 
   dataSource: MatTableDataSource<Profile>;
@@ -49,9 +48,7 @@ export class ProfileListviewComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
-
-  ngOnInit() {
+  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 

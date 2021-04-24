@@ -66,26 +66,35 @@
         <td mat-cell *matCellDef="let element"> {{element?.height}} </td>
       </ng-container>
 
+      <!-- Height Column -->
+      <ng-container matColumnDef="visit/book">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="visit/book | This profile has visited or bookmarked you @@visit/book"> visit/book </th>
+        <td mat-cell *matCellDef="let element">
+          <i class="material-icons icon-orange" *ngIf="!currentUserSubject.isBookmarked[element?.profileId] && currentUserSubject.visited[element?.profileId]" i18n-matTooltip="Visited | Visited @@Visited" matTooltip="This profile has visited your profile on {{currentUserSubject.visited[element?.profileId] | date:'medium'}}">adjust</i>
+          <i class="material-icons icon-orange" *ngIf="currentUserSubject.isBookmarked[element?.profileId]" i18n-matTooltip="IsBookmarked | IsBookmarked @@IsBookmarked" matTooltip="This profile has bookmarked your profile">bookmark_added</i>
+        </td>
+      </ng-container>
+
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
       <!--<ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-          <div class="element-detail"
-               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div class="element-diagram" routerLink="/details/{{element?.profileId}}">-->
-              <!--Link på billed og tekst?-->
-              <!--<img *ngIf="element?.images[0] != null" class="images" src="{{element?.images[0].image}}" />-->
-              <!--<div class="element-position"> {{element?.profileId}} </div>-->
-            <!--</div>
-            <div class="element-description">
-              <div class="element-name"> {{element?.name}} </div>
-              <div><label>CreatedOn: </label>{{element?.createdOn | date:'medium'}}</div>
-              <div><label>LastActive: </label>{{element?.lastActive | date:'medium'}}</div>
-              <div><label>BodyType: </label>{{element?.body}}</div>
-              <div><label>SmokingHabits: </label>{{element?.smokingHabits}}</div>
-            </div>
-          </div>
-        </td>
-      </ng-container>-->
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="element-diagram" routerLink="/details/{{element?.profileId}}">-->
+      <!--Link på billed og tekst?-->
+      <!--<img *ngIf="element?.images[0] != null" class="images" src="{{element?.images[0].image}}" />-->
+      <!--<div class="element-position"> {{element?.profileId}} </div>-->
+      <!--</div>
+        <div class="element-description">
+          <div class="element-name"> {{element?.name}} </div>
+          <div><label>CreatedOn: </label>{{element?.createdOn | date:'medium'}}</div>
+          <div><label>LastActive: </label>{{element?.lastActive | date:'medium'}}</div>
+          <div><label>BodyType: </label>{{element?.body}}</div>
+          <div><label>SmokingHabits: </label>{{element?.smokingHabits}}</div>
+        </div>
+      </div>
+    </td>
+  </ng-container>-->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"

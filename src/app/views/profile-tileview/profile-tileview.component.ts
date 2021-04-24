@@ -43,7 +43,7 @@ export class ProfileTileviewComponent implements OnChanges {
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
 
