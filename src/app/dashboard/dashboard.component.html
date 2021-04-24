@@ -1,6 +1,6 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
   <div *ngIf="isTileView"><app-profile-tileview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextTileData)="getNextTileData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)" [orderBy]="selectedOrderBy"></app-profile-tileview></div>
-  <div *ngIf="!isTileView"><app-profile-listview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" [displayedColumns]="displayedColumns"></app-profile-listview></div>
+  <div *ngIf="!isTileView"><app-profile-listview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" (loadProfileDetails)="loadProfileDetails($event)" [displayedColumns]="displayedColumns"></app-profile-listview></div>
 
 </div>

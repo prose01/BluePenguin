@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
@@ -11,7 +12,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
-import { BehaviorSubject } from 'rxjs';
 import { CurrentUser } from '../../models/currentUser';
 
 
@@ -106,7 +106,7 @@ export class ProfileTileviewComponent implements OnChanges {
   //  }
   //}
 
-  // Load Detalails page  // TODO: Tile and list view need to call this.
+  // Load Detalails page
   loadDetails(profile: Profile) {
     this.loadProfileDetails.emit(profile);
   }

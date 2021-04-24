@@ -6,13 +6,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
+
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
+import { ImageService } from '../../services/image.service';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
+import { ImageSizeEnum } from '../../models/imageSizeEnum';
+import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -44,11 +49,12 @@ export class ProfileListviewComponent implements OnChanges {
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
   @Output() getNextData: EventEmitter<any> = new EventEmitter();
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
@@ -152,5 +158,112 @@ export class ProfileListviewComponent implements OnChanges {
       width: '300px',
       data: this.selcetedProfiles()
     });
+  }
+
+  // Load Detalails page
+  loadDetails(profile: Profile) {
+    this.loadProfileDetails.emit(profile);
+  }
+
+  async openImageDialog(profile: Profile): Promise<void> {
+
+    this.setImageTitles(profile);
+    await this.getSmallProfileImages(profile);
+    await this.getProfileImages(profile);
+
+    this._smallImages.subscribe(x => {
+      this.setSmallGalleryImages(x);
+    });
+
+    this._images.subscribe(x => {
+      this.setGalleryImages(x);
+    });
+
+    setTimeout(() => {
+      const dialogRef = this.dialog.open(ImageDialog, {
+        //height: '80%',
+        //width: '80%',
+        data: {
+          index: 0,
+          smallimages: this.defaultImages,
+          images: this.galleryImages,
+          titles: this.imagesTitles
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res === true) { this.loadDetails(profile) }
+        }
+      );
+
+    }, 5000); // TODO: Find something better
+
+    //const dialogRef = this.dialog.open(ImageDialog, {
+    //  //height: '80%',
+    //  //width: '80%',
+    //  data: {
+    //    index: 0,
+    //    images: this.smallImages // TODO: use defaultImage first, then galleryImage
+    //    //titles: this.imagesTitles
+    //  }
+    //});
+  }
+
+  private _smallImages = new BehaviorSubject<any[]>([]);
+  private _images = new BehaviorSubject<any[]>([]);
+
+  set smallImages(value: any[]) {
+    this._smallImages.next(value);
+  }
+
+  set images(value: any[]) {
+    this._images.next(value);
+  }
+
+  imagesTitles: string[] = [];
+  galleryImages: any[] = [];
+  defaultImages: any[] = [];
+
+  getSmallProfileImages(profile: Profile): Promise<void> {
+    this.imageService.getProfileImages(profile.profileId, ImageSizeEnum.small)
+      .pipe(takeWhileAlive(this))
+      .subscribe(smallImages => this.smallImages = smallImages);
+
+    return Promise.resolve();
+  }
+
+  getProfileImages(profile: Profile): Promise<void> {
+    this.imageService.getProfileImages(profile.profileId, ImageSizeEnum.large)
+      .pipe(takeWhileAlive(this))
+      .subscribe(images => this.images = images);
+
+    return Promise.resolve();
+  }
+
+  setSmallGalleryImages(smallImages: any[]): void {
+    const pics = [];
+    smallImages.forEach(element => pics.push(
+      'data:image/jpg;base64,' + element
+    ));
+
+    this.defaultImages = pics;
+  }
+
+  setGalleryImages(images: any[]): void {
+    const pics = [];
+    images.forEach(element => pics.push(
+      'data:image/jpg;base64,' + element
+    ));
+    this.galleryImages = pics;
+  }
+
+  setImageTitles(profile: Profile): void {
+    const imageTitles = [];
+    profile.images.forEach(element => imageTitles.push(
+      element.title
+    ));
+
+    this.imagesTitles = imageTitles;
   }
 }
