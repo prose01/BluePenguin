@@ -31,6 +31,7 @@ export class CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
   images: Array<ImageModel>;
   tags: string[];
@@ -64,6 +65,7 @@ export interface CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
   images: Array<ImageModel>;
   tags: string[];
