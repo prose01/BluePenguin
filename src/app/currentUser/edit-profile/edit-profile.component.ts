@@ -126,7 +126,7 @@ export class EditProfileComponent {
       clotheStyle: this.currentUserSubject.clotheStyle as ClotheStyleType,
       bodyArt: this.currentUserSubject.bodyArt as BodyArtType
     });
-
+    
     this.tagsList.push.apply(this.tagsList, this.currentUserSubject.tags);
   }
 
@@ -176,7 +176,7 @@ export class EditProfileComponent {
       bodyArt: formModel.bodyArt as BodyArtType,
       visited: this.currentUserSubject.visited
     };
-
+    
     return saveProfile;
   }
 
