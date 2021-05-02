@@ -44,6 +44,7 @@ export class ProfileListviewComponent implements OnChanges {
   selection = new SelectionModel<Profile>(true, []);
 
   currentUserSubject: CurrentUser;
+  noProfiles: boolean = false;
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -60,6 +61,12 @@ export class ProfileListviewComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.auth.isAuthenticated()) {
+      this.profiles = this.profiles?.filter(function (el) {
+        return el != null;
+      });
+
+      this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+
       this.setDataSource();
     }
   }
@@ -70,8 +77,10 @@ export class ProfileListviewComponent implements OnChanges {
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
-
-    this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString()});
+    
+    if (currentSize > 0) {
+      this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString() });
+    }
   }
 
   setDataSource(): void {
@@ -265,5 +274,9 @@ export class ProfileListviewComponent implements OnChanges {
     ));
 
     this.imagesTitles = imageTitles;
+  }
+
+  bookmarked(profileId: string) {
+    return this.currentUserSubject.bookmarks.find(x => x == profileId);
   }
 }

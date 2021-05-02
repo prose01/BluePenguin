@@ -21,8 +21,9 @@ import { MatButtonModule }                    from '@angular/material/button';
 import { MatTooltipModule }                   from '@angular/material/tooltip';
 import { MatSliderModule }                    from '@angular/material/slider';
 import { MatMenuModule }                      from '@angular/material/menu';
-import { MatSidenavModule }                     from '@angular/material/sidenav';
+import { MatSidenavModule }                   from '@angular/material/sidenav';
 import { MatChipsModule }                     from '@angular/material/chips';
+import { MatSlideToggleModule }               from '@angular/material/slide-toggle';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -116,6 +117,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     MatMenuModule,
     MatSidenavModule,
     MatChipsModule,
+    MatSlideToggleModule,
     LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,

@@ -123,7 +123,10 @@ export class ProfileTileviewComponent implements OnChanges {
 
     this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
       .pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => { this.getBookmarkedProfiles.emit(); });
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
   }
 
   addFavoritProfiles(profileId: string) {
@@ -132,7 +135,10 @@ export class ProfileTileviewComponent implements OnChanges {
 
     this.profileService.addProfilesToBookmarks(selcetedProfiles)
       .pipe(takeWhileAlive(this))
-      .subscribe(() => { });
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
   }
 
 
@@ -239,5 +245,9 @@ export class ProfileTileviewComponent implements OnChanges {
     ));
 
     this.imagesTitles = imageTitles;
+  }
+
+  bookmarked(profileId: string) {
+    return this.currentUserSubject.bookmarks.find(x => x == profileId);
   }
 }

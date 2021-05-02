@@ -55,6 +55,8 @@ export class CreateProfileComponent {
   sexualOrientationPlaceholder: string = "Sexual orientation";
   tagsPlaceholder: string = "Tags";
 
+  isChecked: boolean = true;
+
   constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
@@ -146,6 +148,7 @@ export class CreateProfileComponent {
     const formModel = this.newUserForm.value;
 
     const saveProfile: CurrentUser = {
+      bookmarks: null,
       chatMemberslist: null,
       auth0Id: null,
       profileId: null,

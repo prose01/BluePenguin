@@ -168,7 +168,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-slide-toggle [checked]="contactable" i18n-placeholder="Profile contactable | Is Profile contactable @@iscontactable" placeholder="Contactable" formControlName="contactable">Slide me!</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" i18n-placeholder="Profile contactable | Is Profile contactable @@iscontactable" matTooltip="Are you contactable by other profiles?" placeholder="Contactable" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
 
     </div>
 

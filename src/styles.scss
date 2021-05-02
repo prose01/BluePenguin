@@ -172,3 +172,30 @@ button.mat-flat-button {
   opacity: 1 !important;
 }
 /* End - Hack overwrite to make slider show always */
+
+i.icon-white {
+  color: #FFFFFF;
+  padding: 5px;
+  background: #44606e;
+  border-radius: 50%;
+}
+
+i.icon-orange-left {
+  color: #f07537;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 5px;
+  background: #44606e;
+  border-radius: 50%;
+}
+
+i.icon-orange-right {
+  color: #f07537;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 5px;
+  background: #44606e;
+  border-radius: 50%;
+}

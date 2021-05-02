@@ -20,7 +20,7 @@ import {
 } from '../models/enums';
 
 export class CurrentUser {
-  //bookmarks: string[];
+  bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
   auth0Id: string;
   profileId: string;
@@ -54,7 +54,7 @@ export class CurrentUser {
 }
 
 export interface CurrentUser {
-  //bookmarks: string[];
+  bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
   auth0Id: string;
   profileId: string;

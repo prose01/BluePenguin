@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   nextProfiles: Profile[];
   filter: ProfileFilter = new ProfileFilter();
   viewFilterType: ViewFilterTypeEnum;
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book']; // TODO: Add columns after user's choise or just default?
+  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites']; // TODO: Add columns after user's choise or just default?
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
 
@@ -205,7 +205,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Bookmarked Profiles.
-  getBookmarkedProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {     // TODO: Add OrderByType to bookmarks also. Remeber Avalon
+  getBookmarkedProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') { 
     this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(

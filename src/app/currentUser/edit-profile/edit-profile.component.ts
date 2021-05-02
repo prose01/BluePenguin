@@ -53,6 +53,8 @@ export class EditProfileComponent {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
+  isChecked: boolean;
+
   tagsPlaceholder: string = "Tags";
 
   constructor(public auth: AuthService, private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
@@ -88,11 +90,7 @@ export class EditProfileComponent {
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
-      this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) {
           this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
-        }
-      });
     }
   }
 
@@ -126,7 +124,8 @@ export class EditProfileComponent {
       clotheStyle: this.currentUserSubject.clotheStyle as ClotheStyleType,
       bodyArt: this.currentUserSubject.bodyArt as BodyArtType
     });
-    
+
+    this.isChecked = this.currentUserSubject.contactable as boolean;
     this.tagsList.push.apply(this.tagsList, this.currentUserSubject.tags);
   }
 
@@ -138,13 +137,14 @@ export class EditProfileComponent {
   onSubmit() {
     this.currentUserSubject = this.prepareSaveProfile();
     this.profileService.putProfile(this.currentUserSubject).subscribe(/* add error handling */);
-    // Hvad skal vi gøre når der er postet?
+    // TODO: Hvad skal vi gøre når der er postet? Dialog box with information.
   }
 
   prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
     const saveProfile: CurrentUser = {
+      bookmarks: this.currentUserSubject.bookmarks,
       chatMemberslist: this.currentUserSubject.chatMemberslist,
       auth0Id: this.currentUserSubject.auth0Id, 
       profileId: this.currentUserSubject.profileId,

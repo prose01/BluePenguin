@@ -82,22 +82,25 @@
       <label i18n="Profile BodyArtType | A BodyArtType for the Profile @@profileBodyArtType">BodyArt: </label>{{profile.bodyArt}}
     </div>
 
-
-
-    <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-      <button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
-        <i class="material-icons">admin_panel_settings</i>
-      </button>
-
-      <button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
-        <i class="material-icons">verified_user</i>
-      </button>
+    <div *ngIf="!profile.contactable">
+      <i class="material-icons icon-orange-right" i18n-matTooltip="NotContactable | This profile is not contactable @@contactable" matTooltip="This profile is not contactable">person_off</i>
     </div>
 
-    <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-      <button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
-        <i class="material-icons">delete</i>
-      </button>
-    </div>
 
-  </div>
+      <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+        <button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
+          <i class="material-icons">admin_panel_settings</i>
+        </button>
+
+        <button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
+          <i class="material-icons">verified_user</i>
+        </button>
+      </div>
+
+      <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
+        <button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
+          <i class="material-icons">delete</i>
+        </button>
+      </div>
+
+    </div>
