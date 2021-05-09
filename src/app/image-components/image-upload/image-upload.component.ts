@@ -5,8 +5,7 @@
  */
 
 
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
@@ -35,7 +34,9 @@ export class ImageUploadComponent {
   fileUploadProgress: string = null;
   titlePlaceholder: string = "Please insert an image title.";
 
-  constructor(public auth: AuthService, private imageService: ImageService, private router: Router, private formBuilder: FormBuilder) {
+  @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
+
+  constructor(public auth: AuthService, private imageService: ImageService, private formBuilder: FormBuilder) {
     this.createForm();
   }
 
@@ -171,7 +172,7 @@ export class ImageUploadComponent {
         formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData)
           .pipe(takeWhileAlive(this))
-          .subscribe(() => { }, () => { this.router.navigate(['/imagesboard']); }, () => { this.router.navigate(['/imagesboard']); });
+          .subscribe(() => { }, () => { this.refreshCurrentUserImages.emit(); }, () => { this.refreshCurrentUserImages.emit(); });
       });
     }    
   }

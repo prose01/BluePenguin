@@ -26,7 +26,7 @@ export class ProfileService {
 
 
   constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient, public router: Router) {
-    this.avalonUrl = configurationLoader.getConfiguration().avalonUrl;
+    this.avalonUrl = this.configurationLoader.getConfiguration().avalonUrl;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
