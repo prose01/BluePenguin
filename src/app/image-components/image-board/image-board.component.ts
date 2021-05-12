@@ -72,18 +72,6 @@ export class ImageBoardComponent implements OnInit {
     return Promise.resolve();
   }
 
-  refreshCurrentUserImages(): void {
-    console.log('refreshCurrentUserImages');
-    this.profileService.updateCurrentUserSubject();
-
-    setTimeout(() => {
-
-      this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
-
-    }, 3000); // TODO: Find something better
-
-  }
-
   toggleDisplay() {
     this.isMatButtonToggled = !this.isMatButtonToggled;
     this.matButtonToggleText = (this.isMatButtonToggled ? 'Upload new photo' : 'TileView');

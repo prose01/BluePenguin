@@ -25,7 +25,7 @@ export class DeleteImageDialog {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   onYesClick(): void {
@@ -33,10 +33,9 @@ export class DeleteImageDialog {
       var id = [];
       id.push(this.imageId["imageId"]); // TODO: Fix this. Hack to get post to work.
 
-      // TODO: Fix this. Hack to get delete to update currentUser. It calls it even on errror.
-      this.imageService.deleteImagesForCurrentUser(id).subscribe(() => { },
-        () => { this.profileService.updateCurrentUserSubject(); },
-        () => { this.profileService.updateCurrentUserSubject(); });
+      this.imageService.deleteImagesForCurrentUser(id).subscribe();
+
+      this.dialogRef.close(true);
     }
   }
 
