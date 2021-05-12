@@ -163,7 +163,7 @@ export class ProfileTileviewComponent implements OnChanges {
         //width: '80%',
         data: {
           index: 0,
-          smallimages: this.defaultImages,
+          smallimages: this.defaultImages,  //Use imageModels like in CurrentUser-images dialog
           images: this.galleryImages,
           titles: this.imagesTitles
         }

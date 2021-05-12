@@ -10,8 +10,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
-
-import { AuthService } from '../../authorisation/auth/auth.service';
 import { ImageService } from '../../services/image.service';
 
 @Component({
@@ -36,7 +34,7 @@ export class ImageUploadComponent {
 
   @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private imageService: ImageService, private formBuilder: FormBuilder) {
+  constructor(private imageService: ImageService, private formBuilder: FormBuilder) {
     this.createForm();
   }
 

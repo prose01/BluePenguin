@@ -3,7 +3,7 @@
     <i class="material-icons">close</i>
   </button>
 
-  <img class="mdc-image-list__image" [lazyLoad]="data.images[index]" [defaultImage]="data.smallimages[index]">
+  <img class="mdc-image-list__image" [lazyLoad]="data.imageModels[index].image" [defaultImage]="data.imageModels[index].smallimages">
 
   <button type="button" class="next" (click)="onNextClick()" mat-button i18n-matTooltip="Next | Next @@Next" matTooltip="Next">
     <i class="material-icons">navigate_next</i>
@@ -15,7 +15,7 @@
 
 </div>
 
-<h3 class="title" mat-dialog-title>{{data.titles[index]}}</h3>
+<h3 class="title" mat-dialog-title>{{data.imageModels[index].title}}</h3>
 
 <button type="button" class="loadDetails" (click)="loadDetailsClick()" mat-button i18n-matTooltip="Profile details | Profile details @@Profile details" matTooltip="Profile details">
   <i class="material-icons">person</i>

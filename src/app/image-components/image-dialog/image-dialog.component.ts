@@ -21,13 +21,13 @@ export class ImageDialog {
   }
 
   onNextClick(): void {
-    if ((this.data.images.length - 1) > this.index) {
+    if ((this.data.imageModels.length - 1) > this.index) {
       this.index++;
     }
   }
 
   onBeforeClick(): void {
-    if (0 < (this.data.images.length - 1) && 0 < this.index) {
+    if (0 < (this.data.imageModels.length - 1) && 0 < this.index) {
       this.index--;
     }
   }
