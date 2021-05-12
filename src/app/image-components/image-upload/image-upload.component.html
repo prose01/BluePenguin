@@ -1,5 +1,11 @@
 <div class="grid grid-pad">
 
+  <div class="overlay" *ngIf="uploadingPhoto">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
   <form (ngSubmit)="onSubmit()" [formGroup]="uploadImageForm">
 
     <button type="button"
@@ -73,7 +79,7 @@
     [containWithinAspectRatio]="containWithinAspectRatio"
     [cropperMinWidth]="128"
     (cropperReady)="cropperReady($event)"
-    [imageQuality]="80" 
+    [imageQuality]="80"
     -->
 
   </div>

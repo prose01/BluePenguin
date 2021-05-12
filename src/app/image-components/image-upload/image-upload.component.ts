@@ -5,7 +5,7 @@
  */
 
 
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
@@ -31,6 +31,9 @@ export class ImageUploadComponent {
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
   titlePlaceholder: string = "Please insert an image title.";
+  uploadingPhoto: boolean = false;
+
+  @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
   constructor(private imageService: ImageService, private formBuilder: FormBuilder) {
     this.createForm();
@@ -168,12 +171,12 @@ export class ImageUploadComponent {
         formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData)
           .pipe(takeWhileAlive(this))
-          .subscribe();
+          .subscribe(() => { this.uploadingPhoto = true }, () => { this.refreshCurrentUserImages.emit(); }, () => { this.refreshCurrentUserImages.emit(); });
       });
     }    
   }
 
-  // TODO: Check this again. Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/
+  // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/
   resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
     return new Promise((resolve, reject) => {
       let image = new Image();

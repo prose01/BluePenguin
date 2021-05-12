@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
-
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -18,8 +16,8 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 
 @AutoUnsubscribe()
 export class ImageBoardComponent implements OnInit {
-  private maxPhotos: number;
-  private morePhotosAllowed: boolean = false;
+  maxPhotos: number;
+  morePhotosAllowed: boolean = false;
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'add_photo_alternate';
   matButtonToggleText: string = 'Upload new photo';
@@ -27,24 +25,21 @@ export class ImageBoardComponent implements OnInit {
   currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
   }
 
 
   ngOnInit(): void {
-    if (this.auth.isAuthenticated()) {
-      this.profileService.currentUserSubject
-        .pipe(takeWhileAlive(this))
-        .subscribe(currentUserSubject => {
-          this.currentUserSubject = currentUserSubject;
-          this.imageModels = currentUserSubject.images;
-          this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
-        });
+    this.profileService.currentUserSubject
+      .pipe(takeWhileAlive(this))
+      .subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject;
+        this.imageModels = currentUserSubject.images;
+        this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
+      });
 
-      this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
-      
-    }
+    this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
   }
 
   getCurrentUserImages(): void {
@@ -70,6 +65,18 @@ export class ImageBoardComponent implements OnInit {
       }
     }
     return Promise.resolve();
+  }
+
+  refreshCurrentUserImages(): void {
+    this.toggleDisplay();
+    //this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); }); });
+
+    //setTimeout(() => {
+
+    //  this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
+
+    //}, 3000); // TODO: Find something better
+
   }
 
   toggleDisplay() {
