@@ -1,6 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
-import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
@@ -13,7 +12,7 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
-
+import { ImageModel } from '../../models/imageModel';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -34,6 +33,7 @@ export class ProfileTileviewComponent implements OnChanges {
   scrollUpDistance = 3;
   defaultImage = '../assets/default-person-icon.jpg';
   noProfiles: boolean = false;
+  imageModels: ImageModel[];
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -141,110 +141,50 @@ export class ProfileTileviewComponent implements OnChanges {
       });
   }
 
-
-
   async openImageDialog(profile: Profile): Promise<void> {
 
-    this.setImageTitles(profile);
-    await this.getSmallProfileImages(profile);
-    await this.getProfileImages(profile);
+    this.imageModels = profile.images;
+    this.getSmallProfileImages(profile).then(() => { this.getProfileImages(profile); });
 
-    this._smallImages.subscribe(x => {
-      this.setSmallGalleryImages(x);
+    const dialogRef = this.dialog.open(ImageDialog, {
+      //height: '80%',
+      //width: '80%',
+      data: {
+        index: 0,
+        imageModels: this.imageModels
+      }
     });
 
-    this._images.subscribe(x => {
-      this.setGalleryImages(x);
-    });
-
-    setTimeout(() => {
-      const dialogRef = this.dialog.open(ImageDialog, {
-        //height: '80%',
-        //width: '80%',
-        data: {
-          index: 0,
-          smallimages: this.defaultImages,  //Use imageModels like in CurrentUser-images dialog
-          images: this.galleryImages,
-          titles: this.imagesTitles
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(
-        res => {
-          if (res === true) { this.loadDetails(profile) }
-        }
-      );
-
-    }, 5000); // TODO: Find something better
-
-    //const dialogRef = this.dialog.open(ImageDialog, {
-    //  //height: '80%',
-    //  //width: '80%',
-    //  data: {
-    //    index: 0,
-    //    images: this.smallImages // TODO: use defaultImage first, then galleryImage
-    //    //titles: this.imagesTitles
-    //  }
-    //});
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) { this.loadDetails(profile) }
+      }
+    );
   }
 
-  //smallImages: any[] = [];
-
-  private _smallImages = new BehaviorSubject<any[]>([]);
-  private _images = new BehaviorSubject<any[]>([]);
-
-  set smallImages(value: any[]) {
-    this._smallImages.next(value); 
+  getProfileImages(profile: Profile): void {
+    if (this.imageModels != null) {
+      if (this.imageModels.length > 0) {
+        this.imageModels.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+        });
+      }
+    }
   }
-
-  set images(value: any[]) {
-    this._images.next(value);
-  }
-
-  imagesTitles: string[] = [];
-  galleryImages: any[] = [];
-  defaultImages: any[] = [];
 
   getSmallProfileImages(profile: Profile): Promise<void> {
-    this.imageService.getProfileImages(profile.profileId, ImageSizeEnum.small)
-      .pipe(takeWhileAlive(this))
-      .subscribe(smallImages => this.smallImages = smallImages);
-
+    if (this.imageModels != null) {
+      if (this.imageModels.length > 0) {
+        this.imageModels.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
+        });
+      }
+    }
     return Promise.resolve();
-  }
-
-  getProfileImages(profile: Profile): Promise<void> {
-    this.imageService.getProfileImages(profile.profileId, ImageSizeEnum.large)
-      .pipe(takeWhileAlive(this))
-      .subscribe(images => this.images = images);
-
-    return Promise.resolve();
-  }
-
-  setSmallGalleryImages(smallImages: any[]): void {
-    const pics = [];
-    smallImages.forEach(element => pics.push(
-      'data:image/jpg;base64,' + element
-    ));
-
-    this.defaultImages = pics;
-  }
-
-  setGalleryImages(images: any[]): void {
-    const pics = [];
-    images.forEach(element => pics.push(
-      'data:image/jpg;base64,' + element
-    ));
-    this.galleryImages = pics;
-  }
-
-  setImageTitles(profile: Profile): void {
-    const imageTitles = [];
-    profile.images.forEach(element => imageTitles.push(
-      element.title
-    ));
-
-    this.imagesTitles = imageTitles;
   }
 
   bookmarked(profileId: string) {
