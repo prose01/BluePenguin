@@ -33,7 +33,7 @@ export class ImageUploadComponent {
   titlePlaceholder: string = "Please insert an image title.";
   uploadingPhoto: boolean = false;
 
-  @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
+  @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
   constructor(private imageService: ImageService, private formBuilder: FormBuilder) {
     this.createForm();
@@ -171,7 +171,7 @@ export class ImageUploadComponent {
         formData.append('title', uploadModel.title as string);
         this.imageService.uploadImage(formData)
           .pipe(takeWhileAlive(this))
-          .subscribe(() => { this.uploadingPhoto = true }, () => { this.refreshCurrentUserImages.emit(); }, () => { this.refreshCurrentUserImages.emit(); });
+          .subscribe(() => { this.uploadingPhoto = true }, () => { this.toggleDisplay.emit(); }, () => { this.toggleDisplay.emit(); });
       });
     }    
   }

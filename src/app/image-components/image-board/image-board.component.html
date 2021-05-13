@@ -9,6 +9,6 @@
   </button>
 
   <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="imageModels"></currentUser-images></div>
-  <div *ngIf="!isMatButtonToggled"><image-upload (refreshCurrentUserImages)="refreshCurrentUserImages()"></image-upload></div>
+  <div *ngIf="!isMatButtonToggled"><image-upload (toggleDisplay)="toggleDisplay()"></image-upload></div>
 
 </div>

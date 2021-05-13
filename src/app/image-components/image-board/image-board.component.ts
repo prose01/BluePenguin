@@ -29,7 +29,6 @@ export class ImageBoardComponent implements OnInit {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
   }
 
-
   ngOnInit(): void {
     this.profileService.currentUserSubject
       .pipe(takeWhileAlive(this))
@@ -68,8 +67,9 @@ export class ImageBoardComponent implements OnInit {
   }
 
   refreshCurrentUserImages(): void {
-    this.toggleDisplay();
-    //this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); }); });
+    //this.toggleDisplay();
+    console.log('refreshCurrentUserImages');
+    this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); }); });
 
     //setTimeout(() => {
 
@@ -79,9 +79,13 @@ export class ImageBoardComponent implements OnInit {
 
   }
 
-  toggleDisplay() {
+  toggleDisplay(): void {
     this.isMatButtonToggled = !this.isMatButtonToggled;
     this.matButtonToggleText = (this.isMatButtonToggled ? 'Upload new photo' : 'TileView');
     this.matButtonToggleIcon = (this.isMatButtonToggled ? 'add_photo_alternate' : 'collections');
+
+    if (this.matButtonToggleText == 'Upload new photo') {
+      this.refreshCurrentUserImages();
+    }
   }
 }
