@@ -27,7 +27,6 @@ export class ProfileTileviewComponent implements OnChanges {
   selectedProfile: Profile;
   pageIndex: number;
   pageSize: number = 20;
-  loading: boolean = true;
   throttle = 1;
   scrollDistance = 2;
   scrollUpDistance = 3;

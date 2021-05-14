@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(ProfileListviewComponent)
   private listviewComponent: ProfileListviewComponent;
 
+  loading: boolean = false;
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
@@ -138,7 +139,7 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
     );
 
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
@@ -159,7 +160,7 @@ export class DashboardComponent implements OnInit {
           this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
       );
   }
 
@@ -179,7 +180,7 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
     );
 
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
@@ -200,7 +201,7 @@ export class DashboardComponent implements OnInit {
           this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
       );
   }
 
@@ -220,7 +221,7 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
     );
 
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
@@ -241,7 +242,7 @@ export class DashboardComponent implements OnInit {
           this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) }) }
+        , () => { this.getProfileImages(this.currentProfiles); }
       );
   }
 
@@ -261,8 +262,7 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.length = this.currentProfiles.length + 1;
         }
         , () => { }
-        , () => { this.getSmallProfileImages(this.currentProfiles).then(() => { this.getProfileImages(this.currentProfiles) });
-        }
+        , () => { this.getProfileImages(this.currentProfiles); }
       );
 
     this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
@@ -283,9 +283,7 @@ export class DashboardComponent implements OnInit {
           this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
-        , () => {
-          this.getSmallProfileImages(this.nextProfiles).then(() => { this.getProfileImages(this.nextProfiles) });
-        }
+        , () => { this.getProfileImages(this.currentProfiles); }
       );
   }
 
@@ -293,15 +291,19 @@ export class DashboardComponent implements OnInit {
 
   imageNumber: number = 0;
 
-  getSmallProfileImages(profiles: Profile[]): Promise<void> {
+  getProfileImages(profiles: Profile[]): Promise<void> {
     let defaultImageModel: ImageModel = new ImageModel();
 
     profiles?.forEach((element, i) => {
+      // Take a random image from profile.
+      this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+
       if (element.images != null && element.images.length > 0) {
-        // Take a random image from profile.
-        this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-        //Just insert it into the first[0] element as we will only show one image.
         this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.small)
+          .pipe(takeWhileAlive(this))
+          .subscribe(images => element.images[0].smallimage = 'data:image/png;base64,' + images.toString());
+
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
           .pipe(takeWhileAlive(this))
           .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
       }
@@ -314,21 +316,21 @@ export class DashboardComponent implements OnInit {
     return Promise.resolve();
   }
 
-  getProfileImages(profiles: Profile[]): void {
-    let defaultImageModel: ImageModel = new ImageModel();
+  //getProfileImages(profiles: Profile[]): void {
+  //  //let defaultImageModel: ImageModel = new ImageModel();
 
-    profiles?.forEach((element, i) => {
-      if (element.images != null && element.images.length > 0) {
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
-          .pipe(takeWhileAlive(this))
-          .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
-      }
-      else {
-        // Set default profile image.
-        element.images.push(defaultImageModel);
-      }
-    });
-  }
+  //  //profiles?.forEach((element, i) => {
+  //  //  if (element.images != null && element.images.length > 0) {
+  //  //    //this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
+  //  //    //  .pipe(takeWhileAlive(this))
+  //  //    //  .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+  //  //  }
+  //  //  else {
+  //  //    // Set default profile image.
+  //  //    element.images.push(defaultImageModel);
+  //  //  }
+  //  //});
+  //}
 
   randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
