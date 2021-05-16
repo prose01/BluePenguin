@@ -1,8 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
-
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { OrderByType } from '../../models/enums';
@@ -41,7 +39,7 @@ export class ProfileTileviewComponent implements OnChanges {
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
@@ -51,7 +49,7 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
-
+    
     this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
@@ -142,14 +140,14 @@ export class ProfileTileviewComponent implements OnChanges {
 
   async openImageDialog(profile: Profile): Promise<void> {
 
-    this.imageModels = profile.images;
+    this.imageModels = profile.images;    
     this.getSmallProfileImages(profile).then(() => { this.getProfileImages(profile); });
-
+    
     const dialogRef = this.dialog.open(ImageDialog, {
       //height: '80%',
       //width: '80%',
       data: {
-        index: 0,
+        index: profile.imageNumber,
         imageModels: this.imageModels
       }
     });

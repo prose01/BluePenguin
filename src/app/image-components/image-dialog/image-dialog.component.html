@@ -5,11 +5,11 @@
 
   <img class="mdc-image-list__image" [lazyLoad]="data.imageModels[index].image" [defaultImage]="data.imageModels[index].smallimages">
 
-  <button type="button" class="next" (click)="onNextClick()" mat-button i18n-matTooltip="Next | Next @@Next" matTooltip="Next">
+  <button *ngIf="(data.imageModels.length - 1) > index" type="button" class="next" (click)="onNextClick()" mat-button i18n-matTooltip="Next | Next @@Next" matTooltip="Next">
     <i class="material-icons">navigate_next</i>
   </button>
 
-  <button type="button" class="before" (click)="onBeforeClick()" mat-button i18n-matTooltip="Before | Before @@Before" matTooltip="Before">
+  <button *ngIf="0 < (data.imageModels.length - 1) && 0 < index" type="button" class="before" (click)="onBeforeClick()" mat-button i18n-matTooltip="Before | Before @@Before" matTooltip="Before">
     <i class="material-icons">navigate_before</i>
   </button>
 

@@ -7,8 +7,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
-
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
@@ -56,20 +54,18 @@ export class ProfileListviewComponent implements OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
   ngOnChanges(): void {
-    if (this.auth.isAuthenticated()) {
-      this.profiles = this.profiles?.filter(function (el) {
-        return el != null;
-      });
+    this.profiles = this.profiles?.filter(function (el) {
+      return el != null;
+    });
 
-      this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
-      this.setDataSource();
-    }
+    this.setDataSource();
   }
 
   pageChanged(event) {
@@ -184,7 +180,7 @@ export class ProfileListviewComponent implements OnChanges {
       //height: '80%',
       //width: '80%',
       data: {
-        index: 0,
+        index: profile.imageNumber,
         imageModels: this.imageModels
       }
     });

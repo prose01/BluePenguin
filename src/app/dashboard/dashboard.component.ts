@@ -289,23 +289,31 @@ export class DashboardComponent implements OnInit {
 
   // Get Profile Images.
 
-  imageNumber: number = 0;
-
   getProfileImages(profiles: Profile[]): Promise<void> {
     let defaultImageModel: ImageModel = new ImageModel();
 
     profiles?.forEach((element, i) => {
       // Take a random image from profile.
-      this.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-
+      element.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
+      
       if (element.images != null && element.images.length > 0) {
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.small)
+        this.loading = true;
+        
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
           .pipe(takeWhileAlive(this))
-          .subscribe(images => element.images[0].smallimage = 'data:image/png;base64,' + images.toString());
-
-        this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
+          .subscribe(
+            images => { element.images[element.imageNumber].smallimage = 'data:image/png;base64,' + images.toString() },
+            () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
+            () => { this.loading = false; } 
+          );
+        
+        this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
           .pipe(takeWhileAlive(this))
-          .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
+          .subscribe(
+            images => { element.images[element.imageNumber].image = 'data:image/png;base64,' + images.toString() },
+            () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
+            () => { this.loading = false; }
+          );
       }
       else {
         // Set default profile image.

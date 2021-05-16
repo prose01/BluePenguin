@@ -31,6 +31,7 @@ export class Profile {
   height: number;
   contactable: boolean;
   description: string;
+  imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
   gender: GenderType;
@@ -63,6 +64,7 @@ export interface Profile {
   height: number;
   contactable: boolean;
   description: string;
+  imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
   gender: GenderType;

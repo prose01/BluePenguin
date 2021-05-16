@@ -1,4 +1,4 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+<div class="grid grid-pad">
 
   <!--<div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
@@ -21,7 +21,7 @@
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
       <!--[ngClass]="profile.profileId === '3ad101be-e831-4eec-a15e-b21331baeb52' ? 'visited' : 'mdc-image-list__image'"-->
 
-      <img class="mdc-image-list__image" [lazyLoad]="profile.images[0].image" [defaultImage]="profile.images[0].smallimage" (click)="openImageDialog(profile)">
+      <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber].image" [defaultImage]="profile.images[profile.imageNumber].smallimage" (click)="openImageDialog(profile)">
       <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject.isBookmarked[profile.profileId] && currentUserSubject.visited[profile.profileId]" i18n-matTooltip="Visited | Visited @@Visited" matTooltip="This profile has visited your profile on {{currentUserSubject.visited[profile.profileId] | date:'medium'}}">adjust</i>
       <i class="material-icons icon-orange-left" *ngIf="currentUserSubject.isBookmarked[profile.profileId]" i18n-matTooltip="IsBookmarked | IsBookmarked @@IsBookmarked" matTooltip="This profile has bookmarked your profile">bookmark_added</i>
 
