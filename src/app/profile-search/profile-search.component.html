@@ -1,4 +1,11 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+<div class="grid grid-pad">
+
+  <div class="overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
   <form [formGroup]="profileForm">
 
     <div class="form-container">
@@ -27,11 +34,11 @@
       </mat-form-field>
 
       <mat-label i18n="Profile Age | A Age for the Profile @@profileAge">Age</mat-label>
-      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-slider min="16" max="120" step="1" [value]="ageList" thumbLabel formControlName="age" class="cdk-focused">
       </mat-slider>
 
       <mat-label i18n="Profile Height | A Height for the Profile @@profileHeight">Height in cm</mat-label>
-      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      <mat-slider min="1" max="250" step="1" [value]="heightList" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
       <mat-form-field *ngIf="showGenderChoise">

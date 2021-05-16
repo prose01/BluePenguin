@@ -6,7 +6,6 @@ import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
-import { AuthService } from './../authorisation/auth/auth.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
@@ -40,6 +39,7 @@ export class ProfileSearchComponent implements OnInit {
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
+  loading: boolean = false;
 
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
@@ -71,7 +71,7 @@ export class ProfileSearchComponent implements OnInit {
 
   @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -98,21 +98,19 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.auth.isAuthenticated()) {
-      this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) {          
-          this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });          
+    this.profileService.verifyCurrentUserProfile().then(currentUser => {
+      if (currentUser) {
+        this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });
 
-          // Get and load previous ProfileFilter.
-          this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
-            if (currentProfileFilterSubject) {
-              this.loadForm(currentProfileFilterSubject);
-              this.profileForm.markAsDirty();
-            }
-          });
-        }
-      });
-    }
+        // Get and load previous ProfileFilter.
+        this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+          if (currentProfileFilterSubject) {
+            this.loadForm(currentProfileFilterSubject);
+            this.profileForm.markAsDirty();
+          }
+        });
+      }
+    });
   }
 
   setShowGenderChoise(sexualOrientationType: SexualOrientationType) {
@@ -189,18 +187,28 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   saveSearch() {
+    this.loading = true;
+
     this.filter = this.prepareSearch();
     this.profileService.saveProfileFilter(this.filter)
       .pipe(takeWhileAlive(this))
-      .subscribe();
+      .subscribe(
+        () => { },        // TODO: Give feeback on succes
+        () => { this.loading = false; },
+        () => { this.loading = false; }
+      );
   }
 
   loadSearch() {
+    this.loading = true;
+
     this.profileService.loadProfileFilter()
       .pipe(takeWhileAlive(this))
-      .subscribe(filter => { this.loadForm(filter); console.log(filter); }, () => { }, () => { });
-
-    //setTimeout(() => { this.loadForm(); }, 1000);     // TODO: this.filter.body er undefined og fejler.
+      .subscribe(
+        filter => { this.loadForm(filter); },
+        () => { this.loading = false; },
+        () => { this.loading = false; }
+      );
 
     this.profileForm.markAsDirty();
   }
