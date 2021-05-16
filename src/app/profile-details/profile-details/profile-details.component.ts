@@ -1,11 +1,11 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
-import { AuthService } from './../../authorisation/auth/auth.service';
 
 @Component({
   selector: 'profile-details',
@@ -17,16 +17,14 @@ export class ProfileDetailsComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog) { }
+  constructor(private profileService: ProfileService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (this.auth.isAuthenticated()) {
-      this.profileService.verifyCurrentUserProfile().then(currentUser => {
-        if (currentUser) { }
+    this.profileService.verifyCurrentUserProfile().then(currentUser => {
+      if (currentUser) { }
 
-        this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
-      });
-    }
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    });
   }
 
   setProfileAsAdmin() {

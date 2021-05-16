@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
-
 import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
@@ -16,28 +14,34 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 export class ProfileDetailsBoardComponent {
   @Input() profile: Profile;
 
-  smallImages: any[] = [];
-  images: any[] = [];
-
-  constructor(public auth: AuthService, private imageService: ImageService) { }
+  constructor(private imageService: ImageService) { }
 
   ngOnInit() {
-    if (this.auth.isAuthenticated()) {
-      this.getSmallProfileImages().then(() => { this.getProfileImages(); });
-    }
+    this.getSmallProfileImages().then(() => { this.getProfileImages(); });
   }
 
   getProfileImages(): void {
-    this.imageService.getProfileImages(this.profile.profileId, ImageSizeEnum.large)
-      .pipe(takeWhileAlive(this))
-      .subscribe(images => this.images = images );
+    if (this.profile.images != null) {
+      if (this.profile.images.length > 0) {
+        this.profile.images.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
+        });
+      }
+    }
   }
 
   getSmallProfileImages(): Promise<void> {
-    this.imageService.getProfileImages(this.profile.profileId, ImageSizeEnum.small)
-      .pipe(takeWhileAlive(this))
-      .subscribe(smallImages => this.smallImages = smallImages );
-
+    if (this.profile.images != null) {
+      if (this.profile.images.length > 0) {
+        this.profile.images.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
+            .pipe(takeWhileAlive(this))
+            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
+        });
+      }
+    }
     return Promise.resolve();
   }
 }
