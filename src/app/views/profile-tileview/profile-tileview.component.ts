@@ -30,7 +30,7 @@ export class ProfileTileviewComponent implements OnChanges {
   scrollUpDistance = 3;
   defaultImage = '../assets/default-person-icon.jpg';
   noProfiles: boolean = false;
-  imageModels: ImageModel[];
+  loading: boolean = false;
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -140,15 +140,14 @@ export class ProfileTileviewComponent implements OnChanges {
 
   async openImageDialog(profile: Profile): Promise<void> {
 
-    this.imageModels = profile.images;    
-    this.getSmallProfileImages(profile).then(() => { this.getProfileImages(profile); });
+    this.getProfileImages(profile);
     
     const dialogRef = this.dialog.open(ImageDialog, {
       //height: '80%',
       //width: '80%',
       data: {
         index: profile.imageNumber,
-        imageModels: this.imageModels
+        imageModels: profile.images
       }
     });
 
@@ -160,28 +159,31 @@ export class ProfileTileviewComponent implements OnChanges {
   }
 
   getProfileImages(profile: Profile): void {
-    if (this.imageModels != null) {
-      if (this.imageModels.length > 0) {
-        this.imageModels.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
-        });
-      }
-    }
-  }
+    let defaultImageModel: ImageModel = new ImageModel();
+    this.loading = true;
 
-  getSmallProfileImages(profile: Profile): Promise<void> {
-    if (this.imageModels != null) {
-      if (this.imageModels.length > 0) {
-        this.imageModels.forEach((element, i) => {
+    if (profile.images != null) {
+      if (profile.images.length > 0) {
+        profile.images.forEach((element, i) => {
+
           this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
             .pipe(takeWhileAlive(this))
-            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
+            .subscribe(
+              images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
+              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+              () => { this.loading = false; }
+            );
+
+          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(
+              images => { element.image = 'data:image/png;base64,' + images.toString() },
+              () => { this.loading = false; element.image = defaultImageModel.image },
+              () => { this.loading = false; }
+            );
         });
       }
     }
-    return Promise.resolve();
   }
 
   bookmarked(profileId: string) {

@@ -311,7 +311,7 @@ export class DashboardComponent implements OnInit {
           .pipe(takeWhileAlive(this))
           .subscribe(
             images => { element.images[element.imageNumber].image = 'data:image/png;base64,' + images.toString() },
-            () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
+            () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image },
             () => { this.loading = false; }
           );
       }
