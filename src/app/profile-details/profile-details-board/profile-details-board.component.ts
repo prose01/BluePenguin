@@ -4,6 +4,7 @@ import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
+import { ImageModel } from '../../models/imageModel';
 
 @Component({
   selector: 'profileDetailsBoard',
@@ -12,36 +13,44 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 
 @AutoUnsubscribe()
 export class ProfileDetailsBoardComponent {
+  loading: boolean = false;
+
   @Input() profile: Profile;
 
   constructor(private imageService: ImageService) { }
 
   ngOnInit() {
-    this.getSmallProfileImages().then(() => { this.getProfileImages(); });
+    this.getProfileImages();
   }
 
   getProfileImages(): void {
-    if (this.profile.images != null) {
-      if (this.profile.images.length > 0) {
-        this.profile.images.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
-        });
-      }
-    }
-  }
+    let defaultImageModel: ImageModel = new ImageModel();
 
-  getSmallProfileImages(): Promise<void> {
     if (this.profile.images != null) {
       if (this.profile.images.length > 0) {
+
+        this.loading = true;
+
         this.profile.images.forEach((element, i) => {
           this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
             .pipe(takeWhileAlive(this))
-            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
+            .subscribe(
+              images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
+              () => { this.loading = false; element.image = defaultImageModel.image },
+              () => { this.loading = false; }
+            );
+        });
+
+        this.profile.images.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(
+              images => { element.image = 'data:image/jpg;base64,' + images.toString() },
+              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+              () => { this.loading = false; }
+            );
         });
       }
     }
-    return Promise.resolve();
   }
 }

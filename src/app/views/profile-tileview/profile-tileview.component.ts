@@ -160,10 +160,12 @@ export class ProfileTileviewComponent implements OnChanges {
 
   getProfileImages(profile: Profile): void {
     let defaultImageModel: ImageModel = new ImageModel();
-    this.loading = true;
 
     if (profile.images != null) {
       if (profile.images.length > 0) {
+
+        this.loading = true;
+
         profile.images.forEach((element, i) => {
 
           this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)

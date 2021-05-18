@@ -1,5 +1,11 @@
 <div class="grid grid-pad">
 
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
   <p *ngIf="!morePhotosAllowed" i18n="AboutUsText | AboutPageText @@aboutUsText">
     You have reached the maximum {{maxPhotos}} number off profile photos allowed.
   </p>
@@ -8,7 +14,7 @@
     <i class="material-icons">{{matButtonToggleIcon}}</i>
   </button>
 
-  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="imageModels"></currentUser-images></div>
+  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images"></currentUser-images></div>
   <div *ngIf="!isMatButtonToggled"><image-upload (toggleDisplay)="toggleDisplay()"></image-upload></div>
 
 </div>

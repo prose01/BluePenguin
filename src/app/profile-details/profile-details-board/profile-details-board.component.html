@@ -1,5 +1,11 @@
 <div class="grid grid-pad">
 
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
   <mat-tab-group>
     <mat-tab i18n-tab="Profile Details | Profile Details @@profileDetails" label="Profile Details"> <profile-details [profile]="profile"></profile-details> </mat-tab>
     <mat-tab i18n-tab="Profile Images | Profile Images tab @@profileImages" label="Profile Images"> <profile-images [profile]="profile"></profile-images> </mat-tab>

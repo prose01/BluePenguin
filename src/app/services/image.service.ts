@@ -56,13 +56,13 @@ export class ImageService {
 
   // Profile
 
-  getProfileImages(profileId: string, size: ImageSizeEnum): Observable<any[]> {
-    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId},${size}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //getProfileImages(profileId: string, size: ImageSizeEnum): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId},${size}`, { headers: this.headers })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   getProfileImageByFileName(profileId: string, fileName: string, size: ImageSizeEnum): Observable<any[]> {
     return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers })

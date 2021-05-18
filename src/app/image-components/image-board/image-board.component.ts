@@ -16,6 +16,7 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 
 @AutoUnsubscribe()
 export class ImageBoardComponent implements OnInit {
+  loading: boolean = false;
   maxPhotos: number;
   morePhotosAllowed: boolean = false;
   isMatButtonToggled = true;
@@ -32,51 +33,50 @@ export class ImageBoardComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.currentUserSubject
       .pipe(takeWhileAlive(this))
-      .subscribe(currentUserSubject => {
-        this.currentUserSubject = currentUserSubject;
-        this.imageModels = currentUserSubject.images;
-        this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
-      });
+      .subscribe(
+        currentUserSubject => {
+          this.currentUserSubject = currentUserSubject;
+          this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
+        }
+    );
 
-    this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
+    this.getCurrentUserImages();
   }
 
   getCurrentUserImages(): void {
-    if (this.imageModels != null) {
-      if (this.imageModels.length > 0) {
-        this.imageModels.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(images => element.image = 'data:image/jpg;base64,' + images.toString());
-        });
-      }
-    }
-  }
 
-  getCurrentUserSmallImages(): Promise<void> {
-    if (this.imageModels != null) {
-      if (this.imageModels.length > 0) {
-        this.imageModels.forEach((element, i) => {
+    let defaultImageModel: ImageModel = new ImageModel();
+
+    if (this.currentUserSubject.images != null) {
+      if (this.currentUserSubject.images.length > 0) {
+
+        this.loading = true;
+
+        this.currentUserSubject.images.forEach((element, i) => {
           this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
             .pipe(takeWhileAlive(this))
-            .subscribe(images => element.smallimage = 'data:image/jpg;base64,' + images.toString());
+            .subscribe(
+              images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
+              () => { this.loading = false; element.image = defaultImageModel.image },
+              () => { this.loading = false; }
+            );
+        });
+
+        this.currentUserSubject.images.forEach((element, i) => {
+          this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
+            .pipe(takeWhileAlive(this))
+            .subscribe(
+              images => { element.image = 'data:image/jpg;base64,' + images.toString() },
+              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+              () => { this.loading = false; }
+            );
         });
       }
     }
-    return Promise.resolve();
   }
 
   refreshCurrentUserImages(): void {
-    //this.toggleDisplay();
-    console.log('refreshCurrentUserImages');
-    this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); }); });
-
-    //setTimeout(() => {
-
-    //  this.getCurrentUserSmallImages().then(() => { this.getCurrentUserImages(); });
-
-    //}, 3000); // TODO: Find something better
-
+    this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserImages(); });
   }
 
   toggleDisplay(): void {
