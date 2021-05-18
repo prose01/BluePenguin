@@ -324,22 +324,6 @@ export class DashboardComponent implements OnInit {
     return Promise.resolve();
   }
 
-  //getProfileImages(profiles: Profile[]): void {
-  //  //let defaultImageModel: ImageModel = new ImageModel();
-
-  //  //profiles?.forEach((element, i) => {
-  //  //  if (element.images != null && element.images.length > 0) {
-  //  //    //this.imageService.getProfileImageByFileName(element.profileId, element.images[this.imageNumber].fileName, ImageSizeEnum.large)
-  //  //    //  .pipe(takeWhileAlive(this))
-  //  //    //  .subscribe(images => element.images[0].image = 'data:image/png;base64,' + images.toString());
-  //  //  }
-  //  //  else {
-  //  //    // Set default profile image.
-  //  //    element.images.push(defaultImageModel);
-  //  //  }
-  //  //});
-  //}
-
   randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
