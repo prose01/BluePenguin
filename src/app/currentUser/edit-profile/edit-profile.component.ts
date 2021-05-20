@@ -5,8 +5,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
@@ -34,6 +34,7 @@ import {
   styleUrls: ['./edit-profile.component.scss']
 })
 
+@AutoUnsubscribe()
 export class EditProfileComponent {
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
@@ -57,7 +58,9 @@ export class EditProfileComponent {
 
   tagsPlaceholder: string = "Tags";
 
-  constructor(public auth: AuthService, private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
+  loading: boolean = false;
+
+  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -89,9 +92,7 @@ export class EditProfileComponent {
   }
 
   ngOnInit(): void {
-    if (this.auth.isAuthenticated()) {
-          this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
-    }
+    this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
   }
 
   // TODO Remove datePipe when Pipe works!
@@ -135,9 +136,18 @@ export class EditProfileComponent {
   }
 
   onSubmit() {
+    this.loading = true;
     this.currentUserSubject = this.prepareSaveProfile();
-    this.profileService.putProfile(this.currentUserSubject).subscribe(/* add error handling */);
-    // TODO: Hvad skal vi gøre når der er postet? Dialog box with information.
+    this.profileService.putProfile(this.currentUserSubject)
+      .pipe(takeWhileAlive(this))  // TODO: Not sure this is good idea with save profile?
+      .subscribe(
+        () => {
+          
+        }, (err) => {
+          //console.log(err); // TODO: Add some logging?
+        },
+        () => { this.profileForm.markAsPristine(); this.loading = false; }
+      );
   }
 
   prepareSaveProfile(): CurrentUser {
@@ -182,8 +192,8 @@ export class EditProfileComponent {
 
   openDeleteCurrentUserDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      height: '300px',
-      width: '300px',
+      //height: '300px',
+      //width: '300px',
       data: { profileIds: [] }
     });
   }
