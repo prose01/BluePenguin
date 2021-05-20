@@ -169,9 +169,19 @@ export class ImageUploadComponent {
       this.resizeImage(image, 1080, 1350).then(res => {
         formData.append('image', res);
         formData.append('title', uploadModel.title as string);
+        this.uploadingPhoto = true;
         this.imageService.uploadImage(formData)
           .pipe(takeWhileAlive(this))
-          .subscribe(() => { this.uploadingPhoto = true }, () => { this.toggleDisplay.emit(); }, () => { this.toggleDisplay.emit(); });
+          .subscribe(
+            (res) => {
+              if (res.status == 200) {
+              }
+            }, (err) => {
+              //console.log(err); // TODO: Add some logging?
+              this.toggleDisplay.emit();
+            },
+            () => { this.toggleDisplay.emit(); }
+          );
       });
     }    
   }

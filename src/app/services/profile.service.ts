@@ -236,7 +236,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles/`, { headers: this.headers, params: params })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -256,6 +256,9 @@ export class ProfileService {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+    } else if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('No connection to data server:', error.error);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.

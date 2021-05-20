@@ -1,27 +1,21 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { AuthService } from './../../authorisation/auth/auth.service';
-
-import { ProfileService } from './../../services/profile.service';
 import { ImageService } from './../../services/image.service';
 
 @Component({
   selector: 'delete-image-dialog',
-  templateUrl: './delete-image-dialog.component.html'
+  templateUrl: './delete-image-dialog.component.html',
+  styleUrls: ['./delete-image-dialog.component.scss']
 })
 
 export class DeleteImageDialog {
   IsChecked: boolean;
-  matDialogTitle: string;
-  matDialogContent: string;
+  matDialogTitle: string = 'Do you want to delete this image?';
+  matDialogContent: string = 'This will delete the image and cannot be undone.';
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
-    public dialogRef: MatDialogRef<DeleteImageDialog>,
+  constructor(private imageService: ImageService, public dialogRef: MatDialogRef<DeleteImageDialog>,
     @Inject(MAT_DIALOG_DATA) public imageId: string) {
-
-    this.matDialogTitle = 'Do you want to delete this image?';
-    this.matDialogContent = 'This will delete the image and cannot be undone.';
   }
 
   onNoClick(): void {

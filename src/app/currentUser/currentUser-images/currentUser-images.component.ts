@@ -20,8 +20,6 @@ export class CurrentUserImagesComponent{
   openImageDialog(indexOfelement: any): void {
 
     const dialogRef = this.dialog.open(ImageDialog, {
-      //height: '80%',
-      //width: '80%',
       data: {
         index: indexOfelement,
         imageModels: this.imageModels,
@@ -29,10 +27,8 @@ export class CurrentUserImagesComponent{
     });
   }
 
-  openDeleteImageDialog(imageId): void {
+  openDeleteImageDialog(imageId: string): void {
     const dialogRef = this.dialog.open(DeleteImageDialog, {
-      height: '300px',
-      width: '300px',
       data: { imageId }
     });
 

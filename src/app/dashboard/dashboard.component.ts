@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
           this.getLatestProfiles(OrderByType.CreatedOn);
-          this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '1', '20');
+          this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '20', '20');
 
           // Get and load previous ProfileFilter.
           this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
     );
-
+    
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
   }
 
@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
-      );
+    );
   }
 
   // Get Filtered Profiles.
