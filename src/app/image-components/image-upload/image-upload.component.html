@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="uploadImageForm">
+  <form [formGroup]="uploadImageForm">
 
     <button type="button"
             (click)="fileInput.click()" mat-flat-button color="accent" i18n-matTooltip="Choose File | Choose File @@chooseFile" matTooltip="Choose File">
@@ -14,12 +14,12 @@
     </button>
     <input type="file" (change)="fileChangeEvent($event)" #fileInput hidden>
 
-    <mat-form-field *ngIf="croppedImage">
+    <mat-form-field *ngIf="showCropper">
       <input matInput placeholder="{{ titlePlaceholder }}" formControlName="title" (ngModelChange)="onChange()" required>
     </mat-form-field>
 
     <div style="margin-bottom: 1em">
-      <button type="submit" *ngIf="croppedImage"
+      <button type="submit" *ngIf="showCropper"
               (click)="onSubmit()" mat-flat-button color="accent" i18n-matTooltip="Upload | Upload @@upload" matTooltip="Upload">
         <i class="material-icons">cloud_upload</i>
       </button>

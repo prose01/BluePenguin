@@ -22,7 +22,7 @@ import { ImageService } from '../../services/image.service';
 export class ImageUploadComponent {
   uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
-  croppedImage: any = '';
+  croppedImage: any = null;
   canvasRotation = 0;
   rotation = 0;
   scale = 1;
@@ -61,11 +61,17 @@ export class ImageUploadComponent {
   } 
 
   fileChangeEvent(event: any): void {
+    console.log(event);
     this.imageChangedEvent = event;
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
+    this.croppedImage = null;
+    if (event.base64 != null) {
+      //console.log('Im here'); console.log(event.base64);
+      this.croppedImage = event.base64;
+    }
+    console.log('event ' + this.croppedImage);
   }
 
   imageLoaded() {
@@ -158,7 +164,8 @@ export class ImageUploadComponent {
 
       return;
     }
-    else if (this.uploadImageForm.valid) {
+    else if (this.uploadImageForm.valid && this.croppedImage != null) {
+      console.log('upload ' + this.croppedImage);
       const uploadModel = this.uploadImageForm.value;
       const formData = new FormData();
       const image: any = base64ToFile(this.croppedImage);
@@ -170,18 +177,18 @@ export class ImageUploadComponent {
         formData.append('image', res);
         formData.append('title', uploadModel.title as string);
         this.uploadingPhoto = true;
-        this.imageService.uploadImage(formData)
-          .pipe(takeWhileAlive(this))
-          .subscribe(
-            (res) => {
-              if (res.status == 200) {
-              }
-            }, (err) => {
-              //console.log(err); // TODO: Add some logging?
-              this.toggleDisplay.emit();
-            },
-            () => { this.toggleDisplay.emit(); }
-          );
+        //this.imageService.uploadImage(formData)
+        //  .pipe(takeWhileAlive(this))
+        //  .subscribe(
+        //    (res) => {
+        //      if (res.status == 200) {
+        //      }
+        //    }, (err) => {
+        //      //console.log(err); // TODO: Add some logging?
+        //      this.toggleDisplay.emit();
+        //    },
+        //    () => { this.toggleDisplay.emit(); }
+        //  );
       });
     }    
   }
