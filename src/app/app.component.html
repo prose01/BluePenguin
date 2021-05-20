@@ -13,7 +13,7 @@
 
 <div *ngIf="auth.isAuthenticated()">
 
-  <div id="navbar" [class.example-is-mobile]="mobileQuery.matches">
+  <div id="navbar" [class.mobile]="mobileQuery.matches">
     <h2>{{title}}</h2>
 
     <!--Navigation buttons-->
@@ -110,8 +110,8 @@
   </mat-menu>
 
 
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 220 : 0">
+  <mat-sidenav-container class="sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
     <mat-sidenav #sidenav [fixedInViewport]="mobileQuery.matches" fixedTopGap="220">
       <div *ngIf="pageView === 'Search'">
         <app-profile-search (getProfileByFilter)="getProfileByFilter($event, false)"></app-profile-search>
