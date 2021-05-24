@@ -16,6 +16,7 @@ import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageModel } from '../../models/imageModel';
+import { OrderByType } from '../../models/enums';
 
 @Component({
   selector: 'app-profile-listview',
@@ -47,8 +48,10 @@ export class ProfileListviewComponent implements OnChanges {
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
+  @Input() orderBy: OrderByType;
   @Output() getNextData: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
+  @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -112,33 +115,21 @@ export class ProfileListviewComponent implements OnChanges {
 
 /** Add or remove bookmarks */
   removeFavoritProfiles() {
-    let profileIds = this.selcetedProfiles();
-
-    this.profileService.removeProfilesFromBookmarks(profileIds)
+    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
-        this.removeFavoritFromProfileslist(profileIds);
-    });
-  }
-
-  removeFavoritFromProfileslist(profileIds: string[]) {
-    let profiles = this.profiles;
-    profileIds.forEach(function (value) {
-      let pos = profiles.findIndex(i => i?.profileId === value);
-      
-      if (pos > -1) {
-        profiles.splice(pos, 1);
-      }
-    });
-
-    this.profiles = profiles;
-    this.setDataSource(); // TODO: Find på noget bedre end at gøre dette igen
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
   }
 
   addFavoritProfiles() {
     this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
       .pipe(takeWhileAlive(this))
-      .subscribe(() => { });
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
   }
 
   selcetedProfiles(): string[] {
@@ -175,8 +166,6 @@ export class ProfileListviewComponent implements OnChanges {
     this.getProfileImages(profile);
 
     const dialogRef = this.dialog.open(ImageDialog, {
-      //height: '80%',
-      //width: '80%',
       data: {
         index: profile.imageNumber,
         imageModels: profile.images

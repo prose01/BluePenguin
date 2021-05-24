@@ -108,11 +108,6 @@ export class ProfileTileviewComponent implements OnChanges {
     this.loadProfileDetails.emit(profile);
   }
 
-  // Get Bookmarked Profiles.
-  triggerBookmarkedProfiles() {
-    this.getBookmarkedProfiles.emit();
-  }
-
   /** Add or remove bookmarks */
   removeFavoritProfiles(profileId: string) {
     let selcetedProfiles = new Array;
@@ -143,8 +138,6 @@ export class ProfileTileviewComponent implements OnChanges {
     this.getProfileImages(profile);
     
     const dialogRef = this.dialog.open(ImageDialog, {
-      //height: '80%',
-      //width: '80%',
       data: {
         index: profile.imageNumber,
         imageModels: profile.images
