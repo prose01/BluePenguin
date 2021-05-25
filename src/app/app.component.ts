@@ -39,8 +39,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   selectedOrderBy = OrderByType.CreatedOn;
 
-  matButtonOrderByText: string = 'CreatedOn';
-  matButtonOrderByIcon: string = 'schedule';
+  matButtonFilterViewText: string = 'My Search Filter';
+  matButtonFilterViewIcon: string = 'tune';
+  filterViewButtonCounter: number = 0;
+
+  matButtonOrderByText: string = 'LastActive';
+  matButtonOrderByIcon: string = 'watch_later';
   orderByButtonCounter: number = 0;
 
   profile: Profile;
@@ -113,34 +117,61 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dashboardComponent.toggleViewDisplay();
   }
 
+  toggleFilterView() {
+    switch (this.filterViewButtonCounter) {
+      case 0: {
+        this.matButtonFilterViewText = 'Favorites';
+        this.matButtonFilterViewIcon = 'bookmarks';
+        this.filterViewButtonCounter++;
+        this.getProfileByCurrentUsersFilter();
+        break;
+      }
+      case 1: {
+        this.matButtonFilterViewText = 'All';
+        this.matButtonFilterViewIcon = 'flutter_dash';
+        this.filterViewButtonCounter++;
+        this.getBookmarkedProfiles();
+        break;
+      }
+      case 2: {
+        this.matButtonFilterViewText = 'My Search Filter';
+        this.matButtonFilterViewIcon = 'tune';
+        this.filterViewButtonCounter = 0;
+        this.getLatestProfiles();
+        break;
+      }
+    }
+
+    this.resetSelectionPagination();
+  }
+
   toggleOrderBy() {
     switch (this.orderByButtonCounter) {
       case 0: {
         this.matButtonOrderByText = 'UpdatedOn';
         this.matButtonOrderByIcon = 'update';
-        this.selectedOrderBy = OrderByType.UpdatedOn;
-        this.orderByButtonCounter++;
-        this.callApiWithNewSelectedOrderBy();
-        break;
-      }
-      case 1: {
-        this.matButtonOrderByText = 'LastActive';
-        this.matButtonOrderByIcon = 'watch_later';
         this.selectedOrderBy = OrderByType.LastActive;
         this.orderByButtonCounter++;
         this.callApiWithNewSelectedOrderBy();
         break;
       }
-      case 2: {
+      case 1: {
         this.matButtonOrderByText = 'CreatedOn';
         this.matButtonOrderByIcon = 'schedule';
+        this.selectedOrderBy = OrderByType.UpdatedOn;
+        this.orderByButtonCounter++;
+        this.callApiWithNewSelectedOrderBy();
+        break;
+      }
+      case 2: {
+        this.matButtonOrderByText = 'LastActive';
+        this.matButtonOrderByIcon = 'watch_later';
         this.selectedOrderBy = OrderByType.CreatedOn;
         this.orderByButtonCounter = 0;
         this.callApiWithNewSelectedOrderBy();
         break;
       }
     }
-
   }
 
   callApiWithNewSelectedOrderBy() {

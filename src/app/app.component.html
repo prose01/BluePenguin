@@ -30,7 +30,7 @@
 
     <!--Dashboard menu-->
     <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-      <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
+      <!--<button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
         All
       </button>
 
@@ -40,6 +40,10 @@
 
       <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
         <i class="material-icons">bookmarks</i>
+      </button>-->
+
+      <button type="button" (click)="toggleFilterView()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonFilterViewText}}>
+        <i class="material-icons">{{matButtonFilterViewIcon}}</i>
       </button>
     </div>
 
