@@ -16,67 +16,72 @@
   <div id="navbar" [class.mobile]="mobileQuery.matches">
     <h2>{{title}}</h2>
 
-    <!--Navigation buttons-->
-    <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
-      <i class="material-icons">{{matButtonToggleIcon}}</i>
-    </button>
+    <div *ngIf="isProfileCreated">
+      <!--Navigation buttons-->
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
+        <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
+          <i class="material-icons">{{matButtonToggleIcon}}</i>
+        </button>
+      </div>
 
-    <!--ViewToggle button-->
-    <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
-      <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
-        <i class="material-icons">{{matButtonViewToggleIcon}}</i>
-      </button>
-    </div>
+      <!--ViewToggle button-->
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
+        <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
+          <i class="material-icons">{{matButtonViewToggleIcon}}</i>
+        </button>
+      </div>
 
-    <!--Dashboard menu-->
-    <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-      <!--<button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
-        All
-      </button>
+      <!--Dashboard menu-->
+      <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
+        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
+          All
+        </button>
 
-      <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
-        <i class="material-icons">tune</i>
-      </button>
+        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
+          <i class="material-icons">tune</i>
+        </button>
 
-      <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
-        <i class="material-icons">bookmarks</i>
-      </button>-->
+        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
+          <i class="material-icons">bookmarks</i>
+        </button>
 
-      <button type="button" (click)="toggleFilterView()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonFilterViewText}}>
-        <i class="material-icons">{{matButtonFilterViewIcon}}</i>
-      </button>
-    </div>
+        <!--<button type="button" (click)="toggleFilterView()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonFilterViewText}}>
+          <i class="material-icons">{{matButtonFilterViewIcon}}</i>
+        </button>-->
+      </div>
 
-    <!--Search menu-->
-    <div *ngIf="pageView === 'Search'" class="menu-buttons">
-      <!--[disabled]="profileForm.pristine"-->
-      <button type="submit" (click)="onSubmit()"
-              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
-        <i class="material-icons">search</i>
-      </button>
+      <!--Search menu-->
+      <div *ngIf="pageView === 'Search'" class="menu-buttons">
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="submit" (click)="onSubmit()"
+                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
+          <i class="material-icons">search</i>
+        </button>
 
-      <!--[disabled]="profileForm.pristine"-->
-      <button type="button" (click)="revert()"
-              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
-        <i class="material-icons">undo</i>
-      </button>
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="button" (click)="revert()"
+                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
+          <i class="material-icons">undo</i>
+        </button>
 
-      <!--[disabled]="profileForm.pristine"-->
-      <button type="button" (click)="saveSearch()"
-              class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
-        <i class="material-icons">save</i>
-      </button>
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="button" (click)="saveSearch()"
+                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
+          <i class="material-icons">save</i>
+        </button>
 
-      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
-        <i class="material-icons">find_in_page</i>
-      </button>
-    </div>
+        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
+          <i class="material-icons">find_in_page</i>
+        </button>
+      </div>
 
-    <!--OrderBy button-->
-    <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
-      <button type="button" (click)="toggleOrderBy()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonOrderByText}}>
-        <i class="material-icons">{{matButtonOrderByIcon}}</i>
-      </button>
+      <!--OrderBy button-->
+      <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
+        <button type="button" (click)="toggleOrderBy()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonOrderByText}}>
+          <i class="material-icons">{{matButtonOrderByIcon}}</i>
+        </button>
+      </div>
+
     </div>
 
     <!--Upper right corner menu-->
@@ -95,10 +100,12 @@
       </mat-option>
     </mat-select>
 
-    <a (click)="loadEdit()" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
-      Edit Profile
-      <i class="material-icons">person</i>
-    </a>
+    <div *ngIf="isProfileCreated">
+      <a (click)="loadEdit()" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
+        Edit Profile
+        <i class="material-icons">person</i>
+      </a>
+    </div>
     <a (click)="loadAbout()" mat-menu-item i18n="AboutUs | AboutPage @@about">
       About
       <i class="material-icons">plus_one</i>
@@ -114,37 +121,36 @@
   </mat-menu>
 
 
-  <mat-sidenav-container class="sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
-    <mat-sidenav #sidenav [fixedInViewport]="mobileQuery.matches" fixedTopGap="220">
+  <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #sidenav [fixedInViewport]="mobileQuery.matches" fixedTopGap="200">
       <div *ngIf="pageView === 'Search'">
         <app-profile-search (getProfileByFilter)="getProfileByFilter($event, false)"></app-profile-search>
       </div>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <!--<p *ngFor="let content of fillerContent">{{content}}</p>-->
-      <!--<router-outlet></router-outlet>-->
       <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'">
-        <dashboard (loadDetails)="loadDetails($event)" ></dashboard>
+        <dashboard (isCurrentUserCreated)="isCurrentUserCreated($event)" (loadDetails)="loadDetails($event)"></dashboard>
       </div>
-
-      <!--<dashboard></dashboard>-->
 
       <div *ngIf="pageView === 'About'">
         <about></about>
       </div>
 
-      <div *ngIf="pageView === 'Edit'">
+      <div *ngIf="!isProfileCreated && pageView != 'About'">
+        <create-profile></create-profile>
+      </div>
+
+      <div *ngIf="isProfileCreated && pageView === 'Edit'">
         <currentUserBoard><edit-profile></edit-profile></currentUserBoard>
       </div>
 
-      <div *ngIf="pageView === 'Details'">
+      <div *ngIf="isProfileCreated && pageView === 'Details'">
         <!-- Tile and List should call details-page with Profile as input -->
         <profileDetailsBoard [profile]="profile"><profile-details></profile-details></profileDetailsBoard>
       </div>
     </mat-sidenav-content>
-  </mat-sidenav-container>  
+  </mat-sidenav-container>
 
   <!--chat-component-->
   <div *ngIf="useChat">

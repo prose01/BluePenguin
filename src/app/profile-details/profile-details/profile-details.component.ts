@@ -20,11 +20,7 @@ export class ProfileDetailsComponent implements OnInit {
   constructor(private profileService: ProfileService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.profileService.verifyCurrentUserProfile().then(currentUser => {
-      if (currentUser) { }
-
-      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
-    });
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
   setProfileAsAdmin() {

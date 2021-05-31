@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites']; // TODO: Add columns after user's choise or just default?
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
+  @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService) { }
 
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
+          this.isCurrentUserCreated.emit(true);
           this.getLatestProfiles(OrderByType.CreatedOn);
           this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '20', '20');
 
@@ -51,6 +53,9 @@ export class DashboardComponent implements OnInit {
           this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
             this.filter = currentProfileFilterSubject;
           });
+        }
+        else {
+          this.isCurrentUserCreated.emit(false);
         }
       });
     }

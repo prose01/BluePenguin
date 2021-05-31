@@ -98,17 +98,13 @@ export class ProfileSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileService.verifyCurrentUserProfile().then(currentUser => {
-      if (currentUser) {
-        this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });
 
-        // Get and load previous ProfileFilter.
-        this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
-          if (currentProfileFilterSubject) {
-            this.loadForm(currentProfileFilterSubject);
-            this.profileForm.markAsDirty();
-          }
-        });
+    // Get and load previous ProfileFilter.
+    this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+      if (currentProfileFilterSubject) {
+        this.loadForm(currentProfileFilterSubject);
+        this.profileForm.markAsDirty();
       }
     });
   }

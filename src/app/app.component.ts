@@ -24,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'PlusOne';
   currentUserSubject: CurrentUser;
+  isProfileCreated: boolean = false;
 
   useChat = false; // Get from Config! Turns off Chat :)
 
@@ -244,18 +245,40 @@ export class AppComponent implements OnInit, OnDestroy {
     this.profileSearchComponent.loadSearch();
   }
 
+  isCurrentUserCreated(isCreated: boolean) {
+    this.isProfileCreated = isCreated;
+  }
+
   // Load About page
   loadAbout() {
-    this.pageView = pageViewEnum.About;
-    this.matButtonToggleText = 'Dashboard';
-    this.matButtonToggleIcon = 'dashboard';
+    if (this.pageView != pageViewEnum.About) {
+      this.pageView = pageViewEnum.About;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.matButtonToggleText = 'Search';
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
   }
 
   // Load Edit page
   loadEdit() {
-    this.pageView = pageViewEnum.Edit;
-    this.matButtonToggleText = 'Dashboard';
-    this.matButtonToggleIcon = 'dashboard';
+    if (this.pageView != pageViewEnum.Edit) {
+      this.pageView = pageViewEnum.Edit;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.matButtonToggleText = 'Search';
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
   }
 
   // Load Details page

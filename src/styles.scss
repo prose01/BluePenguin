@@ -149,7 +149,7 @@ tr.element-row:not(.expanded-row):hover {
 }
 
 button.mat-flat-button {
-  margin: 10px 10px 10px 0px;
+  margin: 10px 0px 10px 10px;
 }
 
 .mat-select {
@@ -221,4 +221,9 @@ i.icon-orange-right {
 
 .custom-spinner circle {
   stroke: #607D8B;
+}
+
+/*Search form container*/
+.form-container {
+  padding: 5px;
 }
