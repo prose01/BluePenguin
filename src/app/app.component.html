@@ -18,7 +18,7 @@
 
     <div *ngIf="isProfileCreated">
       <!--Navigation buttons-->
-      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search' || pageView === 'Details'" class="menu-buttons">
         <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
           <i class="material-icons">{{matButtonToggleIcon}}</i>
         </button>
@@ -122,7 +122,7 @@
 
 
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
-    <mat-sidenav #sidenav [fixedInViewport]="mobileQuery.matches" fixedTopGap="200">
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
       <div *ngIf="pageView === 'Search'">
         <app-profile-search (getProfileByFilter)="getProfileByFilter($event, false)"></app-profile-search>
       </div>

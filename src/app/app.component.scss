@@ -44,5 +44,18 @@
 }
 
 mat-sidenav {
+  /*width: 95vw;*/
   width: 100%;
 }
+
+/*@media (max-width: 1080px) {
+  mat-sidenav {
+    width: 90%;
+  }
+}
+
+@media (max-width: 599px) {
+  mat-sidenav {
+    width: 90%;
+  }
+}*/

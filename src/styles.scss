@@ -223,7 +223,14 @@ i.icon-orange-right {
   stroke: #607D8B;
 }
 
-/*Search form container*/
+/*Form containers - create, edit and search*/
 .form-container {
-  padding: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+textarea, input {
+  caret-color: #f07537;
 }

@@ -96,7 +96,7 @@ export class CreateProfileComponent {
 
   revert() {
     this.tagsList.length = 0;
-    this.newUserForm.reset();
+    this.createForm();
     this.namePlaceholder = "Name";
     this.genderPlaceholder = "Gender";
     this.sexualOrientationPlaceholder = "Sexual orientation";
