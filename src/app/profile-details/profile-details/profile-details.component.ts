@@ -25,13 +25,19 @@ export class ProfileDetailsComponent implements OnInit {
 
   setProfileAsAdmin() {
     if (this.currentUserSubject.admin) {
-      this.profileService.setAsAdmin(this.profile).subscribe(() => { });
+      this.profileService.setAsAdmin(this.profile).subscribe(
+        (response: any) => { this.profile = response },
+        () => { },
+        () => { });
     }
   }
 
   removeProfileAsAdmin() {
     if (this.currentUserSubject.admin) {
-      this.profileService.removeAdmin(this.profile).subscribe(() => { });
+      this.profileService.removeAdmin(this.profile).subscribe(
+        (response: any) => { this.profile = response },
+        () => { },
+        () => { });
     }
   }
 
