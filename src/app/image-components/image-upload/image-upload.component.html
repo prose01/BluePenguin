@@ -14,7 +14,7 @@
     </button>
     <input type="file" (change)="fileChangeEvent($event)" #fileInput hidden>
 
-    <mat-form-field *ngIf="showCropper">
+    <mat-form-field *ngIf="showCropper" style="margin-left: 10px">
       <input matInput placeholder="{{ titlePlaceholder }}" formControlName="title" (ngModelChange)="onChange()" required>
     </mat-form-field>
 
