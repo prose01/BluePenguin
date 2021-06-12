@@ -22,12 +22,12 @@ export class DeleteImageDialog {
     this.dialogRef.close(false);
   }
 
-  onYesClick(): void {
+  async onYesClick() {
     if (this.IsChecked) {
       var id = [];
       id.push(this.imageId["imageId"]); // TODO: Fix this. Hack to get post to work.
 
-      this.imageService.deleteImagesForCurrentUser(id).subscribe();
+      const reponse = await this.imageService.deleteImagesForCurrentUser(id);
 
       this.dialogRef.close(true);
     }

@@ -8,7 +8,8 @@ import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-delete-profile-dialog',
-  templateUrl: './delete-profile-dialog.component.html'
+  templateUrl: './delete-profile-dialog.component.html',
+  styleUrls: ['./delete-profile-dialog.component.scss']
 })
 
 export class DeleteProfileDialog {
@@ -28,15 +29,17 @@ export class DeleteProfileDialog {
     this.dialogRef.close();
   }
 
-  onYesClick(): void {
+  async onYesClick() {
     if (this.IsChecked) {
       if (this.profileIds.length > 0) {
-        this.imageService.deleteAllImagesForProfile(this.profileIds).subscribe(() => { });
+        // Images must be deleted before user as the imageService uses the profileId!!!
+        const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
         this.profileService.deleteProfiles(this.profileIds).subscribe();
       }
       else {
-        this.imageService.deleteAllImagesForCurrentUser().subscribe(() => { });
-        //this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
+        // Images must be deleted before user as the imageService uses the profileId!!!
+        const reponse = await this.imageService.deleteAllImagesForCurrentUser();
+        this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
       }
     }
   }

@@ -38,20 +38,20 @@ export class ImageService {
   //    );
   //}
 
-  deleteImagesForCurrentUser(imageId: string[]): Observable<any> {
+  deleteImagesForCurrentUser(imageId: string[]) {
     return this.http.post(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageId, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
-      );
+    ).toPromise();
   }
 
-  deleteAllImagesForCurrentUser(): Observable<any> {
+  deleteAllImagesForCurrentUser() {
     return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
-      );
+    ).toPromise();
   }
 
   // Profile
