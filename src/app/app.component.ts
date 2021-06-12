@@ -247,6 +247,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isCurrentUserCreated(isCreated: boolean) {
     this.isProfileCreated = isCreated;
+
+    if (isCreated) {
+      this.pageView = pageViewEnum.Dashboard;
+    }
+  }
+
+  initDefaultData() {
+    this.dashboardComponent.initDefaultData();
   }
 
   // Load About page

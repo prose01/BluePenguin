@@ -46,19 +46,23 @@ export class DashboardComponent implements OnInit {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         if (currentUser) {
           this.isCurrentUserCreated.emit(true);
-          this.getLatestProfiles(OrderByType.CreatedOn);
-          this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '20', '20');
-
-          // Get and load previous ProfileFilter.
-          this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
-            this.filter = currentProfileFilterSubject;
-          });
+          this.initDefaultData();
         }
         else {
           this.isCurrentUserCreated.emit(false);
         }
       });
     }
+  }
+
+  initDefaultData() {
+      this.getLatestProfiles(OrderByType.CreatedOn);
+      this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '20', '20');
+
+      // Get and load previous ProfileFilter.
+      this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+        this.filter = currentProfileFilterSubject;
+      });
   }
 
   // https://paulrohan.medium.com/angular-avoiding-subscribe-method-by-replacing-it-with-an-asynpipe-when-possible-a92c20793357

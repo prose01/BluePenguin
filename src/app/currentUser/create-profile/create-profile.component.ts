@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 
@@ -57,7 +56,10 @@ export class CreateProfileComponent {
 
   isChecked: boolean = true;
 
-  constructor(public auth: AuthService, private router: Router, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
+  @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
+
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
@@ -140,7 +142,14 @@ export class CreateProfileComponent {
       return;
     }
     else if (this.newUserForm.valid) {
-      this.profileService.addProfile(this.currentUser).subscribe(() => { }, () => { }, () => { this.router.navigate(['/edit']); }); // TODO: Call fails as it is posted twice!
+      this.profileService.addProfile(this.currentUser).subscribe(
+        () => { },
+        () => { this.isCurrentUserCreated.emit(false); },
+        () => {
+          this.profileService.updateCurrentUserSubject();
+          this.initDefaultData.emit();
+          this.isCurrentUserCreated.emit(true);
+        });
     }
   }
 

@@ -138,7 +138,7 @@
       </div>
 
       <div *ngIf="!isProfileCreated && pageView != 'About'">
-        <create-profile></create-profile>
+        <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)" (initDefaultData)="initDefaultData()"></create-profile>
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Edit'">

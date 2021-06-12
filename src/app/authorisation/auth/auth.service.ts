@@ -46,8 +46,8 @@ export class AuthService {
         this.router.navigate(['/dashboard']);
       } else if (err) {
         this.router.navigate(['/dashboard']);
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        //console.log(err);
+        //alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
   }
