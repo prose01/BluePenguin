@@ -26,29 +26,32 @@ export class ProfileDetailsBoardComponent {
   getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
 
-    if (this.profile.images != null) {
+    if (this.profile.images != null && this.profile.images.length > 0) {
       if (this.profile.images.length > 0) {
 
-        this.loading = true;
-
         this.profile.images.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
-              () => { this.loading = false; element.image = defaultImageModel.image },
-              () => { this.loading = false; }
-            );
-        });
 
-        this.profile.images.forEach((element, i) => {
-          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.image = 'data:image/jpg;base64,' + images.toString() },
-              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            );
+          if (typeof element.fileName !== 'undefined') {
+
+            this.loading = true;
+
+            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              );
+
+            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.image = 'data:image/jpg;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              );
+          }
+
         });
       }
     }

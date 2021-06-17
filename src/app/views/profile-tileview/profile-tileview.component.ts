@@ -49,7 +49,7 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
-    
+
     this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
@@ -59,7 +59,10 @@ export class ProfileTileviewComponent implements OnChanges {
     let pageIndex = 2; // TODO: auto count up ++
     let currentSize = this.pageSize * pageIndex;
 
-    this.getNextTileData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
+    if (this.profiles?.length > 0) {
+      console.log('getting next');
+      this.getNextTileData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
+    }
   }
 
   onScrollUp() {
@@ -71,7 +74,7 @@ export class ProfileTileviewComponent implements OnChanges {
   //toggleDisplayOrder() {
   //  this.isMatButtonToggled = !this.isMatButtonToggled;
   //  this.matButtonToggleIcon = (this.isMatButtonToggled ? 'expand_less' : 'expand_more');
-    
+
   //  switch (this.orderBy) {
   //    case OrderByType.UpdatedOn: {
   //      if (new Date(this.profiles[0].updatedOn) < new Date(this.profiles[this.profiles.length - 1].updatedOn)) {
@@ -136,7 +139,7 @@ export class ProfileTileviewComponent implements OnChanges {
   async openImageDialog(profile: Profile): Promise<void> {
 
     this.getProfileImages(profile);
-    
+
     const dialogRef = this.dialog.open(ImageDialog, {
       data: {
         index: profile.imageNumber,
@@ -154,34 +157,38 @@ export class ProfileTileviewComponent implements OnChanges {
   getProfileImages(profile: Profile): void {
     let defaultImageModel: ImageModel = new ImageModel();
 
-    if (profile.images != null) {
+    if (profile.images != null && profile.images.length > 0) {
       if (profile.images.length > 0) {
-
-        this.loading = true;
 
         profile.images.forEach((element, i) => {
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
-              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            );
+          if (typeof element.fileName !== 'undefined') {
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.image = 'data:image/png;base64,' + images.toString() },
-              () => { this.loading = false; element.image = defaultImageModel.image },
-              () => { this.loading = false; }
-            );
+            this.loading = true;
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              );
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.image = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              );
+          }
+
         });
       }
     }
   }
 
   bookmarked(profileId: string) {
-    return this.currentUserSubject.bookmarks.find(x => x == profileId);
+    return this.currentUserSubject?.bookmarks.find(x => x == profileId);
   }
 }

@@ -76,7 +76,7 @@ export class ProfileListviewComponent implements OnChanges {
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
-    
+
     if (currentSize > 0) {
       this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString() });
     }
@@ -113,7 +113,7 @@ export class ProfileListviewComponent implements OnChanges {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
-/** Add or remove bookmarks */
+  /** Add or remove bookmarks */
   removeFavoritProfiles() {
     this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
       .pipe(takeWhileAlive(this))
@@ -180,31 +180,34 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   getProfileImages(profile: Profile): void {
-
     let defaultImageModel: ImageModel = new ImageModel();
 
-    if (profile.images != null) {
+    if (profile.images != null && profile.images.length > 0) {
       if (profile.images.length > 0) {
-
-        this.loading = true;
 
         profile.images.forEach((element, i) => {
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
-              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            );
+          if (typeof element.fileName !== 'undefined') {
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.image = 'data:image/png;base64,' + images.toString() },
-              () => { this.loading = false; element.image = defaultImageModel.image },
-              () => { this.loading = false; }
-            );
+            this.loading = true;
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              );
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.image = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              );
+          }
+
         });
       }
     }

@@ -304,8 +304,8 @@ export class DashboardComponent implements OnInit {
     profiles?.forEach((element, i) => {
       // Take a random image from profile.
       element.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
-      
-      if (element.images != null && element.images.length > 0) {
+
+      if (element.images != null && element.images.length > 0 && typeof element.images[element.imageNumber].fileName !== 'undefined') {
         this.loading = true;
         
         this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
