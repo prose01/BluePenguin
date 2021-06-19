@@ -221,7 +221,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter/`, { headers: this.headers, params: params })
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)

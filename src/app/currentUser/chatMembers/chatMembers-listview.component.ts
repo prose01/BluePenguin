@@ -150,9 +150,13 @@ export class ChatMembersListviewComponent implements OnInit {
           this.profiles.push(...response);
 
           this.profiles.length = this.profiles.length + 1;
+
+          if (this.profiles.length > 1) {
+            this.setChatmemberProperties();
+          }
         }
         , () => { }
-        , () => { this.setChatmemberProperties() }
+        , () => { }
       );
   }
 

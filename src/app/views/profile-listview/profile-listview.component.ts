@@ -80,6 +80,9 @@ export class ProfileListviewComponent implements OnChanges {
     if (currentSize > 0) {
       this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString() });
     }
+    else {
+      this.loading = false;
+    }
   }
 
   setDataSource(): void {

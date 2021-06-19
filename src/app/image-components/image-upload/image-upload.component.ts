@@ -42,7 +42,7 @@ export class ImageUploadComponent {
   createForm() {
     this.uploadImageForm = this.formBuilder.group({
       file: null,
-      title: [null, [Validators.required, Validators.maxLength(20)]]
+      title: [null, [Validators.required, Validators.maxLength(25)]]
     });
   }
 
@@ -55,7 +55,7 @@ export class ImageUploadComponent {
       }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+        this.titlePlaceholder = "Title cannot be more than 25 characters long.";
       }
     }
   } 
@@ -155,7 +155,7 @@ export class ImageUploadComponent {
       }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.titlePlaceholder = "Title cannot be more than 20 characters long.";
+        this.titlePlaceholder = "Title cannot be more than 25 characters long.";
       }
 
       return;
