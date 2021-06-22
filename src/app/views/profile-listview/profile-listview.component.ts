@@ -117,6 +117,15 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   /** Add or remove bookmarks */
+  addFavoritProfiles() {
+    this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
+  }
+
   removeFavoritProfiles() {
     this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
       .pipe(takeWhileAlive(this))
@@ -126,13 +135,40 @@ export class ProfileListviewComponent implements OnChanges {
       });
   }
 
-  addFavoritProfiles() {
-    this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
-      .pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+  /** Add or remove Likes */
+  toggleLike() {
+
+    for (var _i = 0; _i < this.selection.selected.length; _i++) {
+
+      var profileId = this.selection.selected[_i].profileId;
+
+      // If profile has no likes yet. 
+      if (Object.keys(this.selection.selected[_i].likes).length == 0) {
+        this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
+          .pipe(takeWhileAlive(this))
+          .subscribe(() => {
+            this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId] = new Date();
+          }, () => { }, () => { });
+        return;
+      }
+
+      for (const [key, value] of Object.entries(this.selection.selected[_i].likes)) {        
+        if (key === this.currentUserSubject.profileId) {
+          this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
+            .pipe(takeWhileAlive(this))
+            .subscribe(() => {
+              delete this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId];
+            }, () => { }, () => { });
+        }
+        else {
+          this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
+            .pipe(takeWhileAlive(this))
+            .subscribe(() => {
+              this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId] = new Date();
+            }, () => { }, () => { });
+        }
+      }
+    }
   }
 
   selcetedProfiles(): string[] {
@@ -218,5 +254,16 @@ export class ProfileListviewComponent implements OnChanges {
 
   bookmarked(profileId: string) {
     return this.currentUserSubject.bookmarks.find(x => x == profileId);
+  }
+
+  liked(profile: Profile) {
+    for (const [key, value] of Object.entries(profile.likes)) {
+      //console.log(Object.entries(profile.likes).length);
+      if (key === this.currentUserSubject.profileId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
