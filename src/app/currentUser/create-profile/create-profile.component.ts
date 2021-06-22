@@ -187,7 +187,8 @@ export class CreateProfileComponent {
       eatingHabits: formModel.eatingHabits as EatingHabitsType,
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType,
-      visited: null
+      visited: null,
+      likes: null
     };
 
     return saveProfile;

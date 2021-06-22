@@ -11,6 +11,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
+import { Likes } from '../../models/likes';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -112,6 +113,18 @@ export class ProfileTileviewComponent implements OnChanges {
   }
 
   /** Add or remove bookmarks */
+  addFavoritProfiles(profileId: string) {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
+
+    this.profileService.addProfilesToBookmarks(selcetedProfiles)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+      });
+  }
+
   removeFavoritProfiles(profileId: string) {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
@@ -124,16 +137,21 @@ export class ProfileTileviewComponent implements OnChanges {
       });
   }
 
-  addFavoritProfiles(profileId: string) {
-    let selcetedProfiles = new Array;
-    selcetedProfiles.push(profileId);
-
-    this.profileService.addProfilesToBookmarks(selcetedProfiles)
+  /** Add or remove Likes */
+  addLike(profile: Profile) {
+    this.profileService.addLikeToProfile(profile.profileId)
       .pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+      .subscribe(() => {
+        this.profiles.find(x => x.profileId === profile.profileId).likes[this.currentUserSubject.profileId] = new Date();
+      }, () => { }, () => { });
+  }
+
+  removeLike(profile: Profile) {
+    this.profileService.removeLikeFromProfile(profile.profileId)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => {
+        delete this.profiles.find(x => x.profileId === profile.profileId).likes[this.currentUserSubject.profileId];
+      }, () => { }, () => { });
   }
 
   async openImageDialog(profile: Profile): Promise<void> {
@@ -190,5 +208,16 @@ export class ProfileTileviewComponent implements OnChanges {
 
   bookmarked(profileId: string) {
     return this.currentUserSubject?.bookmarks.find(x => x == profileId);
+  }
+
+  liked(profile: Profile) {
+    for (const [key, value] of Object.entries(profile.likes)) {
+      //console.log(Object.entries(profile.likes).length);
+      if (key === this.currentUserSubject.profileId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

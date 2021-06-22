@@ -129,6 +129,22 @@ export class ProfileService {
       );
   }
 
+  // Likes
+  addLikeToProfile(profileId: string): Observable<any> {  // TODO: Should not return all profiles
+    return this.http.get(`${this.avalonUrl}AddLikeToProfile/${profileId}`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  removeLikeFromProfile(profileId: string): Observable<any> {  // TODO: Should not return all profiles
+    return this.http.get(`${this.avalonUrl}RemoveLikeFromProfile/${profileId}`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
 
 
 

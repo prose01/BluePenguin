@@ -184,7 +184,8 @@ export class EditProfileComponent {
       eatingHabits: formModel.eatingHabits as EatingHabitsType,
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType,
-      visited: this.currentUserSubject.visited
+      visited: this.currentUserSubject.visited,
+      likes: this.currentUserSubject.likes
     };
     
     return saveProfile;
