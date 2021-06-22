@@ -50,7 +50,7 @@ export class Profile {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
-  likes: Array<Likes>;
+  likes: string[];
 }
 
 export interface Profile {
@@ -84,5 +84,5 @@ export interface Profile {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
-  likes: Array<Likes>;
+  likes: string[];
 }

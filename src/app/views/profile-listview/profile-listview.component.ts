@@ -143,28 +143,29 @@ export class ProfileListviewComponent implements OnChanges {
       var profileId = this.selection.selected[_i].profileId;
 
       // If profile has no likes yet. 
-      if (Object.keys(this.selection.selected[_i].likes).length == 0) {
+      if (this.selection.selected[_i].likes?.length == 0) {
         this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
           .pipe(takeWhileAlive(this))
           .subscribe(() => {
-            this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId] = new Date();
+            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
           }, () => { }, () => { });
         return;
       }
 
-      for (const [key, value] of Object.entries(this.selection.selected[_i].likes)) {        
-        if (key === this.currentUserSubject.profileId) {
+      for (const value of this.selection.selected[_i].likes) {
+        if (this.liked(this.selection.selected[_i])) {
           this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
             .pipe(takeWhileAlive(this))
             .subscribe(() => {
-              delete this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId];
+              const index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+              delete this.profiles.find(x => x.profileId === profileId).likes[index];
             }, () => { }, () => { });
         }
         else {
           this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
             .pipe(takeWhileAlive(this))
             .subscribe(() => {
-              this.profiles.find(x => x.profileId === profileId).likes[this.currentUserSubject.profileId] = new Date();
+              this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
             }, () => { }, () => { });
         }
       }
@@ -257,13 +258,6 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   liked(profile: Profile) {
-    for (const [key, value] of Object.entries(profile.likes)) {
-      //console.log(Object.entries(profile.likes).length);
-      if (key === this.currentUserSubject.profileId) {
-        return true;
-      }
-    }
-
-    return false;
+    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 }

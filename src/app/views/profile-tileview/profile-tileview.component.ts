@@ -142,7 +142,7 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profileService.addLikeToProfile(profile.profileId)
       .pipe(takeWhileAlive(this))
       .subscribe(() => {
-        this.profiles.find(x => x.profileId === profile.profileId).likes[this.currentUserSubject.profileId] = new Date();
+        this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
       }, () => { }, () => { });
   }
 
@@ -150,7 +150,8 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profileService.removeLikeFromProfile(profile.profileId)
       .pipe(takeWhileAlive(this))
       .subscribe(() => {
-        delete this.profiles.find(x => x.profileId === profile.profileId).likes[this.currentUserSubject.profileId];
+        let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+        delete this.profiles.find(x => x.profileId === profile.profileId).likes[index];
       }, () => { }, () => { });
   }
 
@@ -211,13 +212,6 @@ export class ProfileTileviewComponent implements OnChanges {
   }
 
   liked(profile: Profile) {
-    for (const [key, value] of Object.entries(profile.likes)) {
-      //console.log(Object.entries(profile.likes).length);
-      if (key === this.currentUserSubject.profileId) {
-        return true;
-      }
-    }
-
-    return false;
+    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 }

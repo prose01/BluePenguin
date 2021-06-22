@@ -52,7 +52,7 @@ export class CurrentUser {
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
   visited: Array<Visited>;
-  likes: Array<Likes>;
+  likes: string[];
 }
 
 export interface CurrentUser {
@@ -87,5 +87,5 @@ export interface CurrentUser {
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
   visited: Array<Visited>;
-  likes: Array<Likes>;
+  likes: string[];
 }
