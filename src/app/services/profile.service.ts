@@ -270,6 +270,19 @@ export class ProfileService {
       );
   }
 
+  getProfilesWhoBookmarkedMe(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('OrderByType', orderByType)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoBookmarkedMe`, { headers: this.headers, params: params })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
 
   // Helper Lav en rigtig error handler inden produktion
   // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts

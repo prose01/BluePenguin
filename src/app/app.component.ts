@@ -197,6 +197,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.getProfilesWhoVisitedMe()
         break;
       }
+      case "getProfilesWhoBookmarkedMe": {
+        this.getProfilesWhoBookmarkedMe()
+        break;
+      }
     }
   }
 
@@ -228,6 +232,11 @@ export class AppComponent implements OnInit, OnDestroy {
   getProfilesWhoVisitedMe() {
     this.lastCalledFilter = "getProfilesWhoVisitedMe"
     this.dashboardComponent.getProfilesWhoVisitedMe(this.selectedOrderBy);
+  }
+
+  getProfilesWhoBookmarkedMe() {
+    this.lastCalledFilter = "getProfilesWhoBookmarkedMe"
+    this.dashboardComponent.getProfilesWhoBookmarkedMe(this.selectedOrderBy);
   }
 
   resetSelectionPagination() {

@@ -11,7 +11,6 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
-import { Likes } from '../../models/likes';
 
 @Component({
   selector: 'app-profile-tileview',

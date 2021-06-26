@@ -41,11 +41,15 @@
           <i class="material-icons">tune</i>
         </button>
 
-        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Favorites | Favorits @@favorites" matTooltip="Favorites">
+        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Bookmarks | Bookmarks @@bookmarks" matTooltip="Bookmarks">
           <i class="material-icons">bookmarks</i>
         </button>
 
         <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Visited Me | Visited Me @@visitedMe" matTooltip="Visited me">
+          <i class="material-icons">bookmarks</i>
+        </button>
+
+        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Bookmarked Me | Bookmarked Me @@bookmarkedMe" matTooltip="Bookmarked me">
           <i class="material-icons">bookmarks</i>
         </button>
 
