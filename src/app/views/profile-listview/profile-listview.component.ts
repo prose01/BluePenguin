@@ -158,7 +158,7 @@ export class ProfileListviewComponent implements OnChanges {
             .pipe(takeWhileAlive(this))
             .subscribe(() => {
               const index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-              delete this.profiles.find(x => x.profileId === profileId).likes[index];
+              this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
             }, () => { }, () => { });
         }
         else {
@@ -208,7 +208,9 @@ export class ProfileListviewComponent implements OnChanges {
     const dialogRef = this.dialog.open(ImageDialog, {
       data: {
         index: profile.imageNumber,
-        imageModels: profile.images
+        imageModels: profile.images,
+        profile: profile,
+        currentUserSubjectProfileId: this.currentUserSubject.profileId
       }
     });
 
