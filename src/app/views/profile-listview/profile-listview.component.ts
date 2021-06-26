@@ -97,7 +97,7 @@ export class ProfileListviewComponent implements OnChanges {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length - 1;
+    const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
     return numSelected === numRows;
   }
 
