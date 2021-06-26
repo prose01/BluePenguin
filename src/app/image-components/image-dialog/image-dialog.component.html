@@ -17,20 +17,20 @@
 
 <h3 class="title" mat-dialog-title>{{data.imageModels[index].title}}</h3>
 
-<button type="button" class="loadDetails" (click)="loadDetailsClick()" mat-button i18n-matTooltip="Profile details | Profile details @@Profile details" matTooltip="Profile details">
+<button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button i18n-matTooltip="Profile details | Profile details @@Profile details" matTooltip="Profile details">
   <i class="material-icons">person</i>
 </button>
 
-<button type="button" class="loadDetails" *ngIf="liked()" (click)="removeLike()" mat-button i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{data.profile.likes.length}} Likes">
+<button type="button" class="fabbuttons" *ngIf="liked()" (click)="removeLike()" mat-button i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{data.profile.likes.length}} Likes">
   <i class="material-icons">favorite</i>
 </button>
-<button type="button" class="loadDetails" *ngIf="!liked()" (click)="addLike()" mat-button i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{data.profile.likes.length}} Likes">
+<button type="button" class="fabbuttons" *ngIf="!liked()" (click)="addLike()" mat-button i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{data.profile.likes.length}} Likes">
   <i class="material-icons">favorite_border</i>
 </button>
 
-<button type="button" class="loadDetails" *ngIf="bookmarked()" (click)="removeFavoritProfiles()" mat-button i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+<button type="button" class="fabbuttons" *ngIf="bookmarked()" (click)="removeFavoritProfiles()" mat-button i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
   <i class="material-icons">bookmark</i>
 </button>
-<button type="button" class="loadDetails" *ngIf="!bookmarked()" (click)="addFavoritProfiles()" mat-button i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+<button type="button" class="fabbuttons" *ngIf="!bookmarked()" (click)="addFavoritProfiles()" mat-button i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
   <i class="material-icons">bookmark_border</i>
 </button>

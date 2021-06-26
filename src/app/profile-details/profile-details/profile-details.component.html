@@ -86,21 +86,30 @@
       <i class="material-icons icon-orange-right" i18n-matTooltip="NotContactable | This profile is not contactable @@contactable" matTooltip="This profile is not contactable">person_off</i>
     </div>
 
+    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{profile.likes.length}} Likes">
+      <i class="material-icons">favorite</i>
+    </button>
+    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{profile.likes.length}} Likes">
+      <i class="material-icons">favorite_border</i>
+    </button>
 
-      <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-        <button type="button" *ngIf="!profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
-          <i class="material-icons">admin_panel_settings</i>
-        </button>
+    <button type="button" *ngIf="bookmarked()" (click)="removeFavoritProfiles()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+      <i class="material-icons">bookmark</i>
+    </button>
+    <button type="button" *ngIf="!bookmarked()" (click)="addFavoritProfiles()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+      <i class="material-icons">bookmark_border</i>
+    </button>
 
-        <button type="button" *ngIf="profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
-          <i class="material-icons">verified_user</i>
-        </button>
-      </div>
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
+      <i class="material-icons">admin_panel_settings</i>
+    </button>
 
-      <div *ngIf="currentUserSubject != null && currentUserSubject.admin">
-        <button type="button" *ngIf="currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
-          <i class="material-icons">delete</i>
-        </button>
-      </div>
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
+      <i class="material-icons">verified_user</i>
+    </button>
 
-    </div>
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
+      <i class="material-icons">delete</i>
+    </button>
+
+  </div>
