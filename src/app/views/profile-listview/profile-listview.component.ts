@@ -210,7 +210,8 @@ export class ProfileListviewComponent implements OnChanges {
         index: profile.imageNumber,
         imageModels: profile.images,
         profile: profile,
-        currentUserSubjectProfileId: this.currentUserSubject.profileId
+        currentUserSubjectProfileId: this.currentUserSubject.profileId,
+        currentUserSubjectBookmarked: this.currentUserSubject?.bookmarks.find(x => x == profile.profileId)
       }
     });
 

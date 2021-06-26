@@ -87,8 +87,8 @@
       <ng-container matColumnDef="favorites">
         <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="favorites | Has this profile been added to favorites @@favorites"> Favorites </th>
         <td mat-cell *matCellDef="let element">
-          <i class="material-icons icon-white" *ngIf="bookmarked(element?.profileId)" i18n-matTooltip="Added to favorites | Added to favorites @@addedToFavorites" matTooltip="Added to favorites">bookmark_border</i>
-          <i class="material-icons icon-white" *ngIf="!bookmarked(element?.profileId)" i18n-matTooltip="Not added to favorites | Not added to favorites @@notAddedToFavorits" matTooltip="Not added to favorites">bookmark</i>
+          <i class="material-icons icon-white" *ngIf="bookmarked(element?.profileId)" i18n-matTooltip="Added to favorites | Added to favorites @@addedToFavorites" matTooltip="Added to favorites">bookmark</i>
+          <i class="material-icons icon-white" *ngIf="!bookmarked(element?.profileId)" i18n-matTooltip="Not added to favorites | Not added to favorites @@notAddedToFavorits" matTooltip="Not added to favorites">bookmark_border</i>
         </td>
       </ng-container>
 

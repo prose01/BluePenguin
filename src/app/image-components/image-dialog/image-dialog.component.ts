@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../../services/profile.service';
-import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'image-dialog',
@@ -62,5 +61,35 @@ export class ImageDialog {
         let index = this.data.profile.likes.indexOf(this.data.currentUserSubjectProfileId, 0);
         this.data.profile.likes.splice(index, 1);
       }, () => { }, () => { });
+  }
+
+
+  bookmarked() {
+    return this.data.currentUserSubjectBookmarked;
+  }
+
+  /** Add or remove bookmarks */
+  addFavoritProfiles() {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
+    this.profileService.addProfilesToBookmarks(selcetedProfiles)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        this.data.currentUserSubjectBookmarked = true;
+      });
+  }
+
+  removeFavoritProfiles() {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
+    this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
+      .pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => {
+        this.profileService.updateCurrentUserSubject();
+        this.data.currentUserSubjectBookmarked = false;
+      });
   }
 }

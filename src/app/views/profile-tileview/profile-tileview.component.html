@@ -43,10 +43,10 @@
 
         <div class="button">
           <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
-            <i class="material-icons icon-white">bookmark_border</i>
+            <i class="material-icons icon-white">bookmark</i>
           </button>
           <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
-            <i class="material-icons icon-white">bookmark</i>
+            <i class="material-icons icon-white">bookmark_border</i>
           </button>
         </div>
         <!--</div>-->
