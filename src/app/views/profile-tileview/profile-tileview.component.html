@@ -30,6 +30,9 @@
         <!--<div class="mdc-image-list--with-text-protection">-->
         <div class="mdc-image-list__supporting">
           <span class="mdc-image-list__label">{{profile.name}}</span>
+          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile">
+            <i class="material-icons icon-white">delete</i>
+          </button>
         </div>
 
         <div class="button">

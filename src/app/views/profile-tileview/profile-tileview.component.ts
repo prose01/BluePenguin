@@ -11,6 +11,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
+import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -213,5 +214,13 @@ export class ProfileTileviewComponent implements OnChanges {
 
   liked(profile: Profile) {
     return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+  }
+
+  openDeleteProfilesDialog(profile: Profile): void {
+    const dialogRef = this.dialog.open(DeleteProfileDialog, {
+      height: '300px',
+      width: '300px',
+      data: profile
+    });
   }
 }
