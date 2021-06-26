@@ -22,7 +22,8 @@ export class ProfileImagesComponent {
       //width: '80%',
       data: {
         index: indexOfelement,
-        imageModels: this.profile.images
+        imageModels: this.profile.images,
+        profile: this.profile
       }
     });
   }

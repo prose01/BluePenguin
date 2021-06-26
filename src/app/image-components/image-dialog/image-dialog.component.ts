@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../../services/profile.service';
+import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'image-dialog',
@@ -12,11 +13,14 @@ import { ProfileService } from '../../services/profile.service';
 
 @AutoUnsubscribe()
 export class ImageDialog {
+
+  currentUserSubject: CurrentUser;
   index: number;
   defaultImage = '../assets/default-person-icon.jpg';
 
   constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.index = this.data.index;
   }
 
@@ -42,7 +46,7 @@ export class ImageDialog {
 
 
   liked() {
-    return this.data.profile.likes?.find(x => x == this.data.currentUserSubjectProfileId);
+    return this.data.profile?.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
   /** Add or remove Likes */
@@ -50,7 +54,7 @@ export class ImageDialog {
     this.profileService.addLikeToProfile(this.data.profile.profileId)
       .pipe(takeWhileAlive(this))
       .subscribe(() => {
-        this.data.profile.likes.push(this.data.currentUserSubjectProfileId);
+        this.data.profile.likes.push(this.currentUserSubject.profileId);
       }, () => { }, () => { });
   }
 
@@ -58,14 +62,14 @@ export class ImageDialog {
     this.profileService.removeLikeFromProfile(this.data.profile.profileId)
       .pipe(takeWhileAlive(this))
       .subscribe(() => {
-        let index = this.data.profile.likes.indexOf(this.data.currentUserSubjectProfileId, 0);
+        let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
         this.data.profile.likes.splice(index, 1);
       }, () => { }, () => { });
   }
 
 
   bookmarked() {
-    return this.data.currentUserSubjectBookmarked;
+    return this.currentUserSubject?.bookmarks.find(x => x == this.data.profile.profileId)
   }
 
   /** Add or remove bookmarks */
@@ -77,7 +81,6 @@ export class ImageDialog {
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
-        this.data.currentUserSubjectBookmarked = true;
       });
   }
 
@@ -89,7 +92,6 @@ export class ImageDialog {
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
-        this.data.currentUserSubjectBookmarked = false;
       });
   }
 }

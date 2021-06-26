@@ -163,9 +163,7 @@ export class ProfileTileviewComponent implements OnChanges {
       data: {
         index: profile.imageNumber,
         imageModels: profile.images,
-        profile: profile,
-        currentUserSubjectProfileId: this.currentUserSubject.profileId,
-        currentUserSubjectBookmarked: this.currentUserSubject?.bookmarks.find(x => x == profile.profileId)
+        profile: profile
       }
     });
 
