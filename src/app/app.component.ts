@@ -118,33 +118,33 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dashboardComponent.toggleViewDisplay();
   }
 
-  toggleFilterView() {
-    switch (this.filterViewButtonCounter) {
-      case 0: {
-        this.matButtonFilterViewText = 'Favorites';
-        this.matButtonFilterViewIcon = 'bookmarks';
-        this.filterViewButtonCounter++;
-        this.getProfileByCurrentUsersFilter();
-        break;
-      }
-      case 1: {
-        this.matButtonFilterViewText = 'All';
-        this.matButtonFilterViewIcon = 'flutter_dash';
-        this.filterViewButtonCounter++;
-        this.getBookmarkedProfiles();
-        break;
-      }
-      case 2: {
-        this.matButtonFilterViewText = 'My Search Filter';
-        this.matButtonFilterViewIcon = 'tune';
-        this.filterViewButtonCounter = 0;
-        this.getLatestProfiles();
-        break;
-      }
-    }
+  //toggleFilterView() {
+  //  switch (this.filterViewButtonCounter) {
+  //    case 0: {
+  //      this.matButtonFilterViewText = 'Favorites';
+  //      this.matButtonFilterViewIcon = 'bookmarks';
+  //      this.filterViewButtonCounter++;
+  //      this.getProfileByCurrentUsersFilter();
+  //      break;
+  //    }
+  //    case 1: {
+  //      this.matButtonFilterViewText = 'All';
+  //      this.matButtonFilterViewIcon = 'flutter_dash';
+  //      this.filterViewButtonCounter++;
+  //      this.getBookmarkedProfiles();
+  //      break;
+  //    }
+  //    case 2: {
+  //      this.matButtonFilterViewText = 'My Search Filter';
+  //      this.matButtonFilterViewIcon = 'tune';
+  //      this.filterViewButtonCounter = 0;
+  //      this.getLatestProfiles();
+  //      break;
+  //    }
+  //  }
 
-    this.resetSelectionPagination();
-  }
+  //  this.resetSelectionPagination();
+  //}
 
   toggleOrderBy() {
     switch (this.orderByButtonCounter) {
@@ -193,6 +193,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.getProfileByFilter(null, true)
         break;
       }
+      case "getProfilesWhoVisitedMe": {
+        this.getProfilesWhoVisitedMe()
+        break;
+      }
     }
   }
 
@@ -219,6 +223,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this.dashboardComponent.getProfileByFilter(this.filter, this.selectedOrderBy);
     this.toggleDisplay();
+  }
+
+  getProfilesWhoVisitedMe() {
+    this.lastCalledFilter = "getProfilesWhoVisitedMe"
+    this.dashboardComponent.getProfilesWhoVisitedMe(this.selectedOrderBy);
   }
 
   resetSelectionPagination() {
