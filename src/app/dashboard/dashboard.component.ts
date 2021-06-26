@@ -98,6 +98,10 @@ export class DashboardComponent implements OnInit {
         this.getProfilesWhoBookmarkedMe(event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
+      case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
+        this.getProfilesWhoLikesMe(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
       default: {
         this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
         break;
@@ -135,6 +139,10 @@ export class DashboardComponent implements OnInit {
       }
       case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
         this.getProfilesWhoBookmarkedMeNext(event.currentSize, event.pageIndex, event.pageSize);
+        break;
+      }
+      case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
+        this.getProfilesWhoLikesMeNext(event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       default: {
@@ -377,6 +385,47 @@ export class DashboardComponent implements OnInit {
 
   getProfilesWhoBookmarkedMeNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
     this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.nextProfiles = new Array;
+
+          this.nextProfiles.length = currentSize;
+
+          this.nextProfiles.push(...response);
+
+          this.nextProfiles.length = this.nextProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getProfileImages(this.currentProfiles); }
+      );
+  }
+
+  // Get Profiles who like my profile.
+  getProfilesWhoLikesMe(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.currentProfiles = new Array;
+
+          this.currentProfiles.length = currentSize;
+
+          this.currentProfiles.push(...response);
+
+          this.currentProfiles.length = this.currentProfiles.length + 1;
+        }
+        , () => { }
+        , () => { this.getProfileImages(this.currentProfiles); }
+      );
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
+  }
+
+  getProfilesWhoLikesMeNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {

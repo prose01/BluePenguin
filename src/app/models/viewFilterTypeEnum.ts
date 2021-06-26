@@ -4,5 +4,6 @@ export enum ViewFilterTypeEnum {
   "ProfilesSearch" = "ProfilesSearch",
   "BookmarkedProfiles" = "BookmarkedProfiles",
   "ProfilesWhoVisitedMe" = "ProfilesWhoVisitedMe",
-  "ProfilesWhoBookmarkedMe" = "ProfilesWhoBookmarkedMe"
+  "ProfilesWhoBookmarkedMe" = "ProfilesWhoBookmarkedMe",
+  "ProfilesWhoLikesMe" = "ProfilesWhoLikesMe"
 }
