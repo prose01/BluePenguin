@@ -58,7 +58,7 @@ export class ProfileService {
       );
   }
 
-  putProfile(currentUser: CurrentUser): Observable<CurrentUser> {
+  putProfile(currentUser: CurrentUser): Observable<{}> {
     return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
         retry(3),
@@ -73,7 +73,7 @@ export class ProfileService {
       );
   }
 
-  saveProfileFilter(profileFilter: ProfileFilter): Observable<CurrentUser> {
+  saveProfileFilter(profileFilter: ProfileFilter): Observable<{}> {
     return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
       .pipe(
         retry(3),
@@ -100,7 +100,7 @@ export class ProfileService {
 
 
   // Bookmarks
-  addProfilesToBookmarks(profiles: string[]): Observable<Profile> {   // TODO: Should not return all profiles
+  addProfilesToBookmarks(profiles: string[]): Observable<{}> {   // TODO: Should not return all profiles
     return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -108,7 +108,7 @@ export class ProfileService {
       );
   }
 
-  removeProfilesFromBookmarks(profiles: string[]): Observable<Profile[]> {  // TODO: Should not return all profiles
+  removeProfilesFromBookmarks(profiles: string[]): Observable<{}> {  // TODO: Should not return all profiles
     return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -130,7 +130,7 @@ export class ProfileService {
   }
 
   // Likes
-  addLikeToProfile(profileId: string): Observable<any> {  // TODO: Should not return all profiles
+  addLikeToProfile(profileId: string): Observable<{}> {  // TODO: Should not return all profiles
     return this.http.get(`${this.avalonUrl}AddLikeToProfile/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -138,7 +138,7 @@ export class ProfileService {
       );
   }
 
-  removeLikeFromProfile(profileId: string): Observable<any> {  // TODO: Should not return all profiles
+  removeLikeFromProfile(profileId: string): Observable<{}> {  // TODO: Should not return all profiles
     return this.http.get(`${this.avalonUrl}RemoveLikeFromProfile/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -166,7 +166,7 @@ export class ProfileService {
   //    );
   //}
 
-  addVisitedToProfiles(profileId: string): Observable<any> {
+  addVisitedToProfiles(profileId: string): Observable<{}> {
     return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -182,7 +182,7 @@ export class ProfileService {
       );
   }
 
-  setAsAdmin(profile: Profile): Observable<any> {
+  setAsAdmin(profile: Profile): Observable<{}> {
     return this.http.post(`${this.avalonUrl}SetAsAdmin`, profile, { headers: this.headers })
       .pipe(
         retry(3),
@@ -190,7 +190,7 @@ export class ProfileService {
       );
   }
 
-  removeAdmin(profile: Profile): Observable<any> {
+  removeAdmin(profile: Profile): Observable<{}> {
     return this.http.post(`${this.avalonUrl}RemoveAdmin`, profile, { headers: this.headers })
       .pipe(
         retry(3),
@@ -210,7 +210,7 @@ export class ProfileService {
       );
   }
 
-  blockChatMembers(profileIds: string[]): Observable<Profile[]> { // TODO: Should not return all profiles
+  blockChatMembers(profileIds: string[]): Observable<{}>{ 
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
       .pipe(
         retry(3),

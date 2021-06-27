@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   matButtonFilterViewIcon: string = 'tune';
   filterViewButtonCounter: number = 0;
 
-  matButtonOrderByText: string = 'LastActive';
+  matButtonOrderByText: string = 'Sort by Last Active';
   matButtonOrderByIcon: string = 'watch_later';
   orderByButtonCounter: number = 0;
 
@@ -149,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleOrderBy() {
     switch (this.orderByButtonCounter) {
       case 0: {
-        this.matButtonOrderByText = 'UpdatedOn';
+        this.matButtonOrderByText = 'Sort by Updated On';
         this.matButtonOrderByIcon = 'update';
         this.selectedOrderBy = OrderByType.LastActive;
         this.orderByButtonCounter++;
@@ -157,7 +157,7 @@ export class AppComponent implements OnInit, OnDestroy {
         break;
       }
       case 1: {
-        this.matButtonOrderByText = 'CreatedOn';
+        this.matButtonOrderByText = 'Sort by Created On';
         this.matButtonOrderByIcon = 'schedule';
         this.selectedOrderBy = OrderByType.UpdatedOn;
         this.orderByButtonCounter++;
@@ -165,7 +165,7 @@ export class AppComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        this.matButtonOrderByText = 'LastActive';
+        this.matButtonOrderByText = 'Sort by Last Active';
         this.matButtonOrderByIcon = 'watch_later';
         this.selectedOrderBy = OrderByType.CreatedOn;
         this.orderByButtonCounter = 0;
