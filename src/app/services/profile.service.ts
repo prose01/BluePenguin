@@ -158,13 +158,13 @@ export class ProfileService {
       );
   }
 
-  //getProfileById(profileId: string): Observable<Profile> {
-  //  return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
-  //    .pipe(
-  //      retry(3),
-  //      catchError(this.handleError)
-  //    );
-  //}
+  getProfileById(profileId: string): Observable<Profile> {
+    return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
 
   addVisitedToProfiles(profileId: string): Observable<{}> {
     return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers })

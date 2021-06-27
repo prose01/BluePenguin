@@ -154,7 +154,7 @@
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Edit'">
-        <currentUserBoard><edit-profile></edit-profile></currentUserBoard>
+        <currentUserBoard (loadDetails)="loadDetails($event)"><edit-profile></edit-profile></currentUserBoard>
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Details'">

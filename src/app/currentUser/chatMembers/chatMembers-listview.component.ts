@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
@@ -11,6 +12,10 @@ import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ChatMember } from '../../models/chatMember';
 import { ProfileService } from '../../services/profile.service';
+import { ImageModel } from '../../models/imageModel';
+import { ImageSizeEnum } from '../../models/imageSizeEnum';
+import { ImageService } from '../../services/image.service';
+import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'chatMemebers-listview',
@@ -36,10 +41,11 @@ export class ChatMembersListviewComponent implements OnInit {
   profiles: Profile[];
   loading: boolean = true;
 
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.profileService.currentUserSubject
@@ -168,5 +174,75 @@ export class ChatMembersListviewComponent implements OnInit {
     });
 
     this.setDataSource(); // TODO: Find på noget bedre end at gøre dette igen
+  }
+
+
+
+  // Load Detalails page
+  loadDetails(profile: Profile) {
+    this.loadProfileDetails.emit(profile);
+  }
+
+  async openImageDialog(chatMember: ChatMember): Promise<void> {
+
+    let profile: Profile;
+
+    this.profileService.getProfileById(chatMember.profileId)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        res => profile = res,
+        () => { },
+        () => {
+          this.getProfileImages(profile);
+
+          const dialogRef = this.dialog.open(ImageDialog, {
+            data: {
+              index: 0,
+              imageModels: profile.images,
+              profile: profile
+            }
+          });
+
+          dialogRef.afterClosed().subscribe(
+            res => {
+              if (res === true) { this.loadDetails(profile) }
+            }
+          );
+        }
+      );    
+  }
+
+  getProfileImages(profile: Profile): void {
+    let defaultImageModel: ImageModel = new ImageModel();
+
+    if (profile.images != null && profile.images.length > 0) {
+      if (profile.images.length > 0) {
+
+        profile.images.forEach((element, i) => {
+
+          if (typeof element.fileName !== 'undefined') {
+
+            this.loading = true;
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.smallimage = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              );
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+              .pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.image = 'data:image/png;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              );
+          }
+
+        });
+      }
+    }
   }
 }
