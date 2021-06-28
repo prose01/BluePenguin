@@ -24,12 +24,13 @@ export class DeleteImageDialog {
 
   async onYesClick() {
     if (this.IsChecked) {
+
+      this.dialogRef.close(true); // TODO: Hack to remove Image from list. If imageService.deleteImagesForCurrentUser fails this should be 'false' but it doesn't work.
+
       var id = [];
-      id.push(this.imageId["imageId"]); // TODO: Fix this. Hack to get post to work.
+      id.push(this.imageId["imageId"]); 
 
       const reponse = await this.imageService.deleteImagesForCurrentUser(id);
-
-      this.dialogRef.close(true);
     }
   }
 
