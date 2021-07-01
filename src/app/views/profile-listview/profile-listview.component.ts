@@ -173,13 +173,13 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   selcetedProfiles(): string[] {
-    let profiles = new Array;
+    let profileIds = new Array;
 
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
-      profiles.push(this.selection.selected[_i].profileId);
+      profileIds.push(this.selection.selected[_i].profileId);
     }
 
-    return profiles;
+    return profileIds;
   }
 
   resetSelectionPagination() {
@@ -190,10 +190,23 @@ export class ProfileListviewComponent implements OnChanges {
 
   openDeleteProfilesDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      height: '300px',
-      width: '300px',
+      //height: '300px',
+      //width: '300px',
       data: this.selcetedProfiles()
     });
+
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) {
+
+          for (let profileId of this.selcetedProfiles()) {
+            let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+            this.profiles.splice(index, 1);
+            this.ngOnChanges();
+          }
+        }
+      }
+    );
   }
 
   // Load Detalails page

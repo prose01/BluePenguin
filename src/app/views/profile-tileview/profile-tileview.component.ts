@@ -218,9 +218,18 @@ export class ProfileTileviewComponent implements OnChanges {
 
   openDeleteProfilesDialog(profile: Profile): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      height: '300px',
-      width: '300px',
+      //height: '300px',
+      //width: '300px',
       data: profile
     });
+
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) {
+          let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profile.profileId), 0);
+          this.profiles.splice(index, 1);
+        }
+      }
+    );
   }
 }

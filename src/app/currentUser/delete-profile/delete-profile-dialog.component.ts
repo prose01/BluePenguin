@@ -26,11 +26,14 @@ export class DeleteProfileDialog {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   async onYesClick() {
     if (this.IsChecked) {
+
+      this.dialogRef.close(true);
+
       if (this.profileIds.length > 0) {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
