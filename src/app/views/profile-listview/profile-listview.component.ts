@@ -118,21 +118,25 @@ export class ProfileListviewComponent implements OnChanges {
 
   /** Add or remove bookmarks */
   addFavoritProfiles() {
-    this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
-      .pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+    if (this.selcetedProfiles().length > 0) {
+      this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        });
+    }
   }
 
   removeFavoritProfiles() {
-    this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
-      .pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+    if (this.selcetedProfiles().length > 0) {
+      this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        });
+    }
   }
 
   /** Add or remove Likes */
@@ -189,24 +193,26 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   openDeleteProfilesDialog(): void {
-    const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      //height: '300px',
-      //width: '300px',
-      data: this.selcetedProfiles()
-    });
+    if (this.selcetedProfiles().length > 0) {
+      const dialogRef = this.dialog.open(DeleteProfileDialog, {
+        //height: '300px',
+        //width: '300px',
+        data: this.selcetedProfiles()
+      });
 
-    dialogRef.afterClosed().subscribe(
-      res => {
-        if (res === true) {
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res === true) {
 
-          for (let profileId of this.selcetedProfiles()) {
-            let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
-            this.profiles.splice(index, 1);
-            this.ngOnChanges();
+            for (let profileId of this.selcetedProfiles()) {
+              let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+              this.profiles.splice(index, 1);
+              this.ngOnChanges();
+            }
           }
         }
-      }
-    );
+      )
+    }
   }
 
   // Load Detalails page

@@ -45,6 +45,10 @@ export class ImageDialog {
   }
 
 
+  isThisCurrentUser() {
+    return this.currentUserSubject.profileId == this.data.currentProfileId;
+  }
+
   liked() {
     return this.data.profile?.likes?.find(x => x == this.currentUserSubject.profileId);
   }

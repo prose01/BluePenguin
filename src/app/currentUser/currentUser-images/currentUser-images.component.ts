@@ -14,6 +14,7 @@ import { DeleteImageDialog } from '../../image-components/delete-image/delete-im
 export class CurrentUserImagesComponent{
 
   @Input() imageModels: ImageModel[];
+  @Input() currentProfileId: string;
 
   constructor(private dialog: MatDialog) { }
 
@@ -23,6 +24,7 @@ export class CurrentUserImagesComponent{
       data: {
         index: indexOfelement,
         imageModels: this.imageModels,
+        currentProfileId: this.currentProfileId
       }
     });
   }
