@@ -3,4 +3,5 @@ export type Configuration = {
   artemisUrl: string;
   junoUrl: string;
   maxPhotos: number;
+  maxTags: number;
 }

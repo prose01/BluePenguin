@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -57,10 +58,14 @@ export class EditProfileComponent {
   isChecked: boolean;
 
   tagsPlaceholder: string = "Tags";
+  maxTags: number;
 
   loading: boolean = false;
 
-  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog) { this.createForm(); }
+  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+    this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.createForm();
+  }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -211,9 +216,9 @@ export class EditProfileComponent {
     const input = event.input;
     const value = event.value;
 
-    if (this.tagsList.length >= 10) {
+    if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max 10 tags.";
+      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
       return;
     }   
 

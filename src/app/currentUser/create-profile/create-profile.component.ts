@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -53,13 +54,17 @@ export class CreateProfileComponent {
   genderPlaceholder: string = "Gender";
   sexualOrientationPlaceholder: string = "Sexual orientation";
   tagsPlaceholder: string = "Tags";
+  maxTags: number;
 
   isChecked: boolean = true;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+    this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.createForm();
+  }
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
@@ -206,9 +211,9 @@ export class CreateProfileComponent {
     const input = event.input;
     const value = event.value;
 
-    if (this.tagsList.length >= 10) {
+    if (this.tagsList.length >= this.maxTags) {
       this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max 10 tags.";
+      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
       return;
     }
 
