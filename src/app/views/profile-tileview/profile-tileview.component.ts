@@ -217,10 +217,12 @@ export class ProfileTileviewComponent implements OnChanges {
   }
 
   openDeleteProfilesDialog(profile: Profile): void {
+    var profileIds: string[] = [profile.profileId];
+
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
       //height: '300px',
       //width: '300px',
-      data: profile
+      data: profileIds
     });
 
     dialogRef.afterClosed().subscribe(

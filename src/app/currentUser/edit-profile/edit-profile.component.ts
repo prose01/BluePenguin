@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
@@ -36,7 +36,7 @@ import {
 })
 
 @AutoUnsubscribe()
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
   genderTypes = Object.keys(GenderType);
@@ -197,10 +197,12 @@ export class EditProfileComponent {
   }
 
   openDeleteCurrentUserDialog(): void {
+    var profileIds: string[] = [this.currentUserSubject.profileId];
+
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
       //height: '300px',
       //width: '300px',
-      data: { profileIds: [] }
+      data: profileIds
     });
   }
 

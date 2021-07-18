@@ -118,8 +118,8 @@ export class ProfileListviewComponent implements OnChanges {
 
   /** Add or remove bookmarks */
   addFavoritProfiles() {
-    if (this.selcetedProfiles().length > 0) {
-      this.profileService.addProfilesToBookmarks(this.selcetedProfiles())
+    if (this.selcetedProfileIds().length > 0) {
+      this.profileService.addProfilesToBookmarks(this.selcetedProfileIds())
         .pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {
           this.profileService.updateCurrentUserSubject();
@@ -129,8 +129,8 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   removeFavoritProfiles() {
-    if (this.selcetedProfiles().length > 0) {
-      this.profileService.removeProfilesFromBookmarks(this.selcetedProfiles())
+    if (this.selcetedProfileIds().length > 0) {
+      this.profileService.removeProfilesFromBookmarks(this.selcetedProfileIds())
         .pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {
           this.profileService.updateCurrentUserSubject();
@@ -176,7 +176,7 @@ export class ProfileListviewComponent implements OnChanges {
     }
   }
 
-  selcetedProfiles(): string[] {
+  selcetedProfileIds(): string[] {
     let profileIds = new Array;
 
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
@@ -193,18 +193,18 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   openDeleteProfilesDialog(): void {
-    if (this.selcetedProfiles().length > 0) {
+    if (this.selcetedProfileIds().length > 0) {
       const dialogRef = this.dialog.open(DeleteProfileDialog, {
         //height: '300px',
         //width: '300px',
-        data: this.selcetedProfiles()
+        data: this.selcetedProfileIds()
       });
 
       dialogRef.afterClosed().subscribe(
         res => {
           if (res === true) {
 
-            for (let profileId of this.selcetedProfiles()) {
+            for (let profileId of this.selcetedProfileIds()) {
               let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
               this.profiles.splice(index, 1);
               this.ngOnChanges();

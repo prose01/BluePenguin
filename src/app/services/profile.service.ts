@@ -182,16 +182,16 @@ export class ProfileService {
       );
   }
 
-  setAsAdmin(profile: Profile): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}SetAsAdmin`, profile, { headers: this.headers })
+  setAsAdmin(profileId: string): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}SetAsAdmin`, `\"${profileId}\"`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  removeAdmin(profile: Profile): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}RemoveAdmin`, profile, { headers: this.headers })
+  removeAdmin(profileId: string): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
