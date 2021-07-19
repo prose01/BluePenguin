@@ -3,7 +3,9 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -61,7 +63,7 @@ export class CreateProfileComponent {
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog) {
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
   }
@@ -149,7 +151,10 @@ export class CreateProfileComponent {
     else if (this.newUserForm.valid) {
       this.profileService.addProfile(this.currentUser).subscribe(
         () => { },
-        () => { this.isCurrentUserCreated.emit(false); },
+        (error: any) => {
+          this.isCurrentUserCreated.emit(false);
+          this.openErrorDialog("Could not save user", error);
+        },
         () => {
           this.profileService.updateCurrentUserSubject();
           this.initDefaultData.emit();
@@ -243,5 +248,14 @@ export class CreateProfileComponent {
       this.tagsList.splice(index, 1);
       this.newUserForm.markAsDirty();
     }
+  }
+
+  openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error.error
+      }
+    });
   }
 }
