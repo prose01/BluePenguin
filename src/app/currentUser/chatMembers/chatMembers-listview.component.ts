@@ -50,11 +50,15 @@ export class ChatMembersListviewComponent implements OnInit {
   ngOnInit() {
     this.profileService.currentUserSubject
       .pipe(takeWhileAlive(this))
-      .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+      .subscribe(
+        () => { currentUserSubject => this.currentUserSubject = currentUserSubject },
+        () => { },
+        () => { this.refreshChatmemberlist() }
+      );
 
-    setTimeout(() => {
-      this.refreshChatmemberlist(); // TODO: Find på noget bedre
-    }, 500);
+    //setTimeout(() => {
+    //  this.refreshChatmemberlist(); // TODO: Find på noget bedre
+    //}, 500);
   }
 
   ngOnChanges(): void {
@@ -64,7 +68,7 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject();
+    this.profileService.updateCurrentUserSubject().then(res => this.refreshChatmemberlist());
   }
 
   setDataSource(): void {
@@ -99,23 +103,23 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   blockChatMembers() {
-    this.profileService.blockChatMembers(this.selcetedProfiles())
+    this.profileService.blockChatMembers(this.selcetedProfileIds())
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
 
-    setTimeout(() => {
-      this.refreshChatmemberlist();
-    }, 500);
+    //setTimeout(() => {
+    //  this.refreshChatmemberlist();
+    //}, 500);
   }
 
-  selcetedProfiles(): string[] {
-    let profiles = new Array;
+  selcetedProfileIds(): string[] {
+    let profileIds = new Array;
 
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
-      profiles.push(this.selection.selected[_i].profileId);
+      profileIds.push(this.selection.selected[_i].profileId);
     }
 
-    return profiles;
+    return profileIds;
   }
 
   pageChanged(event) {
