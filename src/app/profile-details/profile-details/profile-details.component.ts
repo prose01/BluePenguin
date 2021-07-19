@@ -27,7 +27,7 @@ export class ProfileDetailsComponent implements OnInit {
   setProfileAsAdmin() {
     if (this.currentUserSubject.admin) {
       this.profileService.setAsAdmin(this.profile.profileId).subscribe(
-        () => { },
+        (response: any) => { this.profile = response },
         () => { },
         () => { }
       );
@@ -37,7 +37,7 @@ export class ProfileDetailsComponent implements OnInit {
   removeProfileAsAdmin() {
     if (this.currentUserSubject.admin) {
       this.profileService.removeAdmin(this.profile.profileId).subscribe(
-        () => { },
+        (response: any) => { this.profile = response },
         () => { },
         () => { });
     }
