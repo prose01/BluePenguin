@@ -32,6 +32,7 @@ import { AppRoutingModule }                   from './app-routing.module';
 
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
+import { ErrorDialog }                        from './error-dialog/error-dialog.component';
 
 import { ConfigurationModule }                from "./configuration/configuration.module";
 import { ProfileService }                     from './services/profile.service';
@@ -70,6 +71,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorDialog,
     DashboardComponent,
     CreateProfileComponent,
     ProfileDetailsBoardComponent,
