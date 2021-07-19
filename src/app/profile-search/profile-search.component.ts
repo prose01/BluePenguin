@@ -121,8 +121,8 @@ export class ProfileSearchComponent implements OnInit {
   loadForm(filter: ProfileFilter) {
     this.profileForm.reset({
       name: filter.name,
-      age: filter.age[1],
-      height: filter.height[1],
+      age: filter.age == null ? 16 : filter.age[1],   // TODO: Add config default age.
+      height: filter.height == null ? 0 : filter.height[1], // TODO: Add config default height.
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
