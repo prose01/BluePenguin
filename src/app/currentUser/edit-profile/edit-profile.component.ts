@@ -200,8 +200,6 @@ export class EditProfileComponent implements OnInit {
     var profileIds: string[] = [this.currentUserSubject.profileId];
 
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      //height: '300px',
-      //width: '300px',
       data: profileIds
     });
   }

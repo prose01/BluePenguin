@@ -27,6 +27,7 @@ import {
   BodyArtType,
   SexualOrientationType
 } from '../models/enums';
+import { ConfigurationLoader } from '../configuration/configuration-loader.service';
 
 @Component({
   selector: 'app-profile-search',
@@ -66,12 +67,16 @@ export class ProfileSearchComponent implements OnInit {
   currentProfileFilterSubject: ProfileFilter;
   showGenderChoise: boolean;
   tagsPlaceholder: string = "Tags";
+  maxTags: number;
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
   @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
-  constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder) { this.createForm(); }
+  constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+    this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.createForm();
+  }
 
   createForm() {
     this.profileForm = this.formBuilder.group({
@@ -154,7 +159,7 @@ export class ProfileSearchComponent implements OnInit {
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
-    const ageRange: number[] = [0, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    const ageRange: number[] = [16, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
     const heightRange: number[] = [0, Number(formModel.height)];
 
     const filterProfile: ProfileFilter = {
@@ -222,9 +227,9 @@ export class ProfileSearchComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    if (this.tagsList.length >= 10) {
+    if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max 10 tags.";
+      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
       return;
     }   
 
