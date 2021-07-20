@@ -7,10 +7,14 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+
 import { ImageService } from '../../services/image.service';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'image-upload',
@@ -35,7 +39,7 @@ export class ImageUploadComponent {
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
-  constructor(private imageService: ImageService, private formBuilder: FormBuilder) {
+  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog) {
     this.createForm();
   }
 
@@ -178,8 +182,9 @@ export class ImageUploadComponent {
             (res) => {
               if (res.status == 200) {
               }
-            }, (err) => {
-              //console.log(err); // TODO: Add some logging?
+            }, (error: any) => {
+              console.log(error); // TODO: Add some logging?
+              this.openErrorDialog("Could not save image", error);
               this.toggleDisplay.emit();
             },
             () => { this.toggleDisplay.emit(); }
@@ -223,6 +228,15 @@ export class ImageUploadComponent {
         canvas.toBlob(resolve, file.type);
       };
       image.onerror = reject;
+    });
+  }
+
+  openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error.error
+      }
     });
   }
 }
