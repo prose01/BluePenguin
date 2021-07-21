@@ -67,6 +67,7 @@ export class ProfileSearchComponent implements OnInit {
   currentProfileFilterSubject: ProfileFilter;
   showGenderChoise: boolean;
   tagsPlaceholder: string = "Tags";
+  defaultAge: number;
   maxTags: number;
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
@@ -74,6 +75,7 @@ export class ProfileSearchComponent implements OnInit {
   @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
   constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
   }
@@ -121,8 +123,8 @@ export class ProfileSearchComponent implements OnInit {
   loadForm(filter: ProfileFilter) {
     this.profileForm.reset({
       name: filter.name,
-      age: filter.age == null ? 16 : filter.age[1],   // TODO: Add config default age.
-      height: filter.height == null ? 0 : filter.height[1], // TODO: Add config default height.
+      age: filter.age == null ? this.defaultAge : filter.age[1],   
+      height: filter.height == null ? 0 : filter.height[1], 
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -159,7 +161,7 @@ export class ProfileSearchComponent implements OnInit {
   prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
-    const ageRange: number[] = [16, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    const ageRange: number[] = [this.defaultAge, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
     const heightRange: number[] = [0, Number(formModel.height)];
 
     const filterProfile: ProfileFilter = {

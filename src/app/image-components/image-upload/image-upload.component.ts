@@ -38,11 +38,15 @@ export class ImageUploadComponent {
   titlePlaceholder: string = "Please insert an image title.";
   uploadingPhoto: boolean = false;
   fileSizeLimit: number;
+  imageMaxWidth: number;
+  imageMaxHeight: number;
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
   constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
     this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
+    this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
+    this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
     this.createForm();
   }
 
@@ -182,8 +186,7 @@ export class ImageUploadComponent {
       image.lastModifiedDate = new Date();
       image.name = 'tempname';
 
-      // Hardcoded to 1080x1350 TODO: Change to config.
-      this.resizeImage(image, 1080, 1350).then(res => {
+      this.resizeImage(image, this.imageMaxWidth, this.imageMaxHeight).then(res => {
         formData.append('image', res);
         formData.append('title', uploadModel.title as string);
         this.uploadingPhoto = true;
@@ -203,7 +206,7 @@ export class ImageUploadComponent {
     }    
   }
 
-  // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/
+  // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/   // TODO: Should not resize if already big enough, and should no make bigger than fileSizeLimit.
   resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
     return new Promise((resolve, reject) => {
       let image = new Image();

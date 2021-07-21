@@ -54,6 +54,7 @@ export class CreateProfileComponent {
 
   namePlaceholder: string = "Name";
   genderPlaceholder: string = "Gender";
+  defaultAge: number;
   sexualOrientationPlaceholder: string = "Sexual orientation";
   tagsPlaceholder: string = "Tags";
   maxTags: number;
@@ -64,6 +65,7 @@ export class CreateProfileComponent {
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog) {
+    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
   }

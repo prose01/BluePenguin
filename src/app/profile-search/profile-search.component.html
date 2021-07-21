@@ -34,7 +34,7 @@
       </mat-form-field>
 
       <mat-label i18n="Profile Age | A Age for the Profile @@profileAge">Age</mat-label>
-      <mat-slider min="16" max="120" step="1" [value]="ageList" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-slider min={{defaultAge}} max="120" step="1" [value]="ageList" thumbLabel formControlName="age" class="cdk-focused">
       </mat-slider>
 
       <mat-label i18n="Profile Height | A Height for the Profile @@profileHeight">Height in cm</mat-label>

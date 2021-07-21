@@ -57,6 +57,7 @@ export class EditProfileComponent implements OnInit {
   bodyArtTypes = Object.keys(BodyArtType);
 
   isChecked: boolean;
+  defaultAge: number;
 
   tagsPlaceholder: string = "Tags";
   maxTags: number;
@@ -64,6 +65,7 @@ export class EditProfileComponent implements OnInit {
   loading: boolean = false;
 
   constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
   }
