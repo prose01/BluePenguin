@@ -195,8 +195,6 @@ export class ProfileListviewComponent implements OnChanges {
   openDeleteProfilesDialog(): void {
     if (this.selcetedProfileIds().length > 0) {
       const dialogRef = this.dialog.open(DeleteProfileDialog, {
-        //height: '300px',
-        //width: '300px',
         data: this.selcetedProfileIds()
       });
 

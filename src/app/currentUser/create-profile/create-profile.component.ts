@@ -153,7 +153,12 @@ export class CreateProfileComponent {
         () => { },
         (error: any) => {
           this.isCurrentUserCreated.emit(false);
-          this.openErrorDialog("Could not save user", error);
+          if (error.status === 400) {
+            this.openErrorDialog("Could not save user", error);
+          }
+          else {
+            this.openErrorDialog("Could not save user", null);
+          }
         },
         () => {
           this.profileService.updateCurrentUserSubject();
@@ -254,7 +259,7 @@ export class CreateProfileComponent {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,
-        content: error.error
+        content: error?.error
       }
     });
   }

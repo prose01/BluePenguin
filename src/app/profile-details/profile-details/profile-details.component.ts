@@ -45,8 +45,6 @@ export class ProfileDetailsComponent implements OnInit {
 
   openDeleteProfilesDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      height: '300px',
-      width: '300px',
       data: [this.profile.profileId]
     });
   }

@@ -8,6 +8,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
@@ -146,10 +147,9 @@ export class EditProfileComponent implements OnInit {
     this.profileService.putProfile(this.currentUserSubject)
       .pipe(takeWhileAlive(this))  // TODO: Not sure this is good idea with save profile?
       .subscribe(
-        () => {
-          
-        }, (err) => {
-          //console.log(err); // TODO: Add some logging?
+        () => { },
+        (error: any) => {
+          this.openErrorDialog("Could not save user", null);
         },
         () => { this.profileForm.markAsPristine(); this.loading = false; }
       );
@@ -248,6 +248,15 @@ export class EditProfileComponent implements OnInit {
       this.tagsList.splice(index, 1);
       this.profileForm.markAsDirty();
     }
+  }
+
+  openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 
 }

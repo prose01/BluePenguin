@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
@@ -12,6 +13,7 @@ import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
 import { ProfileFilter } from '../models/profileFilter';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
+import { ErrorDialog } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'dashboard',
@@ -39,7 +41,7 @@ export class DashboardComponent implements OnInit {
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -51,7 +53,14 @@ export class DashboardComponent implements OnInit {
         else {
           this.isCurrentUserCreated.emit(false);
         }
-      });
+      },
+        (error: any) => {
+          if (error.status === 0) {
+            // A network error occurred.
+            this.openErrorDialog('No connection to server', null);
+          }
+        }
+      );
     }
   }
 
@@ -496,5 +505,14 @@ export class DashboardComponent implements OnInit {
 
   loadProfileDetails(profile: Profile) {
     this.loadDetails.emit(profile);
+  }
+
+  openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }
