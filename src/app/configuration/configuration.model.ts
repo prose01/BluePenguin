@@ -4,4 +4,5 @@ export type Configuration = {
   junoUrl: string;
   maxPhotos: number;
   maxTags: number;
+  fileSizeLimit: number;
 }

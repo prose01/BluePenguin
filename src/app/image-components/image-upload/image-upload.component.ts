@@ -8,6 +8,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
@@ -36,10 +37,12 @@ export class ImageUploadComponent {
   fileUploadProgress: string = null;
   titlePlaceholder: string = "Please insert an image title.";
   uploadingPhoto: boolean = false;
+  fileSizeLimit: number;
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
-  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog) {
+  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+    this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
     this.createForm();
   }
 
@@ -66,7 +69,15 @@ export class ImageUploadComponent {
 
   fileChangeEvent(event: any): void {
     if (event.target.files[0] != null) {
-      this.imageChangedEvent = event;
+      let sizeInBytes: number = event.target.files[0].size;
+
+      if (sizeInBytes <= this.fileSizeLimit) {
+        this.imageChangedEvent = event;
+      }
+      else {
+        var limitMB = (this.fileSizeLimit / 1000000);
+        this.openErrorDialog("Could not upload image", "Image has exceeded the maximum size of " + Math.floor(limitMB) + " MB.");
+      }
     }
   }
 
@@ -183,8 +194,7 @@ export class ImageUploadComponent {
               if (res.status == 200) {
               }
             }, (error: any) => {
-              console.log(error); // TODO: Add some logging?
-              this.openErrorDialog("Could not save image", error);
+              //this.openErrorDialog("Could not save image", error.error);
               this.toggleDisplay.emit();
             },
             () => { this.toggleDisplay.emit(); }
@@ -231,11 +241,11 @@ export class ImageUploadComponent {
     });
   }
 
-  openErrorDialog(title: string, error: any): void {
+  openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,
-        content: error.error
+        content: error
       }
     });
   }
