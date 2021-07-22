@@ -10,8 +10,6 @@ import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import {
-  GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -36,8 +34,6 @@ import {
 export class CreateProfileComponent {
   currentUser: CurrentUser;
   newUserForm: FormGroup;
-  genderTypes = Object.keys(GenderType);
-  sexualOrientationTypes = Object.keys(SexualOrientationType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
   hasChildrenTypes = Object.keys(HasChildrenType);
@@ -54,6 +50,8 @@ export class CreateProfileComponent {
 
   namePlaceholder: string = "Name";
   genderPlaceholder: string = "Gender";
+  genderTypes: string[] = [];
+  sexualOrientationTypes: string[] = [];
   defaultAge: number;
   sexualOrientationPlaceholder: string = "Sexual orientation";
   tagsPlaceholder: string = "Tags";
@@ -65,6 +63,8 @@ export class CreateProfileComponent {
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog) {
+    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
+    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
@@ -189,8 +189,8 @@ export class CreateProfileComponent {
       contactable: formModel.contactable as boolean,
       description: formModel.description as string,
       tags: this.tagsList as string[],
-      gender: formModel.gender as GenderType,
-      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
+      gender: formModel.gender as string,
+      sexualOrientation: formModel.sexualOrientation as string,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,

@@ -1,5 +1,4 @@
 import {
-  GenderType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -21,7 +20,7 @@ export class ProfileFilter {
   height: number[];
   description: string;
   tags: string[];
-  gender: GenderType;
+  gender: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -43,7 +42,7 @@ export interface ProfileFilter {
   height: number[];
   description: string;
   tags: string[];
-  gender: GenderType;
+  gender: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;

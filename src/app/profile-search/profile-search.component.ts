@@ -11,7 +11,6 @@ import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import {
-  GenderType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -24,8 +23,7 @@ import {
   SportsActivityType,
   EatingHabitsType,
   ClotheStyleType,
-  BodyArtType,
-  SexualOrientationType
+  BodyArtType
 } from '../models/enums';
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
 
@@ -46,9 +44,8 @@ export class ProfileSearchComponent implements OnInit {
   searchResultProfiles: Profile[];
   viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   profileForm: FormGroup;
-  ageList: number[] = [...Array(1 + 120 - 16).keys()].map(v => 16 + v);
+  ageList: number[];
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
-  genderTypes = Object.keys(GenderType);
   bodyTypes = Object.keys(BodyType);
   smokingHabitsTypes = Object.keys(SmokingHabitsType);
   hasChildrenTypes = Object.keys(HasChildrenType);
@@ -63,6 +60,8 @@ export class ProfileSearchComponent implements OnInit {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
+  genderTypes: string[] = []; // TODO: Maybe not used
+  sexualOrientationTypes: string[] = []; // TODO: Maybe not used
   currentUserSubject: CurrentUser;
   currentProfileFilterSubject: ProfileFilter;
   showGenderChoise: boolean;
@@ -75,8 +74,11 @@ export class ProfileSearchComponent implements OnInit {
   @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
   constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes); // TODO: Maybe not used
+    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes); // TODO: Maybe not used
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.ageList = [...Array(1 + 120 - this.defaultAge).keys()].map(v => this.defaultAge + v);
     this.createForm();
   }
 
@@ -87,7 +89,7 @@ export class ProfileSearchComponent implements OnInit {
       height: null,
       description: null,
       tags: null,
-      gender: GenderType.Female,
+      gender: this.genderTypes[0],
       body: BodyType.NotChosen,
       smokingHabits: SmokingHabitsType.NotChosen,
       hasChildren: HasChildrenType.NotChosen,
@@ -116,8 +118,8 @@ export class ProfileSearchComponent implements OnInit {
     });
   }
 
-  setShowGenderChoise(sexualOrientationType: SexualOrientationType) {
-    this.showGenderChoise = (sexualOrientationType == SexualOrientationType.Heterosexual || sexualOrientationType == SexualOrientationType.Homosexual) ? false : true;
+  setShowGenderChoise(sexualOrientationType: string) {
+    this.showGenderChoise = (sexualOrientationType == 'Heterosexual' || sexualOrientationType == 'Homosexual') ? false : true;
   }
 
   loadForm(filter: ProfileFilter) {
@@ -170,7 +172,7 @@ export class ProfileSearchComponent implements OnInit {
       height: heightRange,
       description: formModel.description as string,
       tags: this.tagsList as string[],
-      gender: formModel.gender as GenderType,
+      gender: formModel.gender as string,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,

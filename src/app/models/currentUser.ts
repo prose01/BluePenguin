@@ -1,10 +1,7 @@
 import { ImageModel } from './imageModel';
 import { ChatMember } from './chatMember';
 import { Visited } from './visited';
-import { Likes } from './likes';
 import {
-  GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -36,8 +33,8 @@ export class CurrentUser {
   description: string;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -71,8 +68,8 @@ export interface CurrentUser {
   description: string;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;

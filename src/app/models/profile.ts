@@ -1,9 +1,6 @@
 import { ImageModel } from './imageModel'; 
 import { ChatMember } from './chatMember';
-import { Likes } from './likes';
 import {
-  GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -35,8 +32,8 @@ export class Profile {
   imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -69,8 +66,8 @@ export interface Profile {
   imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;

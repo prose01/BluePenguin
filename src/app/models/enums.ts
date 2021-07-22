@@ -25,11 +25,6 @@ export enum BodyArtType {
   "Other" = "Other"
 }
 
-export enum GenderType {
-  "Female" = "Female",
-  "Male" = "Male"
-}
-
 export enum EatingHabitsType {
   "NotChosen" = "NotChosen",
   "Healthy" = "Healthy",
@@ -92,13 +87,6 @@ export enum LivesInType {
   "Suburb" = "Suburb",
   "Countryside" = "Countryside",
   "Other" = "Other"
-}
-
-export enum SexualOrientationType {
-  "Heterosexual" = "Heterosexual",
-  "Homosexual" = "Homosexual",
-  "Bisexual" = "Bisexual",
-  "Asexual" = "Asexual"
 }
 
 export enum SmokingHabitsType {
