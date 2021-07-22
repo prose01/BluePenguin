@@ -467,7 +467,7 @@ export class DashboardComponent implements OnInit {
         this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
           .pipe(takeWhileAlive(this))
           .subscribe(
-            images => { element.images[element.imageNumber].smallimage = 'data:image/png;base64,' + images.toString() },
+            images => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
             () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
             () => { this.loading = false; } 
           );
@@ -475,7 +475,7 @@ export class DashboardComponent implements OnInit {
         this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
           .pipe(takeWhileAlive(this))
           .subscribe(
-            images => { element.images[element.imageNumber].image = 'data:image/png;base64,' + images.toString() },
+            images => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
             () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image },
             () => { this.loading = false; }
           );

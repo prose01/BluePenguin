@@ -238,7 +238,7 @@ export class ImageUploadComponent {
 
         context.drawImage(image, 0, 0, newWidth, newHeight);
 
-        canvas.toBlob(resolve, file.type);
+        context.canvas.toBlob(resolve, file.type);
       };
       image.onerror = reject;
     });
