@@ -86,10 +86,10 @@
       <i class="material-icons icon-orange-right" i18n-matTooltip="NotContactable | This profile is not contactable @@contactable" matTooltip="This profile is not contactable">person_off</i>
     </div>
 
-    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{profile.likes.length}} Likes">
+    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{profile.likes?.length}} Likes">
       <i class="material-icons">favorite</i>
     </button>
-    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{profile.likes.length}} Likes">
+    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{profile.likes?.length}} Likes">
       <i class="material-icons">favorite_border</i>
     </button>
 
