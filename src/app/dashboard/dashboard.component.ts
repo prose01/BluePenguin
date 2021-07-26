@@ -455,6 +455,12 @@ export class DashboardComponent implements OnInit {
   // Get Profile Images.
 
   getProfileImages(profiles: Profile[]): Promise<void> {
+
+    // Remove empty profile from array.
+    profiles = profiles?.filter(function (el) {
+      return el != null;
+    });
+
     let defaultImageModel: ImageModel = new ImageModel();
 
     profiles?.forEach((element, i) => {
@@ -482,7 +488,7 @@ export class DashboardComponent implements OnInit {
       }
       else {
         // Set default profile image.
-        element.images.push(defaultImageModel);
+        element.images[0] = defaultImageModel;
       }
     });
 
