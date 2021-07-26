@@ -187,7 +187,7 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   resetSelectionPagination() {
-    this.selection.clear();
+    this.selection?.clear();
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 5;
   }

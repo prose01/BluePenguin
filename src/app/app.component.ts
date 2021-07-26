@@ -250,7 +250,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   resetSelectionPagination() {
     if (!this.isTileView) {
-      this.dashboardComponent.resetSelectionPagination();
+      this.dashboardComponent?.resetSelectionPagination();
     }
   }
 

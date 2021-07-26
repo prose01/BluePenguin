@@ -500,7 +500,7 @@ export class DashboardComponent implements OnInit {
   }
 
   resetSelectionPagination() {
-    this.listviewComponent.resetSelectionPagination();
+    this.listviewComponent?.resetSelectionPagination();
   }
 
   loadProfileDetails(profile: Profile) {

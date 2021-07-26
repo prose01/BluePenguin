@@ -17,9 +17,9 @@ import {
 } from '../models/enums';
 
 export class Profile {
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //bookmarks: string[];
+  //chatMemberslist: Array<ChatMember>;
+  //auth0Id: string;
   profileId: string;
   name: string;
   createdOn: Date;
@@ -32,8 +32,8 @@ export class Profile {
   imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: string;
-  sexualOrientation: string;
+  //gender: string;
+  //sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -51,9 +51,9 @@ export class Profile {
 }
 
 export interface Profile {
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //bookmarks: string[];
+  //chatMemberslist: Array<ChatMember>;
+  //auth0Id: string;
   profileId: string;
   name: string;
   createdOn: Date;
@@ -66,8 +66,8 @@ export interface Profile {
   imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: string;
-  sexualOrientation: string;
+  //gender: string;
+  //sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
