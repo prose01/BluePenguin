@@ -35,7 +35,7 @@ export class ChatComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.currentUser != null) {
-      setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);
+      setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000); // TODO: Change userId from auth0Id to ProfileId.
       setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.junoUrl, this.username, this.http); }, 2000);
     }
   }

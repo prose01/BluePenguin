@@ -161,8 +161,8 @@ export class ProfileListviewComponent implements OnChanges {
           this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
             .pipe(takeWhileAlive(this))
             .subscribe(() => {
-              const index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-              this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
+              const index = this.profiles.find(x => x.profileId === profileId)?.likes.indexOf(this.currentUserSubject.profileId, 0);
+              this.profiles.find(x => x.profileId === profileId)?.likes.splice(index, 1);
             }, () => { }, () => { });
         }
         else {

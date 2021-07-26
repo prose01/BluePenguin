@@ -164,7 +164,7 @@ export class EditProfileComponent implements OnInit {
     const saveProfile: CurrentUser = {
       bookmarks: this.currentUserSubject.bookmarks,
       chatMemberslist: this.currentUserSubject.chatMemberslist,
-      auth0Id: this.currentUserSubject.auth0Id, 
+      //auth0Id: this.currentUserSubject.auth0Id, 
       profileId: this.currentUserSubject.profileId,
       admin: this.currentUserSubject.admin,
       name: this.currentUserSubject.name,

@@ -176,7 +176,7 @@ export class CreateProfileComponent {
     const saveProfile: CurrentUser = {
       bookmarks: null,
       chatMemberslist: null,
-      auth0Id: null,
+      //auth0Id: null,
       profileId: null,
       admin: false,
       images: null,

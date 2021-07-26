@@ -20,7 +20,7 @@ import {
 export class CurrentUser {
   bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //auth0Id: string;
   profileId: string;
   admin: boolean;
   name: string;
@@ -55,7 +55,7 @@ export class CurrentUser {
 export interface CurrentUser {
   bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //auth0Id: string;
   profileId: string;
   admin: boolean;
   name: string;

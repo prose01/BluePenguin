@@ -35,7 +35,7 @@ export class ProfileService {
   async verifyCurrentUserProfile(): Promise<boolean> {
     const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
 
-    if (currentUser.auth0Id == null) {
+    if (currentUser.profileId == null) {
       return Promise.resolve(false);
     }
 
