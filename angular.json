@@ -8,14 +8,18 @@
       "sourceRoot": "src",
       "projectType": "application",
 					"i18n": {
+					  "sourceLocale": "en-US",
 					  "locales": {
-						"da": "src/locale/messages.da.xlf"
+						"en": "locale/messages.en.xlf",
+						"da": "locale/messages.da.xlf"
 					  }
 					},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+			"localize": true,
+			"aot": true,
             "allowedCommonJsDependencies": [
               "rxjs-compat"
             ],
@@ -65,8 +69,13 @@
                 }
               ]
             },
+			  "en": {
+				  "localize": ["en"],
+				  "baseHref": "/en/"
+				},
 			  "da": {
-				  "localize": ["da"]
+				  "localize": ["da"],
+				  "baseHref": "/da/"
 				}
           },
           "defaultConfiguration": ""
@@ -80,9 +89,12 @@
             "production": {
               "browserTarget": "blue-penguin-app:build:production"
             },
+			"en": {
+              "browserTarget": "blue-penguin-app:build:en"
+            },
 			"da": {
               "browserTarget": "blue-penguin-app:build:da"
-            },
+            }
           }
         },		
         "extract-i18n": {

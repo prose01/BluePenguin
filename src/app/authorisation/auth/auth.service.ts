@@ -35,17 +35,21 @@ export class AuthService {
     return this._idToken;
   }
 
-  public login(): void {
-    this.auth0.authorize();
+  public login(ui_locales: string = 'da'): void {
+    /*this.auth0.authorize();*/
+    console.log(ui_locales);  // TODO: Does not work!!!
+    this.auth0.authorize({
+      language: ui_locales
+    });
   }
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.localLogin(authResult);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['']);
       } else if (err) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['']);
         //console.log(err);
         //alert(`Error: ${err.error}. Check the console for further details.`);
       }

@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { LOCALE_ID, Inject, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import { AuthService } from './authorisation/auth/auth.service';
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
   lastCalledFilter: string = "getLatestProfiles";
 
   siteLanguage: string
-  siteLocale: string
+  siteLocale: string = 'en';
   languageList = [
     { code: 'en', label: 'English', alpha2: 'gb' },
     { code: 'da', label: 'Danish', alpha2: 'dk' }
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, @Inject(LOCALE_ID) protected localeId: string) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
@@ -92,9 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  onChange(selectedLangCode: string) {
-    window.location.href = `/${selectedLangCode}`
-    console.log(selectedLangCode); // Does not seem to work
+  onChange(event: any) {
+    window.location.href = `/${event.value}/`
+    console.log(window.location.href); // Does not seem to work
   }
 
   toggleDisplay() {
