@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { LOCALE_ID, Inject, Injectable } from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
@@ -21,10 +21,11 @@ export class AuthService {
     grant_type : AUTH_CONFIG.grant_type
   });
 
-  constructor(public router: Router) {
+  constructor(public router: Router, @Inject(LOCALE_ID) protected localeId: string) {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 86400;  // 24hours
+    this.auth0.baseOptions.redirectUri = this.auth0.baseOptions.redirectUri + '/' + localeId + '/';
   }
 
   get accessToken(): string {

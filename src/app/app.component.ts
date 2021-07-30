@@ -93,6 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onChange(event: any) {
+    this.localeId = `/${event.value}/`;
     window.location.href = `/${event.value}/`
     console.log(window.location.href); // Does not seem to work
   }
