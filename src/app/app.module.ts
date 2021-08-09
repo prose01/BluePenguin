@@ -1,5 +1,5 @@
 import { BrowserModule }                      from '@angular/platform-browser';
-import { LOCALE_ID, NgModule }                           from '@angular/core';
+import { NgModule }                           from '@angular/core';
 import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
@@ -133,8 +133,7 @@ import { TranslocoRootModule }                from './transloco/transloco-root.m
     BehaviorSubjectService,
     ImageService,
     AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: LOCALE_ID, useValue: 'en' }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
