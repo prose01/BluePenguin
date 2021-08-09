@@ -6,14 +6,16 @@
     Log In
   </button>
 
-  <h3 i18n="Not logged in | Profile is not logged in @@profileNotLoggedIn">
-    You are not logged in! Please Log In to continue.
+  <h3>
+    {{'NotLoggedIn'| transloco}}
+    {{ 'title' | transloco }}
   </h3>
 </div>
 
 <div *ngIf="auth.isAuthenticated()">
 
   <div id="navbar" [class.mobile]="mobileQuery.matches">
+    <h2>{{ 'title' | transloco }}</h2>
     <h2>{{title}}</h2>
 
     <div *ngIf="isProfileCreated">
@@ -58,8 +60,8 @@
         </button>
 
         <!--<button type="button" (click)="toggleFilterView()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonFilterViewText}}>
-    <i class="material-icons">{{matButtonFilterViewIcon}}</i>
-  </button>-->
+        <i class="material-icons">{{matButtonFilterViewIcon}}</i>
+      </button>-->
       </div>
 
       <!--Search menu-->
@@ -106,7 +108,7 @@
 
   <mat-menu #menu="matMenu">
 
-    <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (selectionChange)="onChange($event)" class="language">
+    <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
       <mat-option *ngFor="let lang of languageList" [value]="lang.code">
         {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
       </mat-option>

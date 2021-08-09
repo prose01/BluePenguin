@@ -1,6 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { LOCALE_ID, Inject, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
 
 import { AuthService } from './authorisation/auth/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -52,18 +53,21 @@ export class AppComponent implements OnInit, OnDestroy {
   filter: ProfileFilter;
   lastCalledFilter: string = "getLatestProfiles";
 
-  siteLanguage: string
-  siteLocale: string = 'en';
+  siteLocale: string = getBrowserLang();
   languageList = [
+    { code: 'da', label: 'Dansk', alpha2: 'dk' },
+    { code: 'de', label: 'Deutsch', alpha2: 'de' },
     { code: 'en', label: 'English', alpha2: 'gb' },
-    { code: 'da', label: 'Danish', alpha2: 'dk' }
+    { code: 'es', label: 'Español', alpha2: 'es' },
+    { code: 'fr', label: 'Français', alpha2: 'fr' },
+    { code: 'ko', label: '한국어', alpha2: 'kr' },
   ]
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, @Inject(LOCALE_ID) protected localeId: string) {
+  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
@@ -76,26 +80,14 @@ export class AppComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
-
-    if (this.auth.isAuthenticated()) {
-      this.siteLocale = window.location.pathname.split('/')[1]
-      this.siteLanguage = this.languageList.find(
-        (f) => f.code === this.siteLocale
-      )?.label
-      if (!this.siteLanguage) {
-        this.onChange(this.languageList[0].code)
-      }
-    }
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  onChange(event: any) {
-    this.localeId = `/${event.value}/`;
-    window.location.href = `/${event.value}/`
-    console.log(window.location.href); // Does not seem to work
+  switchLanguage() {
+    this.translocoService.setActiveLang(this.siteLocale);
   }
 
   toggleDisplay() {
@@ -118,34 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
     this.dashboardComponent.toggleViewDisplay();
   }
-
-  //toggleFilterView() {
-  //  switch (this.filterViewButtonCounter) {
-  //    case 0: {
-  //      this.matButtonFilterViewText = 'Favorites';
-  //      this.matButtonFilterViewIcon = 'bookmarks';
-  //      this.filterViewButtonCounter++;
-  //      this.getProfileByCurrentUsersFilter();
-  //      break;
-  //    }
-  //    case 1: {
-  //      this.matButtonFilterViewText = 'All';
-  //      this.matButtonFilterViewIcon = 'flutter_dash';
-  //      this.filterViewButtonCounter++;
-  //      this.getBookmarkedProfiles();
-  //      break;
-  //    }
-  //    case 2: {
-  //      this.matButtonFilterViewText = 'My Search Filter';
-  //      this.matButtonFilterViewIcon = 'tune';
-  //      this.filterViewButtonCounter = 0;
-  //      this.getLatestProfiles();
-  //      break;
-  //    }
-  //  }
-
-  //  this.resetSelectionPagination();
-  //}
 
   toggleOrderBy() {
     switch (this.orderByButtonCounter) {

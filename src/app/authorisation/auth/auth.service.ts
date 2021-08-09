@@ -1,7 +1,8 @@
-import { LOCALE_ID, Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import { getBrowserLang } from '@ngneat/transloco';
 
 @Injectable()
 export class AuthService {
@@ -21,11 +22,10 @@ export class AuthService {
     grant_type : AUTH_CONFIG.grant_type
   });
 
-  constructor(public router: Router, @Inject(LOCALE_ID) protected localeId: string) {
+  constructor(public router: Router) {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 86400;  // 24hours
-    this.auth0.baseOptions.redirectUri = this.auth0.baseOptions.redirectUri + '/' + localeId + '/';
   }
 
   get accessToken(): string {
@@ -36,12 +36,8 @@ export class AuthService {
     return this._idToken;
   }
 
-  public login(ui_locales: string = 'da'): void {
-    /*this.auth0.authorize();*/
-    console.log(ui_locales);  // TODO: Does not work!!!
-    this.auth0.authorize({
-      language: ui_locales
-    });
+  public login(): void {
+    this.auth0.authorize(getBrowserLang());
   }
 
   public handleAuthentication(): void {

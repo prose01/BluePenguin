@@ -34,6 +34,7 @@
     "@aspnet/signalr": "^3.0.0-preview6.19307.2",
     "@material/image-list": "^11.0.0",
     "@microsoft/signalr": "^5.0.8",
+    "@ngneat/transloco": "^2.22.0",
     "auth0-js": "^9.16.2",
     "core-js": "^3.15.2",
     "flag-icon-css": "^3.5.0",

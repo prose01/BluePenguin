@@ -67,6 +67,7 @@ import { ImageDialog }                        from './image-components/image-dia
 import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './chat/chat.component';
 import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
+import { TranslocoRootModule }                from './transloco/transloco-root.module';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
     LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,
-    NgChatModule
+    NgChatModule,
+    TranslocoRootModule
   ],
   providers: [
     DatePipe,
