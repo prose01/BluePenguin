@@ -1,6 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
 
 import { AuthService } from './authorisation/auth/auth.service';
@@ -30,22 +31,18 @@ export class AppComponent implements OnInit, OnDestroy {
   useChat = false; // Get from Config! Turns off Chat :)
 
   pageView: pageViewEnum = pageViewEnum.Dashboard;
-  matButtonToggleText: string = 'Search';
+  matButtonToggleText: string;
   matButtonToggleIcon: string = 'search';
 
   isTileView = true;
-  matButtonViewToggleText: string = 'ListView';
+  matButtonViewToggleText: string;
   matButtonViewToggleIcon: string = 'line_style';
 
   isAbout = false;
 
   selectedOrderBy = OrderByType.CreatedOn;
 
-  matButtonFilterViewText: string = 'My Search Filter';
-  matButtonFilterViewIcon: string = 'tune';
-  filterViewButtonCounter: number = 0;
-
-  matButtonOrderByText: string = 'Sort by Last Active';
+  matButtonOrderByText: string;
   matButtonOrderByIcon: string = 'watch_later';
   orderByButtonCounter: number = 0;
 
@@ -54,22 +51,28 @@ export class AppComponent implements OnInit, OnDestroy {
   lastCalledFilter: string = "getLatestProfiles";
 
   siteLocale: string = getBrowserLang();
-  languageList = [
-    { code: 'da', label: 'Dansk', alpha2: 'dk' },
-    { code: 'de', label: 'Deutsch', alpha2: 'de' },
-    { code: 'en', label: 'English', alpha2: 'gb' },
-    { code: 'es', label: 'Español', alpha2: 'es' },
-    { code: 'fr', label: 'Français', alpha2: 'fr' },
-    { code: 'ko', label: '한국어', alpha2: 'kr' },
-  ]
+  languageList: Array<any>;
+
+  allText: string;
+  mySearchFilterText: string;
+  bookmarksText: string;
+  visitedMeText: string;
+  bookmarkedMeText: string;
+  likesMeText: string;
+  searchText: string;
+  resetText: string;
+  saveSearchFilterText: string;
+  loadSearchFilterText: string;
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+
+    this.languageList = this.configurationLoader.getConfiguration().languageList;
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -80,10 +83,28 @@ export class AppComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
+
+    this.initiateTransloco();
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  initiateTransloco() {
+    this.translocoService.selectTranslate('All').subscribe(value => this.allText = value);
+    this.translocoService.selectTranslate('MySearchFilter').subscribe(value => this.mySearchFilterText = value);
+    this.translocoService.selectTranslate('Bookmarks').subscribe(value => this.bookmarksText = value);
+    this.translocoService.selectTranslate('VisitedMe').subscribe(value => this.visitedMeText = value);
+    this.translocoService.selectTranslate('BookmarkedMe').subscribe(value => this.bookmarkedMeText = value);
+    this.translocoService.selectTranslate('LikesMe').subscribe(value => this.likesMeText = value);
+    this.translocoService.selectTranslate('Search').subscribe(value => this.searchText = value);
+    this.translocoService.selectTranslate('Reset').subscribe(value => this.resetText = value);
+    this.translocoService.selectTranslate('SaveSearchFilter').subscribe(value => this.saveSearchFilterText = value);
+    this.translocoService.selectTranslate('LoadSearchFilter').subscribe(value => this.loadSearchFilterText = value);
+    this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value);
+    this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value);
+    this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value);
   }
 
   switchLanguage() {
@@ -93,20 +114,20 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleDisplay() {
     if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Details) {
       this.pageView = pageViewEnum.Dashboard;
-      this.matButtonToggleText = 'Search';
+      this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
       this.sidenav.toggle();
     }
     else {
       this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
-      this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? 'Search' : 'Dashboard');
+      this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
       this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
     }
   }
 
   toggleViewDisplay() {
     this.isTileView = !this.isTileView;
-    this.matButtonViewToggleText = (this.isTileView ? 'ListView' : 'TileView');
+    this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
     this.dashboardComponent.toggleViewDisplay();
   }
@@ -114,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleOrderBy() {
     switch (this.orderByButtonCounter) {
       case 0: {
-        this.matButtonOrderByText = 'Sort by Updated On';
+        this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
         this.selectedOrderBy = OrderByType.LastActive;
         this.orderByButtonCounter++;
@@ -122,7 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
         break;
       }
       case 1: {
-        this.matButtonOrderByText = 'Sort by Created On';
+        this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
         this.selectedOrderBy = OrderByType.UpdatedOn;
         this.orderByButtonCounter++;
@@ -130,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        this.matButtonOrderByText = 'Sort by Last Active';
+        this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
         this.selectedOrderBy = OrderByType.CreatedOn;
         this.orderByButtonCounter = 0;
@@ -225,8 +246,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sidenav.toggle();
   }
 
-  revert() {
-    this.profileSearchComponent.revert();
+  reset() {
+    this.profileSearchComponent.reset();
   }
 
   saveSearch() {
@@ -256,7 +277,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = pageViewEnum.Dashboard;
-      this.matButtonToggleText = 'Search';
+      this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
 
@@ -272,7 +293,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = pageViewEnum.Dashboard;
-      this.matButtonToggleText = 'Search';
+      this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
 
@@ -286,7 +307,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
-    this.matButtonToggleText = 'Dashboard';
+    this.matButtonToggleText = this.translocoService.translate('Dashboard');
     this.matButtonToggleIcon = 'dashboard';
   }
 

@@ -3,19 +3,18 @@
           *ngIf="!auth.isAuthenticated()"
           (click)="auth.login()" type="button"
           mat-flat-button color="accent">
-    Log In
+    {{'LogIn'| transloco}}
   </button>
 
   <h3>
     {{'NotLoggedIn'| transloco}}
-    {{ 'title' | transloco }}
   </h3>
 </div>
 
 <div *ngIf="auth.isAuthenticated()">
 
   <div id="navbar" [class.mobile]="mobileQuery.matches">
-    <h2>{{ 'title' | transloco }}</h2>
+    <h2>{{ 'lang' | transloco }}</h2>
     <h2>{{title}}</h2>
 
     <div *ngIf="isProfileCreated">
@@ -35,56 +34,52 @@
 
       <!--Dashboard menu-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="All | All @@all" matTooltip="All">
-          All
+        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{allText}}>
+          {{allText}}
         </button>
 
-        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="My Search Filter | My Search Filter @@mySearchFilter" matTooltip="My Search Filter">
+        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{mySearchFilterText}}>
           <i class="material-icons">tune</i>
         </button>
 
-        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Bookmarks | Bookmarks @@bookmarks" matTooltip="Bookmarks">
+        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{bookmarksText}}>
           <i class="material-icons">bookmarks</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Visited Me | Visited Me @@visitedMe" matTooltip="Visited me">
+        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{visitedMeText}}>
           <i class="material-icons">adjust</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Bookmarked Me | Bookmarked Me @@bookmarkedMe" matTooltip="Bookmarked me">
+        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{bookmarkedMeText}}>
           <i class="material-icons">bookmark_added</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" i18n-matTooltip="Likes Me | Likes Me @@LikesMe" matTooltip="Likes me">
+        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{likesMeText}}>
           <i class="material-icons">favorite</i>
         </button>
-
-        <!--<button type="button" (click)="toggleFilterView()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonFilterViewText}}>
-        <i class="material-icons">{{matButtonFilterViewIcon}}</i>
-      </button>-->
       </div>
 
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
         <!--[disabled]="profileForm.pristine"-->
         <button type="submit" (click)="onSubmit()"
-                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Search | Search @@search" matTooltip="Search">
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{searchText}}>
           <i class="material-icons">search</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
-        <button type="button" (click)="revert()"
-                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
+        <button type="button" (click)="reset()"
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{resetText}}>
           <i class="material-icons">undo</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
         <button type="button" (click)="saveSearch()"
-                class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Save Search Filter | Save Search Filter @@saveSearchFilter" matTooltip="Save Search Filter">
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{saveSearchFilterText}}>
           <i class="material-icons">save</i>
         </button>
 
-        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" i18n-matTooltip="Load Search Filter | Load Search Filter @@loadSearchFilter" matTooltip="Load Search Filter">
+        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{loadSearchFilterText}}>
           <i class="material-icons">find_in_page</i>
         </button>
       </div>
@@ -100,7 +95,7 @@
 
     <!--Upper right corner menu-->
     <button type="button" [matMenuTriggerFor]="menu" class="menu" mat-flat-button color="accent">
-      <span class="material-icons" i18n="Menu | Menu @@menu">
+      <span class="material-icons">
         menu
       </span>
     </button>
@@ -115,13 +110,13 @@
     </mat-select>
 
     <div *ngIf="isProfileCreated">
-      <a (click)="loadEdit()" mat-menu-item i18n="Profile Edit | Edit the Profile @@profileEdit">
-        Edit Profile
+      <a (click)="loadEdit()" mat-menu-item>
+        {{'EditProfile'| transloco}}
         <i class="material-icons">person</i>
       </a>
     </div>
-    <a (click)="loadAbout()" mat-menu-item i18n="AboutUs | AboutPage @@about">
-      About
+    <a (click)="loadAbout()" mat-menu-item>
+      {{'About'| transloco}}
       <i class="material-icons">plus_one</i>
     </a>
 
@@ -130,7 +125,7 @@
             *ngIf="auth.isAuthenticated()"
             (click)="auth.logout()" type="button"
             mat-flat-button color="accent">
-      Log Out
+      {{'LogOut'| transloco}}
     </button>
   </mat-menu>
 

@@ -1,5 +1,24 @@
 {
-	"title": "DA Transloco Test",
+	"lang": "Dansk",
 	"LogIn": "Log Ind",
-	"NotLoggedIn": "Du er ikke logget ind! Log venligst ind for at forsætte."
+	"NotLoggedIn": "Du er ikke logget ind! Log venligst ind for at forsætte.",
+	"All": "Alle",
+	"MySearchFilter" : "Mit søgefileter",
+	"Bookmarks" : "Bookmarks",
+	"VisitedMe" : "Har beøgt mig",
+	"BookmarkedMe" : "Har bookmarket mig",
+	"LikesMe" : "Likes mig",
+	"Reset" : "Nulstil",
+	"SaveSearchFilter" : "Gem søgefilter",
+	"LoadSearchFilter" : "Åben gemt søgefilter",
+	"EditProfile" : "Rediger Profil",
+	"About" : "Om os",
+	"Search" : "Søg",
+	"Dashboard" : "Dashboard",
+	"ListView" : "Listevisning",
+	"TileView" : "TileView",
+	"SortByUpdatedOn" : "Sorter efter sidst opdateret",
+	"SortByCreatedOn" : "Sorter efter sidst oprettet",
+	"SortByLastActive" : "Sorter efter sidst aktiv",
+	"LogOut" : "Log ud"
 }

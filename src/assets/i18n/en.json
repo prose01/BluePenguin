@@ -1,5 +1,24 @@
 {
-	"title": "Transloco Test",
-	"LogIn": "Log In",
-	"NotLoggedIn": "You are not logged in! Please Log In to continue."
+	"lang" : "English",
+	"LogIn" : "Log In",
+	"NotLoggedIn" : "You are not logged in! Please Log In to continue.",
+	"All" : "All",
+	"MySearchFilter" : "My Search Filter",
+	"Bookmarks" : "Bookmarks",
+	"VisitedMe" : "Visited me",
+	"BookmarkedMe" : "Bookmarked me",
+	"LikesMe" : "Likes me",
+	"Reset" : "Reset",
+	"SaveSearchFilter" : "Save Search Filter",
+	"LoadSearchFilter" : "Load Search Filter",
+	"EditProfile" : "Edit Profile",
+	"About" : "About",
+	"Search" : "Search",
+	"Dashboard" : "Dashboard",
+	"ListView" : "ListView",
+	"TileView" : "TileView",
+	"SortByUpdatedOn" : "Sort by Updated On",
+	"SortByCreatedOn" : "Sort by Created On",
+	"SortByLastActive" : "Sort by Last Active",
+	"LogOut" : "Log Out"
 }

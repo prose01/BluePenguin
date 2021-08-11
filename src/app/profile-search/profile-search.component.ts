@@ -154,7 +154,7 @@ export class ProfileSearchComponent implements OnInit {
     this.getProfileByFilter.emit(this.filter);
   }
 
-  revert() {
+  reset() {
     this.tagsList.length = 0;
     this.createForm();
     this.searchResultProfiles = [];

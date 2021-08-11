@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   public login(): void {
-    this.auth0.authorize(getBrowserLang());
+    this.auth0.authorize(getBrowserLang() || 'en');
   }
 
   public handleAuthentication(): void {
