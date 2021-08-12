@@ -67,7 +67,9 @@ import { ImageDialog }                        from './image-components/image-dia
 import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './chat/chat.component';
 import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
+
 import { TranslocoRootModule }                from './transloco/transloco-root.module';
+import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
 
 @NgModule({
   declarations: [
@@ -125,7 +127,17 @@ import { TranslocoRootModule }                from './transloco/transloco-root.m
     InfiniteScrollModule,
     ImageCropperModule,
     NgChatModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    TranslocoLocaleModule.init({
+      langToLocaleMapping: {
+        da: 'da-DK',
+        de: 'de-DE',
+        en: 'en-GB',
+        es: 'es-ES',
+        fr: 'fr-FR',
+        ko: 'ko-KR'
+      }
+    })
   ],
   providers: [
     DatePipe,

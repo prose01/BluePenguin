@@ -48,6 +48,7 @@
 		"BookmarkedMe": "Bookmarked me",
 		"DeleteProfile": "Delete profile(s)",
 		"AddToFavorites": "Add to favorites",
-		"RemoveFromFavorites": "Remove from favorites"
+		"RemoveFromFavorites": "Remove from favorites",
+		"Likes": "Likes"
 	}
 }

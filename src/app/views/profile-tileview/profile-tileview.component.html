@@ -23,7 +23,7 @@
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
       <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber]?.image" [defaultImage]="profile.images[profile.imageNumber]?.smallimage" (click)="openImageDialog(profile)">
-      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{visitedMeText}} {{currentUserSubject.visited[profile.profileId] | date:'medium'}}">adjust</i>
+      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{visitedMeText}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
       <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip={{bookmarkedMeText}}>bookmark_added</i>
 
       <div class="overlay-images">
@@ -36,10 +36,10 @@
         </div>
 
         <div class="button">
-          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} Likes">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
             <i class="material-icons icon-white">favorite</i>
           </button>
-          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} Likes">
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
             <i class="material-icons icon-white">favorite_border</i>
           </button>
         </div>
