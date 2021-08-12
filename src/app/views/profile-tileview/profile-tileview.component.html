@@ -7,8 +7,8 @@
   </div>
 
   <div *ngIf="noProfiles" class="noResults">
-    <p i18n="NoResultsText | No results text @@noResultsText">
-      Sorry no results :(
+    <p>
+      {{'TileViewComponent.NoResultsText'| transloco}}
     </p>
   </div>
 
@@ -23,32 +23,32 @@
     <li class="mdc-image-list__item" *ngFor="let profile of profiles">
 
       <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber]?.image" [defaultImage]="profile.images[profile.imageNumber]?.smallimage" (click)="openImageDialog(profile)">
-      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" i18n-matTooltip="Visited | Visited @@Visited" matTooltip="Visited me on {{currentUserSubject.visited[profile.profileId] | date:'medium'}}">adjust</i>
-      <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" i18n-matTooltip="IsBookmarked | IsBookmarked @@IsBookmarked" matTooltip="Bookmarked me">bookmark_added</i>
+      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{visitedMeText}} {{currentUserSubject.visited[profile.profileId] | date:'medium'}}">adjust</i>
+      <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip={{bookmarkedMeText}}>bookmark_added</i>
 
       <div class="overlay-images">
         <!--<div class="mdc-image-list--with-text-protection">-->
         <div class="mdc-image-list__supporting">
           <span class="mdc-image-list__label">{{profile.name}}</span>
-          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile">
+          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip={{deleteProfileText}}>
             <i class="material-icons icon-white">delete</i>
           </button>
         </div>
 
         <div class="button">
-          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{profile.likes?.length}} Likes">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} Likes">
             <i class="material-icons icon-white">favorite</i>
           </button>
-          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{profile.likes?.length}} Likes">
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} Likes">
             <i class="material-icons icon-white">favorite_border</i>
           </button>
         </div>
 
         <div class="button">
-          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeFavoritProfiles(profile.profileId)" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeFavoritProfiles(profile.profileId)" matTooltip={{removeFromFavoritesText}}>
             <i class="material-icons icon-white">bookmark</i>
           </button>
-          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addFavoritProfiles(profile.profileId)" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addFavoritProfiles(profile.profileId)" matTooltip={{addToFavoritesText}}>
             <i class="material-icons icon-white">bookmark_border</i>
           </button>
         </div>

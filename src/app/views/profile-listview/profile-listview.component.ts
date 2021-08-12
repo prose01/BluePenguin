@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
@@ -32,7 +33,7 @@ import { OrderByType } from '../../models/enums';
 })
 
 @AutoUnsubscribe()
-export class ProfileListviewComponent implements OnChanges {
+export class ProfileListviewComponent implements OnInit, OnChanges {
   pageEvent: PageEvent;
   datasource: null;
   pageIndex: number;
@@ -45,6 +46,15 @@ export class ProfileListviewComponent implements OnChanges {
   currentUserSubject: CurrentUser;
   noProfiles: boolean = false;
 
+  visitedMeText: string;
+  bookmarkedMeText: string;
+  addedToFavoritesText: string;
+  notAddedToFavoritesText: string;
+  addToFavoritesText: string;
+  removeFromFavoritesText: string;
+  likeText: string;
+  deleteProfileText: string;
+
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
@@ -56,8 +66,23 @@ export class ProfileListviewComponent implements OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+  }
+
+  ngOnInit() {
+    this.initiateTransloco();
+  }
+
+  initiateTransloco() {
+    this.translocoService.selectTranslate('ListViewComponent.VisitedMe').subscribe(value => this.visitedMeText = value);
+    this.translocoService.selectTranslate('ListViewComponent.BookmarkedMe').subscribe(value => this.bookmarkedMeText = value);
+    this.translocoService.selectTranslate('ListViewComponent.AddedToFavorites').subscribe(value => this.addedToFavoritesText = value);
+    this.translocoService.selectTranslate('ListViewComponent.NotAddedToFavorites').subscribe(value => this.notAddedToFavoritesText = value);
+    this.translocoService.selectTranslate('ListViewComponent.AddToFavorites').subscribe(value => this.addToFavoritesText = value);
+    this.translocoService.selectTranslate('ListViewComponent.RemoveFromFavorites').subscribe(value => this.removeFromFavoritesText = value);
+    this.translocoService.selectTranslate('ListViewComponent.Like').subscribe(value => this.likeText = value);
+    this.translocoService.selectTranslate('ListViewComponent.DeleteProfile').subscribe(value => this.deleteProfileText = value);
   }
 
   ngOnChanges(): void {

@@ -1,5 +1,6 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
@@ -20,7 +21,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 })
 
 @AutoUnsubscribe()
-export class ProfileTileviewComponent implements OnChanges {
+export class ProfileTileviewComponent implements OnInit, OnChanges {
 
   currentUserSubject: CurrentUser;
   selectedProfile: Profile;
@@ -33,6 +34,12 @@ export class ProfileTileviewComponent implements OnChanges {
   noProfiles: boolean = false;
   loading: boolean = false;
 
+  visitedMeText: string;
+  bookmarkedMeText: string;
+  deleteProfileText: string;
+  removeFromFavoritesText: string;
+  addToFavoritesText: string;
+
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
@@ -40,10 +47,21 @@ export class ProfileTileviewComponent implements OnChanges {
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
+  ngOnInit() {
+    this.initiateTransloco();
+  }
+
+  initiateTransloco() {
+    this.translocoService.selectTranslate('TileViewComponent.VisitedMe').subscribe(value => this.visitedMeText = value);
+    this.translocoService.selectTranslate('TileViewComponent.BookmarkedMe').subscribe(value => this.bookmarkedMeText = value);
+    this.translocoService.selectTranslate('TileViewComponent.AddToFavorites').subscribe(value => this.addToFavoritesText = value);
+    this.translocoService.selectTranslate('TileViewComponent.RemoveFromFavorites').subscribe(value => this.removeFromFavoritesText = value);
+    this.translocoService.selectTranslate('TileViewComponent.DeleteProfile').subscribe(value => this.deleteProfileText = value);
+  }
 
   ngOnChanges(): void {
     // Remove empty profile from array.

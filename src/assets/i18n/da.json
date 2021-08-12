@@ -20,5 +20,34 @@
 	"SortByUpdatedOn" : "Sorter efter sidst opdateret",
 	"SortByCreatedOn" : "Sorter efter sidst oprettet",
 	"SortByLastActive" : "Sorter efter sidst aktiv",
-	"LogOut" : "Log ud"
+	"LogOut" : "Log ud",
+	"ListViewComponent": {
+		"NoResultsText" : "Ingen matches :(",
+		"ProfileId": "ProfileId",
+		"Name": "Navn",
+		"CreatedOn": "Oprettet",
+		"UpdatedOn": "Opdateret",
+		"LastActive" : "Sidst aktiv",
+		"Age": "Alder",
+		"Height": "Højde",
+		"VisitBookmarked": "Visit/Bookmarked",
+		"Favorites": "Favoritter",
+		"Likes": "Likes",
+		"VisitedMe": "Har beøgt mig",
+		"BookmarkedMe": "Har bookmarket mig",
+		"AddedToFavorites": "Tilføjet favoritter",
+		"NotAddedToFavorites": "Ikke tilføjet favoritter",
+		"AddToFavorites": "Tilføj favoritter",
+		"RemoveFromFavorites": "Fjern fra favoritter",
+		"Like": "Like",
+		"DeleteProfile": "Slet profil(er)"
+	  },
+	"TileViewComponent" : {
+		"NoResultsText" : "Ingen matches :(",
+		"VisitedMe": "Har beøgt mig",
+		"BookmarkedMe": "Har bookmarket mig",
+		"DeleteProfile": "Slet profil",
+		"AddToFavorites": "Tilføj favoritter",
+		"RemoveFromFavorites": "Fjern fra favoritter"
+	}
 }

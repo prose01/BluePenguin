@@ -20,5 +20,34 @@
 	"SortByUpdatedOn" : "Sort by Updated On",
 	"SortByCreatedOn" : "Sort by Created On",
 	"SortByLastActive" : "Sort by Last Active",
-	"LogOut" : "Log Out"
+	"LogOut" : "Log Out",
+	"ListViewComponent": {	
+		"NoResultsText" : "Sorry no results :(",
+		"ProfileId": "ProfileId",
+		"Name": "Name",
+		"CreatedOn": "CreatedOn",
+		"UpdatedOn": "UpdatedOn",
+		"LastActive" : "LastActive",
+		"Age": "Age",
+		"Height": "Height",
+		"VisitBookmarked": "Visit/Bookmarked",
+		"Favorites": "Favorites",
+		"Likes": "Likes",
+		"VisitedMe": "Visited me",
+		"BookmarkedMe": "Bookmarked me",
+		"AddedToFavorites": "Added to favorites",
+		"NotAddedToFavorites": "Not Added to favorites",
+		"AddToFavorites": "Add to favorites",
+		"RemoveFromFavorites": "Remove from favorites",
+		"Like": "Like",
+		"DeleteProfile": "Delete profile(s)"		
+	  },
+	"TileViewComponent" : {
+		"NoResultsText" : "Sorry no results :(",
+		"VisitedMe": "Visited me",
+		"BookmarkedMe": "Bookmarked me",
+		"DeleteProfile": "Delete profile(s)",
+		"AddToFavorites": "Add to favorites",
+		"RemoveFromFavorites": "Remove from favorites"
+	}
 }
