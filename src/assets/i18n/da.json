@@ -138,7 +138,7 @@
 	},
 	"ImageDeleteDialogComponent" : {
 		"DeleteImage" : "Vil du slette dette billede?",
-		"CannotBeUndone" : "Dette vil slette billedet og kan ikke fortrydes."
+		"CannotBeUndone" : "Dette vil slette billedet og kan ikke fortrydes.",
 		"YesDelete" : "Ja, slet billede.",
 		"NoThanks" : "Nej tak",
 		"Ok" : "Ok"
