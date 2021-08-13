@@ -73,5 +73,38 @@
 		"EatingHabitsType": "Spisevaner",
 		"ClotheStyleType": "Tøj stil",
 		"BodyArtType": "Kropsudsmykninger"
+	},
+	"ProfileDetailsBoardComponent" : {
+		"ProfileDetails" : "Profiloplysninger",
+		"ProfileImages" : "Profile billeder"
+	},
+	"ProfileDetailsComponent" : {
+		"CreatedOn": "Oprettet: ",
+		"UpdatedOn": "Opdateret: ",
+		"LastActive" : "Sidst aktiv: ",
+		"Age": "Alder: ",
+		"Height": "Højde: ",
+		"Description": "Beskrivelse: ",
+		"Tags" : "Tags: ",
+		"BodyType": "Krops type: ",
+		"SmokingHabitsType": "Rygevaner: ",
+		"HasChildrenType": "Har børn: ",
+		"WantChildrenType": "Ønsker børn: ",
+		"HasPetsType": "Har husdyr: ",
+		"LivesInType": "Bor i: ",
+		"EducationType": "Udannelse: ",
+		"EducationStatusType": "Uddannelsesstatus: ",
+		"EmploymentStatusType": "Beskæftigelsesstatus: ",
+		"SportsActivityType": "Sports activity: ",
+		"EatingHabitsType": "Spisevaner: ",
+		"ClotheStyleType": "Tøj stil: ",
+		"BodyArtType": "Kropsudsmykninger: ",
+		"NotContactable" : "Denne profile kan ikke kontaktes.",
+		"Likes": "Likes: ",
+		"RemoveFromFavorites": "Fjern fra favoritter",
+		"AddToFavorites": "Tilføj favoritter",
+		"SetProfileAsAdmin": "Set Profile som Administrator",
+		"RemoveProfileAsAdmin": "Remove Profile som Administrator",
+		"DeleteProfile": "Slet profil"
 	}
 }

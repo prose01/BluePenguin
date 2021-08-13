@@ -3,112 +3,112 @@
     <h2>{{profile.name}}</h2>
 
     <div>
-      <label i18n="Profile CreatedOn | A CreatedOn for the Profile @@profileCreatedOn">CreatedOn: </label>{{profile.createdOn | date:'medium'}}
+      <label>{{'ProfileDetailsComponent.CreatedOn'| transloco}}</label>{{profile.createdOn | date:'medium'}}
     </div>
 
     <div>
-      <label i18n="Profile UpdatedOn | A UpdatedOn for the Profile @@profileUpdatedOn">Last UpdatedOn: </label>{{profile.updatedOn | date:'medium'}}
+      <label>{{'ProfileDetailsComponent.UpdatedOn'| transloco}}</label>{{profile.updatedOn | date:'medium'}}
     </div>
 
     <div>
-      <label i18n="Profile LastActive | A Last Active for the Profile @@profileLastActive">LastActive: </label>{{profile.lastActive | date:'medium'}}
+      <label>{{'ProfileDetailsComponent.LastActive'| transloco}}</label>{{profile.lastActive | date:'medium'}}
     </div>
 
-    <div *ngIf="profile.age > 0">
-      <label i18n="Profile Age | A Age for the Profile @@profileAge">Age: </label>{{profile.age}}
+    <div>
+      <label>{{'ProfileDetailsComponent.Age'| transloco}}</label>{{profile.age}}
     </div>
 
     <div *ngIf="profile.height > 0">
-      <label i18n="Profile Height | A Height for the Profile @@profileHeight">Height: </label>{{profile.height}}
+      <label>{{'ProfileDetailsComponent.Height'| transloco}}</label>{{profile.height}}
     </div>
 
     <div *ngIf="profile.description != null">
-      <label i18n="Profile Description | A Description for the Profile @@profileDescription">Description: </label>{{profile.description}}
+      <label>{{'ProfileDetailsComponent.Description'| transloco}}</label>{{profile.description}}
     </div>
 
     <div *ngIf="profile.tags.length > 0">
-      <label i18n="Profile Tags | Tags for the Profile @@profileTags">Tags: </label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
+      <label>{{'ProfileDetailsComponent.Tags'| transloco}}</label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
     </div>
 
     <div *ngIf="profile.body != 'NotChosen'">
-      <label i18n="Profile BodyType | A BodyType for the Profile @@profileBodyType">BodyType: </label>{{profile.body}}
+      <label>{{'ProfileDetailsComponent.BodyType'| transloco}}</label>{{profile.body}}
     </div>
 
     <div *ngIf="profile.smokingHabits != 'NotChosen'">
-      <label i18n="Profile SmokingHabitsType | A SmokingHabitsType for the Profile @@profileSmokingHabitsType">SmokingHabits: </label>{{profile.smokingHabits}}
+      <label>{{'ProfileDetailsComponent.SmokingHabitsType'| transloco}}</label>{{profile.smokingHabits}}
     </div>
 
     <div *ngIf="profile.hasChildren != 'NotChosen'">
-      <label i18n="Profile HasChildrenType | A HasChildrenType for the Profile @@profileHasChildrenType">HasChildren: </label>{{profile.hasChildren}}
+      <label>{{'ProfileDetailsComponent.HasChildrenType'| transloco}}</label>{{profile.hasChildren}}
     </div>
 
     <div *ngIf="profile.wantChildren != 'NotChosen'">
-      <label i18n="Profile WantChildrenType | A WantChildrenType for the Profile @@profileWantChildrenType">WantChildren: </label>{{profile.wantChildren}}
+      <label>{{'ProfileDetailsComponent.WantChildrenType'| transloco}}</label>{{profile.wantChildren}}
     </div>
 
     <div *ngIf="profile.hasPets != 'NotChosen'">
-      <label i18n="Profile HasPetsType | A HasPetsType for the Profile @@profileHasPetsType">HasPets: </label>{{profile.hasPets}}
+      <label>{{'ProfileDetailsComponent.HasPetsType'| transloco}}</label>{{profile.hasPets}}
     </div>
 
     <div *ngIf="profile.livesIn != 'NotChosen'">
-      <label i18n="Profile LivesInType | A LivesInType for the Profile @@profileLivesInType">LivesIn: </label>{{profile.livesIn}}
+      <label>{{'ProfileDetailsComponent.LivesInType'| transloco}}</label>{{profile.livesIn}}
     </div>
 
     <div *ngIf="profile.education != 'NotChosen'">
-      <label i18n="Profile EducationType | A EducationType for the Profile @@profileEducationType">Education: </label>{{profile.education}}
+      <label>{{'ProfileDetailsComponent.EducationType'| transloco}}</label>{{profile.education}}
     </div>
 
     <div *ngIf="profile.educationStatus != 'NotChosen'">
-      <label i18n="Profile EducationStatusType | A EducationStatusType for the Profile @@profileEducationStatusType">EducationStatus: </label>{{profile.educationStatus}}
+      <label>{{'ProfileDetailsComponent.EducationStatusType'| transloco}}</label>{{profile.educationStatus}}
     </div>
 
     <div *ngIf="profile.employmentStatus != 'NotChosen'">
-      <label i18n="Profile EmploymentStatusType | A EmploymentStatusType for the Profile @@profileEmploymentStatusType">EmploymentStatus: </label>{{profile.employmentStatus}}
+      <label>{{'ProfileDetailsComponent.EmploymentStatusType'| transloco}}</label>{{profile.employmentStatus}}
     </div>
 
     <div *ngIf="profile.sportsActivity != 'NotChosen'">
-      <label i18n="Profile SportsActivityType | A SportsActivityType for the Profile @@profileSportsActivityType">SportsActivity: </label>{{profile.sportsActivity}}
+      <label>{{'ProfileDetailsComponent.SportsActivityType'| transloco}}</label>{{profile.sportsActivity}}
     </div>
 
     <div *ngIf="profile.eatingHabits != 'NotChosen'">
-      <label i18n="Profile EatingHabitsType | A EatingHabitsType for the Profile @@profileEatingHabitsType">EatingHabits: </label>{{profile.eatingHabits}}
+      <label>{{'ProfileDetailsComponent.EatingHabitsType'| transloco}}</label>{{profile.eatingHabits}}
     </div>
 
     <div *ngIf="profile.clotheStyle != 'NotChosen'">
-      <label i18n="Profile ClotheStyleType | A ClotheStyleType for the Profile @@profileClotheStyleType">ClotheStyle: </label>{{profile.clotheStyle}}
+      <label>{{'ProfileDetailsComponent.ClotheStyleType'| transloco}}</label>{{profile.clotheStyle}}
     </div>
 
     <div *ngIf="profile.bodyArt != 'NotChosen'">
-      <label i18n="Profile BodyArtType | A BodyArtType for the Profile @@profileBodyArtType">BodyArt: </label>{{profile.bodyArt}}
+      <label>{{'ProfileDetailsComponent.BodyArtType'| transloco}}</label>{{profile.bodyArt}}
     </div>
 
     <div *ngIf="!profile.contactable">
-      <i class="material-icons icon-orange-right" i18n-matTooltip="NotContactable | This profile is not contactable @@contactable" matTooltip="This profile is not contactable">person_off</i>
+      <i class="material-icons icon-orange-right" matTooltip="{{'ProfileDetailsComponent.NotContactable'| transloco}}">person_off</i>
     </div>
 
-    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove like | Remove like @@removeLike" matTooltip="{{profile.likes?.length}} Likes">
+    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'ProfileDetailsComponent.Likes'| transloco}}">
       <i class="material-icons">favorite</i>
     </button>
-    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add like | Add like @@addLike" matTooltip="{{profile.likes?.length}} Likes">
+    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'ProfileDetailsComponent.Likes'| transloco}}">
       <i class="material-icons">favorite_border</i>
     </button>
 
-    <button type="button" *ngIf="bookmarked()" (click)="removeFavoritProfiles()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove from favorites | Remove from favorites @@removeFromFavorites" matTooltip="Remove from favorites">
+    <button type="button" *ngIf="bookmarked()" (click)="removeFavoritProfiles()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.RemoveFromFavorites'| transloco}}">
       <i class="material-icons">bookmark</i>
     </button>
-    <button type="button" *ngIf="!bookmarked()" (click)="addFavoritProfiles()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Add to favorites | Add to favorites @@addToFavorites" matTooltip="Add to favorites">
+    <button type="button" *ngIf="!bookmarked()" (click)="addFavoritProfiles()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.AddToFavorites'| transloco}}">
       <i class="material-icons">bookmark_border</i>
     </button>
 
-    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Set Profile as Admin | Set Profile as Admin @@setProfileAsAdmin" matTooltip="Set Profile as Admin">
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">
       <i class="material-icons">admin_panel_settings</i>
     </button>
 
-    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Remove Profile as Admin | Remove Profile as Admin @@removeProfileAsAdmin" matTooltip="Remove Profile as Admin">
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}">
       <i class="material-icons">verified_user</i>
     </button>
 
-    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile(s)">
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-icon mat-flat-button color="accent"  matTooltip="{{'ProfileDetailsComponent.DeleteProfile'| transloco}}">
       <i class="material-icons">delete</i>
     </button>
 
