@@ -5,10 +5,11 @@
  */
 
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
@@ -24,7 +25,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 })
 
 @AutoUnsubscribe()
-export class ImageUploadComponent {
+export class ImageUploadComponent implements OnInit {
   uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
   croppedImage: any = null;
@@ -35,7 +36,7 @@ export class ImageUploadComponent {
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
   fileUploadProgress: string = null;
-  titlePlaceholder: string = "Please insert an image title.";
+  titlePlaceholder: string;
   uploadingPhoto: boolean = false;
   fileSizeLimit: number;
   imageMaxWidth: number;
@@ -43,11 +44,15 @@ export class ImageUploadComponent {
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
-  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
     this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
     this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
     this.createForm();
+  }
+
+  ngOnInit() {
+    this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
   }
 
   createForm() {
@@ -62,11 +67,11 @@ export class ImageUploadComponent {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
 
       if (this.uploadImageForm.controls.title.errors.required) {
-        this.titlePlaceholder = "Please insert an image title";
+        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
       }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.titlePlaceholder = "Title cannot be more than 25 characters long.";
+        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
       }
     }
   } 
@@ -80,7 +85,7 @@ export class ImageUploadComponent {
       }
       else {
         var limitMB = (this.fileSizeLimit / 1000000);
-        this.openErrorDialog("Could not upload image", "Image has exceeded the maximum size of " + Math.floor(limitMB) + " MB.");
+        this.openErrorDialog(this.translocoService.translate("ImageUploadComponent.CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
       }
     }
   }
@@ -170,11 +175,11 @@ export class ImageUploadComponent {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
 
       if (this.uploadImageForm.controls.title.errors.required) {
-        this.titlePlaceholder = "Please insert an image title";
+        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
       }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.titlePlaceholder = "Title cannot be more than 25 characters long.";
+        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
       }
 
       return;

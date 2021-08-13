@@ -106,5 +106,19 @@
 		"SetProfileAsAdmin": "Set Profile som Administrator",
 		"RemoveProfileAsAdmin": "Remove Profile som Administrator",
 		"DeleteProfile": "Slet profil"
+	},
+	"ImageUploadComponent" : {
+		"TitlePlaceholder" : "Indsæt venligst en billedtitel.",
+		"ChooseFile" : "Vælg fil",
+		"Upload" : "Upload",
+		"ResetImage" : "Nulstil billede",
+		"Zoom+" : "Zoom +",
+		"Zoom-" : "Zoom -",
+		"RotateRight" : "Rotere til højre",
+		"RotateLeft" : "Rotere til venstre",
+		"FlipHorizontal" : "Vend vandret",
+		"FlipVertical" : "Vend lodret",
+		"CouldNotUploadImage" : "Billedet kunne ikke uploades",
+		"ImageSizeLimit" : "Billedet har overskredet den maksimale størrelse på {{limitMB}} MB."
 	}
 }
