@@ -41,7 +41,7 @@
 		"RemoveFromFavorites": "Fjern fra favoritter",
 		"Like": "Like",
 		"DeleteProfile": "Slet profil(er)"
-	  },
+	},
 	"TileViewComponent" : {
 		"NoResultsText" : "Ingen matches :(",
 		"VisitedMe": "Har beøgt mig",
@@ -50,5 +50,28 @@
 		"AddToFavorites": "Tilføj favoritter",
 		"RemoveFromFavorites": "Fjern fra favoritter",
 		"Likes": "Likes"
+	},
+	"ProfileSearchComponent" : {
+		"Tags" : "Tags",
+		"MaxTags" : "Du kan maksimum søge på {{maxTags}} tags.",
+		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",
+		"Name": "Navn",
+		"Description": "Beskrivelse",
+		"Age": "Alder",
+		"Height": "Højde",
+		"Gender": "Køn",
+		"BodyType": "Krops type",
+		"SmokingHabitsType": "Rygevaner",
+		"HasChildrenType": "Har børn",
+		"WantChildrenType": "Ønsker børn",
+		"HasPetsType": "Har husdyr",
+		"LivesInType": "Bor i",
+		"EducationType": "Udannelse",
+		"EducationStatusType": "Uddannelsesstatus",
+		"EmploymentStatusType": "Beskæftigelsesstatus",
+		"SportsActivityType": "Sports activity",
+		"EatingHabitsType": "Spisevaner",
+		"ClotheStyleType": "Tøj stil",
+		"BodyArtType": "Kropsudsmykninger"
 	}
 }

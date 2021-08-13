@@ -41,7 +41,7 @@
 		"RemoveFromFavorites": "Remove from favorites",
 		"Like": "Like",
 		"DeleteProfile": "Delete profile(s)"		
-	  },
+	},
 	"TileViewComponent" : {
 		"NoResultsText" : "Sorry no results :(",
 		"VisitedMe": "Visited me",
@@ -50,5 +50,28 @@
 		"AddToFavorites": "Add to favorites",
 		"RemoveFromFavorites": "Remove from favorites",
 		"Likes": "Likes"
+	},
+	"ProfileSearchComponent" : {
+		"Tags" : "Tags",
+		"MaxTags" : "Max {{maxTags}} tags.",
+		"MaxTagsCharacters" : "Max 20 characters long.",
+		"Name": "Name",
+		"Description": "Description",
+		"Age": "Age",
+		"Height": "Height",
+		"Gender": "Gender",
+		"BodyType": "Body type",
+		"SmokingHabitsType": "Smoking habits",
+		"HasChildrenType": "Has children",
+		"WantChildrenType": "Want children",
+		"HasPetsType": "Has pets",
+		"LivesInType": "Lives in",
+		"EducationType": "Education",
+		"EducationStatusType": "Educational status",
+		"EmploymentStatusType": "Employment status",
+		"SportsActivityType": "Sports activity",
+		"EatingHabitsType": "Eating habits",
+		"ClotheStyleType": "Fashion style",
+		"BodyArtType": "Body art"
 	}
 }

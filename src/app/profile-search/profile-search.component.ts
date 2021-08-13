@@ -3,6 +3,7 @@ import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
@@ -65,7 +66,7 @@ export class ProfileSearchComponent implements OnInit {
   currentUserSubject: CurrentUser;
   currentProfileFilterSubject: ProfileFilter;
   showGenderChoise: boolean;
-  tagsPlaceholder: string = "Tags";
+  tagsPlaceholder: string;
   defaultAge: number;
   maxTags: number;
 
@@ -73,7 +74,7 @@ export class ProfileSearchComponent implements OnInit {
 
   @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
 
-  constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader) {
+  constructor(private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes); // TODO: Maybe not used
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes); // TODO: Maybe not used
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
@@ -116,6 +117,8 @@ export class ProfileSearchComponent implements OnInit {
         this.profileForm.markAsDirty();
       }
     });
+
+    this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
   }
 
   setShowGenderChoise(sexualOrientationType: string) {
@@ -233,7 +236,9 @@ export class ProfileSearchComponent implements OnInit {
 
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
+
+      this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value);
+      //this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
       return;
     }   
 
@@ -242,7 +247,9 @@ export class ProfileSearchComponent implements OnInit {
 
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-        this.tagsPlaceholder = "Max 20 characters long.";
+
+        this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value);
+        //this.tagsPlaceholder = "Max 20 characters long.";
         return;
       }
 
