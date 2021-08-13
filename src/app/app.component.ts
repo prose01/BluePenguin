@@ -53,17 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
   siteLocale: string = getBrowserLang();
   languageList: Array<any>;
 
-  allText: string;
-  mySearchFilterText: string;
-  bookmarksText: string;
-  visitedMeText: string;
-  bookmarkedMeText: string;
-  likesMeText: string;
-  searchText: string;
-  resetText: string;
-  saveSearchFilterText: string;
-  loadSearchFilterText: string;
-
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -92,16 +81,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initiateTransloco() {
-    this.translocoService.selectTranslate('All').subscribe(value => this.allText = value);
-    this.translocoService.selectTranslate('MySearchFilter').subscribe(value => this.mySearchFilterText = value);
-    this.translocoService.selectTranslate('Bookmarks').subscribe(value => this.bookmarksText = value);
-    this.translocoService.selectTranslate('VisitedMe').subscribe(value => this.visitedMeText = value);
-    this.translocoService.selectTranslate('BookmarkedMe').subscribe(value => this.bookmarkedMeText = value);
-    this.translocoService.selectTranslate('LikesMe').subscribe(value => this.likesMeText = value);
-    this.translocoService.selectTranslate('Search').subscribe(value => this.searchText = value);
-    this.translocoService.selectTranslate('Reset').subscribe(value => this.resetText = value);
-    this.translocoService.selectTranslate('SaveSearchFilter').subscribe(value => this.saveSearchFilterText = value);
-    this.translocoService.selectTranslate('LoadSearchFilter').subscribe(value => this.loadSearchFilterText = value);
     this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value);
     this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value);
     this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value);

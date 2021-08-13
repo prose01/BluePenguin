@@ -34,27 +34,27 @@
 
       <!--Dashboard menu-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{allText}}>
-          {{allText}}
+        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'All'| transloco}}">
+          {{'All'| transloco}}
         </button>
 
-        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{mySearchFilterText}}>
+        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'MySearchFilter'| transloco}}">
           <i class="material-icons">tune</i>
         </button>
 
-        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{bookmarksText}}>
+        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'Bookmarks'| transloco}}">
           <i class="material-icons">bookmarks</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{visitedMeText}}>
+        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'VisitedMe'| transloco}}">
           <i class="material-icons">adjust</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{bookmarkedMeText}}>
+        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'BookmarkedMe'| transloco}}">
           <i class="material-icons">bookmark_added</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{likesMeText}}>
+        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'LikesMe'| transloco}}">
           <i class="material-icons">favorite</i>
         </button>
       </div>
@@ -63,23 +63,23 @@
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
         <!--[disabled]="profileForm.pristine"-->
         <button type="submit" (click)="onSubmit()"
-                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{searchText}}>
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
           <i class="material-icons">search</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
         <button type="button" (click)="reset()"
-                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{resetText}}>
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Reset'| transloco}}">
           <i class="material-icons">undo</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
         <button type="button" (click)="saveSearch()"
-                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{saveSearchFilterText}}>
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'SaveSearchFilter'| transloco}}">
           <i class="material-icons">save</i>
         </button>
 
-        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip={{loadSearchFilterText}}>
+        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'LoadSearchFilter'| transloco}}">
           <i class="material-icons">find_in_page</i>
         </button>
       </div>
