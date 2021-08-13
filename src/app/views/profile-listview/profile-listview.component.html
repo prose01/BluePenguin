@@ -78,8 +78,8 @@
       <ng-container matColumnDef="visit/book">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ListViewComponent.VisitBookmarked'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
-          <i class="material-icons icon-orange" *ngIf="!currentUserSubject?.isBookmarked[element?.profileId] && currentUserSubject?.visited[element?.profileId]" matTooltip="{{visitedMeText}} {{currentUserSubject.visited[element?.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
-          <i class="material-icons icon-orange" *ngIf="currentUserSubject?.isBookmarked[element?.profileId]" matTooltip={{bookmarkedMeText}}>bookmark_added</i>
+          <i class="material-icons icon-orange" *ngIf="!currentUserSubject?.isBookmarked[element?.profileId] && currentUserSubject?.visited[element?.profileId]" matTooltip="{{'ListViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[element?.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
+          <i class="material-icons icon-orange" *ngIf="currentUserSubject?.isBookmarked[element?.profileId]" matTooltip="{{'ListViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
         </td>
       </ng-container>
 
@@ -87,8 +87,8 @@
       <ng-container matColumnDef="favorites">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ListViewComponent.Favorites'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
-          <i class="material-icons icon-white" *ngIf="bookmarked(element?.profileId)" matTooltip={{addedToFavoritesText}}>bookmark</i>
-          <i class="material-icons icon-white" *ngIf="!bookmarked(element?.profileId)" matTooltip={{notAddedToFavoritesText}}>bookmark_border</i>
+          <i class="material-icons icon-white" *ngIf="bookmarked(element?.profileId)" matTooltip="{{'ListViewComponent.AddedToFavorites'| transloco}}">bookmark</i>
+          <i class="material-icons icon-white" *ngIf="!bookmarked(element?.profileId)" matTooltip="{{'ListViewComponent.NotAddedToFavorites'| transloco}}">bookmark_border</i>
         </td>
       </ng-container>
 
@@ -111,18 +111,18 @@
     </table>
 
 
-    <button type="button" *ngIf="viewFilterType != 'BookmarkedProfiles'" (click)="addFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip={{addToFavoritesText}}>
+    <button type="button" *ngIf="viewFilterType != 'BookmarkedProfiles'" (click)="addFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.AddToFavorites'| transloco}}">
       <i class="material-icons">bookmark</i>
     </button>
-    <button type="button" *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="removeFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip={{removeFromFavoritesText}}>
+    <button type="button" *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="removeFavoritProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.RemoveFromFavorites'| transloco}}">
       <i class="material-icons">bookmark_border</i>
     </button>
 
-    <button type="button" (click)="toggleLike()" class="mat-flat-button" mat-flat-button color="accent" matTooltip={{likeText}}>
+    <button type="button" (click)="toggleLike()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Like'| transloco}}">
       <i class="material-icons">favorite</i>
     </button>
 
-    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip={{deleteProfileText}}>
+    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.DeleteProfile'| transloco}}">
       <i class="material-icons">delete</i>
     </button>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -21,7 +21,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 })
 
 @AutoUnsubscribe()
-export class ProfileTileviewComponent implements OnInit, OnChanges {
+export class ProfileTileviewComponent implements OnChanges {
 
   currentUserSubject: CurrentUser;
   selectedProfile: Profile;
@@ -34,12 +34,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
   noProfiles: boolean = false;
   loading: boolean = false;
 
-  visitedMeText: string;
-  bookmarkedMeText: string;
-  deleteProfileText: string;
-  removeFromFavoritesText: string;
-  addToFavoritesText: string;
-
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
@@ -49,18 +43,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
-  }
-
-  ngOnInit() {
-    this.initiateTransloco();
-  }
-
-  initiateTransloco() {
-    this.translocoService.selectTranslate('TileViewComponent.VisitedMe').subscribe(value => this.visitedMeText = value);
-    this.translocoService.selectTranslate('TileViewComponent.BookmarkedMe').subscribe(value => this.bookmarkedMeText = value);
-    this.translocoService.selectTranslate('TileViewComponent.AddToFavorites').subscribe(value => this.addToFavoritesText = value);
-    this.translocoService.selectTranslate('TileViewComponent.RemoveFromFavorites').subscribe(value => this.removeFromFavoritesText = value);
-    this.translocoService.selectTranslate('TileViewComponent.DeleteProfile').subscribe(value => this.deleteProfileText = value);
   }
 
   ngOnChanges(): void {
@@ -89,41 +71,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
 
     //this.getPreviousData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
   }
-
-  //toggleDisplayOrder() {
-  //  this.isMatButtonToggled = !this.isMatButtonToggled;
-  //  this.matButtonToggleIcon = (this.isMatButtonToggled ? 'expand_less' : 'expand_more');
-
-  //  switch (this.orderBy) {
-  //    case OrderByType.UpdatedOn: {
-  //      if (new Date(this.profiles[0].updatedOn) < new Date(this.profiles[this.profiles.length - 1].updatedOn)) {
-  //        this.profiles.sort((a, b) => (new Date(a.updatedOn) < new Date(b.updatedOn)) ? 1 : -1);
-  //      }
-  //      else {
-  //        this.profiles.sort((a, b) => (new Date(a.updatedOn) > new Date(b.updatedOn)) ? 1 : -1);
-  //      }
-  //      break;
-  //    }
-  //    case OrderByType.LastActive: {
-  //      if (new Date(this.profiles[0].lastActive) < new Date(this.profiles[this.profiles.length - 1].lastActive)) {
-  //        this.profiles.sort((a, b) => (new Date(a.lastActive) < new Date(b.lastActive)) ? 1 : -1);
-  //      }
-  //      else {
-  //        this.profiles.sort((a, b) => (new Date(a.lastActive) > new Date(b.lastActive)) ? 1 : -1);
-  //      }
-  //      break;
-  //    }
-  //    default: {
-  //      if (new Date(this.profiles[0].createdOn) < new Date(this.profiles[this.profiles.length - 1].createdOn)) {
-  //        this.profiles.sort((a, b) => (new Date(a.createdOn) < new Date(b.createdOn)) ? 1 : -1);
-  //      }
-  //      else {
-  //        this.profiles.sort((a, b) => (new Date(a.createdOn) > new Date(b.createdOn)) ? 1 : -1);
-  //      }
-  //      break;
-  //    }
-  //  }
-  //}
 
   // Load Detalails page
   loadDetails(profile: Profile) {
@@ -238,8 +185,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
     var profileIds: string[] = [profile.profileId];
 
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
-      //height: '300px',
-      //width: '300px',
       data: profileIds
     });
 
