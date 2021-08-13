@@ -121,5 +121,14 @@
 		"FlipVertical" : "Flip vertical",
 		"CouldNotUploadImage" : "Could not upload image.",
 		"ImageSizeLimit" : "Image has exceeded the maximum size of {{limitMB}} MB."
+	},
+	"ImageDialogComponent" : {
+		"Close" : "Close",
+		"Next" : "Next",
+		"Before" : "Before",
+		"ProfileDetails" : "Profile Details",
+		"Likes": "Likes",
+		"RemoveFromFavorites": "Remove from favorites",
+		"AddToFavorites": "Add to favorites"
 	}
 }

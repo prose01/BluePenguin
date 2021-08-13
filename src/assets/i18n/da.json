@@ -120,5 +120,14 @@
 		"FlipVertical" : "Vend lodret",
 		"CouldNotUploadImage" : "Billedet kunne ikke uploades",
 		"ImageSizeLimit" : "Billedet har overskredet den maksimale størrelse på {{limitMB}} MB."
+	},
+	"ImageDialogComponent" : {
+		"Close" : "Luk",
+		"Next" : "Næste",
+		"Before" : "Sidste",
+		"ProfileDetails" : "Profiloplysninger",
+		"Likes": "Likes",
+		"RemoveFromFavorites": "Fjern fra favoritter",
+		"AddToFavorites": "Tilføj favoritter"
 	}
 }
