@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
@@ -21,12 +22,12 @@ export class ImageBoardComponent implements OnInit {
   morePhotosAllowed: boolean = false;
   isMatButtonToggled = true;
   matButtonToggleIcon: string = 'add_photo_alternate';
-  matButtonToggleText: string = 'Upload new photo';
+  matButtonToggleText: string;
 
   currentUserSubject: CurrentUser;
   imageModels: ImageModel[];
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
   }
 
@@ -41,6 +42,8 @@ export class ImageBoardComponent implements OnInit {
       );
 
     this.getCurrentUserImages();
+
+    this.translocoService.selectTranslate('ImageBoardComponent.UploadNewPhoto').subscribe(value => this.matButtonToggleText = value);
   }
 
   getCurrentUserImages(): void {
@@ -84,10 +87,10 @@ export class ImageBoardComponent implements OnInit {
 
   toggleDisplay(): void {
     this.isMatButtonToggled = !this.isMatButtonToggled;
-    this.matButtonToggleText = (this.isMatButtonToggled ? 'Upload new photo' : 'TileView');
+    this.matButtonToggleText = (this.isMatButtonToggled ? this.translocoService.translate('ImageBoardComponent.UploadNewPhoto') : this.translocoService.translate('ImageBoardComponent.TileView'));
     this.matButtonToggleIcon = (this.isMatButtonToggled ? 'add_photo_alternate' : 'collections');
 
-    if (this.matButtonToggleText == 'Upload new photo') {
+    if (this.matButtonToggleText == this.translocoService.translate('ImageBoardComponent.UploadNewPhoto')) {
       this.refreshCurrentUserImages();
     }
   }

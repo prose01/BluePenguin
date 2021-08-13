@@ -109,6 +109,7 @@
 	},
 	"ImageUploadComponent" : {
 		"TitlePlaceholder" : "Indsæt venligst en billedtitel.",
+		"TitlePlaceholderError" : "Titlen må ikke være mere end 25 tegn lang.",
 		"ChooseFile" : "Vælg fil",
 		"Upload" : "Upload",
 		"ResetImage" : "Nulstil billede",
@@ -129,5 +130,17 @@
 		"Likes": "Likes",
 		"RemoveFromFavorites": "Fjern fra favoritter",
 		"AddToFavorites": "Tilføj favoritter"
+	},
+	"ImageBoardComponent" : {
+		"MaxImages" : "Du har nået det maksimale antal {{maxPhotos}} tilladte profilbilleder.",
+		"UploadNewPhoto" : "Upload nyt billede",
+		"TileView" : "TileView"
+	},
+	"ImageDeleteDialogComponent" : {
+		"DeleteImage" : "Vil du slette dette billede?",
+		"CannotBeUndone" : "Dette vil slette billedet og kan ikke fortrydes."
+		"YesDelete" : "Ja, slet billede.",
+		"NoThanks" : "Nej tak",
+		"Ok" : "Ok"
 	}
 }

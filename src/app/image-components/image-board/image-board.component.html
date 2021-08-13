@@ -6,8 +6,8 @@
     </div>
   </div>
 
-  <p *ngIf="!morePhotosAllowed" i18n="AboutUsText | AboutPageText @@aboutUsText">
-    You have reached the maximum {{maxPhotos}} number off profile photos allowed.
+  <p *ngIf="!morePhotosAllowed">
+    {{'ImageBoardComponent.MaxImages'| transloco: { maxPhotos: maxPhotos} }}
   </p>
 
   <button *ngIf="morePhotosAllowed" type="button" class="matButtonToggle" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>

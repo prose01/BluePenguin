@@ -4,9 +4,9 @@
     {{matDialogContent}}
   </div>
   <br />
-  <mat-checkbox [(ngModel)]="IsChecked">Yes delete image.</mat-checkbox>
+  <mat-checkbox [(ngModel)]="IsChecked">{{'ImageDeleteDialogComponent.YesDelete'| transloco}}</mat-checkbox>
   <div mat-dialog-actions>
-    <button mat-flat-button color="accent" (click)="onNoClick()" cdkFocusInitial i18n="No Thanks | No Thanks @@noThanks">No Thanks</button>
-    <button mat-flat-button color="accent" mat-dialog-close (click)="onYesClick()" i18n="Ok | Ok @@ok">Ok</button>
+    <button mat-flat-button color="accent" (click)="onNoClick()" cdkFocusInitial >{{'ImageDeleteDialogComponent.NoThanks'| transloco}}</button>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="onYesClick()">{{'ImageDeleteDialogComponent.Ok'| transloco}}</button>
   </div>
 </div>

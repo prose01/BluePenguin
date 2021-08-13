@@ -130,5 +130,17 @@
 		"Likes": "Likes",
 		"RemoveFromFavorites": "Remove from favorites",
 		"AddToFavorites": "Add to favorites"
+	},
+	"ImageBoardComponent" : {
+		"MaxImages" : "You have reached the maximum {{maxPhotos}} number of profile images allowed.",
+		"UploadNewPhoto" : "Upload new image",
+		"TileView" : "TileView"
+	},
+	"ImageDeleteDialogComponent" : {
+		"DeleteImage" : "Do you want to delete this image?",
+		"CannotBeUndone" : "This will delete the image and cannot be undone."
+		"YesDelete" : "Yes delete image.",
+		"NoThanks" : "No Thanks",
+		"Ok" : "Ok"
 	}
 }

@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ImageService } from './../../services/image.service';
 
@@ -9,13 +10,18 @@ import { ImageService } from './../../services/image.service';
   styleUrls: ['./delete-image-dialog.component.scss']
 })
 
-export class DeleteImageDialog {
+export class DeleteImageDialog implements OnInit {
   IsChecked: boolean;
-  matDialogTitle: string = 'Do you want to delete this image?';
-  matDialogContent: string = 'This will delete the image and cannot be undone.';
+  matDialogTitle: string;
+  matDialogContent: string;
 
   constructor(private imageService: ImageService, public dialogRef: MatDialogRef<DeleteImageDialog>,
-    @Inject(MAT_DIALOG_DATA) public imageId: string) {
+    @Inject(MAT_DIALOG_DATA) public imageId: string, private readonly translocoService: TranslocoService) {
+  }
+
+  ngOnInit() {
+    this.translocoService.selectTranslate('ImageDeleteDialogComponent.DeleteImage').subscribe(value => this.matDialogTitle = value);
+    this.translocoService.selectTranslate('ImageDeleteDialogComponent.CannotBeUndone').subscribe(value => this.matDialogContent = value);
   }
 
   onNoClick(): void {
