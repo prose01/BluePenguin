@@ -184,6 +184,9 @@
 		"Save" : "Gem",
 		"CouldNotSaveUser" : "Kunne ikke gemme bruger",
 		"Reset" : "Nulstil",
+		"CreatedOn": "Oprettet ",
+		"UpdatedOn": "Opdateret ",
+		"LastActive" : "Sidst aktiv ",
 		"Tags" : "Tags",
 		"MaxTags" : "Du kan maksimum søge på {{maxTags}} tags.",
 		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",		
@@ -192,6 +195,7 @@
 		"Age": "Alder",
 		"Height": "Højde",
 		"Gender": "Køn",
+		"SexualOrientationType": "Seksuel orientering",
 		"BodyType": "Krops type",
 		"SmokingHabitsType": "Rygevaner",
 		"HasChildrenType": "Har børn",
@@ -207,11 +211,10 @@
 		"BodyArtType": "Kropsudsmykninger",
 		"ContactableText": "Kan du kontaktes af andre profiler?",
 		"Contactable": "Kan kontaktes",
-		"NotContactable": "Kan ikke kontaktes",
 		"DeleteProfile": "Slet profil"
 	},
 	"DeleteProfileDialog" : {
-		"YesDeleteProfile" : "Yes delete profile.",
+		"YesDeleteProfile" : "Ja slet profil.",
 		"NoThanks" : "Nej tak",
 		"Ok" : "Ok",
 		"DeleteProfile": "Slet profil",
@@ -224,7 +227,7 @@
 	},
 	"CurrentUserBoardComponent" : {
 		"EditProfile" : "Rediger Profil",
-		"ProfileImages" : "Profile billeder"
+		"ProfileImages" : "Profil billeder",
 		"ChatMembers" : "ChatMembers"
 	},
 	"ChatMembersListviewComponent" : {

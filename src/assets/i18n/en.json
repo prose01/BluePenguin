@@ -184,6 +184,9 @@
 		"Save" : "Save",
 		"CouldNotSaveUser" : "Could not save user",
 		"Reset" : "Reset",
+		"CreatedOn" : "Created on ",
+		"UpdatedOn": "Updated on ",
+		"LastActive" : "Last active ",
 		"Tags" : "Tags",
 		"MaxTags" : "Max {{maxTags}} tags.",
 		"MaxTagsCharacters" : "Max 20 characters long.",
@@ -192,6 +195,7 @@
 		"Age": "Age",
 		"Height": "Height",
 		"Gender": "Gender",
+		"SexualOrientationType": "Sexual orientation",
 		"BodyType": "Body type",
 		"SmokingHabitsType": "Smoking habits",
 		"HasChildrenType": "Has children",
@@ -207,7 +211,6 @@
 		"BodyArtType": "Body art",
 		"ContactableText": "Are you contactable by other profiles?",
 		"Contactable": "Contactable",
-		"NotContactable": "Not Contactable",
 		"DeleteProfile": "Delete profile"
 	},
 	"DeleteProfileDialog" : {

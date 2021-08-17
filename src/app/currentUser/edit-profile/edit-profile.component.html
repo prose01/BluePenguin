@@ -48,11 +48,11 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'EditProfileComponent.CreatedOn'| transloco}}" formControlName="created" [readonly]="true"> <!--{{currentUserSubject.createdOn | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'}}}-->
+          <input matInput placeholder="{{'EditProfileComponent.CreatedOn'| transloco}}" formControlName="createdOn" [readonly]="true"> <!--{{currentUserSubject.createdOn | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'}}}-->
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'EditProfileComponent.UpdatedOn'| transloco}}" formControlName="updated" [readonly]="true">
+          <input matInput placeholder="{{'EditProfileComponent.UpdatedOn'| transloco}}" formControlName="updatedOn" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
@@ -76,7 +76,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="{{'EditProfileComponent.SexualOrientation'| transloco}}" formControlName="sexualOrientation" [(value)]="currentUserSubject.sexualOrientation">
+          <mat-select placeholder="{{'EditProfileComponent.SexualOrientationType'| transloco}}" formControlName="sexualOrientation" [(value)]="currentUserSubject.sexualOrientation">
             <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
               {{ sexualOrientationType }}
             </mat-option>
@@ -187,7 +187,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'EditProfileComponent.ContactableText'| transloco}}" placeholder="{{'EditProfileComponent.Contactable'| transloco}}" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'EditProfileComponent.ContactableText'| transloco}}" placeholder="{{'EditProfileComponent.Contactable'| transloco}}" formControlName="contactable">{{'EditProfileComponent.Contactable'| transloco}}</mat-slide-toggle>
 
       </div>
 
