@@ -4,6 +4,7 @@ import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
@@ -48,13 +49,13 @@ export class CreateProfileComponent {
   clotheStyleTypes = Object.keys(ClotheStyleType);
   bodyArtTypes = Object.keys(BodyArtType);
 
-  namePlaceholder: string = "Name";
-  genderPlaceholder: string = "Gender";
+  namePlaceholder: string;
+  genderPlaceholder: string;
   genderTypes: string[] = [];
   sexualOrientationTypes: string[] = [];
   defaultAge: number;
-  sexualOrientationPlaceholder: string = "Sexual orientation";
-  tagsPlaceholder: string = "Tags";
+  sexualOrientationPlaceholder: string;
+  tagsPlaceholder: string;
   maxTags: number;
 
   isChecked: boolean = true;
@@ -62,7 +63,7 @@ export class CreateProfileComponent {
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
@@ -103,14 +104,19 @@ export class CreateProfileComponent {
     if (this.auth.isAuthenticated()) {
       this.currentUser = new CurrentUser;
     }
+
+    this.translocoService.selectTranslate('CreateProfileComponent.Name').subscribe(value => this.namePlaceholder = value);
+    this.translocoService.selectTranslate('CreateProfileComponent.Gender').subscribe(value => this.genderPlaceholder = value);
+    this.translocoService.selectTranslate('CreateProfileComponent.SexualOrientationType').subscribe(value => this.sexualOrientationPlaceholder = value);
+    this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
   }
 
   revert() {
     this.tagsList.length = 0;
     this.createForm();
-    this.namePlaceholder = "Name";
-    this.genderPlaceholder = "Gender";
-    this.sexualOrientationPlaceholder = "Sexual orientation";
+    this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.Name');
+    this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.Gender');
+    this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualOrientationType');
   }
 
   onChange(): void {
@@ -118,7 +124,7 @@ export class CreateProfileComponent {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
       if (this.newUserForm.controls.name.errors != null && this.newUserForm.controls.name.errors.maxlength) {
-        this.namePlaceholder = "Name cannot be more than 20 characters long.";
+        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
       }
     }
   } 
@@ -129,23 +135,23 @@ export class CreateProfileComponent {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
       if (this.newUserForm.controls.name.errors.required) {
-        this.namePlaceholder = "Name is required.";
+        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameRequired');
       }
 
       if (this.newUserForm.controls.name.errors.minlength) {
-        this.namePlaceholder = "Name must be at least 3 characters long.";
+        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMinCharacters');
       }
 
       if (this.newUserForm.controls.name.errors.maxlength) {
-        this.namePlaceholder = "Name cannot be more than 20 characters long.";
+        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
       }
 
       if (this.newUserForm.controls.gender.errors != null && this.newUserForm.controls.gender.errors.required) {
-        this.genderPlaceholder = "Gender is required.";
+        this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.GenderRequired');
       }
 
       if (this.newUserForm.controls.sexualOrientation.errors != null && this.newUserForm.controls.sexualOrientation.errors.required) {
-        this.sexualOrientationPlaceholder = "Sexual orientation is required.";
+        this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualRequired');
       }
 
       return;
@@ -156,10 +162,10 @@ export class CreateProfileComponent {
         (error: any) => {
           this.isCurrentUserCreated.emit(false);
           if (error.status === 400) {
-            this.openErrorDialog("Could not save user", error);
+            this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
           }
           else {
-            this.openErrorDialog("Could not save user", null);
+            this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), null);
           }
         },
         () => {
@@ -224,7 +230,7 @@ export class CreateProfileComponent {
 
     if (this.tagsList.length >= this.maxTags) {
       this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
+      this.translocoService.selectTranslate('CreateProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value);
       return;
     }
 
@@ -233,7 +239,7 @@ export class CreateProfileComponent {
 
       if (value.trim().length >= 20) {
         this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
-        this.tagsPlaceholder = "Max 20 characters long.";
+        this.translocoService.selectTranslate('CreateProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value);
         return;
       }
 

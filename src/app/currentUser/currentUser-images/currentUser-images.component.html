@@ -12,7 +12,7 @@
           <div class="overlay-images">
             <!--<div class="mdc-image-list--with-text-protection">-->
             <span class="mdc-image-list__label">{{imageModel.title}}</span>
-            <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" i18n-matTooltip="Delete image | Delete image @@deleteImage" matTooltip="Delete image">
+            <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}">
               <i class="material-icons">delete</i>
             </button>
             <!--</div>-->

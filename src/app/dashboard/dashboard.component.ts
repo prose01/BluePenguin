@@ -28,8 +28,8 @@ export class DashboardComponent implements OnInit {
 
   loading: boolean = false;
   isTileView = true;
-  matButtonToggleText: string = 'ListView';
-  matButtonToggleIcon: string = 'line_style';
+  //matButtonToggleText: string = 'ListView';
+  //matButtonToggleIcon: string = 'line_style';
 
   previousProfiles: Profile[];
   currentProfiles: Profile[];
@@ -501,8 +501,8 @@ export class DashboardComponent implements OnInit {
 
   toggleViewDisplay() {
     this.isTileView = !this.isTileView;
-    this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
-    this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
+    //this.matButtonToggleText = (this.isTileView ? 'ListView' : 'TileView');
+    //this.matButtonToggleIcon = (this.isTileView ? 'line_style' : 'collections');
   }
 
   resetSelectionPagination() {

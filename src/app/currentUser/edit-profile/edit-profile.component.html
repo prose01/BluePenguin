@@ -7,17 +7,17 @@
   </div>
 
   <div *ngIf="currentUserSubject">
-    <h4>Update your details</h4>
+    <h4>{{'EditProfileComponent.UpdateDetails'| transloco}}</h4>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
       <div style="margin-bottom: 1em">
         <button type="submit"
-                [disabled]="profileForm.pristine" mat-flat-button color="accent" i18n-matTooltip="Save | Save @@save" matTooltip="Save">
+                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.Save'| transloco}}">
           <i class="material-icons">save</i>
         </button>
         <button type="button" (click)="revert()"
-                [disabled]="profileForm.pristine" mat-flat-button color="accent" i18n-matTooltip="Revert | Revert @@revert" matTooltip="Revert">
+                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.Reset'| transloco}}">
           <i class="material-icons">undo</i>
         </button>
       </div>
@@ -40,35 +40,35 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput i18n-placeholder="Profile Name | A Name for the Profile @@profileName" placeholder="Name" formControlName="name" [readonly]="true">
+          <input matInput placeholder="{{'EditProfileComponent.Name'| transloco}}" formControlName="name" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
-          <textarea matInput i18n-placeholder="Profile Description | A Description for the Profile @@profileDescription" placeholder="Description" formControlName="description"></textarea>
+          <textarea matInput placeholder="{{'EditProfileComponent.Description'| transloco}}" formControlName="description"></textarea>
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput i18n-placeholder="Profile CreatedOn | A CreatedOn for the Profile @@profileCreatedOn" placeholder="Created" formControlName="createdOn" [readonly]="true"> <!--{{currentUserSubject.createdOn | date:'medium'}}-->
+          <input matInput placeholder="{{'EditProfileComponent.CreatedOn'| transloco}}" formControlName="created" [readonly]="true"> <!--{{currentUserSubject.createdOn | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'}}}-->
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput i18n-placeholder="Profile UpdatedOn | A UpdatedOn for the Profile @@profileUpdatedOn" placeholder="Updated" formControlName="updatedOn" [readonly]="true">
+          <input matInput placeholder="{{'EditProfileComponent.UpdatedOn'| transloco}}" formControlName="updated" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput i18n-placeholder="Profile LastActive | A Last Active for the Profile @@profileLastActive" placeholder="Last Active" formControlName="lastActive" [readonly]="true">
+          <input matInput placeholder="{{'EditProfileComponent.LastActive'| transloco}}" formControlName="lastActive" [readonly]="true">
         </mat-form-field>
 
-        <mat-label i18n="Profile Age | A Age for the Profile @@profileAge">Age</mat-label>
+        <mat-label>{{'EditProfileComponent.Age'| transloco}}</mat-label>
         <mat-slider min={{defaultAge}} max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
         </mat-slider>
 
-        <mat-label i18n="Profile Height | A Height for the Profile @@profileHeight">Height in cm</mat-label>
+        <mat-label>{{'EditProfileComponent.Height'| transloco}}</mat-label>
         <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
         </mat-slider>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile Gender | A Gender for the Profile @@profileGender" placeholder="Gender" formControlName="gender" [(value)]="currentUserSubject.gender">
+          <mat-select placeholder="{{'EditProfileComponent.Gender'| transloco}}" formControlName="gender" [(value)]="currentUserSubject.gender">
             <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
               {{ genderType }}
             </mat-option>
@@ -76,7 +76,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile SexualOrientation | A SexualOrientation for the Profile @@profileSexualOrientation" placeholder="Sexual orientation" formControlName="sexualOrientation" [(value)]="currentUserSubject.sexualOrientation">
+          <mat-select placeholder="{{'EditProfileComponent.SexualOrientation'| transloco}}" formControlName="sexualOrientation" [(value)]="currentUserSubject.sexualOrientation">
             <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
               {{ sexualOrientationType }}
             </mat-option>
@@ -84,7 +84,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile BodyType | A BodyType for the Profile @@profileBodyType" placeholder="Body type" formControlName="body" [(value)]="currentUserSubject.body">
+          <mat-select placeholder="{{'EditProfileComponent.BodyType'| transloco}}" formControlName="body" [(value)]="currentUserSubject.body">
             <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
               {{ bodyType }}
             </mat-option>
@@ -92,7 +92,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile SmokingHabitsType | A SmokingHabitsType for the Profile @@profileSmokingHabitsType" placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="currentUserSubject.smokingHabits">
+          <mat-select placeholder="{{'EditProfileComponent.SmokingHabitsType'| transloco}}" formControlName="smokingHabits" [(value)]="currentUserSubject.smokingHabits">
             <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
               {{ smokingHabitsType }}
             </mat-option>
@@ -100,7 +100,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile HasChildrenType | A HasChildrenType for the Profile @@profileHasChildrenType" placeholder="Has children" formControlName="hasChildren" [(value)]="currentUserSubject.hasChildren">
+          <mat-select placeholder="{{'EditProfileComponent.HasChildrenType'| transloco}}" formControlName="hasChildren" [(value)]="currentUserSubject.hasChildren">
             <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
               {{ hasChildrenType }}
             </mat-option>
@@ -108,7 +108,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile WantChildrenType | A WantChildrenType for the Profile @@profileWantChildrenType" placeholder="Want children" formControlName="wantChildren" [(value)]="currentUserSubject.wantChildren">
+          <mat-select placeholder="{{'EditProfileComponent.WantChildrenType'| transloco}}" formControlName="wantChildren" [(value)]="currentUserSubject.wantChildren">
             <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
               {{ wantChildrenType }}
             </mat-option>
@@ -116,7 +116,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile HasPetsType | A HasPetsType for the Profile @@profileHasPetsType" placeholder="Has pets" formControlName="hasPets" [(value)]="currentUserSubject.hasPets">
+          <mat-select placeholder="{{'EditProfileComponent.HasPetsType'| transloco}}" formControlName="hasPets" [(value)]="currentUserSubject.hasPets">
             <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
               {{ hasPetsType }}
             </mat-option>
@@ -124,7 +124,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile LivesInType | A LivesInType for the Profile @@profileLivesInType" placeholder="Lives in" formControlName="livesIn" [(value)]="currentUserSubject.livesIn">
+          <mat-select placeholder="{{'EditProfileComponent.LivesInType'| transloco}}" formControlName="livesIn" [(value)]="currentUserSubject.livesIn">
             <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
               {{ livesInType }}
             </mat-option>
@@ -132,7 +132,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile EducationType | A EducationType for the Profile @@profileEducationType" placeholder="Education" formControlName="education" [(value)]="currentUserSubject.education">
+          <mat-select placeholder="{{'EditProfileComponent.EducationType'| transloco}}" formControlName="education" [(value)]="currentUserSubject.education">
             <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
               {{ educationType }}
             </mat-option>
@@ -140,7 +140,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile EducationStatusType | A EducationStatusType for the Profile @@profileEducationStatusType" placeholder="Educational status" formControlName="educationStatus" [(value)]="currentUserSubject.educationStatus">
+          <mat-select placeholder="{{'EditProfileComponent.EducationStatusType'| transloco}}" formControlName="educationStatus" [(value)]="currentUserSubject.educationStatus">
             <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
               {{ educationStatusType }}
             </mat-option>
@@ -148,7 +148,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile EmploymentStatusType | A EmploymentStatusType for the Profile @@profileEmploymentStatusType" placeholder="Employment status" formControlName="employmentStatus" [(value)]="currentUserSubject.employmentStatus">
+          <mat-select placeholder="{{'EditProfileComponent.EmploymentStatusType'| transloco}}" formControlName="employmentStatus" [(value)]="currentUserSubject.employmentStatus">
             <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
               {{ employmentStatusType }}
             </mat-option>
@@ -156,7 +156,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile SportsActivityType | A SportsActivityType for the Profile @@profileSportsActivityType" placeholder="Sports activity" formControlName="sportsActivity" [(value)]="currentUserSubject.sportsActivity">
+          <mat-select placeholder="{{'EditProfileComponent.SportsActivityType'| transloco}}" formControlName="sportsActivity" [(value)]="currentUserSubject.sportsActivity">
             <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
               {{ sportsActivityType }}
             </mat-option>
@@ -164,7 +164,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile EatingHabitsType | A EatingHabitsType for the Profile @@profileEatingHabitsType" placeholder="Eating habits" formControlName="eatingHabits" [(value)]="currentUserSubject.eatingHabits">
+          <mat-select placeholder="{{'EditProfileComponent.EatingHabitsType'| transloco}}" formControlName="eatingHabits" [(value)]="currentUserSubject.eatingHabits">
             <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
               {{ eatingHabitsType }}
             </mat-option>
@@ -172,7 +172,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile ClotheStyleType | A ClotheStyleType for the Profile @@profileClotheStyleType" placeholder="Fashion style" formControlName="clotheStyle" [(value)]="currentUserSubject.clotheStyle">
+          <mat-select placeholder="{{'EditProfileComponent.ClotheStyleType'| transloco}}" formControlName="clotheStyle" [(value)]="currentUserSubject.clotheStyle">
             <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
               {{ clotheStyleType }}
             </mat-option>
@@ -180,14 +180,14 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select i18n-placeholder="Profile BodyArtType | A BodyArtType for the Profile @@profileBodyArtType" placeholder="Body art" formControlName="bodyArt" [(value)]="currentUserSubject.bodyArt">
+          <mat-select placeholder="{{'EditProfileComponent.BodyArtType'| transloco}}" formControlName="bodyArt" [(value)]="currentUserSubject.bodyArt">
             <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
               {{ bodyArtType }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" i18n-placeholder="Profile contactable | Is Profile contactable @@iscontactable" matTooltip="Are you contactable by other profiles?" placeholder="Contactable" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'EditProfileComponent.ContactableText'| transloco}}" placeholder="{{'EditProfileComponent.Contactable'| transloco}}" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
 
       </div>
 
@@ -195,7 +195,7 @@
 
     <hr class="solid">
 
-    <button type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" i18n-matTooltip="Delete profile | Delete profile @@deleteProfile" matTooltip="Delete profile">
+    <button type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
       <i class="material-icons">delete</i>
     </button>
 

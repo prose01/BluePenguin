@@ -1,9 +1,9 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
   <mat-tab-group>
-    <mat-tab i18n-tab="Edit-profile | Edit-profile @@editProfile tab" label="Edit-profile"> <edit-profile></edit-profile> </mat-tab>
-    <mat-tab i18n-tab="Profile Images | Profile Images tab @@profileImages" label="Profile Images"> <image-board></image-board> </mat-tab>
-    <mat-tab i18n-tab="ChatMembers | ChatMembers tab @@chatMembers" label="ChatMembers"> <chatMemebers-listview (loadProfileDetails)="loadProfileDetails($event)"></chatMemebers-listview> </mat-tab>
+    <mat-tab label="{{'CurrentUserBoardComponent.EditProfile'| transloco}}"> <edit-profile></edit-profile> </mat-tab>
+    <mat-tab label="{{'CurrentUserBoardComponent.ProfileImages'| transloco}}"> <image-board></image-board> </mat-tab>
+    <mat-tab label="{{'CurrentUserBoardComponent.ChatMembers'| transloco}}"> <chatMemebers-listview (loadProfileDetails)="loadProfileDetails($event)"></chatMemebers-listview> </mat-tab>
   </mat-tab-group>
 
 </div>

@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
@@ -58,17 +59,22 @@ export class EditProfileComponent implements OnInit {
   isChecked: boolean;
   defaultAge: number;
 
-  tagsPlaceholder: string = "Tags";
+  tagsPlaceholder: string;
   maxTags: number;
 
   loading: boolean = false;
 
-  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
+    this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
   }
 
   createForm() {
@@ -98,10 +104,6 @@ export class EditProfileComponent implements OnInit {
       clotheStyle: null,
       bodyArt: null
     });
-  }
-
-  ngOnInit(): void {
-    this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
   }
 
   // TODO Remove datePipe when Pipe works!
@@ -152,7 +154,7 @@ export class EditProfileComponent implements OnInit {
       .subscribe(
         () => { },
         (error: any) => {
-          this.openErrorDialog("Could not save user", null);
+          this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
         },
         () => { this.profileForm.markAsPristine(); this.loading = false; }
       );
@@ -220,7 +222,7 @@ export class EditProfileComponent implements OnInit {
 
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-      this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
+      this.translocoService.selectTranslate('EditProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value);
       return;
     }   
 
@@ -229,7 +231,7 @@ export class EditProfileComponent implements OnInit {
 
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-        this.tagsPlaceholder = "Max 20 characters long.";
+        this.translocoService.selectTranslate('EditProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value);
         return;
       }
 

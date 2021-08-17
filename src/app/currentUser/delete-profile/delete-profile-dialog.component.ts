@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
@@ -23,14 +24,14 @@ export class DeleteProfileDialog implements OnInit {
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
-    @Inject(MAT_DIALOG_DATA) public profileIds: string[]) {
+    @Inject(MAT_DIALOG_DATA) public profileIds: string[], private readonly translocoService: TranslocoService) {
 
     this.profileService.currentUserSubject.pipe(takeWhileAlive(this)).subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
   ngOnInit(): void {
-    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? 'Do you want to delete profile(s)?' : 'Do you want to delete your profile?');
-    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? 'This will delete the profile(s) and cannot be undone.' : 'This will delete your profile and cannot be undone.');
+    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.DeleteProfile') : this.translocoService.translate('DeleteProfileDialog.DeleteYourProfile') );
+    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.ProfileDeleteCannotBeUndone') : this.translocoService.translate('DeleteProfileDialog.DeletionCannotBeUndone') );
   }
 
   onNoClick(): void {

@@ -26,7 +26,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
     {
       provide: TRANSLOCO_CONFIG,
       useValue: translocoConfig({
-        availableLangs: ['da', 'de', 'en', 'es', 'fr', 'ko'],
+        availableLangs: ['da', 'de', 'en', 'es', 'fr', 'ko'], // Remember to also to update transloco.config.js
         defaultLang: getBrowserLang() || 'en',
         fallbackLang: 'en',
         // Remove this option if your application doesn't support changing language in runtime.
