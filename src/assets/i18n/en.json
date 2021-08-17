@@ -236,5 +236,8 @@
 	"AboutComponent" : {
 		"About" : "Om os",
 		"AboutText" : "Here is something about us :)"
+	},
+	"ErrorDialog" : {
+		"Ok" : "Ok"
 	}
 }

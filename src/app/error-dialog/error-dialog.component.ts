@@ -8,8 +8,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 
 export class ErrorDialog {
-  matDialogTitle: string = 'No title';
-  matDialogContent: string = 'No content';
+  matDialogTitle: string;
+  matDialogContent: string;
 
   constructor(public dialogRef: MatDialogRef<ErrorDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
