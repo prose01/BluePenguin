@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
-import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
@@ -64,7 +64,7 @@ export class EditProfileComponent implements OnInit {
 
   loading: boolean = false;
 
-  constructor(private datePipe: DatePipe, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
@@ -106,15 +106,12 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  // TODO Remove datePipe when Pipe works!
-  //https://www.angularjswiki.com/angular/how-to-use-angular-pipes-in-components-and-services/
-
   prefilForm() {
     this.profileForm.patchValue({
       name: this.currentUserSubject.name as string,
-      createdOn: this.datePipe.transform(this.currentUserSubject.createdOn, 'dd-MM-yyyy hh:mm'),
-      updatedOn: this.datePipe.transform(this.currentUserSubject.updatedOn, 'dd-MM-yyyy hh:mm'),
-      lastActive: this.datePipe.transform(this.currentUserSubject.lastActive, 'dd-MM-yyyy hh:mm'),
+      createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
+      updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
+      lastActive: this.translocoLocale.localizeDate(this.currentUserSubject.lastActive, 'da-DK', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
       contactable: this.currentUserSubject.contactable as boolean,

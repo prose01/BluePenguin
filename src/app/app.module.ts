@@ -4,7 +4,6 @@ import { FormsModule }                        from '@angular/forms';
 import { HttpClientModule }                   from '@angular/common/http';
 import { ReactiveFormsModule }                from '@angular/forms';
 import { BrowserAnimationsModule }            from '@angular/platform-browser/animations';
-import { DatePipe }                           from '@angular/common';
 import { MatCheckboxModule }                  from '@angular/material/checkbox';
 import { MatPaginatorModule }                 from '@angular/material/paginator';
 import { MatSortModule }                      from '@angular/material/sort';
@@ -140,7 +139,6 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     })
   ],
   providers: [
-    DatePipe,
     ProfileService,
     BehaviorSubjectService,
     ImageService,
