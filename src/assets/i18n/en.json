@@ -242,5 +242,67 @@
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"
+	},
+	"Enum" : {
+		"NotChosen" : "Not Chosen",
+		"Other" : "Other",
+		"Yes" : "Yes",
+		"No" : "No"
+	},
+	"ClotheStyleType" : {
+		"Casual" : "Casual",
+		"Dressy" : "Dressy",
+		"Dandy" : "Dandy",
+		"Stylish" : "Stylish",
+		"Formal" : "Formal"
+	},
+	"BodyType" : {
+		"Atlethic" : "Atlethic",
+		"Chubby" : "Chubby",
+		"Normal" : "Normal",
+		"Robust" : "Robust",
+		"Slim" : "Slim"
+	},
+	"BodyArtType" : {
+		"Piercing" : "Piercing",
+		"Tatoo" : "Tatoo"
+	},
+	"EatingHabitsType" : {
+		"Healthy" : "Healthy",
+		"Gastronomic" : "Gastronomic",
+		"Kosher" : "Kosher",
+		"Organic" : "Organic",
+		"Traditional" : "Traditional",
+		"Vegetarian" : "Vegetarian"
+	},
+	"EducationStatusType" : {
+		"Graduated" : "Graduated",
+		"Student" : "Student"
+	},
+	"EducationType" : {
+		"School" : "School",
+		"Highschool" : "Highschool",
+		"University" : "University"
+	},
+	"EmploymentStatusType" : {
+		"Unemployed" : "Unemployed",
+		"Employed" : "Employed",
+		"SelfEmployed" : "Self-Employed"
+	},
+	"LivesInType" : {
+		"City" : "City",
+		"Suburb" : "Suburb",
+		"Countryside" : "Countryside"
+	},
+	"SmokingHabitsType" : {
+		"NonSmoker" : "Non Smoker",
+		"OccasionalSmoker" : "Occasional Smoker",
+		"Smoker" : "Smoker"
+	},
+	"SportsActivityType" : {
+		"Regularly" : "Regularly",
+		"SomeRegularity" : "Somewhat Regularly",
+		"Seldom" : "Seldom",
+		"Never" : "Never"
 	}
 }

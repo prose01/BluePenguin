@@ -12,6 +12,7 @@ import { Profile } from './models/profile';
 import { ProfileFilter } from './models/profileFilter';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileService } from './services/profile.service';
+import { EnumMappingService } from './services/enumMapping.service';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
@@ -88,6 +89,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   switchLanguage() {
     this.translocoService.setActiveLang(this.siteLocale);
+    // TranslocoService needs to finsh first before we can update.
+    setTimeout(() => {
+      this.enumMappings.updateClotheStyleTypeSubject();
+      this.enumMappings.updateBodyTypeSubject();
+      this.enumMappings.updateBodyArtTypeSubject();
+      this.enumMappings.updateEatingHabitsTypeSubject();
+      this.enumMappings.updateEducationStatusTypeSubject();
+      this.enumMappings.updateEducationTypeSubject();
+      this.enumMappings.updateEmploymentStatusTypeSubject();
+      this.enumMappings.updateHasChildrenTypeSubject();
+      this.enumMappings.updateWantChildrenTypeSubject();
+      this.enumMappings.updateHasPetsTypeSubject();
+      this.enumMappings.updateLivesInTypeSubject();
+      this.enumMappings.updateSmokingHabitsTypeSubject();
+      this.enumMappings.updateSportsActivityTypeSubject();
+    }, 50);
+    
   }
 
   toggleDisplay() {

@@ -36,6 +36,7 @@ import { ErrorDialog }                        from './error-dialog/error-dialog.
 import { ConfigurationModule }                from "./configuration/configuration.module";
 import { ProfileService }                     from './services/profile.service';
 import { BehaviorSubjectService }             from './services/behaviorSubjec.service';
+import { EnumMappingService }                 from './services/enumMapping.service';
 import { ImageService }                       from './services/image.service';
 
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
@@ -69,6 +70,7 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
 
 import { TranslocoRootModule }                from './transloco/transloco-root.module';
 import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
+
 
 @NgModule({
   declarations: [
@@ -142,6 +144,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileService,
     BehaviorSubjectService,
     ImageService,
+    EnumMappingService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

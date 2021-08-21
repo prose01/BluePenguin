@@ -29,7 +29,6 @@ export enum EatingHabitsType {
   "NotChosen" = "NotChosen",
   "Healthy" = "Healthy",
   "Gastronomic" = "Gastronomic",
-  "Normal" = "Normal",
   "Kosher" = "Kosher",
   "Organic" = "Organic",
   "Traditional" = "Traditional",
@@ -103,15 +102,6 @@ export enum SportsActivityType {
   "SomeRegularity" = "SomeRegularity",
   "Seldom" = "Seldom",
   "Never" = "Never",
-  "Other" = "Other"
-}
-
-export enum MaritalStatusType {
-  "NotChosen" = "NotChosen",
-  "Single" = "Single",
-  "Married" = "Married",
-  "Separated" = "Separated",
-  "Divorced" = "Divorced",
   "Other" = "Other"
 }
 
