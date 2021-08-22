@@ -42,12 +42,12 @@ export class EditProfileComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
+  bodyTypes : ReadonlyMap<string, string>;
+  smokingHabitsTypes : ReadonlyMap<string, string>;
+  hasChildrenTypes : ReadonlyMap<string, string>;
+  wantChildrenTypes : ReadonlyMap<string, string>;
+  hasPetsTypes : ReadonlyMap<string, string>;
+  livesInTypes : ReadonlyMap<string, string>;
   educationTypes: ReadonlyMap<string, string>;
   educationStatusTypes : ReadonlyMap<string, string>;
   employmentStatusTypes : ReadonlyMap<string, string>;

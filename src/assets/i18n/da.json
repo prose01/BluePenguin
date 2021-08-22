@@ -295,20 +295,14 @@
 		"Countryside" : "Countryside"
 	},
 	"SmokingHabitsType" : {
-		"NonSmoker" : "NonSmoker",
-		"OccasionalSmoker" : "OccasionalSmoker",
+		"NonSmoker" : "Non Smoker",
+		"OccasionalSmoker" : "Occasional Smoker",
 		"Smoker" : "Smoker"
 	},
 	"SportsActivityType" : {
 		"Regularly" : "Regularly",
-		"SomeRegularity" : "SomeRegularity",
+		"SomeRegularity" : "Somewhat Regularly",
 		"Seldom" : "Seldom",
 		"Never" : "Never"
-	},
-	"MaritalStatusType" : {
-		"Single" : "Single",
-		"Married" : "Married",
-		"Separated" : "Separated",
-		"Divorced" : "Divorced"
 	}
 }

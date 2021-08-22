@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
+import { EnumMappingService } from '../../services/enumMapping.service';
 import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -25,6 +26,7 @@ import {
   ClotheStyleType,
   BodyArtType
 } from '../../models/enums';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'create-profile',
@@ -35,19 +37,19 @@ import {
 export class CreateProfileComponent {
   currentUser: CurrentUser;
   newUserForm: FormGroup;
-  bodyTypes = Object.keys(BodyType);
-  smokingHabitsTypes = Object.keys(SmokingHabitsType);
-  hasChildrenTypes = Object.keys(HasChildrenType);
-  wantChildrenTypes = Object.keys(WantChildrenType);
-  hasPetsTypes = Object.keys(HasPetsType);
-  livesInTypes = Object.keys(LivesInType);
-  educationTypes = Object.keys(EducationType);
-  educationStatusTypes = Object.keys(EducationStatusType);
-  employmentStatusTypes = Object.keys(EmploymentStatusType);
-  sportsActivityTypes = Object.keys(SportsActivityType);
-  eatingHabitsTypes = Object.keys(EatingHabitsType);
-  clotheStyleTypes = Object.keys(ClotheStyleType);
-  bodyArtTypes = Object.keys(BodyArtType);
+  bodyTypes: ReadonlyMap<string, string>;
+  smokingHabitsTypes: ReadonlyMap<string, string>;
+  hasChildrenTypes: ReadonlyMap<string, string>;
+  wantChildrenTypes: ReadonlyMap<string, string>;
+  hasPetsTypes: ReadonlyMap<string, string>;
+  livesInTypes: ReadonlyMap<string, string>;
+  educationTypes: ReadonlyMap<string, string>;
+  educationStatusTypes: ReadonlyMap<string, string>;
+  employmentStatusTypes: ReadonlyMap<string, string>;
+  sportsActivityTypes: ReadonlyMap<string, string>;
+  eatingHabitsTypes: ReadonlyMap<string, string>;
+  clotheStyleTypes: ReadonlyMap<string, string>;
+  bodyArtTypes: ReadonlyMap<string, string>;
 
   namePlaceholder: string;
   genderPlaceholder: string;
@@ -63,7 +65,7 @@ export class CreateProfileComponent {
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
@@ -109,6 +111,33 @@ export class CreateProfileComponent {
     this.translocoService.selectTranslate('CreateProfileComponent.Gender').subscribe(value => this.genderPlaceholder = value);
     this.translocoService.selectTranslate('CreateProfileComponent.SexualOrientationType').subscribe(value => this.sexualOrientationPlaceholder = value);
     this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
+
+    this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
+    this.enumMappings.updateClotheStyleTypeSubject();
+    this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value);
+    this.enumMappings.updateBodyTypeSubject();
+    this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value);
+    this.enumMappings.updateBodyArtTypeSubject();
+    this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value);
+    this.enumMappings.updateEatingHabitsTypeSubject();
+    this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value);
+    this.enumMappings.updateEducationStatusTypeSubject();
+    this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value);
+    this.enumMappings.updateEducationTypeSubject();
+    this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value);
+    this.enumMappings.updateEmploymentStatusTypeSubject();
+    this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value);
+    this.enumMappings.updateHasChildrenTypeSubject();
+    this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value);
+    this.enumMappings.updateWantChildrenTypeSubject();
+    this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value);
+    this.enumMappings.updateHasPetsTypeSubject();
+    this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value);
+    this.enumMappings.updateLivesInTypeSubject();
+    this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value);
+    this.enumMappings.updateSmokingHabitsTypeSubject();
+    this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value);
+    this.enumMappings.updateSportsActivityTypeSubject();
   }
 
   revert() {
@@ -269,5 +298,10 @@ export class CreateProfileComponent {
         content: error?.error
       }
     });
+  }
+
+  // Preserve original EnumMapping order
+  originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
+    return 0;
   }
 }
