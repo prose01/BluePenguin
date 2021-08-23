@@ -67,11 +67,15 @@ export class EditProfileComponent implements OnInit {
 
   loading: boolean = false;
 
+  siteLocale: string;
+  languageList: string[] = [];
+
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.createForm();
   }
 
@@ -109,6 +113,7 @@ export class EditProfileComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
+      languagecode: null,
       name: null,
       createdOn: null,
       updatedOn: null,
@@ -138,6 +143,7 @@ export class EditProfileComponent implements OnInit {
 
   prefilForm() {
     this.profileForm.patchValue({
+      languagecode: this.currentUserSubject.languagecode as string,
       name: this.currentUserSubject.name as string,
       createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
       updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
@@ -191,6 +197,7 @@ export class EditProfileComponent implements OnInit {
     const formModel = this.profileForm.value;
 
     const saveProfile: CurrentUser = {
+      languagecode: formModel.languagecode as string,
       bookmarks: this.currentUserSubject.bookmarks,
       chatMemberslist: this.currentUserSubject.chatMemberslist,
       profileId: this.currentUserSubject.profileId,
@@ -293,6 +300,26 @@ export class EditProfileComponent implements OnInit {
   // Preserve original EnumMapping order
   originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
     return 0;
+  }
+
+  switchLanguage() {
+    this.translocoService.setActiveLang(this.siteLocale);
+    // TranslocoService needs to finsh first before we can update.
+    setTimeout(() => {
+      this.enumMappings.updateClotheStyleTypeSubject();
+      this.enumMappings.updateBodyTypeSubject();
+      this.enumMappings.updateBodyArtTypeSubject();
+      this.enumMappings.updateEatingHabitsTypeSubject();
+      this.enumMappings.updateEducationStatusTypeSubject();
+      this.enumMappings.updateEducationTypeSubject();
+      this.enumMappings.updateEmploymentStatusTypeSubject();
+      this.enumMappings.updateHasChildrenTypeSubject();
+      this.enumMappings.updateWantChildrenTypeSubject();
+      this.enumMappings.updateHasPetsTypeSubject();
+      this.enumMappings.updateLivesInTypeSubject();
+      this.enumMappings.updateSmokingHabitsTypeSubject();
+      this.enumMappings.updateSportsActivityTypeSubject();
+    }, 50);
   }
 
 }

@@ -17,6 +17,14 @@
 
     <div class="form-container">
 
+      <mat-form-field>
+        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()">
+          <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+            {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field class="tag-list">
         <mat-chip-list #chipList formControlName="tags">
           <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"

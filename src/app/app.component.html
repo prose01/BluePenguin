@@ -103,7 +103,7 @@
 
   <mat-menu #menu="matMenu">
 
-    <mat-select i18n-placeholder="Profile Language | A Language for the Profile @@profileLanguage" placeholder="Language" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
+    <mat-select placeholder="{{'Language'| transloco}}" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
       <mat-option *ngFor="let lang of languageList" [value]="lang.code">
         {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
       </mat-option>

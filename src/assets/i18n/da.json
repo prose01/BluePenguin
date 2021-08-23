@@ -11,6 +11,7 @@
 	"Reset" : "Nulstil",
 	"SaveSearchFilter" : "Gem søgefilter",
 	"LoadSearchFilter" : "Åben gemt søgefilter",
+	"Language" : "Sprog",
 	"EditProfile" : "Rediger Profil",
 	"About" : "Om os",
 	"Search" : "Søg",
@@ -150,7 +151,8 @@
 		"Reset" : "Nulstil",
 		"Tags" : "Tags",
 		"MaxTags" : "Du kan maksimum søge på {{maxTags}} tags.",
-		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",		
+		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",
+		"Language": "Sprog",	
 		"Name": "Navn",
 		"Description": "Beskrivelse",
 		"Age": "Alder",
@@ -189,7 +191,8 @@
 		"LastActive" : "Sidst aktiv ",
 		"Tags" : "Tags",
 		"MaxTags" : "Du kan maksimum søge på {{maxTags}} tags.",
-		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",		
+		"MaxTagsCharacters" : "Et tag kan ikke være mere end 20 tegn langt.",
+		"Language": "Sprog",	
 		"Name": "Navn",
 		"Description": "Beskrivelse",
 		"Age": "Alder",
@@ -257,52 +260,52 @@
 		"Formal" : "Formel"
 	},
 	"BodyType" : {
-		"Atlethic" : "Atlethic",
-		"Chubby" : "Chubby",
+		"Atlethic" : "Atletisk",
+		"Chubby" : "Buttede",
 		"Normal" : "Normal",
 		"Robust" : "Robust",
-		"Slim" : "Slim"
+		"Slim" : "Slank"
 	},
 	"BodyArtType" : {
 		"Piercing" : "Piercing",
 		"Tatoo" : "Tatovering"
 	},
 	"EatingHabitsType" : {
-		"Healthy" : "Healthy",
-		"Gastronomic" : "Gastronomic",
+		"Healthy" : "Sund",
+		"Gastronomic" : "Gastronomisk",
 		"Kosher" : "Kosher",
-		"Organic" : "Organic",
-		"Traditional" : "Traditional",
-		"Vegetarian" : "Vegetarian"
+		"Organic" : "Økologisk",
+		"Traditional" : "Traditionel",
+		"Vegetarian" : "Vegetarisk"
 	},
 	"EducationStatusType" : {
-		"Graduated" : "Graduated",
-		"Student" : "Student"
+		"Graduated" : "Gradueret",
+		"Student" : "Studerende"
 	},
 	"EducationType" : {
-		"School" : "School",
-		"Highschool" : "Highschool",
-		"University" : "University"
+		"School" : "Skole",
+		"Highschool" : "Gymnasium",
+		"University" : "Universitet"
 	},
 	"EmploymentStatusType" : {
-		"Unemployed" : "Unemployed",
-		"Employed" : "Employed",
-		"SelfEmployed" : "SelfEmployed"
+		"Unemployed" : "Arbejdsløs",
+		"Employed" : "Fastansat",
+		"SelfEmployed" : "Selvstændig"
 	},
 	"LivesInType" : {
-		"City" : "City",
-		"Suburb" : "Suburb",
-		"Countryside" : "Countryside"
+		"City" : "By",
+		"Suburb" : "Forstad",
+		"Countryside" : "Landet"
 	},
 	"SmokingHabitsType" : {
-		"NonSmoker" : "Non Smoker",
-		"OccasionalSmoker" : "Occasional Smoker",
-		"Smoker" : "Smoker"
+		"NonSmoker" : "Ikke ryger",
+		"OccasionalSmoker" : "Lejlighedsvis ryger",
+		"Smoker" : "Ryger"
 	},
 	"SportsActivityType" : {
-		"Regularly" : "Regularly",
-		"SomeRegularity" : "Somewhat Regularly",
-		"Seldom" : "Seldom",
-		"Never" : "Never"
+		"Regularly" : "Regelmæssigt",
+		"SomeRegularity" : "Noget regelmæssigt",
+		"Seldom" : "Sjældent",
+		"Never" : "Aldrig"
 	}
 }

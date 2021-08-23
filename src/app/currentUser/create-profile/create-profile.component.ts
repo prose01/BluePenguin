@@ -62,6 +62,9 @@ export class CreateProfileComponent {
 
   isChecked: boolean = true;
 
+  siteLocale: string;
+  languageList: string[] = [];
+
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
@@ -70,11 +73,13 @@ export class CreateProfileComponent {
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
+    this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.createForm();
   }
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
+      languagecode: null,
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       createdOn: null,
       updatedOn: null,
@@ -209,6 +214,7 @@ export class CreateProfileComponent {
     const formModel = this.newUserForm.value;
 
     const saveProfile: CurrentUser = {
+      languagecode: formModel.languagecode as string,
       bookmarks: null,
       chatMemberslist: null,
       profileId: null,
@@ -303,5 +309,25 @@ export class CreateProfileComponent {
   // Preserve original EnumMapping order
   originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
     return 0;
+  }
+
+  switchLanguage() {
+    this.translocoService.setActiveLang(this.siteLocale);
+    // TranslocoService needs to finsh first before we can update.
+    setTimeout(() => {
+      this.enumMappings.updateClotheStyleTypeSubject();
+      this.enumMappings.updateBodyTypeSubject();
+      this.enumMappings.updateBodyArtTypeSubject();
+      this.enumMappings.updateEatingHabitsTypeSubject();
+      this.enumMappings.updateEducationStatusTypeSubject();
+      this.enumMappings.updateEducationTypeSubject();
+      this.enumMappings.updateEmploymentStatusTypeSubject();
+      this.enumMappings.updateHasChildrenTypeSubject();
+      this.enumMappings.updateWantChildrenTypeSubject();
+      this.enumMappings.updateHasPetsTypeSubject();
+      this.enumMappings.updateLivesInTypeSubject();
+      this.enumMappings.updateSmokingHabitsTypeSubject();
+      this.enumMappings.updateSportsActivityTypeSubject();
+    }, 50);
   }
 }

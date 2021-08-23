@@ -104,8 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.enumMappings.updateLivesInTypeSubject();
       this.enumMappings.updateSmokingHabitsTypeSubject();
       this.enumMappings.updateSportsActivityTypeSubject();
-    }, 50);
-    
+    }, 50);    
   }
 
   toggleDisplay() {
