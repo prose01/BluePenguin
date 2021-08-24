@@ -64,6 +64,7 @@ export class CreateProfileComponent {
 
   siteLocale: string;
   languageList: string[] = [];
+  countryList: string[] = [];
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
@@ -74,12 +75,14 @@ export class CreateProfileComponent {
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
+    this.countryList = this.configurationLoader.getConfiguration().countryList;
     this.createForm();
   }
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
       languagecode: null,
+      countrycode: null,
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       createdOn: null,
       updatedOn: null,
@@ -215,6 +218,7 @@ export class CreateProfileComponent {
 
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
+      countrycode: formModel.countrycode as string,
       bookmarks: null,
       chatMemberslist: null,
       profileId: null,

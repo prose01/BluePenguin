@@ -25,6 +25,14 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-select placeholder="{{'CreateProfileComponent.Country'| transloco}}" formControlName="countrycode" [(value)]="currentUser.countrycode">
+          <mat-option *ngFor="let country of countryList" [value]="country.code">
+            {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field class="tag-list">
         <mat-chip-list #chipList formControlName="tags">
           <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"

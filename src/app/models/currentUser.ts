@@ -19,6 +19,7 @@ import {
 
 export class CurrentUser {
   languagecode: string;
+  countrycode: string;
   bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
   //auth0Id: string;
@@ -55,6 +56,7 @@ export class CurrentUser {
 
 export interface CurrentUser {
   languagecode: string;
+  countrycode: string;
   bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
   //auth0Id: string;

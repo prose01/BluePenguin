@@ -69,6 +69,7 @@ export class EditProfileComponent implements OnInit {
 
   siteLocale: string;
   languageList: string[] = [];
+  countryList: string[] = [];
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
@@ -76,6 +77,7 @@ export class EditProfileComponent implements OnInit {
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
+    this.countryList = this.configurationLoader.getConfiguration().countryList;
     this.createForm();
   }
 
@@ -114,6 +116,7 @@ export class EditProfileComponent implements OnInit {
   createForm() {
     this.profileForm = this.formBuilder.group({
       languagecode: null,
+      countrycode: null,
       name: null,
       createdOn: null,
       updatedOn: null,
@@ -144,6 +147,7 @@ export class EditProfileComponent implements OnInit {
   prefilForm() {
     this.profileForm.patchValue({
       languagecode: this.currentUserSubject.languagecode as string,
+      countrycode: this.currentUserSubject.countrycode as string,
       name: this.currentUserSubject.name as string,
       createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
       updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
@@ -177,8 +181,13 @@ export class EditProfileComponent implements OnInit {
 
   revert() {
     this.tagsList.length = 0;
-    this.prefilForm();
-    this.switchLanguage();
+
+    setTimeout(() => {
+      this.prefilForm();
+      this.switchLanguage();
+    }, 50);
+
+    this.profileForm.markAsPristine();
   }
 
   onSubmit() {
@@ -200,6 +209,7 @@ export class EditProfileComponent implements OnInit {
 
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
+      countrycode: formModel.countrycode as string,
       bookmarks: this.currentUserSubject.bookmarks,
       chatMemberslist: this.currentUserSubject.chatMemberslist,
       profileId: this.currentUserSubject.profileId,

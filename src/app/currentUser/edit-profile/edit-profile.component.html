@@ -23,11 +23,19 @@
       </div>
 
       <div class="form-container">
-        
+
         <mat-form-field>
           <mat-select placeholder="{{'EditProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()">
             <mat-option *ngFor="let lang of languageList" [value]="lang.code">
               {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="{{'EditProfileComponent.Country'| transloco}}" formControlName="countrycode" [(value)]="countrycode">
+            <mat-option *ngFor="let country of countryList" [value]="country.code">
+              {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
             </mat-option>
           </mat-select>
         </mat-form-field>
