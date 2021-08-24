@@ -145,9 +145,9 @@ export class EditProfileComponent implements OnInit {
     this.profileForm.patchValue({
       languagecode: this.currentUserSubject.languagecode as string,
       name: this.currentUserSubject.name as string,
-      createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
-      updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, 'en-US', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
-      lastActive: this.translocoLocale.localizeDate(this.currentUserSubject.lastActive, 'da-DK', { dateStyle: 'medium', timeStyle: 'short' }), // TODO: change local currentUserSubject.locale
+      createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
+      updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
+      lastActive: this.translocoLocale.localizeDate(this.currentUserSubject.lastActive, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
       contactable: this.currentUserSubject.contactable as boolean,
@@ -172,11 +172,13 @@ export class EditProfileComponent implements OnInit {
 
     this.isChecked = this.currentUserSubject.contactable as boolean;
     this.tagsList.push.apply(this.tagsList, this.currentUserSubject.tags);
+    this.siteLocale = this.currentUserSubject.languagecode;
   }
 
   revert() {
     this.tagsList.length = 0;
     this.prefilForm();
+    this.switchLanguage();
   }
 
   onSubmit() {

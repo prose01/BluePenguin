@@ -259,6 +259,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (isCreated) {
       this.pageView = pageViewEnum.Dashboard;
+      this.siteLocale = this.currentUserSubject.languagecode;
+      this.switchLanguage();
     }
   }
 
