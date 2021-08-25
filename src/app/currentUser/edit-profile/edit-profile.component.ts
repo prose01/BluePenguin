@@ -71,6 +71,9 @@ export class EditProfileComponent implements OnInit {
   languageList: string[] = [];
   countryList: string[] = [];
 
+  warningText: string;
+  countryResetText: string;
+
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
     this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
@@ -84,6 +87,8 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
     this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
+    this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value);
+    this.translocoService.selectTranslate('EditProfileComponent.CountryReset').subscribe(value => this.countryResetText = value);
     
     this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
     this.enumMappings.updateClotheStyleTypeSubject();
@@ -300,11 +305,11 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  openErrorDialog(title: string, error: any): void {
+  openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,
-        content: error?.error
+        content: error
       }
     });
   }
@@ -334,4 +339,7 @@ export class EditProfileComponent implements OnInit {
     }, 50);
   }
 
+  switchCountry() {
+    this.openErrorDialog(this.warningText, this.countryResetText);
+  }
 }

@@ -216,7 +216,9 @@
 		"BodyArtType": "Body art",
 		"ContactableText": "Are you contactable by other profiles?",
 		"Contactable": "Contactable",
-		"DeleteProfile": "Delete profile"
+		"DeleteProfile": "Delete profile",
+		"Warning": "Warning!",
+		"CountryReset": "If you change country your bookmarks, chatmembers, visited, likes etc. will be reset."
 	},
 	"DeleteProfileDialog" : {
 		"YesDeleteProfile" : "Yes delete profile.",

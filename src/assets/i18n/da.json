@@ -216,7 +216,9 @@
 		"BodyArtType": "Kropsudsmykninger",
 		"ContactableText": "Kan du kontaktes af andre profiler?",
 		"Contactable": "Kan kontaktes",
-		"DeleteProfile": "Slet profil"
+		"DeleteProfile": "Slet profil",
+		"Warning": "Advarsel!",
+		"CountryReset": "Hvis du skifter land, nulstilles dine bogmærker, chatmedlemmer, visninger, likes osv."
 	},
 	"DeleteProfileDialog" : {
 		"YesDeleteProfile" : "Ja slet profil.",
