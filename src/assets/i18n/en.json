@@ -154,6 +154,7 @@
 		"MaxTagsCharacters" : "Max 20 characters long.",
 		"Language": "Language",
 		"Country": "Country",
+		"CountrycodeRequired": "Country is required.",
 		"Name": "Name",
 		"Description": "Description",
 		"Age": "Age",

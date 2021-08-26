@@ -26,7 +26,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.Country'| transloco}}" formControlName="countrycode" [(value)]="currentUser.countrycode">
+        <mat-select placeholder="{{countrycodePlaceholder}}" formControlName="countrycode" [(value)]="currentUser.countrycode" required>
           <mat-option *ngFor="let country of countryList" [value]="country.code">
             {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
           </mat-option>
@@ -49,11 +49,11 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{namePlaceholder}}" formControlName="name" (ngModelChange)="onChange()" required minlength="3">
+        <input matInput placeholder="{{namePlaceholder}}" formControlName="name" required minlength="3">
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput placeholder="{{'CreateProfileComponent.Reset'| transloco}}" formControlName="description"></textarea>
+        <textarea matInput placeholder="{{'CreateProfileComponent.Description'| transloco}}" formControlName="description"></textarea>
       </mat-form-field>
 
       <mat-label>{{'CreateProfileComponent.Age'| transloco}}</mat-label>

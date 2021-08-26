@@ -65,6 +65,7 @@ export class CreateProfileComponent {
   siteLocale: string;
   languageList: string[] = [];
   countryList: string[] = [];
+  countrycodePlaceholder: string;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
@@ -119,6 +120,7 @@ export class CreateProfileComponent {
     this.translocoService.selectTranslate('CreateProfileComponent.Gender').subscribe(value => this.genderPlaceholder = value);
     this.translocoService.selectTranslate('CreateProfileComponent.SexualOrientationType').subscribe(value => this.sexualOrientationPlaceholder = value);
     this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
+    this.translocoService.selectTranslate('CreateProfileComponent.Country').subscribe(value => this.countrycodePlaceholder = value);
 
     this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
     this.enumMappings.updateClotheStyleTypeSubject();
@@ -156,39 +158,43 @@ export class CreateProfileComponent {
     this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualOrientationType');
   }
 
-  onChange(): void {
-    if (this.newUserForm.invalid) {
-      this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
+  //onChange(): void {
+  //  if (this.newUserForm.invalid) {
+  //    this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
-      if (this.newUserForm.controls.name.errors != null && this.newUserForm.controls.name.errors.maxlength) {
-        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
-      }
-    }
-  } 
+  //    if (this.newUserForm.controls.name.errors != null && this.newUserForm.controls.name.errors.maxlength) {
+  //      this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
+  //    }
+  //  }
+  //} 
 
   onSubmit() {
     this.currentUser = this.prepareSaveProfile();
     if (this.newUserForm.invalid) {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
-      if (this.newUserForm.controls.name.errors.required) {
+      if (this.newUserForm.controls.name.errors?.required) {
         this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameRequired');
       }
 
-      if (this.newUserForm.controls.name.errors.minlength) {
+      if (this.newUserForm.controls.name.errors?.minlength) {
         this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMinCharacters');
       }
 
-      if (this.newUserForm.controls.name.errors.maxlength) {
+      if (this.newUserForm.controls.name.errors?.maxlength) {
         this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
       }
 
-      if (this.newUserForm.controls.gender.errors != null && this.newUserForm.controls.gender.errors.required) {
+      if (this.newUserForm.controls.gender?.errors != null && this.newUserForm.controls.gender.errors.required) {
         this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.GenderRequired');
       }
 
-      if (this.newUserForm.controls.sexualOrientation.errors != null && this.newUserForm.controls.sexualOrientation.errors.required) {
+      if (this.newUserForm.controls.sexualOrientation?.errors != null && this.newUserForm.controls.sexualOrientation.errors.required) {
         this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualRequired');
+      }
+
+      if (this.newUserForm.controls.countrycode?.errors != null && this.newUserForm.controls.countrycode.errors.required) {
+        this.countrycodePlaceholder = this.translocoService.translate('CreateProfileComponent.CountrycodeRequired');
       }
 
       return;
