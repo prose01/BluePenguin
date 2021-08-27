@@ -58,17 +58,13 @@ export class ImageUploadComponent implements OnInit {
   createForm() {
     this.uploadImageForm = this.formBuilder.group({
       file: null,
-      title: [null, [Validators.required, Validators.maxLength(25)]]
+      title: [null, [Validators.maxLength(25)]]
     });
   }
 
   onChange(): void {
     if (this.uploadImageForm.invalid) {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
-
-      if (this.uploadImageForm.controls.title.errors.required) {
-        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
-      }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
@@ -173,10 +169,6 @@ export class ImageUploadComponent implements OnInit {
   onSubmit() {
     if (this.uploadImageForm.invalid) {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
-
-      if (this.uploadImageForm.controls.title.errors.required) {
-        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
-      }
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
