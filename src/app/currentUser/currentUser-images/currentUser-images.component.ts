@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ImageModel } from '../../models/imageModel';
@@ -15,6 +15,8 @@ export class CurrentUserImagesComponent{
 
   @Input() imageModels: ImageModel[];
   @Input() currentProfileId: string;
+
+  @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
   constructor(private dialog: MatDialog) { }
 
@@ -36,6 +38,7 @@ export class CurrentUserImagesComponent{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        this.refreshCurrentUserImages.emit();
         this.imageModels = this.imageModels.filter(function (obj) {
           return obj.imageId !== imageId;
         });

@@ -82,7 +82,10 @@ export class ImageBoardComponent implements OnInit {
   }
 
   refreshCurrentUserImages(): void {
-    this.profileService.updateCurrentUserSubject().then(() => { this.getCurrentUserImages(); });
+    this.profileService.updateCurrentUserSubject().then(() => {
+      this.getCurrentUserImages();
+      this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject.images.length ? true : false;
+    });
   }
 
   toggleDisplay(): void {
