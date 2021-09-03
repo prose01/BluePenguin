@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang } from '@ngneat/transloco';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { EnumMappingService } from '../../services/enumMapping.service';
@@ -82,7 +83,7 @@ export class CreateProfileComponent {
 
   createForm() {
     this.newUserForm = this.formBuilder.group({
-      languagecode: null,
+      languagecode: getBrowserLang() || 'en',
       countrycode: null,
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       createdOn: null,
