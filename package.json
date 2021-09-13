@@ -27,7 +27,7 @@
     "@angular/platform-server": "^12.2.5",
     "@angular/router": "^12.2.5",
     "@aspnet/signalr": "^3.0.0-preview6.19307.2",
-    "@material/image-list": "^11.0.0",
+    "@material/image-list": "^12.0.0",
     "@microsoft/signalr": "^5.0.9",
     "@ngneat/transloco": "^2.23.1",
     "@ngneat/transloco-locale": "^1.4.0",
