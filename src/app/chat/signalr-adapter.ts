@@ -3,7 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, delay } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import * as signalR from "@aspnet/signalr";
+import * as signalR from "@microsoft/signalr";
 import { AuthService } from '../authorisation/auth/auth.service';
 
 export class SignalRAdapter extends ChatAdapter {
