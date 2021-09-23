@@ -23,6 +23,7 @@ stages:
 
     - script: |
         npm install -g @angular/cli
+        npm install
       displayName: 'npm install'
     
     - task: CmdLine@2
