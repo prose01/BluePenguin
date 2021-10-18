@@ -4,10 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ChatMember } from '../../models/chatMember';
@@ -20,14 +18,7 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 @Component({
   selector: 'chatMemebers-listview',
   templateUrl: './chatMembers-listview.component.html',
-  styleUrls: ['./chatMembers-listview.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./chatMembers-listview.component.scss']
 })
 
 @AutoUnsubscribe()
@@ -45,30 +36,17 @@ export class ChatMembersListviewComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
+  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.profileService.currentUserSubject
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        () => { currentUserSubject => this.currentUserSubject = currentUserSubject },
-        () => { },
-        () => { this.refreshChatmemberlist() }
-      );
-
-    //setTimeout(() => {
-    //  this.refreshChatmemberlist(); // TODO: Find på noget bedre
-    //}, 500);
-  }
-
-  ngOnChanges(): void {
-    if (this.auth.isAuthenticated()) {
-      this.setDataSource();
-    }
+      .subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject; this.refreshChatmemberlist();
+      });
   }
 
   updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject().then(res => this.refreshChatmemberlist());
+    this.profileService.updateCurrentUserSubject().then(res => { this.refreshChatmemberlist(); });
   }
 
   setDataSource(): void {
@@ -103,13 +81,10 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   blockChatMembers() {
+    console.log('blockChatMembers');
     this.profileService.blockChatMembers(this.selcetedProfileIds())
       .pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
-
-    //setTimeout(() => {
-    //  this.refreshChatmemberlist();
-    //}, 500);
   }
 
   selcetedProfileIds(): string[] {
@@ -129,10 +104,12 @@ export class ChatMembersListviewComponent implements OnInit {
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
 
-    this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
+    console.log('pageChanged');
+    //this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
   }
 
   refreshChatmemberlist() {
+    console.log('refreshChatmemberlist');
     let chatMembers = new Array;
     if (this.currentUserSubject != null) {
       if (this.currentUserSubject.chatMemberslist.length > 0) {
@@ -141,13 +118,14 @@ export class ChatMembersListviewComponent implements OnInit {
         });
 
         this.chatMembers = chatMembers;
-
+        //this.setDataSource();
         this.getChatMemberProfiles();
       }
     }
   }
 
   getChatMemberProfiles(currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+    console.log('getChatMemberProfiles');
     this.profileService.getChatMemberProfiles(pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -171,6 +149,7 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   setChatmemberProperties() {
+    console.log('setChatmemberProperties');
     let profiles = this.profiles;
     this.chatMembers.forEach(function (value) {
       let profile = profiles.find(i => i.profileId === value.profileId);

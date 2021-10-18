@@ -30,7 +30,7 @@ export class ChatComponent implements OnChanges {
   title = 'Chats';
 
   constructor(public auth: AuthService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
-    this.junoUrl = configurationLoader.getConfiguration().junoUrl; 
+    this.junoUrl = this.configurationLoader.getConfiguration().junoUrl; 
   }
 
   ngOnChanges(): void {

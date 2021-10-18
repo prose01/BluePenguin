@@ -33,7 +33,6 @@ export class ImageBoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.profileService.currentUserSubject
-      .pipe(takeWhileAlive(this))
       .subscribe(
         currentUserSubject => {
           this.currentUserSubject = currentUserSubject;

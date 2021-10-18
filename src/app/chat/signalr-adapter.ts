@@ -1,6 +1,6 @@
 import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, delay } from 'rxjs/operators';
+import { map, catchError, retry, delay } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@microsoft/signalr";
@@ -59,9 +59,9 @@ export class SignalRAdapter extends ChatAdapter {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
     return this.http
-      .post(`${this.junoUrl}participantResponses`, { headers: this.headers })
+      .post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, { headers: this.headers })
       .pipe(
-        map((res: any) => res),
+        retry(3),
         catchError(this.handleError)
     );
   }

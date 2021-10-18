@@ -22,14 +22,14 @@ import { OrderByType } from '../../models/enums';
 @Component({
   selector: 'app-profile-listview',
   templateUrl: './profile-listview.component.html',
-  styleUrls: ['./profile-listview.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./profile-listview.component.scss']
+  //animations: [
+  //  trigger('detailExpand', [
+  //    state('collapsed', style({ height: '0px', minHeight: '0' })),
+  //    state('expanded', style({ height: '*' })),
+  //    transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+  //  ]),
+  //],
 })
 
 @AutoUnsubscribe()
