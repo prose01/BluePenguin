@@ -77,7 +77,6 @@ export class SignalRAdapter extends ChatAdapter {
 
   sendMessage(message: Message): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
-      message.fromId = this.userId;
       this.hubConnection.send("sendMessage", message);
   }
 
