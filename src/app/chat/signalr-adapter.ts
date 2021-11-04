@@ -5,15 +5,19 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 
 import * as signalR from "@microsoft/signalr";
 import { AuthService } from '../authorisation/auth/auth.service';
+import { CurrentUser } from '../models/currentUser';
+import { ProfileService } from '../services/profile.service';
 
 export class SignalRAdapter extends ChatAdapter {
   public userId: string;
 
   private hubConnection: signalR.HubConnection
   private headers: HttpHeaders;
+  private currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private junoUrl: string, private username: string, private http: HttpClient) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private junoUrl: string, private username: string, private http: HttpClient) {
     super();
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
   }
@@ -23,6 +27,13 @@ export class SignalRAdapter extends ChatAdapter {
       .withUrl(`${this.junoUrl}chatHub`, { accessTokenFactory: () => token })
       .build();
 
+    this.hubConnection.keepAliveIntervalInMilliseconds = 15;
+    this.hubConnection.serverTimeoutInMilliseconds = 30;
+
+    this.hubConnection.on('UserIsOnline', userId => {
+      console.log(userId + ' has connected');
+    })
+
     this.hubConnection
       .start()
       .then(() => {
@@ -31,6 +42,10 @@ export class SignalRAdapter extends ChatAdapter {
         this.initializeListeners();
       })
       .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
+
+    this.hubConnection.on('UserIsOffline', userId => {
+      console.log(userId + ' has disconnected');
+    })
   }
 
   private initializeListeners(): void {
@@ -59,7 +74,7 @@ export class SignalRAdapter extends ChatAdapter {
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
     return this.http
-      .post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, { headers: this.headers })
+      .post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, this.currentUserSubject, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)

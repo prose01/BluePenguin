@@ -7,6 +7,7 @@ import { ConfigurationLoader } from "../configuration/configuration-loader.servi
 import { CurrentUser } from './../models/currentUser';
 import { ChatAdapter } from 'ng-chat';
 import { SignalRAdapter } from './signalr-adapter';
+import { ProfileService } from '../services/profile.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ChatComponent implements OnChanges {
   private junoUrl: string;
 
   currentTheme = 'light-theme';
-  triggeredEvents = [];
+  //triggeredEvents = [];
 
   userId: string;
   username: string;
@@ -29,18 +30,18 @@ export class ChatComponent implements OnChanges {
 
   title = 'Chats';
 
-  constructor(public auth: AuthService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.junoUrl = this.configurationLoader.getConfiguration().junoUrl; 
   }
 
   ngOnChanges(): void {
     if (this.currentUser != null) {
-      setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000); // TODO: Change userId from auth0Id to ProfileId.
-      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.junoUrl, this.username, this.http); }, 2000);
+      setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000); 
+      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.junoUrl, this.username, this.http); }, 2000);
     }
   }
 
-  onEventTriggered(event: string): void {
-    this.triggeredEvents.push(event);
-  }
+  //onEventTriggered(event: string): void {
+  //  this.triggeredEvents.push(event);
+  //}
 }
