@@ -241,8 +241,11 @@
 	"ChatMembersListviewComponent" : {
 		"ProfileId" : "ProfileId",
 		"Name" : "Navn",
+		"Status" : "Status",
 		"Blocked" : "Blokeret",
-		"BlockChatMember" : "Tilføj/Fjern blokering af ChatMember(s)"
+		"BlockChatMember" : "Tilføj/Fjern blokering af ChatMember(s)",
+		"ShowBlocked" : "Vis blokeret ChatMember(s)",
+		"ShowNonBlocked" : "Vis ikke blokeret ChatMember(s)"
 	},
 	"AboutComponent" : {
 		"About" : "Om os",

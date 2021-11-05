@@ -241,8 +241,11 @@
 	"ChatMembersListviewComponent" : {
 		"ProfileId" : "ProfileId",
 		"Name" : "Name",
+		"Status" : "Status",
 		"Blocked" : "Blocked",
-		"BlockChatMember" : "(Un)Block ChatMember(s)"
+		"BlockChatMember" : "(Un)Block ChatMember(s)",
+		"ShowBlocked" : "Show blocked ChatMember(s)",
+		"ShowNonBlocked" : "Show unblocked ChatMember(s)"
 	},
 	"AboutComponent" : {
 		"About" : "Om os",
