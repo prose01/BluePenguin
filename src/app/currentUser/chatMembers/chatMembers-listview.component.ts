@@ -128,6 +128,9 @@ export class ChatMembersListviewComponent implements OnInit {
         this.chatMembers = chatMembers;
         this.setDataSource();
       }
+      else {
+        this.loading = false;
+      }
     }
   }
 
