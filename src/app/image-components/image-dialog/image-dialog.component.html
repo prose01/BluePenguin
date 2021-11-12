@@ -28,9 +28,9 @@
   <i class="material-icons">favorite_border</i>
 </button>
 
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeFavoritProfiles()" mat-button matTooltip="{{'ImageDialogComponent.RemoveFromFavorites'| transloco}}">
+<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeBookmarkedProfiles()" mat-button matTooltip="{{'ImageDialogComponent.RemoveFromBookmarked'| transloco}}">
   <i class="material-icons">bookmark</i>
 </button>
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addFavoritProfiles()" mat-button matTooltip="{{'ImageDialogComponent.AddToFavorites'| transloco}}">
+<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addBookmarkedProfiles()" mat-button matTooltip="{{'ImageDialogComponent.AddToBookmarked'| transloco}}">
   <i class="material-icons">bookmark_border</i>
 </button>

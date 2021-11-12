@@ -32,25 +32,27 @@
 		"Age": "Alder",
 		"Height": "Højde",
 		"VisitBookmarked": "Visit/Bookmarked",
-		"Favorites": "Favoritter",
+		"Bookmarket": "Bookmarket",
 		"Likes": "Likes",
 		"VisitedMe": "Har beøgt mig",
 		"BookmarkedMe": "Har bookmarket mig",
-		"AddedToFavorites": "Tilføjet favoritter",
-		"NotAddedToFavorites": "Ikke tilføjet favoritter",
-		"AddToFavorites": "Tilføj favoritter",
-		"RemoveFromFavorites": "Fjern fra favoritter",
+		"AddedToBookmarked": "Tilføjet bookmarket",
+		"NotAddedToBookmarked": "Ikke tilføjet bookmarket",
+		"Bookmarked": "Tilføj/Fjern Bookmarked",
 		"Like": "Like",
-		"DeleteProfile": "Slet profil(er)"
+		"DeleteProfile": "Slet profil(er)",
+		"Contactable" : "Kan kontaktes",
+		"NotContactable" : "Denne profile kan ikke kontaktes."
 	},
 	"TileViewComponent" : {
 		"NoResultsText" : "Ingen matches :(",
 		"VisitedMe": "Har beøgt mig",
 		"BookmarkedMe": "Har bookmarket mig",
 		"DeleteProfile": "Slet profil",
-		"AddToFavorites": "Tilføj favoritter",
-		"RemoveFromFavorites": "Fjern fra favoritter",
-		"Likes": "Likes"
+		"AddToBookmarked": "Tilføj bookmarket",
+		"RemoveFromBookmarked": "Fjern fra bookmarket",
+		"Likes": "Likes",
+		"NotContactable" : "Denne profile kan ikke kontaktes."
 	},
 	"ProfileSearchComponent" : {
 		"Tags" : "Tags",
@@ -102,8 +104,8 @@
 		"BodyArtType": "Kropsudsmykninger: ",
 		"NotContactable" : "Denne profile kan ikke kontaktes.",
 		"Likes": "Likes: ",
-		"RemoveFromFavorites": "Fjern fra favoritter",
-		"AddToFavorites": "Tilføj favoritter",
+		"RemoveFromBookmarked": "Fjern fra bookmarket",
+		"AddToBookmarked": "Tilføj bookmarket",
 		"SetProfileAsAdmin": "Set Profile som Administrator",
 		"RemoveProfileAsAdmin": "Remove Profile som Administrator",
 		"DeleteProfile": "Slet profil"
@@ -129,8 +131,8 @@
 		"Before" : "Sidste",
 		"ProfileDetails" : "Profiloplysninger",
 		"Likes": "Likes",
-		"RemoveFromFavorites": "Fjern fra favoritter",
-		"AddToFavorites": "Tilføj favoritter"
+		"RemoveFromBookmarked": "Fjern fra bookmarket",
+		"AddToBookmarked": "Tilføj bookmarket"
 	},
 	"ImageBoardComponent" : {
 		"MaxImages" : "Du har nået det maksimale antal {{maxPhotos}} tilladte profilbilleder.",

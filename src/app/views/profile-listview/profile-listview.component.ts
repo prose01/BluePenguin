@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -23,13 +22,6 @@ import { OrderByType } from '../../models/enums';
   selector: 'app-profile-listview',
   templateUrl: './profile-listview.component.html',
   styleUrls: ['./profile-listview.component.scss']
-  //animations: [
-  //  trigger('detailExpand', [
-  //    state('collapsed', style({ height: '0px', minHeight: '0' })),
-  //    state('expanded', style({ height: '*' })),
-  //    transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-  //  ]),
-  //],
 })
 
 @AutoUnsubscribe()
@@ -45,15 +37,6 @@ export class ProfileListviewComponent implements OnChanges {
 
   currentUserSubject: CurrentUser;
   noProfiles: boolean = false;
-
-  //visitedMeText: string;
-  //bookmarkedMeText: string;
-  //addedToFavoritesText: string;
-  //notAddedToFavoritesText: string;
-  //addToFavoritesText: string;
-  //removeFromFavoritesText: string;
-  //likeText: string;
-  //deleteProfileText: string;
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -126,29 +109,6 @@ export class ProfileListviewComponent implements OnChanges {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
-  /** Add or remove bookmarks */
-  addFavoritProfiles() {
-    if (this.selcetedProfileIds().length > 0) {
-      this.profileService.addProfilesToBookmarks(this.selcetedProfileIds())
-        .pipe(takeWhileAlive(this))
-        .subscribe(() => { }, () => { }, () => {
-          this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        });
-    }
-  }
-
-  removeFavoritProfiles() {
-    if (this.selcetedProfileIds().length > 0) {
-      this.profileService.removeProfilesFromBookmarks(this.selcetedProfileIds())
-        .pipe(takeWhileAlive(this))
-        .subscribe(() => { }, () => { }, () => {
-          this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        });
-    }
-  }
-
   /** Add or remove Likes */
   toggleLike() {
 
@@ -183,6 +143,43 @@ export class ProfileListviewComponent implements OnChanges {
             }, () => { }, () => { });
         }
       }
+    }
+  }
+
+  /** Add or remove BookmarkedProfiles */
+  toggleBookmarkedProfiles() {
+
+    var removeProfiles = new Array;
+    var addProfiles = new Array;
+
+    for (var _i = 0; _i < this.selection.selected.length; _i++) {
+
+      var profileId = this.selection.selected[_i].profileId;
+
+      if (this.bookmarked(profileId)) {
+        removeProfiles.push(profileId);
+      }
+      else {
+        addProfiles.push(profileId);
+      }
+    }
+
+    if (removeProfiles.length > 0) {
+      this.profileService.removeProfilesFromBookmarks(removeProfiles)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        });
+    }
+
+    if (addProfiles.length > 0) {
+      this.profileService.addProfilesToBookmarks(addProfiles)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        });
     }
   }
 

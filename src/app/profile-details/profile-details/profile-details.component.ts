@@ -76,7 +76,7 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   /** Add or remove bookmarks */
-  addFavoritProfiles() {
+  addBookmarkedProfiles() {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.profile.profileId);
 
@@ -87,7 +87,7 @@ export class ProfileDetailsComponent implements OnInit {
       });
   }
 
-  removeFavoritProfiles() {
+  removeBookmarkedProfiles() {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.profile.profileId);
 

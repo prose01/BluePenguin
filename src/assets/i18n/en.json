@@ -32,25 +32,27 @@
 		"Age": "Age",
 		"Height": "Height",
 		"VisitBookmarked": "Visit/Bookmarked",
-		"Favorites": "Favorites",
+		"Bookmarked": "Bookmarked",
 		"Likes": "Likes",
 		"VisitedMe": "Visited me",
 		"BookmarkedMe": "Bookmarked me",
-		"AddedToFavorites": "Added to favorites",
-		"NotAddedToFavorites": "Not Added to favorites",
-		"AddToFavorites": "Add to favorites",
-		"RemoveFromFavorites": "Remove from favorites",
+		"AddedToBookmarked": "Added to Bookmarked",
+		"NotAddedToBookmarked": "Not Added to Bookmarked",
+		"Bookmarked": "Added/Remove Bookmarked",
 		"Like": "Like",
-		"DeleteProfile": "Delete profile(s)"		
+		"DeleteProfile": "Delete profile(s)",
+		"Contactable" : "Contactable",
+		"NotContactable" : "This profile is not contactable"	
 	},
 	"TileViewComponent" : {
 		"NoResultsText" : "Sorry no results :(",
 		"VisitedMe": "Visited me",
 		"BookmarkedMe": "Bookmarked me",
 		"DeleteProfile": "Delete profile(s)",
-		"AddToFavorites": "Add to favorites",
-		"RemoveFromFavorites": "Remove from favorites",
-		"Likes": "Likes"
+		"AddToBookmarked": "Add to Bookmarked",
+		"RemoveFromBookmarked": "Remove from Bookmarked",
+		"Likes": "Likes",
+		"NotContactable" : "This profile is not contactable"
 	},
 	"ProfileSearchComponent" : {
 		"Tags" : "Tags",
@@ -102,8 +104,8 @@
 		"BodyArtType": "Body art: ",
 		"NotContactable" : "This profile is not contactable",
 		"Likes": "Likes",
-		"RemoveFromFavorites": "Remove from favorites",
-		"AddToFavorites": "Add to favorites",
+		"RemoveFromBookmarked": "Remove from Bookmarked",
+		"AddToBookmarked": "Add to Bookmarked",
 		"SetProfileAsAdmin": "Set Profile as Admin",
 		"RemoveProfileAsAdmin": "Remove Profile as Admin",
 		"DeleteProfile": "Delete profile(s)"
@@ -129,8 +131,8 @@
 		"Before" : "Before",
 		"ProfileDetails" : "Profile Details",
 		"Likes": "Likes",
-		"RemoveFromFavorites": "Remove from favorites",
-		"AddToFavorites": "Add to favorites"
+		"RemoveFromBookmarked": "Remove from Bookmarked",
+		"AddToBookmarked": "Add to Bookmarked"
 	},
 	"ImageBoardComponent" : {
 		"MaxImages" : "You have reached the maximum {{maxPhotos}} number of profile images allowed.",

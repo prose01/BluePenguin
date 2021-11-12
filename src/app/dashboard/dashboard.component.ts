@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
   nextProfiles: Profile[];
   filter: ProfileFilter = new ProfileFilter();
   viewFilterType: ViewFilterTypeEnum;
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes']; // TODO: Add columns after user's choise or just default?
+  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();

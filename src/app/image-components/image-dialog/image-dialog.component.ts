@@ -77,7 +77,7 @@ export class ImageDialog {
   }
 
   /** Add or remove bookmarks */
-  addFavoritProfiles() {
+  addBookmarkedProfiles() {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.data.profile.profileId);
 
@@ -88,7 +88,7 @@ export class ImageDialog {
       });
   }
 
-  removeFavoritProfiles() {
+  removeBookmarkedProfiles() {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.data.profile.profileId);
 

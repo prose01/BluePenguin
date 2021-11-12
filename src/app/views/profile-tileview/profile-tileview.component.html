@@ -25,6 +25,7 @@
       <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber]?.image" [defaultImage]="profile.images[profile.imageNumber]?.smallimage" (click)="openImageDialog(profile)">
       <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
       <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'TileViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
+      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>
 
       <div class="overlay-images">
         <!--<div class="mdc-image-list--with-text-protection">-->
@@ -45,10 +46,10 @@
         </div>
 
         <div class="button">
-          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.RemoveFromFavorites'| transloco}}">
+          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.RemoveFromBookmarked'| transloco}}">
             <i class="material-icons icon-white">bookmark</i>
           </button>
-          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addFavoritProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.AddToFavorites'| transloco}}">
+          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.AddToBookmarked'| transloco}}">
             <i class="material-icons icon-white">bookmark_border</i>
           </button>
         </div>

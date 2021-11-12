@@ -78,7 +78,7 @@ export class ProfileTileviewComponent implements OnChanges {
   }
 
   /** Add or remove bookmarks */
-  addFavoritProfiles(profileId: string) {
+  addBookmarkedProfiles(profileId: string) {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
@@ -90,7 +90,7 @@ export class ProfileTileviewComponent implements OnChanges {
       });
   }
 
-  removeFavoritProfiles(profileId: string) {
+  removeBookmarkedProfiles(profileId: string) {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
