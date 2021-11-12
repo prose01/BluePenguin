@@ -12,7 +12,7 @@
     </p>
   </div>
 
-  <div *ngIf="dataSource" class="mat-elevation-z8">
+  <div *ngIf="dataSource && !noProfiles" class="mat-elevation-z8">
     <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
       <!-- Checkbox Column -->
