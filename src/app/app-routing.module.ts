@@ -5,7 +5,6 @@ import { CallbackComponent }    from './authorisation/callback/callback.componen
 import { DashboardComponent }   from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  //{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },    // Todo: a lot of these can be removed.
   { path: 'callback', component: CallbackComponent },
   { path: '', component: DashboardComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '' }

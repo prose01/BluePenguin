@@ -16,6 +16,7 @@ import {
   SportsActivityType,
   WantChildrenType
 } from '../models/enums';
+import { FeedbackEnum } from '../models/feedbackEnum';
 
 
 @Injectable()
@@ -82,6 +83,12 @@ export class EnumMappingService {
   SeldomText: string;
   NeverText: string;
 
+  // FeedbackType
+  CommentText: string;
+  ErrorText: string;
+  ImprovementText: string;
+  ReportProfileText: string;
+
   constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.selectTranslate('Enum.NotChosen').subscribe(value => this.NotChosenText = value);
     this.translocoService.selectTranslate('Enum.Other').subscribe(value => this.OtherText = value);
@@ -133,6 +140,11 @@ export class EnumMappingService {
     this.translocoService.selectTranslate('SportsActivityType.SomeRegularity').subscribe(value => this.SomeRegularityText = value);
     this.translocoService.selectTranslate('SportsActivityType.Seldom').subscribe(value => this.SeldomText = value);
     this.translocoService.selectTranslate('SportsActivityType.Never').subscribe(value => this.NeverText = value);
+    // FeedbackType
+    this.translocoService.selectTranslate('FeedbackType.Comment').subscribe(value => this.CommentText = value);
+    this.translocoService.selectTranslate('FeedbackType.Error').subscribe(value => this.ErrorText = value);
+    this.translocoService.selectTranslate('FeedbackType.Improvement').subscribe(value => this.ImprovementText = value);
+    this.translocoService.selectTranslate('FeedbackType.ReportProfile').subscribe(value => this.ReportProfileText = value);
   }
 
   // ClotheStyleType
@@ -370,5 +382,23 @@ export class EnumMappingService {
 
   async updateSportsActivityTypeSubject() {
     this.sportsActivityTypes.next(this.sportsActivityTypesMap);
+  }
+
+
+  // FeedbackType
+  get feedbackTypesMap(): ReadonlyMap<string, string> {
+    return new Map<string, string>([
+      [FeedbackEnum.Comment, this.CommentText],
+      [FeedbackEnum.Error, this.ErrorText],
+      [FeedbackEnum.Improvement, this.ImprovementText],
+      [FeedbackEnum.ReportProfile, this.ReportProfileText]
+    ]);
+  }
+
+  private feedbackTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.feedbackTypesMap);
+  feedbackTypeSubject = this.feedbackTypes.asObservable();
+
+  async updateFeedbackTypeSubject() {
+    this.feedbackTypes.next(this.feedbackTypesMap);
   }
 }

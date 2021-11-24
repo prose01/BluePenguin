@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -14,7 +13,7 @@ export class ImageService {
   private artemisUrl: string;
   private headers: HttpHeaders;
 
-  constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient, public router: Router) {
+  constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.artemisUrl = configurationLoader.getConfiguration().artemisUrl;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }

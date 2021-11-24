@@ -14,6 +14,7 @@
 	"Language" : "Sprog",
 	"EditProfile" : "Rediger Profil",
 	"About" : "Om os",
+	"Feedback" : "Feedback",
 	"Search" : "Søg",
 	"Dashboard" : "Dashboard",
 	"ListView" : "Listevisning",
@@ -253,6 +254,14 @@
 		"About" : "Om os",
 		"AboutText" : "Her er noget om os :)"
 	},
+	"FeedbackComponent" : {
+		"Feedback" : "Feedback",
+		"FeedbackText" : "Giv os din feedback",
+		"Send" : "Send",
+		"Reset" : "Nulstil",
+		"FeedbackType" : "Typen af feedback",
+		"Message" : "Besked"
+	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"
 	},
@@ -317,5 +326,11 @@
 		"SomeRegularity" : "Noget regelmæssigt",
 		"Seldom" : "Sjældent",
 		"Never" : "Aldrig"
+	},
+	"FeedbackType" : {
+		"Comment" : "Kommentar",
+		"Error" : "Fejl",
+		"Improvement" : "Forbedringer",
+		"ReportProfile" : "Reporter Profil"
 	}
 }

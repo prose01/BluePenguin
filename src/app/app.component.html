@@ -104,10 +104,10 @@
   <mat-menu #menu="matMenu">
 
     <!--<mat-select placeholder="{{'Language'| transloco}}" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
-      <mat-option *ngFor="let lang of languageList" [value]="lang.code">
-        {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
-      </mat-option>
-    </mat-select>-->
+    <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+      {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+    </mat-option>
+  </mat-select>-->
 
     <div *ngIf="isProfileCreated">
       <a (click)="loadEdit()" mat-menu-item>
@@ -117,6 +117,10 @@
     </div>
     <a (click)="loadAbout()" mat-menu-item>
       {{'About'| transloco}}
+      <i class="material-icons">plus_one</i>
+    </a>
+    <a (click)="loadFeedback()" mat-menu-item>
+      {{'Feedback'| transloco}}
       <i class="material-icons">plus_one</i>
     </a>
 
@@ -146,7 +150,11 @@
         <about></about>
       </div>
 
-      <div *ngIf="!isProfileCreated && pageView != 'About'">
+      <div *ngIf="pageView === 'Feedback'">
+        <feedback></feedback>
+      </div>
+
+      <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">
         <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)" (initDefaultData)="initDefaultData()"></create-profile>
       </div>
 

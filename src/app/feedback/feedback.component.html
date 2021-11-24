@@ -1,0 +1,53 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <div>
+    <h3>{{'FeedbackComponent.Feedback'| transloco}}</h3>
+
+    <p>
+      {{'FeedbackComponent.FeedbackText'| transloco}}
+    </p>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="feedbackForm">
+
+      <div style="margin-bottom: 1em">
+        <button type="submit"
+                [disabled]="feedbackForm.pristine" mat-flat-button color="accent" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
+          <i class="material-icons">email</i>
+        </button>
+        <button type="button" (click)="revert()"
+                [disabled]="feedbackForm.pristine" mat-flat-button color="accent" matTooltip="{{'FeedbackComponent.Reset'| transloco}}">
+          <i class="material-icons">undo</i>
+        </button>
+      </div>
+
+      <div class="form-container">
+
+        <mat-form-field>
+          <mat-select placeholder="{{'FeedbackComponent.FeedbackType'| transloco}}" formControlName="feedbackEnum" [(value)]="feedback.feedbackType">
+            <mat-option *ngFor="let feedbackType of feedbackTypes | keyvalue: originalOrder" [value]="feedbackType.key">
+              {{ feedbackType.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <textarea matInput
+                    maxlength="2000"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="10"
+                    cdkAutosizeMaxRows="50"
+                    placeholder="{{'FeedbackComponent.Message'| transloco}}" formControlName="message"></textarea>
+        </mat-form-field>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>

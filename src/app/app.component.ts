@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   matButtonViewToggleText: string;
   matButtonViewToggleIcon: string = 'line_style';
 
-  isAbout = false;
+  //isAbout = false;
 
   selectedOrderBy = OrderByType.CreatedOn;
 
@@ -108,7 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplay() {
-    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Details) {
+    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Feedback || this.pageView == pageViewEnum.Details) {
       this.pageView = pageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
@@ -300,6 +300,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Load Feedback page
+  loadFeedback() {
+    if (this.pageView != pageViewEnum.Feedback) {
+      this.pageView = pageViewEnum.Feedback;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.matButtonToggleText = this.translocoService.translate('Search');
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
+  }
+
   // Load Details page
   loadDetails(profile: Profile) {
     this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
@@ -329,5 +345,6 @@ export enum pageViewEnum {
   "Create" = "Create",
   "Edit" = "Edit",
   "Details" = "Details",
-  "About" = "About"
+  "About" = "About",
+  "Feedback" = "Feedback"
 }

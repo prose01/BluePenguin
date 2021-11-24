@@ -14,6 +14,7 @@
 	"Language" : "Language",
 	"EditProfile" : "Edit Profile",
 	"About" : "About",
+	"Feedback" : "Feedback",
 	"Search" : "Search",
 	"Dashboard" : "Dashboard",
 	"ListView" : "ListView",
@@ -253,6 +254,14 @@
 		"About" : "Om os",
 		"AboutText" : "Here is something about us :)"
 	},
+	"FeedbackComponent" : {
+		"Feedback" : "Feedback",
+		"FeedbackText" : "Give us your Feedback here",
+		"Send" : "Send",
+		"Reset" : "Reset",
+		"FeedbackType" : "FeedbackType",
+		"Message" : "Message"
+	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"
 	},
@@ -317,5 +326,11 @@
 		"SomeRegularity" : "Somewhat Regularly",
 		"Seldom" : "Seldom",
 		"Never" : "Never"
+	},
+	"FeedbackType" : {
+		"Comment" : "Comment",
+		"Error" : "Error",
+		"Improvement" : "Improvement",
+		"ReportProfile" : "Report Profile"
 	}
 }

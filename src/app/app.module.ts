@@ -38,6 +38,7 @@ import { ProfileService }                     from './services/profile.service';
 import { BehaviorSubjectService }             from './services/behaviorSubjec.service';
 import { EnumMappingService }                 from './services/enumMapping.service';
 import { ImageService }                       from './services/image.service';
+import { FeedBackService }                    from './services/feedback.service';
 
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
@@ -55,6 +56,7 @@ import { ProfileImagesComponent }             from './profile-details/profile-im
 
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
+import { FeedbackComponent }                  from './feedback/feedback.component';
 
 import { LazyLoadImageModule }                from 'ng-lazyload-image';
 import { InfiniteScrollModule }               from 'ngx-infinite-scroll';
@@ -82,6 +84,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileDetailsComponent,
     ProfileImagesComponent,
     AboutComponent,
+    FeedbackComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
     CurrentUserImagesComponent,
@@ -144,6 +147,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileService,
     BehaviorSubjectService,
     ImageService,
+    FeedBackService,
     EnumMappingService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

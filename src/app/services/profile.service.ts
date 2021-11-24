@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 import { Observable, BehaviorSubject, throwError  } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -20,12 +19,7 @@ export class ProfileService {
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
   currentUserSubject = this.currentUserSource.asObservable();
 
-  //retrievedImage: any; // Is this being used?
-  //base64Data: any; // Is this being used?
-  //retrieveResonse: any; // Is this being used?
-
-
-  constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient, public router: Router) {
+  constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.avalonUrl = this.configurationLoader.getConfiguration().avalonUrl;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
