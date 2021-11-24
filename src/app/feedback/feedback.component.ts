@@ -1,14 +1,18 @@
+import { Component } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
-import { Component } from '@angular/core';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { MatDialog } from '@angular/material/dialog';
+
 import { CurrentUser } from '../models/currentUser';
 import { Feedback } from '../models/feedback';
 import { FeedbackEnum } from '../models/feedbackEnum';
-import { EnumMappingService } from '../services/enumMapping.service';
+import { ErrorDialog } from '../error-dialog/error-dialog.component';
+
 import { FeedBackService } from '../services/feedback.service';
-import { ProfileService } from '../services/profile.service';
+import { EnumMappingService } from '../services/enumMapping.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'feedback',
@@ -23,11 +27,9 @@ export class FeedbackComponent {
   feedbackForm: FormGroup;
   feedbackTypes: ReadonlyMap<string, string>;
 
-  currentUserSubject: CurrentUser;
-
   loading: boolean = false;
 
-  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private feedBackService: FeedBackService, private formBuilder: FormBuilder, private readonly translocoService: TranslocoService) {
+  constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private formBuilder: FormBuilder, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.createForm();
   }
 
@@ -39,7 +41,6 @@ export class FeedbackComponent {
   }
 
   ngOnInit(): void {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject });
 
     this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
     this.enumMappings.updateFeedbackTypeSubject();
@@ -72,6 +73,15 @@ export class FeedbackComponent {
     return 0;
   }
 
+  openErrorDialog(title: string, error: string): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error
+      }
+    });
+  }
+
   onSubmit() {
     this.loading = true;
     this.feedback = this.prepareFeedback();
@@ -80,7 +90,7 @@ export class FeedbackComponent {
       .subscribe(
         () => { },
         (error: any) => {
-          //this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null);
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
         },
         () => { this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); }
       );

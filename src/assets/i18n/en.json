@@ -260,7 +260,8 @@
 		"Send" : "Send",
 		"Reset" : "Reset",
 		"FeedbackType" : "FeedbackType",
-		"Message" : "Message"
+		"Message" : "Message",
+		"CouldNotSendFeedback" : "Could not send Feedback"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

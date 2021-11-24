@@ -203,7 +203,7 @@ export class EditProfileComponent implements OnInit {
       .subscribe(
         () => { },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null);
+          this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
         },
         () => { this.profileForm.markAsPristine(); this.loading = false; }
       );

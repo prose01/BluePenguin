@@ -260,7 +260,8 @@
 		"Send" : "Send",
 		"Reset" : "Nulstil",
 		"FeedbackType" : "Typen af feedback",
-		"Message" : "Besked"
+		"Message" : "Besked",
+		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"
