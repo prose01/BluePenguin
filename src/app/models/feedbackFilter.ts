@@ -1,9 +1,11 @@
 import { FeedbackType } from "./feedbackType";
 
-export class Feedback {
+export class FeedbackFilter {
   feedbackId: string;
-  dateSent: Date;
-  dateSeen: Date;
+  dateSentStart: Date;
+  dateSentEnd: Date;
+  dateSeenStart: Date;
+  dateSeenEnd: Date;
   fromProfileId: string;
   fromName: string;
   adminProfileId: string;
@@ -15,10 +17,12 @@ export class Feedback {
   languagecode: string;
 }
 
-export interface Feedback {
+export interface FeedbackFilter {
   feedbackId: string;
-  dateSent: Date;
-  dateSeen: Date;
+  dateSentStart: Date;
+  dateSentEnd: Date;
+  dateSeenStart: Date;
+  dateSeenEnd: Date;
   fromProfileId: string;
   fromName: string;
   adminProfileId: string;

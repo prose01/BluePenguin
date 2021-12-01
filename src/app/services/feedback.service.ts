@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Feedback } from '../models/feedback';
-import { FeedbackEnum } from '../models/feedbackEnum';
+import { FeedbackFilter } from '../models/feedbackFilter';
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 
 @Injectable()
@@ -27,13 +27,29 @@ export class FeedBackService {
       );
   }
 
-  getUnassignedFeedbacks(countrycode: string, languagecode: string, feedbackEnum: FeedbackEnum,): Observable<Feedback[]> {
+  getUnassignedFeedbacks(countrycode: string, languagecode: string): Observable<Feedback[]> {
     const params = new HttpParams()
       .set('Countrycode', countrycode)
-      .set('Languagecode', languagecode)
-      .set('FeedbackEnum', feedbackEnum);
+      .set('Languagecode', languagecode);
 
     return this.http.get<Feedback[]>(`${this.avalonUrl}GetUnassignedFeedbacks`, { headers: this.headers, params: params })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  assignFeedbackToAdmin(feedbackIds: Feedback[]): Observable<{}> {
+    return this.http.post<Feedback>(`${this.avalonUrl}AssignFeedbackToAdmin`, feedbackIds, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  getFeedbacksByFilter(feedbackFilter: FeedbackFilter): Observable<Feedback[]> {
+    console.log(feedbackFilter);
+    return this.http.post<Feedback[]>(`${this.avalonUrl}GetFeedbacksByFilter`, { feedbackFilter }, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)

@@ -26,11 +26,11 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="name">
+        <input matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="name">
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="description"></textarea>
+        <textarea matInput maxlength="2000" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="description"></textarea>
       </mat-form-field>
 
       <mat-label>{{'ProfileSearchComponent.Age'| transloco}}</mat-label>

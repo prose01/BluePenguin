@@ -16,7 +16,7 @@ import {
   SportsActivityType,
   WantChildrenType
 } from '../models/enums';
-import { FeedbackEnum } from '../models/feedbackEnum';
+import { FeedbackType } from '../models/feedbackType';
 
 
 @Injectable()
@@ -388,10 +388,10 @@ export class EnumMappingService {
   // FeedbackType
   get feedbackTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
-      [FeedbackEnum.Comment, this.CommentText],
-      [FeedbackEnum.Error, this.ErrorText],
-      [FeedbackEnum.Improvement, this.ImprovementText],
-      [FeedbackEnum.ReportProfile, this.ReportProfileText]
+      [FeedbackType.Comment, this.CommentText],
+      [FeedbackType.Error, this.ErrorText],
+      [FeedbackType.Improvement, this.ImprovementText],
+      [FeedbackType.ReportProfile, this.ReportProfileText]
     ]);
   }
 

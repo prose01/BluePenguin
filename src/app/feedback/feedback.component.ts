@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { CurrentUser } from '../models/currentUser';
 import { Feedback } from '../models/feedback';
-import { FeedbackEnum } from '../models/feedbackEnum';
+import { FeedbackType } from '../models/feedbackType';
 import { ErrorDialog } from '../error-dialog/error-dialog.component';
 
 import { FeedBackService } from '../services/feedback.service';
@@ -21,7 +20,7 @@ import { TranslocoService } from '@ngneat/transloco';
 })
 
 @AutoUnsubscribe()
-export class FeedbackComponent {
+export class FeedbackComponent implements OnInit {
 
   feedback: Feedback = new Feedback();
   feedbackForm: FormGroup;
@@ -33,17 +32,16 @@ export class FeedbackComponent {
     this.createForm();
   }
 
-  createForm() {
-    this.feedbackForm = this.formBuilder.group({
-      feedbackEnum: FeedbackEnum.Comment,
-      message: null
-    });
-  }
-
   ngOnInit(): void {
-
     this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
     this.enumMappings.updateFeedbackTypeSubject();
+  }
+
+  createForm() {
+    this.feedbackForm = this.formBuilder.group({
+      feedbackType: FeedbackType.Comment,
+      message: null
+    });
   }
 
   revert() {
@@ -54,11 +52,14 @@ export class FeedbackComponent {
     const formModel = this.feedbackForm.value;
 
     const feedback: Feedback = {
+      feedbackId: null,
       dateSent: null,
       dateSeen: null,
       fromProfileId: null,
+      fromName: null,
       adminProfileId: null,
-      feedbackType: formModel.feedbackEnum as FeedbackEnum,
+      adminName: null,
+      feedbackType: formModel.feedbackType as FeedbackType,
       message: formModel.message as string,
       open: true,
       countrycode: null,

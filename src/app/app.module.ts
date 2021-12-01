@@ -23,6 +23,9 @@ import { MatMenuModule }                      from '@angular/material/menu';
 import { MatSidenavModule }                   from '@angular/material/sidenav';
 import { MatChipsModule }                     from '@angular/material/chips';
 import { MatSlideToggleModule }               from '@angular/material/slide-toggle';
+import { MatDatepickerModule }                from '@angular/material/datepicker';
+import { MatNativeDateModule }                from '@angular/material/core';
+import { MAT_DATE_FORMATS }                   from '@angular/material/core';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -57,6 +60,8 @@ import { ProfileImagesComponent }             from './profile-details/profile-im
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
 import { FeedbackComponent }                  from './feedback/feedback.component';
+import { FeedbackAdminComponent }             from './feedback/feedbackAdmin/feedback.admin.component';
+import { FeedbackSearchComponent }            from './feedback/feedback-search/feedback-search.component';
 
 import { LazyLoadImageModule }                from 'ng-lazyload-image';
 import { InfiniteScrollModule }               from 'ngx-infinite-scroll';
@@ -85,6 +90,8 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileImagesComponent,
     AboutComponent,
     FeedbackComponent,
+    FeedbackAdminComponent,
+    FeedbackSearchComponent,
     CurrentUserBoardComponent,
     EditProfileComponent,
     CurrentUserImagesComponent,
@@ -127,6 +134,8 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     MatSidenavModule,
     MatChipsModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,

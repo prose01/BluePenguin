@@ -119,10 +119,18 @@
       {{'About'| transloco}}
       <i class="material-icons">plus_one</i>
     </a>
-    <a (click)="loadFeedback()" mat-menu-item>
-      {{'Feedback'| transloco}}
-      <i class="material-icons">plus_one</i>
-    </a>
+    <div *ngIf="!isAdmin">
+      <a (click)="loadFeedback()" mat-menu-item>
+        {{'Feedback'| transloco}}
+        <i class="material-icons">plus_one</i>
+      </a>
+    </div>
+    <div *ngIf="isAdmin">
+      <a (click)="loadFeedbackAdmin()" mat-menu-item>
+        {{'FeedbackAdmin'| transloco}}
+        <i class="material-icons">person</i>
+      </a>
+    </div>
 
     <button id="qsLogoutBtn"
             class="mat-menu-flat-button"
@@ -152,6 +160,10 @@
 
       <div *ngIf="pageView === 'Feedback'">
         <feedback></feedback>
+      </div>
+
+      <div *ngIf="pageView === 'FeedbackAdmin'">
+        <feedback-admin></feedback-admin>
       </div>
 
       <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">

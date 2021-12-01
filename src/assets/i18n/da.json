@@ -15,6 +15,7 @@
 	"EditProfile" : "Rediger Profil",
 	"About" : "Om os",
 	"Feedback" : "Feedback",
+	"FeedbackAdmin": "Feedback Admin",
 	"Search" : "Søg",
 	"Dashboard" : "Dashboard",
 	"ListView" : "Listevisning",
@@ -261,6 +262,20 @@
 		"Reset" : "Nulstil",
 		"FeedbackType" : "Typen af feedback",
 		"Message" : "Besked",
+		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
+	},
+	"FeedbackAdminComponent" : {
+		"NoResultsText" : "Ingen matches :(",
+		"DateSent": "DateSent",
+		"DateSeen" : "DateSeen",
+		"FromName" : "FromName",
+		"AdminName" : "AdminName",
+		"FeedbackType" : "FeedbackType",
+		"Message" : "Message",
+		"Open" : "Open",
+		"Countrycode" : "Countrycode",
+		"Languagecode" : "Languagecode",
+		"Message" : "Message",
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"ErrorDialog" : {

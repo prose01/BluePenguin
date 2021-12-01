@@ -1,0 +1,95 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <form [formGroup]="feedbackForm">
+
+    <div class="form-container">
+
+      <mat-form-field>
+        <input matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="feedbackId">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter a date sent range</mat-label>
+        <mat-date-range-input [formGroup]="feedbackForm" [rangePicker]="sentpicker">
+          <input matStartDate placeholder="Start date" formControlName="dateSentStart">
+          <input matEndDate placeholder="End date" formControlName="dateSentEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="sentpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #sentpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="feedbackForm.controls.dateSentStart.hasError('matStartDateInvalid')">Invalid start sent date</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSentEnd.hasError('matEndDateInvalid')">Invalid end sent date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter a date seen range</mat-label>
+        <mat-date-range-input [formGroup]="feedbackForm" [rangePicker]="seenpicker">
+          <input matStartDate placeholder="Start date" formControlName="dateSeenStart">
+          <input matEndDate placeholder="End date" formControlName="dateSeenEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="seenpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #seenpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="feedbackForm.controls.dateSeenStart.hasError('matStartDateInvalid')">Invalid start seen date</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">Invalid end seen date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="fromProfileId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="fromName"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="adminProfileId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="adminName"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="{{'ProfileSearchComponent.BodyType'| transloco}}" formControlName="feedbackType" [(value)]="filter.feedbackType">
+          <mat-option *ngFor="let feedbackType of feedbackTypes | keyvalue: originalOrder" [value]="feedbackType.key">
+            {{ feedbackType.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput maxlength="2000" placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="message">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="open">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="{{'EditProfileComponent.Language'| transloco}}" formControlName="languagecode">
+          <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+            {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="{{'EditProfileComponent.Country'| transloco}}" formControlName="countrycode">
+          <mat-option *ngFor="let country of countryList" [value]="country.code">
+            {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+  </form>
+
+</div>

@@ -15,6 +15,7 @@
 	"EditProfile" : "Edit Profile",
 	"About" : "About",
 	"Feedback" : "Feedback",
+	"FeedbackAdmin": "Feedback Admin",
 	"Search" : "Search",
 	"Dashboard" : "Dashboard",
 	"ListView" : "ListView",
@@ -256,12 +257,27 @@
 	},
 	"FeedbackComponent" : {
 		"Feedback" : "Feedback",
+		"FeedbackAdmin": "Feedback Admin",
 		"FeedbackText" : "Give us your Feedback here",
 		"Send" : "Send",
 		"Reset" : "Reset",
 		"FeedbackType" : "FeedbackType",
 		"Message" : "Message",
 		"CouldNotSendFeedback" : "Could not send Feedback"
+	},
+	"FeedbackAdminComponent" : {
+		"NoResultsText" : "Sorry no results :(",
+		"DateSent": "DateSent",
+		"DateSeen" : "DateSeen",
+		"FromName" : "FromName",
+		"AdminName" : "AdminName",
+		"FeedbackType" : "FeedbackType",
+		"Message" : "Message",
+		"Open" : "Open",
+		"Countrycode" : "Countrycode",
+		"Languagecode" : "Languagecode",
+		"Message" : "Message",
+		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

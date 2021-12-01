@@ -54,9 +54,11 @@ export class AppComponent implements OnInit, OnDestroy {
   siteLocale: string = getBrowserLang();
   languageList: Array<any>;
 
+  isAdmin: boolean = false;
+
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
@@ -75,6 +77,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.initiateTransloco();
+
+    setTimeout(() => { this.isAdmin = this.currentUserSubject?.admin; }, 5000);
   }
 
   ngOnDestroy(): void {
@@ -316,6 +320,22 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Load Feedback Admin page
+  loadFeedbackAdmin() {
+    if (this.pageView != pageViewEnum.FeedbackAdmin) {
+      this.pageView = pageViewEnum.FeedbackAdmin;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.matButtonToggleText = this.translocoService.translate('Search');
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
+  }
+
   // Load Details page
   loadDetails(profile: Profile) {
     this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
@@ -346,5 +366,6 @@ export enum pageViewEnum {
   "Edit" = "Edit",
   "Details" = "Details",
   "About" = "About",
-  "Feedback" = "Feedback"
+  "Feedback" = "Feedback",
+  "FeedbackAdmin" = "FeedbackAdmin"
 }

@@ -29,7 +29,7 @@
       <div class="form-container">
 
         <mat-form-field>
-          <mat-select placeholder="{{'FeedbackComponent.FeedbackType'| transloco}}" formControlName="feedbackEnum" [(value)]="feedback.feedbackType">
+          <mat-select placeholder="{{'FeedbackComponent.FeedbackType'| transloco}}" formControlName="feedbackType" [(value)]="feedback.feedbackType">
             <mat-option *ngFor="let feedbackType of feedbackTypes | keyvalue: originalOrder" [value]="feedbackType.key">
               {{ feedbackType.value }}
             </mat-option>
