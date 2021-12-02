@@ -13,6 +13,7 @@ import { KeyValue } from '@angular/common';
 import { FeedbackFilter } from '../../models/feedbackFilter';
 import { FeedbackType } from '../../models/feedbackType';
 import { Feedback } from '../../models/feedback';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'feedback-search',
@@ -46,22 +47,12 @@ export class FeedbackSearchComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
 
-  //sentRange = new FormGroup({
-  //  dateSentStart: new FormControl(),
-  //  dateSentEnd: new FormControl(),
-  //});
-
-  //seenRange = new FormGroup({
-  //  dateSeenStart: new FormControl(),
-  //  dateSeenEnd: new FormControl(),
-  //});
-
   languageList: string[] = [];
   countryList: string[] = [];
 
   @Output() getFeedbacksByFilter = new EventEmitter<FeedbackFilter>();
 
-  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private dateAdapter: DateAdapter<Date>, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;
@@ -88,28 +79,13 @@ export class FeedbackSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => {
+      this.currentUserSubject = currentUserSubject;
+      this.dateAdapter.setLocale(this.currentUserSubject.languagecode);
+    });
     this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
     this.enumMappings.updateFeedbackTypeSubject();
   }
-
-  //loadForm(filter: FeedbackFilter) {
-  //  this.feedbackForm.reset({
-  //    feedbackId: filter.feedbackId,
-  //    dateSentStart: filter.dateSentStart,
-  //    dateSentEnd: filter.dateSentEnd,
-  //    dateSeenStart: filter.dateSeenStart,
-  //    dateSeenEnd: filter.dateSeenEnd,
-  //    fromProfileId: filter.fromProfileId,
-  //    fromName: filter.fromName,
-  //    adminProfileId: filter.adminProfileId,
-  //    adminName: filter.adminName,
-  //    feedbackType: filter.feedbackType,
-  //    message: filter.message,
-  //    open: filter.open,
-  //    countrycode: filter.countrycode,
-  //    languagecode: filter.languagecode
-  //  });
-  //}
 
   onSubmit() {
     this.filter = this.prepareSearch();

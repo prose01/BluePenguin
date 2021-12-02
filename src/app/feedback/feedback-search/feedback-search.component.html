@@ -21,7 +21,7 @@
           <input matEndDate placeholder="End date" formControlName="dateSentEnd">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="sentpicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #sentpicker></mat-date-range-picker>
+        <mat-date-range-picker touchUi #sentpicker></mat-date-range-picker>
 
         <mat-error *ngIf="feedbackForm.controls.dateSentStart.hasError('matStartDateInvalid')">Invalid start sent date</mat-error>
         <mat-error *ngIf="feedbackForm.controls.dateSentEnd.hasError('matEndDateInvalid')">Invalid end sent date</mat-error>
@@ -34,7 +34,7 @@
           <input matEndDate placeholder="End date" formControlName="dateSeenEnd">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="seenpicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #seenpicker></mat-date-range-picker>
+        <mat-date-range-picker touchUi #seenpicker></mat-date-range-picker>
 
         <mat-error *ngIf="feedbackForm.controls.dateSeenStart.hasError('matStartDateInvalid')">Invalid start seen date</mat-error>
         <mat-error *ngIf="feedbackForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">Invalid end seen date</mat-error>
