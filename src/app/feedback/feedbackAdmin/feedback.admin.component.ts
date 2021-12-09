@@ -1,6 +1,6 @@
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -12,11 +12,14 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Feedback } from '../../models/feedback';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
+import { ProfileService } from '../../services/profile.service';
 import { FeedBackService } from '../../services/feedback.service';
 import { EnumMappingService } from '../../services/enumMapping.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { FeedbackSearchComponent } from '../feedback-search/feedback-search.component';
 import { FeedbackFilter } from '../../models/feedbackFilter';
+import { CurrentUser } from '../../models/currentUser';
+import { FeedbackType } from '../../models/feedbackType';
 
 @Component({
   selector: 'feedback-admin',
@@ -25,7 +28,7 @@ import { FeedbackFilter } from '../../models/feedbackFilter';
 })
 
 @AutoUnsubscribe()
-export class FeedbackAdminComponent implements OnInit, OnDestroy {
+export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -35,9 +38,16 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   noFeedbacks: boolean = false;
 
-  pageView: string = "list";
-  matButtonToggleText: string;
-  matButtonToggleIcon: string = 'search';
+  currentUserSubject: CurrentUser;
+
+  pageSearch: string = "list";
+  matButtonToggleSearchText: string = 'Search';
+  matButtonToggleSearchIcon: string = 'search';
+  pageView: string = "assignment";
+  matButtonToggleAllText: string;
+  matButtonToggleAllIcon: string = 'assignment_ind';
+
+  openChecked = true;
 
   feedbacks: Feedback[] = new Array;
 
@@ -49,7 +59,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
+  constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => cdr.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -57,21 +67,24 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
-    this.feedBackService.getUnassignedFeedbacks('', '')
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-          this.feedbacks.push(...response);
-        },
-        (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-        },
-        () => {
-          this.loading = false;
-          this.feedbacks?.length <= 0 ? this.noFeedbacks = true : this.noFeedbacks = false;
-          this.setDataSource();
-        }
-    );
+    
+    this.getUnassignedFeedbacks();
+
+    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+    this.translocoService.selectTranslate('FeedbackAdminComponent.MyAssignedFeedbacks').subscribe(value => this.matButtonToggleAllText = value);
+  }
+
+  ngOnChanges(): void {
+
+    this.feedbacks = this.feedbacks?.filter(function (el) {
+      return el != null;
+    });
+
+    this.feedbacks?.length <= 0 ? this.noFeedbacks = true : this.noFeedbacks = false;
+
+    this.setDataSource();
+
+    this.loading = false;
   }
 
   ngOnDestroy(): void {
@@ -102,9 +115,17 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplay() {
-    this.pageView = (this.pageView == 'list' ? 'search' : 'list');
-    this.matButtonToggleText = (this.pageView == 'list' ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
-    this.matButtonToggleIcon = (this.pageView == 'list' ? 'search' : 'list');
+    this.pageSearch = (this.pageSearch == 'list' ? 'search' : 'list');
+    this.matButtonToggleSearchText = (this.pageSearch == 'list' ? this.translocoService.translate('Search') : this.translocoService.translate('ListView'));
+    this.matButtonToggleSearchIcon = (this.pageSearch == 'list' ? 'search' : 'list');
+  }
+
+  toggleAllDisplay() {
+    this.pageView = (this.pageView == 'all' ? 'assignment' : 'all');
+    this.matButtonToggleAllText = (this.pageView == 'all' ? this.translocoService.translate('All') : this.translocoService.translate('FeedbackAdminComponent.MyAssignedFeedbacks'));
+    this.matButtonToggleAllIcon = (this.pageView == 'all' ? 'apps' : 'assignment_ind');
+
+    this.pageView == 'all' ? this.myAssignedFeedbacks() : this.getUnassignedFeedbacks();
   }
 
   /** The label for the checkbox on the passed row */
@@ -125,6 +146,24 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
     return ids;
   }
 
+  getUnassignedFeedbacks() {
+    this.feedBackService.getUnassignedFeedbacks('', '')
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+          this.feedbacks = new Array;
+
+          this.feedbacks.push(...response);
+        },
+        (error: any) => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+        },
+        () => {
+          this.ngOnChanges();
+        }
+      );
+  }
+
   /** Assign Feedback To Admin */
   assignFeedbackToAdmin() {
     this.feedBackService.assignFeedbackToAdmin(this.selcetedFeedbackIds())
@@ -138,12 +177,54 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
       );
   }
 
+  myAssignedFeedbacks() {
+    const filterFeedback: FeedbackFilter = {
+
+      feedbackId: null,
+      dateSentStart: null,
+      dateSentEnd: null,
+      dateSeenStart: null,
+      dateSeenEnd: null,
+      fromProfileId: null,
+      fromName: null,
+      adminProfileId: this.currentUserSubject.profileId,
+      adminName: this.currentUserSubject.name,
+      feedbackType: FeedbackType.Comment,
+      message: null,
+      open: this.openChecked,
+      countrycode: null,
+      languagecode: null
+    };
+
+    this.feedBackService.getFeedbacksByFilter(filterFeedback)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+          this.feedbacks = new Array;
+
+          this.feedbacks.push(...response);
+        },
+        (error: any) => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+        },
+        () => {
+          this.ngOnChanges();
+        }
+      );
+  }
+
   /** Get Feedbacks By Filter */
   getFeedbacksByFilter($event) {
     this.feedBackService.getFeedbacksByFilter($event)
       .pipe(takeWhileAlive(this))
       .subscribe(
-        () => { },
+        (response: any) => {
+          this.feedbacks = new Array;
+
+          this.feedbacks.push(...response);
+
+          this.ngOnChanges();
+        },
         (error: any) => {
           this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
         },

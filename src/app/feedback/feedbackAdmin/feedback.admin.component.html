@@ -16,16 +16,24 @@
   <div [class.mobile]="mobileQuery.matches">
     <div *ngIf="dataSource && !noFeedbacks" class="mat-elevation-z8">
 
-      <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-        <i class="material-icons">{{matButtonToggleIcon}}</i>
+      <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleSearchText}}>
+        <i class="material-icons">{{matButtonToggleSearchIcon}}</i>
       </button>
 
-      <button type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Bookmarked'| transloco}}">
-        <i class="material-icons">bookmark</i>
+      <button type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
+        <i class="material-icons">assignment_turned_in</i>
       </button>
 
-      <div *ngIf="pageView === 'search'" class="menu-buttons">
-        <button type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip=search>
+      <button type="button" (click)="toggleAllDisplay()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{matButtonToggleAllText}}">
+        <i class="material-icons">{{matButtonToggleAllIcon}}</i>
+      </button>
+
+      <section class="section">
+        <mat-checkbox class="margin" [(ngModel)]="openChecked">Open </mat-checkbox>
+      </section>
+
+      <div *ngIf="pageSearch === 'search'" class="menu-buttons">
+        <button type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
           <i class="material-icons">search</i>
         </button>
 
@@ -118,19 +126,6 @@
 
       </table>
 
-
-
-      <!--<button type="button" *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.RemoveFromBookmarked'| transloco}}">
-        <i class="material-icons">bookmark_border</i>
-      </button>-->
-      <!--<button type="button" (click)="toggleLike()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Like'| transloco}}">
-        <i class="material-icons">favorite</i>
-      </button>
-
-      <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.DeleteProfile'| transloco}}">
-        <i class="material-icons">delete</i>
-      </button>-->
-
       <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
 
     </div>
@@ -140,37 +135,6 @@
     <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
       <feedback-search (getFeedbacksByFilter)="getFeedbacksByFilter($event)"></feedback-search>
     </mat-sidenav>
-
-    <!--<mat-sidenav-content>-->
-    <!--<div *ngIf="pageView === 'Search' || pageView === 'Dashboard'">
-      <dashboard (isCurrentUserCreated)="isCurrentUserCreated($event)" (loadDetails)="loadDetails($event)"></dashboard>
-    </div>
-
-    <div *ngIf="pageView === 'About'">
-      <about></about>
-    </div>
-
-    <div *ngIf="pageView === 'Feedback'">
-      <feedback></feedback>
-    </div>
-
-    <div *ngIf="pageView === 'FeedbackAdmin'">
-      <feedback-admin></feedback-admin>
-    </div>
-
-    <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">
-      <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)" (initDefaultData)="initDefaultData()"></create-profile>
-    </div>
-
-    <div *ngIf="isProfileCreated && pageView === 'Edit'">
-      <currentUserBoard (loadDetails)="loadDetails($event)"><edit-profile></edit-profile></currentUserBoard>
-    </div>
-
-    <div *ngIf="isProfileCreated && pageView === 'Details'">-->
-    <!-- Tile and List should call details-page with Profile as input -->
-    <!--<profileDetailsBoard [profile]="profile"><profile-details></profile-details></profileDetailsBoard>
-    </div>-->
-    <!--</mat-sidenav-content>-->
   </mat-sidenav-container>
 
 </div>

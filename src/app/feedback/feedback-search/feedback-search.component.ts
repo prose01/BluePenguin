@@ -56,7 +56,6 @@ export class FeedbackSearchComponent implements OnInit {
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;
-    this.createForm();
   }
 
   createForm() {
@@ -68,8 +67,8 @@ export class FeedbackSearchComponent implements OnInit {
       dateSeenEnd: null,
       fromProfileId: null,
       fromName: null,
-      adminProfileId: null,
-      adminName: null,
+      adminProfileId: this.currentUserSubject.profileId,
+      adminName: this.currentUserSubject.name,
       feedbackType: FeedbackType.Comment,
       message: null,
       open: true,
@@ -82,6 +81,7 @@ export class FeedbackSearchComponent implements OnInit {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => {
       this.currentUserSubject = currentUserSubject;
       this.dateAdapter.setLocale(this.currentUserSubject.languagecode);
+      this.createForm();
     });
     this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
     this.enumMappings.updateFeedbackTypeSubject();

@@ -276,7 +276,9 @@
 		"Countrycode" : "Countrycode",
 		"Languagecode" : "Languagecode",
 		"Message" : "Message",
-		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
+		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback",
+		"AssignFeedbackToAdmin" : "Tildel Feedback til mig",
+		"MyAssignedFeedbacks" : "Mine tildelte Feedbacks"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

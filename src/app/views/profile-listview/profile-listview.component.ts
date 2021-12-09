@@ -146,6 +146,40 @@ export class ProfileListviewComponent implements OnChanges {
     }
   }
 
+  toggleLike2() {
+
+    var removeProfiles = new Array;
+    var addProfiles = new Array;
+
+    for (var _i = 0; _i < this.selection.selected.length; _i++) {
+
+      var profileId = this.selection.selected[_i].profileId;
+
+      if (this.liked(this.selection.selected[_i])) {
+        removeProfiles.push(profileId);
+      }
+      else {
+        addProfiles.push(profileId);
+      }
+    }
+
+    if (removeProfiles.length > 0) {
+      this.profileService.addLikeToProfile(profileId)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => {
+          this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
+        }, () => { }, () => { });
+    }
+
+    if (addProfiles.length > 0) {
+      this.profileService.addLikeToProfile(profileId)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => {
+          this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
+        }, () => { }, () => { });
+    }
+  }
+
   /** Add or remove BookmarkedProfiles */
   toggleBookmarkedProfiles() {
 
