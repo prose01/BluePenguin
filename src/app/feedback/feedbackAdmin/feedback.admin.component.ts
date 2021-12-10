@@ -40,6 +40,8 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
   currentUserSubject: CurrentUser;
 
+  allowAssignment: boolean = false;
+
   pageSearch: string = "list";
   matButtonToggleSearchText: string = 'Search';
   matButtonToggleSearchIcon: string = 'search';
@@ -48,6 +50,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   matButtonToggleAllIcon: string = 'assignment_ind';
 
   openChecked = true;
+  languageChecked = false;
 
   feedbacks: Feedback[] = new Array;
 
@@ -63,6 +66,10 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => cdr.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this.selection.changed.subscribe(item => {
+      this.allowAssignment = this.selection.selected.length > 0;
+    })
   }
 
   ngOnInit(): void {
@@ -102,16 +109,16 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
-    return numSelected === numRows;
+    //const numSelected = this.selection.selected.length;
+    //const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
+    ////this.allowAssignment = numSelected > 0 ? true : false;
+    //return numSelected === numRows;
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+  masterToggle() {    
+    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   toggleDisplay() {
@@ -147,7 +154,16 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getUnassignedFeedbacks() {
-    this.feedBackService.getUnassignedFeedbacks('', '')
+
+    var countrycode: string = '';
+    var languagecode: string = '';
+
+    if (this.languageChecked) {
+      countrycode = this.currentUserSubject.countrycode;
+      languagecode = this.currentUserSubject.languagecode;
+    }
+
+    this.feedBackService.getUnassignedFeedbacks(countrycode, languagecode)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -189,28 +205,30 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       fromName: null,
       adminProfileId: this.currentUserSubject.profileId,
       adminName: this.currentUserSubject.name,
-      feedbackType: FeedbackType.Comment,
+      feedbackType: null,
       message: null,
       open: this.openChecked,
       countrycode: null,
       languagecode: null
     };
 
-    this.feedBackService.getFeedbacksByFilter(filterFeedback)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-          this.feedbacks = new Array;
+    this.getFeedbacksByFilter(filterFeedback);
 
-          this.feedbacks.push(...response);
-        },
-        (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-        },
-        () => {
-          this.ngOnChanges();
-        }
-      );
+    //this.feedBackService.getFeedbacksByFilter(filterFeedback)
+    //  .pipe(takeWhileAlive(this))
+    //  .subscribe(
+    //    (response: any) => {
+    //      this.feedbacks = new Array;
+
+    //      this.feedbacks.push(...response);
+    //    },
+    //    (error: any) => {
+    //      this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+    //    },
+    //    () => {
+    //      this.ngOnChanges();
+    //    }
+    //  );
   }
 
   /** Get Feedbacks By Filter */

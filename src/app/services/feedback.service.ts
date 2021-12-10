@@ -48,7 +48,6 @@ export class FeedBackService {
   }
 
   getFeedbacksByFilter(feedbackFilter: FeedbackFilter): Observable<Feedback[]> {
-    console.log(feedbackFilter);
     return this.http.post<Feedback[]>(`${this.avalonUrl}GetFeedbacksByFilter`, { feedbackFilter }, { headers: this.headers })
       .pipe(
         retry(3),

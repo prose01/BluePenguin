@@ -6,6 +6,37 @@
     </div>
   </div>
 
+
+  <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleSearchText}}>
+    <i class="material-icons">{{matButtonToggleSearchIcon}}</i>
+  </button>
+
+  <button *ngIf="pageSearch === 'list' && allowAssignment" type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
+    <i class="material-icons">assignment_turned_in</i>
+  </button>
+
+  <button *ngIf="pageSearch === 'list'" type="button" (click)="toggleAllDisplay()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{matButtonToggleAllText}}">
+    <i class="material-icons">{{matButtonToggleAllIcon}}</i>
+  </button>
+
+  <section *ngIf="pageView === 'all' && pageSearch === 'list'" class="section">
+    <mat-checkbox class="margin" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">Open </mat-checkbox>
+  </section>
+
+  <section *ngIf="pageView === 'assignment' && pageSearch === 'list'" class="section">
+    <mat-checkbox class="margin" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">My language </mat-checkbox>
+  </section>
+
+  <button *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
+    <i class="material-icons">search</i>
+  </button>
+
+  <button *ngIf="pageSearch === 'search'" type="button" (click)="reset()"
+          class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+    <i class="material-icons">undo</i>
+  </button>
+
+
   <div *ngIf="noFeedbacks" class="noResults">
     <p>
       {{'FeedbackAdminComponent.NoResultsText'| transloco}}
@@ -15,33 +46,6 @@
 
   <div [class.mobile]="mobileQuery.matches">
     <div *ngIf="dataSource && !noFeedbacks" class="mat-elevation-z8">
-
-      <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleSearchText}}>
-        <i class="material-icons">{{matButtonToggleSearchIcon}}</i>
-      </button>
-
-      <button type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
-        <i class="material-icons">assignment_turned_in</i>
-      </button>
-
-      <button type="button" (click)="toggleAllDisplay()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{matButtonToggleAllText}}">
-        <i class="material-icons">{{matButtonToggleAllIcon}}</i>
-      </button>
-
-      <section class="section">
-        <mat-checkbox class="margin" [(ngModel)]="openChecked">Open </mat-checkbox>
-      </section>
-
-      <div *ngIf="pageSearch === 'search'" class="menu-buttons">
-        <button type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
-          <i class="material-icons">search</i>
-        </button>
-
-        <button type="button" (click)="reset()"
-                class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-          <i class="material-icons">undo</i>
-        </button>
-      </div>
 
       <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 

@@ -32,6 +32,8 @@ export class ProfileListviewComponent implements OnChanges {
   pageSize: number;
   loading: boolean = false;
 
+  allowAssignment: boolean = false;
+
   dataSource: MatTableDataSource<Profile>;
   selection = new SelectionModel<Profile>(true, []);
 
@@ -51,6 +53,10 @@ export class ProfileListviewComponent implements OnChanges {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+
+    this.selection.changed.subscribe(item => {
+      this.allowAssignment = this.selection.selected.length > 0;
+    })
   }
 
   ngOnChanges(): void {
@@ -89,9 +95,10 @@ export class ProfileListviewComponent implements OnChanges {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
-    return numSelected === numRows;
+    //const numSelected = this.selection.selected.length;
+    //const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
+    //return numSelected === numRows;
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -229,8 +236,10 @@ export class ProfileListviewComponent implements OnChanges {
 
   resetSelectionPagination() {
     this.selection?.clear();
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 5;
+    if (this.paginator != null) {
+      this.paginator.pageIndex = 0;
+      this.paginator.pageSize = 5;
+    }
   }
 
   openDeleteProfilesDialog(): void {

@@ -119,18 +119,18 @@
     </table>
 
 
-    <button type="button" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Bookmarked'| transloco}}">
+    <button *ngIf="allowAssignment" type="button" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Bookmarked'| transloco}}">
       <i class="material-icons">bookmark</i>
     </button>
     <!--<button type="button" *ngIf="viewFilterType === 'BookmarkedProfiles'" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.RemoveFromBookmarked'| transloco}}">
     <i class="material-icons">bookmark_border</i>
   </button>-->
 
-    <button type="button" (click)="toggleLike()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Like'| transloco}}">
+    <button *ngIf="allowAssignment" type="button" (click)="toggleLike()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.Like'| transloco}}">
       <i class="material-icons">favorite</i>
     </button>
 
-    <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.DeleteProfile'| transloco}}">
+    <button *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" type="button" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'ListViewComponent.DeleteProfile'| transloco}}">
       <i class="material-icons">delete</i>
     </button>
 

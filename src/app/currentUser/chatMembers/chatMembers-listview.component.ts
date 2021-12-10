@@ -68,9 +68,10 @@ export class ChatMembersListviewComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    //const numSelected = this.selection.selected.length;
+    //const numRows = this.dataSource.data.length;
+    //return numSelected === numRows;
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
