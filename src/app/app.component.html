@@ -163,7 +163,7 @@
       </div>
 
       <div *ngIf="pageView === 'FeedbackAdmin'">
-        <feedback-admin></feedback-admin>
+        <feedback-admin (loadProfileDetails)="loadDetails($event)"></feedback-admin>
       </div>
 
       <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">

@@ -25,7 +25,6 @@ import { MatChipsModule }                     from '@angular/material/chips';
 import { MatSlideToggleModule }               from '@angular/material/slide-toggle';
 import { MatDatepickerModule }                from '@angular/material/datepicker';
 import { MatNativeDateModule }                from '@angular/material/core';
-import { MAT_DATE_FORMATS }                   from '@angular/material/core';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -62,6 +61,7 @@ import { AboutComponent }                     from './about/about.component';
 import { FeedbackComponent }                  from './feedback/feedback.component';
 import { FeedbackAdminComponent }             from './feedback/feedbackAdmin/feedback.admin.component';
 import { FeedbackSearchComponent }            from './feedback/feedback-search/feedback-search.component';
+import { FeedbackDialog }                     from './feedback/feedback-dialog/feedback-dialog.component';
 
 import { LazyLoadImageModule }                from 'ng-lazyload-image';
 import { InfiniteScrollModule }               from 'ngx-infinite-scroll';
@@ -92,6 +92,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     FeedbackComponent,
     FeedbackAdminComponent,
     FeedbackSearchComponent,
+    FeedbackDialog,
     CurrentUserBoardComponent,
     EditProfileComponent,
     CurrentUserImagesComponent,

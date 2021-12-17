@@ -327,6 +327,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = pageViewEnum.Dashboard;
+      this.toggleViewDisplay();
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }

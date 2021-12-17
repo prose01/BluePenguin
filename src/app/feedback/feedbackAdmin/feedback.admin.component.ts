@@ -1,6 +1,6 @@
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,17 +9,17 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 
-import { Feedback } from '../../models/feedback';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
-
 import { ProfileService } from '../../services/profile.service';
 import { FeedBackService } from '../../services/feedback.service';
 import { EnumMappingService } from '../../services/enumMapping.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { FeedbackSearchComponent } from '../feedback-search/feedback-search.component';
 import { FeedbackFilter } from '../../models/feedbackFilter';
+import { FeedbackDialog } from '../feedback-dialog/feedback-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
-import { FeedbackType } from '../../models/feedbackType';
+import { Profile } from '../../models/profile';
+import { Feedback } from '../../models/feedback';
 
 @Component({
   selector: 'feedback-admin',
@@ -29,6 +29,8 @@ import { FeedbackType } from '../../models/feedbackType';
 
 @AutoUnsubscribe()
 export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
+
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -213,22 +215,6 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     };
 
     this.getFeedbacksByFilter(filterFeedback);
-
-    //this.feedBackService.getFeedbacksByFilter(filterFeedback)
-    //  .pipe(takeWhileAlive(this))
-    //  .subscribe(
-    //    (response: any) => {
-    //      this.feedbacks = new Array;
-
-    //      this.feedbacks.push(...response);
-    //    },
-    //    (error: any) => {
-    //      this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-    //    },
-    //    () => {
-    //      this.ngOnChanges();
-    //    }
-    //  );
   }
 
   /** Get Feedbacks By Filter */
@@ -261,29 +247,36 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.feedbackSearchComponent.reset();
   }
 
-  //// Load Detalails page
-  //loadDetails(profile: Profile) {                               // TODO: Load Profile details.
-  //  this.loadProfileDetails.emit(profile);
-  //}
+  // Load Detalails page
+  loadDetails(profileId: string) {
 
-  //async openImageDialog(profile: Profile): Promise<void> {      // TODO: Open feedback dialog.
+    var profile: Profile;
 
-  //  this.getProfileImages(profile);
+    this.profileService.getProfileById(profileId)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
+        (error: any) => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); 
+        },
+        () => { }
+      );
+  }
 
-  //  const dialogRef = this.dialog.open(ImageDialog, {
-  //    data: {
-  //      index: profile.imageNumber,
-  //      imageModels: profile.images,
-  //      profile: profile
-  //    }
-  //  });
+  async openFeedbackDialog(feedback: Feedback): Promise<void> {
 
-  //  dialogRef.afterClosed().subscribe(
-  //    res => {
-  //      if (res === true) { this.loadDetails(profile) }
-  //    }
-  //  );
-  //}
+    const dialogRef = this.dialog.open(FeedbackDialog, {
+      data: {
+        feedback: feedback
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) { this.loadDetails(feedback.fromProfileId) }
+      }
+    );
+  }
 
   openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {

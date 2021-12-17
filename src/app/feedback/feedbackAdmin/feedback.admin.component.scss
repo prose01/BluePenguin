@@ -2,6 +2,10 @@ textarea, input {
   caret-color: #f07537;
 }
 
+tr.detail-row {
+  height: 0;
+}
+
 /* Solid border */
 hr.solid {
   border-top: 3px solid #607D8B;

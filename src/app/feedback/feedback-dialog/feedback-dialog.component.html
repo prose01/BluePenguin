@@ -1,0 +1,15 @@
+<div mat-dialog-content class="container">
+  <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'ImageDialogComponent.Close'| transloco}}">
+    <i class="material-icons">close</i>
+  </button>
+
+  <h1 mat-dialog-title>{{feedback.fromName}}</h1>
+  <div mat-dialog-content>
+    {{feedback.message}}
+  </div>
+
+</div>
+
+<button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
+  <i class="material-icons">person</i>
+</button>
