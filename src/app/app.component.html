@@ -176,7 +176,7 @@
 
       <div *ngIf="isProfileCreated && pageView === 'Details'">
         <!-- Tile and List should call details-page with Profile as input -->
-        <profileDetailsBoard [profile]="profile"><profile-details></profile-details></profileDetailsBoard>
+        <profileDetailsBoard (loadDetails)="loadDetails($event)" [profile]="profile"></profileDetailsBoard>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

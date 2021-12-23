@@ -41,6 +41,7 @@ import { BehaviorSubjectService }             from './services/behaviorSubjec.se
 import { EnumMappingService }                 from './services/enumMapping.service';
 import { ImageService }                       from './services/image.service';
 import { FeedBackService }                    from './services/feedback.service';
+import { ChatService }                        from './services/chat.service';
 
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
@@ -55,6 +56,7 @@ import { ProfileTileviewComponent }           from './views/profile-tileview/pro
 import { ProfileDetailsBoardComponent }       from './profile-details/profile-details-board/profile-details-board.component';
 import { ProfileDetailsComponent }            from './profile-details/profile-details/profile-details.component';
 import { ProfileImagesComponent }             from './profile-details/profile-images/profile-images.component';
+import { ProfileChatListviewComponent }       from './profile-details/profile-chats/profile-chat-listview.component';
 
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
@@ -88,6 +90,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileDetailsBoardComponent,
     ProfileDetailsComponent,
     ProfileImagesComponent,
+    ProfileChatListviewComponent,
     AboutComponent,
     FeedbackComponent,
     FeedbackAdminComponent,
@@ -157,6 +160,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileService,
     BehaviorSubjectService,
     ImageService,
+    ChatService,
     FeedBackService,
     EnumMappingService,
     AuthService,
