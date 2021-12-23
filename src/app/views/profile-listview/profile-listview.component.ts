@@ -291,7 +291,6 @@ export class ProfileListviewComponent implements OnChanges {
     let defaultImageModel: ImageModel = new ImageModel();
 
     if (profile.images != null && profile.images.length > 0) {
-      if (profile.images.length > 0) {
 
         profile.images.forEach((element, i) => {
 
@@ -317,7 +316,6 @@ export class ProfileListviewComponent implements OnChanges {
           }
 
         });
-      }
     }
   }
 
