@@ -337,6 +337,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadDashboard() {
+    this.pageView = pageViewEnum.Dashboard;
+    this.matButtonToggleText = this.translocoService.translate('Search');
+    this.matButtonToggleIcon = 'search';
+  }
+
   // Load Details page
   loadDetails(profile: Profile) {
     this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });

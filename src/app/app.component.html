@@ -14,12 +14,11 @@
 <div *ngIf="auth.isAuthenticated()">
 
   <div id="navbar" [class.mobile]="mobileQuery.matches">
-    <h2>{{ 'lang' | transloco }}</h2>
-    <h2>{{title}}</h2>
+    <h2 (click)="loadDashboard()">{{title}}</h2>
 
     <div *ngIf="isProfileCreated">
       <!--Navigation buttons-->
-      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search' || pageView === 'Details'" class="menu-buttons">
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
         <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
           <i class="material-icons">{{matButtonToggleIcon}}</i>
         </button>

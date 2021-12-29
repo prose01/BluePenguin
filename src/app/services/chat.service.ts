@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 import { Message } from 'ng-chat';
+import { ChatFilter } from '../models/chatFilter';
 
 @Injectable()
 export class ChatService {
@@ -21,6 +22,18 @@ export class ChatService {
   
   getProfileMessages(profileId: string): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string, pageSize: string): Observable<Message[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.post<Message[]>(`${this.junoUrl}GetChatsByFilter`, { chatFilter }, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)

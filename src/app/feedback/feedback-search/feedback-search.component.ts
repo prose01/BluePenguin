@@ -17,8 +17,7 @@ import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'feedback-search',
-  templateUrl: './feedback-search.component.html',
-  styleUrls: ['./feedback-search.component.scss']
+  templateUrl: './feedback-search.component.html'
 })
 
 @AutoUnsubscribe()

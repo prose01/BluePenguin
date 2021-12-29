@@ -1,0 +1,67 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <form [formGroup]="chatFilterForm">
+
+    <div class="form-container">
+
+      <mat-form-field>
+        <mat-label>Enter a date sent range</mat-label>
+        <mat-date-range-input [formGroup]="chatFilterForm" [rangePicker]="sentpicker">
+          <input matStartDate placeholder="Start date" formControlName="dateSentStart">
+          <input matEndDate placeholder="End date" formControlName="dateSentEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="sentpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #sentpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="chatFilterForm.controls.dateSentStart.hasError('matStartDateInvalid')">Invalid start sent date</mat-error>
+        <mat-error *ngIf="chatFilterForm.controls.dateSentEnd.hasError('matEndDateInvalid')">Invalid end sent date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Enter a date seen range</mat-label>
+        <mat-date-range-input [formGroup]="chatFilterForm" [rangePicker]="seenpicker">
+          <input matStartDate placeholder="Start date" formControlName="dateSeenStart">
+          <input matEndDate placeholder="End date" formControlName="dateSeenEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="seenpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #seenpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="chatFilterForm.controls.dateSeenStart.hasError('matStartDateInvalid')">Invalid start seen date</mat-error>
+        <mat-error *ngIf="chatFilterForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">Invalid end seen date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="fromId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="fromName"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="toId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="toName"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput maxlength="2000" placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="message">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="doNotDelete">
+      </mat-form-field>
+
+    </div>
+
+  </form>
+
+</div>

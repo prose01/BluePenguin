@@ -1,11 +1,12 @@
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
@@ -20,6 +21,8 @@ import { Message } from 'ng-chat';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageModel } from '../../models/imageModel';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
+import { ProfileChatSearchComponent } from '../profile-chat-search/profile-chat-search.component';
+import { ChatFilter } from '../../models/chatFilter';
 
 @Component({
   selector: 'profile-chat-listview',
@@ -28,14 +31,17 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 })
 
 @AutoUnsubscribe()
-export class ProfileChatListviewComponent implements OnInit, OnChanges {
+export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
+  @Output("chatSearch") chatSearch: EventEmitter<any> = new EventEmitter();
 
   @Input() profile: Profile;
 
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(ProfileChatSearchComponent) profileChatSearchComponent: ProfileChatSearchComponent;
 
   loading: boolean = false;
   noFeedbacks: boolean = false;
@@ -49,9 +55,13 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges {
 
   displayedColumns: string[] = ['select', 'fromId', 'fromName', 'toId', 'toName', 'dateSent', 'dateSeen'];
 
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
   constructor(private chatService: ChatService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
-
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => cdr.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit(): void {
@@ -65,6 +75,10 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges {
   ngOnChanges(): void {   
 
     this.getProfileMessages();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   getProfileMessages() {
@@ -121,6 +135,10 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges {
     this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
+  toggleDisplay() {
+    this.chatSearch.emit(true);
+  }
+
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: Message): string {
     if (!row) {
@@ -137,6 +155,35 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges {
     }
 
     return ids;
+  }
+
+  // Calls to ProfileChatSearchComponent
+  onSubmit() {
+    this.profileChatSearchComponent.onSubmit();
+    this.sidenav.close();
+  }
+
+  reset() {
+    this.profileChatSearchComponent.reset();
+  }
+
+  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string = '0', pageSize: string = '20') {
+    this.chatService.getChatsByFilter(chatFilter, pageIndex, pageSize)
+      .pipe(takeWhileAlive(this))
+      .subscribe(
+        (response: any) => {
+
+          this.messages = new Array;
+
+          this.messages.push(...response);
+        },
+        (error: any) => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+        },
+        () => {
+          this.updateMessageList();
+        }
+      );
   }
 
   async openImageDialog(message: Message): Promise<void> {

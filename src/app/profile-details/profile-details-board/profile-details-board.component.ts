@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ImageService } from '../../services/image.service';
@@ -7,6 +7,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageModel } from '../../models/imageModel';
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
+import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-listview.component';
 
 @Component({
   selector: 'profileDetailsBoard',
@@ -16,11 +17,14 @@ import { CurrentUser } from '../../models/currentUser';
 @AutoUnsubscribe()
 export class ProfileDetailsBoardComponent implements OnInit {
   loading: boolean = false;
+  isChatSearch: boolean = false;
 
   currentUserSubject: CurrentUser;
 
   @Input() profile: Profile;
   @Output("loadDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
+
+  @ViewChild(ProfileChatListviewComponent) profileChatListviewComponent: ProfileChatListviewComponent;
 
   constructor(private imageService: ImageService, private profileService: ProfileService) { }
 
@@ -65,5 +69,20 @@ export class ProfileDetailsBoardComponent implements OnInit {
   // Load Detalails page
   loadDetails(profile: Profile) {
     this.loadProfileDetails.emit(profile);
+  }
+
+  chatSearch(searching: boolean) {
+    this.isChatSearch = searching;
+  }
+
+  // Calls to ProfileChatSearchComponent
+  onSubmit() {
+    this.profileChatListviewComponent.onSubmit();
+    this.isChatSearch = false;
+  }
+
+  reset() {
+    console.log('details board');
+    this.profileChatListviewComponent.reset();
   }
 }
