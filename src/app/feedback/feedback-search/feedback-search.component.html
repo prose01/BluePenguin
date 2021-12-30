@@ -69,7 +69,11 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="open">
+        <mat-select placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="open" [(value)]="open">
+          <mat-option value="notChosen">Not Chosen</mat-option>
+          <mat-option value="true">Yes</mat-option>
+          <mat-option value="false">No</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field>

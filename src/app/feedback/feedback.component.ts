@@ -61,7 +61,7 @@ export class FeedbackComponent implements OnInit {
       adminName: null,
       feedbackType: formModel.feedbackType as FeedbackType,
       message: formModel.message as string,
-      open: true,
+      open: null,
       countrycode: null,
       languagecode: null
     };

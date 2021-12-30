@@ -57,7 +57,11 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="doNotDelete">
+        <mat-select placeholder="{{'ProfileSearchComponent.BodyType'| transloco}}" formControlName="doNotDelete" [(value)]="doNotDelete">
+          <mat-option value="notChosen">Not Chosen</mat-option>
+          <mat-option value="true">Yes</mat-option>
+          <mat-option value="false">No</mat-option>
+        </mat-select>
       </mat-form-field>
 
     </div>

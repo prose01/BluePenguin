@@ -209,7 +209,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       adminName: this.currentUserSubject.name,
       feedbackType: null,
       message: null,
-      open: this.openChecked,
+      open: this.openChecked.toString(),
       countrycode: null,
       languagecode: null
     };

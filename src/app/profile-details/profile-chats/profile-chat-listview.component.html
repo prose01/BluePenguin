@@ -10,15 +10,6 @@
     <i class="material-icons">search</i>
   </button>
 
-  <!--<button *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
-    <i class="material-icons">search</i>
-  </button>
-
-  <button *ngIf="pageSearch === 'search'" type="button" (click)="reset()"
-          class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-    <i class="material-icons">undo</i>
-  </button>-->
-
   <div *ngIf="noFeedbacks" class="noResults">
     <p>
       {{'FeedbackAdminComponent.NoResultsText'| transloco}}
@@ -89,7 +80,7 @@
 
         <tr mat-row *matRowDef="let element; columns: displayedColumns;"
             class="element-row"
-            (click)="openImageDialog(element)">
+            (click)="openMessageDialog(element)">
         </tr>
 
       </table>

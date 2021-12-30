@@ -18,9 +18,6 @@ import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { Feedback } from '../../models/feedback';
 import { Message } from 'ng-chat';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
-import { ImageModel } from '../../models/imageModel';
-import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ProfileChatSearchComponent } from '../profile-chat-search/profile-chat-search.component';
 import { ChatFilter } from '../../models/chatFilter';
 
@@ -186,82 +183,82 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
       );
   }
 
-  async openImageDialog(message: Message): Promise<void> {
+  async openMessageDialog(message: Message): Promise<void> {
+    console.log('Open a message dialog');
+    //var profileId = message.fromId == this.profile.profileId ? message.toId : message.fromId;
 
-    var profileId = message.fromId == this.profile.profileId ? message.toId : message.fromId;
+    //// Do not open dialog if it is currentUser
+    //if (profileId == this.currentUserSubject.profileId) {
+    //  this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
+    //  return;
+    //}
 
-    // Do not open dialog if it is currentUser
-    if (profileId == this.currentUserSubject.profileId) {
-      this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
-      return;
-    }
+    //var profile: Profile;
 
-    var profile: Profile;
+    //this.profileService.getProfileById(profileId)
+    //  .pipe(takeWhileAlive(this))
+    //  .subscribe(
+    //    (response: any) => {
+    //      profile = response;
 
-    this.profileService.getProfileById(profileId)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-          profile = response;
+    //      this.getProfileImages(profile);
 
-          this.getProfileImages(profile);
+    //      const dialogRef = this.dialog.open(ImageDialog, {
+    //        data: {
+    //          index: 0,
+    //          imageModels: profile.images,
+    //          profile: profile
+    //        }
+    //      });
 
-          const dialogRef = this.dialog.open(ImageDialog, {
-            data: {
-              index: 0,
-              imageModels: profile.images,
-              profile: profile
-            }
-          });
-
-          dialogRef.afterClosed().subscribe(
-            res => {
-              if (res === true) { this.loadDetails.emit(profile); }
-            }
-          );
-        },
-        (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
-        },
-        () => { }
-      );
+    //      dialogRef.afterClosed().subscribe(
+    //        res => {
+    //          if (res === true) { this.loadDetails.emit(profile); }
+    //        }
+    //      );
+    //    },
+    //    (error: any) => {
+    //      this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
+    //    },
+    //    () => { }
+    //  );
   }
 
-  getProfileImages(profile: Profile): void {
-    let defaultImageModel: ImageModel = new ImageModel();
+  //getProfileImages(profile: Profile): void {
+  //  let defaultImageModel: ImageModel = new ImageModel();
 
-    if (profile.images != null && profile.images.length > 0) {
+  //  if (profile.images != null && profile.images.length > 0) {
 
-      profile.images.forEach((element, i) => {
+  //    profile.images.forEach((element, i) => {
 
-        if (typeof element.fileName !== 'undefined') {
+  //      if (typeof element.fileName !== 'undefined') {
 
-          this.loading = true;
+  //        this.loading = true;
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            );
+  //        this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+  //          .pipe(takeWhileAlive(this))
+  //          .subscribe(
+  //            images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+  //            () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+  //            () => { this.loading = false; }
+  //          );
 
-          this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.image = defaultImageModel.image },
-              () => { this.loading = false; }
-            );
-        }
+  //        this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+  //          .pipe(takeWhileAlive(this))
+  //          .subscribe(
+  //            images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
+  //            () => { this.loading = false; element.image = defaultImageModel.image },
+  //            () => { this.loading = false; }
+  //          );
+  //      }
 
-      });
-    }
-    else {
-      // Set default profile image.
-      profile.images[0] = defaultImageModel;
-    }
-  }
+  //    });
+  //  }
+  //  else {
+  //    // Set default profile image.
+  //    profile.images[0] = defaultImageModel;
+  //  }
+  //}
 
   openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {

@@ -8,7 +8,7 @@ export class ChatFilter {
   toId: string;
   toName: string;
   message: string;
-  doNotDelete: boolean;
+  doNotDelete: string;
 }
 
 export interface ChatFilter {
@@ -21,5 +21,5 @@ export interface ChatFilter {
   toId: string;
   toName: string;
   message: string;
-  doNotDelete: boolean;
+  doNotDelete: string;
 }

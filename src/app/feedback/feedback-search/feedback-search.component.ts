@@ -40,7 +40,7 @@ export class FeedbackSearchComponent implements OnInit {
   adminName: string;
   feedbackTypes: ReadonlyMap<string, string>;
   message: string;
-  open: boolean;
+  open: string;
   countrycode: string;
   languagecode: string;
 
@@ -70,7 +70,7 @@ export class FeedbackSearchComponent implements OnInit {
       adminName: this.currentUserSubject.name,
       feedbackType: FeedbackType.Comment,
       message: null,
-      open: true,
+      open: 'notChosen',
       countrycode: null,
       languagecode: null
     });
@@ -112,10 +112,14 @@ export class FeedbackSearchComponent implements OnInit {
       adminName: formModel.adminName as string,
       feedbackType: formModel.feedbackType as FeedbackType,
       message: formModel.message as string,
-      open: formModel.open as boolean,
+      open: null,
       countrycode: formModel.countrycode as string,
       languagecode: formModel.languagecode as string
     };
+
+    if (formModel.open != 'notChosen' && formModel.open != null) {
+      filterFeedback.open = formModel.open as string;
+    }
     
     return filterFeedback;
   }
