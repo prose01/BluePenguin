@@ -12,6 +12,7 @@
 	"SaveSearchFilter" : "Save Search Filter",
 	"LoadSearchFilter" : "Load Search Filter",
 	"Language" : "Language",
+	"Country": "Country",
 	"EditProfile" : "Edit Profile",
 	"About" : "About",
 	"Feedback" : "Feedback",
@@ -24,8 +25,10 @@
 	"SortByCreatedOn" : "Sort by Created On",
 	"SortByLastActive" : "Sort by Last Active",
 	"LogOut" : "Log Out",
+	"Yes" : "Yes",
+	"No" : "No",
+	"NoResultsText" : "Sorry no results :(",
 	"ListViewComponent": {	
-		"NoResultsText" : "Sorry no results :(",
 		"ProfileId": "ProfileId",
 		"Name": "Name",
 		"CreatedOn" : "Created on",
@@ -47,7 +50,6 @@
 		"NotContactable" : "This profile is not contactable"	
 	},
 	"TileViewComponent" : {
-		"NoResultsText" : "Sorry no results :(",
 		"VisitedMe": "Visited me",
 		"BookmarkedMe": "Bookmarked me",
 		"DeleteProfile": "Delete profile(s)",
@@ -81,7 +83,8 @@
 	},
 	"ProfileDetailsBoardComponent" : {
 		"ProfileDetails" : "Profile Details",
-		"ProfileImages" : "Profile Images"
+		"ProfileImages" : "Profile Images",
+		"Conversations" : "Conversations"
 	},
 	"ProfileDetailsComponent" : {
 		"CreatedOn" : "Created on: ",
@@ -266,7 +269,6 @@
 		"CouldNotSendFeedback" : "Could not send Feedback"
 	},
 	"FeedbackAdminComponent" : {
-		"NoResultsText" : "Sorry no results :(",
 		"DateSent": "DateSent",
 		"DateSeen" : "DateSeen",
 		"FromName" : "FromName",
@@ -280,6 +282,37 @@
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback",
 		"AssignFeedbackToAdmin" : "Assign Feedback To Me",
 		"MyAssignedFeedbacks" : "My Assigned Feedbacks"
+	},
+	"FeedbackSearchComponent" : {
+		"FeedbackId": "Feedback Id",
+		"SentRange" : "Enter a date sent range",
+		"SeenRange" : "Enter a date seen range",
+		"StartDate" : "Start Date",
+		"EndDate" : "End Date",
+		"InvalidRange" : "Invalid date range",
+		"FromId" : "From Id",
+		"FromName" : "From",
+		"AdminId" : "Admin Id",
+		"AdminName" : "Admin",
+		"FeedbackType": "Feedback type",
+		"Message" : "Message",
+		"Open" : "Open feedbacks"
+	},
+	"ProfileChatSearchComponent" : {
+		"SentRange" : "Enter a date sent range",
+		"SeenRange" : "Enter a date seen range",
+		"StartDate" : "Start Date",
+		"EndDate" : "End Date",
+		"InvalidRange" : "Invalid date range",
+		"FromId" : "From Id",
+		"FromName" : "From",
+		"ToId" : "To Id",
+		"ToName" : "To",
+		"Message" : "Message",
+		"DoNotDelete" : "Do Not Delete",
+		"DateSent" : "Sent date",
+		"DateSeen" : "Seen date",
+		"CouldNotGetChatsByFilter": "Could not search"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

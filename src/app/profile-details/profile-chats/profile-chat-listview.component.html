@@ -12,7 +12,7 @@
 
   <div *ngIf="noFeedbacks" class="noResults">
     <p>
-      {{'FeedbackAdminComponent.NoResultsText'| transloco}}
+      {{'NoResultsText'| transloco}}
     </p>
   </div>
 
@@ -42,37 +42,37 @@
         </ng-container>
         <!-- FromId Column -->
         <ng-container matColumnDef="fromId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.FromName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromId'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.fromId}} </td>
         </ng-container>
 
         <!-- FromName Column -->
         <ng-container matColumnDef="fromName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.FromName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromName'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.fromName}} </td>
         </ng-container>
 
         <!-- ToId Column -->
         <ng-container matColumnDef="toId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.AdminName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToId'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.toId}} </td>
         </ng-container>
 
         <!-- ToName Column -->
         <ng-container matColumnDef="toName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.AdminName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToName'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.toName}} </td>
         </ng-container>
 
         <!-- DateSent Column -->
         <ng-container matColumnDef="dateSent">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.DateSent'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSent'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.dateSent | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
         </ng-container>
 
         <!-- DateSeen Column -->
         <ng-container matColumnDef="dateSeen">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.DateSeen'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSeen'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.dateSeen | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
         </ng-container>
 

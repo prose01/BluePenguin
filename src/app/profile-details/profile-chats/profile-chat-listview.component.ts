@@ -175,7 +175,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
           this.messages.push(...response);
         },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('ProfileChatSearchComponent.CouldNotGetChatsByFilter'), null); this.loading = false;
         },
         () => {
           this.updateMessageList();

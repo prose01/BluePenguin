@@ -11,7 +11,8 @@
 	"Reset" : "Nulstil",
 	"SaveSearchFilter" : "Gem søgefilter",
 	"LoadSearchFilter" : "Åben gemt søgefilter",
-	"Language" : "Sprog",
+	"Language" : "Sprog",	
+	"Country": "Land",
 	"EditProfile" : "Rediger Profil",
 	"About" : "Om os",
 	"Feedback" : "Feedback",
@@ -24,8 +25,10 @@
 	"SortByCreatedOn" : "Sorter efter sidst oprettet",
 	"SortByLastActive" : "Sorter efter sidst aktiv",
 	"LogOut" : "Log ud",
+	"Yes" : "Ja",
+	"No" : "Nej",
+	"NoResultsText" : "Ingen matches :(",
 	"ListViewComponent": {
-		"NoResultsText" : "Ingen matches :(",
 		"ProfileId": "ProfileId",
 		"Name": "Navn",
 		"CreatedOn": "Oprettet",
@@ -47,7 +50,6 @@
 		"NotContactable" : "Denne profile kan ikke kontaktes."
 	},
 	"TileViewComponent" : {
-		"NoResultsText" : "Ingen matches :(",
 		"VisitedMe": "Har beøgt mig",
 		"BookmarkedMe": "Har bookmarket mig",
 		"DeleteProfile": "Slet profil",
@@ -81,7 +83,8 @@
 	},
 	"ProfileDetailsBoardComponent" : {
 		"ProfileDetails" : "Profiloplysninger",
-		"ProfileImages" : "Profile billeder"
+		"ProfileImages" : "Profile billeder",
+		"Conversations" : "Samtaler"
 	},
 	"ProfileDetailsComponent" : {
 		"CreatedOn": "Oprettet: ",
@@ -265,7 +268,6 @@
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"FeedbackAdminComponent" : {
-		"NoResultsText" : "Ingen matches :(",
 		"DateSent": "DateSent",
 		"DateSeen" : "DateSeen",
 		"FromName" : "FromName",
@@ -279,6 +281,37 @@
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback",
 		"AssignFeedbackToAdmin" : "Tildel Feedback til mig",
 		"MyAssignedFeedbacks" : "Mine tildelte Feedbacks"
+	},
+	"FeedbackSearchComponent" : {
+		"FeedbackId": "Feedback Id",
+		"SentRange" : "Afsender datointerval",
+		"SeenRange" : "Modtager datointerval",
+		"StartDate" : "Start Dato",
+		"EndDate" : "Slut Dato",
+		"InvalidRange" : "Ugyldigt datointerval",
+		"FromId" : "Fra Id",
+		"FromName" : "Fra",
+		"AdminId" : "Administrator Id",
+		"AdminName" : "Administrator",
+		"FeedbackType": "Feedback type",
+		"Message" : "Besked",
+		"Open" : "Åbne feedbacks"
+	},
+	"ProfileChatSearchComponent" : {
+		"SentRange" : "Afsender datointerval",
+		"SeenRange" : "Modtager datointerval",
+		"StartDate" : "Start Dato",
+		"EndDate" : "Slut Dato",
+		"InvalidRange" : "Ugyldigt datointerval",
+		"FromId" : "Fra Id",
+		"FromName" : "Fra",
+		"ToId" : "Til Id",
+		"ToName" : "Til",
+		"Message" : "Besked",
+		"DoNotDelete" : "Slet ikke",
+		"DateSent" : "Sendt dato",
+		"DateSeen" : "Set dato",
+		"CouldNotGetChatsByFilter": "Kunne ikke søge"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

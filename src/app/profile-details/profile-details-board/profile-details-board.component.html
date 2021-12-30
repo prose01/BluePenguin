@@ -18,7 +18,7 @@
   <mat-tab-group>
     <mat-tab label="{{'ProfileDetailsBoardComponent.ProfileDetails'| transloco}}"> <profile-details [profile]="profile"></profile-details> </mat-tab>
     <mat-tab label="{{'ProfileDetailsBoardComponent.ProfileImages'| transloco}}"> <profile-images [profile]="profile"></profile-images> </mat-tab>
-    <mat-tab *ngIf="currentUserSubject.admin" label="Conversations"> <profile-chat-listview (loadDetails)="loadDetails($event)" (chatSearch)="chatSearch($event)" [profile]="profile"></profile-chat-listview> </mat-tab>
+    <mat-tab *ngIf="currentUserSubject.admin" label="{{'ProfileDetailsBoardComponent.Conversations'| transloco}}"> <profile-chat-listview (loadDetails)="loadDetails($event)" (chatSearch)="chatSearch($event)" [profile]="profile"></profile-chat-listview> </mat-tab>
   </mat-tab-group>
 
 </div>
