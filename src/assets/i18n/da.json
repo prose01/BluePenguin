@@ -268,17 +268,18 @@
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"FeedbackAdminComponent" : {
-		"DateSent": "DateSent",
-		"DateSeen" : "DateSeen",
-		"FromName" : "FromName",
-		"AdminName" : "AdminName",
-		"FeedbackType" : "FeedbackType",
+		"DateSent": "Sendt dato",
+		"DateSeen" : "Set dato",
+		"FromName" : "Fra",
+		"AdminName" : "s",
+		"FeedbackType" : "Feedback type",
+		"Message" : "Besked",
+		"Open" : "Åbne feedbacks",
 		"Message" : "Message",
-		"Open" : "Open",
-		"Countrycode" : "Countrycode",
-		"Languagecode" : "Languagecode",
-		"Message" : "Message",
-		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback",
+		"CouldNotGetUnassignedFeedbacks" : "Kunne desværre ikke hente utildelte feedbacks",
+		"CouldNotAssignFeedbackToAdmin": "Kunne ndesværre ikke tildel Feedback til admin ",
+		"CouldNotGetFeedbacksByFilter": "Kunne ndesværre ikke hente Feedback via søgefileter",
+		"CouldNotLoadDetails": "Kunne desværre ikke hente Profiloplysninger",
 		"AssignFeedbackToAdmin" : "Tildel Feedback til mig",
 		"MyAssignedFeedbacks" : "Mine tildelte Feedbacks"
 	},
@@ -296,6 +297,12 @@
 		"FeedbackType": "Feedback type",
 		"Message" : "Besked",
 		"Open" : "Åbne feedbacks"
+	},
+	"FeedbackDialog" : {
+		"Close" : "Luk",
+		"FromName" : "Fra",
+		"Message" : "Besked",
+		"ProfileDetails" : "Profiloplysninger"
 	},
 	"ProfileChatSearchComponent" : {
 		"SentRange" : "Afsender datointerval",

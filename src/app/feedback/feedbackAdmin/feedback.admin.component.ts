@@ -174,7 +174,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
           this.feedbacks.push(...response);
         },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
         },
         () => {
           this.ngOnChanges();
@@ -189,7 +189,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(
         () => { },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
         },
         () => { }
       );
@@ -230,7 +230,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
           this.ngOnChanges();
         },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
         },
         () => { }
       );
@@ -257,7 +257,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(
         (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
         (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); 
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
         },
         () => { }
       );

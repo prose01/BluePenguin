@@ -269,17 +269,18 @@
 		"CouldNotSendFeedback" : "Could not send Feedback"
 	},
 	"FeedbackAdminComponent" : {
-		"DateSent": "DateSent",
-		"DateSeen" : "DateSeen",
-		"FromName" : "FromName",
-		"AdminName" : "AdminName",
-		"FeedbackType" : "FeedbackType",
+		"DateSent": "Sent date",
+		"DateSeen" : "Seen date",
+		"FromName" : "From",
+		"AdminName" : "Admin",
+		"FeedbackType" : "Feedback type",
 		"Message" : "Message",
 		"Open" : "Open",
-		"Countrycode" : "Countrycode",
-		"Languagecode" : "Languagecode",
 		"Message" : "Message",
-		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback",
+		"CouldNotGetUnassignedFeedbacks" : "Could not get unassigned feedbacks",
+		"CouldNotAssignFeedbackToAdmin": "Could not assign feedback to admin ",
+		"CouldNotGetFeedbacksByFilter": "Could not get feedbacks by filter",
+		"CouldNotLoadDetails": "Could not load details",
 		"AssignFeedbackToAdmin" : "Assign Feedback To Me",
 		"MyAssignedFeedbacks" : "My Assigned Feedbacks"
 	},
@@ -297,6 +298,12 @@
 		"FeedbackType": "Feedback type",
 		"Message" : "Message",
 		"Open" : "Open feedbacks"
+	},
+	"FeedbackDialog" : {
+		"Close" : "Close",
+		"FromName" : "From",
+		"Message" : "Message",
+		"ProfileDetails" : "Profile Details"
 	},
 	"ProfileChatSearchComponent" : {
 		"SentRange" : "Enter a date sent range",

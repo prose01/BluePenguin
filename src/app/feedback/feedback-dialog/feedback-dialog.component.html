@@ -1,15 +1,15 @@
 <div mat-dialog-content class="container">
-  <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'ImageDialogComponent.Close'| transloco}}">
+  <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'FeedbackDialog.Close'| transloco}}">
     <i class="material-icons">close</i>
   </button>
 
-  <h1 mat-dialog-title>{{feedback.fromName}}</h1>
+  <h1 mat-dialog-title>{{'FeedbackDialog.FromName'| transloco}}</h1>
   <div mat-dialog-content>
-    {{feedback.message}}
+    {{'FeedbackDialog.Message'| transloco}}
   </div>
 
 </div>
 
-<button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
+<button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
   <i class="material-icons">person</i>
 </button>
