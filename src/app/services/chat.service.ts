@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
-import { Message } from 'ng-chat';
+import { MessageModel } from '../models/messageModel';
 import { ChatFilter } from '../models/chatFilter';
 
 @Injectable()
@@ -20,26 +20,41 @@ export class ChatService {
   }
 
   
-  getProfileMessages(profileId: string): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers })
+  getProfileMessages(profileId: string): Observable<MessageModel[]> {
+    return this.http.get<MessageModel[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string, pageSize: string): Observable<Message[]> {
+  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string, pageSize: string): Observable<MessageModel[]> {
     const params = new HttpParams()
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Message[]>(`${this.junoUrl}GetChatsByFilter`, { chatFilter }, { headers: this.headers, params: params })
+    return this.http.post<MessageModel[]>(`${this.junoUrl}GetChatsByFilter`, { chatFilter }, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
+  doNotDelete(messages: MessageModel[]): Observable<{}> {
+    return this.http.post<MessageModel[]>(`${this.junoUrl}DoNotDelete`, messages, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  allowDelete(messages: MessageModel[]): Observable<{}> {
+    return this.http.post<MessageModel[]>(`${this.junoUrl}AllowDelete`, messages, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
 
   // Helper Lav en rigtig error handler inden produktion
   // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts

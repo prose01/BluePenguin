@@ -58,6 +58,7 @@ import { ProfileDetailsComponent }            from './profile-details/profile-de
 import { ProfileImagesComponent }             from './profile-details/profile-images/profile-images.component';
 import { ProfileChatListviewComponent }       from './profile-details/profile-chats/profile-chat-listview.component';
 import { ProfileChatSearchComponent }         from './profile-details/profile-chat-search/profile-chat-search.component';
+import { MessageDialog }                      from './profile-details/profile-chat-message-dialog/profile-chat-message-dialog';
 
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
@@ -93,6 +94,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileImagesComponent,
     ProfileChatListviewComponent,
     ProfileChatSearchComponent,
+    MessageDialog,
     AboutComponent,
     FeedbackComponent,
     FeedbackAdminComponent,

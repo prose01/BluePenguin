@@ -301,8 +301,6 @@
 	},
 	"FeedbackDialog" : {
 		"Close" : "Close",
-		"FromName" : "From",
-		"Message" : "Message",
 		"ProfileDetails" : "Profile Details"
 	},
 	"ProfileChatSearchComponent" : {

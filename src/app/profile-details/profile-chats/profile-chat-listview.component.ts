@@ -12,12 +12,12 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
 import { ChatService } from '../../services/chat.service';
-import { ImageService } from '../../services/image.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { Feedback } from '../../models/feedback';
-import { Message } from 'ng-chat';
+import { MessageModel } from '../../models/messageModel';
+import { MessageDialog } from '../profile-chat-message-dialog/profile-chat-message-dialog';
 import { ProfileChatSearchComponent } from '../profile-chat-search/profile-chat-search.component';
 import { ChatFilter } from '../../models/chatFilter';
 
@@ -45,17 +45,17 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
   currentUserSubject: CurrentUser;
 
-  messages: Message[] = new Array;
+  messages: MessageModel[] = new Array;
 
-  dataSource: MatTableDataSource<Message>;
-  selection = new SelectionModel<Message>(true, []);
+  dataSource: MatTableDataSource<MessageModel>;
+  selection = new SelectionModel<MessageModel>(true, []);
 
   displayedColumns: string[] = ['select', 'fromId', 'fromName', 'toId', 'toName', 'dateSent', 'dateSeen'];
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(private chatService: ChatService, private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
+  constructor(private chatService: ChatService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => cdr.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -137,7 +137,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Message): string {
+  checkboxLabel(row?: MessageModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -162,6 +162,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
   reset() {
     this.profileChatSearchComponent.reset();
+    this.getProfileMessages();
   }
 
   getChatsByFilter(chatFilter: ChatFilter, pageIndex: string = '0', pageSize: string = '20') {
@@ -183,82 +184,57 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
       );
   }
 
-  async openMessageDialog(message: Message): Promise<void> {
-    console.log('Open a message dialog');
-    //var profileId = message.fromId == this.profile.profileId ? message.toId : message.fromId;
+  /** Allow or disallow Message Delete */
+  toggleDoNotDelete() {
 
-    //// Do not open dialog if it is currentUser
-    //if (profileId == this.currentUserSubject.profileId) {
-    //  this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
-    //  return;
-    //}
+    var doNotDelete: MessageModel[] = new Array;
+    var allowDelete: MessageModel[] = new Array;
 
-    //var profile: Profile;
+    for (var _i = 0; _i < this.selection.selected.length; _i++) {
 
-    //this.profileService.getProfileById(profileId)
-    //  .pipe(takeWhileAlive(this))
-    //  .subscribe(
-    //    (response: any) => {
-    //      profile = response;
+      var message = this.selection.selected[_i];
 
-    //      this.getProfileImages(profile);
+      if (message.doNotDelete) {
+        allowDelete.push(message);
+      }
+      else {
+        doNotDelete.push(message);
+      }
+    }
 
-    //      const dialogRef = this.dialog.open(ImageDialog, {
-    //        data: {
-    //          index: 0,
-    //          imageModels: profile.images,
-    //          profile: profile
-    //        }
-    //      });
+    if (doNotDelete.length > 0) {
+      this.chatService.doNotDelete(doNotDelete)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {});
+    }
 
-    //      dialogRef.afterClosed().subscribe(
-    //        res => {
-    //          if (res === true) { this.loadDetails.emit(profile); }
-    //        }
-    //      );
-    //    },
-    //    (error: any) => {
-    //      this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null);
-    //    },
-    //    () => { }
-    //  );
+    if (allowDelete.length > 0) {
+      this.chatService.allowDelete(allowDelete)
+        .pipe(takeWhileAlive(this))
+        .subscribe(() => { }, () => { }, () => {});
+    }
+
+    console.log(doNotDelete);
+    console.log(allowDelete);
+
+    this.getProfileMessages();
   }
 
-  //getProfileImages(profile: Profile): void {
-  //  let defaultImageModel: ImageModel = new ImageModel();
+  async openMessageDialog(message: MessageModel): Promise<void> {
+    console.log('Open a message dialog');
 
-  //  if (profile.images != null && profile.images.length > 0) {
+    const dialogRef = this.dialog.open(MessageDialog, {
+      data: {
+        message: message
+      }
+    });
 
-  //    profile.images.forEach((element, i) => {
-
-  //      if (typeof element.fileName !== 'undefined') {
-
-  //        this.loading = true;
-
-  //        this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-  //          .pipe(takeWhileAlive(this))
-  //          .subscribe(
-  //            images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-  //            () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-  //            () => { this.loading = false; }
-  //          );
-
-  //        this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-  //          .pipe(takeWhileAlive(this))
-  //          .subscribe(
-  //            images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-  //            () => { this.loading = false; element.image = defaultImageModel.image },
-  //            () => { this.loading = false; }
-  //          );
-  //      }
-
-  //    });
-  //  }
-  //  else {
-  //    // Set default profile image.
-  //    profile.images[0] = defaultImageModel;
-  //  }
-  //}
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) { /*this.loadDetails(feedback.fromProfileId)*/ }
+      }
+    );
+  }
 
   openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {

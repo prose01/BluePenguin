@@ -26,7 +26,7 @@ export class ProfileChatSearchComponent {
   toId: string;
   toName: string;
   message: string;
-  doNotDelete: string;
+  doNotDelete: boolean;
 
   @Output('getChatsByFilter') getChatsByFilter = new EventEmitter<ChatFilter>();
 
@@ -51,6 +51,20 @@ export class ProfileChatSearchComponent {
 
   onSubmit() {
     this.filter = this.prepareSearch();
+
+    // Just return if no search input.
+    if (this.filter.dateSeenEnd == null &&
+      this.filter.dateSeenStart == null &&
+      this.filter.dateSentEnd == null &&
+      this.filter.dateSentStart == null &&
+      this.filter.doNotDelete == null &&
+      this.filter.fromId == null &&
+      this.filter.fromName == null &&
+      this.filter.toId == null &&
+      this.filter.toName == null) {
+      return;
+    }
+
     this.getChatsByFilter.emit(this.filter);
   }
 
@@ -72,12 +86,12 @@ export class ProfileChatSearchComponent {
       fromName: formModel.fromName as string,
       toId: formModel.toId as string,
       toName: formModel.toName as string,
-      message: formModel.message as string,
+      message: null,
       doNotDelete: null
     };
 
-    if (formModel.doNotDelete != 'notChosen' && formModel.doNotDelete != null) {
-      filterChat.doNotDelete = formModel.doNotDelete as string;
+    if (formModel.doNotDelete != 'notChosen') {
+      filterChat.doNotDelete = formModel.doNotDelete as boolean;
     }
 
     return filterChat;

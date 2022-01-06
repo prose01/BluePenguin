@@ -117,7 +117,7 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   /** Add or remove Likes */
-  toggleLike() {
+  toggleLike() {    // TODO: Look at these two toggles again and decide which to keep.
 
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
 
@@ -153,7 +153,7 @@ export class ProfileListviewComponent implements OnChanges {
     }
   }
 
-  toggleLike2() {
+  toggleLike2() {   // TODO: Look at these two toggles again and decide which to keep.
 
     var removeProfiles = new Array;
     var addProfiles = new Array;

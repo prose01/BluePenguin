@@ -10,6 +10,10 @@
     <i class="material-icons">search</i>
   </button>
 
+  <button type="button" *ngIf="!noFeedbacks" (click)="toggleDoNotDelete()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="Search">
+    <i class="material-icons">delete_forever</i>
+  </button>
+
   <div *ngIf="noFeedbacks" class="noResults">
     <p>
       {{'NoResultsText'| transloco}}

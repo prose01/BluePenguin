@@ -82,7 +82,6 @@ export class ProfileDetailsBoardComponent implements OnInit {
   }
 
   reset() {
-    console.log('details board');
     this.profileChatListviewComponent.reset();
   }
 }

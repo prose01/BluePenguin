@@ -300,8 +300,6 @@
 	},
 	"FeedbackDialog" : {
 		"Close" : "Luk",
-		"FromName" : "Fra",
-		"Message" : "Besked",
 		"ProfileDetails" : "Profiloplysninger"
 	},
 	"ProfileChatSearchComponent" : {
