@@ -15,7 +15,7 @@
 
 </div>
 
-<h3 class="title" mat-dialog-title>{{data.imageModels[index].title}}</h3>
+<h3 class="title" mat-dialog-title (click)="loadDetailsClick()">{{data.imageModels[index].title}}</h3>
 
 <button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser()" (click)="loadDetailsClick()" mat-button matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
   <i class="material-icons">person</i>

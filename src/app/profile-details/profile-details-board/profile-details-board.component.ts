@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ImageService } from '../../services/image.service';
@@ -15,9 +15,11 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
 })
 
 @AutoUnsubscribe()
-export class ProfileDetailsBoardComponent implements OnInit {
+export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
   loading: boolean = false;
   isChatSearch: boolean = false;
+
+  tabIndex = 0;
 
   currentUserSubject: CurrentUser;
 
@@ -32,6 +34,15 @@ export class ProfileDetailsBoardComponent implements OnInit {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
     this.getProfileImages();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.profile.firstChange) {
+      if (changes.profile.currentValue != changes.profile.previousValue) {
+        this.getProfileImages();
+        this.tabIndex = 0;
+      }
+    }
   }
 
   getProfileImages(): void {

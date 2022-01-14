@@ -315,9 +315,15 @@
 		"ToName" : "To",
 		"Message" : "Message",
 		"DoNotDelete" : "Do Not Delete",
+		"AllowDelete" : "Allow Delete",
 		"DateSent" : "Sent date",
 		"DateSeen" : "Seen date",
 		"CouldNotGetChatsByFilter": "Could not search"
+	},
+	"ProfileChatListviewComponent" : {
+		"CouldNotGetMessages" : "Could not get messages",
+		"CouldNotGetChatsByFilter" : "Could not get chats by filter",
+		"CouldNotLoadDetails": "Could not load details"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

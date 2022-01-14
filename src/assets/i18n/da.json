@@ -314,9 +314,15 @@
 		"ToName" : "Til",
 		"Message" : "Besked",
 		"DoNotDelete" : "Slet ikke",
+		"AllowDelete" : "Tillad sletning",
 		"DateSent" : "Sendt dato",
 		"DateSeen" : "Set dato",
 		"CouldNotGetChatsByFilter": "Kunne ikke søge"
+	},
+	"ProfileChatListviewComponent" : {
+		"CouldNotGetMessages" : "Kunne ikke finde beskeder",
+		"CouldNotGetChatsByFilter" : "Kunne ikke finde beskeder med filter",
+		"CouldNotLoadDetails": "Kunne desværre ikke hente Profiloplysninger"
 	},
 	"ErrorDialog" : {
 		"Ok" : "Ok"

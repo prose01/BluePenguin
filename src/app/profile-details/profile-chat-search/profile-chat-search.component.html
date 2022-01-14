@@ -58,9 +58,9 @@
 
       <mat-form-field>
         <mat-select placeholder="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" formControlName="doNotDelete" [(value)]="doNotDelete">
-          <mat-option value="notChosen">Not Chosen</mat-option>
-          <mat-option value="true">"{{'Yes'| transloco}}"</mat-option>
-          <mat-option value="false">"{{'No'| transloco}}"</mat-option>
+          <mat-option value="notChosen">{{'Enum.NotChosen'| transloco}}</mat-option>
+          <mat-option value="true">{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}</mat-option>
+          <mat-option value="false">{{'ProfileChatSearchComponent.AllowDelete'| transloco}}</mat-option>
         </mat-select>
       </mat-form-field>
 
