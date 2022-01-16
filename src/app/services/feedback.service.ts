@@ -27,6 +27,22 @@ export class FeedBackService {
       );
   }
 
+  openFeedbacks(feedbackIds: String[]): Observable<{}> {
+    return this.http.post<Feedback>(`${this.avalonUrl}OpenFeedbacks`, feedbackIds, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  closeFeedbacks(feedbackIds: String[]): Observable<{}> {
+    return this.http.post<Feedback>(`${this.avalonUrl}CloseFeedbacks`, feedbackIds, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   getUnassignedFeedbacks(countrycode: string, languagecode: string): Observable<Feedback[]> {
     const params = new HttpParams()
       .set('Countrycode', countrycode)

@@ -195,6 +195,53 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       );
   }
 
+  /** Toggle Feedback status */
+  toggleFeedbackStatus() {
+
+    const openFeedbackIds = new Array;
+    const closeFeedbackIds = new Array;
+
+    for (var _i = 0; _i < this.selection.selected.length; _i++) {
+
+      var feedback = this.selection.selected[_i];
+
+      if (feedback.open) {
+        closeFeedbackIds.push(feedback.feedbackId);
+        feedback.open = false;
+      }
+      else {
+        openFeedbackIds.push(feedback.feedbackId);
+        feedback.open = true;
+      }
+    }
+
+    if (openFeedbackIds.length > 0) {
+      this.feedBackService.openFeedbacks(openFeedbackIds)
+        .pipe(takeWhileAlive(this))
+        .subscribe(
+          () => { },
+          (error: any) => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          },
+          () => { }
+        );
+    }
+
+    if (closeFeedbackIds.length > 0) {
+      this.feedBackService.closeFeedbacks(closeFeedbackIds)
+        .pipe(takeWhileAlive(this))
+        .subscribe(
+          () => { },
+          (error: any) => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          },
+          () => { }
+        );
+    }
+
+    //this.setDataSource();
+  }
+
   myAssignedFeedbacks() {
     const filterFeedback: FeedbackFilter = {
 
@@ -209,7 +256,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
       adminName: this.currentUserSubject.name,
       feedbackType: null,
       message: null,
-      open: this.openChecked.toString(),
+      open: this.openChecked,
       countrycode: null,
       languagecode: null
     };

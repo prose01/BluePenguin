@@ -12,7 +12,7 @@ export class FeedbackFilter {
   adminName: string;
   feedbackType: FeedbackType;
   message: string;
-  open: string;
+  open: boolean;
   countrycode: string;
   languagecode: string;
 }
@@ -29,7 +29,7 @@ export interface FeedbackFilter {
   adminName: string;
   feedbackType: FeedbackType;
   message: string;
-  open: string;
+  open: boolean;
   countrycode: string;
   languagecode: string;
 }

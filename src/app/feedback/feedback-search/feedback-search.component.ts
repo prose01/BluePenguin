@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { AutoUnsubscribe } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EnumMappingService } from '../../services/enumMapping.service';
@@ -40,7 +40,7 @@ export class FeedbackSearchComponent implements OnInit {
   adminName: string;
   feedbackTypes: ReadonlyMap<string, string>;
   message: string;
-  open: string;
+  open: boolean;
   countrycode: string;
   languagecode: string;
 
@@ -117,10 +117,9 @@ export class FeedbackSearchComponent implements OnInit {
       languagecode: formModel.languagecode as string
     };
 
-    if (formModel.open != 'notChosen' && formModel.open != null) {
-      filterFeedback.open = formModel.open as string;
+    if (formModel.open != 'notChosen') {
+      filterFeedback.open = (formModel.open == "true");
     }
-    
     return filterFeedback;
   }
 

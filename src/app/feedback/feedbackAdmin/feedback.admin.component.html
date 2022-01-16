@@ -11,8 +11,12 @@
     <i class="material-icons">{{matButtonToggleSearchIcon}}</i>
   </button>
 
-  <button *ngIf="pageSearch === 'list' && allowAssignment" type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
-    <i class="material-icons">assignment_turned_in</i>
+  <button *ngIf="pageView === 'assignment' && pageSearch === 'list' && allowAssignment" type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
+    <i class="material-icons">assignment_returned</i>
+  </button>
+
+  <button *ngIf="pageView === 'all' && pageSearch === 'list' && allowAssignment" type="button" (click)="toggleFeedbackStatus()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+    <i class="material-icons">check_circle</i>
   </button>
 
   <button *ngIf="pageSearch === 'list'" type="button" (click)="toggleAllDisplay()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{matButtonToggleAllText}}">
@@ -20,11 +24,11 @@
   </button>
 
   <section *ngIf="pageView === 'all' && pageSearch === 'list'" class="section">
-    <mat-checkbox class="margin" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">Open </mat-checkbox>
+    <mat-checkbox class="margin" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">{{'FeedbackAdminComponent.Open'| transloco}}</mat-checkbox>
   </section>
 
   <section *ngIf="pageView === 'assignment' && pageSearch === 'list'" class="section">
-    <mat-checkbox class="margin" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">My language </mat-checkbox>
+    <mat-checkbox class="margin" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">{{'FeedbackAdminComponent.MyLanguage'| transloco}}</mat-checkbox>
   </section>
 
   <button *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
@@ -106,7 +110,10 @@
         <!-- Open Column -->
         <ng-container matColumnDef="open">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.Open'| transloco}} </th>
-          <td mat-cell *matCellDef="let element"> {{element?.open}} </td>
+          <td mat-cell *matCellDef="let element">
+            <i class="material-icons icon-orange" *ngIf="element?.open" matTooltip="{{'FeedbackAdminComponent.Open'| transloco}}">circle</i>
+            <i class="material-icons icon-white" *ngIf="!element?.open" matTooltip="{{'FeedbackAdminComponent.Closed'| transloco}}">check_circle</i>
+          </td>
         </ng-container>
 
         <!-- Countrycode Column -->

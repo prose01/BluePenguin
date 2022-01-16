@@ -10,7 +10,7 @@ export class Feedback {
   adminName: string;
   feedbackType: FeedbackType;
   message: string;
-  open: string;
+  open: boolean;
   countrycode: string;
   languagecode: string;
 }
@@ -25,7 +25,7 @@ export interface Feedback {
   adminName: string;
   feedbackType: FeedbackType;
   message: string;
-  open: string;
+  open: boolean;
   countrycode: string;
   languagecode: string;
 }
