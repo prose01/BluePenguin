@@ -388,6 +388,7 @@ export class EnumMappingService {
   // FeedbackType
   get feedbackTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [FeedbackType.NotChosen, this.NotChosenText],
       [FeedbackType.Comment, this.CommentText],
       [FeedbackType.Error, this.ErrorText],
       [FeedbackType.Improvement, this.ImprovementText],

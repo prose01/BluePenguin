@@ -68,7 +68,7 @@ export class FeedbackSearchComponent implements OnInit {
       fromName: null,
       adminProfileId: this.currentUserSubject.profileId,
       adminName: this.currentUserSubject.name,
-      feedbackType: FeedbackType.Comment,
+      feedbackType: FeedbackType.NotChosen,
       message: null,
       open: 'notChosen',
       countrycode: null,
@@ -110,16 +110,21 @@ export class FeedbackSearchComponent implements OnInit {
       fromName: formModel.fromName as string,
       adminProfileId: formModel.adminProfileId as string,
       adminName: formModel.adminName as string,
-      feedbackType: formModel.feedbackType as FeedbackType,
+      feedbackType: null,
       message: formModel.message as string,
       open: null,
       countrycode: formModel.countrycode as string,
       languagecode: formModel.languagecode as string
     };
 
+    if (formModel.feedbackType != 'NotChosen') {
+      filterFeedback.feedbackType = formModel.feedbackType as FeedbackType;
+    }
+
     if (formModel.open != 'notChosen') {
       filterFeedback.open = (formModel.open == "true");
     }
+
     return filterFeedback;
   }
 

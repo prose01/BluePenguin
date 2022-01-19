@@ -16,7 +16,7 @@ export class MessageDialog {
 
   message: MessageModel;
 
-  constructor(private chatService: ChatService, public dialogRef: MatDialogRef<MessageDialog>,
+  constructor(public dialogRef: MatDialogRef<MessageDialog>, private chatService: ChatService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.message = this.data.message;

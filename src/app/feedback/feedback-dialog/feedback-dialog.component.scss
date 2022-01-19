@@ -1,8 +1,8 @@
 .container {
   position: relative;
-  width: auto;
+  width: 80vh;
   height: 80vh;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .container .close {

@@ -268,17 +268,23 @@
 		"CouldNotSendFeedback" : "Kunne desværre ikke sende feedback"
 	},
 	"FeedbackAdminComponent" : {
+		"FeedbackId" : "FeedbackId",
 		"DateSent": "Sendt dato",
 		"DateSeen" : "Set dato",
 		"FromName" : "Fra",
+		"FromProfileId" : "Fra Id",
 		"AdminName" : "Administrator",
+		"AdminProfileId" : "Admin Id",
 		"FeedbackType" : "Feedback type",
 		"Message" : "Besked",
 		"Open" : "Åbne feedbacks",
 		"Closed" : "Lukket",
+		"FeedbackStatus" : "Feedback status",
 		"ToggleStatus" : "Skift feedback(s) status",
 		"Message" : "Message",
 		"MyLanguage" : "Kun mit sprog",
+		"Countrycode" : "Landekode",
+		"Languagecode" : "Sprogkode",
 		"CouldNotGetUnassignedFeedbacks" : "Kunne desværre ikke hente utildelte feedbacks",
 		"CouldNotAssignFeedbackToAdmin": "Kunne ndesværre ikke tildel Feedback til admin ",
 		"CouldNotToggleFeedbackStatus": "Kunne ndesværre ikke ændre feedback status",
@@ -301,7 +307,8 @@
 		"AdminName" : "Administrator",
 		"FeedbackType": "Feedback type",
 		"Message" : "Besked",
-		"Open" : "Åbne feedbacks"
+		"Open" : "Åbne feedbacks",
+		"Closed" : "Lukket feedbacks"
 	},
 	"FeedbackDialog" : {
 		"Close" : "Luk",

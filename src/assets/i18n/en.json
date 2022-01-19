@@ -269,17 +269,23 @@
 		"CouldNotSendFeedback" : "Could not send Feedback"
 	},
 	"FeedbackAdminComponent" : {
+		"FeedbackId" : "FeedbackId",
 		"DateSent": "Sent date",
 		"DateSeen" : "Seen date",
 		"FromName" : "From",
+		"FromProfileId" : "From Id",
 		"AdminName" : "Admin",
+		"AdminProfileId" : "Admin Id",
 		"FeedbackType" : "Feedback type",
 		"Message" : "Message",
 		"Open" : "Open",
 		"Closed" : "Closed",
+		"FeedbackStatus" : "Feedback status",
 		"ToggleStatus" : "Toggle feedback(s) status",
 		"Message" : "Message",
 		"MyLanguage" : "Only my language",
+		"Countrycode" : "Countrycode",
+		"Languagecode" : "Languagecode",
 		"CouldNotGetUnassignedFeedbacks" : "Could not get unassigned feedbacks",
 		"CouldNotAssignFeedbackToAdmin": "Could not assign feedback to admin ",
 		"CouldNotToggleFeedbackStatus": "Could not toggle feedback status",
@@ -302,7 +308,8 @@
 		"AdminName" : "Admin",
 		"FeedbackType": "Feedback type",
 		"Message" : "Message",
-		"Open" : "Open feedbacks"
+		"Open" : "Open feedbacks",
+		"Closed" : "Closed feedbacks"
 	},
 	"FeedbackDialog" : {
 		"Close" : "Close",

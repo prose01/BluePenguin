@@ -320,7 +320,16 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     dialogRef.afterClosed().subscribe(
       res => {
-        if (res === true) { this.loadDetails(feedback.fromProfileId) }
+        if (res === true) {
+          this.loadDetails(feedback.fromProfileId)
+        }
+        else if (res == feedback) {
+          let index = this.feedbacks.findIndex(f => f.feedbackId === res.feedbackId);
+          this.feedbacks[index].open = res.open;
+
+          this.myAssignedFeedbacks();
+
+        }
       }
     );
   }
