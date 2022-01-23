@@ -19,16 +19,20 @@ export class ChatService {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
-  
-  getProfileMessages(profileId: string): Observable<MessageModel[]> {
-    return this.http.get<MessageModel[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers })
+
+  getProfileMessages(profileId: string, pageIndex: number, pageSize: number): Observable<MessageModel[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<MessageModel[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string, pageSize: string): Observable<MessageModel[]> {
+  getChatsByFilter(chatFilter: ChatFilter, pageIndex: number, pageSize: number): Observable<MessageModel[]> {
     const params = new HttpParams()
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);

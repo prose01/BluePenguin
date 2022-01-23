@@ -45,3 +45,11 @@ mat-sidenav {
 .margin {
   margin: 0 12px;
 }
+
+/*::ng-deep .mat-paginator-page-size {
+  display: none !important;
+}*/
+
+::ng-deep .mat-paginator-range-label {
+  display: none !important;
+}

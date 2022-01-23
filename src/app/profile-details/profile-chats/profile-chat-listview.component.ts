@@ -42,7 +42,14 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
   loading: boolean = false;
   noFeedbacks: boolean = false;
 
+  //pageIndex: number = 0;
+  //pageSize: number = 10;
+  //currentSize: number = 0;
+  length: number = 5;
+  currentSearch: string;
+
   currentUserSubject: CurrentUser;
+  chatFilter: ChatFilter;
 
   messages: MessageModel[] = new Array;
 
@@ -80,8 +87,20 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  getProfileMessages() {
-    this.chatService.getProfileMessages(this.profile.profileId)
+  pageChanged(event) {
+    this.loading = true;
+
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
+
+    this.currentSearch == 'getProfileMessages' ? this.getProfileMessages(currentSize, pageIndex, pageSize) : this.getChatsByFilter(currentSize, pageIndex, pageSize);
+  }
+
+  getProfileMessages(currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    this.currentSearch = 'getProfileMessages';
+
+    this.chatService.getProfileMessages(this.profile.profileId, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -89,6 +108,10 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
           this.messages = new Array;
 
           this.messages.push(...response);
+
+          this.length = currentSize + response.length + 1;
+
+          this.loading = false;
         },
         (error: any) => {
           this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;
@@ -107,8 +130,6 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.messages?.length <= 0 ? this.noFeedbacks = true : this.noFeedbacks = false;
 
     this.setDataSource();
-
-    this.loading = false;
   }
 
   setDataSource(): void {
@@ -116,8 +137,9 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator.length = this.length;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -157,8 +179,15 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.getProfileMessages();
   }
 
-  getChatsByFilter(chatFilter: ChatFilter, pageIndex: string = '0', pageSize: string = '20') {
-    this.chatService.getChatsByFilter(chatFilter, pageIndex, pageSize)
+  setChatFilter(chatFilter: ChatFilter) {
+    this.chatFilter = chatFilter;
+    this.getChatsByFilter();
+  }
+
+  getChatsByFilter(currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    this.currentSearch = 'getChatsByFilter';
+
+    this.chatService.getChatsByFilter(this.chatFilter, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
@@ -166,6 +195,10 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
           this.messages = new Array;
 
           this.messages.push(...response);
+
+          this.length = currentSize + response.length + 1;
+
+          this.loading = false;
         },
         (error: any) => {
           this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetChatsByFilter'), null); this.loading = false;

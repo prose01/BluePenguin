@@ -22,7 +22,7 @@
 
 
   <div [class.mobile]="mobileQuery.matches">
-    <div *ngIf="dataSource && !noFeedbacks" class="mat-elevation-z8">
+    <div *ngIf="dataSource" class="mat-elevation-z8">
 
       <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
@@ -97,14 +97,14 @@
 
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+      <mat-paginator [length]="length" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
 
     </div>
   </div>
 
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
     <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
-      <profile-chat-search (getChatsByFilter)="getChatsByFilter($event)"></profile-chat-search>
+      <profile-chat-search (getChatsByFilter)="setChatFilter($event)"></profile-chat-search>
     </mat-sidenav>
   </mat-sidenav-container>
 
