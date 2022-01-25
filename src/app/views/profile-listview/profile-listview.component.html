@@ -134,7 +134,7 @@
       <i class="material-icons">delete</i>
     </button>
 
-    <mat-paginator (page)="pageChanged($event)" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    <mat-paginator [length]="length" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
 
   </div>
 

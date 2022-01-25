@@ -144,7 +144,7 @@
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
     <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
       <div *ngIf="pageView === 'Search'">
-        <app-profile-search (getProfileByFilter)="getProfileByFilter($event, false)"></app-profile-search>
+        <app-profile-search (getProfileByFilter)="getProfileByFilter()" (toggleDisplay)="toggleDisplay()"></app-profile-search>
       </div>
     </mat-sidenav>
 

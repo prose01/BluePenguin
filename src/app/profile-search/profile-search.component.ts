@@ -74,7 +74,10 @@ export class ProfileSearchComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
-  @Output() getProfileByFilter = new EventEmitter<ProfileFilter>();
+  //@Output() getProfileByFilter = EventEmitter<any> = new EventEmitter();
+  @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
+  @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
+
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes); // TODO: Maybe not used
@@ -182,8 +185,32 @@ export class ProfileSearchComponent implements OnInit {
 
   onSubmit() {
     this.filter = this.prepareSearch();
+    
+    // Just return if no search input.
+    if (this.filter.name == null &&
+      this.filter.age[1] == 0 &&
+      this.filter.height[1] == 0 &&
+      this.filter.description == null &&
+      this.filter.tags.length == 0 &&
+      this.filter.body == BodyType.NotChosen &&
+      this.filter.smokingHabits == SmokingHabitsType.NotChosen &&
+      this.filter.hasChildren == HasChildrenType.NotChosen &&
+      this.filter.wantChildren == WantChildrenType.NotChosen &&
+      this.filter.hasPets == HasPetsType.NotChosen &&
+      this.filter.livesIn == LivesInType.NotChosen &&
+      this.filter.education == EducationType.NotChosen &&
+      this.filter.educationStatus == EducationStatusType.NotChosen &&
+      this.filter.employmentStatus == EmploymentStatusType.NotChosen &&
+      this.filter.sportsActivity == SportsActivityType.NotChosen &&
+      this.filter.eatingHabits == EatingHabitsType.NotChosen &&
+      this.filter.clotheStyle == ClotheStyleType.NotChosen &&
+      this.filter.bodyArt == BodyArtType.NotChosen) {
+
+      this.toggleDisplay.emit()
+      return;
+    }
     this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
-    this.getProfileByFilter.emit(this.filter);
+    this.getProfileByFilter.emit();
   }
 
   reset() {

@@ -204,7 +204,7 @@ export class CreateProfileComponent {
       this.profileService.addProfile(this.currentUser).subscribe(
         () => { },
         (error: any) => {
-          this.isCurrentUserCreated.emit(false);
+          this.isCurrentUserCreated.emit({ isCreated: false, languagecode: this.currentUser.languagecode });
           if (error.status === 400) {
             this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
           }
@@ -214,8 +214,8 @@ export class CreateProfileComponent {
         },
         () => {
           this.profileService.updateCurrentUserSubject();
-          this.initDefaultData.emit();
-          this.isCurrentUserCreated.emit(true);
+          this.initDefaultData.emit(); // TODO: Move to Photo tab after Create
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode });
         });
     }
   }

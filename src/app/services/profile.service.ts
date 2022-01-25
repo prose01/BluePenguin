@@ -110,7 +110,7 @@ export class ProfileService {
       );
   }
 
-  getBookmarkedProfiles(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getBookmarkedProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
@@ -212,20 +212,20 @@ export class ProfileService {
       );
   }
 
-  getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter, orderByType }, { headers: this.headers, params: params })
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
   }
 
-  getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
@@ -238,7 +238,7 @@ export class ProfileService {
       );
   }
 
-  getLatestProfiles(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getLatestProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
@@ -251,7 +251,7 @@ export class ProfileService {
       );
   }
 
-  getProfilesWhoVisitedMe(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfilesWhoVisitedMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
@@ -264,7 +264,7 @@ export class ProfileService {
       );
   }
 
-  getProfilesWhoBookmarkedMe(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfilesWhoBookmarkedMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)
@@ -277,7 +277,7 @@ export class ProfileService {
       );
   }
 
-  getProfilesWhoLikesMe(orderByType: OrderByType, pageIndex: string, pageSize: string): Observable<Profile[]> {
+  getProfilesWhoLikesMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)
       .set('PageIndex', pageIndex)

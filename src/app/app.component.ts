@@ -13,6 +13,7 @@ import { ProfileFilter } from './models/profileFilter';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileService } from './services/profile.service';
 import { EnumMappingService } from './services/enumMapping.service';
+import { ViewFilterTypeEnum } from './models/viewFilterTypeEnum';
 
 @Component({
   selector: 'app-root',
@@ -39,13 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
   matButtonViewToggleText: string;
   matButtonViewToggleIcon: string = 'line_style';
 
-  //isAbout = false;
-
-  selectedOrderBy = OrderByType.CreatedOn;
-
   matButtonOrderByText: string;
   matButtonOrderByIcon: string = 'watch_later';
-  orderByButtonCounter: number = 0;
 
   profile: Profile;
   filter: ProfileFilter;
@@ -133,108 +129,73 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleOrderBy() {
-    switch (this.orderByButtonCounter) {
-      case 0: {
+    switch (this.dashboardComponent.orderBy) {
+      case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
-        this.selectedOrderBy = OrderByType.LastActive;
-        this.orderByButtonCounter++;
-        this.callApiWithNewSelectedOrderBy();
+        this.dashboardComponent.orderBy = OrderByType.LastActive;
+        this.getNextData();
         break;
       }
-      case 1: {
+      case OrderByType.LastActive: {
         this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
-        this.selectedOrderBy = OrderByType.UpdatedOn;
-        this.orderByButtonCounter++;
-        this.callApiWithNewSelectedOrderBy();
+        this.dashboardComponent.orderBy = OrderByType.UpdatedOn;
+        this.getNextData();
         break;
       }
-      case 2: {
+      case OrderByType.UpdatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
-        this.selectedOrderBy = OrderByType.CreatedOn;
-        this.orderByButtonCounter = 0;
-        this.callApiWithNewSelectedOrderBy();
+        this.dashboardComponent.orderBy = OrderByType.CreatedOn;
+        this.getNextData();
         break;
       }
     }
   }
 
-  callApiWithNewSelectedOrderBy() {
-    switch (this.lastCalledFilter) {
-      case "getLatestProfiles": {
-        this.getLatestProfiles();
-        break;
-      }
-      case "getProfileByCurrentUsersFilter": {
-        this.getProfileByCurrentUsersFilter() 
-        break;
-      }
-      case "getBookmarkedProfiles": {
-        this.getBookmarkedProfiles()
-        break;
-      }
-      case "getProfileByFilter": {  
-        this.getProfileByFilter(null, true)
-        break;
-      }
-      case "getProfilesWhoVisitedMe": {
-        this.getProfilesWhoVisitedMe()
-        break;
-      }
-      case "getProfilesWhoBookmarkedMe": {
-        this.getProfilesWhoBookmarkedMe()
-        break;
-      }
-      case "getProfilesWhoLikesMe": {
-        this.getProfilesWhoLikesMe()
-        break;
-      }
-    }
+  getNextData() {
+    this.dashboardComponent.getNextData({ currentSize: 0, pageIndex: 0, pageSize: 5 });
   }
 
   // Calls to DashboardComponent
   getLatestProfiles() {
-    this.lastCalledFilter = "getLatestProfiles"
-    this.dashboardComponent.getLatestProfiles(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
+    this.getNextData();
   }
 
   getProfileByCurrentUsersFilter() {
-    this.lastCalledFilter = "getProfileByCurrentUsersFilter"
-    this.dashboardComponent.getProfileByCurrentUsersFilter(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
+    this.getNextData();
   }
 
   getBookmarkedProfiles() {
-    this.lastCalledFilter = "getBookmarkedProfiles"
-    this.dashboardComponent.getBookmarkedProfiles(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
+    this.getNextData();
   }
 
-  getProfileByFilter($event, newOrderBy: boolean) {
-    this.lastCalledFilter = "getProfileByFilter";
-    if (!newOrderBy) {
-      this.filter = $event;
-    }
-    this.dashboardComponent.getProfileByFilter(this.filter, this.selectedOrderBy);
+  getProfileByFilter() {
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
+    this.getNextData();
     this.toggleDisplay();
   }
 
   getProfilesWhoVisitedMe() {
-    this.lastCalledFilter = "getProfilesWhoVisitedMe"
-    this.dashboardComponent.getProfilesWhoVisitedMe(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
+    this.getNextData();
   }
 
   getProfilesWhoBookmarkedMe() {
-    this.lastCalledFilter = "getProfilesWhoBookmarkedMe"
-    this.dashboardComponent.getProfilesWhoBookmarkedMe(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
+    this.getNextData();
   }
 
   getProfilesWhoLikesMe() {
-    this.lastCalledFilter = "getProfilesWhoLikesMe"
-    this.dashboardComponent.getProfilesWhoLikesMe(this.selectedOrderBy);
+    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
+    this.getNextData();
   }
 
-  resetSelectionPagination() {
+  resetSelectionPagination() {    //Todo: Check if this is used
     if (!this.isTileView) {
       this.dashboardComponent?.resetSelectionPagination();
     }
@@ -258,12 +219,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.profileSearchComponent.loadSearch();
   }
 
-  isCurrentUserCreated(isCreated: boolean) {
-    this.isProfileCreated = isCreated;
+  isCurrentUserCreated(event) {
+    this.isProfileCreated = event.isCreated;
 
-    if (isCreated) {
+    if (event.isCreated) {
       this.pageView = pageViewEnum.Dashboard;
-      this.siteLocale = this.currentUserSubject.languagecode;
+      this.siteLocale = event.languagecode;
       this.switchLanguage();
     }
   }

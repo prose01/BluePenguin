@@ -14,6 +14,8 @@ import { ProfileListviewComponent } from '../views/profile-listview/profile-list
 import { ProfileFilter } from '../models/profileFilter';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ErrorDialog } from '../error-dialog/error-dialog.component';
+import { CurrentUser } from '../models/currentUser';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dashboard',
@@ -26,30 +28,38 @@ export class DashboardComponent implements OnInit {
   @ViewChild(ProfileListviewComponent)
   private listviewComponent: ProfileListviewComponent;
 
+  currentUserSubject: CurrentUser;
+
   loading: boolean = false;
   isTileView = true;
+
+  length: number;
 
   previousProfiles: Profile[];
   currentProfiles: Profile[];
   nextProfiles: Profile[];
   filter: ProfileFilter = new ProfileFilter();
-  viewFilterType: ViewFilterTypeEnum;
+
+  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+  orderBy: OrderByType = OrderByType.LastActive;
+
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
+        this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
         if (currentUser) {
-          this.isCurrentUserCreated.emit(true);
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
           this.initDefaultData();
         }
         else {
-          this.isCurrentUserCreated.emit(false);
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
         }
       },
         (error: any) => {
@@ -59,153 +69,126 @@ export class DashboardComponent implements OnInit {
           }
         }
       );
-    }
-  }
-
-  initDefaultData() {
-      this.getLatestProfiles(OrderByType.CreatedOn);
-      this.getLatestProfilesNext(OrderByType.CreatedOn, 20, '20', '20');
 
       // Get and load previous ProfileFilter.
       this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
         this.filter = currentProfileFilterSubject;
       });
+    }
   }
 
-  // https://paulrohan.medium.com/angular-avoiding-subscribe-method-by-replacing-it-with-an-asynpipe-when-possible-a92c20793357
-  //ngOnDestroy() {
-  //  if (this.subscription) {
-  //    this.subscription.unsubscribe();
-  //  }
-  //}
+  initDefaultData() {
+      this.getLatestProfiles(); // TODO: See if this can be removed
+  }
 
   getNextData(event) {
-    switch (event.viewFilterType) {
+    switch (this.viewFilterType) {
       case ViewFilterTypeEnum.LatestProfiles: {
-        this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.FilterProfiles: {
-        this.getProfileByCurrentUsersFilter(event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByCurrentUsersFilter(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
-        this.getBookmarkedProfiles(event.currentSize, event.pageIndex, event.pageSize);        
+        this.getBookmarkedProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesSearch: {
-        this.getProfileByFilter(this.filter, OrderByType.CreatedOn, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByFilter(this.filter, this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoVisitedMe: {
-        this.getProfilesWhoVisitedMe(event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoVisitedMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
-        this.getProfilesWhoBookmarkedMe(event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoBookmarkedMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
-        this.getProfilesWhoLikesMe(event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoLikesMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       default: {
-        this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
     }
   }
 
-  getNextTileData(event) {
+  getNextTileData(event) {    // TODO: Remove this method
     //this.previousProfiles = this.currentProfiles.length > event.pageSize ? this.currentProfiles.splice(0, event.pageSize) : this.currentProfiles; // TODO: Try to set array index to 0?
-    this.currentProfiles = this.currentProfiles.concat(this.nextProfiles); // TODO: Wrong! This just adds a lot of profiles to array without removing any!!!
+    //this.currentProfiles = this.currentProfiles.concat(this.nextProfiles); // TODO: Wrong! This just adds a lot of profiles to array without removing any!!!
 
     //this.previousProfiles = [...this.currentProfiles]; // TODO: This alternative makes page jumpy and array index cannot be reset to 0 so we end up at buttom.
     //this.currentProfiles = [...this.nextProfiles]; 
 
-    switch (event.viewFilterType) {
-      case ViewFilterTypeEnum.LatestProfiles: {
-        this.getLatestProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.FilterProfiles: {
-        this.getProfileByCurrentUsersFilterNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.BookmarkedProfiles: {
-        this.getBookmarkedProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.ProfilesSearch: {
-        this.getProfileByFilterNext(this.filter, event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.ProfilesWhoVisitedMe: {
-        this.getProfilesWhoVisitedMeNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
-        this.getProfilesWhoBookmarkedMeNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
-        this.getProfilesWhoLikesMeNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-      default: {
-        this.getLatestProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
-        break;
-      }
-    }
+    //switch (event.viewFilterType) {
+    //  case ViewFilterTypeEnum.LatestProfiles: {
+    //    this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.FilterProfiles: {
+    //    this.getProfileByCurrentUsersFilterNext(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.BookmarkedProfiles: {
+    //    this.getBookmarkedProfilesNext(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.ProfilesSearch: {
+    //    this.getProfileByFilterNext(this.filter, event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.ProfilesWhoVisitedMe: {
+    //    this.getProfilesWhoVisitedMeNext(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
+    //    this.getProfilesWhoBookmarkedMeNext(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
+    //    this.getProfilesWhoLikesMeNext(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //  default: {
+    //    this.getLatestProfiles(event.currentSize, event.pageIndex, event.pageSize);
+    //    break;
+    //  }
+    //}
   }
 
-  getPreviousTileData(event) {
-    // TODO: Need to do the this.previousProfiles part if user scrolls back.
-  }
+  //getPreviousTileData(event) {
+  //  // TODO: Need to do the this.previousProfiles part if user scrolls back.
+  //}
 
-  // Get latest Profiles.
-  getLatestProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
+  // Get latest Profiles. 
+  private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
           this.currentProfiles = new Array;
-
-          this.currentProfiles.length = currentSize;
           
           this.currentProfiles.push(...response);
 
-          this.currentProfiles.length = this.currentProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-    );
-    
-    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
-  }
-
-  getLatestProfilesNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '20') {
-    this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
+          this.length = currentSize + response.length + 1;
+        },
+        (error: any) => {
+          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;  // TODO: Add openErrorDialog message
+        },
+        () => { this.getProfileImages(this.currentProfiles); }
     );
   }
 
   // Get Filtered Profiles.
-  getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -222,31 +205,11 @@ export class DashboardComponent implements OnInit {
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
     );
-
-    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-  }
-
-  getProfileByCurrentUsersFilterNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
   }
 
   // Get Bookmarked Profiles.
-  getBookmarkedProfiles(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') { 
+  private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -263,31 +226,11 @@ export class DashboardComponent implements OnInit {
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
     );
-
-    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
-  }
-
-  getBookmarkedProfilesNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
   }
 
   // Get Profiles by searchfilter. 
-  getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -304,31 +247,11 @@ export class DashboardComponent implements OnInit {
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
       );
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
-  }
-
-  getProfileByFilterNext(filter: ProfileFilter, selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
   }
 
   // Get Profiles who has visited my profile.
-  getProfilesWhoVisitedMe(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -345,31 +268,11 @@ export class DashboardComponent implements OnInit {
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
       );
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
-  }
-
-  getProfilesWhoVisitedMeNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
   }
 
   // Get Profiles who has visited my profile.
-  getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -382,27 +285,6 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.push(...response);
 
           this.currentProfiles.length = this.currentProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
-  }
-
-  getProfilesWhoBookmarkedMeNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -410,7 +292,8 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Profiles who like my profile.
-  getProfilesWhoLikesMe(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
+  private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+    console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
       .subscribe(
@@ -423,27 +306,6 @@ export class DashboardComponent implements OnInit {
           this.currentProfiles.push(...response);
 
           this.currentProfiles.length = this.currentProfiles.length + 1;
-        }
-        , () => { }
-        , () => { this.getProfileImages(this.currentProfiles); }
-      );
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
-  }
-
-  getProfilesWhoLikesMeNext(selectedOrderBy: OrderByType, currentSize: number = 0, pageIndex: string = '0', pageSize: string = '5') {
-    this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
-      .subscribe(
-        (response: any) => {
-
-          this.nextProfiles = new Array;
-
-          this.nextProfiles.length = currentSize;
-
-          this.nextProfiles.push(...response);
-
-          this.nextProfiles.length = this.nextProfiles.length + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }

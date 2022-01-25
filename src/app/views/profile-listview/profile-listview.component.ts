@@ -27,9 +27,9 @@ import { OrderByType } from '../../models/enums';
 @AutoUnsubscribe()
 export class ProfileListviewComponent implements OnChanges {
   pageEvent: PageEvent;
-  datasource: null;
-  pageIndex: number;
-  pageSize: number;
+  //datasource: null;
+  //pageIndex: number;
+  //pageSize: number;
   loading: boolean = false;
 
   allowAssignment: boolean = false;
@@ -41,9 +41,10 @@ export class ProfileListviewComponent implements OnChanges {
   noProfiles: boolean = false;
 
   @Input() profiles: Profile[];
+  @Input() length: number;
   @Input() viewFilterType: ViewFilterTypeEnum;
-  @Input() displayedColumns: string[];
   @Input() orderBy: OrderByType;
+  @Input() displayedColumns: string[];
   @Output() getNextData: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
@@ -70,18 +71,19 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   pageChanged(event) {
-    this.loading = true;
-
+    
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
 
-    if (currentSize > 0) {
-      this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: pageSize.toString() });
-    }
-    else {
-      this.loading = false;
-    }
+    this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
+
+    //if (currentSize > 0) {
+    //  this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
+    //}
+    //else {
+    //  this.loading = false;
+    //}
   }
 
   setDataSource(): void {
@@ -89,7 +91,7 @@ export class ProfileListviewComponent implements OnChanges {
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
