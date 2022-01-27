@@ -10,6 +10,7 @@ export type Configuration = {
   imageMaxWidth: number;
   imageMaxHeight: number;
   defaultAge: number;
+  defaultPageSize: number;
   languageList: Array<any>;
   countryList: Array<any>;
 }

@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
@@ -25,24 +26,28 @@ export class ProfileTileviewComponent implements OnChanges {
 
   currentUserSubject: CurrentUser;
   selectedProfile: Profile;
-  pageIndex: number;
-  pageSize: number = 20;
+  pageIndex: number = 0;
+  pageSize: number;
+  currentSize: number;
   throttle = 1;
   scrollDistance = 2;
-  scrollUpDistance = 3;
+  scrollUpDistance = 2;
   defaultImage = '../assets/default-person-icon.jpg';
   noProfiles: boolean = false;
   loading: boolean = false;
 
+  currentProfiles: Profile[] = [];
+
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() orderBy: OrderByType;
-  @Output("getNextTileData") getNextTileData: EventEmitter<any> = new EventEmitter();
+  @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 
   ngOnChanges(): void {
@@ -51,25 +56,45 @@ export class ProfileTileviewComponent implements OnChanges {
       return el != null;
     });
 
-    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.currentProfiles.push(...this.profiles);
+    //this.currentProfiles.splice(0, 5);
+
+    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
   onScrollDown() {
     console.log('scrolled down!!');
 
-    let pageIndex = 2; // TODO: auto count up ++
-    let currentSize = this.pageSize * pageIndex;
+    this.pageIndex++;
+    this.currentSize = this.pageSize * this.pageIndex;
+
+    console.log('pageIndex ' + this.pageIndex);
+    console.log('pageSize ' + this.pageSize);
+    console.log('currentSize ' + this.currentSize);
+    console.log('profiles ' + this.profiles.length);
+    console.log('currentProfiles ' + this.currentProfiles.length);
 
     if (this.profiles?.length > 0) {
       console.log('getting next');
-      this.getNextTileData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
+      this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
     }
   }
 
   onScrollUp() {
     console.log('scrolled up!!');
 
-    //this.getPreviousData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex.toString(), pageSize: this.pageSize.toString() });
+    this.pageIndex--;
+    this.currentSize = this.pageSize * this.pageIndex;
+
+    console.log('pageIndex ' + this.pageIndex);
+    console.log('pageSize ' + this.pageSize);
+    console.log('currentSize ' + this.currentSize);
+    console.log('profiles ' + this.profiles.length);
+
+    if (this.profiles?.length > 0) {
+      console.log('getting next');
+      //this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
+    }
   }
 
   // Load Detalails page

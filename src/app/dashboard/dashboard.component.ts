@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfigurationLoader } from '../configuration/configuration-loader.service';
 
 import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
@@ -43,12 +44,16 @@ export class DashboardComponent implements OnInit {
   viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
   orderBy: OrderByType = OrderByType.LastActive;
 
+  defaultPageSize: number;
+
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+    this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+  }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {
@@ -166,7 +171,7 @@ export class DashboardComponent implements OnInit {
   //}
 
   // Get latest Profiles. 
-  private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -187,7 +192,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Filtered Profiles.
-  private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -208,7 +213,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Bookmarked Profiles.
-  private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -229,7 +234,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Profiles by searchfilter. 
-  private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -250,7 +255,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Profiles who has visited my profile.
-  private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -271,7 +276,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Profiles who has visited my profile.
-  private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))
@@ -292,7 +297,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Get Profiles who like my profile.
-  private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = 5) {
+  private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
       .pipe(takeWhileAlive(this))

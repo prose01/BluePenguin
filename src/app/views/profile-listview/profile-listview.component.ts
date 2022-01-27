@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
@@ -26,10 +27,10 @@ import { OrderByType } from '../../models/enums';
 
 @AutoUnsubscribe()
 export class ProfileListviewComponent implements OnChanges {
-  pageEvent: PageEvent;
+  //pageEvent: PageEvent;
   //datasource: null;
   //pageIndex: number;
-  //pageSize: number;
+  pageSize: number;
   loading: boolean = false;
 
   allowAssignment: boolean = false;
@@ -52,8 +53,10 @@ export class ProfileListviewComponent implements OnChanges {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+
+    this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
 
     this.selection.changed.subscribe(item => {
       this.allowAssignment = this.selection.selected.length > 0;
@@ -71,19 +74,36 @@ export class ProfileListviewComponent implements OnChanges {
   }
 
   pageChanged(event) {
+
+    //// Not sure where this goes. Maybe it doesn't belogs here at all as pageChanged might not be called at first. Initial data call.
+    //if (event.pageIndex = 0) {
+    //  presentData -> this.getNextData.emit();
+    //  futureData -> this.getNextData.emit();
+    //}
+
+    //if (this.pageIndex > event.pageIndex) {
+    //  // We are going forward
+    //  presentData -> pastData;
+    //  futureData -> presentData;
+    //  futureData -> this.getNextData.emit();
+    //}
+    //else if (this.pageIndex < event.pageIndex) {
+    //  // We are going back
+    //  presentData -> futureData;
+    //  pastData -> presentData;
+    //  pastData -> this.getNextData.emit();
+    //}
     
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
 
-    this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
+    console.log('pageIndex ' + pageIndex);
+    console.log('pageSize ' + pageSize);
+    console.log('currentSize ' + currentSize);
+    console.log('profiles ' + this.profiles.length);
 
-    //if (currentSize > 0) {
-    //  this.getNextData.emit({ viewFilterType: this.viewFilterType, currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
-    //}
-    //else {
-    //  this.loading = false;
-    //}
+    this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
   }
 
   setDataSource(): void {

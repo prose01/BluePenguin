@@ -20,7 +20,7 @@
       [scrollWindow]="true"
       (scrolled)="onScrollDown()"
       (scrolledUp)="onScrollUp()">
-    <li class="mdc-image-list__item" *ngFor="let profile of profiles">
+    <li class="mdc-image-list__item" *ngFor="let profile of currentProfiles">
 
       <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber]?.image" [defaultImage]="profile.images[profile.imageNumber]?.smallimage" (click)="openImageDialog(profile)">
       <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
