@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { KeyValue } from '@angular/common';
@@ -37,7 +37,7 @@ import {
   styleUrls: ['./edit-profile.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class EditProfileComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
@@ -199,7 +199,7 @@ export class EditProfileComponent implements OnInit {
     this.loading = true;
     this.currentUserSubject = this.prepareSaveProfile();
     this.profileService.putProfile(this.currentUserSubject)
-      .pipe(takeWhileAlive(this))  // TODO: Not sure this is good idea with save profile?
+      //.pipe(takeWhileAlive(this))  // TODO: Not sure this is good idea with save profile?
       .subscribe(
         () => { },
         (error: any) => {

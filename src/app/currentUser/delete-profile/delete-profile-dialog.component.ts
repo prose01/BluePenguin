@@ -7,7 +7,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 @Component({
   selector: 'app-delete-profile-dialog',
@@ -15,7 +15,7 @@ import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
   styleUrls: ['./delete-profile-dialog.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class DeleteProfileDialog implements OnInit {
   currentUserSubject: CurrentUser;
   IsChecked: boolean;
@@ -26,7 +26,9 @@ export class DeleteProfileDialog implements OnInit {
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
     @Inject(MAT_DIALOG_DATA) public profileIds: string[], private readonly translocoService: TranslocoService) {
 
-    this.profileService.currentUserSubject.pipe(takeWhileAlive(this)).subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    this.profileService.currentUserSubject
+      //.pipe(takeWhileAlive(this))
+      .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
   }
 
   ngOnInit(): void {

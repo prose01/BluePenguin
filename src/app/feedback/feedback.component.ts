@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeyValue } from '@angular/common';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,7 +19,7 @@ import { TranslocoService } from '@ngneat/transloco';
   styleUrls: ['./feedback.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class FeedbackComponent implements OnInit {
 
   feedback: Feedback = new Feedback();
@@ -87,7 +87,7 @@ export class FeedbackComponent implements OnInit {
     this.loading = true;
     this.feedback = this.prepareFeedback();
     this.feedBackService.addFeedback(this.feedback)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         () => { },
         (error: any) => {

@@ -1,4 +1,4 @@
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+////import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ChangeDetectorRef, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +27,7 @@ import { Feedback } from '../../models/feedback';
   styleUrls: ['./feedback.admin.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
@@ -166,7 +166,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     this.feedBackService.getUnassignedFeedbacks(countrycode, languagecode)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
           this.feedbacks = new Array;
@@ -185,7 +185,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   /** Assign Feedback To Admin */
   assignFeedbackToAdmin() {
     this.feedBackService.assignFeedbackToAdmin(this.selcetedFeedbackIds())
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         () => { },
         (error: any) => {
@@ -217,7 +217,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     if (openFeedbackIds.length > 0) {
       this.feedBackService.openFeedbacks(openFeedbackIds)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(
           () => { },
           (error: any) => {
@@ -229,7 +229,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     if (closeFeedbackIds.length > 0) {
       this.feedBackService.closeFeedbacks(closeFeedbackIds)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(
           () => { },
           (error: any) => {
@@ -267,7 +267,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   /** Get Feedbacks By Filter */
   getFeedbacksByFilter($event) {
     this.feedBackService.getFeedbacksByFilter($event)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
           this.feedbacks = new Array;
@@ -300,7 +300,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     var profile: Profile;
 
     this.profileService.getProfileById(profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
         (error: any) => {

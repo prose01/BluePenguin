@@ -1,4 +1,4 @@
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+////import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,7 +26,7 @@ import { ChatFilter } from '../../models/chatFilter';
   styleUrls: ['./profile-chat-listview.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
@@ -101,7 +101,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.currentSearch = 'getProfileMessages';
 
     this.chatService.getProfileMessages(this.profile.profileId, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -188,7 +188,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.currentSearch = 'getChatsByFilter';
 
     this.chatService.getChatsByFilter(this.chatFilter, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -231,13 +231,13 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
     if (notDelete.length > 0) {
       this.chatService.doNotDelete(notDelete)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {});
     }
 
     if (allowDelete.length > 0) {
       this.chatService.allowDelete(allowDelete)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {});
     }
 
@@ -279,7 +279,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     var profile: Profile;
 
     this.profileService.getProfileById(profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
         (error: any) => {

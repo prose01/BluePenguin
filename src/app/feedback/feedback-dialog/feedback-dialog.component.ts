@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { Feedback } from '../../models/feedback';
 import { FeedBackService } from '../../services/feedback.service';
@@ -11,7 +11,7 @@ import { FeedBackService } from '../../services/feedback.service';
   styleUrls: ['./feedback-dialog.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class FeedbackDialog {
 
   feedback: Feedback;
@@ -40,7 +40,7 @@ export class FeedbackDialog {
     feedbackIds.push(this.feedback.feedbackId);
 
     this.feedBackService.openFeedbacks(feedbackIds)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { });
 
     this.feedback.open = true;
@@ -52,7 +52,7 @@ export class FeedbackDialog {
     feedbackIds.push(this.feedback.feedbackId);
 
     this.feedBackService.closeFeedbacks(feedbackIds)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { });
 
     this.feedback.open = false;

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
 
@@ -24,7 +24,7 @@ import { TranslocoService } from '@ngneat/transloco';
   styleUrls: [ './dashboard.component.scss' ]
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
   @ViewChild(ProfileListviewComponent)
   private listviewComponent: ProfileListviewComponent;
@@ -174,7 +174,7 @@ export class DashboardComponent implements OnInit {
   private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit {
   private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -216,7 +216,7 @@ export class DashboardComponent implements OnInit {
   private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit {
   private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -258,7 +258,7 @@ export class DashboardComponent implements OnInit {
   private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -279,7 +279,7 @@ export class DashboardComponent implements OnInit {
   private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -300,7 +300,7 @@ export class DashboardComponent implements OnInit {
   private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize) {
     console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         (response: any) => {
 
@@ -336,7 +336,7 @@ export class DashboardComponent implements OnInit {
         this.loading = true;
         
         this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
-          .pipe(takeWhileAlive(this))
+          //.pipe(takeWhileAlive(this))
           .subscribe(
             images => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
             () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
@@ -344,7 +344,7 @@ export class DashboardComponent implements OnInit {
           );
         
         this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
-          .pipe(takeWhileAlive(this))
+          //.pipe(takeWhileAlive(this))
           .subscribe(
             images => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
             () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image },

@@ -13,7 +13,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ImageService } from '../../services/image.service';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
@@ -24,7 +24,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
   styleUrls: ['./image-upload.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ImageUploadComponent implements OnInit {
   uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
@@ -188,7 +188,7 @@ export class ImageUploadComponent implements OnInit {
         formData.append('title', uploadModel.title as string);
         this.uploadingPhoto = true;
         this.imageService.uploadImage(formData)
-          .pipe(takeWhileAlive(this))
+          //.pipe(takeWhileAlive(this))
           .subscribe(
             (res) => {
               if (res.status == 200) {

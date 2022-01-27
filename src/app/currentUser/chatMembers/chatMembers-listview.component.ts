@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { CurrentUser } from '../../models/currentUser';
@@ -22,7 +22,7 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
   styleUrls: ['./chatMembers-listview.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ChatMembersListviewComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'status'];
   dataSource: MatTableDataSource<ChatMember>;
@@ -91,7 +91,7 @@ export class ChatMembersListviewComponent implements OnInit {
 
   blockChatMembers() {
     this.profileService.blockChatMembers(this.selcetedProfileIds())
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
   }
 
@@ -152,7 +152,7 @@ export class ChatMembersListviewComponent implements OnInit {
     let profile: Profile;
 
     this.profileService.getProfileById(chatMember.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         res => profile = res,
         () => { },
@@ -189,7 +189,7 @@ export class ChatMembersListviewComponent implements OnInit {
             this.loading = true;
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
@@ -197,7 +197,7 @@ export class ChatMembersListviewComponent implements OnInit {
               );
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.image = defaultImageModel.image },

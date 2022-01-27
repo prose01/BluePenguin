@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { ProfileService } from '../../services/profile.service';
@@ -15,7 +15,7 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
   styleUrls: ['./image-board.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ImageBoardComponent implements OnInit {
   loading: boolean = false;
   maxPhotos: number;
@@ -59,7 +59,7 @@ export class ImageBoardComponent implements OnInit {
             this.loading = true;
 
             this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
                 () => { this.loading = false; element.image = defaultImageModel.image },
@@ -67,7 +67,7 @@ export class ImageBoardComponent implements OnInit {
               );
 
             this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.image = 'data:image/jpg;base64,' + images.toString() },
                 () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },

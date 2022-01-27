@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -11,7 +11,7 @@ import { CurrentUser } from '../../models/currentUser';
   styleUrls: ['./image-dialog.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ImageDialog {
 
   currentUserSubject: CurrentUser;
@@ -56,7 +56,7 @@ export class ImageDialog {
   /** Add or remove Likes */
   addLike() {
     this.profileService.addLikeToProfile(this.data.profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         this.data.profile.likes.push(this.currentUserSubject.profileId);
       }, () => { }, () => { });
@@ -64,7 +64,7 @@ export class ImageDialog {
 
   removeLike() {
     this.profileService.removeLikeFromProfile(this.data.profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
         this.data.profile.likes.splice(index, 1);
@@ -82,7 +82,7 @@ export class ImageDialog {
     selcetedProfiles.push(this.data.profile.profileId);
 
     this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
       });
@@ -93,7 +93,7 @@ export class ImageDialog {
     selcetedProfiles.push(this.data.profile.profileId);
 
     this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
       });

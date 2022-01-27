@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
@@ -25,7 +25,7 @@ import { OrderByType } from '../../models/enums';
   styleUrls: ['./profile-listview.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileListviewComponent implements OnChanges {
   //pageEvent: PageEvent;
   //datasource: null;
@@ -148,7 +148,7 @@ export class ProfileListviewComponent implements OnChanges {
       // If profile has no likes yet. 
       if (this.selection.selected[_i].likes?.length == 0) {
         this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-          .pipe(takeWhileAlive(this))
+          //.pipe(takeWhileAlive(this))
           .subscribe(() => {
             this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
           }, () => { }, () => { });
@@ -158,7 +158,7 @@ export class ProfileListviewComponent implements OnChanges {
       for (const value of this.selection.selected[_i].likes) {
         if (this.liked(this.selection.selected[_i])) {
           this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
-            .pipe(takeWhileAlive(this))
+            //.pipe(takeWhileAlive(this))
             .subscribe(() => {
               const index = this.profiles.find(x => x.profileId === profileId)?.likes.indexOf(this.currentUserSubject.profileId, 0);
               this.profiles.find(x => x.profileId === profileId)?.likes.splice(index, 1);
@@ -166,7 +166,7 @@ export class ProfileListviewComponent implements OnChanges {
         }
         else {
           this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-            .pipe(takeWhileAlive(this))
+            //.pipe(takeWhileAlive(this))
             .subscribe(() => {
               this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
             }, () => { }, () => { });
@@ -194,7 +194,7 @@ export class ProfileListviewComponent implements OnChanges {
 
     if (removeProfiles.length > 0) {
       this.profileService.addLikeToProfile(profileId)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => {
           this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
         }, () => { }, () => { });
@@ -202,7 +202,7 @@ export class ProfileListviewComponent implements OnChanges {
 
     if (addProfiles.length > 0) {
       this.profileService.addLikeToProfile(profileId)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => {
           this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
         }, () => { }, () => { });
@@ -229,7 +229,7 @@ export class ProfileListviewComponent implements OnChanges {
 
     if (removeProfiles.length > 0) {
       this.profileService.removeProfilesFromBookmarks(removeProfiles)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {
           this.profileService.updateCurrentUserSubject();
           if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
@@ -238,7 +238,7 @@ export class ProfileListviewComponent implements OnChanges {
 
     if (addProfiles.length > 0) {
       this.profileService.addProfilesToBookmarks(addProfiles)
-        .pipe(takeWhileAlive(this))
+        //.pipe(takeWhileAlive(this))
         .subscribe(() => { }, () => { }, () => {
           this.profileService.updateCurrentUserSubject();
           if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
@@ -321,7 +321,7 @@ export class ProfileListviewComponent implements OnChanges {
             this.loading = true;
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
@@ -329,7 +329,7 @@ export class ProfileListviewComponent implements OnChanges {
               );
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.image = defaultImageModel.image },

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
@@ -14,7 +14,7 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
   templateUrl: './profile-details-board.component.html'
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
   loading: boolean = false;
   isChatSearch: boolean = false;
@@ -57,7 +57,7 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
           this.loading = true;
 
           this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-            .pipe(takeWhileAlive(this))
+            //.pipe(takeWhileAlive(this))
             .subscribe(
               images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
               () => { this.loading = false; element.image = defaultImageModel.image },
@@ -65,7 +65,7 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
             );
 
           this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-            .pipe(takeWhileAlive(this))
+            //.pipe(takeWhileAlive(this))
             .subscribe(
               images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
               () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },

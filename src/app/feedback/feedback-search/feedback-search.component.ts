@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
-import { AutoUnsubscribe } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EnumMappingService } from '../../services/enumMapping.service';
@@ -20,7 +19,6 @@ import { DateAdapter } from '@angular/material/core';
   templateUrl: './feedback-search.component.html'
 })
 
-@AutoUnsubscribe()
 export class FeedbackSearchComponent implements OnInit {
 
   loading: boolean = false;

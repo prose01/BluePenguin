@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
@@ -21,7 +21,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   styleUrls: ['./profile-tileview.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileTileviewComponent implements OnChanges {
 
   currentUserSubject: CurrentUser;
@@ -108,7 +108,7 @@ export class ProfileTileviewComponent implements OnChanges {
     selcetedProfiles.push(profileId);
 
     this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
         if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
@@ -120,7 +120,7 @@ export class ProfileTileviewComponent implements OnChanges {
     selcetedProfiles.push(profileId);
 
     this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
         if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
@@ -130,7 +130,7 @@ export class ProfileTileviewComponent implements OnChanges {
   /** Add or remove Likes */
   addLike(profile: Profile) {
     this.profileService.addLikeToProfile(profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
       }, () => { }, () => { });
@@ -138,7 +138,7 @@ export class ProfileTileviewComponent implements OnChanges {
 
   removeLike(profile: Profile) {
     this.profileService.removeLikeFromProfile(profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
         this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
@@ -177,7 +177,7 @@ export class ProfileTileviewComponent implements OnChanges {
             this.loading = true;
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
@@ -185,7 +185,7 @@ export class ProfileTileviewComponent implements OnChanges {
               );
 
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .pipe(takeWhileAlive(this))
+              //.pipe(takeWhileAlive(this))
               .subscribe(
                 images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
                 () => { this.loading = false; element.image = defaultImageModel.image },

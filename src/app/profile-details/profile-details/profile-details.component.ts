@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
@@ -12,7 +12,7 @@ import { ProfileService } from '../../services/profile.service';
   templateUrl: './profile-details.component.html'
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileDetailsComponent implements OnInit {
   @Input() profile: Profile;
 
@@ -56,7 +56,7 @@ export class ProfileDetailsComponent implements OnInit {
   /** Add or remove Likes */
   addLike() {
     this.profileService.addLikeToProfile(this.profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         this.profile.likes.push(this.currentUserSubject.profileId);
       }, () => { }, () => { });
@@ -64,7 +64,7 @@ export class ProfileDetailsComponent implements OnInit {
 
   removeLike() {
     this.profileService.removeLikeFromProfile(this.profile.profileId)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => {
         let index = this.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
         this.profile.likes.splice(index, 1);
@@ -81,7 +81,7 @@ export class ProfileDetailsComponent implements OnInit {
     selcetedProfiles.push(this.profile.profileId);
 
     this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
       });
@@ -92,7 +92,7 @@ export class ProfileDetailsComponent implements OnInit {
     selcetedProfiles.push(this.profile.profileId);
 
     this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => {
         this.profileService.updateCurrentUserSubject();
       });
