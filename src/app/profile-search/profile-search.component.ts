@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EnumMappingService } from '../services/enumMapping.service';
@@ -36,7 +36,7 @@ import { KeyValue } from '@angular/common';
   styleUrls: ['./profile-search.component.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class ProfileSearchComponent implements OnInit {
   isTileView = true;
   matButtonToggleText: string = 'ListView';
@@ -255,7 +255,7 @@ export class ProfileSearchComponent implements OnInit {
 
     this.filter = this.prepareSearch();
     this.profileService.saveProfileFilter(this.filter)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         () => { },        // TODO: Give feeback on succes
         () => { this.loading = false; },
@@ -267,7 +267,7 @@ export class ProfileSearchComponent implements OnInit {
     this.loading = true;
 
     this.profileService.loadProfileFilter()
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(
         filter => { this.loadForm(filter); },
         () => { this.loading = false; },

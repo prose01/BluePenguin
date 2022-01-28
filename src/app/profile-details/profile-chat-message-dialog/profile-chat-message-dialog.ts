@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 import { ChatService } from '../../services/chat.service';
 import { MessageModel } from '../../models/messageModel';
@@ -11,7 +11,7 @@ import { MessageModel } from '../../models/messageModel';
   styleUrls: ['./profile-chat-message-dialog.scss']
 })
 
-@AutoUnsubscribe()
+//@AutoUnsubscribe()
 export class MessageDialog {
 
   message: MessageModel;
@@ -35,7 +35,7 @@ export class MessageDialog {
     messages.push(this.message);
 
     this.chatService.doNotDelete(messages)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { });
 
     this.message.doNotDelete = true;
@@ -47,7 +47,7 @@ export class MessageDialog {
     messages.push(this.message);
 
     this.chatService.allowDelete(messages)
-      .pipe(takeWhileAlive(this))
+      //.pipe(takeWhileAlive(this))
       .subscribe(() => { }, () => { }, () => { });
 
     this.message.doNotDelete = false;
