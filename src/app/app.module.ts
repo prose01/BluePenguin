@@ -149,7 +149,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ImageCropperModule,
     NgChatModule,
     TranslocoRootModule,
-    TranslocoLocaleModule.init({
+    TranslocoLocaleModule.forRoot({
       langToLocaleMapping: {
         da: 'da-DK',
         de: 'de-DE',
