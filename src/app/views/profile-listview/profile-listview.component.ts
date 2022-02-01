@@ -260,7 +260,7 @@ export class ProfileListviewComponent implements OnChanges {
     this.selection?.clear();
     if (this.paginator != null) {
       this.paginator.pageIndex = 0;
-      this.paginator.pageSize = 5;
+      this.paginator.pageSize = this.pageSize;
     }
   }
 
