@@ -37,6 +37,7 @@ export class ProfileTileviewComponent implements OnChanges {
   loading: boolean = false;
 
   currentProfiles: Profile[] = [];
+  imageSize: string[] = []
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -55,6 +56,11 @@ export class ProfileTileviewComponent implements OnChanges {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
+
+    // Set random image size
+    for (var i = 0, len = this.profiles.length; i < len; i++) {
+      this.imageSize.push(this.randomSize());
+    }
 
     this.currentProfiles.push(...this.profiles);
     //this.currentProfiles.splice(0, 5);
@@ -221,5 +227,19 @@ export class ProfileTileviewComponent implements OnChanges {
         }
       }
     );
+  }
+
+  randomSize(): string {
+    var randomInt = this.randomIntFromInterval(0, 6);
+
+    if (randomInt === 0) {
+      return 'big';
+    }
+
+    return 'small';
+  }
+
+  randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }
