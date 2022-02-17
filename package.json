@@ -35,7 +35,7 @@
     "@types/node": "^17.0.14",
     "auth0-js": "^9.17.0",
     "core-js": "^3.21.0",
-    "flag-icons": "^6.0.3",
+    "flag-icons": "^6.1.1",
     "jasmine-core": "^4.0.0",
     "ng-chat": "^3.1.0",
     "ng-lazyload-image": "^9.1.0",
