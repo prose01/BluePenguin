@@ -38,6 +38,7 @@ export class ProfileTileviewComponent implements OnChanges {
 
   currentProfiles: Profile[] = [];
   imageSize: string[] = []
+  randomImageSize: number;
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -49,6 +50,7 @@ export class ProfileTileviewComponent implements OnChanges {
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.randomImageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 
   ngOnChanges(): void {
@@ -212,6 +214,21 @@ export class ProfileTileviewComponent implements OnChanges {
     return profile.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
+  // Set random tilesize for images.
+  randomSize(): string {
+    var randomInt = this.randomIntFromInterval(1, this.randomImageSize);
+
+    if (randomInt === 1) {
+      return 'big';
+    }
+
+    return 'small';
+  }
+
+  randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   openDeleteProfilesDialog(profile: Profile): void {
     var profileIds: string[] = [profile.profileId];
 
@@ -227,19 +244,5 @@ export class ProfileTileviewComponent implements OnChanges {
         }
       }
     );
-  }
-
-  randomSize(): string {
-    var randomInt = this.randomIntFromInterval(0, 6);
-
-    if (randomInt === 0) {
-      return 'big';
-    }
-
-    return 'small';
-  }
-
-  randomIntFromInterval(min, max) { // min and max included 
-    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }

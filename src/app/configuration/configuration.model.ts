@@ -13,4 +13,5 @@ export type Configuration = {
   defaultPageSize: number;
   languageList: Array<any>;
   countryList: Array<any>;
+  randomImageSize: number;
 }
