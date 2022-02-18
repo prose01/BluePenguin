@@ -1,23 +1,12 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <form [formGroup]="profileForm">
+<div class="grid grid-pad">
 
-    <div style="margin-bottom: 1em">
-      <button type="submit" (click)="onSubmit()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Search">
-        <i class="material-icons">search</i>
-      </button>
-      <button type="button" (click)="revert()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Revert">
-        <i class="material-icons">undo</i>
-      </button>
-      <button type="button" (click)="saveSearch()"
-              [disabled]="profileForm.pristine" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Save Search Filter">
-        <i class="material-icons">save</i>
-      </button>
-      <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="Load Search Filter">
-        <i class="material-icons">find_in_page</i>        
-      </button>
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
     </div>
+  </div>
+
+  <form [formGroup]="profileForm">
 
     <div class="form-container">
 
@@ -37,23 +26,23 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name">
+        <input matInput maxlength="50" placeholder="{{'ProfileSearchComponent.Name'| transloco}}" formControlName="name">
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        <textarea matInput maxlength="2000" placeholder="{{'ProfileSearchComponent.Description'| transloco}}" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-label>Age</mat-label>
-      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-label>{{'ProfileSearchComponent.Age'| transloco}}</mat-label>
+      <mat-slider min={{defaultAge}} max="120" step="1" [value]="ageList" thumbLabel formControlName="age" class="cdk-focused">
       </mat-slider>
 
-      <mat-label>Height in cm</mat-label>
-      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      <mat-label>{{'ProfileSearchComponent.Height'| transloco}}</mat-label>
+      <mat-slider min="1" max="250" step="1" [value]="heightList" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
       <mat-form-field *ngIf="showGenderChoise">
-        <mat-select placeholder="Gender" formControlName="gender" [(value)]="filter.gender">
+        <mat-select placeholder="{{'ProfileSearchComponent.Gender'| transloco}}" formControlName="gender" [(value)]="filter.gender">
           <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
             {{ genderType }}
           </mat-option>
@@ -61,105 +50,105 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="body" [(value)]="filter.body">
-          <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
-            {{ bodyType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.BodyType'| transloco}}" formControlName="body" [(value)]="filter.body">
+          <mat-option *ngFor="let bodyType of bodyTypes | keyvalue: originalOrder" [value]="bodyType.key">
+            {{ bodyType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="filter.smokingHabits">
-          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
-            {{ smokingHabitsType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.SmokingHabitsType'| transloco}}" formControlName="smokingHabits" [(value)]="filter.smokingHabits">
+          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes | keyvalue: originalOrder" [value]="smokingHabitsType.key">
+            {{ smokingHabitsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has children" formControlName="hasChildren" [(value)]="filter.hasChildren">
-          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
-            {{ hasChildrenType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.HasChildrenType'| transloco}}" formControlName="hasChildren" [(value)]="filter.hasChildren">
+          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes | keyvalue: originalOrder" [value]="hasChildrenType.key">
+            {{ hasChildrenType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Want children" formControlName="wantChildren" [(value)]="filter.wantChildren">
-          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
-            {{ wantChildrenType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.WantChildrenType'| transloco}}" formControlName="wantChildren" [(value)]="filter.wantChildren">
+          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes | keyvalue: originalOrder" [value]="wantChildrenType.key">
+            {{ wantChildrenType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has pets" formControlName="hasPets" [(value)]="filter.hasPets">
-          <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
-            {{ hasPetsType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.HasPetsType'| transloco}}" formControlName="hasPets" [(value)]="filter.hasPets">
+          <mat-option *ngFor="let hasPetsType of hasPetsTypes | keyvalue: originalOrder" [value]="hasPetsType.key">
+            {{ hasPetsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="filter.livesIn">
-          <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
-            {{ livesInType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.LivesInType'| transloco}}" formControlName="livesIn" [(value)]="filter.livesIn">
+          <mat-option *ngFor="let livesInType of livesInTypes | keyvalue: originalOrder" [value]="livesInType.key">
+            {{ livesInType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Education" formControlName="education" [(value)]="filter.education">
-          <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
-            {{ educationType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.EducationType'| transloco}}" formControlName="education" [(value)]="filter.education">
+          <mat-option *ngFor="let educationType of educationTypes | keyvalue: originalOrder" [value]="educationType.key">
+            {{ educationType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Educational status" formControlName="educationStatus" [(value)]="filter.educationStatus">
-          <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
-            {{ educationStatusType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.EducationStatusType'| transloco}}" formControlName="educationStatus" [(value)]="filter.educationStatus">
+          <mat-option *ngFor="let educationStatusType of educationStatusTypes | keyvalue: originalOrder" [value]="educationStatusType.key">
+            {{ educationStatusType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="filter.employmentStatus">
-          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
-            {{ employmentStatusType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.EmploymentStatusType'| transloco}}" formControlName="employmentStatus" [(value)]="filter.employmentStatus">
+          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes | keyvalue: originalOrder" [value]="employmentStatusType.key">
+            {{ employmentStatusType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Sports activity" formControlName="sportsActivity" [(value)]="filter.sportsActivity">
-          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
-            {{ sportsActivityType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.SportsActivityType'| transloco}}" formControlName="sportsActivity" [(value)]="filter.sportsActivity">
+          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes | keyvalue: originalOrder" [value]="sportsActivityType.key">
+            {{ sportsActivityType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Eating habits" formControlName="eatingHabits" [(value)]="filter.eatingHabits">
-          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
-            {{ eatingHabitsType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.EatingHabitsType'| transloco}}" formControlName="eatingHabits" [(value)]="filter.eatingHabits">
+          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes | keyvalue: originalOrder" [value]="eatingHabitsType.key">
+            {{ eatingHabitsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Fashion style" formControlName="clotheStyle" [(value)]="filter.clotheStyle">
-          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
-            {{ clotheStyleType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.ClotheStyleType'| transloco}}" formControlName="clotheStyle" [(value)]="filter.clotheStyle">
+          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes | keyvalue: originalOrder" [value]="clotheStyleType.key">
+            {{ clotheStyleType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body art" formControlName="bodyArt" [(value)]="filter.bodyArt">
-          <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
-            {{ bodyArtType }}
+        <mat-select placeholder="{{'ProfileSearchComponent.BodyArtType'| transloco}}" formControlName="bodyArt" [(value)]="filter.bodyArt">
+          <mat-option *ngFor="let bodyArtType of bodyArtTypes | keyvalue: originalOrder" [value]="bodyArtType.key">
+            {{ bodyArtType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -167,9 +156,5 @@
     </div>
 
   </form>
-
-  <div *ngIf="searchResultProfiles">
-    <app-profile-listview [profiles]="searchResultProfiles" [displayedColumns]="displayedColumns"></app-profile-listview>
-  </div>
 
 </div>

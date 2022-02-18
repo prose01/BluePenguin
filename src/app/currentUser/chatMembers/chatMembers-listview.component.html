@@ -1,5 +1,23 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
   <div *ngIf="dataSource" class="mat-elevation-z8">
+
+    <div class="menu-buttons">
+      <button *ngIf="selection.hasValue()" type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+        <i class="material-icons">security</i>
+      </button>
+
+      <button type="button" (click)="toggleBlocked()" mat-flat-button color="accent" matTooltip="{{matButtonToggleText}}">
+        <i class="material-icons">{{matButtonToggleIcon}}</i>
+      </button>
+    </div>
+
     <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
       <!-- Checkbox Column -->
@@ -20,57 +38,33 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="profileId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ProfileId </th>
-        <td mat-cell *matCellDef="let element"> {{element.profileId}} </td>
-      </ng-container>
-
+      <!--<ng-container matColumnDef="profileId">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ChatMembersListviewComponent.ProfileId'| transloco}} </th>
+    <td mat-cell *matCellDef="let element"> {{element.profileId}} </td>
+  </ng-container>-->
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ChatMembersListviewComponent.Name'| transloco}} </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-      <!-- Blocked Column -->
-      <ng-container matColumnDef="blocked">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Blocked </th>
-        <td mat-cell *matCellDef="let element"> {{element.blocked}} </td>
-      </ng-container>
-
-      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-          <div class="element-detail"
-               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div class="element-diagram" routerLink="/detail/{{element.profileId}}">
-              <!--Link på billed og tekst?-->
-              <div class="element-position"> {{element.profileId}} </div>
-              <div class="element-name"> {{element.name}} </div>
-            </div>
-            <div class="element-description">
-              {{element.createdOn}}
-            </div>
-          </div>
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ChatMembersListviewComponent.Status'| transloco}} </th>
+        <td mat-cell *matCellDef="let element">
+          <i class="material-icons icon-orange" *ngIf="element.blocked" matTooltip="{{'ChatMembersListviewComponent.Blocked'| transloco}}">remove_moderator</i>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let element; columns: displayedColumns;"
           class="element-row"
-          [class.expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element">
+          (click)="openImageDialog(element)">
       </tr>
 
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
 
-    <div class="button-row">
-      <button type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="(Un)Block ChatMember(s)">
-        <i class="material-icons">security</i>
-      </button>
-    </div>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <!--<mat-paginator (page)="pageChanged($event)" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>-->
 
   </div>
 

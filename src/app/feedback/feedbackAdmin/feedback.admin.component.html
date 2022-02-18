@@ -1,0 +1,151 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+
+  <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip={{matButtonToggleSearchText}}>
+    <i class="material-icons">{{matButtonToggleSearchIcon}}</i>
+  </button>
+
+  <button *ngIf="pageView === 'assignment' && pageSearch === 'list' && allowAssignment" type="button" (click)="assignFeedbackToAdmin()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
+    <i class="material-icons">assignment_returned</i>
+  </button>
+
+  <button *ngIf="pageView === 'all' && pageSearch === 'list' && allowAssignment" type="button" (click)="toggleFeedbackStatus()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+    <i class="material-icons">check_circle</i>
+  </button>
+
+  <button *ngIf="pageSearch === 'list'" type="button" (click)="toggleAllDisplay()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{matButtonToggleAllText}}">
+    <i class="material-icons">{{matButtonToggleAllIcon}}</i>
+  </button>
+
+  <section *ngIf="pageView === 'all' && pageSearch === 'list'" class="section">
+    <mat-checkbox class="margin" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">{{'FeedbackAdminComponent.Open'| transloco}}</mat-checkbox>
+  </section>
+
+  <section *ngIf="pageView === 'assignment' && pageSearch === 'list'" class="section">
+    <mat-checkbox class="margin" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">{{'FeedbackAdminComponent.MyLanguage'| transloco}}</mat-checkbox>
+  </section>
+
+  <button *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
+    <i class="material-icons">search</i>
+  </button>
+
+  <button *ngIf="pageSearch === 'search'" type="button" (click)="reset()"
+          class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+    <i class="material-icons">undo</i>
+  </button>
+
+
+  <div *ngIf="noFeedbacks" class="noResults">
+    <p>
+      {{'NoResultsText'| transloco}}
+    </p>
+  </div>
+
+
+  <div [class.mobile]="mobileQuery.matches">
+    <div *ngIf="dataSource && !noFeedbacks" class="mat-elevation-z8">
+
+      <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- DateSent Column -->
+        <ng-container matColumnDef="dateSent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.DateSent'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.dateSent | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
+        </ng-container>
+
+        <!-- DateSeen Column -->
+        <ng-container matColumnDef="dateSeen">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.DateSeen'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.dateSeen | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
+        </ng-container>
+
+        <!-- FromName Column -->
+        <ng-container matColumnDef="fromName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.FromName'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.fromName}} </td>
+        </ng-container>
+
+        <!-- AdminName Column -->
+        <ng-container matColumnDef="adminName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.AdminName'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.adminName}} </td>
+        </ng-container>
+
+        <!-- FeedbackType Column -->
+        <ng-container matColumnDef="feedbackType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.FeedbackType'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.feedbackType}} </td>
+        </ng-container>
+
+        <!-- Message Column -->
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.Message'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{ (element?.message.length>50)? (element?.message | slice:0:50)+'...':(element?.message) }} </td>
+        </ng-container>
+
+        <!-- Open Column -->
+        <ng-container matColumnDef="open">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FeedbackAdminComponent.Open'| transloco}} </th>
+          <td mat-cell *matCellDef="let element">
+            <i class="material-icons icon-orange" *ngIf="element?.open" matTooltip="{{'FeedbackAdminComponent.Open'| transloco}}">circle</i>
+            <i class="material-icons icon-white" *ngIf="!element?.open" matTooltip="{{'FeedbackAdminComponent.Closed'| transloco}}">check_circle</i>
+          </td>
+        </ng-container>
+
+        <!-- Countrycode Column -->
+        <ng-container matColumnDef="countrycode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Country'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.countrycode}} </td>
+        </ng-container>
+
+        <!-- Languagecode Column -->
+        <ng-container matColumnDef="languagecode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Language'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.languagecode}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+            class="element-row"
+            (click)="openFeedbackDialog(element)">
+        </tr>
+
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+    </div>
+  </div>
+
+  <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
+      <feedback-search (getFeedbacksByFilter)="getFeedbacksByFilter($event)"></feedback-search>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+</div>

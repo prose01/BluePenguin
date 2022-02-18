@@ -1,8 +1,6 @@
-import { ImageModel } from './ImageModel';
-import { ChatMember } from './ChatMember';
+import { ImageModel } from './imageModel'; 
+import { ChatMember } from './chatMember';
 import {
-  GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -19,9 +17,9 @@ import {
 } from '../models/enums';
 
 export class Profile {
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //bookmarks: string[];
+  //chatMemberslist: Array<ChatMember>;
+  //auth0Id: string;
   profileId: string;
   name: string;
   createdOn: Date;
@@ -29,11 +27,13 @@ export class Profile {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
+  imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  //gender: string;
+  //sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -47,12 +47,13 @@ export class Profile {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  likes: string[];
 }
 
 export interface Profile {
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //bookmarks: string[];
+  //chatMemberslist: Array<ChatMember>;
+  //auth0Id: string;
   profileId: string;
   name: string;
   createdOn: Date;
@@ -60,11 +61,13 @@ export interface Profile {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
+  imageNumber: number;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  //gender: string;
+  //sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -78,4 +81,5 @@ export interface Profile {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  likes: string[];
 }

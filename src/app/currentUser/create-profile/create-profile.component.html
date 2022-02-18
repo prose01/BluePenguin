@@ -1,21 +1,37 @@
 <div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
 
-  <h4>Create your profile</h4>
+  <h4>{{'CreateProfileComponent.Create'| transloco}}Create your profile</h4>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="newUserForm">
 
     <div style="margin-bottom: 1em">
       <button type="submit"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="Save">
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'CreateProfileComponent.Save'| transloco}}">
         <i class="material-icons">save</i>
       </button>
       <button type="button" (click)="revert()"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="Revert">
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'CreateProfileComponent.Reset'| transloco}}">
         <i class="material-icons">undo</i>
       </button>
     </div>
 
     <div class="form-container">
+
+      <mat-form-field>
+        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()">
+          <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+            {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="{{countrycodePlaceholder}}" formControlName="countrycode" [(value)]="currentUser.countrycode" required>
+          <mat-option *ngFor="let country of countryList" [value]="country.code">
+            {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <mat-form-field class="tag-list">
         <mat-chip-list #chipList formControlName="tags">
@@ -33,18 +49,18 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{namePlaceholder}}" formControlName="name" (ngModelChange)="onChange()" required minlength="3">
+        <input matInput maxlength="50" placeholder="{{namePlaceholder}}" formControlName="name" required minlength="3">
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        <textarea matInput maxlength="2000" placeholder="{{'CreateProfileComponent.Description'| transloco}}" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-label>Age</mat-label>
-      <mat-slider min="16" max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-label>{{'CreateProfileComponent.Age'| transloco}}</mat-label>
+      <mat-slider min={{defaultAge}} max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
       </mat-slider>
 
-      <mat-label>Height in cm</mat-label>
+      <mat-label>{{'CreateProfileComponent.Height'| transloco}}</mat-label>
       <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
@@ -65,108 +81,110 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body type" formControlName="body" [(value)]="currentUser.body">
-          <mat-option *ngFor="let bodyType of bodyTypes" [value]="bodyType">
-            {{ bodyType }}
+        <mat-select placeholder="{{'CreateProfileComponent.BodyType'| transloco}}" formControlName="body" [(value)]="currentUser.body">
+          <mat-option *ngFor="let bodyType of bodyTypes | keyvalue: originalOrder" [value]="bodyType.key">
+            {{ bodyType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Smoking habits" formControlName="smokingHabits" [(value)]="currentUser.smokingHabits">
-          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes" [value]="smokingHabitsType">
-            {{ smokingHabitsType }}
+        <mat-select placeholder="{{'CreateProfileComponent.SmokingHabitsType'| transloco}}" formControlName="smokingHabits" [(value)]="currentUser.smokingHabits">
+          <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes | keyvalue: originalOrder" [value]="smokingHabitsType.key">
+            {{ smokingHabitsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has children" formControlName="hasChildren" [(value)]="currentUser.hasChildren">
-          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes" [value]="hasChildrenType">
-            {{ hasChildrenType }}
+        <mat-select placeholder="{{'CreateProfileComponent.HasChildrenType'| transloco}}" formControlName="hasChildren" [(value)]="currentUser.hasChildren">
+          <mat-option *ngFor="let hasChildrenType of hasChildrenTypes | keyvalue: originalOrder" [value]="hasChildrenType.key">
+            {{ hasChildrenType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Want children" formControlName="wantChildren" [(value)]="currentUser.wantChildren">
-          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes" [value]="wantChildrenType">
-            {{ wantChildrenType }}
+        <mat-select placeholder="{{'CreateProfileComponent.WantChildrenType'| transloco}}" formControlName="wantChildren" [(value)]="currentUser.wantChildren">
+          <mat-option *ngFor="let wantChildrenType of wantChildrenTypes | keyvalue: originalOrder" [value]="wantChildrenType.key">
+            {{ wantChildrenType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Has pets" formControlName="hasPets" [(value)]="currentUser.hasPets">
-          <mat-option *ngFor="let hasPetsType of hasPetsTypes" [value]="hasPetsType">
-            {{ hasPetsType }}
+        <mat-select placeholder="{{'CreateProfileComponent.HasPetsType'| transloco}}" formControlName="hasPets" [(value)]="currentUser.hasPets">
+          <mat-option *ngFor="let hasPetsType of hasPetsTypes | keyvalue: originalOrder" [value]="hasPetsType.key">
+            {{ hasPetsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Lives in" formControlName="livesIn" [(value)]="currentUser.livesIn">
-          <mat-option *ngFor="let livesInType of livesInTypes" [value]="livesInType">
-            {{ livesInType }}
+        <mat-select placeholder="{{'CreateProfileComponent.LivesInType'| transloco}}" formControlName="livesIn" [(value)]="currentUser.livesIn">
+          <mat-option *ngFor="let livesInType of livesInTypes | keyvalue: originalOrder" [value]="livesInType.key">
+            {{ livesInType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Education" formControlName="education" [(value)]="currentUser.education">
-          <mat-option *ngFor="let educationType of educationTypes" [value]="educationType">
-            {{ educationType }}
+        <mat-select placeholder="{{'CreateProfileComponent.EducationType'| transloco}}" formControlName="education" [(value)]="currentUser.education">
+          <mat-option *ngFor="let educationType of educationTypes | keyvalue: originalOrder" [value]="educationType.key">
+            {{ educationType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Educational status" formControlName="educationStatus" [(value)]="currentUser.educationStatus">
-          <mat-option *ngFor="let educationStatusType of educationStatusTypes" [value]="educationStatusType">
-            {{ educationStatusType }}
+        <mat-select placeholder="{{'CreateProfileComponent.EducationStatusType'| transloco}}" formControlName="educationStatus" [(value)]="currentUser.educationStatus">
+          <mat-option *ngFor="let educationStatusType of educationStatusTypes | keyvalue: originalOrder" [value]="educationStatusType.key">
+            {{ educationStatusType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Employment status" formControlName="employmentStatus" [(value)]="currentUser.employmentStatus">
-          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes" [value]="employmentStatusType">
-            {{ employmentStatusType }}
+        <mat-select placeholder="{{'CreateProfileComponent.EmploymentStatusType'| transloco}}" formControlName="employmentStatus" [(value)]="currentUser.employmentStatus">
+          <mat-option *ngFor="let employmentStatusType of employmentStatusTypes | keyvalue: originalOrder" [value]="employmentStatusType.key">
+            {{ employmentStatusType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Sports activity" formControlName="sportsActivity" [(value)]="currentUser.sportsActivity">
-          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes" [value]="sportsActivityType">
-            {{ sportsActivityType }}
+        <mat-select placeholder="{{'CreateProfileComponent.SportsActivityType'| transloco}}" formControlName="sportsActivity" [(value)]="currentUser.sportsActivity">
+          <mat-option *ngFor="let sportsActivityType of sportsActivityTypes | keyvalue: originalOrder" [value]="sportsActivityType.key">
+            {{ sportsActivityType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Eating habits" formControlName="eatingHabits" [(value)]="currentUser.eatingHabits">
-          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes" [value]="eatingHabitsType">
-            {{ eatingHabitsType }}
+        <mat-select placeholder="{{'CreateProfileComponent.EatingHabitsType'| transloco}}" formControlName="eatingHabits" [(value)]="currentUser.eatingHabits">
+          <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes | keyvalue: originalOrder" [value]="eatingHabitsType.key">
+            {{ eatingHabitsType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Fashion style" formControlName="clotheStyle" [(value)]="currentUser.clotheStyle">
-          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes" [value]="clotheStyleType">
-            {{ clotheStyleType }}
+        <mat-select placeholder="{{'CreateProfileComponent.ClotheStyleType'| transloco}}" formControlName="clotheStyle" [(value)]="currentUser.clotheStyle">
+          <mat-option *ngFor="let clotheStyleType of clotheStyleTypes | keyvalue: originalOrder" [value]="clotheStyleType.key">
+            {{ clotheStyleType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Body art" formControlName="bodyArt" [(value)]="currentUser.bodyArt">
-          <mat-option *ngFor="let bodyArtType of bodyArtTypes" [value]="bodyArtType">
-            {{ bodyArtType }}
+        <mat-select placeholder="{{'CreateProfileComponent.BodyArtType'| transloco}}" formControlName="bodyArt" [(value)]="currentUser.bodyArt">
+          <mat-option *ngFor="let bodyArtType of bodyArtTypes | keyvalue: originalOrder" [value]="bodyArtType.key">
+            {{ bodyArtType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'CreateProfileComponent.ContactableText'| transloco}}" placeholder="{{'CreateProfileComponent.Contactable'| transloco}}" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
 
     </div>
 

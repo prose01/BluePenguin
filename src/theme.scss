@@ -1,10 +1,12 @@
+@use '@angular/material' as mat;
 @import '~@angular/material/theming';
+/*@import "~flag-icon-css/sass/flag-icon";*/
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Icons
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
@@ -14,19 +16,19 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
 $fontConfig: (
-    display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
-    display-3: mat-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
-    display-2: mat-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
-    display-1: mat-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
-    headline: mat-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
-    title: mat-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
-    subheading-2: mat-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
-    subheading-1: mat-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
-    body-2: mat-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
-    body-1: mat-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
-    button: mat-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
-    caption: mat-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
-    input: mat-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
+    display-4: mat.define-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
+    display-3: mat.define-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
+    display-2: mat.define-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
+    display-1: mat.define-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
+    headline: mat.define-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
+    title: mat.define-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
+    subheading-2: mat.define-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
+    subheading-1: mat.define-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
+    body-2: mat.define-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
+    body-1: mat.define-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
+    button: mat.define-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
+    caption: mat.define-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
+    input: mat.define-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
 );
 
 $dark-text: #607D8B;
@@ -36,7 +38,7 @@ $dark-disabled-text: rgba($dark-primary-text, 0.38);
 $dark-dividers: rgba($dark-primary-text, 0.12);
 $dark-focused: rgba($dark-primary-text, 0.12);
 
-$mat-light-theme-foreground: (
+mat.$light-theme-foreground-palette: (
     base: black, divider: $dark-dividers,
     dividers: $dark-dividers,
     disabled: $dark-disabled-text,
@@ -61,7 +63,7 @@ $light-disabled-text: rgba($light-primary-text, 0.5);
 $light-dividers: rgba($light-primary-text, 0.12);
 $light-focused: rgba($light-primary-text, 0.12);
 
-$mat-dark-theme-foreground: (
+mat.$dark-theme-foreground-palette: (
     base: $light-text,
     divider: $light-dividers,
     dividers: $light-dividers,
@@ -81,7 +83,7 @@ $mat-dark-theme-foreground: (
 );
 
 // Compute font config
-@include mat-core($fontConfig);
+@include mat.core($fontConfig);
 
 /*#endregion Fonts*/
 
@@ -105,7 +107,7 @@ $mat-primary: (
 );
 
 .color-primary-main {
-  background-color: mat-color($mat-primary, main);
+  background-color: mat.get-color-from-palette($mat-primary, main);
   padding: 20px;
   text-align: center;
   color: $light-primary-text;
@@ -114,7 +116,7 @@ $mat-primary: (
   border-radius: 2px;
 }
 
-$theme-primary: mat-palette($mat-primary, main, lighter, darker);
+$theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
 
 /*#endregion Primary*/
 
@@ -146,7 +148,7 @@ $mat-accent: (
 );
 
 .color-accent-main {
-  background-color: mat-color($mat-accent, main);
+  background-color: mat.get-color-from-palette($mat-accent, main);
   padding: 20px;
   text-align: center;
   color: $light-primary-text;
@@ -164,7 +166,7 @@ body {
   --text-accent-darker-color: #{$light-primary-text};
 }
 
-$theme-accent: mat-palette($mat-accent, main, lighter, darker);
+$theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
 
 /*#endregion Accent*/
 
@@ -183,7 +185,7 @@ $mat-warn: (
 );
 
 .color-warn-main {
-  background-color: mat-color($mat-warn, main);
+  background-color: mat.get-color-from-palette($mat-warn, main);
   padding: 20px;
   text-align: center;
   color: $light-primary-text;
@@ -201,16 +203,16 @@ body {
   --text-warn-darker-color: #{$light-primary-text};
 }
 
-$theme-warn: mat-palette($mat-warn, main, lighter, darker);
+$theme-warn: mat.define-palette($mat-warn, main, lighter, darker);
 
 /*#endregion warn*/
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as `color` or `typography`.
-//$candy-app-theme: mat-light-theme(( color: ( primary: $app-primary, accent: $app-accent, warn: $app-warn, ) ));
-$theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+//$candy-app-theme: mat.define-light-theme(( color: ( primary: $app-primary, accent: $app-accent, warn: $app-warn, ) ));
+$theme: mat.define-light-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($theme);
+@include mat.all-component-themes($theme);

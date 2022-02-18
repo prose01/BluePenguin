@@ -7,7 +7,7 @@ export class ChatMember {
 }
 
 export interface ChatMember extends Profile{
-  //profileId: string;
-  //name: string;
+  profileId: string;
+  name: string;
   blocked: boolean;
 }

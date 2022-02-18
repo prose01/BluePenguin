@@ -1,58 +1,189 @@
-<h2>{{title}}</h2>
-<nav>
+<div *ngIf="!auth.isAuthenticated()">
+  <button id="qsLoginBtn"
+          *ngIf="!auth.isAuthenticated()"
+          (click)="auth.login()" type="button"
+          mat-flat-button color="accent">
+    {{'LogIn'| transloco}}
+  </button>
 
-  <div *ngIf="!auth.isAuthenticated()">
-    <button id="qsLoginBtn"
-            *ngIf="!auth.isAuthenticated()"
-            (click)="auth.login()" type="button"
-            mat-flat-button color="accent">
-      Log In
-    </button>
+  <h3>
+    {{'NotLoggedIn'| transloco}}
+  </h3>
+</div>
 
-    <h3>
-      You are not logged in! Please Log In to continue.
-    </h3>
-  </div>
+<div *ngIf="auth.isAuthenticated()">
 
-  <div *ngIf="auth.isAuthenticated()">
-    <!--Navigation buttons-->
-    <button type="button" (click)="goToDashboard()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Dashboard">
-      <i class="material-icons">dashboard</i>
-    </button>
-    <button type="button" (click)="goToProfileSearch()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltipPosition="above" matTooltip="Search">
-      <i class="material-icons">search</i>
-    </button>
+  <div id="navbar" [class.mobile]="mobileQuery.matches">
+    <h2 (click)="loadDashboard()">{{title}}</h2>
+
+    <div *ngIf="isProfileCreated">
+      <!--Navigation buttons-->
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
+        <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
+          <i class="material-icons">{{matButtonToggleIcon}}</i>
+        </button>
+      </div>
+
+      <!--ViewToggle button-->
+      <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
+        <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
+          <i class="material-icons">{{matButtonViewToggleIcon}}</i>
+        </button>
+      </div>
+
+      <!--Dashboard menu-->
+      <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
+        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'All'| transloco}}">
+          {{'All'| transloco}}
+        </button>
+
+        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'MySearchFilter'| transloco}}">
+          <i class="material-icons">tune</i>
+        </button>
+
+        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'Bookmarks'| transloco}}">
+          <i class="material-icons">bookmarks</i>
+        </button>
+
+        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'VisitedMe'| transloco}}">
+          <i class="material-icons">adjust</i>
+        </button>
+
+        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'BookmarkedMe'| transloco}}">
+          <i class="material-icons">bookmark_added</i>
+        </button>
+
+        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'LikesMe'| transloco}}">
+          <i class="material-icons">favorite</i>
+        </button>
+      </div>
+
+      <!--Search menu-->
+      <div *ngIf="pageView === 'Search'" class="menu-buttons">
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="submit" (click)="onSubmit()"
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
+          <i class="material-icons">search</i>
+        </button>
+
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="button" (click)="reset()"
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Reset'| transloco}}">
+          <i class="material-icons">undo</i>
+        </button>
+
+        <!--[disabled]="profileForm.pristine"-->
+        <button type="button" (click)="saveSearch()"
+                class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'SaveSearchFilter'| transloco}}">
+          <i class="material-icons">save</i>
+        </button>
+
+        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'LoadSearchFilter'| transloco}}">
+          <i class="material-icons">find_in_page</i>
+        </button>
+      </div>
+
+      <!--OrderBy button-->
+      <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'" class="menu-buttons">
+        <button type="button" (click)="toggleOrderBy()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonOrderByText}}>
+          <i class="material-icons">{{matButtonOrderByIcon}}</i>
+        </button>
+      </div>
+
+    </div>
 
     <!--Upper right corner menu-->
-    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+    <button type="button" [matMenuTriggerFor]="menu" class="menu" mat-flat-button color="accent">
       <span class="material-icons">
         menu
       </span>
     </button>
-
-    <mat-menu #menu="matMenu">
-      <a routerLink="/edit" mat-menu-item>
-        Edit Profile
-        <i class="material-icons">person</i>
-      </a>
-      <a routerLink="/about" mat-menu-item>
-        About
-        <i class="material-icons">plus_one</i>
-      </a>
-
-      <button id="qsLogoutBtn"
-              class="mat-menu-flat-button"
-              *ngIf="auth.isAuthenticated()"
-              (click)="auth.logout()" type="button"
-              mat-flat-button color="accent">
-        Log Out
-      </button>
-    </mat-menu>
-
-    <!--chat-component-->
-    <chat-component [currentUser]="currentUserSubject"></chat-component>
-
   </div>
 
-</nav>
-    <router-outlet></router-outlet>
+  <mat-menu #menu="matMenu">
+
+    <!--<mat-select placeholder="{{'Language'| transloco}}" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
+    <mat-option *ngFor="let lang of languageList" [value]="lang.code">
+      {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
+    </mat-option>
+  </mat-select>-->
+
+    <div *ngIf="isProfileCreated">
+      <a (click)="loadEdit()" mat-menu-item>
+        {{'EditProfile'| transloco}}
+        <i class="material-icons">person</i>
+      </a>
+    </div>
+    <a (click)="loadAbout()" mat-menu-item>
+      {{'About'| transloco}}
+      <i class="material-icons">plus_one</i>
+    </a>
+    <div *ngIf="!isAdmin">
+      <a (click)="loadFeedback()" mat-menu-item>
+        {{'Feedback'| transloco}}
+        <i class="material-icons">plus_one</i>
+      </a>
+    </div>
+    <div *ngIf="isAdmin">
+      <a (click)="loadFeedbackAdmin()" mat-menu-item>
+        {{'FeedbackAdmin'| transloco}}
+        <i class="material-icons">person</i>
+      </a>
+    </div>
+
+    <button id="qsLogoutBtn"
+            class="mat-menu-flat-button"
+            *ngIf="auth.isAuthenticated()"
+            (click)="auth.logout()" type="button"
+            mat-flat-button color="accent">
+      {{'LogOut'| transloco}}
+    </button>
+  </mat-menu>
+
+
+  <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
+      <div *ngIf="pageView === 'Search'">
+        <app-profile-search (getProfileByFilter)="getProfileByFilter()" (toggleDisplay)="toggleDisplay()"></app-profile-search>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'">
+        <dashboard (isCurrentUserCreated)="isCurrentUserCreated($event)" (loadDetails)="loadDetails($event)"></dashboard>
+      </div>
+
+      <div *ngIf="pageView === 'About'">
+        <about></about>
+      </div>
+
+      <div *ngIf="pageView === 'Feedback'">
+        <feedback></feedback>
+      </div>
+
+      <div *ngIf="pageView === 'FeedbackAdmin'">
+        <feedback-admin (loadProfileDetails)="loadDetails($event)"></feedback-admin>
+      </div>
+
+      <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">
+        <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)" (initDefaultData)="initDefaultData()"></create-profile>
+      </div>
+
+      <div *ngIf="isProfileCreated && pageView === 'Edit'">
+        <currentUserBoard (loadDetails)="loadDetails($event)"><edit-profile></edit-profile></currentUserBoard>
+      </div>
+
+      <div *ngIf="isProfileCreated && pageView === 'Details'">
+        <!-- Tile and List should call details-page with Profile as input -->
+        <profileDetailsBoard (loadDetails)="loadDetails($event)" [profile]="profile"></profileDetailsBoard>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!--chat-component-->
+  <div *ngIf="useChat">
+    <chat-component [currentUser]="currentUserSubject"></chat-component>
+  </div>
+
+
+</div>

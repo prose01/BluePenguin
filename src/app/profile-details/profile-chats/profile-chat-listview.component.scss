@@ -1,0 +1,55 @@
+
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #607D8B;
+}
+
+/*#navbar {
+  background-color: #607d8b;*/ /* Black background color */
+  /*position: sticky;*/ /* Make it stick/fixed */
+  /*top: 0;*/ /* Stay on top */
+  /*left: 0;*/ /* Stay on top */
+  /*width: 100%;*/ /* Full width */
+  /*transition: top 0.3s;*/ /* Transition effect when sliding down (and up) */
+  /*z-index: 2;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}*/
+
+.sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.mobile {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+mat-sidenav {
+  /*width: 95vw;*/
+  width: 98%;
+}
+
+.menu-buttons {
+  display: inline;
+}
+
+.section {
+  margin: 12px 0;
+  display: inline;
+}
+
+.margin {
+  margin: 0 12px;
+}
+
+/*::ng-deep .mat-paginator-page-size {
+  display: none !important;
+}*/
+
+::ng-deep .mat-paginator-range-label {
+  display: none !important;
+}

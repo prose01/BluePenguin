@@ -1,51 +1,57 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+<div class="grid grid-pad">
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="uploadImageForm">
+  <div class="spinner-overlay" *ngIf="uploadingPhoto">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <form [formGroup]="uploadImageForm">
 
     <button type="button"
-            (click)="fileInput.click()" mat-flat-button color="accent" matTooltip="Choose File">
+            (click)="fileInput.click()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.ChooseFile'| transloco}}">
       <i class="material-icons">folder_open</i>
     </button>
     <input type="file" (change)="fileChangeEvent($event)" #fileInput hidden>
 
-    <mat-form-field *ngIf="croppedImage">
-      <input matInput placeholder="{{ titlePlaceholder }}" formControlName="title" (ngModelChange)="onChange()" required>
+    <mat-form-field *ngIf="showCropper" style="margin-left: 10px">
+      <input matInput placeholder="{{ titlePlaceholder }}" formControlName="title" (ngModelChange)="onChange()">
     </mat-form-field>
 
     <div style="margin-bottom: 1em">
-      <button type="submit" *ngIf="croppedImage"
-              (click)="onSubmit()" mat-flat-button color="accent" matTooltip="Upload">
+      <button type="submit" *ngIf="showCropper"
+              (click)="onSubmit()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Upload'| transloco}}">
         <i class="material-icons">cloud_upload</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="resetImage()" mat-flat-button color="accent" matTooltip="Reset image">
+              (click)="resetImage()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.ResetImage'| transloco}}">
         <i class="material-icons">undo</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="zoomIn()" mat-flat-button color="accent" matTooltip="Zoom +">
+              (click)="zoomIn()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Zoom+'| transloco}}">
         <i class="material-icons">zoom_in</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="zoomOut()" mat-flat-button color="accent" matTooltip="Zoom -">
+              (click)="zoomOut()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Zoom-'| transloco}}">
         <i class="material-icons">zoom_out</i>
       </button>
     </div>
 
     <div style="margin-bottom: 1em">
       <button type="button" *ngIf="showCropper"
-              (click)="rotateRight()" mat-flat-button color="accent" matTooltip="Rotate right">
+              (click)="rotateRight()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.RotateRight'| transloco}}">
         <i class="material-icons">rotate_right</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="rotateLeft()" mat-flat-button color="accent" matTooltip="Rotate left">
+              (click)="rotateLeft()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.RotateLeft'| transloco}}">
         <i class="material-icons">rotate_left</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="flipHorizontal()" mat-flat-button color="accent" matTooltip="Flip horizontal">
+              (click)="flipHorizontal()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.FlipHorizontal'| transloco}}">
         <i class="material-icons">swap_horiz</i>
       </button>
       <button type="button" *ngIf="showCropper"
-              (click)="flipVertical()" mat-flat-button color="accent" matTooltip="Flip vertical">
+              (click)="flipVertical()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.FlipVertical'| transloco}}">
         <i class="material-icons">swap_vert</i>
       </button>
     </div>
@@ -54,24 +60,26 @@
 
   <div style="margin: 1em">
     <image-cropper [imageChangedEvent]="imageChangedEvent"
-                   [aspectRatio]="4 / 3"
-                   [maintainAspectRatio]="false"
+                   [resizeToWidth]="1080"
+                   [resizeToHeight]="1350"
+                   [aspectRatio]="1 / 1"
+                   [maintainAspectRatio]="true"
                    [onlyScaleDown]="true"
                    [roundCropper]="false"
                    [canvasRotation]="canvasRotation"
                    [transform]="transform"
                    [alignImage]="'left'"
                    [style.display]="showCropper ? null : 'none'"
-                   format="png"
+                   format="jpeg"
                    (imageCropped)="imageCropped($event)"
                    (imageLoaded)="imageLoaded()"
                    (loadImageFailed)="loadImageFailed()"></image-cropper>
 
     <!--
     [containWithinAspectRatio]="containWithinAspectRatio"
-    [resizeToWidth]="256"
     [cropperMinWidth]="128"
     (cropperReady)="cropperReady($event)"
+    [imageQuality]="80"
     -->
 
   </div>

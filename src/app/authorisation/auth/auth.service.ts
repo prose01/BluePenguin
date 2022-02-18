@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import { getBrowserLang } from '@ngneat/transloco';
 
 @Injectable()
 export class AuthService {
@@ -36,18 +37,18 @@ export class AuthService {
   }
 
   public login(): void {
-    this.auth0.authorize();
+    this.auth0.authorize(getBrowserLang() || 'en');
   }
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.localLogin(authResult);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['']);
       } else if (err) {
-        this.router.navigate(['/dashboard']);
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        this.router.navigate(['']);
+        //console.log(err);
+        //alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
   }

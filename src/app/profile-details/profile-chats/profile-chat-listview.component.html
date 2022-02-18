@@ -1,0 +1,112 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <button type="button" (click)="sidenav.open(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
+    <i class="material-icons">search</i>
+  </button>
+
+  <button type="button" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
+    <i class="material-icons">delete_forever</i>
+  </button>
+
+  <div *ngIf="noFeedbacks" class="noResults">
+    <p>
+      {{'NoResultsText'| transloco}}
+    </p>
+  </div>
+
+
+  <div [class.mobile]="mobileQuery.matches">
+    <div *ngIf="dataSource" class="mat-elevation-z8">
+
+      <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+
+        </ng-container>
+        <!-- FromId Column -->
+        <ng-container matColumnDef="fromId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromId'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.fromId}} </td>
+        </ng-container>
+
+        <!-- FromName Column -->
+        <ng-container matColumnDef="fromName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromName'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.fromName}} </td>
+        </ng-container>
+
+        <!-- ToId Column -->
+        <ng-container matColumnDef="toId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToId'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.toId}} </td>
+        </ng-container>
+
+        <!-- ToName Column -->
+        <ng-container matColumnDef="toName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToName'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.toName}} </td>
+        </ng-container>
+
+        <!-- DateSent Column -->
+        <ng-container matColumnDef="dateSent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSent'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.dateSent | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
+        </ng-container>
+
+        <!-- DateSeen Column -->
+        <ng-container matColumnDef="dateSeen">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSeen'| transloco}} </th>
+          <td mat-cell *matCellDef="let element"> {{element?.dateSeen | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
+        </ng-container>
+
+        <!-- ToName Column -->
+        <ng-container matColumnDef="doNotDelete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DoNotDelete'| transloco}} </th>
+          <td mat-cell *matCellDef="let element">
+            <i class="material-icons icon-white" *ngIf="element?.doNotDelete" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">delete_forever</i>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+            class="element-row"
+            (click)="openMessageDialog(element)">
+        </tr>
+
+      </table>
+
+      <mat-paginator [length]="length" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
+
+    </div>
+  </div>
+
+  <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
+      <profile-chat-search (getChatsByFilter)="setChatFilter($event)"></profile-chat-search>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+</div>
+

@@ -1,36 +1,152 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
-  <!--<span class="fill-space"></span>-->
-  <button type="button" (click)="toggleDisplayOrder()" mat-flat-button color="accent" class="sortOrder" matTooltip="Flip sort order">
-    <i class="material-icons">{{matButtonToggleIcon}}</i>
-  </button>
+<div class="grid grid-pad">
 
-  <div class="grid grid-pad">
-
-    <div *ngFor="let profile of profiles" class="col-1-4">
-      <div>
-        <button mat-icon-button *ngIf="showingBookmarkedProfilesList" (click)="removeFavoritProfiles(profile.profileId)" matTooltip="Remove from favorits">
-          <i class="material-icons">bookmark_border</i>
-        </button>
-        <button mat-icon-button *ngIf="!showingBookmarkedProfilesList" (click)="addFavoritProfiles(profile.profileId)" matTooltip="Add to favorits">
-          <i class="material-icons">bookmark</i>
-        </button>
-      </div>
-
-      <a routerLink="/detail/{{profile.profileId}}">
-
-        <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" />
-        <div class="color-accent-main">
-          <h4>{{profile.name}}</h4>
-        </div>
-      </a>
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
     </div>
-
   </div>
 
-  <!--<div class="row">
-    <div class="column" *ngFor="let profile of profiles; let indexOfimage=index;">
-      <img *ngIf="profile.images[0] != null" class="images" src="{{profile.images[0].image}}" style="{{imageSizes[indexOfimage]}}" /> 
-    </div>    
+  <div *ngIf="noProfiles" class="noResults">
+    <p>
+      {{'NoResultsText'| transloco}}
+    </p>
+  </div>
+
+  <!--<ul class="mdc-image-list mdc-image-list--masonry masonry-image-list"
+      infinite-scroll
+      [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollUpDistance]="scrollUpDistance"
+      [infiniteScrollThrottle]="throttle"
+      [scrollWindow]="true"
+      (scrolled)="onScrollDown()"
+      (scrolledUp)="onScrollUp()">
+    <li class="mdc-image-list__item" *ngFor="let profile of currentProfiles; let i = index">
+
+      <img class="mdc-image-list__image" [lazyLoad]="profile.images[profile.imageNumber]?.image" [defaultImage]="profile.images[profile.imageNumber]?.smallimage" (click)="openImageDialog(profile)">
+      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
+      <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'TileViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
+      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>
+      <div>{{i}}</div>
+      <div class="overlay-images">
+        <div class="mdc-image-list__supporting">
+          <span class="mdc-image-list__label">{{profile.name}}</span>
+          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'TileViewComponent.DeleteProfile'| transloco}}">
+            <i class="material-icons icon-white">delete</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite</i>
+          </button>
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite_border</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.RemoveFromBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark</i>
+          </button>
+          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.AddToBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark_border</i>
+          </button>
+        </div>
+      </div>
+
+    </li>
+  </ul>-->
+  <!--<div class="profile-list"
+       infinite-scroll
+       [infiniteScrollDistance]="scrollDistance"
+       [infiniteScrollUpDistance]="scrollUpDistance"
+       [infiniteScrollThrottle]="throttle"
+       [scrollWindow]="true"
+       (scrolled)="onScrollDown()"
+       (scrolledUp)="onScrollUp()">
+    <div class="profile-tile" *ngFor="let profile of currentProfiles; let i = index">
+
+      <img [lazyLoad]="profile.images[profile.imageNumber]?.image" (click)="openImageDialog(profile)">
+      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
+      <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'TileViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
+      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>-->
+  <!--<div>{{i}}</div>-->
+  <!--<div class="overlay">
+        <div class="supporting">
+          <span class="label">{{profile.name}}</span>
+          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'TileViewComponent.DeleteProfile'| transloco}}">
+            <i class="material-icons icon-white">delete</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite</i>
+          </button>
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite_border</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.RemoveFromBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark</i>
+          </button>
+          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.AddToBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark_border</i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
   </div>-->
 
- </div>
+
+  <div class="profile-list-grid"
+       infinite-scroll
+       [infiniteScrollDistance]="scrollDistance"
+       [infiniteScrollUpDistance]="scrollUpDistance"
+       [infiniteScrollThrottle]="throttle"
+       [scrollWindow]="true"
+       (scrolled)="onScrollDown()"
+       (scrolledUp)="onScrollUp()">
+    <div *ngFor="let profile of currentProfiles; let i = index" [ngClass]="imageSize[i]">
+
+      <img [lazyLoad]="profile.images[profile.imageNumber]?.image" (click)="openImageDialog(profile)">
+      <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
+      <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'TileViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
+      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>
+      <!--<div>{{i}}</div>-->
+      <div class="overlay">
+        <div class="supporting">
+          <span class="label">{{profile.name}}</span>
+          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'TileViewComponent.DeleteProfile'| transloco}}">
+            <i class="material-icons icon-white">delete</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite</i>
+          </button>
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} {{'TileViewComponent.Likes'| transloco}}">
+            <i class="material-icons icon-white">favorite_border</i>
+          </button>
+        </div>
+
+        <div class="button">
+          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.RemoveFromBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark</i>
+          </button>
+          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'TileViewComponent.AddToBookmarked'| transloco}}">
+            <i class="material-icons icon-white">bookmark_border</i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

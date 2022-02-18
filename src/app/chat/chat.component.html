@@ -5,16 +5,22 @@
          [groupAdapter]="adapter"
          [userId]="userId"
          [isCollapsed]="true"
+         [pollFriendsList]="true"
          [pollingInterval]="2000"
          [historyEnabled]="true"
-         [historyPageSize]="4"
+         [historyPageSize]="10"
          [hideFriendsList]="false"
          [theme]="currentTheme"
-         [audioEnabled]="false"
-         (onParticipantClicked)="onEventTriggered('ParticipantClicked triggered')"
-         (onParticipantChatOpened)="onEventTriggered('ParticipantChatOpened triggered')"
-         (onParticipantChatClosed)="onEventTriggered('ParticipantChatClosed triggered')"
+         [audioEnabled]="true"
+         [linkfyEnabled]="false"
+         [isViewportOnMobileEnabled]="true"
          (onMessagesSeen)="onEventTriggered('MessageSeen triggered')">
 </ng-chat>
 
-<!--[pollFriendsList]="true"-->
+<!--
+  [pollFriendsList]="true"
+         (onParticipantClicked)="onEventTriggered('ParticipantClicked triggered')"
+         (onParticipantChatOpened)="onEventTriggered('ParticipantChatOpened triggered')"
+         (onParticipantChatClosed)="onEventTriggered('ParticipantChatClosed triggered')"
+
+  -->

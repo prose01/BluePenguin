@@ -1,10 +1,20 @@
-<div *ngIf="auth.isAuthenticated()" class="grid grid-pad">
+<div class="grid grid-pad">
 
-  <button type="button" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <p *ngIf="!morePhotosAllowed">
+    {{'ImageBoardComponent.MaxImages'| transloco: { maxPhotos: maxPhotos} }}
+  </p>
+
+  <button *ngIf="morePhotosAllowed" type="button" class="matButtonToggle" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
     <i class="material-icons">{{matButtonToggleIcon}}</i>
   </button>
 
-  <div *ngIf="isMatButtonToggled"><image-tileview [imageModels]="imageModels" (refreshCurrentUserImages)="refreshCurrentUserImages()"></image-tileview></div>
-  <div *ngIf="!isMatButtonToggled"><image-upload></image-upload></div>
+  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images" [currentProfileId]="currentUserSubject.profileId" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>
+  <div *ngIf="!isMatButtonToggled"><image-upload (toggleDisplay)="toggleDisplay()"></image-upload></div>
 
 </div>

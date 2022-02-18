@@ -1,8 +1,7 @@
-import { ImageModel } from './ImageModel';
-import { ChatMember } from './ChatMember';
+import { ImageModel } from './imageModel';
+import { ChatMember } from './chatMember';
+import { Visited } from './visited';
 import {
-  GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -19,9 +18,11 @@ import {
 } from '../models/enums';
 
 export class CurrentUser {
-  //bookmarks: string[];
+  languagecode: string;
+  countrycode: string;
+  bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //auth0Id: string;
   profileId: string;
   admin: boolean;
   name: string;
@@ -30,11 +31,12 @@ export class CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -48,12 +50,16 @@ export class CurrentUser {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  visited: Array<Visited>;
+  likes: string[];
 }
 
 export interface CurrentUser {
-  //bookmarks: string[];
+  languagecode: string;
+  countrycode: string;
+  bookmarks: string[];
   chatMemberslist: Array<ChatMember>;
-  auth0Id: string;
+  //auth0Id: string;
   profileId: string;
   admin: boolean;
   name: string;
@@ -62,11 +68,12 @@ export interface CurrentUser {
   lastActive: Date;
   age: number;
   height: number;
+  contactable: boolean;
   description: string;
   images: Array<ImageModel>;
   tags: string[];
-  gender: GenderType;
-  sexualOrientation: SexualOrientationType;
+  gender: string;
+  sexualOrientation: string;
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -80,4 +87,6 @@ export interface CurrentUser {
   eatingHabits: EatingHabitsType;
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
+  visited: Array<Visited>;
+  likes: string[];
 }

@@ -1,42 +1,42 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { AuthService } from './../../authorisation/auth/auth.service';
-
-import { ProfileService } from './../../services/profile.service';
 import { ImageService } from './../../services/image.service';
 
 @Component({
   selector: 'delete-image-dialog',
-  templateUrl: './delete-image-dialog.component.html'
+  templateUrl: './delete-image-dialog.component.html',
+  styleUrls: ['./delete-image-dialog.component.scss']
 })
 
-export class DeleteImageDialog {
+export class DeleteImageDialog implements OnInit {
   IsChecked: boolean;
   matDialogTitle: string;
   matDialogContent: string;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
-    public dialogRef: MatDialogRef<DeleteImageDialog>,
-    @Inject(MAT_DIALOG_DATA) public imageId: string) {
+  constructor(private imageService: ImageService, public dialogRef: MatDialogRef<DeleteImageDialog>,
+    @Inject(MAT_DIALOG_DATA) public imageId: string, private readonly translocoService: TranslocoService) {
+  }
 
-    this.matDialogTitle = 'Do you want to delete this image?';
-    this.matDialogContent = 'This will delete the image and cannot be undone.';
+  ngOnInit() {
+    this.translocoService.selectTranslate('ImageDeleteDialogComponent.DeleteImage').subscribe(value => this.matDialogTitle = value);
+    this.translocoService.selectTranslate('ImageDeleteDialogComponent.CannotBeUndone').subscribe(value => this.matDialogContent = value);
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
-  onYesClick(): void {
+  async onYesClick() {
     if (this.IsChecked) {
-      var id = [];
-      id.push(this.imageId["imageId"]); // TODO: Fix this. Hack to get post to work.
 
-      // TODO: Fix this. Hack to get delete to update currentUser. It calls it even on errror.
-      this.imageService.deleteImage(id).subscribe(() => { },
-        () => { this.profileService.updateCurrentUserSubject(); },
-        () => { this.profileService.updateCurrentUserSubject(); });
+      this.dialogRef.close(true); // TODO: Hack to remove Image from list. If imageService.deleteImagesForCurrentUser fails this should be 'false' but it doesn't work.
+
+      var id = [];
+      id.push(this.imageId["imageId"]); 
+
+      const reponse = await this.imageService.deleteImagesForCurrentUser(id);
     }
   }
 

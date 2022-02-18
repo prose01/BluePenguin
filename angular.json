@@ -11,10 +11,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-			 "allowedCommonJsDependencies": [
-				"rxjs-compat"
-			 ],
-            "aot": true,
+            "allowedCommonJsDependencies": [
+              "rxjs-compat"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -25,12 +24,19 @@
               "src/favicon.ico"
             ],
             "styles": [
-				{
-					"input": "src/theme.scss"
-				},
-              "src/styles.css"
+              {
+                "input": "src/theme.scss",
+                "inject": true
+              },
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -43,9 +49,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -56,7 +60,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -69,12 +74,6 @@
             }
           }
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "blue-penguin-app:build"
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -84,7 +83,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/assets",
@@ -132,7 +131,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "css"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

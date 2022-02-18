@@ -2,46 +2,46 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from './../authorisation/auth/auth.service';
-import { AppSettingsService } from '../services/appsettings.service';
-import { AppSettings } from '../models/appsettings';
+import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 
 import { CurrentUser } from './../models/currentUser';
 import { ChatAdapter } from 'ng-chat';
 import { SignalRAdapter } from './signalr-adapter';
+import { ProfileService } from '../services/profile.service';
 
 
 @Component({
   selector: 'chat-component',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.scss'],
 })
 
 export class ChatComponent implements OnChanges {
   @Input() currentUser: CurrentUser;
 
+  private junoUrl: string;
+
   currentTheme = 'light-theme';
-  triggeredEvents = [];
+  //triggeredEvents = [];
 
   userId: string;
   username: string;
   adapter: ChatAdapter;
-  settings: AppSettings;
 
   title = 'Chats';
 
-  constructor(public auth: AuthService, private appSettingsService: AppSettingsService, private http: HttpClient) {   
+  constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
+    this.junoUrl = this.configurationLoader.getConfiguration().junoUrl; 
   }
 
   ngOnChanges(): void {
-    this.appSettingsService.getSettings().subscribe(settings => this.settings = settings, () => { }, () => {
-      if (this.currentUser != null) {
-        setTimeout(() => { this.userId = this.currentUser.auth0Id; this.username = this.currentUser.name; }, 2000);
-        setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.settings.junoUrl, this.username, this.http); }, 2000);
-      }
-    });
+    if (this.currentUser != null) {
+      setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000); 
+      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.junoUrl, this.username, this.http); }, 2000);
+    }
   }
 
-  onEventTriggered(event: string): void {
-    this.triggeredEvents.push(event);
-  }
+  //onEventTriggered(event: string): void {
+  //  this.triggeredEvents.push(event);
+  //}
 }

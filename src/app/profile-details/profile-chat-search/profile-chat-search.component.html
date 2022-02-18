@@ -1,0 +1,71 @@
+<div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
+  <form [formGroup]="chatFilterForm">
+
+    <div class="form-container">
+
+      <mat-form-field>
+        <mat-label>{{'ProfileChatSearchComponent.SentRange'| transloco}}</mat-label>
+        <mat-date-range-input [formGroup]="chatFilterForm" [rangePicker]="sentpicker">
+          <input matStartDate placeholder="{{'ProfileChatSearchComponent.StartDate'| transloco}}" formControlName="dateSentStart">
+          <input matEndDate placeholder="{{'ProfileChatSearchComponent.EndDate'| transloco}}" formControlName="dateSentEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="sentpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #sentpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="chatFilterForm.controls.dateSentStart.hasError('matStartDateInvalid')">{{'ProfileChatSearchComponent.InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="chatFilterForm.controls.dateSentEnd.hasError('matEndDateInvalid')">{{'ProfileChatSearchComponent.InvalidRange'| transloco}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{'ProfileChatSearchComponent.SeenRange'| transloco}}</mat-label>
+        <mat-date-range-input [formGroup]="chatFilterForm" [rangePicker]="seenpicker">
+          <input matStartDate placeholder="{{'ProfileChatSearchComponent.StartDate'| transloco}}" formControlName="dateSeenStart">
+          <input matEndDate placeholder="{{'ProfileChatSearchComponent.EndDate'| transloco}}" formControlName="dateSeenEnd">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="seenpicker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #seenpicker></mat-date-range-picker>
+
+        <mat-error *ngIf="chatFilterForm.controls.dateSeenStart.hasError('matStartDateInvalid')">{{'ProfileChatSearchComponent.InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="chatFilterForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">{{'ProfileChatSearchComponent.InvalidRange'| transloco}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileChatSearchComponent.FromId'| transloco}}" formControlName="fromId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileChatSearchComponent.FromName'| transloco}}" formControlName="fromName"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileChatSearchComponent.ToId'| transloco}}" formControlName="toId"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput maxlength="50" placeholder="{{'ProfileChatSearchComponent.ToName'| transloco}}" formControlName="toName"></textarea>
+      </mat-form-field>
+
+      <!--<mat-form-field>
+        <input matInput maxlength="2000" placeholder="{{'ProfileChatSearchComponent.Message'| transloco}}" formControlName="message">
+      </mat-form-field>-->
+
+      <mat-form-field>
+        <mat-select placeholder="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" formControlName="doNotDelete" [(value)]="doNotDelete">
+          <mat-option value="notChosen">{{'Enum.NotChosen'| transloco}}</mat-option>
+          <mat-option value="true">{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}</mat-option>
+          <mat-option value="false">{{'ProfileChatSearchComponent.AllowDelete'| transloco}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+  </form>
+
+</div>

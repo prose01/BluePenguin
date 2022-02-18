@@ -1,76 +1,77 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
-import { ChatMember } from '../../models/ChatMember';
+import { ChatMember } from '../../models/chatMember';
 import { ProfileService } from '../../services/profile.service';
+import { ImageModel } from '../../models/imageModel';
+import { ImageSizeEnum } from '../../models/imageSizeEnum';
+import { ImageService } from '../../services/image.service';
+import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'chatMemebers-listview',
   templateUrl: './chatMembers-listview.component.html',
-  styleUrls: ['./chatMembers-listview.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./chatMembers-listview.component.scss']
 })
 
+//@AutoUnsubscribe()
 export class ChatMembersListviewComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'profileId', 'name', 'blocked'];
+  displayedColumns: string[] = ['select', 'name', 'status'];
   dataSource: MatTableDataSource<ChatMember>;
   selection = new SelectionModel<ChatMember>(true, []);
 
   currentUserSubject: CurrentUser;
   chatMembers: ChatMember[];
-  profileIds: string[] = [];
-  profiles: Profile[];
 
+  showBlocked: boolean = false;
+  matButtonToggleText: string;
+  matButtonToggleIcon: string = 'shield';
+
+  loading: boolean = true;
+
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
+  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
 
-  ngOnInit() {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+  ngOnInit(): void {
+    this.profileService.currentUserSubject
+      .subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject; this.refreshChatmemberlist(false);
+      });
 
-    setTimeout(() => {
-      this.refreshChatmemberlist();
-    }, 500);
-  }
-
-  ngOnChanges(): void {
-    if (this.auth.isAuthenticated()) {
-      this.setDataSource();
-    }
+    this.translocoService.selectTranslate('ChatMembersListviewComponent.ShowBlocked').subscribe(value => this.matButtonToggleText = value);
   }
 
   updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject();
+    this.profileService.updateCurrentUserSubject().then(res => { this.refreshChatmemberlist(true); this.toggleBlocked(); });
   }
 
   setDataSource(): void {
+    this.loading = false;
     this.dataSource = new MatTableDataSource<ChatMember>(this.chatMembers);
+    this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    //const numSelected = this.selection.selected.length;
+    //const numRows = this.dataSource.data.length;
+    //return numSelected === numRows;
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -89,46 +90,122 @@ export class ChatMembersListviewComponent implements OnInit {
   }
 
   blockChatMembers() {
-    this.profileService.blockChatMembers(this.selcetedProfiles()).subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
-
-    setTimeout(() => {
-      this.refreshChatmemberlist();
-    }, 500);
+    this.profileService.blockChatMembers(this.selcetedProfileIds())
+      //.pipe(takeWhileAlive(this))
+      .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() });
   }
 
-  selcetedProfiles(): string[] {
-    let profiles = new Array;
+  selcetedProfileIds(): string[] {
+    let profileIds = new Array;
 
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
-      profiles.push(this.selection.selected[_i].profileId);
+      profileIds.push(this.selection.selected[_i].profileId);
     }
 
-    return profiles;
+    return profileIds;
   }
 
-  setChatmemberProperties() {
-    let profiles = this.profiles;
-    this.chatMembers.forEach(function (value) {
-      let profile = profiles.find(i => i.profileId === value.profileId);
-      value.name = profile.name;
-    });
+  //pageChanged(event) {
+  //  this.loading = true;
 
-    this.setDataSource();
-  }
+  //  let pageIndex = event.pageIndex;
+  //  let pageSize = event.pageSize;
+  //  let currentSize = pageSize * pageIndex;
 
-  refreshChatmemberlist() {
+  //  console.log('pageChanged');
+  //  //this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
+  //}
+
+  refreshChatmemberlist(showBlocked: boolean) {
     let chatMembers = new Array;
-    let profileIds = new Array;
     if (this.currentUserSubject != null) {
       if (this.currentUserSubject.chatMemberslist.length > 0) {
         this.currentUserSubject.chatMemberslist.forEach(function (member) {
-          chatMembers.push(member);
-          profileIds.push(member.profileId);
+          if (showBlocked == member.blocked) {
+            chatMembers.push(member);
+          }
         });
 
         this.chatMembers = chatMembers;
-        this.profileIds = profileIds;
-        this.profileService.getChatMemberProfiles().subscribe(profiles => this.profiles = profiles, () => { }, () => { this.setChatmemberProperties() });
+        this.setDataSource();
+      }
+      else {
+        this.loading = false;
+      }
+    }
+  }
+
+  toggleBlocked() {
+    this.showBlocked = !this.showBlocked;
+    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));    // TODO: Translate!!
+    this.matButtonToggleIcon = (this.showBlocked ? 'remove_moderator' : 'shield');
+    this.refreshChatmemberlist(this.showBlocked);
+  }
+
+  // Load Detalails page
+  loadDetails(profile: Profile) {
+    this.loadProfileDetails.emit(profile);
+  }
+
+  async openImageDialog(chatMember: ChatMember): Promise<void> {
+    this.loading = true;
+    let profile: Profile;
+
+    this.profileService.getProfileById(chatMember.profileId)
+      //.pipe(takeWhileAlive(this))
+      .subscribe(
+        res => profile = res,
+        () => { },
+        () => {
+          this.getProfileImages(profile);
+
+          const dialogRef = this.dialog.open(ImageDialog, {
+            data: {
+              index: 0,
+              imageModels: profile.images,
+              profile: profile
+            }
+          });
+
+          dialogRef.afterClosed().subscribe(
+            res => {
+              if (res === true) { this.loadDetails(profile) }
+            }
+          );
+        }
+      );    
+  }
+
+  getProfileImages(profile: Profile): void {
+    let defaultImageModel: ImageModel = new ImageModel();
+
+    if (profile.images != null && profile.images.length > 0) {
+      if (profile.images.length > 0) {
+
+        profile.images.forEach((element, i) => {
+
+          if (typeof element.fileName !== 'undefined') {
+
+            this.loading = true;
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+              //.pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              );
+
+            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+              //.pipe(takeWhileAlive(this))
+              .subscribe(
+                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              );
+          }
+
+        });
       }
     }
   }
