@@ -45,7 +45,7 @@ export class ProfileSearchComponent implements OnInit {
 
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
+  //viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   profileForm: FormGroup;
   ageList: number[];
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);

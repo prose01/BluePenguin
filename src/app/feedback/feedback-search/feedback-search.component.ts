@@ -25,7 +25,7 @@ export class FeedbackSearchComponent implements OnInit {
 
   filter: FeedbackFilter = new FeedbackFilter();
   searchResultFeedbacks: Feedback[];
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
+  //viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   feedbackForm: FormGroup;
   feedbackId: string;
   dateSentStart: Date;

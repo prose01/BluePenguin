@@ -42,6 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   matButtonOrderByText: string;
   matButtonOrderByIcon: string = 'watch_later';
+  orderBy: OrderByType = OrderByType.LastActive;
+
+  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
   profile: Profile;
   filter: ProfileFilter;
@@ -132,25 +135,25 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   toggleOrderBy() {
-    switch (this.dashboardComponent.orderBy) {
+    switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
-        this.dashboardComponent.orderBy = OrderByType.LastActive;
+        this.orderBy = OrderByType.LastActive;
         this.getNextData();
         break;
       }
       case OrderByType.LastActive: {
         this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
-        this.dashboardComponent.orderBy = OrderByType.UpdatedOn;
+        this.orderBy = OrderByType.UpdatedOn;
         this.getNextData();
         break;
       }
       case OrderByType.UpdatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
-        this.dashboardComponent.orderBy = OrderByType.CreatedOn;
+        this.orderBy = OrderByType.CreatedOn;
         this.getNextData();
         break;
       }
@@ -158,43 +161,43 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getNextData() {
-    this.dashboardComponent.getNextData({ currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
+    this.dashboardComponent.getNextData(this.orderBy, this.viewFilterType, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
   // Calls to DashboardComponent
   getLatestProfiles() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
+    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
     this.getNextData();
   }
 
   getProfileByCurrentUsersFilter() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
+    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
     this.getNextData();
   }
 
   getBookmarkedProfiles() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
+    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
     this.getNextData();
   }
 
   getProfileByFilter() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
     this.getNextData();
     this.toggleDisplay();
   }
 
   getProfilesWhoVisitedMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
     this.getNextData();
   }
 
   getProfilesWhoBookmarkedMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
     this.getNextData();
   }
 
   getProfilesWhoLikesMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
     this.getNextData();
   }
 

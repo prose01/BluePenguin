@@ -41,9 +41,6 @@ export class DashboardComponent implements OnInit {
   nextProfiles: Profile[];
   filter: ProfileFilter = new ProfileFilter();
 
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
-  orderBy: OrderByType = OrderByType.LastActive;
-
   defaultPageSize: number;
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
@@ -86,38 +83,38 @@ export class DashboardComponent implements OnInit {
       this.getLatestProfiles(); // TODO: See if this can be removed
   }
 
-  getNextData(event) {
-    switch (this.viewFilterType) {
+  getNextData(orderBy: OrderByType, viewFilterType: ViewFilterTypeEnum, event) {
+    switch (viewFilterType) {
       case ViewFilterTypeEnum.LatestProfiles: {
-        this.getLatestProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.FilterProfiles: {
-        this.getProfileByCurrentUsersFilter(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByCurrentUsersFilter(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
-        this.getBookmarkedProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getBookmarkedProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesSearch: {
-        this.getProfileByFilter(this.filter, this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByFilter(this.filter, orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoVisitedMe: {
-        this.getProfilesWhoVisitedMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoVisitedMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
-        this.getProfilesWhoBookmarkedMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoBookmarkedMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
-        this.getProfilesWhoLikesMe(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoLikesMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
       default: {
-        this.getLatestProfiles(this.orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
         break;
       }
     }
