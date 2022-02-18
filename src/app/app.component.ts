@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   profile: Profile;
   filter: ProfileFilter;
   lastCalledFilter: string = "getLatestProfiles";
+  pageSize: number;
 
   siteLocale: string = getBrowserLang();
   languageList: Array<any>;
@@ -61,6 +62,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
+
+    this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -155,7 +158,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getNextData() {
-    this.dashboardComponent.getNextData({ currentSize: 0, pageIndex: 0, pageSize: 5 });
+    this.dashboardComponent.getNextData({ currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
   // Calls to DashboardComponent

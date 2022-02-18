@@ -44,7 +44,6 @@ export class ProfileListviewComponent implements OnChanges {
   @Input() profiles: Profile[];
   @Input() length: number;
   @Input() viewFilterType: ViewFilterTypeEnum;
-  @Input() orderBy: OrderByType;
   @Input() displayedColumns: string[];
   @Output() getNextData: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();

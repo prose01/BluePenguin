@@ -42,7 +42,6 @@ export class ProfileTileviewComponent implements OnChanges {
 
   @Input() profiles: Profile[];
   @Input() viewFilterType: ViewFilterTypeEnum;
-  @Input() orderBy: OrderByType;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
@@ -63,7 +62,7 @@ export class ProfileTileviewComponent implements OnChanges {
     for (var i = 0, len = this.profiles.length; i < len; i++) {
       this.imageSize.push(this.randomSize());
     }
-
+    console.log('Changing!!');
     this.currentProfiles.push(...this.profiles);
     //this.currentProfiles.splice(0, 5);
 
@@ -76,14 +75,14 @@ export class ProfileTileviewComponent implements OnChanges {
     this.pageIndex++;
     this.currentSize = this.pageSize * this.pageIndex;
 
-    console.log('pageIndex ' + this.pageIndex);
-    console.log('pageSize ' + this.pageSize);
-    console.log('currentSize ' + this.currentSize);
-    console.log('profiles ' + this.profiles.length);
-    console.log('currentProfiles ' + this.currentProfiles.length);
+    //console.log('pageIndex ' + this.pageIndex);
+    //console.log('pageSize ' + this.pageSize);
+    //console.log('currentSize ' + this.currentSize);
+    //console.log('profiles ' + this.profiles.length);
+    //console.log('currentProfiles ' + this.currentProfiles.length);
 
     if (this.profiles?.length > 0) {
-      console.log('getting next');
+      //console.log('getting next');
       this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
     }
   }
@@ -91,18 +90,18 @@ export class ProfileTileviewComponent implements OnChanges {
   onScrollUp() {
     console.log('scrolled up!!');
 
-    this.pageIndex--;
-    this.currentSize = this.pageSize * this.pageIndex;
+    //this.pageIndex--;
+    //this.currentSize = this.pageSize * this.pageIndex;
 
-    console.log('pageIndex ' + this.pageIndex);
-    console.log('pageSize ' + this.pageSize);
-    console.log('currentSize ' + this.currentSize);
-    console.log('profiles ' + this.profiles.length);
+    ////console.log('pageIndex ' + this.pageIndex);
+    ////console.log('pageSize ' + this.pageSize);
+    ////console.log('currentSize ' + this.currentSize);
+    ////console.log('profiles ' + this.profiles.length);
 
-    if (this.profiles?.length > 0) {
-      console.log('getting next');
-      //this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
-    }
+    //if (this.profiles?.length > 0) {
+    //  //console.log('getting next');
+    //  //this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
+    //}
   }
 
   // Load Detalails page
