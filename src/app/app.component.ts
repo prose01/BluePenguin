@@ -166,42 +166,70 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Calls to DashboardComponent
   getLatestProfiles() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
     this.getNextData();
   }
 
   getProfileByCurrentUsersFilter() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
     this.getNextData();
   }
 
   getBookmarkedProfiles() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
     this.getNextData();
   }
 
   getProfileByFilter() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
     this.getNextData();
     this.toggleDisplay();
   }
 
   getProfilesWhoVisitedMe() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
     this.getNextData();
   }
 
   getProfilesWhoBookmarkedMe() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
     this.getNextData();
   }
 
   getProfilesWhoLikesMe() {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
     this.getNextData();
   }
 
-  resetSelectionPagination() {    //Todo: Check if this is used
+  resetSelectionPagination() {
     if (!this.isTileView) {
       this.dashboardComponent?.resetSelectionPagination();
     }
@@ -225,7 +253,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.profileSearchComponent.loadSearch();
   }
 
-  isCurrentUserCreated(event) {
+  isCurrentUserCreated(event: any) {
     this.isProfileCreated = event.isCreated;
 
     if (event.isCreated) {
@@ -233,10 +261,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.siteLocale = event.languagecode;
       this.switchLanguage();
     }
-  }
-
-  initDefaultData() {
-    this.dashboardComponent.initDefaultData();
   }
 
   // Load About page

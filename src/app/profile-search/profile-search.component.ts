@@ -11,7 +11,6 @@ import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
-import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import {
   BodyType,
   SmokingHabitsType,
@@ -45,7 +44,6 @@ export class ProfileSearchComponent implements OnInit {
 
   filter: ProfileFilter = new ProfileFilter();
   searchResultProfiles: Profile[];
-  //viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   profileForm: FormGroup;
   ageList: number[];
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
@@ -74,7 +72,6 @@ export class ProfileSearchComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
-  //@Output() getProfileByFilter = EventEmitter<any> = new EventEmitter();
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
 

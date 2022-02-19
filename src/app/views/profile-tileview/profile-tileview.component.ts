@@ -62,11 +62,17 @@ export class ProfileTileviewComponent implements OnChanges {
     for (var i = 0, len = this.profiles.length; i < len; i++) {
       this.imageSize.push(this.randomSize());
     }
-    console.log('Changing!!');
+
     this.currentProfiles.push(...this.profiles);
     //this.currentProfiles.splice(0, 5);
 
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+  }
+
+  async resetCurrentProfiles() {
+    console.log('resetCurrentProfiles!!');
+    this.profiles = new Array;
+    this.currentProfiles = new Array;
   }
 
   onScrollDown() {

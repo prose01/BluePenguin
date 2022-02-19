@@ -12,6 +12,7 @@ import { OrderByType } from '../models/enums';
 import { ImageSizeEnum } from '../models/imageSizeEnum';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
+import { ProfileTileviewComponent } from '../views/profile-tileview/profile-tileview.component';
 import { ProfileFilter } from '../models/profileFilter';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ErrorDialog } from '../error-dialog/error-dialog.component';
@@ -26,8 +27,8 @@ import { TranslocoService } from '@ngneat/transloco';
 
 //@AutoUnsubscribe()
 export class DashboardComponent implements OnInit {
-  @ViewChild(ProfileListviewComponent)
-  private listviewComponent: ProfileListviewComponent;
+  @ViewChild(ProfileListviewComponent) listviewComponent: ProfileListviewComponent;
+  @ViewChild(ProfileTileviewComponent) profileTileviewComponent: ProfileTileviewComponent;
 
   currentUserSubject: CurrentUser;
 
@@ -59,13 +60,17 @@ export class DashboardComponent implements OnInit {
     if (this.auth.isAuthenticated()) {
       this.profileService.verifyCurrentUserProfile().then(currentUser => {
         this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
-        if (currentUser) {
-          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
-          this.initDefaultData();
-        }
-        else {
-          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
-        }
+
+        this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
+        this.getLatestProfiles();
+
+        //if (currentUser) {
+        //  this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
+        //  this.getLatestProfiles();
+        //}
+        //else {
+        //  this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
+        //}
       },
         (error: any) => {
           if (error.status === 0) {
@@ -80,10 +85,6 @@ export class DashboardComponent implements OnInit {
         this.filter = currentProfileFilterSubject;
       });
     }
-  }
-
-  initDefaultData() {
-      this.getLatestProfiles(); // TODO: See if this can be removed
   }
 
   getNextData(event: any) {
@@ -129,6 +130,10 @@ export class DashboardComponent implements OnInit {
         break;
       }
     }
+  }
+
+  resetCurrentProfiles() {
+    this.profileTileviewComponent.resetCurrentProfiles();
   }
 
   // Get latest Profiles. 

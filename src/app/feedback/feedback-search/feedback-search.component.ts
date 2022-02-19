@@ -6,7 +6,6 @@ import { EnumMappingService } from '../../services/enumMapping.service';
 import { ProfileService } from '../../services/profile.service';
 import { BehaviorSubjectService } from '../../services/behaviorSubjec.service';
 import { CurrentUser } from '../../models/currentUser';
-import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { KeyValue } from '@angular/common';
 import { FeedbackFilter } from '../../models/feedbackFilter';
@@ -25,7 +24,6 @@ export class FeedbackSearchComponent implements OnInit {
 
   filter: FeedbackFilter = new FeedbackFilter();
   searchResultFeedbacks: Feedback[];
-  //viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   feedbackForm: FormGroup;
   feedbackId: string;
   dateSentStart: Date;
