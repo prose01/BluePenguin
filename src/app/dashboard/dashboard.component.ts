@@ -36,6 +36,9 @@ export class DashboardComponent implements OnInit {
 
   length: number;
 
+  orderBy: OrderByType = OrderByType.LastActive;
+  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+
   previousProfiles: Profile[];
   currentProfiles: Profile[];
   nextProfiles: Profile[];
@@ -83,7 +86,15 @@ export class DashboardComponent implements OnInit {
       this.getLatestProfiles(); // TODO: See if this can be removed
   }
 
-  getNextData(orderBy: OrderByType, viewFilterType: ViewFilterTypeEnum, event) {
+  getNextData(event: any) {
+    this.getData(this.viewFilterType, this.orderBy, event);
+  }
+
+  getData(viewFilterType: ViewFilterTypeEnum, orderBy: OrderByType, event: any) {
+
+    this.orderBy = orderBy;
+    this.viewFilterType = viewFilterType;
+
     switch (viewFilterType) {
       case ViewFilterTypeEnum.LatestProfiles: {
         this.getLatestProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);

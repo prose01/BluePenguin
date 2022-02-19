@@ -97,10 +97,10 @@ export class ProfileListviewComponent implements OnChanges {
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
 
-    console.log('pageIndex ' + pageIndex);
-    console.log('pageSize ' + pageSize);
-    console.log('currentSize ' + currentSize);
-    console.log('profiles ' + this.profiles.length);
+    //console.log('pageIndex ' + pageIndex);
+    //console.log('pageSize ' + pageSize);
+    //console.log('currentSize ' + currentSize);
+    //console.log('profiles ' + this.profiles.length);
 
     this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
   }

@@ -161,7 +161,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getNextData() {
-    this.dashboardComponent.getNextData(this.orderBy, this.viewFilterType, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
+    this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
   // Calls to DashboardComponent
