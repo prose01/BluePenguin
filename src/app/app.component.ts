@@ -132,6 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
     this.dashboardComponent.toggleViewDisplay();
+    this.getData();
   }
 
   toggleOrderBy() {
@@ -140,27 +141,27 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
         this.orderBy = OrderByType.LastActive;
-        this.getNextData();
+        this.getData();
         break;
       }
       case OrderByType.LastActive: {
         this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
         this.orderBy = OrderByType.UpdatedOn;
-        this.getNextData();
+        this.getData();
         break;
       }
       case OrderByType.UpdatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
         this.orderBy = OrderByType.CreatedOn;
-        this.getNextData();
+        this.getData();
         break;
       }
     }
   }
 
-  getNextData() {
+  getData() {
     this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
@@ -171,7 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
-    this.getNextData();
+    this.getData();
   }
 
   getProfileByCurrentUsersFilter() {
@@ -180,7 +181,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-    this.getNextData();
+    this.getData();
   }
 
   getBookmarkedProfiles() {
@@ -189,7 +190,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
-    this.getNextData();
+    this.getData();
   }
 
   getProfileByFilter() {
@@ -198,7 +199,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
-    this.getNextData();
+    this.getData();
     this.toggleDisplay();
   }
 
@@ -208,7 +209,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
-    this.getNextData();
+    this.getData();
   }
 
   getProfilesWhoBookmarkedMe() {
@@ -217,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
-    this.getNextData();
+    this.getData();
   }
 
   getProfilesWhoLikesMe() {
@@ -226,7 +227,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
-    this.getNextData();
+    this.getData();
   }
 
   resetSelectionPagination() {

@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges, OnInit } from '@angular/core';
 //import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
@@ -22,7 +22,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 })
 
 //@AutoUnsubscribe()
-export class ProfileTileviewComponent implements OnChanges {
+export class ProfileTileviewComponent implements OnInit, OnChanges {
 
   currentUserSubject: CurrentUser;
   selectedProfile: Profile;
@@ -52,6 +52,11 @@ export class ProfileTileviewComponent implements OnChanges {
     this.randomImageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 
+  ngOnInit() {
+    this.profiles = new Array;
+    this.currentProfiles = new Array;
+  }
+
   ngOnChanges(): void {
     // Remove empty profile from array.
     this.profiles = this.profiles?.filter(function (el) {
@@ -59,18 +64,19 @@ export class ProfileTileviewComponent implements OnChanges {
     });
 
     // Set random image size
-    for (var i = 0, len = this.profiles.length; i < len; i++) {
+    for (var i = 0, len = this.profiles?.length; i < len; i++) {
       this.imageSize.push(this.randomSize());
     }
 
-    this.currentProfiles.push(...this.profiles);
+    if (this.profiles?.length > 0) {
+      this.currentProfiles.push(...this.profiles);
+    }
     //this.currentProfiles.splice(0, 5);
 
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
   async resetCurrentProfiles() {
-    console.log('resetCurrentProfiles!!');
     this.profiles = new Array;
     this.currentProfiles = new Array;
   }

@@ -27,9 +27,6 @@ import { OrderByType } from '../../models/enums';
 
 //@AutoUnsubscribe()
 export class ProfileListviewComponent implements OnChanges {
-  //pageEvent: PageEvent;
-  //datasource: null;
-  //pageIndex: number;
   pageSize: number;
   loading: boolean = false;
 
