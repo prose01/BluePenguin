@@ -141,6 +141,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
         this.orderBy = OrderByType.LastActive;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
         this.getData();
         break;
       }
@@ -148,6 +151,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
         this.orderBy = OrderByType.UpdatedOn;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
         this.getData();
         break;
       }
@@ -155,6 +161,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
         this.orderBy = OrderByType.CreatedOn;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
         this.getData();
         break;
       }

@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit {
           
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         },
         (error: any) => {
           this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;  // TODO: Add openErrorDialog message
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -192,7 +192,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -213,7 +213,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -234,7 +234,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -255,7 +255,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }
@@ -276,7 +276,7 @@ export class DashboardComponent implements OnInit {
 
           this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + 1;
+          this.length = this.currentProfiles.length + currentSize + 1;
         }
         , () => { }
         , () => { this.getProfileImages(this.currentProfiles); }

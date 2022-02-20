@@ -64,7 +64,7 @@ export class ProfileListviewComponent implements OnChanges {
       return el != null;
     });
 
-    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
     this.setDataSource();
   }
@@ -106,8 +106,7 @@ export class ProfileListviewComponent implements OnChanges {
     this.dataSource = new MatTableDataSource(this.profiles);
     this.dataSource._updateChangeSubscription();
 
-    this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    //this.dataSource.paginator = this.paginator;
+    this.cdr.detectChanges(); // Needed to get sort working.
     this.dataSource.sort = this.sort;
   }
 
