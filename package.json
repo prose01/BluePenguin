@@ -32,7 +32,7 @@
     "@microsoft/signalr": "^6.0.2",
     "@ngneat/transloco": "^3.1.4",
     "@ngneat/transloco-locale": "^3.0.1",
-    "@types/node": "^17.0.18",
+    "@types/node": "^17.0.19",
     "auth0-js": "^9.17.0",
     "core-js": "^3.21.1",
     "flag-icons": "^6.1.1",
