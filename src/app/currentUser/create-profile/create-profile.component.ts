@@ -13,6 +13,8 @@ import { ProfileService } from '../../services/profile.service';
 import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import {
+  GenderType,
+  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -38,6 +40,8 @@ import { KeyValue } from '@angular/common';
 export class CreateProfileComponent {
   currentUser: CurrentUser;
   newUserForm: FormGroup;
+  genderTypes: ReadonlyMap<string, string>;
+  sexualOrientationTypes: ReadonlyMap<string, string>;
   bodyTypes: ReadonlyMap<string, string>;
   smokingHabitsTypes: ReadonlyMap<string, string>;
   hasChildrenTypes: ReadonlyMap<string, string>;
@@ -54,8 +58,6 @@ export class CreateProfileComponent {
 
   namePlaceholder: string;
   genderPlaceholder: string;
-  genderTypes: string[] = [];
-  sexualOrientationTypes: string[] = [];
   defaultAge: number;
   sexualOrientationPlaceholder: string;
   tagsPlaceholder: string;
@@ -72,8 +74,6 @@ export class CreateProfileComponent {
   @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
-    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
@@ -123,6 +123,10 @@ export class CreateProfileComponent {
     this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
     this.translocoService.selectTranslate('CreateProfileComponent.Country').subscribe(value => this.countrycodePlaceholder = value);
 
+    this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value);
+    this.enumMappings.updateGenderTypeSubject();
+    this.enumMappings.sexualOrientationTypeSubject.subscribe(value => this.sexualOrientationTypes = value);
+    this.enumMappings.updateSexualOrientationTypeSubject();
     this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
     this.enumMappings.updateClotheStyleTypeSubject();
     this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value);
@@ -240,8 +244,8 @@ export class CreateProfileComponent {
       contactable: formModel.contactable as boolean,
       description: formModel.description as string,
       tags: this.tagsList as string[],
-      gender: formModel.gender as string,
-      sexualOrientation: formModel.sexualOrientation as string,
+      gender: formModel.gender as GenderType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -326,6 +330,8 @@ export class CreateProfileComponent {
     this.translocoService.setActiveLang(this.siteLocale);
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
+      this.enumMappings.updateGenderTypeSubject();
+      this.enumMappings.updateSexualOrientationTypeSubject();
       this.enumMappings.updateClotheStyleTypeSubject();
       this.enumMappings.updateBodyTypeSubject();
       this.enumMappings.updateBodyArtTypeSubject();

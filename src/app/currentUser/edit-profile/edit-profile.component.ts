@@ -16,6 +16,8 @@ import { EnumMappingService } from '../../services/enumMapping.service';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
 import {
+  GenderType,
+  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -42,6 +44,9 @@ export class EditProfileComponent implements OnInit {
 
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
+
+  genderTypes: ReadonlyMap<string, string>;
+  sexualOrientationTypes: ReadonlyMap<string, string>;
   bodyTypes : ReadonlyMap<string, string>;
   smokingHabitsTypes : ReadonlyMap<string, string>;
   hasChildrenTypes : ReadonlyMap<string, string>;
@@ -55,9 +60,6 @@ export class EditProfileComponent implements OnInit {
   eatingHabitsTypes : ReadonlyMap<string, string>;
   clotheStyleTypes : ReadonlyMap<string, string>;
   bodyArtTypes : ReadonlyMap<string, string>;
-
-  genderTypes: string[] = [];
-  sexualOrientationTypes: string[] = [];
 
   isChecked: boolean;
   defaultAge: number;
@@ -75,8 +77,6 @@ export class EditProfileComponent implements OnInit {
   countryResetText: string;
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
-    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
-    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
@@ -89,7 +89,11 @@ export class EditProfileComponent implements OnInit {
     this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
     this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value);
     this.translocoService.selectTranslate('EditProfileComponent.CountryReset').subscribe(value => this.countryResetText = value);
-    
+
+    this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value);
+    this.enumMappings.updateGenderTypeSubject();
+    this.enumMappings.sexualOrientationTypeSubject.subscribe(value => this.sexualOrientationTypes = value);
+    this.enumMappings.updateSexualOrientationTypeSubject();
     this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
     this.enumMappings.updateClotheStyleTypeSubject();
     this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value);
@@ -162,8 +166,8 @@ export class EditProfileComponent implements OnInit {
       contactable: this.currentUserSubject.contactable as boolean,
       description: this.currentUserSubject.description as string,
       tags: this.currentUserSubject.tags as string[],
-      gender: this.currentUserSubject.gender as string,
-      sexualOrientation: this.currentUserSubject.sexualOrientation as string,
+      gender: this.currentUserSubject.gender as GenderType,
+      sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
       body: this.currentUserSubject.body as BodyType,
       smokingHabits: this.currentUserSubject.smokingHabits as SmokingHabitsType,
       hasChildren: this.currentUserSubject.hasChildren as HasChildrenType,
@@ -229,8 +233,8 @@ export class EditProfileComponent implements OnInit {
       description: formModel.description as string,
       images: this.currentUserSubject.images,
       tags: this.tagsList as string[],
-      gender: formModel.gender as string,
-      sexualOrientation: formModel.sexualOrientation as string,
+      gender: formModel.gender as GenderType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -323,6 +327,8 @@ export class EditProfileComponent implements OnInit {
     this.translocoService.setActiveLang(this.siteLocale);
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
+      this.enumMappings.updateGenderTypeSubject();
+      this.enumMappings.updateSexualOrientationTypeSubject();
       this.enumMappings.updateClotheStyleTypeSubject();
       this.enumMappings.updateBodyTypeSubject();
       this.enumMappings.updateBodyArtTypeSubject();

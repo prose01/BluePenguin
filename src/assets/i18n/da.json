@@ -345,6 +345,16 @@
 		"Yes" : "Ja",
 		"No" : "Nej"
 	},
+	"GenderType" : {
+		"Female" : "Kvinde",
+		"Male" : "Mand"
+	},
+	"SexualOrientationType" : {
+		"Heterosexual" : "Heteroseksuel",
+		"Homosexual" : "Homoseksuel",
+		"Bisexual" : "Biseksuel",
+		"Asexual" : "Aseksuel"
+	},
 	"ClotheStyleType" : {
 		"Casual" : "Afslappet",
 		"Dressy" : "Dressy",

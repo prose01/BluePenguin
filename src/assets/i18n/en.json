@@ -346,6 +346,16 @@
 		"Yes" : "Yes",
 		"No" : "No"
 	},
+	"GenderType" : {
+		"Female" : "Female",
+		"Male" : "Male"
+	},
+	"SexualOrientationType" : {
+		"Heterosexual" : "Heterosexual",
+		"Homosexual" : "Homosexual",
+		"Bisexual" : "Bisexual",
+		"Asexual" : "Asexual"
+	},
 	"ClotheStyleType" : {
 		"Casual" : "Casual",
 		"Dressy" : "Dressy",

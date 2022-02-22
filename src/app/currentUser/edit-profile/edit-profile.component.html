@@ -85,16 +85,16 @@
 
         <mat-form-field>
           <mat-select placeholder="{{'EditProfileComponent.Gender'| transloco}}" formControlName="gender" [(value)]="currentUserSubject.gender">
-            <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
-              {{ genderType }}
+            <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
+              {{ genderType.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field>
           <mat-select placeholder="{{'EditProfileComponent.SexualOrientationType'| transloco}}" formControlName="sexualOrientation" [(value)]="currentUserSubject.sexualOrientation">
-            <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
-              {{ sexualOrientationType }}
+            <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes | keyvalue: originalOrder" [value]="sexualOrientationType.key">
+              {{ sexualOrientationType.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>

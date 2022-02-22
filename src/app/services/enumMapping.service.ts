@@ -2,6 +2,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import {
+  GenderType,
+  SexualOrientationType,
   BodyArtType,
   BodyType,
   ClotheStyleType,
@@ -26,6 +28,16 @@ export class EnumMappingService {
   OtherText: string;
   YesText: string;
   NoText: string;
+
+  // GenderType
+  FemaleText: string;
+  MaleText: string;
+
+  // SexualOrientationType
+  HeterosexualText: string;
+  HomosexualText: string;
+  BisexualText: string;
+  AsexualText: string;
 
   // ClotheStyleType
   CasualText: string;
@@ -94,6 +106,14 @@ export class EnumMappingService {
     this.translocoService.selectTranslate('Enum.Other').subscribe(value => this.OtherText = value);
     this.translocoService.selectTranslate('Enum.Yes').subscribe(value => this.YesText = value);
     this.translocoService.selectTranslate('Enum.No').subscribe(value => this.NoText = value);
+    // GenderType
+    this.translocoService.selectTranslate('GenderType.Female').subscribe(value => this.FemaleText = value);
+    this.translocoService.selectTranslate('GenderType.Male').subscribe(value => this.MaleText = value);
+    // SexualOrientationType
+    this.translocoService.selectTranslate('SexualOrientationType.Heterosexual').subscribe(value => this.HeterosexualText = value);
+    this.translocoService.selectTranslate('SexualOrientationType.Homosexual').subscribe(value => this.HomosexualText = value);
+    this.translocoService.selectTranslate('SexualOrientationType.Bisexual').subscribe(value => this.BisexualText = value);
+    this.translocoService.selectTranslate('SexualOrientationType.Asexual').subscribe(value => this.AsexualText = value);
     // ClotheStyleType
     this.translocoService.selectTranslate('ClotheStyleType.Casual').subscribe(value => this.CasualText = value);
     this.translocoService.selectTranslate('ClotheStyleType.Dressy').subscribe(value => this.DressyText = value);
@@ -145,6 +165,38 @@ export class EnumMappingService {
     this.translocoService.selectTranslate('FeedbackType.Error').subscribe(value => this.ErrorText = value);
     this.translocoService.selectTranslate('FeedbackType.Improvement').subscribe(value => this.ImprovementText = value);
     this.translocoService.selectTranslate('FeedbackType.ReportProfile').subscribe(value => this.ReportProfileText = value);
+  }
+
+  // GenderType
+  get genderTypesMap(): ReadonlyMap<string, string> {
+    return new Map<string, string>([
+      [GenderType.Female, this.FemaleText],
+      [GenderType.Male, this.MaleText]
+    ]);
+  }
+
+  private genderTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.genderTypesMap);
+  genderTypeSubject = this.genderTypes.asObservable();
+
+  async updateGenderTypeSubject() {
+    this.genderTypes.next(this.genderTypesMap);
+  }
+
+  // SexualOrientationType
+  get sexualOrientationTypesMap(): ReadonlyMap<string, string> {
+    return new Map<string, string>([
+      [SexualOrientationType.Heterosexual, this.HeterosexualText],
+      [SexualOrientationType.Homosexual, this.HomosexualText],
+      [SexualOrientationType.Bisexual, this.BisexualText],
+      [SexualOrientationType.Asexual, this.AsexualText]
+    ]);
+  }
+
+  private sexualOrientationTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.sexualOrientationTypesMap);
+  sexualOrientationTypeSubject = this.sexualOrientationTypes.asObservable();
+
+  async updateSexualOrientationTypeSubject() {
+    this.sexualOrientationTypes.next(this.sexualOrientationTypesMap);
   }
 
   // ClotheStyleType
