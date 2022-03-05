@@ -33,7 +33,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="{{'EditProfileComponent.Country'| transloco}}" formControlName="countrycode" [(value)]="countrycode"  (selectionChange)="switchCountry()">
+          <mat-select placeholder="{{'EditProfileComponent.Country'| transloco}}" formControlName="countrycode" [(value)]="countrycode" (selectionChange)="switchCountry()">
             <mat-option *ngFor="let country of countryList" [value]="country.code">
               {{ country.label }}<span class="flag-icon flag-icon-{{country.code}}"></span>
             </mat-option>

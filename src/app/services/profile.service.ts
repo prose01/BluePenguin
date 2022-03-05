@@ -39,7 +39,7 @@ export class ProfileService {
     return Promise.resolve(true);
   }
 
-  async updateCurrentUserSubject() {
+  async updateCurrentUserSubject(): Promise<void> {
     const currentUser = await this.http.get<CurrentUser>(`${this.avalonUrl}CurrentUser`, { headers: this.headers }).toPromise();
     this.currentUserSource.next(currentUser);
   }

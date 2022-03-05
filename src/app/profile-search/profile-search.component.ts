@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { EnumMappingService } from '../services/enumMapping.service';
 import { ProfileService } from '../services/profile.service';
@@ -12,6 +12,7 @@ import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
 import {
+  GenderType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -35,8 +36,7 @@ import { KeyValue } from '@angular/common';
   styleUrls: ['./profile-search.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class ProfileSearchComponent implements OnInit {
+export class ProfileSearchComponent implements OnInit, OnDestroy {
   isTileView = true;
   matButtonToggleText: string = 'ListView';
   matButtonToggleIcon: string = 'line_style';
@@ -47,22 +47,22 @@ export class ProfileSearchComponent implements OnInit {
   profileForm: FormGroup;
   ageList: number[];
   heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
-  bodyTypes : ReadonlyMap<string, string>;
-  smokingHabitsTypes : ReadonlyMap<string, string>;
-  hasChildrenTypes : ReadonlyMap<string, string>;
-  wantChildrenTypes : ReadonlyMap<string, string>;
-  hasPetsTypes : ReadonlyMap<string, string>;
-  livesInTypes : ReadonlyMap<string, string>;
-  educationTypes : ReadonlyMap<string, string>;
-  educationStatusTypes : ReadonlyMap<string, string>;
-  employmentStatusTypes : ReadonlyMap<string, string>;
-  sportsActivityTypes : ReadonlyMap<string, string>;
-  eatingHabitsTypes : ReadonlyMap<string, string>;
-  clotheStyleTypes : ReadonlyMap<string, string>;
-  bodyArtTypes : ReadonlyMap<string, string>;
+  genderTypes: ReadonlyMap<string, string>;
+  bodyTypes: ReadonlyMap<string, string>;
+  smokingHabitsTypes: ReadonlyMap<string, string>;
+  hasChildrenTypes: ReadonlyMap<string, string>;
+  wantChildrenTypes: ReadonlyMap<string, string>;
+  hasPetsTypes: ReadonlyMap<string, string>;
+  livesInTypes: ReadonlyMap<string, string>;
+  educationTypes: ReadonlyMap<string, string>;
+  educationStatusTypes: ReadonlyMap<string, string>;
+  employmentStatusTypes: ReadonlyMap<string, string>;
+  sportsActivityTypes: ReadonlyMap<string, string>;
+  eatingHabitsTypes: ReadonlyMap<string, string>;
+  clotheStyleTypes: ReadonlyMap<string, string>;
+  bodyArtTypes: ReadonlyMap<string, string>;
 
-  genderTypes: string[] = []; // TODO: Maybe not used
-  sexualOrientationTypes: string[] = []; // TODO: Maybe not used
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   currentProfileFilterSubject: ProfileFilter;
   showGenderChoise: boolean;
@@ -77,22 +77,115 @@ export class ProfileSearchComponent implements OnInit {
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
-    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes); // TODO: Maybe not used
-    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes); // TODO: Maybe not used
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.ageList = [...Array(1 + 120 - this.defaultAge).keys()].map(v => this.defaultAge + v);
     this.createForm();
   }
 
-  createForm() {
+  ngOnInit(): void {
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) })
+    );
+
+    // Get and load previous ProfileFilter.
+    this.subs.push(
+      this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
+        if (currentProfileFilterSubject) {
+          this.loadForm(currentProfileFilterSubject);
+          this.profileForm.markAsDirty();
+        }
+      })
+    );
+
+    this.subs.push(
+      this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+
+    this.subs.push(
+      this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value)
+    );
+    this.enumMappings.updateGenderTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value)
+    );
+    this.enumMappings.updateClotheStyleTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value)
+    );
+    this.enumMappings.updateBodyTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value)
+    );
+    this.enumMappings.updateBodyArtTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value)
+    );
+    this.enumMappings.updateEatingHabitsTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value)
+    );
+    this.enumMappings.updateEducationStatusTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value)
+    );
+    this.enumMappings.updateEducationTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value)
+    );
+    this.enumMappings.updateEmploymentStatusTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value)
+    );
+    this.enumMappings.updateHasChildrenTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value)
+    );
+    this.enumMappings.updateWantChildrenTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value)
+    );
+    this.enumMappings.updateHasPetsTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value)
+    );
+    this.enumMappings.updateLivesInTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value)
+    );
+    this.enumMappings.updateSmokingHabitsTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value)
+    );
+    this.enumMappings.updateSportsActivityTypeSubject();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private createForm(): void {
     this.profileForm = this.formBuilder.group({
       name: null,
       age: null,
       height: null,
       description: null,
       tags: null,
-      gender: this.genderTypes[0],
+      gender: null,
       body: BodyType.NotChosen,
       smokingHabits: SmokingHabitsType.NotChosen,
       hasChildren: HasChildrenType.NotChosen,
@@ -109,56 +202,15 @@ export class ProfileSearchComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) });
-
-    // Get and load previous ProfileFilter.
-    this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
-      if (currentProfileFilterSubject) {
-        this.loadForm(currentProfileFilterSubject);
-        this.profileForm.markAsDirty();
-      }
-    });
-
-    this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
-
-    this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
-    this.enumMappings.updateClotheStyleTypeSubject();
-    this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value);
-    this.enumMappings.updateBodyTypeSubject();
-    this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value);
-    this.enumMappings.updateBodyArtTypeSubject();
-    this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value);
-    this.enumMappings.updateEatingHabitsTypeSubject();
-    this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value);
-    this.enumMappings.updateEducationStatusTypeSubject();
-    this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value);
-    this.enumMappings.updateEducationTypeSubject();
-    this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value);
-    this.enumMappings.updateEmploymentStatusTypeSubject();
-    this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value);
-    this.enumMappings.updateHasChildrenTypeSubject();
-    this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value);
-    this.enumMappings.updateWantChildrenTypeSubject();
-    this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value);
-    this.enumMappings.updateHasPetsTypeSubject();
-    this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value);
-    this.enumMappings.updateLivesInTypeSubject();
-    this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value);
-    this.enumMappings.updateSmokingHabitsTypeSubject();
-    this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value);
-    this.enumMappings.updateSportsActivityTypeSubject();
-  }
-
-  setShowGenderChoise(sexualOrientationType: string) {
+  private setShowGenderChoise(sexualOrientationType: string): void {
     this.showGenderChoise = (sexualOrientationType == 'Heterosexual' || sexualOrientationType == 'Homosexual') ? false : true;
   }
 
-  loadForm(filter: ProfileFilter) {
+  private loadForm(filter: ProfileFilter): void {
     this.profileForm.reset({
       name: filter.name,
-      age: filter.age == null ? this.defaultAge : filter.age[1],   
-      height: filter.height == null ? 0 : filter.height[1], 
+      age: filter.age == null ? this.defaultAge : filter.age[1],
+      height: filter.height == null ? 0 : filter.height[1],
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -180,9 +232,9 @@ export class ProfileSearchComponent implements OnInit {
     this.tagsList.push.apply(this.tagsList, filter.tags);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.filter = this.prepareSearch();
-    
+
     // Just return if no search input.
     if (this.filter.name == null &&
       this.filter.age[1] == 0 &&
@@ -210,13 +262,13 @@ export class ProfileSearchComponent implements OnInit {
     this.getProfileByFilter.emit();
   }
 
-  reset() {
+  reset(): void {
     this.tagsList.length = 0;
     this.createForm();
     this.searchResultProfiles = [];
   }
 
-  prepareSearch(): ProfileFilter {
+  private prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
 
     const ageRange: number[] = [this.defaultAge, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
@@ -228,7 +280,7 @@ export class ProfileSearchComponent implements OnInit {
       height: heightRange,
       description: formModel.description as string,
       tags: this.tagsList as string[],
-      gender: formModel.gender as string,
+      gender: formModel.gender as GenderType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -247,29 +299,31 @@ export class ProfileSearchComponent implements OnInit {
     return filterProfile;
   }
 
-  saveSearch() {
+  saveSearch(): void {
     this.loading = true;
 
     this.filter = this.prepareSearch();
-    this.profileService.saveProfileFilter(this.filter)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(
-        () => { },        // TODO: Give feeback on succes
-        () => { this.loading = false; },
-        () => { this.loading = false; }
-      );
+    this.subs.push(
+      this.profileService.saveProfileFilter(this.filter)
+        .subscribe(
+          () => { },        // TODO: Give feeback on succes
+          () => { this.loading = false; },
+          () => { this.loading = false; }
+        )
+    );
   }
 
-  loadSearch() {
+  loadSearch(): void {
     this.loading = true;
 
-    this.profileService.loadProfileFilter()
-      //.pipe(takeWhileAlive(this))
-      .subscribe(
-        filter => { this.loadForm(filter); },
-        () => { this.loading = false; },
-        () => { this.loading = false; }
-      );
+    this.subs.push(
+      this.profileService.loadProfileFilter()
+        .subscribe(
+          filter => { this.loadForm(filter); },
+          () => { this.loading = false; },
+          () => { this.loading = false; }
+        )
+    );
 
     this.profileForm.markAsDirty();
   }
@@ -290,10 +344,12 @@ export class ProfileSearchComponent implements OnInit {
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
-      this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value);
+      this.subs.push(
+        this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+      );
       //this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
       return;
-    }   
+    }
 
     // Add our tag
     if ((value || '').trim()) {
@@ -301,7 +357,9 @@ export class ProfileSearchComponent implements OnInit {
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
-        this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value);
+        this.subs.push(
+          this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+        );
         //this.tagsPlaceholder = "Max 20 characters long.";
         return;
       }
@@ -316,7 +374,7 @@ export class ProfileSearchComponent implements OnInit {
     }
   }
 
-  remove(tag: string): void {
+  private remove(tag: string): void {
     const index = this.tagsList.indexOf(tag);
 
     if (index >= 0) {

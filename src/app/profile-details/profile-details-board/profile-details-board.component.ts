@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
@@ -14,13 +14,13 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
   templateUrl: './profile-details-board.component.html'
 })
 
-//@AutoUnsubscribe()
-export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
+export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestroy {
   loading: boolean = false;
   isChatSearch: boolean = false;
 
   tabIndex = 0;
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
 
   @Input() profile: Profile;
@@ -30,13 +30,20 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
 
   constructor(private imageService: ImageService, private profileService: ProfileService) { }
 
-  ngOnInit() {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+  ngOnInit(): void {
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
+    );
 
     this.getProfileImages();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes.profile.firstChange) {
       if (changes.profile.currentValue != changes.profile.previousValue) {
         this.getProfileImages();
@@ -45,7 +52,7 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
     }
   }
 
-  getProfileImages(): void {
+  private getProfileImages(): void {
     let defaultImageModel: ImageModel = new ImageModel();
 
     if (this.profile.images != null && this.profile.images.length > 0) {
@@ -56,21 +63,23 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
 
           this.loading = true;
 
-          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-            //.pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.image = defaultImageModel.image },
-              () => { this.loading = false; }
-            );
+          this.subs.push(
+            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
+              .subscribe(
+                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                () => { this.loading = false; element.image = defaultImageModel.image },
+                () => { this.loading = false; }
+              )
+          );
 
-          this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-            //.pipe(takeWhileAlive(this))
-            .subscribe(
-              images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            );
+          this.subs.push(
+            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
+              .subscribe(
+                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                () => { this.loading = false; }
+              )
+          );
         }
 
       });
@@ -78,21 +87,21 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges {
   }
 
   // Load Detalails page
-  loadDetails(profile: Profile) {
+  private loadDetails(profile: Profile): void {
     this.loadProfileDetails.emit(profile);
   }
 
-  chatSearch(searching: boolean) {
+  private chatSearch(searching: boolean): void {
     this.isChatSearch = searching;
   }
 
   // Calls to ProfileChatSearchComponent
-  onSubmit() {
+  private onSubmit(): void {
     this.profileChatListviewComponent.onSubmit();
     this.isChatSearch = false;
   }
 
-  reset() {
+  private reset(): void {
     this.profileChatListviewComponent.reset();
   }
 }

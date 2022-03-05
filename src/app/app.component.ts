@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angu
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './authorisation/auth/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
 
   title = 'PlusOne';
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   isProfileCreated: boolean = false;
 
@@ -54,6 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
   siteLocale: string = getBrowserLang();
   languageList: Array<any>;
 
+  CurrentUserBoardTabIndex: number = 1;
+
   isAdmin: boolean = false;
 
   mobileQuery: MediaQueryList;
@@ -62,7 +66,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
+    );
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
 
@@ -73,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
@@ -85,15 +91,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
-  initiateTransloco() {
-    this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value);
-    this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value);
-    this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value);
+  private initiateTransloco(): void {
+    this.subs.push(
+      this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value)
+    );
   }
 
-  switchLanguage() {
+  private switchLanguage(): void {
     this.translocoService.setActiveLang(this.siteLocale);
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
@@ -113,7 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }, 50);    
   }
 
-  toggleDisplay() {
+  private toggleDisplay(): void {
     if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Feedback || this.pageView == pageViewEnum.Details) {
       this.pageView = pageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
@@ -127,7 +141,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleViewDisplay() {
+  private toggleViewDisplay(): void {
     this.isTileView = !this.isTileView;
     this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
@@ -135,7 +149,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  toggleOrderBy() {
+  private toggleOrderBy(): void {
     switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
@@ -170,12 +184,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  getData() {
+  private getData(): void {
     this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
   // Calls to DashboardComponent
-  getLatestProfiles() {
+  private getLatestProfiles(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -184,7 +198,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getProfileByCurrentUsersFilter() {
+  private getProfileByCurrentUsersFilter(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -193,7 +207,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getBookmarkedProfiles() {
+  private getBookmarkedProfiles(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -202,7 +216,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getProfileByFilter() {
+  private getProfileByFilter(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -212,7 +226,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toggleDisplay();
   }
 
-  getProfilesWhoVisitedMe() {
+  private getProfilesWhoVisitedMe(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -221,7 +235,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getProfilesWhoBookmarkedMe() {
+  private getProfilesWhoBookmarkedMe(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -230,7 +244,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getProfilesWhoLikesMe() {
+  private getProfilesWhoLikesMe(): void {
     if (this.isTileView) {
       this.dashboardComponent.resetCurrentProfiles();
     }
@@ -239,42 +253,49 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  resetSelectionPagination() {
+  private resetSelectionPagination(): void {
     if (!this.isTileView) {
       this.dashboardComponent?.resetSelectionPagination();
     }
   }
 
   // Calls to ProfileSearchComponent
-  onSubmit() {
+  private onSubmit(): void {
     this.profileSearchComponent.onSubmit();
     this.sidenav.toggle();
   }
 
-  reset() {
+  private reset(): void {
     this.profileSearchComponent.reset();
   }
 
-  saveSearch() {
+  private saveSearch(): void {
     this.profileSearchComponent.saveSearch();
   }
 
-  loadSearch() {
+  private loadSearch(): void {
     this.profileSearchComponent.loadSearch();
   }
 
-  isCurrentUserCreated(event: any) {
+  private isCurrentUserCreated(event: any): void {
     this.isProfileCreated = event.isCreated;
 
     if (event.isCreated) {
-      this.pageView = pageViewEnum.Dashboard;
       this.siteLocale = event.languagecode;
       this.switchLanguage();
+
+      if (event.uploadImageClick) {
+        this.CurrentUserBoardTabIndex = 1;
+        this.pageView = pageViewEnum.Edit;
+      }
+      else {
+        this.pageView = pageViewEnum.Dashboard;
+      }
     }
   }
 
   // Load About page
-  loadAbout() {
+  private loadAbout(): void {
     if (this.pageView != pageViewEnum.About) {
       this.pageView = pageViewEnum.About;
     }
@@ -290,7 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Edit page
-  loadEdit() {
+  private loadEdit(): void {
     if (this.pageView != pageViewEnum.Edit) {
       this.pageView = pageViewEnum.Edit;
     }
@@ -306,7 +327,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Feedback page
-  loadFeedback() {
+  private loadFeedback(): void {
     if (this.pageView != pageViewEnum.Feedback) {
       this.pageView = pageViewEnum.Feedback;
     }
@@ -322,7 +343,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Feedback Admin page
-  loadFeedbackAdmin() {
+  private loadFeedbackAdmin(): void {
     if (this.pageView != pageViewEnum.FeedbackAdmin) {
       this.pageView = pageViewEnum.FeedbackAdmin;
     }
@@ -338,15 +359,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadDashboard() {
+  private loadDashboard(): void {
     this.pageView = pageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
     this.matButtonToggleIcon = 'search';
   }
 
   // Load Details page
-  loadDetails(profile: Profile) {
-    this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
+  private loadDetails(profile: Profile): void {
+    this.subs.push(
+      this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { })
+    );
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');

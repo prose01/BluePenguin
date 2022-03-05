@@ -1,13 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../authorisation/auth/auth.service';
 
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
 @Component({
   selector: 'app-delete-profile-dialog',
@@ -15,8 +15,9 @@ import { CurrentUser } from '../../models/currentUser';
   styleUrls: ['./delete-profile-dialog.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class DeleteProfileDialog implements OnInit {
+export class DeleteProfileDialog implements OnInit, OnDestroy {
+
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   IsChecked: boolean;
   matDialogTitle: string;
@@ -26,21 +27,27 @@ export class DeleteProfileDialog implements OnInit {
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
     @Inject(MAT_DIALOG_DATA) public profileIds: string[], private readonly translocoService: TranslocoService) {
 
-    this.profileService.currentUserSubject
-      //.pipe(takeWhileAlive(this))
-      .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    this.subs.push(
+      this.profileService.currentUserSubject
+        .subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
+    );
   }
 
   ngOnInit(): void {
-    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.DeleteProfile') : this.translocoService.translate('DeleteProfileDialog.DeleteYourProfile') );
-    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.ProfileDeleteCannotBeUndone') : this.translocoService.translate('DeleteProfileDialog.DeletionCannotBeUndone') );
+    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.DeleteProfile') : this.translocoService.translate('DeleteProfileDialog.DeleteYourProfile'));
+    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.ProfileDeleteCannotBeUndone') : this.translocoService.translate('DeleteProfileDialog.DeletionCannotBeUndone'));
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
   onNoClick(): void {
     this.dialogRef.close(false);
   }
 
-  async onYesClick() {
+  async onYesClick(): Promise<void> {
     if (this.IsChecked) {
 
       this.dialogRef.close(true);
@@ -48,12 +55,16 @@ export class DeleteProfileDialog implements OnInit {
       if (this.profileIds.includes(this.currentUserSubject.profileId) && !this.currentUserSubject.admin) {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForCurrentUser();
-        this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() });
+        this.subs.push(
+          this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() })
+        );
       }
       else if (!this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
-        this.profileService.deleteProfiles(this.profileIds).subscribe();
+        this.subs.push(
+          this.profileService.deleteProfiles(this.profileIds).subscribe()
+        );
       }
       else if (this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
         // TODO: Show error messsage - 'Administrators cannot delete themselves.';

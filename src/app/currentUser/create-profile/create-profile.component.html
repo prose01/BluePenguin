@@ -18,7 +18,7 @@
     <div class="form-container">
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()">
+        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()" required>
           <mat-option *ngFor="let lang of languageList" [value]="lang.code">
             {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
           </mat-option>

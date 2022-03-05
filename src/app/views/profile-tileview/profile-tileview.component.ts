@@ -1,7 +1,7 @@
-import { Component, Input, EventEmitter, Output, OnChanges, OnInit } from '@angular/core';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Component, Input, EventEmitter, Output, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
+import { Subscription } from 'rxjs';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
@@ -21,9 +21,9 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   styleUrls: ['./profile-tileview.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class ProfileTileviewComponent implements OnInit, OnChanges {
+export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   selectedProfile: Profile;
   pageIndex: number = 0;
@@ -47,14 +47,21 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
+    );
     this.profiles = new Array;
     this.currentProfiles = new Array;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
   ngOnChanges(): void {
@@ -76,12 +83,12 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
-  async resetCurrentProfiles() {
+  async resetCurrentProfiles(): Promise<void> {
     this.profiles = new Array;
     this.currentProfiles = new Array;
   }
 
-  onScrollDown() {
+  onScrollDown(): void {
     console.log('scrolled down!!');
 
     this.pageIndex++;
@@ -99,7 +106,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
     }
   }
 
-  onScrollUp() {
+  onScrollUp(): void {
     console.log('scrolled up!!');
 
     //this.pageIndex--;
@@ -117,54 +124,58 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
   }
 
   // Load Detalails page
-  loadDetails(profile: Profile) {
+  private loadDetails(profile: Profile): void {
     this.loadProfileDetails.emit(profile);
   }
 
   /** Add or remove bookmarks */
-  addBookmarkedProfiles(profileId: string) {
+  private addBookmarkedProfiles(profileId: string): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
-    this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+    this.subs.push(
+      this.profileService.addProfilesToBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        })
+    );
   }
 
-  removeBookmarkedProfiles(profileId: string) {
+  private removeBookmarkedProfiles(profileId: string): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(profileId);
 
-    this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-        if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-      });
+    this.subs.push(
+      this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+        })
+    );
   }
 
   /** Add or remove Likes */
-  addLike(profile: Profile) {
-    this.profileService.addLikeToProfile(profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
-      }, () => { }, () => { });
+  private addLike(profile: Profile): void {
+    this.subs.push(
+      this.profileService.addLikeToProfile(profile.profileId)
+        .subscribe(() => {
+          this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
+        }, () => { }, () => { })
+    );
   }
 
-  removeLike(profile: Profile) {
-    this.profileService.removeLikeFromProfile(profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-        this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
-      }, () => { }, () => { });
+  private removeLike(profile: Profile): void {
+    this.subs.push(
+      this.profileService.removeLikeFromProfile(profile.profileId)
+        .subscribe(() => {
+          let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+          this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
+        }, () => { }, () => { })
+    );
   }
 
-  async openImageDialog(profile: Profile): Promise<void> {
+  private async openImageDialog(profile: Profile): Promise<void> {
 
     this.getProfileImages(profile);
 
@@ -176,14 +187,16 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
       }
     });
 
-    dialogRef.afterClosed().subscribe(
-      res => {
-        if (res === true) { this.loadDetails(profile) }
-      }
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res === true) { this.loadDetails(profile) }
+        }
+      )
     );
   }
 
-  getProfileImages(profile: Profile): void {
+  private getProfileImages(profile: Profile): void {
     let defaultImageModel: ImageModel = new ImageModel();
 
     if (profile.images != null && profile.images.length > 0) {
@@ -195,21 +208,23 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
 
             this.loading = true;
 
-            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              //.pipe(takeWhileAlive(this))
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              );
+            this.subs.push(
+              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+                .subscribe(
+                  images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                  () => { this.loading = false; }
+                )
+            );
 
-            this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              //.pipe(takeWhileAlive(this))
-              .subscribe(
-                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              );
+            this.subs.push(
+              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+                .subscribe(
+                  images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                  () => { this.loading = false; element.image = defaultImageModel.image },
+                  () => { this.loading = false; }
+                )
+            );
           }
 
         });
@@ -217,16 +232,16 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
     }
   }
 
-  bookmarked(profileId: string) {
+  private bookmarked(profileId: string): string {
     return this.currentUserSubject?.bookmarks.find(x => x == profileId);
   }
 
-  liked(profile: Profile) {
+  private liked(profile: Profile): string {
     return profile.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
   // Set random tilesize for images.
-  randomSize(): string {
+  private randomSize(): string {
     var randomInt = this.randomIntFromInterval(1, this.randomImageSize);
 
     if (randomInt === 1) {
@@ -236,24 +251,26 @@ export class ProfileTileviewComponent implements OnInit, OnChanges {
     return 'small';
   }
 
-  randomIntFromInterval(min, max) { // min and max included 
+  private randomIntFromInterval(min, max): number { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  openDeleteProfilesDialog(profile: Profile): void {
+  private openDeleteProfilesDialog(profile: Profile): void {
     var profileIds: string[] = [profile.profileId];
 
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
       data: profileIds
     });
 
-    dialogRef.afterClosed().subscribe(
-      res => {
-        if (res === true) {
-          let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profile.profileId), 0);
-          this.profiles.splice(index, 1);
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res === true) {
+            let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profile.profileId), 0);
+            this.profiles.splice(index, 1);
+          }
         }
-      }
+      )
     );
   }
 }

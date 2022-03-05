@@ -1,6 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Subscription } from 'rxjs';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -11,30 +11,40 @@ import { CurrentUser } from '../../models/currentUser';
   styleUrls: ['./image-dialog.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class ImageDialog {
+export class ImageDialog implements OnInit, OnDestroy {
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   index: number;
   defaultImage = '../assets/default-person-icon.jpg';
 
   constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.index = this.data.index;
+  }
+
+  ngOnInit(): void {
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
   onCloseClick(): void {
     this.dialogRef.close(false);
   }
 
-  onNextClick(): void {
+  private onNextClick(): void {
     if ((this.data.imageModels.length - 1) > this.index) {
       this.index++;
     }
   }
 
-  onBeforeClick(): void {
+  private onBeforeClick(): void {
     if (0 < (this.data.imageModels.length - 1) && 0 < this.index) {
       this.index--;
     }
@@ -45,57 +55,61 @@ export class ImageDialog {
   }
 
 
-  isThisCurrentUser() {
+  isThisCurrentUser(): boolean {
     return this.currentUserSubject.profileId == this.data.currentProfileId;
   }
 
-  liked() {
+  liked(): string {
     return this.data.profile?.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
   /** Add or remove Likes */
-  addLike() {
-    this.profileService.addLikeToProfile(this.data.profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        this.data.profile.likes.push(this.currentUserSubject.profileId);
-      }, () => { }, () => { });
+  private addLike(): void {
+    this.subs.push(
+      this.profileService.addLikeToProfile(this.data.profile.profileId)
+        .subscribe(() => {
+          this.data.profile.likes.push(this.currentUserSubject.profileId);
+        }, () => { }, () => { })
+    );
   }
 
-  removeLike() {
-    this.profileService.removeLikeFromProfile(this.data.profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
-        this.data.profile.likes.splice(index, 1);
-      }, () => { }, () => { });
+  private removeLike(): void {
+    this.subs.push(
+      this.profileService.removeLikeFromProfile(this.data.profile.profileId)
+        .subscribe(() => {
+          let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
+          this.data.profile.likes.splice(index, 1);
+        }, () => { }, () => { })
+    );
   }
 
 
-  bookmarked() {
+  bookmarked(): string {
     return this.currentUserSubject?.bookmarks.find(x => x == this.data.profile.profileId)
   }
 
   /** Add or remove bookmarks */
-  addBookmarkedProfiles() {
+  private addBookmarkedProfiles(): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.data.profile.profileId);
 
-    this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-      });
+    this.subs.push(
+      this.profileService.addProfilesToBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+        })
+    );
   }
 
-  removeBookmarkedProfiles() {
+  private removeBookmarkedProfiles(): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.data.profile.profileId);
 
-    this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-      });
+    this.subs.push(
+      this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+        })
+    );
   }
 }

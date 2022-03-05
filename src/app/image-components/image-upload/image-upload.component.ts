@@ -5,7 +5,7 @@
  */
 
 
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
@@ -13,7 +13,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
 import { base64ToFile } from '../image-cropper/utils/blob.utils';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
@@ -24,8 +24,8 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
   styleUrls: ['./image-upload.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class ImageUploadComponent implements OnInit {
+export class ImageUploadComponent implements OnInit, OnDestroy {
+  private subs: Subscription[] = [];
   uploadImageForm: FormGroup;
   imageChangedEvent: any = '';
   croppedImage: any = null;
@@ -51,11 +51,18 @@ export class ImageUploadComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit() {
-    this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value);
+  ngOnInit(): void {
+    this.subs.push(
+      this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value)
+    );
   }
 
-  createForm() {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private createForm(): void {
     this.uploadImageForm = this.formBuilder.group({
       file: null,
       title: [null, [Validators.maxLength(25)]]
@@ -67,10 +74,12 @@ export class ImageUploadComponent implements OnInit {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
+        this.subs.push(
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+        );
       }
     }
-  } 
+  }
 
   fileChangeEvent(event: any): void {
     if (event.target.files[0] != null) {
@@ -86,29 +95,29 @@ export class ImageUploadComponent implements OnInit {
     }
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }
 
-  imageLoaded() {
+  imageLoaded(): void {
     this.showCropper = true;
   }
 
-  loadImageFailed() {
+  loadImageFailed(): void {
     //console.log('Load failed');
   }
 
-  rotateLeft() {
+  private rotateLeft(): void {
     this.canvasRotation--;
     this.flipAfterRotate();
   }
 
-  rotateRight() {
+  private rotateRight(): void {
     this.canvasRotation++;
     this.flipAfterRotate();
   }
 
-  private flipAfterRotate() {
+  private flipAfterRotate(): void {
     const flippedH = this.transform.flipH;
     const flippedV = this.transform.flipV;
     this.transform = {
@@ -118,28 +127,28 @@ export class ImageUploadComponent implements OnInit {
     };
   }
 
-  flipHorizontal() {
+  private flipHorizontal(): void {
     this.transform = {
       ...this.transform,
       flipH: !this.transform.flipH
     };
   }
 
-  flipVertical() {
+  private flipVertical(): void {
     this.transform = {
       ...this.transform,
       flipV: !this.transform.flipV
     };
   }
 
-  resetImage() {
+  private resetImage(): void {
     this.scale = 1;
     this.rotation = 0;
     this.canvasRotation = 0;
     this.transform = {};
   }
 
-  zoomOut() {
+  private zoomOut(): void {
     this.scale -= .1;
     this.transform = {
       ...this.transform,
@@ -147,7 +156,7 @@ export class ImageUploadComponent implements OnInit {
     };
   }
 
-  zoomIn() {
+  private zoomIn(): void {
     this.scale += .1;
     this.transform = {
       ...this.transform,
@@ -155,23 +164,25 @@ export class ImageUploadComponent implements OnInit {
     };
   }
 
-  toggleContainWithinAspectRatio() {
+  private toggleContainWithinAspectRatio(): void {
     this.containWithinAspectRatio = !this.containWithinAspectRatio;
   }
 
-  updateRotation() {
+  private updateRotation(): void {
     this.transform = {
       ...this.transform,
       rotate: this.rotation
     };
   }
 
-  onSubmit() {
+  private onSubmit(): void {
     if (this.uploadImageForm.invalid) {
       this.uploadImageForm.setErrors({ ...this.uploadImageForm.errors, 'uploadImageForm': true });
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
-        this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value);
+        this.subs.push(
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+        );
       }
 
       return;
@@ -187,24 +198,25 @@ export class ImageUploadComponent implements OnInit {
         formData.append('image', res);
         formData.append('title', uploadModel.title as string);
         this.uploadingPhoto = true;
-        this.imageService.uploadImage(formData)
-          //.pipe(takeWhileAlive(this))
-          .subscribe(
-            (res) => {
-              if (res.status == 200) {
-              }
-            }, (error: any) => {
-              //this.openErrorDialog("Could not save image", error.error);
-              this.toggleDisplay.emit();
-            },
-            () => { this.toggleDisplay.emit(); }
-          );
+        this.subs.push(
+          this.imageService.uploadImage(formData)
+            .subscribe(
+              (res) => {
+                if (res.status == 200) {
+                }
+              }, (error: any) => {
+                //this.openErrorDialog("Could not save image", error.error);
+                this.toggleDisplay.emit();
+              },
+              () => { this.toggleDisplay.emit(); }
+            )
+        );
       });
-    }    
+    }
   }
 
   // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/   // TODO: Should not resize if already big enough, and should no make bigger than fileSizeLimit.
-  resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
+  private resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
     return new Promise((resolve, reject) => {
       let image = new Image();
       image.src = URL.createObjectURL(file);
@@ -241,7 +253,7 @@ export class ImageUploadComponent implements OnInit {
     });
   }
 
-  openErrorDialog(title: string, error: string): void {
+  private openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,

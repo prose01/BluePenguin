@@ -178,7 +178,7 @@ export class EnumMappingService {
   private genderTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.genderTypesMap);
   genderTypeSubject = this.genderTypes.asObservable();
 
-  async updateGenderTypeSubject() {
+  async updateGenderTypeSubject(): Promise<void> {
     this.genderTypes.next(this.genderTypesMap);
   }
 
@@ -195,7 +195,7 @@ export class EnumMappingService {
   private sexualOrientationTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.sexualOrientationTypesMap);
   sexualOrientationTypeSubject = this.sexualOrientationTypes.asObservable();
 
-  async updateSexualOrientationTypeSubject() {
+  async updateSexualOrientationTypeSubject(): Promise<void> {
     this.sexualOrientationTypes.next(this.sexualOrientationTypesMap);
   }
 
@@ -215,7 +215,7 @@ export class EnumMappingService {
   private clotheStyleTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.clotheStyleTypesMap);
   clotheStyleTypeSubject = this.clotheStyleTypes.asObservable();
 
-  async updateClotheStyleTypeSubject() {
+  async updateClotheStyleTypeSubject(): Promise<void> {
     this.clotheStyleTypes.next(this.clotheStyleTypesMap);
   }
 
@@ -235,7 +235,7 @@ export class EnumMappingService {
   private bodyTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.bodyTypesMap);
   bodyTypeSubject = this.bodyTypes.asObservable();
 
-  async updateBodyTypeSubject() {
+  async updateBodyTypeSubject(): Promise<void> {
     this.bodyTypes.next(this.bodyTypesMap);
   }
 
@@ -252,7 +252,7 @@ export class EnumMappingService {
   private bodyArtTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.bodyArtTypesMap);
   bodyArtTypeSubject = this.bodyArtTypes.asObservable();
 
-  async updateBodyArtTypeSubject() {
+  async updateBodyArtTypeSubject(): Promise<void> {
     this.bodyArtTypes.next(this.bodyArtTypesMap);
   }
 
@@ -273,7 +273,7 @@ export class EnumMappingService {
   private eatingHabitsType = new BehaviorSubject<ReadonlyMap<string, string>>(this.eatingHabitsTypesMap);
   eatingHabitsTypeSubject = this.eatingHabitsType.asObservable();
 
-  async updateEatingHabitsTypeSubject() {
+  async updateEatingHabitsTypeSubject(): Promise<void> {
     this.eatingHabitsType.next(this.eatingHabitsTypesMap);
   }
 
@@ -290,7 +290,7 @@ export class EnumMappingService {
   private educationStatusTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.educationStatusTypesMap);
   educationStatusTypeSubject = this.educationStatusTypes.asObservable();
 
-  async updateEducationStatusTypeSubject() {
+  async updateEducationStatusTypeSubject(): Promise<void> {
     this.educationStatusTypes.next(this.educationStatusTypesMap);
   }
 
@@ -308,7 +308,7 @@ export class EnumMappingService {
   private educationTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.educationTypesMap);
   educationTypeSubject = this.educationTypes.asObservable();
 
-  async updateEducationTypeSubject() {
+  async updateEducationTypeSubject(): Promise<void> {
     this.educationTypes.next(this.educationTypesMap);
   }
 
@@ -326,7 +326,7 @@ export class EnumMappingService {
   private employmentStatusTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.employmentStatusTypesMap);
   employmentStatusTypesSubject = this.employmentStatusTypes.asObservable();
 
-  async updateEmploymentStatusTypeSubject() {
+  async updateEmploymentStatusTypeSubject(): Promise<void> {
     this.employmentStatusTypes.next(this.employmentStatusTypesMap);
   }
 
@@ -343,7 +343,7 @@ export class EnumMappingService {
   private hasChildrenTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.hasChildrenTypesMap);
   hasChildrenTypesSubject = this.hasChildrenTypes.asObservable();
 
-  async updateHasChildrenTypeSubject() {
+  async updateHasChildrenTypeSubject(): Promise<void> {
     this.hasChildrenTypes.next(this.hasChildrenTypesMap);
   }
 
@@ -360,7 +360,7 @@ export class EnumMappingService {
   private wantChildrenTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.wantChildrenTypesMap);
   wantChildrenTypesSubject = this.wantChildrenTypes.asObservable();
 
-  async updateWantChildrenTypeSubject() {
+  async updateWantChildrenTypeSubject(): Promise<void> {
     this.wantChildrenTypes.next(this.wantChildrenTypesMap);
   }
 
@@ -377,7 +377,7 @@ export class EnumMappingService {
   private hasPetsTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.hasPetsTypesMap);
   hasPetsTypeSubject = this.hasPetsTypes.asObservable();
 
-  async updateHasPetsTypeSubject() {
+  async updateHasPetsTypeSubject(): Promise<void> {
     this.hasPetsTypes.next(this.hasPetsTypesMap);
   }
 
@@ -395,7 +395,7 @@ export class EnumMappingService {
   private livesInTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.livesInTypesMap);
   livesInTypeSubject = this.livesInTypes.asObservable();
 
-  async updateLivesInTypeSubject() {
+  async updateLivesInTypeSubject(): Promise<void> {
     this.livesInTypes.next(this.livesInTypesMap);
   }
 
@@ -413,7 +413,7 @@ export class EnumMappingService {
   private smokingHabitsTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.smokingHabitsTypesMap);
   smokingHabitsTypeSubject = this.smokingHabitsTypes.asObservable();
 
-  async updateSmokingHabitsTypeSubject() {
+  async updateSmokingHabitsTypeSubject(): Promise<void> {
     this.smokingHabitsTypes.next(this.smokingHabitsTypesMap);
   }
 
@@ -432,7 +432,7 @@ export class EnumMappingService {
   private sportsActivityTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.sportsActivityTypesMap);
   sportsActivityTypeSubject = this.sportsActivityTypes.asObservable();
 
-  async updateSportsActivityTypeSubject() {
+  async updateSportsActivityTypeSubject(): Promise<void> {
     this.sportsActivityTypes.next(this.sportsActivityTypesMap);
   }
 
@@ -451,7 +451,7 @@ export class EnumMappingService {
   private feedbackTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.feedbackTypesMap);
   feedbackTypeSubject = this.feedbackTypes.asObservable();
 
-  async updateFeedbackTypeSubject() {
+  async updateFeedbackTypeSubject(): Promise<void> {
     this.feedbackTypes.next(this.feedbackTypesMap);
   }
 }

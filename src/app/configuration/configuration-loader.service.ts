@@ -16,7 +16,7 @@ export class ConfigurationLoader {
 
   constructor(private _http: HttpClient) { }
 
-  public loadConfiguration() {
+  public loadConfiguration(): Promise<void | Configuration> {
     return this._http
       .get(this.CONFIGURATION_URL)
       .toPromise()
@@ -29,7 +29,7 @@ export class ConfigurationLoader {
       });
   }
 
-  getConfiguration() {
+  getConfiguration(): Configuration {
     return this._configuration;
   }
 }

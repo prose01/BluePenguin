@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Subscription } from 'rxjs';
 
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
@@ -12,89 +12,104 @@ import { ProfileService } from '../../services/profile.service';
   templateUrl: './profile-details.component.html'
 })
 
-//@AutoUnsubscribe()
-export class ProfileDetailsComponent implements OnInit {
+export class ProfileDetailsComponent implements OnInit, OnDestroy {
   @Input() profile: Profile;
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
 
   constructor(private profileService: ProfileService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
+    );
   }
 
-  setProfileAsAdmin() {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private setProfileAsAdmin(): void {
     if (this.currentUserSubject.admin) {
-      this.profileService.setAsAdmin(this.profile.profileId).subscribe(
-        (response: any) => { this.profile = response },
-        () => { },
-        () => { }
+      this.subs.push(
+        this.profileService.setAsAdmin(this.profile.profileId).subscribe(
+          (response: any) => { this.profile = response },
+          () => { },
+          () => { }
+        )
       );
     }
   }
 
-  removeProfileAsAdmin() {
+  private removeProfileAsAdmin(): void {
     if (this.currentUserSubject.admin) {
-      this.profileService.removeAdmin(this.profile.profileId).subscribe(
-        (response: any) => { this.profile = response },
-        () => { },
-        () => { });
+      this.subs.push(
+        this.profileService.removeAdmin(this.profile.profileId).subscribe(
+          (response: any) => { this.profile = response },
+          () => { },
+          () => { })
+      );
     }
   }
 
-  openDeleteProfilesDialog(): void {
+  private openDeleteProfilesDialog(): void {
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
       data: [this.profile.profileId]
     });
   }
 
-  liked() {
+  private liked(): string {
     return this.profile?.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
   /** Add or remove Likes */
-  addLike() {
-    this.profileService.addLikeToProfile(this.profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        this.profile.likes.push(this.currentUserSubject.profileId);
-      }, () => { }, () => { });
+  private addLike(): void {
+    this.subs.push(
+      this.profileService.addLikeToProfile(this.profile.profileId)
+        .subscribe(() => {
+          this.profile.likes.push(this.currentUserSubject.profileId);
+        }, () => { }, () => { })
+    );
   }
 
-  removeLike() {
-    this.profileService.removeLikeFromProfile(this.profile.profileId)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => {
-        let index = this.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
-        this.profile.likes.splice(index, 1);
-      }, () => { }, () => { });
+  private removeLike(): void {
+    this.subs.push(
+      this.profileService.removeLikeFromProfile(this.profile.profileId)
+        .subscribe(() => {
+          let index = this.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
+          this.profile.likes.splice(index, 1);
+        }, () => { }, () => { })
+    );
   }
 
-  bookmarked() {
+  private bookmarked(): string {
     return this.currentUserSubject?.bookmarks.find(x => x == this.profile.profileId)
   }
 
   /** Add or remove bookmarks */
-  addBookmarkedProfiles() {
+  private addBookmarkedProfiles(): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.profile.profileId);
 
-    this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-      });
+    this.subs.push(
+      this.profileService.addProfilesToBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+        })
+    );
   }
 
-  removeBookmarkedProfiles() {
+  private removeBookmarkedProfiles(): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.profile.profileId);
 
-    this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(() => { }, () => { }, () => {
-        this.profileService.updateCurrentUserSubject();
-      });
+    this.subs.push(
+      this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
+        .subscribe(() => { }, () => { }, () => {
+          this.profileService.updateCurrentUserSubject();
+        })
+    );
   }
 }

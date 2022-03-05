@@ -185,10 +185,18 @@
 		"Contactable": "Kan kontaktes",
 		"NotContactable": "Kan ikke kontaktes",
 		"NameRequired" : "Navn er påkrævet",
+		"LanguagecodeRequired" : "Sprog er påkrævet",
+		"CountrycodeRequired" : "Land er påkrævet",
 		"NameMinCharacters" : "Navnet skal være mindst 3 tegn langt.",
 		"NameMaxCharacters" : "Navnet må ikke være mere end 20 tegn langt.",
 		"GenderRequired" : "Køn er påkrævet.",
 		"SexualRequired" : "Seksuel orientering er påkrævet."
+	},
+	"CreateProfileDialog" : {
+		"Title" : "Tillykke. Din profil er nu oprettet.",
+		"Content" : "Ønsker du at oploade profil billeder?",
+		"UploadImage" : "Oploade profil billeder",
+		"GoToDashboard" : "Gå til Dashboard"
 	},
 	"EditProfileComponent" : {
 		"UpdateDetails" : "Opdater din profil",

@@ -16,7 +16,7 @@ export class ProfileImagesComponent {
 
   constructor(private dialog: MatDialog) { }
 
-  openImageDialog(indexOfelement: any): void {
+  private openImageDialog(indexOfelement: any): void {
     const dialogRef = this.dialog.open(ImageDialog, {
       //height: '80%',
       //width: '80%',

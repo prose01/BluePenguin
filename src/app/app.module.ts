@@ -44,6 +44,7 @@ import { FeedBackService }                    from './services/feedback.service'
 import { ChatService }                        from './services/chat.service';
 
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
+import { CreateProfileDialog }                from './currentUser/create-profile-dialog/create-profile-dialog.component';
 import { CurrentUserBoardComponent }          from './currentUser/currentUser-board/currentUser-board.component';
 import { EditProfileComponent }               from './currentUser/edit-profile/edit-profile.component';
 import { DeleteProfileDialog }                from './currentUser/delete-profile/delete-profile-dialog.component';
@@ -89,6 +90,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ErrorDialog,
     DashboardComponent,
     CreateProfileComponent,
+    CreateProfileDialog,
     ProfileDetailsBoardComponent,
     ProfileDetailsComponent,
     ProfileImagesComponent,
