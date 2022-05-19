@@ -28,7 +28,7 @@
     "@angular/platform-browser-dynamic": "^13.3.0",
     "@angular/platform-server": "^13.3.0",
     "@angular/router": "^13.3.0",
-    "@material/image-list": "^13.0.0",
+    "@material/image-list": "^14.0.0",
     "@microsoft/signalr": "^6.0.2",
     "@ngneat/transloco": "^3.1.4",
     "@ngneat/transloco-locale": "^3.0.1",
