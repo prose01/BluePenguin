@@ -37,7 +37,7 @@
     "auth0-js": "^9.17.0",
     "core-js": "^3.22.5",
     "flag-icons": "^6.4.2",
-    "jasmine-core": "^4.0.0",
+    "jasmine-core": "^4.1.1",
     "ng-chat": "^3.1.0",
     "ng-lazyload-image": "^9.1.0",
     "ngx-image-cropper": "^6.1.0",
