@@ -127,7 +127,6 @@
       }
     }
   },
-  "defaultProject": "blue-penguin-app",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
