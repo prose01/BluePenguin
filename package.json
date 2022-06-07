@@ -31,7 +31,7 @@
     "@angular/router": "^14.0.0",
     "@material/image-list": "^14.0.0",
     "@microsoft/signalr": "^6.0.5",
-    "@ngneat/transloco": "^4.0.0",
+    "@ngneat/transloco": "^4.1.0",
     "@ngneat/transloco-locale": "^4.0.0",
     "@types/node": "^17.0.39",
     "auth0-js": "^9.17.0",
