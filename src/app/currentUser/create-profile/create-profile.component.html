@@ -18,7 +18,7 @@
     <div class="form-container">
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()">
+        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()" required>
           <mat-option *ngFor="let lang of languageList" [value]="lang.code">
             {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
           </mat-option>
@@ -66,16 +66,16 @@
 
       <mat-form-field>
         <mat-select placeholder="{{genderPlaceholder}}" formControlName="gender" [(value)]="currentUser.gender" required>
-          <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
-            {{ genderType }}
+          <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
+            {{ genderType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-select placeholder="{{sexualOrientationPlaceholder}}" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation" required>
-          <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes" [value]="sexualOrientationType">
-            {{ sexualOrientationType }}
+          <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes | keyvalue: originalOrder" [value]="sexualOrientationType.key">
+            {{ sexualOrientationType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>

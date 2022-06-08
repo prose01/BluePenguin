@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 import { ImageModel } from '../../models/imageModel';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
@@ -11,7 +12,9 @@ import { DeleteImageDialog } from '../../image-components/delete-image/delete-im
   styleUrls: ['./currentUser-images.component.scss']
 })
 
-export class CurrentUserImagesComponent{
+export class CurrentUserImagesComponent implements OnDestroy {
+
+  private subs: Subscription[] = [];
 
   @Input() imageModels: ImageModel[];
   @Input() currentProfileId: string;
@@ -20,7 +23,12 @@ export class CurrentUserImagesComponent{
 
   constructor(private dialog: MatDialog) { }
 
-  openImageDialog(indexOfelement: any): void {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private openImageDialog(indexOfelement: any): void {
 
     const dialogRef = this.dialog.open(ImageDialog, {
       data: {
@@ -31,18 +39,20 @@ export class CurrentUserImagesComponent{
     });
   }
 
-  openDeleteImageDialog(imageId: string): void {
+  private openDeleteImageDialog(imageId: string): void {
     const dialogRef = this.dialog.open(DeleteImageDialog, {
       data: { imageId }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == true) {
-        this.refreshCurrentUserImages.emit();
-        this.imageModels = this.imageModels.filter(function (obj) {
-          return obj.imageId !== imageId;
-        });
-      }
-    });
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.refreshCurrentUserImages.emit();
+          this.imageModels = this.imageModels.filter(function (obj) {
+            return obj.imageId !== imageId;
+          });
+        }
+      })
+    );
   }
 }

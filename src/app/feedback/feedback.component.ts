@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { KeyValue } from '@angular/common';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Subscription } from 'rxjs';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,9 +19,9 @@ import { TranslocoService } from '@ngneat/transloco';
   styleUrls: ['./feedback.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent implements OnInit, OnDestroy {
 
+  private subs: Subscription[] = [];
   feedback: Feedback = new Feedback();
   feedbackForm: FormGroup;
   feedbackTypes: ReadonlyMap<string, string>;
@@ -33,22 +33,29 @@ export class FeedbackComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
+    this.subs.push(
+      this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value)
+    );
     this.enumMappings.updateFeedbackTypeSubject();
   }
 
-  createForm() {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private createForm(): void {
     this.feedbackForm = this.formBuilder.group({
       feedbackType: FeedbackType.Comment,
       message: null
     });
   }
 
-  revert() {
+  revert(): void {
     this.createForm();
   }
 
-  prepareFeedback(): Feedback {
+  private prepareFeedback(): Feedback {
     const formModel = this.feedbackForm.value;
 
     const feedback: Feedback = {
@@ -74,7 +81,7 @@ export class FeedbackComponent implements OnInit {
     return 0;
   }
 
-  openErrorDialog(title: string, error: string): void {
+  private openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,
@@ -83,18 +90,19 @@ export class FeedbackComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.loading = true;
     this.feedback = this.prepareFeedback();
-    this.feedBackService.addFeedback(this.feedback)
-      //.pipe(takeWhileAlive(this))
-      .subscribe(
-        () => { },
-        (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-        },
-        () => { this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); }
-      );
+    this.subs.push(
+      this.feedBackService.addFeedback(this.feedback)
+        .subscribe(
+          () => { },
+          (error: any) => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+          },
+          () => { this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); }
+        )
+    );
   }
 
 }

@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angu
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './authorisation/auth/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
 
   title = 'PlusOne';
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   isProfileCreated: boolean = false;
 
@@ -42,13 +44,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   matButtonOrderByText: string;
   matButtonOrderByIcon: string = 'watch_later';
+  orderBy: OrderByType = OrderByType.LastActive;
+
+  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
   profile: Profile;
   filter: ProfileFilter;
   lastCalledFilter: string = "getLatestProfiles";
+  pageSize: number;
 
   siteLocale: string = getBrowserLang();
   languageList: Array<any>;
+
+  CurrentUserBoardTabIndex: number = 1;
 
   isAdmin: boolean = false;
 
@@ -58,16 +66,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; });
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
+    );
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
+
+    this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (localStorage.getItem('isLoggedIn') === 'true') {
       this.auth.renewTokens();
     }
@@ -79,15 +91,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
-  initiateTransloco() {
-    this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value);
-    this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value);
-    this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value);
+  private initiateTransloco(): void {
+    this.subs.push(
+      this.translocoService.selectTranslate('Search').subscribe(value => this.matButtonToggleText = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('ListView').subscribe(value => this.matButtonViewToggleText = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value)
+    );
   }
 
-  switchLanguage() {
+  private switchLanguage(): void {
     this.translocoService.setActiveLang(this.siteLocale);
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
@@ -107,7 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }, 50);    
   }
 
-  toggleDisplay() {
+  private toggleDisplay(): void {
     if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Feedback || this.pageView == pageViewEnum.Details) {
       this.pageView = pageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
@@ -121,120 +141,161 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleViewDisplay() {
+  private toggleViewDisplay(): void {
     this.isTileView = !this.isTileView;
     this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
     this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
     this.dashboardComponent.toggleViewDisplay();
+    this.getData();
   }
 
-  toggleOrderBy() {
-    switch (this.dashboardComponent.orderBy) {
+  private toggleOrderBy(): void {
+    switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
         this.matButtonOrderByIcon = 'update';
-        this.dashboardComponent.orderBy = OrderByType.LastActive;
-        this.getNextData();
+        this.orderBy = OrderByType.LastActive;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
+        this.getData();
         break;
       }
       case OrderByType.LastActive: {
         this.matButtonOrderByText = this.translocoService.translate('SortByCreatedOn');
         this.matButtonOrderByIcon = 'schedule';
-        this.dashboardComponent.orderBy = OrderByType.UpdatedOn;
-        this.getNextData();
+        this.orderBy = OrderByType.UpdatedOn;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
+        this.getData();
         break;
       }
       case OrderByType.UpdatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByLastActive');
         this.matButtonOrderByIcon = 'watch_later';
-        this.dashboardComponent.orderBy = OrderByType.CreatedOn;
-        this.getNextData();
+        this.orderBy = OrderByType.CreatedOn;
+        if (this.isTileView) {
+          this.dashboardComponent.resetCurrentProfiles();
+        }
+        this.getData();
         break;
       }
     }
   }
 
-  getNextData() {
-    this.dashboardComponent.getNextData({ currentSize: 0, pageIndex: 0, pageSize: 5 });
+  private getData(): void {
+    this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
   // Calls to DashboardComponent
-  getLatestProfiles() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
-    this.getNextData();
+  private getLatestProfiles(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
+    this.getData();
   }
 
-  getProfileByCurrentUsersFilter() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-    this.getNextData();
+  private getProfileByCurrentUsersFilter(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
+    this.getData();
   }
 
-  getBookmarkedProfiles() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
-    this.getNextData();
+  private getBookmarkedProfiles(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
+    this.getData();
   }
 
-  getProfileByFilter() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
-    this.getNextData();
+  private getProfileByFilter(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
+    this.getData();
     this.toggleDisplay();
   }
 
-  getProfilesWhoVisitedMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
-    this.getNextData();
+  private getProfilesWhoVisitedMe(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
+    this.getData();
   }
 
-  getProfilesWhoBookmarkedMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
-    this.getNextData();
+  private getProfilesWhoBookmarkedMe(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
+    this.getData();
   }
 
-  getProfilesWhoLikesMe() {
-    this.dashboardComponent.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
-    this.getNextData();
+  private getProfilesWhoLikesMe(): void {
+    if (this.isTileView) {
+      this.dashboardComponent.resetCurrentProfiles();
+    }
+
+    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
+    this.getData();
   }
 
-  resetSelectionPagination() {    //Todo: Check if this is used
+  private resetSelectionPagination(): void {
     if (!this.isTileView) {
       this.dashboardComponent?.resetSelectionPagination();
     }
   }
 
   // Calls to ProfileSearchComponent
-  onSubmit() {
+  private onSubmit(): void {
     this.profileSearchComponent.onSubmit();
     this.sidenav.toggle();
   }
 
-  reset() {
+  private reset(): void {
     this.profileSearchComponent.reset();
   }
 
-  saveSearch() {
+  private saveSearch(): void {
     this.profileSearchComponent.saveSearch();
   }
 
-  loadSearch() {
+  private loadSearch(): void {
     this.profileSearchComponent.loadSearch();
   }
 
-  isCurrentUserCreated(event) {
+  private isCurrentUserCreated(event: any): void {
     this.isProfileCreated = event.isCreated;
 
     if (event.isCreated) {
-      this.pageView = pageViewEnum.Dashboard;
       this.siteLocale = event.languagecode;
       this.switchLanguage();
+
+      if (event.uploadImageClick) {
+        this.CurrentUserBoardTabIndex = 1;
+        this.pageView = pageViewEnum.Edit;
+      }
+      else {
+        this.pageView = pageViewEnum.Dashboard;
+      }
     }
   }
 
-  initDefaultData() {
-    this.dashboardComponent.initDefaultData();
-  }
-
   // Load About page
-  loadAbout() {
+  private loadAbout(): void {
     if (this.pageView != pageViewEnum.About) {
       this.pageView = pageViewEnum.About;
     }
@@ -250,7 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Edit page
-  loadEdit() {
+  private loadEdit(): void {
     if (this.pageView != pageViewEnum.Edit) {
       this.pageView = pageViewEnum.Edit;
     }
@@ -266,7 +327,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Feedback page
-  loadFeedback() {
+  private loadFeedback(): void {
     if (this.pageView != pageViewEnum.Feedback) {
       this.pageView = pageViewEnum.Feedback;
     }
@@ -282,7 +343,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Load Feedback Admin page
-  loadFeedbackAdmin() {
+  private loadFeedbackAdmin(): void {
     if (this.pageView != pageViewEnum.FeedbackAdmin) {
       this.pageView = pageViewEnum.FeedbackAdmin;
     }
@@ -298,15 +359,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadDashboard() {
+  private loadDashboard(): void {
     this.pageView = pageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
     this.matButtonToggleIcon = 'search';
   }
 
   // Load Details page
-  loadDetails(profile: Profile) {
-    this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { });
+  private loadDetails(profile: Profile): void {
+    this.subs.push(
+      this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { })
+    );
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');

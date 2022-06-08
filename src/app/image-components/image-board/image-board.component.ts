@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
@@ -15,8 +15,9 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
   styleUrls: ['./image-board.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class ImageBoardComponent implements OnInit {
+export class ImageBoardComponent implements OnInit, OnDestroy {
+
+  private subs: Subscription[] = [];
   loading: boolean = false;
   maxPhotos: number;
   morePhotosAllowed: boolean = false;
@@ -32,20 +33,29 @@ export class ImageBoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileService.currentUserSubject
-      .subscribe(
-        currentUserSubject => {
-          this.currentUserSubject = currentUserSubject;
-          this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
-        }
-      );
+    this.subs.push(
+      this.profileService.currentUserSubject
+        .subscribe(
+          currentUserSubject => {
+            this.currentUserSubject = currentUserSubject;
+            this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
+          }
+        )
+    );
 
     this.getCurrentUserImages();
 
-    this.translocoService.selectTranslate('ImageBoardComponent.UploadNewPhoto').subscribe(value => this.matButtonToggleText = value);
+    this.subs.push(
+      this.translocoService.selectTranslate('ImageBoardComponent.UploadNewPhoto').subscribe(value => this.matButtonToggleText = value)
+    );
   }
 
-  getCurrentUserImages(): void {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private getCurrentUserImages(): void {
 
     let defaultImageModel: ImageModel = new ImageModel();
 
@@ -58,21 +68,23 @@ export class ImageBoardComponent implements OnInit {
 
             this.loading = true;
 
-            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
-              //.pipe(takeWhileAlive(this))
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              );
+            this.subs.push(
+              this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
+                .subscribe(
+                  images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
+                  () => { this.loading = false; element.image = defaultImageModel.image },
+                  () => { this.loading = false; }
+                )
+            );
 
-            this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-              //.pipe(takeWhileAlive(this))
-              .subscribe(
-                images => { element.image = 'data:image/jpg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              );
+            this.subs.push(
+              this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
+                .subscribe(
+                  images => { element.image = 'data:image/jpg;base64,' + images.toString() },
+                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
+                  () => { this.loading = false; }
+                )
+            );
           }
 
         });
@@ -80,14 +92,14 @@ export class ImageBoardComponent implements OnInit {
     }
   }
 
-  refreshCurrentUserImages(): void {
+  private refreshCurrentUserImages(): void {
     this.profileService.updateCurrentUserSubject().then(() => {
       this.getCurrentUserImages();
       this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject.images.length ? true : false;
     });
   }
 
-  toggleDisplay(): void {
+  private toggleDisplay(): void {
     this.isMatButtonToggled = !this.isMatButtonToggled;
     this.matButtonToggleText = (this.isMatButtonToggled ? this.translocoService.translate('ImageBoardComponent.UploadNewPhoto') : this.translocoService.translate('ImageBoardComponent.TileView'));
     this.matButtonToggleIcon = (this.isMatButtonToggled ? 'add_photo_alternate' : 'collections');

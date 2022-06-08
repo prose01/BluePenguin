@@ -43,8 +43,8 @@
 
       <mat-form-field *ngIf="showGenderChoise">
         <mat-select placeholder="{{'ProfileSearchComponent.Gender'| transloco}}" formControlName="gender" [(value)]="filter.gender">
-          <mat-option *ngFor="let genderType of genderTypes" [value]="genderType">
-            {{ genderType }}
+          <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
+            {{ genderType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>

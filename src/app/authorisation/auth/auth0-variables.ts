@@ -10,8 +10,8 @@ interface AuthConfig {
 export const AUTH_CONFIG: AuthConfig = {
   clientID: 'FoBNP0eS7dEFBs1pTVdgTRjJgdwxvnsB',
   domain: 'bluepenguin.eu.auth0.com',
-  //callbackURL: 'http://localhost:4200/callback',
-  callbackURL: 'https://bluepenguin-freetrail.azurewebsites.net/callback',
+  callbackURL: 'http://localhost:4200/callback',
+  //callbackURL: 'https://bluepenguin-freetrail.azurewebsites.net/callback',
   audience: 'https://bluepenguin.eu.auth0.com/api/v2/',
   client_secret: 'JsMX4Byszgyxzy-nxtzhnEweDkZtJDAQgAbifWXFnsedV59nSTZr7MN61TGr618A',
   grant_type: 'client_credentials'

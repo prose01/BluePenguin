@@ -1,6 +1,6 @@
 import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
-import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, retry, delay } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@microsoft/signalr";

@@ -1,12 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { EnumMappingService } from '../../services/enumMapping.service';
 import { ProfileService } from '../../services/profile.service';
 import { BehaviorSubjectService } from '../../services/behaviorSubjec.service';
 import { CurrentUser } from '../../models/currentUser';
-import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { KeyValue } from '@angular/common';
 import { FeedbackFilter } from '../../models/feedbackFilter';
@@ -19,13 +19,12 @@ import { DateAdapter } from '@angular/material/core';
   templateUrl: './feedback-search.component.html'
 })
 
-export class FeedbackSearchComponent implements OnInit {
+export class FeedbackSearchComponent implements OnInit, OnDestroy {
 
   loading: boolean = false;
 
   filter: FeedbackFilter = new FeedbackFilter();
   searchResultFeedbacks: Feedback[];
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.FilterProfiles;
   feedbackForm: FormGroup;
   feedbackId: string;
   dateSentStart: Date;
@@ -42,6 +41,7 @@ export class FeedbackSearchComponent implements OnInit {
   countrycode: string;
   languagecode: string;
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
 
   languageList: string[] = [];
@@ -55,7 +55,26 @@ export class FeedbackSearchComponent implements OnInit {
     this.countryList = this.configurationLoader.getConfiguration().countryList;
   }
 
-  createForm() {
+  ngOnInit(): void {
+    this.subs.push(
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject;
+        this.dateAdapter.setLocale(this.currentUserSubject.languagecode);
+        this.createForm();
+      })
+    );
+    this.subs.push(
+      this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value)
+    );
+    this.enumMappings.updateFeedbackTypeSubject();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private createForm(): void {
     this.feedbackForm = this.formBuilder.group({
       feedbackId: null,
       dateSentStart: null,
@@ -74,27 +93,17 @@ export class FeedbackSearchComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.profileService.currentUserSubject.subscribe(currentUserSubject => {
-      this.currentUserSubject = currentUserSubject;
-      this.dateAdapter.setLocale(this.currentUserSubject.languagecode);
-      this.createForm();
-    });
-    this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value);
-    this.enumMappings.updateFeedbackTypeSubject();
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     this.filter = this.prepareSearch();
     this.getFeedbacksByFilter.emit(this.filter);
   }
 
-  reset() {
+  reset(): void {
     this.createForm();
     this.searchResultFeedbacks = [];
   }
 
-  prepareSearch(): FeedbackFilter {
+  private prepareSearch(): FeedbackFilter {
     const formModel = this.feedbackForm.value;
 
     const filterFeedback: FeedbackFilter = {
@@ -125,7 +134,6 @@ export class FeedbackSearchComponent implements OnInit {
 
     return filterFeedback;
   }
-
 
   // Preserve original EnumMapping order
   originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {

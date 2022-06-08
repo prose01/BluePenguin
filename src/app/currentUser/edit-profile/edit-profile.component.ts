@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { first } from 'rxjs/operators';
-//import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { KeyValue } from '@angular/common';
@@ -16,6 +16,8 @@ import { EnumMappingService } from '../../services/enumMapping.service';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
 import { CurrentUser } from '../../models/currentUser';
 import {
+  GenderType,
+  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -37,27 +39,27 @@ import {
   styleUrls: ['./edit-profile.component.scss']
 })
 
-//@AutoUnsubscribe()
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit, OnDestroy {
 
+  private subs: Subscription[] = [];
   currentUserSubject: CurrentUser;
   profileForm: FormGroup;
-  bodyTypes : ReadonlyMap<string, string>;
-  smokingHabitsTypes : ReadonlyMap<string, string>;
-  hasChildrenTypes : ReadonlyMap<string, string>;
-  wantChildrenTypes : ReadonlyMap<string, string>;
-  hasPetsTypes : ReadonlyMap<string, string>;
-  livesInTypes : ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes : ReadonlyMap<string, string>;
-  employmentStatusTypes : ReadonlyMap<string, string>;
-  sportsActivityTypes : ReadonlyMap<string, string>;
-  eatingHabitsTypes : ReadonlyMap<string, string>;
-  clotheStyleTypes : ReadonlyMap<string, string>;
-  bodyArtTypes : ReadonlyMap<string, string>;
 
-  genderTypes: string[] = [];
-  sexualOrientationTypes: string[] = [];
+  genderTypes: ReadonlyMap<string, string>;
+  sexualOrientationTypes: ReadonlyMap<string, string>;
+  bodyTypes: ReadonlyMap<string, string>;
+  smokingHabitsTypes: ReadonlyMap<string, string>;
+  hasChildrenTypes: ReadonlyMap<string, string>;
+  wantChildrenTypes: ReadonlyMap<string, string>;
+  hasPetsTypes: ReadonlyMap<string, string>;
+  livesInTypes: ReadonlyMap<string, string>;
+  educationTypes: ReadonlyMap<string, string>;
+  educationStatusTypes: ReadonlyMap<string, string>;
+  employmentStatusTypes: ReadonlyMap<string, string>;
+  sportsActivityTypes: ReadonlyMap<string, string>;
+  eatingHabitsTypes: ReadonlyMap<string, string>;
+  clotheStyleTypes: ReadonlyMap<string, string>;
+  bodyArtTypes: ReadonlyMap<string, string>;
 
   isChecked: boolean;
   defaultAge: number;
@@ -75,8 +77,6 @@ export class EditProfileComponent implements OnInit {
   countryResetText: string;
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
-    this.genderTypes.push(...this.configurationLoader.getConfiguration().genderTypes);
-    this.sexualOrientationTypes.push(...this.configurationLoader.getConfiguration().sexualOrientationTypes);
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
@@ -85,40 +85,101 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); });
-    this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value);
-    this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value);
-    this.translocoService.selectTranslate('EditProfileComponent.CountryReset').subscribe(value => this.countryResetText = value);
-    
-    this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value);
+    this.subs.push(
+      this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); })
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('EditProfileComponent.CountryReset').subscribe(value => this.countryResetText = value)
+    );
+
+    this.subs.push(
+      this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value)
+    );
+    this.enumMappings.updateGenderTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.sexualOrientationTypeSubject.subscribe(value => this.sexualOrientationTypes = value)
+    );
+    this.enumMappings.updateSexualOrientationTypeSubject();
+
+    this.subs.push(
+      this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value)
+    );
     this.enumMappings.updateClotheStyleTypeSubject();
-    this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value);
+
+    this.subs.push(
+      this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value)
+    );
     this.enumMappings.updateBodyTypeSubject();
-    this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value);
+
+    this.subs.push(
+      this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value)
+    );
     this.enumMappings.updateBodyArtTypeSubject();
-    this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value);
+
+    this.subs.push(
+      this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value)
+    );
     this.enumMappings.updateEatingHabitsTypeSubject();
-    this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value);
+
+    this.subs.push(
+      this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value)
+    );
     this.enumMappings.updateEducationStatusTypeSubject();
-    this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value);
+
+    this.subs.push(
+      this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value)
+    );
     this.enumMappings.updateEducationTypeSubject();
-    this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value);
+
+    this.subs.push(
+      this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value)
+    );
     this.enumMappings.updateEmploymentStatusTypeSubject();
-    this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value);
+
+    this.subs.push(
+      this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value)
+    );
     this.enumMappings.updateHasChildrenTypeSubject();
-    this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value);
+
+    this.subs.push(
+      this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value)
+    );
     this.enumMappings.updateWantChildrenTypeSubject();
-    this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value);
+
+    this.subs.push(
+      this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value)
+    );
     this.enumMappings.updateHasPetsTypeSubject();
-    this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value);
+
+    this.subs.push(
+      this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value)
+    );
     this.enumMappings.updateLivesInTypeSubject();
-    this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value);
+
+    this.subs.push(
+      this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value)
+    );
     this.enumMappings.updateSmokingHabitsTypeSubject();
-    this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value);
+
+    this.subs.push(
+      this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value)
+    );
     this.enumMappings.updateSportsActivityTypeSubject();
   }
 
-  createForm() {
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
+  }
+
+  private createForm(): void {
     this.profileForm = this.formBuilder.group({
       languagecode: null,
       countrycode: null,
@@ -149,21 +210,21 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  prefilForm() {
+  private prefilForm(): void {
     this.profileForm.patchValue({
       languagecode: this.currentUserSubject.languagecode as string,
       countrycode: this.currentUserSubject.countrycode as string,
       name: this.currentUserSubject.name as string,
-      createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
-      updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
-      lastActive: this.translocoLocale.localizeDate(this.currentUserSubject.lastActive, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }), 
+      createdOn: this.translocoLocale.localizeDate(this.currentUserSubject.createdOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }),
+      updatedOn: this.translocoLocale.localizeDate(this.currentUserSubject.updatedOn, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }),
+      lastActive: this.translocoLocale.localizeDate(this.currentUserSubject.lastActive, this.currentUserSubject.languagecode, { dateStyle: 'medium', timeStyle: 'short' }),
       age: this.currentUserSubject.age as number,
       height: this.currentUserSubject.height as number,
       contactable: this.currentUserSubject.contactable as boolean,
       description: this.currentUserSubject.description as string,
       tags: this.currentUserSubject.tags as string[],
-      gender: this.currentUserSubject.gender as string,
-      sexualOrientation: this.currentUserSubject.sexualOrientation as string,
+      gender: this.currentUserSubject.gender as GenderType,
+      sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
       body: this.currentUserSubject.body as BodyType,
       smokingHabits: this.currentUserSubject.smokingHabits as SmokingHabitsType,
       hasChildren: this.currentUserSubject.hasChildren as HasChildrenType,
@@ -184,7 +245,7 @@ export class EditProfileComponent implements OnInit {
     this.siteLocale = this.currentUserSubject.languagecode;
   }
 
-  revert() {
+  private revert(): void {
     this.tagsList.length = 0;
 
     setTimeout(() => {
@@ -195,21 +256,22 @@ export class EditProfileComponent implements OnInit {
     this.profileForm.markAsPristine();
   }
 
-  onSubmit() {
+  private onSubmit(): void {
     this.loading = true;
     this.currentUserSubject = this.prepareSaveProfile();
-    this.profileService.putProfile(this.currentUserSubject)
-      //.pipe(takeWhileAlive(this))  // TODO: Not sure this is good idea with save profile?
-      .subscribe(
-        () => { },
-        (error: any) => {
-          this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
-        },
-        () => { this.profileForm.markAsPristine(); this.loading = false; }
-      );
+    this.subs.push(
+      this.profileService.putProfile(this.currentUserSubject)
+        .subscribe(
+          () => { },
+          (error: any) => {
+            this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
+          },
+          () => { this.profileForm.markAsPristine(); this.loading = false; }
+        )
+    );
   }
 
-  prepareSaveProfile(): CurrentUser {
+  private prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
     const saveProfile: CurrentUser = {
@@ -229,8 +291,8 @@ export class EditProfileComponent implements OnInit {
       description: formModel.description as string,
       images: this.currentUserSubject.images,
       tags: this.tagsList as string[],
-      gender: formModel.gender as string,
-      sexualOrientation: formModel.sexualOrientation as string,
+      gender: formModel.gender as GenderType,
+      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -247,11 +309,11 @@ export class EditProfileComponent implements OnInit {
       visited: this.currentUserSubject.visited,
       likes: this.currentUserSubject.likes
     };
-    
+
     return saveProfile;
   }
 
-  openDeleteCurrentUserDialog(): void {
+  private openDeleteCurrentUserDialog(): void {
     var profileIds: string[] = [this.currentUserSubject.profileId];
 
     const dialogRef = this.dialog.open(DeleteProfileDialog, {
@@ -267,22 +329,26 @@ export class EditProfileComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, SPACE];
   tagsList: string[] = [];
 
-  add(event: MatChipInputEvent): void {
+  private add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-      this.translocoService.selectTranslate('EditProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value);
+      this.subs.push(
+        this.translocoService.selectTranslate('EditProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+      );
       return;
-    }   
+    }
 
     // Add our tag
     if ((value || '').trim()) {
 
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
-        this.translocoService.selectTranslate('EditProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value);
+        this.subs.push(
+          this.translocoService.selectTranslate('EditProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+        );
         return;
       }
 
@@ -296,7 +362,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  remove(tag: string): void {
+  private remove(tag: string): void {
     const index = this.tagsList.indexOf(tag);
 
     if (index >= 0) {
@@ -305,7 +371,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  openErrorDialog(title: string, error: string): void {
+  private openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
         title: title,
@@ -315,14 +381,16 @@ export class EditProfileComponent implements OnInit {
   }
 
   // Preserve original EnumMapping order
-  originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
+  private originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
     return 0;
   }
 
-  switchLanguage() {
+  private switchLanguage(): void {
     this.translocoService.setActiveLang(this.siteLocale);
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
+      this.enumMappings.updateGenderTypeSubject();
+      this.enumMappings.updateSexualOrientationTypeSubject();
       this.enumMappings.updateClotheStyleTypeSubject();
       this.enumMappings.updateBodyTypeSubject();
       this.enumMappings.updateBodyArtTypeSubject();
@@ -339,7 +407,7 @@ export class EditProfileComponent implements OnInit {
     }, 50);
   }
 
-  switchCountry() {
+  private switchCountry(): void {
     this.openErrorDialog(this.warningText, this.countryResetText);
   }
 }

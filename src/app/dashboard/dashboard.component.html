@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div *ngIf="isTileView"><app-profile-tileview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" [orderBy]="selectedOrderBy" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)"></app-profile-tileview></div>
-  <div *ngIf="!isTileView"><app-profile-listview [length]="length" [profiles]="currentProfiles" [viewFilterType]="viewFilterType" [orderBy]="selectedOrderBy" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)" [displayedColumns]="displayedColumns"></app-profile-listview></div>
+  <div *ngIf="isTileView"><app-profile-tileview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)"></app-profile-tileview></div>
+  <div *ngIf="!isTileView"><app-profile-listview [length]="length" [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)" [displayedColumns]="displayedColumns"></app-profile-listview></div>
 
 </div>

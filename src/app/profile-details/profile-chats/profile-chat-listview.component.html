@@ -22,7 +22,7 @@
 
 
   <div [class.mobile]="mobileQuery.matches">
-    <div *ngIf="dataSource" class="mat-elevation-z8">
+    <div *ngIf="dataSource && !noFeedbacks" class="mat-elevation-z8">
 
       <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 

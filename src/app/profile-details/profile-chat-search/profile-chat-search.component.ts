@@ -34,7 +34,7 @@ export class ProfileChatSearchComponent {
     this.createForm();
   }
 
-  createForm() {
+  private createForm(): void {
     this.chatFilterForm = this.formBuilder.group({
       dateSentStart: null,
       dateSentEnd: null,
@@ -49,7 +49,7 @@ export class ProfileChatSearchComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.filter = this.prepareSearch();
 
     // Just return if no search input.
@@ -68,12 +68,12 @@ export class ProfileChatSearchComponent {
     this.getChatsByFilter.emit(this.filter);
   }
 
-  reset() {
+  reset(): void {
     this.createForm();
     this.searchResultFeedbacks = [];
   }
 
-  prepareSearch(): ChatFilter {
+  private prepareSearch(): ChatFilter {
     const formModel = this.chatFilterForm.value;
 
     const filterChat: ChatFilter = {

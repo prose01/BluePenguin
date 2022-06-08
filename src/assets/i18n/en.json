@@ -185,10 +185,18 @@
 		"Contactable": "Contactable",
 		"NotContactable": "Not Contactable",
 		"NameRequired" : "Name is required",
+		"LanguagecodeRequired" : "Language is required",
+		"CountrycodeRequired" : "Countryc is required",
 		"NameMinCharacters" : "Name must be at least 3 characters long.",
 		"NameMaxCharacters" : "Name cannot be more than 20 characters long.",
 		"GenderRequired" : "Gender is required.",
 		"SexualRequired" : "Sexual orientation is required."
+	},
+	"CreateProfileDialog" : {
+		"Title" : "Congratulations. Your profile is now created.",
+		"Content" : "Do you want to upload profile images or go to dashboard?",
+		"UploadImage" : "Upload Profile Images",
+		"GoToDashboard" : "Go to Dashboard"
 	},
 	"EditProfileComponent" : {
 		"UpdateDetails" : "Update your details",
@@ -345,6 +353,16 @@
 		"Other" : "Other",
 		"Yes" : "Yes",
 		"No" : "No"
+	},
+	"GenderType" : {
+		"Female" : "Female",
+		"Male" : "Male"
+	},
+	"SexualOrientationType" : {
+		"Heterosexual" : "Heterosexual",
+		"Homosexual" : "Homosexual",
+		"Bisexual" : "Bisexual",
+		"Asexual" : "Asexual"
 	},
 	"ClotheStyleType" : {
 		"Casual" : "Casual",

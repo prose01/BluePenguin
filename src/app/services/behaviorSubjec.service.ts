@@ -11,7 +11,7 @@ export class BehaviorSubjectService {
   currentProfileFilterSubject = this.currentProfileFilterSource.asObservable();
 
 
-  async updateCurrentProfileFilterSubject(filter: ProfileFilter) {
+  async updateCurrentProfileFilterSubject(filter: ProfileFilter): Promise<void> {
     this.currentProfileFilterSource.next(filter);
   }
 }
