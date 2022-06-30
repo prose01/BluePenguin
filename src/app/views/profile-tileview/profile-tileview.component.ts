@@ -138,7 +138,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe({
         next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+          // if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
         },
         complete: () => {},
         error: () => {}
@@ -155,7 +155,9 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe({
         next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+          // if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
+          let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+          this.currentProfiles.splice(index, 1);
         },
         complete: () => {},
         error: () => {}
