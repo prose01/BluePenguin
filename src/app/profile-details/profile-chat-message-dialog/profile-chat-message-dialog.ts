@@ -41,7 +41,11 @@ export class MessageDialog implements OnDestroy {
 
     this.subs.push(
       this.chatService.doNotDelete(messages)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {}
+      })
     );
 
     this.message.doNotDelete = true;
@@ -54,7 +58,11 @@ export class MessageDialog implements OnDestroy {
 
     this.subs.push(
       this.chatService.allowDelete(messages)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {}
+      })
     );
 
     this.message.doNotDelete = false;

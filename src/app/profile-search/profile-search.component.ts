@@ -305,11 +305,11 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.filter = this.prepareSearch();
     this.subs.push(
       this.profileService.saveProfileFilter(this.filter)
-        .subscribe(
-          () => { },        // TODO: Give feeback on succes
-          () => { this.loading = false; },
-          () => { this.loading = false; }
-        )
+      .subscribe({
+        next: () =>  {}, // TODO: Give feeback on succes
+        complete: () => { this.loading = false; },
+        error: () => { this.loading = false; }
+      })
     );
   }
 
@@ -318,11 +318,11 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.loadProfileFilter()
-        .subscribe(
-          filter => { this.loadForm(filter); },
-          () => { this.loading = false; },
-          () => { this.loading = false; }
-        )
+      .subscribe({
+        next: (filter: any) =>  { this.loadForm(filter); },
+        complete: () => { this.loading = false; },
+        error: () => { this.loading = false; }
+      })
     );
 
     this.profileForm.markAsDirty();

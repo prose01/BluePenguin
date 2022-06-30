@@ -172,19 +172,18 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.feedBackService.getUnassignedFeedbacks(countrycode, languagecode)
-        .subscribe(
-          (response: any) => {
-            this.feedbacks = new Array;
-
-            this.feedbacks.push(...response);
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
-          },
-          () => {
-            this.ngOnChanges();
-          }
-        )
+      .subscribe({
+        next: (response: any) =>  {
+          this.feedbacks = new Array;
+          this.feedbacks.push(...response);
+        },
+        complete: () => {
+          this.ngOnChanges();
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -192,13 +191,13 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   private assignFeedbackToAdmin(): void {
     this.subs.push(
       this.feedBackService.assignFeedbackToAdmin(this.selcetedFeedbackIds())
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
-          },
-          () => { }
-        )
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -225,26 +224,26 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     if (openFeedbackIds.length > 0) {
       this.subs.push(
         this.feedBackService.openFeedbacks(openFeedbackIds)
-          .subscribe(
-            () => { },
-            (error: any) => {
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
-            },
-            () => { }
-          )
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          }
+        })
       );
     }
 
     if (closeFeedbackIds.length > 0) {
       this.subs.push(
         this.feedBackService.closeFeedbacks(closeFeedbackIds)
-          .subscribe(
-            () => { },
-            (error: any) => {
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
-            },
-            () => { }
-          )
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          }
+        })
       );
     }
 
@@ -277,19 +276,19 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   getFeedbacksByFilter($event): void {
     this.subs.push(
       this.feedBackService.getFeedbacksByFilter($event)
-        .subscribe(
-          (response: any) => {
-            this.feedbacks = new Array;
+      .subscribe({
+        next: (response: any) =>  {
+          this.feedbacks = new Array;
 
-            this.feedbacks.push(...response);
-
-            this.ngOnChanges();
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
-          },
-          () => { }
-        )
+          this.feedbacks.push(...response);
+        },
+        complete: () => {
+          this.ngOnChanges();
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -311,13 +310,15 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.getProfileById(profileId)
-        .subscribe(
-          (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
-          },
-          () => { }
-        )
+      .subscribe({
+        next: (response: any) =>  {
+          profile = response; this.loadProfileDetails.emit(profile); 
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
+        }
+      })
     );
   }
 

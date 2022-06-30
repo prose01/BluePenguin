@@ -34,11 +34,12 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   private setProfileAsAdmin(): void {
     if (this.currentUserSubject.admin) {
       this.subs.push(
-        this.profileService.setAsAdmin(this.profile.profileId).subscribe(
-          (response: any) => { this.profile = response },
-          () => { },
-          () => { }
-        )
+        this.profileService.setAsAdmin(this.profile.profileId)
+        .subscribe({
+          next: (response: any) => { this.profile = response },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
   }
@@ -46,10 +47,12 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   private removeProfileAsAdmin(): void {
     if (this.currentUserSubject.admin) {
       this.subs.push(
-        this.profileService.removeAdmin(this.profile.profileId).subscribe(
-          (response: any) => { this.profile = response },
-          () => { },
-          () => { })
+        this.profileService.removeAdmin(this.profile.profileId)
+        .subscribe({
+          next: (response: any) => { this.profile = response },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
   }
@@ -68,19 +71,27 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   private addLike(): void {
     this.subs.push(
       this.profileService.addLikeToProfile(this.profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           this.profile.likes.push(this.currentUserSubject.profileId);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
   private removeLike(): void {
     this.subs.push(
       this.profileService.removeLikeFromProfile(this.profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           let index = this.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
           this.profile.likes.splice(index, 1);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
@@ -95,9 +106,13 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {}
+      })
     );
   }
 
@@ -107,9 +122,13 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {}
+      })
     );
   }
 }

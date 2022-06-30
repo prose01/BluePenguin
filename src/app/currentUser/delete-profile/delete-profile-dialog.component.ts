@@ -56,7 +56,14 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForCurrentUser();
         this.subs.push(
-          this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() })
+          this.profileService.deleteCurrentUser()
+          .subscribe({
+            next: () =>  {},
+            complete: () => { 
+              this.auth.logout() 
+            },
+            error: () => {}
+          })
         );
       }
       else if (!this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {

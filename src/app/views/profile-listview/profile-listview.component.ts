@@ -153,9 +153,13 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
       if (this.selection.selected[_i].likes?.length == 0) {
         this.subs.push(
           this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-            .subscribe(() => {
+          .subscribe({
+            next: () =>  {
               this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-            }, () => { }, () => { })
+            },
+            complete: () => {},
+            error: () => {}
+          })
         );
         return;
       }
@@ -164,18 +168,26 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
         if (this.liked(this.selection.selected[_i])) {
           this.subs.push(
             this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
-              .subscribe(() => {
+            .subscribe({
+              next: () =>  {
                 const index = this.profiles.find(x => x.profileId === profileId)?.likes.indexOf(this.currentUserSubject.profileId, 0);
                 this.profiles.find(x => x.profileId === profileId)?.likes.splice(index, 1);
-              }, () => { }, () => { })
+              },
+              complete: () => {},
+              error: () => {}
+            })
           );
         }
         else {
           this.subs.push(
             this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-              .subscribe(() => {
+            .subscribe({
+              next: () =>  {
                 this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-              }, () => { }, () => { })
+              },
+              complete: () => {},
+              error: () => {}
+            })
           );
         }
       }
@@ -202,18 +214,26 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     if (removeProfiles.length > 0) {
       this.subs.push(
         this.profileService.addLikeToProfile(profileId)
-          .subscribe(() => {
+        .subscribe({
+          next: () =>  {
             this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-          }, () => { }, () => { })
+          },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
 
     if (addProfiles.length > 0) {
       this.subs.push(
         this.profileService.addLikeToProfile(profileId)
-          .subscribe(() => {
+        .subscribe({
+          next: () =>  {
             this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-          }, () => { }, () => { })
+          },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
   }
@@ -239,20 +259,28 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     if (removeProfiles.length > 0) {
       this.subs.push(
         this.profileService.removeProfilesFromBookmarks(removeProfiles)
-          .subscribe(() => { }, () => { }, () => {
+        .subscribe({
+          next: () =>  {
             this.profileService.updateCurrentUserSubject();
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-          })
+          },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
 
     if (addProfiles.length > 0) {
       this.subs.push(
         this.profileService.addProfilesToBookmarks(addProfiles)
-          .subscribe(() => { }, () => { }, () => {
+        .subscribe({
+          next: () =>  {
             this.profileService.updateCurrentUserSubject();
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-          })
+          },
+          complete: () => {},
+          error: () => {}
+        })
       );
     }
   }
@@ -337,20 +365,20 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+            })
           );
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe(
-                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.image = defaultImageModel.image }
+            })
           );
         }
 

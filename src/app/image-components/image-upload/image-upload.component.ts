@@ -200,16 +200,19 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
         this.uploadingPhoto = true;
         this.subs.push(
           this.imageService.uploadImage(formData)
-            .subscribe(
-              (res) => {
-                if (res.status == 200) {
-                }
-              }, (error: any) => {
-                //this.openErrorDialog("Could not save image", error.error);
-                this.toggleDisplay.emit();
-              },
-              () => { this.toggleDisplay.emit(); }
-            )
+          .subscribe({
+            next: (res: any) =>  {
+              if (res.status == 200) {
+              }
+            },
+            complete: () => {
+              this.toggleDisplay.emit(); 
+            },
+            error: () => {
+              //this.openErrorDialog("Could not save image", error.error);
+              this.toggleDisplay.emit();
+            }
+          })
         );
       });
     }

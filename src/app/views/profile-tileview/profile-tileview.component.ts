@@ -135,10 +135,14 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {
           this.profileService.updateCurrentUserSubject();
           if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
@@ -148,10 +152,14 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {
           this.profileService.updateCurrentUserSubject();
           if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
@@ -159,19 +167,27 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   private addLike(profile: Profile): void {
     this.subs.push(
       this.profileService.addLikeToProfile(profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
   private removeLike(profile: Profile): void {
     this.subs.push(
       this.profileService.removeLikeFromProfile(profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
           this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
@@ -210,20 +226,20 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe(
-                  images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+              })
             );
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe(
-                  images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.image = defaultImageModel.image },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.image = defaultImageModel.image }
+              })
             );
           }
 

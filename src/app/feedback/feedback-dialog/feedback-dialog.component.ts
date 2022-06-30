@@ -46,7 +46,11 @@ export class FeedbackDialog implements OnDestroy {
 
     this.subs.push(
       this.feedBackService.openFeedbacks(feedbackIds)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {}
+      })
     );
 
     this.feedback.open = true;
@@ -59,7 +63,11 @@ export class FeedbackDialog implements OnDestroy {
 
     this.subs.push(
       this.feedBackService.closeFeedbacks(feedbackIds)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {}
+      })
     );
 
     this.feedback.open = false;

@@ -101,7 +101,13 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   private blockChatMembers(): void {
     this.subs.push(
       this.profileService.blockChatMembers(this.selcetedProfileIds())
-        .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.updateCurrentUserSubject() 
+        },
+        error: () => {}
+      })
     );
   }
 
@@ -163,29 +169,29 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.getProfileById(chatMember.profileId)
-        .subscribe(
-          res => profile = res,
-          () => { },
-          () => {
-            this.getProfileImages(profile);
+      .subscribe({
+        next: (res: any) =>  { profile = res },
+        complete: () => {          
+          this.getProfileImages(profile);
 
-            const dialogRef = this.dialog.open(ImageDialog, {
-              data: {
-                index: 0,
-                imageModels: profile.images,
-                profile: profile
+          const dialogRef = this.dialog.open(ImageDialog, {
+            data: {
+              index: 0,
+              imageModels: profile.images,
+              profile: profile
+            }
+          });
+
+          this.subs.push(
+            dialogRef.afterClosed().subscribe(
+              res => {
+                if (res === true) { this.loadDetails(profile) }
               }
-            });
-
-            this.subs.push(
-              dialogRef.afterClosed().subscribe(
-                res => {
-                  if (res === true) { this.loadDetails(profile) }
-                }
-              )
-            );
-          }
-        )
+            )
+          );
+        },
+        error: () => {}
+      })
     );
   }
 
@@ -203,20 +209,20 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe(
-                  images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+              })
             );
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe(
-                  images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.image = defaultImageModel.image },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.image = defaultImageModel.image }
+              })
             );
           }
 

@@ -95,13 +95,15 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     this.feedback = this.prepareFeedback();
     this.subs.push(
       this.feedBackService.addFeedback(this.feedback)
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-          },
-          () => { this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); }
-        )
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); 
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+        }
+      })
     );
   }
 

@@ -67,19 +67,27 @@ export class ImageDialog implements OnInit, OnDestroy {
   private addLike(): void {
     this.subs.push(
       this.profileService.addLikeToProfile(this.data.profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           this.data.profile.likes.push(this.currentUserSubject.profileId);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
   private removeLike(): void {
     this.subs.push(
       this.profileService.removeLikeFromProfile(this.data.profile.profileId)
-        .subscribe(() => {
+      .subscribe({
+        next: () =>  {
           let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
           this.data.profile.likes.splice(index, 1);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {}
+      })
     );
   }
 
@@ -95,9 +103,13 @@ export class ImageDialog implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {}
+      })
     );
   }
 
@@ -107,9 +119,13 @@ export class ImageDialog implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {}
+      })
     );
   }
 }

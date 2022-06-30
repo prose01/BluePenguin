@@ -65,20 +65,20 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestro
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+            })
           );
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe(
-                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.image = defaultImageModel.image }
+            })
           );
         }
 

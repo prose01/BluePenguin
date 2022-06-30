@@ -261,13 +261,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.currentUserSubject = this.prepareSaveProfile();
     this.subs.push(
       this.profileService.putProfile(this.currentUserSubject)
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
-          },
-          () => { this.profileForm.markAsPristine(); this.loading = false; }
-        )
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.profileForm.markAsPristine(); this.loading = false; 
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
+        }
+      })
     );
   }
 

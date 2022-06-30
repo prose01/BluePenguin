@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   currentUserSubject: CurrentUser;
   isProfileCreated: boolean = false;
 
-  useChat = false; // Get from Config! Turns off Chat :)
+  useChat = false; // TODO: Get from Config! Turns off Chat :)
 
   pageView: pageViewEnum = pageViewEnum.Dashboard;
   matButtonToggleText: string;

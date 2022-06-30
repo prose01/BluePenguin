@@ -266,18 +266,10 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     }
     else if (this.newUserForm.valid) {
       this.subs.push(
-        this.profileService.addProfile(this.currentUser).subscribe(
-          () => { },
-          (error: any) => {
-            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: this.currentUser.languagecode, uploadImageClick: false });
-            if (error.status === 400) {
-              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
-            }
-            else {
-              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), null);
-            }
-          },
-          () => {
+        this.profileService.addProfile(this.currentUser)
+        .subscribe({
+          next: () =>  {},
+          complete: () => {
             this.profileService.updateCurrentUserSubject();
             this.initDefaultData.emit(); // TODO: Move to Photo tab after Create
 
@@ -290,7 +282,17 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
               }
             }
             );
-          })
+          },
+          error: (error: any) => {
+            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: this.currentUser.languagecode, uploadImageClick: false });
+            if (error.status === 400) {
+              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
+            }
+            else {
+              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), null);
+            }
+          }
+        })
       );
     }
   }
