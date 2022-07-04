@@ -48,7 +48,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
-    this.randomImageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.randomImageSize = this.configurationLoader.getConfiguration().randomImageSize;
   }
 
   ngOnInit(): void {
@@ -70,9 +70,15 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       return el != null;
     });
 
-    // Set random image size
+    // Set random image size.
     for (var i = 0, len = this.profiles?.length; i < len; i++) {
       this.imageSize.push(this.randomSize());
+    }
+
+    // In case we only have small images set at leas one.
+    if (!this.imageSize.includes('big')){
+      this.imageSize[this.randomImageSize] = 'big'
+      console.log('No bigsss');
     }
 
     if (this.profiles?.length > 0) {

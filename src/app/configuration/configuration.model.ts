@@ -11,7 +11,7 @@ export type Configuration = {
   imageMaxHeight: number;
   defaultAge: number;
   defaultPageSize: number;
+  randomImageSize: number;
   languageList: Array<any>;
   countryList: Array<any>;
-  randomImageSize: number;
 }
