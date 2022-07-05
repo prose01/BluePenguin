@@ -53,6 +53,7 @@ import { CurrentUserImagesComponent }         from './currentUser/currentUser-im
 import { DashboardComponent }                 from './dashboard/dashboard.component';
 import { ProfileListviewComponent }           from './views/profile-listview/profile-listview.component';
 import { ProfileTileviewComponent }           from './views/profile-tileview/profile-tileview.component';
+import { AdTileComponent }                    from './ad-tile/ad-tile.component';
 
 import { ProfileDetailsBoardComponent }       from './profile-details/profile-details-board/profile-details-board.component';
 import { ProfileDetailsComponent }            from './profile-details/profile-details/profile-details.component';
@@ -108,6 +109,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     CallbackComponent,
     ProfileListviewComponent,
     ProfileTileviewComponent,
+    AdTileComponent,
     ProfileSearchComponent,
     DeleteProfileDialog,
     ImageBoardComponent,

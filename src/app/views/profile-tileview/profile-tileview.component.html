@@ -113,12 +113,14 @@
        (scrolledUp)="onScrollUp()">
     <div *ngFor="let profile of currentProfiles; let i = index" [ngClass]="imageSize[i]">
 
-      <img [lazyLoad]="profile.images[profile.imageNumber]?.image" (click)="openImageDialog(profile)">
+      <ad-tile *ngIf="profile==='ad'"></ad-tile>
+
+      <img *ngIf="profile!=='ad'" [lazyLoad]="profile.images[profile.imageNumber]?.image" (click)="openImageDialog(profile)">
       <i class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'TileViewComponent.VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</i>
       <i class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'TileViewComponent.BookmarkedMe'| transloco}}">bookmark_added</i>
-      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>
+      <i class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'TileViewComponent.NotContactable'| transloco}}">person_off</i>
       <!--<div>{{i}}</div>-->
-      <div class="overlay">
+      <div *ngIf="profile!=='ad'" class="overlay">
         <div class="supporting">
           <span class="label">{{profile.name}}</span>
           <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'TileViewComponent.DeleteProfile'| transloco}}">

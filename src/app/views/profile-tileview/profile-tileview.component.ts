@@ -36,11 +36,12 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   noProfiles: boolean = false;
   loading: boolean = false;
 
-  currentProfiles: Profile[] = [];
+  currentProfiles: any[] = [];
   imageSize: string[] = []
-  randomImageSize: number;
+  randomImagePlace: number;
+  randomAdPlace: number;
 
-  @Input() profiles: Profile[];
+  @Input() profiles: any[];
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
@@ -48,7 +49,8 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
-    this.randomImageSize = this.configurationLoader.getConfiguration().randomImageSize;
+    this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
+    this.randomAdPlace = this.configurationLoader.getConfiguration().randomAdPlace;
   }
 
   ngOnInit(): void {
@@ -69,6 +71,9 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
+    
+    // Add random ad-tile
+    this.profiles?.splice(this.randomAdTile(), 0, "ad");
 
     // Set random image size.
     for (var i = 0, len = this.profiles?.length; i < len; i++) {
@@ -77,13 +82,15 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
     // In case we only have small images set at leas one.
     if (!this.imageSize.includes('big')){
-      this.imageSize[this.randomImageSize] = 'big'
+      this.imageSize[this.randomImagePlace] = 'big'
       console.log('No bigsss');
     }
 
     if (this.profiles?.length > 0) {
       this.currentProfiles.push(...this.profiles);
     }
+
+    // this.currentProfiles.splice(this.randomAdTile(), 0, "ad");
     //this.currentProfiles.splice(0, 5);
 
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
@@ -266,13 +273,18 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
   // Set random tilesize for images.
   private randomSize(): string {
-    var randomInt = this.randomIntFromInterval(1, this.randomImageSize);
+    var randomInt = this.randomIntFromInterval(1, this.randomImagePlace);
 
     if (randomInt === 1) {
       return 'big';
     }
 
     return 'small';
+  }
+
+  // Set ad-tile at random.
+  private randomAdTile(): number {
+    return this.randomIntFromInterval(1, this.randomAdPlace);
   }
 
   private randomIntFromInterval(min, max): number { // min and max included
