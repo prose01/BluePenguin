@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get latest Profiles. 
   private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Filtered Profiles.
   private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Bookmarked Profiles.
   private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -205,7 +205,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Profiles by searchfilter. 
   private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -227,7 +227,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Profiles who has visited my profile.
   private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -249,7 +249,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Profiles who has visited my profile.
   private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
@@ -270,7 +270,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   // Get Profiles who like my profile.
   private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+    // console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
       .subscribe({
