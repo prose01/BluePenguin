@@ -72,8 +72,16 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       return el != null;
     });
     
-    // Add random ad-tile
-    this.profiles?.splice(this.randomAdTile(), 0, "ad");
+    // Add random ad-tile.
+    for (let index = 0; index < this.profiles?.length; index++) {
+
+      // Group list of Profiles by randomAdPlace.
+      if(index != 0 && index % this.randomAdPlace === 0){
+        // Select random index within group and apply ad-tile.
+        var i = this.randomIntFromInterval(index - this.randomAdPlace, index);
+        this.profiles?.splice(i, 0, 'ad');
+      }
+    }
 
     // Set random image size.
     for (var i = 0, len = this.profiles?.length; i < len; i++) {
@@ -81,9 +89,8 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     // In case we only have small images set at leas one.
-    if (!this.imageSize.includes('big')){
+    if (this.profiles?.length > 0 && !this.imageSize.includes('big')){
       this.imageSize[this.randomImagePlace] = 'big'
-      console.log('No bigsss');
     }
 
     if (this.profiles?.length > 0) {
