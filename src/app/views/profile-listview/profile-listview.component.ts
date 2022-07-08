@@ -27,6 +27,7 @@ import { OrderByType } from '../../models/enums';
 
 export class ProfileListviewComponent implements OnChanges, OnDestroy {
   pageSize: number;
+  randomAdPlace: number;
   loading: boolean = false;
 
   allowAssignment: boolean = false;
@@ -38,7 +39,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
   currentUserSubject: CurrentUser;
   noProfiles: boolean = false;
 
-  @Input() profiles: Profile[];
+  @Input() profiles: any[];
   @Input() length: number;
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
@@ -51,6 +52,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.randomAdPlace = this.configurationLoader.getConfiguration().randomAdPlace;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
@@ -72,6 +74,17 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     this.profiles = this.profiles?.filter(function (el) {
       return el != null;
     });
+
+    // Add random ad-tile. TODO: Set the ad row to full width.
+    for (let index = 0; index < this.profiles?.length; index++) {
+
+      // Group list of Profiles by randomAdPlace.
+      if(index != 0 && index % this.randomAdPlace === 0){
+        // Select random index within group and apply ad-tile.
+        var i = this.randomIntFromInterval(index - this.randomAdPlace, index);
+        this.profiles?.splice(i, 0, 'ad');
+      }
+    }
 
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
@@ -392,5 +405,9 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
   private liked(profile: Profile): string {
     return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }

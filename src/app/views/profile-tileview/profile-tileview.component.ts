@@ -289,11 +289,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     return 'small';
   }
 
-  // Set ad-tile at random.
-  private randomAdTile(): number {
-    return this.randomIntFromInterval(1, this.randomAdPlace);
-  }
-
   private randomIntFromInterval(min, max): number { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
   }

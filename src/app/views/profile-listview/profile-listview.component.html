@@ -25,11 +25,13 @@
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
+          <mat-checkbox *ngIf="row!=='ad'" (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)"
                         [aria-label]="checkboxLabel(row)">
           </mat-checkbox>
+          <!-- TODO: Set the ad row to full width. -->
+          <ad-row *ngIf="row==='ad'"></ad-row>  
         </td>
       </ng-container>
 
@@ -105,7 +107,8 @@
       <ng-container matColumnDef="contactable">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ListViewComponent.Contactable'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
-          <i class="material-icons icon-white" *ngIf="!element.contactable" matTooltip="{{'ListViewComponent.NotContactable'| transloco}}">person_off</i>
+          <!-- <i class="material-icons icon-white" *ngIf="!element.contactable" matTooltip="{{'ListViewComponent.NotContactable'| transloco}}">person_off</i> -->
+          <ad-row *ngIf="element==='ad'"></ad-row> 
         </td>
       </ng-container>
 
