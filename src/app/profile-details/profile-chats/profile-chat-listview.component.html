@@ -44,22 +44,11 @@
           </td>
 
         </ng-container>
-        <!-- FromId Column -->
-        <ng-container matColumnDef="fromId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromId'| transloco}} </th>
-          <td mat-cell *matCellDef="let element"> {{element?.fromId}} </td>
-        </ng-container>
 
         <!-- FromName Column -->
         <ng-container matColumnDef="fromName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromName'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.fromName}} </td>
-        </ng-container>
-
-        <!-- ToId Column -->
-        <ng-container matColumnDef="toId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToId'| transloco}} </th>
-          <td mat-cell *matCellDef="let element"> {{element?.toId}} </td>
         </ng-container>
 
         <!-- ToName Column -->
