@@ -229,7 +229,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       bodyArt: filter.bodyArt
     });
 
-    this.tagsList.push.apply(this.tagsList, filter.tags);
+    this.tagsList = filter.tags;
   }
 
   onSubmit(): void {
