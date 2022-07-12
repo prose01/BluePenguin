@@ -251,7 +251,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.prefilForm();
       this.switchLanguage();
-    }, 50);
+    }, 50);   
+
+    this.subs.push(
+      this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.profileForm.controls.tags.setErrors({ 'incorrect': false });
 
     this.profileForm.markAsPristine();
   }
@@ -340,6 +345,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.translocoService.selectTranslate('EditProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+      
       return;
     }
 
@@ -351,6 +363,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         this.subs.push(
           this.translocoService.selectTranslate('EditProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+        
         return;
       }
 
@@ -361,6 +380,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 

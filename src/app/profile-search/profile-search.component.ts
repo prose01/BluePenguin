@@ -266,6 +266,12 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.tagsList.length = 0;
     this.createForm();
     this.searchResultProfiles = [];
+
+    this.subs.push(
+      this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.profileForm.controls.tags.setErrors({ 'incorrect': false });
+    this.profileForm.markAsPristine();
   }
 
   private prepareSearch(): ProfileFilter {
@@ -341,26 +347,40 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     const input = event.input;
     const value = event.value;
 
+    // Check for max number of tags.
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
       this.subs.push(
         this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
-      //this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+      
       return;
     }
 
     // Add our tag
     if ((value || '').trim()) {
 
+      // Check Max 20 characters long.
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
         this.subs.push(
           this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
-        //this.tagsPlaceholder = "Max 20 characters long.";
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+
         return;
       }
 
@@ -371,6 +391,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 

@@ -223,6 +223,12 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.Name');
     this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.Gender');
     this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualOrientationType');
+
+    this.subs.push(
+      this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.newUserForm.controls.tags.setErrors({ 'incorrect': false });
+    this.newUserForm.markAsPristine();
   }
 
   private onSubmit(): void {
@@ -356,6 +362,13 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.translocoService.selectTranslate('CreateProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+
       return;
     }
 
@@ -367,6 +380,13 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
         this.subs.push(
           this.translocoService.selectTranslate('CreateProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+
         return;
       }
 
@@ -377,6 +397,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 
