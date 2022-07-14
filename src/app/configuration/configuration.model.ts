@@ -12,7 +12,8 @@ export type Configuration = {
   defaultAge: number;
   defaultPageSize: number;
   randomImagePlace: number;
-  randomAdPlace: number;
+  adGroup: number;
+  adGroupProfile: number;
   languageList: Array<any>;
   countryList: Array<any>;
 }

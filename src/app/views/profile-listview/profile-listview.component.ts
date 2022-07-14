@@ -27,7 +27,7 @@ import { OrderByType } from '../../models/enums';
 
 export class ProfileListviewComponent implements OnChanges, OnDestroy {
   pageSize: number;
-  randomAdPlace: number;
+  adGroup: number;
   loading: boolean = false;
 
   allowAssignment: boolean = false;
@@ -52,7 +52,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
-    this.randomAdPlace = this.configurationLoader.getConfiguration().randomAdPlace;
+    this.adGroup = this.configurationLoader.getConfiguration().adGroup;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
@@ -78,10 +78,10 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     // Add random ad-tile. TODO: Set the ad row to full width.
     for (let index = 0; index < this.profiles?.length; index++) {
 
-      // Group list of Profiles by randomAdPlace.
-      if(index != 0 && index % this.randomAdPlace === 0){
+      // Group list of Profiles by AdGroup.
+      if (index != 0 && index % this.adGroup === 0){
         // Select random index within group and apply ad-tile.
-        var i = this.randomIntFromInterval(index - this.randomAdPlace, index);
+        var i = this.randomIntFromInterval(index - this.adGroup, index);
         this.profiles?.splice(i, 0, 'ad');
       }
     }

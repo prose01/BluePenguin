@@ -39,7 +39,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   currentProfiles: any[] = [];
   imageSize: string[] = []
   randomImagePlace: number;
-  randomAdPlace: number;
+  adGroup: number;
 
   @Input() profiles: any[];
   @Input() viewFilterType: ViewFilterTypeEnum;
@@ -50,7 +50,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
-    this.randomAdPlace = this.configurationLoader.getConfiguration().randomAdPlace;
+    this.adGroup = this.configurationLoader.getConfiguration().adGroup;
   }
 
   ngOnInit(): void {
@@ -75,10 +75,10 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     // Add random ad-tile.
     for (let index = 0; index < this.profiles?.length; index++) {
 
-      // Group list of Profiles by randomAdPlace.
-      if(index != 0 && index % this.randomAdPlace === 0){
+      // Group list of Profiles by AdGroup.
+      if (index != 0 && index % this.adGroup === 0){
         // Select random index within group and apply ad-tile.
-        var i = this.randomIntFromInterval(index - this.randomAdPlace, index);
+        var i = this.randomIntFromInterval(index - this.adGroup, index);
         this.profiles?.splice(i, 0, 'ad');
       }
     }
