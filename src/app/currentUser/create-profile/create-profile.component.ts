@@ -74,7 +74,6 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   countrycodePlaceholder: string;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
-  @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
@@ -232,7 +231,9 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   }
 
   private onSubmit(): void {
+
     this.currentUser = this.prepareSaveProfile();
+
     if (this.newUserForm.invalid) {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
@@ -274,23 +275,13 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.profileService.addProfile(this.currentUser)
         .subscribe({
-          next: () =>  {},
-          complete: () => {
+          next: () => {
             this.profileService.updateCurrentUserSubject();
-            this.initDefaultData.emit(); // TODO: Move to Photo tab after Create
-
-            this.openCreateProfileDialog().then(res => {
-              if (res) {
-                this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: false });
-              }
-              else {
-                this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: true });
-              }
-            }
-            );
+          },
+          complete: () => {
+            this.openCreateProfileDialog();
           },
           error: (error: any) => {
-            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: this.currentUser.languagecode, uploadImageClick: false });
             if (error.status === 400) {
               this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
             }
@@ -446,7 +437,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  private async openCreateProfileDialog(): Promise<boolean> {
+  private openCreateProfileDialog(): void {
 
     const dialogRef = this.dialog.open(CreateProfileDialog);
 
@@ -454,15 +445,13 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe(
         res => {
           if (res === true) {
-            return Promise.resolve(true);
+            this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: true });
           }
           else {
-            return Promise.resolve(false);
+            this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: false });
           }
         }
       )
     );
-
-    return Promise.resolve(false);
   }
 }

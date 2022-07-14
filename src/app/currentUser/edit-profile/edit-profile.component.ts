@@ -86,7 +86,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.push(
-      this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); })
+      this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject;
+        this.prefilForm();
+      })
     );
     this.subs.push(
       this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)

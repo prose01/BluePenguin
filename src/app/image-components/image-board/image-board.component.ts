@@ -38,7 +38,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
         .subscribe(
           currentUserSubject => {
             this.currentUserSubject = currentUserSubject;
-            this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
+            this.morePhotosAllowed = this.maxPhotos > currentUserSubject?.images.length ? true : false;
           }
         )
     );
@@ -56,6 +56,11 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   }
 
   private getCurrentUserImages(): void {
+
+    // If there is no this.currentUserSubject yet don't even try.
+    if(this.currentUserSubject == null){
+      return;
+    }
 
     let defaultImageModel: ImageModel = new ImageModel();
 
@@ -95,7 +100,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   private refreshCurrentUserImages(): void {
     this.profileService.updateCurrentUserSubject().then(() => {
       this.getCurrentUserImages();
-      this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject.images.length ? true : false;
+      this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject?.images.length ? true : false;
     });
   }
 

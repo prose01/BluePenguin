@@ -166,11 +166,11 @@
       </div>
 
       <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">
-        <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)" (initDefaultData)="initDefaultData()"></create-profile>
+        <create-profile (isCurrentUserCreated)="isCurrentUserCreated($event)"></create-profile>
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Edit'">
-        <currentUserBoard (loadDetails)="loadDetails($event)" [CurrentUserBoardTabIndex]="tabIndex"><edit-profile></edit-profile></currentUserBoard>
+        <currentUserBoard (loadDetails)="loadDetails($event)" [tabIndex]="CurrentUserBoardTabIndex"><edit-profile></edit-profile></currentUserBoard>
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Details'">

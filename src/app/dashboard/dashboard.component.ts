@@ -63,7 +63,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
         );
 
-        this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
+        // Check if user allready exist. Name is mandatory.
+        if (this.currentUserSubject?.name != null) {
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false }); 
+        }
+
         this.getLatestProfiles();
       },
         (error: any) => {

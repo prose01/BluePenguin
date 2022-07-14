@@ -313,6 +313,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // Load Edit page
   private loadEdit(): void {
     if (this.pageView != pageViewEnum.Edit) {
+      this.CurrentUserBoardTabIndex = 0;
       this.pageView = pageViewEnum.Edit;
     }
     else {
