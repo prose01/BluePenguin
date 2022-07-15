@@ -39,6 +39,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   titlePlaceholder: string;
   uploadingPhoto: boolean = false;
   fileSizeLimit: number;
+  imageTitleMaxLength: number;
   imageMaxWidth: number;
   imageMaxHeight: number;
 
@@ -46,6 +47,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
   constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
+    this.imageTitleMaxLength = this.configurationLoader.getConfiguration().imageTitleMaxLength;
     this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
     this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
     this.createForm();
@@ -65,7 +67,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.uploadImageForm = this.formBuilder.group({
       file: null,
-      title: [null, [Validators.maxLength(25)]]
+      title: [null, [Validators.maxLength(this.imageTitleMaxLength)]]
     });
   }
 
@@ -75,7 +77,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength : this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
     }
@@ -181,7 +183,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength: this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
 

@@ -115,21 +115,21 @@
 		"RemoveProfileAsAdmin": "Remove Profile as Admin",
 		"DeleteProfile": "Delete profile(s)"
 	},
-	"ImageUploadComponent" : {
-		"TitlePlaceholder" : "Please insert an image title.",
-		"TitlePlaceholderError" : "Title cannot be more than 25 characters long.",
-		"ChooseFile" : "Choose File",
-		"Upload" : "Upload",
-		"ResetImage" : "Reset image",
-		"Zoom+" : "Zoom +",
-		"Zoom-" : "Zoom -",
-		"RotateRight" : "Rotate right",
-		"RotateLeft" : "Rotate left",
-		"FlipHorizontal" : "Flip horizontal",
-		"FlipVertical" : "Flip vertical",
-		"CouldNotUploadImage" : "Could not upload image.",
-		"ImageSizeLimit" : "Image has exceeded the maximum size of {{limitMB}} MB."
-	},
+  "ImageUploadComponent": {
+    "TitlePlaceholder": "Please insert an image title.",
+    "TitlePlaceholderError": "Title cannot be more than {{imageTitleMaxLength}} characters long.",
+    "ChooseFile": "Choose File",
+    "Upload": "Upload",
+    "ResetImage": "Reset image",
+    "Zoom+": "Zoom +",
+    "Zoom-": "Zoom -",
+    "RotateRight": "Rotate right",
+    "RotateLeft": "Rotate left",
+    "FlipHorizontal": "Flip horizontal",
+    "FlipVertical": "Flip vertical",
+    "CouldNotUploadImage": "Could not upload image.",
+    "ImageSizeLimit": "Image has exceeded the maximum size of {{limitMB}} MB."
+  },
 	"ImageDialogComponent" : {
 		"Close" : "Close",
 		"Next" : "Next",

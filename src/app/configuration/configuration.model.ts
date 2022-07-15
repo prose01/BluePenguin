@@ -9,6 +9,7 @@ export type Configuration = {
   fileSizeLimit: number;
   imageMaxWidth: number;
   imageMaxHeight: number;
+  imageTitleMaxLength: number;
   defaultAge: number;
   defaultPageSize: number;
   randomImagePlace: number;

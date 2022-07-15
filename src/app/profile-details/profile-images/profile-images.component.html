@@ -1,6 +1,6 @@
 <div class="grid grid-pad">
 
-  <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
+  <!--<ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
     <li class="mdc-image-list__item" *ngFor="let image of profile.images;let indexOfelement=index;">
 
       <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
@@ -15,6 +15,37 @@
       </a>
 
     </li>
-  </ul>
+  </ul>-->
+  <!--<ul>
+    <li *ngFor="let image of profile.images;let indexOfelement=index;">
+
+      <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
+
+      <a *ngIf="profile.images[indexOfelement].imageId!=='ad'" (click)="openImageDialog(indexOfelement)">
+        <img [lazyLoad]="profile.images[indexOfelement].image" [defaultImage]="profile.images[indexOfelement].smallimage">
+        <div class="overlay">
+          <div class="supporting">
+            <span class="label">{{profile.images[indexOfelement].title}}</span>
+          </div>
+        </div>
+      </a>
+
+    </li>
+  </ul>-->
+
+  <div class="profile-list-grid">
+    <div *ngFor="let image of profile.images;let indexOfelement=index" [ngClass]="imageSize[indexOfelement]">
+
+      <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
+
+      <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" [lazyLoad]="profile.images[indexOfelement].image" [defaultImage]="profile.images[indexOfelement].smallimage" (click)="openImageDialog(indexOfelement)">
+      <div *ngIf="profile.images[indexOfelement].imageId!=='ad'" class="overlay">
+        <div class="supporting">
+          <span class="label">{{profile.images[indexOfelement].title}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>

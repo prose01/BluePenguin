@@ -14,11 +14,14 @@ import { Profile } from '../../models/profile';
 
 export class ProfileImagesComponent {
 
+  randomImagePlace: number;
   adGroupProfile: number;
+  imageSize: string[] = []
 
   @Input() profile: Profile;
 
   constructor(private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+    this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroupProfile = this.configurationLoader.getConfiguration().adGroupProfile;
   }
 
@@ -35,6 +38,27 @@ export class ProfileImagesComponent {
         this.profile.images?.splice(i, 0, adImage);
       }
     }
+
+    // Set random image size.
+    for (var i = 0, len = this.profile.images?.length; i < len; i++) {
+      this.imageSize.push(this.randomSize());
+    }
+
+    // In case we only have small images set at leas one.
+    if (this.profile.images?.length > 0 && !this.imageSize.includes('big')) {
+      this.imageSize[this.randomImagePlace] = 'big'
+    }
+  }
+
+  // Set random tilesize for images.
+  private randomSize(): string {
+    var randomInt = this.randomIntFromInterval(1, this.randomImagePlace);
+
+    if (randomInt === 1) {
+      return 'big';
+    }
+
+    return 'small';
   }
 
   private randomIntFromInterval(min, max): number { // min and max included
