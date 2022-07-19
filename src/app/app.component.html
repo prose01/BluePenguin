@@ -61,19 +61,19 @@
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
         <!--[disabled]="profileForm.pristine"-->
-        <button type="submit" (click)="onSubmit()"
+        <button *ngIf="allowSearch" type="submit" (click)="onSubmit()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
           <i class="material-icons">search</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
-        <button type="button" (click)="reset()"
+        <button *ngIf="allowSearch" type="button" (click)="reset()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Reset'| transloco}}">
           <i class="material-icons">undo</i>
         </button>
 
         <!--[disabled]="profileForm.pristine"-->
-        <button type="button" (click)="saveSearch()"
+        <button *ngIf="allowSearch" type="button" (click)="saveSearch()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'SaveSearchFilter'| transloco}}">
           <i class="material-icons">save</i>
         </button>
@@ -144,7 +144,7 @@
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
     <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
       <div *ngIf="pageView === 'Search'">
-        <app-profile-search (getProfileByFilter)="getProfileByFilter()" (toggleDisplay)="toggleDisplay()"></app-profile-search>
+        <app-profile-search (getProfileByFilter)="getProfileByFilter()" (toggleDisplay)="toggleDisplay()" (activateSearch)="activateSearch($event)"></app-profile-search>
       </div>
     </mat-sidenav>
 

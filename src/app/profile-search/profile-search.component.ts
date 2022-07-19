@@ -74,6 +74,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
+  @Output() activateSearch: EventEmitter<any> = new EventEmitter();
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
@@ -94,6 +95,18 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
         if (currentProfileFilterSubject) {
           this.loadForm(currentProfileFilterSubject);
           this.profileForm.markAsDirty();
+          this.activateSearch.emit({ allowSearch: true });
+        }
+      })
+    );
+
+    this.subs.push(
+      this.profileForm.statusChanges.subscribe(value => {
+        if (this.profileForm.status == 'VALID') {
+          this.activateSearch.emit({ allowSearch: true });
+        }
+        else {
+          this.activateSearch.emit({ allowSearch: false });
         }
       })
     );
@@ -255,7 +268,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.filter.clotheStyle == ClotheStyleType.NotChosen &&
       this.filter.bodyArt == BodyArtType.NotChosen) {
 
-      this.toggleDisplay.emit()
+      this.toggleDisplay.emit();
       return;
     }
     this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
@@ -271,7 +284,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
     );
     this.profileForm.controls.tags.setErrors({ 'incorrect': false });
+
     this.profileForm.markAsPristine();
+    this.activateSearch.emit({ allowSearch: false });
+    this.subs.push(
+      this.profileForm.statusChanges.subscribe(value => {
+        if (this.profileForm.status == 'VALID') {
+          this.activateSearch.emit({ allowSearch: true });
+        }
+        else {
+          this.activateSearch.emit({ allowSearch: false });
+        }
+      })
+    );
   }
 
   private prepareSearch(): ProfileFilter {
@@ -384,6 +409,13 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
         return;
       }
 
+      this.subs.push(
+        this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+      );
+
+      this.profileForm.controls.tags.setErrors(null);
+
+      this.activateSearch.emit({ allowSearch: true });
       this.tagsList.push(value.trim());
       this.profileForm.markAsDirty();
     }

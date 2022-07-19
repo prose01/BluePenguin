@@ -50,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   profile: Profile;
   filter: ProfileFilter;
+  allowSearch: boolean = false;
   lastCalledFilter: string = "getLatestProfiles";
   pageSize: number;
 
@@ -267,6 +268,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private reset(): void {
     this.profileSearchComponent.reset();
+  }
+
+  private activateSearch(event: any): void {
+    this.allowSearch = event.allowSearch
   }
 
   private saveSearch(): void {
