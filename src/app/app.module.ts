@@ -65,6 +65,7 @@ import { MessageDialog }                      from './profile-details/profile-ch
 
 import { ProfileSearchComponent }             from './profile-search/profile-search.component';
 import { AboutComponent }                     from './about/about.component';
+import { AdminComponent }                    from './admin/admin.component';
 import { FeedbackComponent }                  from './feedback/feedback.component';
 import { FeedbackAdminComponent }             from './feedback/feedbackAdmin/feedback.admin.component';
 import { FeedbackSearchComponent }            from './feedback/feedback-search/feedback-search.component';
@@ -100,6 +101,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ProfileChatSearchComponent,
     MessageDialog,
     AboutComponent,
+    AdminComponent,
     FeedbackComponent,
     FeedbackAdminComponent,
     FeedbackSearchComponent,

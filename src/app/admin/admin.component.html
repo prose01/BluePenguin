@@ -1,0 +1,16 @@
+<div class="grid grid-pad">
+  <div>
+    <h3>{{'AdminComponent.Admin'| transloco}}</h3>
+
+    <button type="button" (click)="deleteOldProfiles()"
+            class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
+      <i class="material-icons">delete_forever</i>
+    </button>
+
+    <button type="button" (click)="cleanCurrentUser()"
+            class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'AdminComponent.CleanCurrentUser'| transloco}}">
+      <i class="material-icons">cleaning_services</i>
+    </button>
+
+  </div>
+</div>

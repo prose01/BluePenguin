@@ -63,6 +63,7 @@ export class ProfileService {
   deleteCurrentUser(): Observable<{}> {
     return this.http.delete(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
       .pipe(
+        retry(3),
         catchError(this.handleError)
       );
   }
@@ -284,6 +285,14 @@ export class ProfileService {
       .set('PageSize', pageSize);
 
     return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoLikesMe`, { headers: this.headers, params: params })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteOldProfiles(): Observable<{}> {
+    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)

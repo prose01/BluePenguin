@@ -59,8 +59,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   CurrentUserBoardTabIndex: number = 1;
 
-  isAdmin: boolean = false;
-
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -86,8 +84,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.initiateTransloco();
-
-    setTimeout(() => { this.isAdmin = this.currentUserSubject?.admin; }, 5000);
   }
 
   ngOnDestroy(): void {
@@ -365,6 +361,24 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Load Delete Old Profiles Admin
+  private loadAdmin(): void {
+
+    if (this.pageView != pageViewEnum.Admin) {
+      this.pageView = pageViewEnum.Admin;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.toggleViewDisplay();
+      this.matButtonToggleText = this.translocoService.translate('Search');
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
+  }
+
   private loadDashboard(): void {
     this.pageView = pageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
@@ -404,5 +418,6 @@ export enum pageViewEnum {
   "Details" = "Details",
   "About" = "About",
   "Feedback" = "Feedback",
-  "FeedbackAdmin" = "FeedbackAdmin"
+  "FeedbackAdmin" = "FeedbackAdmin",
+  "Admin" = "Admin"
 }

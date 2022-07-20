@@ -118,15 +118,21 @@
       {{'About'| transloco}}
       <i class="material-icons">plus_one</i>
     </a>
-    <div *ngIf="!isAdmin">
+    <div *ngIf="!currentUserSubject?.admin">
       <a (click)="loadFeedback()" mat-menu-item>
         {{'Feedback'| transloco}}
         <i class="material-icons">plus_one</i>
       </a>
     </div>
-    <div *ngIf="isAdmin">
+    <div *ngIf="currentUserSubject?.admin">
       <a (click)="loadFeedbackAdmin()" mat-menu-item>
         {{'FeedbackAdmin'| transloco}}
+        <i class="material-icons">person</i>
+      </a>
+    </div>
+    <div *ngIf="currentUserSubject?.admin">
+      <a (click)="loadAdmin()" mat-menu-item>
+        {{'Admin'| transloco}}
         <i class="material-icons">person</i>
       </a>
     </div>
@@ -163,6 +169,10 @@
 
       <div *ngIf="pageView === 'FeedbackAdmin'">
         <feedback-admin (loadProfileDetails)="loadDetails($event)"></feedback-admin>
+      </div>
+
+      <div *ngIf="pageView === 'Admin'">
+        <admin></admin>
       </div>
 
       <div *ngIf="!isProfileCreated && pageView != 'About' && pageView != 'Feedback'">
