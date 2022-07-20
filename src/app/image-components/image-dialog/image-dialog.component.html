@@ -3,7 +3,7 @@
     <i class="material-icons">close</i>
   </button>
 
-  <img class="mdc-image-list__image" [lazyLoad]="data.imageModels[index].image" [defaultImage]="data.imageModels[index].smallimages">
+  <img [lazyLoad]="data.imageModels[index].image" [defaultImage]="data.imageModels[index].smallimages">
 
   <button *ngIf="(data.imageModels.length - 1) > index" type="button" class="next" (click)="onNextClick()" mat-button matTooltip="{{'ImageDialogComponent.Next'| transloco}}">
     <i class="material-icons">navigate_next</i>

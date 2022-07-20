@@ -1,38 +1,5 @@
 <div class="grid grid-pad">
 
-  <!--<ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
-    <li class="mdc-image-list__item" *ngFor="let image of profile.images;let indexOfelement=index;">
-
-      <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
-
-      <a *ngIf="profile.images[indexOfelement].imageId!=='ad'" (click)="openImageDialog(indexOfelement)">
-        <img class="mdc-image-list__image" [lazyLoad]="profile.images[indexOfelement].image" [defaultImage]="profile.images[indexOfelement].smallimage">
-        <div class="mdc-image-list--with-text-protection">
-          <div class="mdc-image-list__supporting">
-            <span class="mdc-image-list__label">{{profile.images[indexOfelement].title}}</span>
-          </div>
-        </div>
-      </a>
-
-    </li>
-  </ul>-->
-  <!--<ul>
-    <li *ngFor="let image of profile.images;let indexOfelement=index;">
-
-      <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
-
-      <a *ngIf="profile.images[indexOfelement].imageId!=='ad'" (click)="openImageDialog(indexOfelement)">
-        <img [lazyLoad]="profile.images[indexOfelement].image" [defaultImage]="profile.images[indexOfelement].smallimage">
-        <div class="overlay">
-          <div class="supporting">
-            <span class="label">{{profile.images[indexOfelement].title}}</span>
-          </div>
-        </div>
-      </a>
-
-    </li>
-  </ul>-->
-
   <div class="profile-list-grid">
     <div *ngFor="let image of profile.images;let indexOfelement=index" [ngClass]="imageSize[indexOfelement]">
 

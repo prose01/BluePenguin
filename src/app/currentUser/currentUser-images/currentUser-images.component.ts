@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
 
 import { ImageModel } from '../../models/imageModel';
@@ -14,18 +15,47 @@ import { DeleteImageDialog } from '../../image-components/delete-image/delete-im
 
 export class CurrentUserImagesComponent implements OnDestroy {
 
+  private adGroupProfile: number;
+  private _imageModels: ImageModel[];
   private subs: Subscription[] = [];
 
-  @Input() imageModels: ImageModel[];
   @Input() currentProfileId: string;
+  @Input() set imageModels(values: ImageModel[]) {
+    this._imageModels = values;
+    this.addRandomAdTile();
+  }
+  get imageModels(): ImageModel[] {
+    return this._imageModels;
+  }
 
   @Output("refreshCurrentUserImages") refreshCurrentUserImages: EventEmitter<any> = new EventEmitter();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
+    this.adGroupProfile = this.configurationLoader.getConfiguration().adGroupProfile;
+  }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+  }
+
+  private addRandomAdTile(): void {
+    // Add random ad-tile.
+    for (let index = 0; index < this.imageModels?.length; index++) {
+
+      // Group list of Images by AdGroupProfile.
+      if (index != 0 && index % this.adGroupProfile === 0) {
+        // Select random index within group and apply ad-tile.
+        var i = this.randomIntFromInterval(index - this.adGroupProfile, index);
+        var adImage = new ImageModel;
+        adImage.imageId = 'ad';
+        this.imageModels?.splice(i, 0, adImage);
+      }
+    }
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   private openImageDialog(indexOfelement: any): void {
@@ -47,10 +77,8 @@ export class CurrentUserImagesComponent implements OnDestroy {
     this.subs.push(
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
-          this.refreshCurrentUserImages.emit();
-          this.imageModels = this.imageModels.filter(function (obj) {
-            return obj.imageId !== imageId;
-          });
+          // Not ideal timeout, but it can take time for Artemis to call Avalon to update CurrenUser.
+          setTimeout(() => { this.refreshCurrentUserImages.emit(); }, 500);
         }
       })
     );

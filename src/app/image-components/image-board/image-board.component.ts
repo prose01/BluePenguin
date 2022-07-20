@@ -26,7 +26,6 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   matButtonToggleText: string;
 
   currentUserSubject: CurrentUser;
-  imageModels: ImageModel[];
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
@@ -100,7 +99,6 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   private refreshCurrentUserImages(): void {
     this.profileService.updateCurrentUserSubject().then(() => {
       this.getCurrentUserImages();
-      this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject?.images.length ? true : false;
     });
   }
 
