@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
@@ -65,9 +65,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
+
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
+
+    setTimeout(() => {
+      if (this.auth.isAuthenticated()) {
+        this.profileService.cleanCurrentUser().subscribe();
+      }
+    }, 500);
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
 

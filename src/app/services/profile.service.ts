@@ -44,6 +44,14 @@ export class ProfileService {
     this.currentUserSource.next(currentUser);
   }
 
+  cleanCurrentUser(): Observable<{}>  {
+    return this.http.get<any>(`${this.avalonUrl}CleanCurrentUser`, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
       .pipe(
