@@ -16,7 +16,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   @Input() profile: Profile;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
 
   constructor(private profileService: ProfileService, private dialog: MatDialog) { }
 

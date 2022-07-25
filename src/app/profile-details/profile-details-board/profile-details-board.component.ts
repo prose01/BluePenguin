@@ -15,13 +15,14 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
 })
 
 export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestroy {
-  loading: boolean = false;
-  isChatSearch: boolean = false;
-
-  tabIndex = 0;
-
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+
+  public loading: boolean = false;
+  public isChatSearch: boolean = false;
+
+  public tabIndex = 0;
+
+  public currentUserSubject: CurrentUser;
 
   @Input() profile: Profile;
   @Output("loadDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();

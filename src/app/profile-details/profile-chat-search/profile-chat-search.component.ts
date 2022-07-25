@@ -12,21 +12,21 @@ import { DateAdapter } from '@angular/material/core';
 
 export class ProfileChatSearchComponent {
 
-  loading: boolean = false;
+  public loading: boolean = false;
 
-  filter: ChatFilter = new ChatFilter();
-  searchResultFeedbacks: ChatFilter[];
-  chatFilterForm: FormGroup;
-  dateSentStart: Date;
-  dateSentEnd: Date;
-  dateSeenStart: Date;
-  dateSeenEnd: Date;
-  fromId: string;
-  fromName: string;
-  toId: string;
-  toName: string;
-  message: string;
-  doNotDelete: boolean;
+  private filter: ChatFilter = new ChatFilter();
+  private searchResultFeedbacks: ChatFilter[];
+  public chatFilterForm: FormGroup;
+  private dateSentStart: Date;
+  private dateSentEnd: Date;
+  private dateSeenStart: Date;
+  private dateSeenEnd: Date;
+  private fromId: string;
+  private fromName: string;
+  private toId: string;
+  private toName: string;
+  private message: string;
+  public doNotDelete: boolean;
 
   @Output('getChatsByFilter') getChatsByFilter = new EventEmitter<ChatFilter>();
 

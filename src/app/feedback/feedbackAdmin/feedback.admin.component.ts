@@ -35,32 +35,31 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(FeedbackSearchComponent) feedbackSearchComponent: FeedbackSearchComponent;
 
-  loading: boolean = false;
-  noFeedbacks: boolean = false;
-
+  private displayedColumns: string[] = ['select', 'dateSent', 'dateSeen', 'fromName', 'adminName', 'feedbackType', 'message', 'open', 'countrycode', 'languagecode'];
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
+  private openChecked = true;
+  private languageChecked = false;
 
-  allowAssignment: boolean = false;
+  private feedbacks: Feedback[] = new Array;
 
-  pageSearch: string = "list";
-  matButtonToggleSearchText: string = 'Search';
-  matButtonToggleSearchIcon: string = 'search';
-  pageView: string = "assignment";
-  matButtonToggleAllText: string;
-  matButtonToggleAllIcon: string = 'assignment_ind';
+  public loading: boolean = false;
+  public noFeedbacks: boolean = false;
 
-  openChecked = true;
-  languageChecked = false;
+  public allowAssignment: boolean = false;
 
-  feedbacks: Feedback[] = new Array;
+  public pageSearch: string = "list";
+  public matButtonToggleSearchText: string = 'Search';
+  public matButtonToggleSearchIcon: string = 'search';
+  public pageView: string = "assignment";
+  public matButtonToggleAllText: string;
+  public matButtonToggleAllIcon: string = 'assignment_ind';
 
-  dataSource: MatTableDataSource<Feedback>;
-  selection = new SelectionModel<Feedback>(true, []);
 
-  displayedColumns: string[] = ['select', 'dateSent', 'dateSeen', 'fromName', 'adminName', 'feedbackType', 'message', 'open', 'countrycode', 'languagecode'];
+  public dataSource: MatTableDataSource<Feedback>;
+  private selection = new SelectionModel<Feedback>(true, []);
 
-  mobileQuery: MediaQueryList;
+  public mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
   constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {

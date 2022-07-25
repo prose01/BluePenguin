@@ -14,7 +14,7 @@ import { MessageModel } from '../../models/messageModel';
 export class MessageDialog implements OnDestroy {
 
   private subs: Subscription[] = [];
-  message: MessageModel;
+  public message: MessageModel;
 
   constructor(public dialogRef: MatDialogRef<MessageDialog>, private chatService: ChatService,
     @Inject(MAT_DIALOG_DATA) public data: any) {

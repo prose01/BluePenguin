@@ -23,19 +23,19 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 })
 
 export class ChatMembersListviewComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['select', 'name', 'status'];
-  dataSource: MatTableDataSource<ChatMember>;
-  selection = new SelectionModel<ChatMember>(true, []);
-
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  chatMembers: ChatMember[];
+  private currentUserSubject: CurrentUser;
+  private chatMembers: ChatMember[];
 
-  showBlocked: boolean = false;
-  matButtonToggleText: string;
-  matButtonToggleIcon: string = 'shield';
+  private showBlocked: boolean = false;
+  private matButtonToggleText: string;
+  private matButtonToggleIcon: string = 'shield';
 
-  loading: boolean = true;
+  private displayedColumns: string[] = ['select', 'name', 'status'];
+  private selection = new SelectionModel<ChatMember>(true, []);
+  public dataSource: MatTableDataSource<ChatMember>;
+
+  public loading: boolean = true;
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;

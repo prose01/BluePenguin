@@ -24,22 +24,22 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  selectedProfile: Profile;
-  pageIndex: number = 0;
-  pageSize: number;
-  currentSize: number;
-  throttle = 1;
-  scrollDistance = 2;
-  scrollUpDistance = 2;
-  defaultImage = '../assets/default-person-icon.jpg';
-  noProfiles: boolean = false;
-  loading: boolean = false;
+  private currentUserSubject: CurrentUser;
+  private selectedProfile: Profile;
+  private pageIndex: number = 0;
+  private pageSize: number;
+  private currentSize: number;
+  public throttle = 1;
+  public scrollDistance = 2;
+  public scrollUpDistance = 2;
+  private defaultImage = '../assets/default-person-icon.jpg';
+  public noProfiles: boolean = false;
+  public loading: boolean = false;
 
-  currentProfiles: any[] = [];
-  imageSize: string[] = []
-  randomImagePlace: number;
-  adGroup: number;
+  public currentProfiles: any[] = [];
+  private imageSize: string[] = []
+  private randomImagePlace: number;
+  private adGroup: number;
 
   @Input() profiles: any[];
   @Input() viewFilterType: ViewFilterTypeEnum;

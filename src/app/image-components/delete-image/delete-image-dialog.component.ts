@@ -14,9 +14,9 @@ import { ImageService } from './../../services/image.service';
 export class DeleteImageDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  IsChecked: boolean;
-  matDialogTitle: string;
-  matDialogContent: string;
+  public IsChecked: boolean;
+  public matDialogTitle: string;
+  public matDialogContent: string;
 
   constructor(private imageService: ImageService, public dialogRef: MatDialogRef<DeleteImageDialog>,
     @Inject(MAT_DIALOG_DATA) public imageId: string, private readonly translocoService: TranslocoService) {

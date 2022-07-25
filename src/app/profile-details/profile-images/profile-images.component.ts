@@ -14,9 +14,9 @@ import { Profile } from '../../models/profile';
 
 export class ProfileImagesComponent {
 
-  randomImagePlace: number;
-  adGroupProfile: number;
-  imageSize: string[] = []
+  private randomImagePlace: number;
+  private adGroupProfile: number;
+  private imageSize: string[] = []
 
   @Input() profile: Profile;
 

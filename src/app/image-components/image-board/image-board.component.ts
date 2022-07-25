@@ -18,14 +18,15 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 export class ImageBoardComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  loading: boolean = false;
-  maxPhotos: number;
-  morePhotosAllowed: boolean = false;
-  isMatButtonToggled = true;
-  matButtonToggleIcon: string = 'add_photo_alternate';
-  matButtonToggleText: string;
+  private maxPhotos: number;
+  private matButtonToggleIcon: string = 'add_photo_alternate';
+  private matButtonToggleText: string;
 
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
+
+  public loading: boolean = false;
+  public morePhotosAllowed: boolean = false;
+  public isMatButtonToggled = true;
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;

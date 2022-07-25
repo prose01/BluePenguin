@@ -18,10 +18,10 @@ import { CurrentUser } from '../../models/currentUser';
 export class DeleteProfileDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  IsChecked: boolean;
-  matDialogTitle: string;
-  matDialogContent: string;
+  private currentUserSubject: CurrentUser;
+  public IsChecked: boolean;
+  public matDialogTitle: string;
+  public matDialogContent: string;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,

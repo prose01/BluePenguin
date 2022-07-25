@@ -37,27 +37,24 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(ProfileChatSearchComponent) profileChatSearchComponent: ProfileChatSearchComponent;
 
-  loading: boolean = false;
-  noFeedbacks: boolean = false;
+  public loading: boolean = false;
+  public noFeedbacks: boolean = false;
 
-  //pageIndex: number = 0;
-  //pageSize: number = 10;
-  //currentSize: number = 0;
-  length: number = 5;
-  currentSearch: string;
+  private length: number = 5;
+  private currentSearch: string;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  chatFilter: ChatFilter;
+  private currentUserSubject: CurrentUser;
+  private chatFilter: ChatFilter;
 
-  messages: MessageModel[] = new Array;
+  private messages: MessageModel[] = new Array;
 
-  dataSource: MatTableDataSource<MessageModel>;
-  selection = new SelectionModel<MessageModel>(true, []);
+  public dataSource: MatTableDataSource<MessageModel>;
+  public selection = new SelectionModel<MessageModel>(true, []);
 
-  displayedColumns: string[] = ['select', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
+  private displayedColumns: string[] = ['select', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
 
-  mobileQuery: MediaQueryList;
+  public mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
   constructor(private chatService: ChatService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {

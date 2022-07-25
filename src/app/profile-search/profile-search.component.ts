@@ -37,40 +37,40 @@ import { KeyValue } from '@angular/common';
 })
 
 export class ProfileSearchComponent implements OnInit, OnDestroy {
-  isTileView = true;
-  matButtonToggleText: string = 'ListView';
-  matButtonToggleIcon: string = 'line_style';
-  loading: boolean = false;
+  private isTileView = true;
+  private matButtonToggleText: string = 'ListView';
+  private matButtonToggleIcon: string = 'line_style';
+  public loading: boolean = false;
 
-  filter: ProfileFilter = new ProfileFilter();
-  searchResultProfiles: Profile[];
-  profileForm: FormGroup;
-  ageList: number[];
-  heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
-  genderTypes: ReadonlyMap<string, string>;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes: ReadonlyMap<string, string>;
-  employmentStatusTypes: ReadonlyMap<string, string>;
-  sportsActivityTypes: ReadonlyMap<string, string>;
-  eatingHabitsTypes: ReadonlyMap<string, string>;
-  clotheStyleTypes: ReadonlyMap<string, string>;
-  bodyArtTypes: ReadonlyMap<string, string>;
+  private filter: ProfileFilter = new ProfileFilter();
+  private searchResultProfiles: Profile[];
+  public profileForm: FormGroup;
+  public ageList: number[];
+  public heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
+  private genderTypes: ReadonlyMap<string, string>;
+  public bodyTypes: ReadonlyMap<string, string>;
+  public smokingHabitsTypes: ReadonlyMap<string, string>;
+  public hasChildrenTypes: ReadonlyMap<string, string>;
+  public wantChildrenTypes: ReadonlyMap<string, string>;
+  public hasPetsTypes: ReadonlyMap<string, string>;
+  public livesInTypes: ReadonlyMap<string, string>;
+  public educationTypes: ReadonlyMap<string, string>;
+  public educationStatusTypes: ReadonlyMap<string, string>;
+  public employmentStatusTypes: ReadonlyMap<string, string>;
+  public sportsActivityTypes: ReadonlyMap<string, string>;
+  public eatingHabitsTypes: ReadonlyMap<string, string>;
+  public clotheStyleTypes: ReadonlyMap<string, string>;
+  public bodyArtTypes: ReadonlyMap<string, string>;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  currentProfileFilterSubject: ProfileFilter;
-  showGenderChoise: boolean;
-  tagsPlaceholder: string;
-  defaultAge: number;
-  maxTags: number;
+  private currentUserSubject: CurrentUser;
+  private currentProfileFilterSubject: ProfileFilter;
+  public showGenderChoise: boolean;
+  public tagsPlaceholder: string;
+  public defaultAge: number;
+  private maxTags: number;
 
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
+  private displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
@@ -361,12 +361,12 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   // Tag section //
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
-  tagsList: string[] = [];
+  private visible = true;
+  private selectable = true;
+  private removable = true;
+  public addOnBlur = true;
+  public readonly separatorKeysCodes: number[] = [ENTER, SPACE];
+  public tagsList: string[] = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;

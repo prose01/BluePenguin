@@ -21,14 +21,15 @@ export class ChatComponent implements OnChanges {
 
   private junoUrl: string;
 
-  currentTheme = 'light-theme';
+  private currentTheme = 'light-theme';
   //triggeredEvents = [];
 
-  userId: string;
-  username: string;
-  adapter: ChatAdapter;
+  private username: string;
 
-  title = 'Chats';
+  private title = 'Chats';
+
+  public userId: string;
+  public adapter: ChatAdapter;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.junoUrl = this.configurationLoader.getConfiguration().junoUrl; 

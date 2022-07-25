@@ -27,39 +27,39 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
 
-  title = 'PlusOne';
+  private title = 'PlusOne';
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  isProfileCreated: boolean = false;
+  private currentUserSubject: CurrentUser;
+  private isProfileCreated: boolean = false;
 
-  useChat = false; // TODO: Get from Config! Turns off Chat :)
+  private useChat = false; // TODO: Get from Config! Turns off Chat :)
 
-  pageView: pageViewEnum = pageViewEnum.Dashboard;
-  matButtonToggleText: string;
-  matButtonToggleIcon: string = 'search';
+  private pageView: pageViewEnum = pageViewEnum.Dashboard;
+  private matButtonToggleText: string;
+  private matButtonToggleIcon: string = 'search';
 
-  isTileView = true;
-  matButtonViewToggleText: string;
-  matButtonViewToggleIcon: string = 'line_style';
+  private isTileView = true;
+  private matButtonViewToggleText: string;
+  private matButtonViewToggleIcon: string = 'line_style';
 
-  matButtonOrderByText: string;
-  matButtonOrderByIcon: string = 'watch_later';
-  orderBy: OrderByType = OrderByType.LastActive;
+  private matButtonOrderByText: string;
+  private matButtonOrderByIcon: string = 'watch_later';
+  private orderBy: OrderByType = OrderByType.LastActive;
 
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+  private viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
-  profile: Profile;
-  filter: ProfileFilter;
-  allowSearch: boolean = false;
-  lastCalledFilter: string = "getLatestProfiles";
-  pageSize: number;
+  private profile: Profile;
+  private filter: ProfileFilter;
+  private allowSearch: boolean = false;
+  private lastCalledFilter: string = "getLatestProfiles";
+  private pageSize: number;
 
-  siteLocale: string = getBrowserLang();
-  languageList: Array<any>;
+  private siteLocale: string = getBrowserLang();
+  private languageList: Array<any>;
 
-  CurrentUserBoardTabIndex: number = 1;
+  private CurrentUserBoardTabIndex: number = 1;
 
-  mobileQuery: MediaQueryList;
+  private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 

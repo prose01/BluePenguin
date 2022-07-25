@@ -17,7 +17,7 @@ export class ProfileService {
   private headers: HttpHeaders;
 
   private currentUserSource = new BehaviorSubject<CurrentUser>(null);
-  currentUserSubject = this.currentUserSource.asObservable();
+  public currentUserSubject = this.currentUserSource.asObservable();
 
   constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.avalonUrl = this.configurationLoader.getConfiguration().avalonUrl;

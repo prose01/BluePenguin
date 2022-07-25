@@ -14,7 +14,7 @@ import { FeedBackService } from '../../services/feedback.service';
 export class FeedbackDialog implements OnDestroy {
 
   private subs: Subscription[] = [];
-  feedback: Feedback;
+  public feedback: Feedback;
 
   constructor(public dialogRef: MatDialogRef<FeedbackDialog>, private feedBackService: FeedBackService,
     @Inject(MAT_DIALOG_DATA) public data: any) {

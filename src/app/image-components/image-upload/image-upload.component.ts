@@ -26,22 +26,22 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 export class ImageUploadComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
-  uploadImageForm: FormGroup;
-  imageChangedEvent: any = '';
-  croppedImage: any = null;
-  canvasRotation = 0;
-  rotation = 0;
-  scale = 1;
-  showCropper = false;
-  containWithinAspectRatio = false;
-  transform: ImageTransform = {};
-  fileUploadProgress: string = null;
-  titlePlaceholder: string;
-  uploadingPhoto: boolean = false;
-  fileSizeLimit: number;
-  imageTitleMaxLength: number;
-  imageMaxWidth: number;
-  imageMaxHeight: number;
+  public uploadImageForm: FormGroup;
+  public imageChangedEvent: any = '';
+  private croppedImage: any = null;
+  public canvasRotation = 0;
+  private rotation = 0;
+  private scale = 1;
+  public showCropper = false;
+  private containWithinAspectRatio = false;
+  public transform: ImageTransform = {};
+  private fileUploadProgress: string = null;
+  private titlePlaceholder: string;
+  public uploadingPhoto: boolean = false;
+  private fileSizeLimit: number;
+  private imageTitleMaxLength: number;
+  private imageMaxWidth: number;
+  private imageMaxHeight: number;
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 

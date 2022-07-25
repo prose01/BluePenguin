@@ -30,24 +30,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(ProfileTileviewComponent) profileTileviewComponent: ProfileTileviewComponent;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
 
-  loading: boolean = false;
-  isTileView = true;
+  private length: number;
 
-  length: number;
+  private orderBy: OrderByType = OrderByType.LastActive;
+  private viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
-  orderBy: OrderByType = OrderByType.LastActive;
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+  private previousProfiles: Profile[];
+  private currentProfiles: Profile[];
+  private nextProfiles: Profile[];
+  private filter: ProfileFilter = new ProfileFilter();
 
-  previousProfiles: Profile[];
-  currentProfiles: Profile[];
-  nextProfiles: Profile[];
-  filter: ProfileFilter = new ProfileFilter();
+  private defaultPageSize: number;
 
-  defaultPageSize: number;
+  private displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
+  public loading: boolean = false;
+  public isTileView = true;
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();

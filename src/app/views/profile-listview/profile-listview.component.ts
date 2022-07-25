@@ -26,18 +26,18 @@ import { OrderByType } from '../../models/enums';
 })
 
 export class ProfileListviewComponent implements OnChanges, OnDestroy {
-  pageSize: number;
-  adGroup: number;
-  loading: boolean = false;
+  private pageSize: number;
+  private adGroup: number;
+  public loading: boolean = false;
 
-  allowAssignment: boolean = false;
+  private allowAssignment: boolean = false;
 
-  dataSource: MatTableDataSource<Profile>;
-  selection = new SelectionModel<Profile>(true, []);
+  public dataSource: MatTableDataSource<Profile>;
+  private selection = new SelectionModel<Profile>(true, []);
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  noProfiles: boolean = false;
+  private currentUserSubject: CurrentUser;
+  public noProfiles: boolean = false;
 
   @Input() profiles: any[];
   @Input() length: number;

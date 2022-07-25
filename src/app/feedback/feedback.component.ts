@@ -22,11 +22,11 @@ import { TranslocoService } from '@ngneat/transloco';
 export class FeedbackComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  feedback: Feedback = new Feedback();
-  feedbackForm: FormGroup;
-  feedbackTypes: ReadonlyMap<string, string>;
+  public feedback: Feedback = new Feedback();
+  public feedbackForm: FormGroup;
+  public feedbackTypes: ReadonlyMap<string, string>;
 
-  loading: boolean = false;
+  public loading: boolean = false;
 
   constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private formBuilder: FormBuilder, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.createForm();

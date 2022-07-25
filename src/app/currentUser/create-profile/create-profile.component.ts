@@ -41,37 +41,37 @@ import { CreateProfileDialog } from '../create-profile-dialog/create-profile-dia
 
 export class CreateProfileComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
-  currentUser: CurrentUser;
-  newUserForm: FormGroup;
-  genderTypes: ReadonlyMap<string, string>;
-  sexualOrientationTypes: ReadonlyMap<string, string>;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes: ReadonlyMap<string, string>;
-  employmentStatusTypes: ReadonlyMap<string, string>;
-  sportsActivityTypes: ReadonlyMap<string, string>;
-  eatingHabitsTypes: ReadonlyMap<string, string>;
-  clotheStyleTypes: ReadonlyMap<string, string>;
-  bodyArtTypes: ReadonlyMap<string, string>;
+  private currentUser: CurrentUser;
+  private newUserForm: FormGroup;
+  private genderTypes: ReadonlyMap<string, string>;
+  private sexualOrientationTypes: ReadonlyMap<string, string>;
+  private bodyTypes: ReadonlyMap<string, string>;
+  private smokingHabitsTypes: ReadonlyMap<string, string>;
+  private hasChildrenTypes: ReadonlyMap<string, string>;
+  private wantChildrenTypes: ReadonlyMap<string, string>;
+  private hasPetsTypes: ReadonlyMap<string, string>;
+  private livesInTypes: ReadonlyMap<string, string>;
+  private educationTypes: ReadonlyMap<string, string>;
+  private educationStatusTypes: ReadonlyMap<string, string>;
+  private employmentStatusTypes: ReadonlyMap<string, string>;
+  private sportsActivityTypes: ReadonlyMap<string, string>;
+  private eatingHabitsTypes: ReadonlyMap<string, string>;
+  private clotheStyleTypes: ReadonlyMap<string, string>;
+  private bodyArtTypes: ReadonlyMap<string, string>;
 
-  namePlaceholder: string;
-  genderPlaceholder: string;
-  defaultAge: number;
-  sexualOrientationPlaceholder: string;
-  tagsPlaceholder: string;
-  maxTags: number;
+  private namePlaceholder: string;
+  private genderPlaceholder: string;
+  private defaultAge: number;
+  private sexualOrientationPlaceholder: string;
+  private tagsPlaceholder: string;
+  private maxTags: number;
 
-  isChecked: boolean = true;
+  private isChecked: boolean = true;
 
-  siteLocale: string;
-  languageList: string[] = [];
-  countryList: string[] = [];
-  countrycodePlaceholder: string;
+  private siteLocale: string;
+  private languageList: string[] = [];
+  private countryList: string[] = [];
+  private countrycodePlaceholder: string;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
@@ -337,12 +337,12 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   }
 
   // Tag section //
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
-  tagsList: string[] = [];
+  private visible = true;
+  private selectable = true;
+  private removable = true;
+  private addOnBlur = true;
+  private readonly separatorKeysCodes: number[] = [ENTER, SPACE];
+  private tagsList: string[] = [];
 
   private add(event: MatChipInputEvent): void {
     const input = event.input;

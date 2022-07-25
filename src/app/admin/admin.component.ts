@@ -13,7 +13,7 @@ import { ProfileService } from '../services/profile.service';
 export class AdminComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
 
   constructor(private profileService: ProfileService) { }
 
@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // TODO: Should be private
-  deleteOldProfiles() {
+  deleteOldProfiles(): void {
     if (this.currentUserSubject.admin) {
       this.subs.push(
         this.profileService.deleteOldProfiles()
@@ -43,7 +43,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   // TODO: Should be private
-  cleanCurrentUser() {
+  cleanCurrentUser(): void {
     if (this.currentUserSubject.admin) {
       this.subs.push(
         //this.profileService.cleanAdmin()

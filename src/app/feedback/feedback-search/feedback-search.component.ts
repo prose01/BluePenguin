@@ -21,31 +21,31 @@ import { DateAdapter } from '@angular/material/core';
 
 export class FeedbackSearchComponent implements OnInit, OnDestroy {
 
-  loading: boolean = false;
+  public loading: boolean = false;
 
-  filter: FeedbackFilter = new FeedbackFilter();
-  searchResultFeedbacks: Feedback[];
-  feedbackForm: FormGroup;
-  feedbackId: string;
-  dateSentStart: Date;
-  dateSentEnd: Date;
-  dateSeenStart: Date;
-  dateSeenEnd: Date;
-  fromProfileId: string;
-  fromName: string;
-  adminProfileId: string;
-  adminName: string;
-  feedbackTypes: ReadonlyMap<string, string>;
-  message: string;
-  open: boolean;
-  countrycode: string;
-  languagecode: string;
+  public filter: FeedbackFilter = new FeedbackFilter();
+  public feedbackForm: FormGroup;
+  private searchResultFeedbacks: Feedback[];
+  private feedbackId: string;
+  private dateSentStart: Date;
+  private dateSentEnd: Date;
+  private dateSeenStart: Date;
+  private dateSeenEnd: Date;
+  private fromProfileId: string;
+  private fromName: string;
+  private adminProfileId: string;
+  private adminName: string;
+  public feedbackTypes: ReadonlyMap<string, string>;
+  private message: string;
+  public open: boolean;
+  private countrycode: string;
+  private languagecode: string;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
 
-  languageList: string[] = [];
-  countryList: string[] = [];
+  public languageList: string[] = [];
+  public countryList: string[] = [];
 
   @Output() getFeedbacksByFilter = new EventEmitter<FeedbackFilter>();
 

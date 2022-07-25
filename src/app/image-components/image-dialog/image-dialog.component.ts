@@ -14,9 +14,10 @@ import { CurrentUser } from '../../models/currentUser';
 export class ImageDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  index: number;
-  defaultImage = '../assets/default-person-icon.jpg';
+  private currentUserSubject: CurrentUser;
+  private defaultImage = '../assets/default-person-icon.jpg';
+
+  public index: number;
 
   constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
