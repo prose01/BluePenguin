@@ -78,7 +78,7 @@ export class CurrentUserImagesComponent implements OnDestroy {
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           // Not ideal timeout, but it can take time for Artemis to call Avalon to update CurrenUser.
-          setTimeout(() => { this.refreshCurrentUserImages.emit(); }, 500);
+          setTimeout(() => { this.refreshCurrentUserImages.emit(); }, 2000);
         }
       })
     );
