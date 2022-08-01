@@ -25,6 +25,8 @@ import { MatChipsModule }                     from '@angular/material/chips';
 import { MatSlideToggleModule }               from '@angular/material/slide-toggle';
 import { MatDatepickerModule }                from '@angular/material/datepicker';
 import { MatNativeDateModule }                from '@angular/material/core';
+import { MatMomentDateModule }                from '@angular/material-moment-adapter';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS }    from '@angular/material-moment-adapter';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
@@ -152,6 +154,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     MatSlideToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMomentDateModule,
     LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,
@@ -176,7 +179,8 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     FeedBackService,
     EnumMappingService,
     AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
