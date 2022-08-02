@@ -298,6 +298,10 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.sidenav.toggle();
   }
 
+  private addAdminInfo(): void {
+    this.feedbackSearchComponent.createForm(true);
+  }
+
   private reset(): void {
     this.feedbackSearchComponent.reset();
   }

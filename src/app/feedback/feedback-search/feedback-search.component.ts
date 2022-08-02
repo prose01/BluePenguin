@@ -60,7 +60,7 @@ export class FeedbackSearchComponent implements OnInit, OnDestroy {
       this.profileService.currentUserSubject.subscribe(currentUserSubject => {
         this.currentUserSubject = currentUserSubject;
         this.dateAdapter.setLocale(this.currentUserSubject.languagecode);
-        this.createForm();
+        this.createForm(false);
       })
     );
     this.subs.push(
@@ -74,7 +74,7 @@ export class FeedbackSearchComponent implements OnInit, OnDestroy {
     this.subs = [];
   }
 
-  private createForm(): void {
+  public createForm(addAdminInfo: boolean): void {
     this.feedbackForm = this.formBuilder.group({
       feedbackId: null,
       dateSentStart: null,
@@ -83,8 +83,8 @@ export class FeedbackSearchComponent implements OnInit, OnDestroy {
       dateSeenEnd: null,
       fromProfileId: null,
       fromName: null,
-      adminProfileId: this.currentUserSubject.profileId,
-      adminName: this.currentUserSubject.name,
+      adminProfileId: addAdminInfo ? this.currentUserSubject.profileId : null,
+      adminName: addAdminInfo ? this.currentUserSubject.name : null,
       feedbackType: FeedbackType.NotChosen,
       message: null,
       open: 'notChosen',
@@ -99,7 +99,7 @@ export class FeedbackSearchComponent implements OnInit, OnDestroy {
   }
 
   reset(): void {
-    this.createForm();
+    this.createForm(false);
     this.searchResultFeedbacks = [];
   }
 

@@ -295,7 +295,6 @@
     "Closed": "Lukket",
     "FeedbackStatus": "Feedback status",
     "ToggleStatus": "Skift feedback(s) status",
-    "Message": "Message",
     "MyLanguage": "Kun mit sprog",
     "Countrycode": "Landekode",
     "Languagecode": "Sprogkode",
@@ -306,7 +305,8 @@
     "CouldNotLoadDetails": "Kunne desværre ikke hente Profiloplysninger",
     "CouldNotUpdateFeedback": "Kunne desværre ikke opdaterer Feedback",
     "AssignFeedbackToAdmin": "Tildel Feedback til mig",
-    "MyAssignedFeedbacks": "Mine tildelte Feedbacks"
+    "MyAssignedFeedbacks": "Mine tildelte Feedbacks",
+    "AddAdminInfo": "Tilføj admin info"
   },
   "FeedbackSearchComponent": {
     "FeedbackId": "Feedback Id",

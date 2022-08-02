@@ -35,6 +35,11 @@
     <i class="material-icons">search</i>
   </button>
 
+  <button *ngIf="pageSearch === 'search'" type="button" (click)="addAdminInfo()"
+          class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.AddAdminInfo'| transloco}}">
+    <i class="material-icons">admin_panel_settings</i>
+  </button>
+
   <button *ngIf="pageSearch === 'search'" type="button" (click)="reset()"
           class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
     <i class="material-icons">undo</i>
