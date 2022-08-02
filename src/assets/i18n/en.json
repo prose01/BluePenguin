@@ -277,10 +277,10 @@
     "FeedbackAdmin": "Feedback Admin",
     "FeedbackText": "Give us your Feedback here",
     "Send": "Send",
-    "Reset": "Reset",
     "FeedbackType": "FeedbackType",
     "Message": "Message",
-    "CouldNotSendFeedback": "Could not send Feedback"
+    "CouldNotSendFeedback": "Could not send Feedback",
+    "Thanks": "Thank you for your feedback"
   },
   "FeedbackAdminComponent": {
     "FeedbackId": "FeedbackId",

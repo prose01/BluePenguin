@@ -276,10 +276,10 @@
     "Feedback": "Feedback",
     "FeedbackText": "Giv os din feedback",
     "Send": "Send",
-    "Reset": "Nulstil",
     "FeedbackType": "Typen af feedback",
     "Message": "Besked",
-    "CouldNotSendFeedback": "Kunne desværre ikke sende feedback"
+    "CouldNotSendFeedback": "Kunne desværre ikke sende feedback",
+    "Thanks": "Tak for dit feedback"
   },
   "FeedbackAdminComponent": {
     "FeedbackId": "FeedbackId",
