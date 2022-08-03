@@ -38,7 +38,6 @@
     "Age": "Alder",
     "Height": "Højde",
     "VisitBookmarked": "Visit/Bookmarked",
-    "Bookmarket": "Bookmarket",
     "Likes": "Likes",
     "VisitedMe": "Har beøgt mig",
     "BookmarkedMe": "Har bookmarket mig",
@@ -156,7 +155,6 @@
     "Create": "Opret din profil",
     "Save": "Gem",
     "CouldNotSaveUser": "Kunne ikke gemme bruger",
-    "Reset": "Nulstil",
     "Tags": "Tags",
     "MaxTags": "Du kan maksimum søge på {{maxTags}} tags.",
     "MaxTagsCharacters": "Et tag kan ikke være mere end 20 tegn langt.",
@@ -187,7 +185,6 @@
     "NotContactable": "Kan ikke kontaktes",
     "NameRequired": "Navn er påkrævet",
     "LanguagecodeRequired": "Sprog er påkrævet",
-    "CountrycodeRequired": "Land er påkrævet",
     "NameMinCharacters": "Navnet skal være mindst 3 tegn langt.",
     "NameMaxCharacters": "Navnet må ikke være mere end 20 tegn langt.",
     "GenderRequired": "Køn er påkrævet.",
@@ -203,7 +200,6 @@
     "UpdateDetails": "Opdater din profil",
     "Save": "Gem",
     "CouldNotSaveUser": "Kunne ikke gemme bruger",
-    "Reset": "Nulstil",
     "CreatedOn": "Oprettet ",
     "UpdatedOn": "Opdateret ",
     "LastActive": "Sidst aktiv ",
@@ -268,9 +264,11 @@
     "AboutText": "Her er noget om os :)"
   },
   "AdminComponent": {
-    "Admin": "Dette er Admin siden",
+    "Admin": "Admin side",
     "DeleteOldProfiles": "Slet gamle profiler",
-    "CleanCurrentUser": "Rens Admin for gammel profil info"
+    "DaysBack": "Antal dage siden sidst aktiv",
+    "limit": "Antal profiler som skal slettes",
+    "CouldNotDeleteProfiles": "Kunne ikke slette profiler"
   },
   "FeedbackComponent": {
     "Feedback": "Feedback",

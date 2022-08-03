@@ -38,7 +38,6 @@
     "Age": "Age",
     "Height": "Height",
     "VisitBookmarked": "Visit/Bookmarked",
-    "Bookmarked": "Bookmarked",
     "Likes": "Likes",
     "VisitedMe": "Visited me",
     "BookmarkedMe": "Bookmarked me",
@@ -156,7 +155,6 @@
     "Create": "Create your profile",
     "Save": "Save",
     "CouldNotSaveUser": "Could not save user",
-    "Reset": "Reset",
     "Tags": "Tags",
     "MaxTags": "Max {{maxTags}} tags.",
     "MaxTagsCharacters": "Max 20 characters long.",
@@ -187,7 +185,6 @@
     "NotContactable": "Not Contactable",
     "NameRequired": "Name is required",
     "LanguagecodeRequired": "Language is required",
-    "CountrycodeRequired": "Countryc is required",
     "NameMinCharacters": "Name must be at least 3 characters long.",
     "NameMaxCharacters": "Name cannot be more than 20 characters long.",
     "GenderRequired": "Gender is required.",
@@ -203,7 +200,6 @@
     "UpdateDetails": "Update your details",
     "Save": "Save",
     "CouldNotSaveUser": "Could not save user",
-    "Reset": "Reset",
     "CreatedOn": "Created on ",
     "UpdatedOn": "Updated on ",
     "LastActive": "Last active ",
@@ -268,9 +264,11 @@
     "AboutText": "Here is something about us :)"
   },
   "AdminComponent": {
-    "Admin": "This is the Admin page",
+    "Admin": "Admin page",
     "DeleteOldProfiles": "Delete old profiles",
-    "CleanCurrentUser": "Clean Admin of obsolete profile info"
+    "DaysBack": "Number of days since last active",
+    "limit": "Number of profiles to delete",
+    "CouldNotDeleteProfiles": "Could not delete profiles"
   },
   "FeedbackComponent": {
     "Feedback": "Feedback",

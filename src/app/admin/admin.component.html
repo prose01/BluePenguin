@@ -1,16 +1,37 @@
 <div class="grid grid-pad">
+
+  <div class="spinner-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  </div>
+
   <div>
     <h3>{{'AdminComponent.Admin'| transloco}}</h3>
 
-    <button type="button" (click)="deleteOldProfiles()"
-            class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
-      <i class="material-icons">delete_forever</i>
-    </button>
+    <form (ngSubmit)="onSubmit()" [formGroup]="deleteProfilesForm">
 
-    <button type="button" (click)="cleanCurrentUser()"
-            class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'AdminComponent.CleanCurrentUser'| transloco}}">
-      <i class="material-icons">cleaning_services</i>
-    </button>
+      <div style="margin-bottom: 1em">
+        <button type="submit"
+                [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
+          <i class="material-icons">delete_forever</i>
+        </button>
+        <button type="button" (click)="createForm()"
+                [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+          <i class="material-icons">undo</i>
+        </button>
+      </div>
+
+      <div class="form-container">
+        <mat-form-field>
+          <input type="number" matInput placeholder="{{'AdminComponent.DaysBack'| transloco}}" formControlName="daysBack">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="number" matInput placeholder="{{'AdminComponent.limit'| transloco}}" formControlName="limit">
+        </mat-form-field>
+      </div>
+    </form>
 
   </div>
 </div>

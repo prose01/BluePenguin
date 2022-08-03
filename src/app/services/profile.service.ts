@@ -299,8 +299,12 @@ export class ProfileService {
       );
   }
 
-  deleteOldProfiles(): Observable<{}> {
-    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers })
+  deleteOldProfiles(daysBack: number, limit: number): Observable<{}> {
+    const params = new HttpParams()
+      .set('daysBack', daysBack)
+      .set('limit', limit);
+
+    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers, params: params })
       .pipe(
         retry(3),
         catchError(this.handleError)
