@@ -97,9 +97,6 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       this.currentProfiles.push(...this.profiles);
     }
 
-    // this.currentProfiles.splice(this.randomAdTile(), 0, "ad");
-    //this.currentProfiles.splice(0, 5);
-
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 

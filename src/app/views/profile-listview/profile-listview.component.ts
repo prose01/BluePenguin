@@ -75,16 +75,16 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
       return el != null;
     });
 
-    // Add random ad-tile. TODO: Set the ad row to full width.
-    for (let index = 0; index < this.profiles?.length; index++) {
+    //// Add random ad-tile. TODO: Set the ad row to full width.
+    //for (let index = 0; index < this.profiles?.length; index++) {
 
-      // Group list of Profiles by AdGroup.
-      if (index != 0 && index % this.adGroup === 0){
-        // Select random index within group and apply ad-tile.
-        var i = this.randomIntFromInterval(index - this.adGroup, index);
-        this.profiles?.splice(i, 0, 'ad');
-      }
-    }
+    //  // Group list of Profiles by AdGroup.
+    //  if (index != 0 && index % this.adGroup === 0){
+    //    // Select random index within group and apply ad-tile.
+    //    var i = this.randomIntFromInterval(index - this.adGroup, index);
+    //    this.profiles?.splice(i, 0, 'ad');
+    //  }
+    //}
 
     //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
