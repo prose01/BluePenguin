@@ -1,5 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
@@ -14,6 +15,7 @@ import { ProfileFilter } from './models/profileFilter';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileService } from './services/profile.service';
 import { EnumMappingService } from './services/enumMapping.service';
+import { SnackBarService } from './services/snack-bar.service';
 import { ViewFilterTypeEnum } from './models/viewFilterTypeEnum';
 
 @Component({
@@ -57,13 +59,15 @@ export class AppComponent implements OnInit, OnDestroy {
   private siteLocale: string = getBrowserLang();
   private languageList: Array<any>;
 
+  private showGlobalInfo: boolean = false;
+
   private CurrentUserBoardTabIndex: number = 1;
 
   private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
   //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _snackBar: MatSnackBar, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
 
     this.subs.push(
@@ -83,6 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this.showGlobalInfo = this.configurationLoader.getConfiguration().showGlobalInfo;
   }
 
   ngOnInit(): void {
@@ -91,6 +97,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.initiateTransloco();
+
+    
+    setTimeout(() => {
+      if (this.auth.isAuthenticated() && this.showGlobalInfo) {
+        this.snackBarService.openSnackBar('Testing snack', 'success', '', 'center', 'top'); // TODO: Add Text from Transloco
+      }
+    }, 500);
   }
 
   ngOnDestroy(): void {

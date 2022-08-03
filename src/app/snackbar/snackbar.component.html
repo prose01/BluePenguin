@@ -1,0 +1,11 @@
+<div class="snack-container box-{{getIcon.type}}">
+  <div class="snack-container-message">
+    <div>
+      <span>{{data.message}}</span>
+      <i class="material-icons">{{getIcon.icon}}</i>
+    </div>
+  </div>
+  <div class="snack-container-icon">
+    <i class="material-icons" (click)="closeSnackbar()">cancel</i>
+  </div>
+</div>

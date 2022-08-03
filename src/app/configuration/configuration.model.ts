@@ -17,4 +17,5 @@ export type Configuration = {
   adGroupProfile: number;
   languageList: Array<any>;
   countryList: Array<any>;
+  showGlobalInfo: boolean;
 }

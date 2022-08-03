@@ -14,6 +14,7 @@ import { MatInputModule }                     from '@angular/material/input';
 import { MatSelectModule }                    from '@angular/material/select';
 import { MatButtonToggleModule }              from '@angular/material/button-toggle';
 import { MatDialogModule }                    from '@angular/material/dialog';
+import { MatSnackBarModule }                  from '@angular/material/snack-bar';
 import { MatCardModule }                      from '@angular/material/card';
 import { MatTabsModule }                      from '@angular/material/tabs';
 import { MatButtonModule }                    from '@angular/material/button';
@@ -36,6 +37,7 @@ import { AppRoutingModule }                   from './app-routing.module';
 import { AppComponent }                       from './app.component';
 import { CallbackComponent }                  from './authorisation/callback/callback.component';
 import { ErrorDialog }                        from './error-dialog/error-dialog.component';
+import { SnackbarComponent }                  from './snackbar/snackbar.component';
 
 import { ConfigurationModule }                from "./configuration/configuration.module";
 import { ProfileService }                     from './services/profile.service';
@@ -44,6 +46,7 @@ import { EnumMappingService }                 from './services/enumMapping.servi
 import { ImageService }                       from './services/image.service';
 import { FeedBackService }                    from './services/feedback.service';
 import { ChatService }                        from './services/chat.service';
+import { SnackBarService }                    from './services/snack-bar.service';
 
 import { CreateProfileComponent }             from './currentUser/create-profile/create-profile.component';
 import { CreateProfileDialog }                from './currentUser/create-profile-dialog/create-profile-dialog.component';
@@ -93,6 +96,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
   declarations: [
     AppComponent,
     ErrorDialog,
+    SnackbarComponent,
     DashboardComponent,
     CreateProfileComponent,
     CreateProfileDialog,
@@ -143,6 +147,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     MatSelectModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSnackBarModule,
     MatCardModule,
     MatTabsModule,
     MatButtonModule,
@@ -178,13 +183,15 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     ChatService,
     FeedBackService,
     EnumMappingService,
+    SnackBarService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    DeleteProfileDialog
+    DeleteProfileDialog,
+    SnackbarComponent
   ]
 })
 
