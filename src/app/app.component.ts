@@ -101,9 +101,9 @@ export class AppComponent implements OnInit, OnDestroy {
     
     setTimeout(() => {
       if (this.auth.isAuthenticated() && this.showGlobalInfo) {
-        this.snackBarService.openSnackBar('Testing snack', 'success', '', 'center', 'top'); // TODO: Add Text from Transloco
+        this.snackBarService.openSnackBar(this.translocoService.translate('GlobalInfo.Info'), 'info', '', 'center', 'top');
       }
-    }, 500);
+    }, 10000);
   }
 
   ngOnDestroy(): void {

@@ -28,6 +28,7 @@
   "LogOut": "Log ud",
   "Yes": "Ja",
   "No": "Nej",
+  "Ok": "Ok",
   "NoResultsText": "Ingen matches :(",
   "ListViewComponent": {
     "ProfileId": "ProfileId",
@@ -348,8 +349,8 @@
     "CouldNotGetChatsByFilter": "Kunne ikke finde beskeder med filter",
     "CouldNotLoadDetails": "Kunne desværre ikke hente Profiloplysninger"
   },
-  "ErrorDialog": {
-    "Ok": "Ok"
+  "GlobalInfo": {
+    "Info": "Her er noget meget vigtigt information"
   },
   "Enum": {
     "NotChosen": "Ikke valgt",

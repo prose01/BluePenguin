@@ -11,25 +11,13 @@ export class SnackBarService {
   constructor(private snackBar: MatSnackBar) { }
 
   public openSnackBar(message, type, duration?, horizontalPosition?, verticalPosition?) {
-    const _snackType = type !== undefined ? type : 'success';
+    const _snackType = type !== undefined ? type : 'info';
     this.snackBar.openFromComponent(SnackbarComponent, {
       duration: duration || '',
+      panelClass: ['mat-snack-bar'],
       horizontalPosition: horizontalPosition || 'center',
       verticalPosition: verticalPosition || 'top',
       data: { message: message, snackType: _snackType, snackBar: this.snackBar }
     });
   }
-
-
-  //public openSnackBar(message: string, action: string, snackType?: snackType) {
-  //  const _snackType: snackType =
-  //    snackType !== undefined ? snackType : 'Success';
-
-  //  this.snackBar.openFromComponent(SnackbarComponent, {
-  //    duration: 2000,
-  //    horizontalPosition: 'end',
-  //    verticalPosition: 'top',
-  //    data: { message: message, snackType: _snackType }
-  //  });
-  //}
 }

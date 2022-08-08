@@ -1,11 +1,13 @@
-<div class="snack-container box-{{getIcon.type}}">
-  <div class="snack-container-message">
-    <div>
-      <span>{{data.message}}</span>
-      <i class="material-icons">{{getIcon.icon}}</i>
-    </div>
+<div mat-dialog-content class="mat-snack-bar">
+  <!--<span>{{data.message}}</span>
+  <i class="material-icons">{{getIcon.icon}}</i>
+  <i class="material-icons" (click)="closeSnackbar()">cancel</i>-->
+
+  <i class="material-icons">{{getIcon.icon}}</i>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <br />
+  <div mat-dialog-actions>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="closeSnackbar()">{{'Ok'| transloco}}</button>
   </div>
-  <div class="snack-container-icon">
-    <i class="material-icons" (click)="closeSnackbar()">cancel</i>
-  </div>
+
 </div>

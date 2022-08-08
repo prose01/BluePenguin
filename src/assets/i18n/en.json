@@ -28,6 +28,7 @@
   "LogOut": "Log Out",
   "Yes": "Yes",
   "No": "No",
+  "Ok": "Ok",
   "NoResultsText": "Sorry no results :(",
   "ListViewComponent": {
     "ProfileId": "ProfileId",
@@ -349,8 +350,8 @@
     "CouldNotGetChatsByFilter": "Could not get chats by filter",
     "CouldNotLoadDetails": "Could not load details"
   },
-  "ErrorDialog": {
-    "Ok": "Ok"
+  "GlobalInfo": {
+    "Info": "Here is some very important info"
   },
   "Enum": {
     "NotChosen": "Not Chosen",
