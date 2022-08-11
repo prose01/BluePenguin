@@ -43,14 +43,6 @@
       <mat-slider min="1" max="250" step="1" [value]="heightList" thumbLabel formControlName="height" class="cdk-focused">
       </mat-slider>
 
-      <mat-form-field *ngIf="showGenderChoise">
-        <mat-select placeholder="{{'ProfileSearchComponent.Gender'| transloco}}" formControlName="gender">
-          <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
-            {{ genderType.value }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
       <mat-form-field>
         <mat-select placeholder="{{'ProfileSearchComponent.BodyType'| transloco}}" formControlName="body">
           <mat-option *ngFor="let bodyType of bodyTypes | keyvalue: originalOrder" [value]="bodyType.key">

@@ -36,7 +36,7 @@ export class CurrentUser {
   images: Array<ImageModel>;
   tags: string[];
   gender: string;
-  sexualOrientation: string;
+  seeking: string[];
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;
@@ -73,7 +73,7 @@ export interface CurrentUser {
   images: Array<ImageModel>;
   tags: string[];
   gender: string;
-  sexualOrientation: string;
+  seeking: string[];
   body: BodyType;
   smokingHabits: SmokingHabitsType;
   hasChildren: HasChildrenType;

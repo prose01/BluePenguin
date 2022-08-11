@@ -3,7 +3,6 @@ export type Configuration = {
   artemisUrl: string;
   junoUrl: string;
   genderTypes: string[];
-  sexualOrientationTypes: string[];
   maxTags: number;
   maxPhotos: number;
   fileSizeLimit: number;

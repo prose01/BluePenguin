@@ -30,12 +30,38 @@
   "No": "Nej",
   "Ok": "Ok",
   "NoResultsText": "Ingen matches :(",
+  "Save": "Gem",
+  "CouldNotSaveUser": "Kunne ikke gemme bruger",
+  "Tags": "Tags",
+  "MaxTags": "Du kan maksimum søge på {{maxTags}} tags.",
+  "MaxTagsCharacters": "Et tag kan ikke være mere end 20 tegn langt.",
+  "Name": "Navn",
+  "Description": "Beskrivelse",
+  "Age": "Alder",
+  "Height": "Højde",
+  "Gender": "Køn",
+  "Seeking": "Søger",
+  "BodyType": "Krops type",
+  "SmokingHabitsType": "Rygevaner",
+  "HasChildrenType": "Har børn",
+  "WantChildrenType": "Ønsker børn",
+  "HasPetsType": "Har husdyr",
+  "LivesInType": "Bor i",
+  "EducationType": "Udannelse",
+  "EducationStatusType": "Uddannelsesstatus",
+  "EmploymentStatusType": "Beskæftigelsesstatus",
+  "SportsActivityType": "Sports activity",
+  "EatingHabitsType": "Spisevaner",
+  "ClotheStyleType": "Tøj stil",
+  "BodyArtType": "Kropsudsmykninger",
+  "ContactableText": "Kan du kontaktes af andre profiler?",
+  "Contactable": "Kan kontaktes",
+  "CreatedOn": "Oprettet",
+  "UpdatedOn": "Opdateret",
+  "LastActive": "Sidst aktiv",
   "ListViewComponent": {
     "ProfileId": "ProfileId",
     "Name": "Navn",
-    "CreatedOn": "Oprettet",
-    "UpdatedOn": "Opdateret",
-    "LastActive": "Sidst aktiv",
     "Age": "Alder",
     "Height": "Højde",
     "VisitBookmarked": "Visit/Bookmarked",
@@ -154,42 +180,12 @@
   },
   "CreateProfileComponent": {
     "Create": "Opret din profil",
-    "Save": "Gem",
-    "CouldNotSaveUser": "Kunne ikke gemme bruger",
-    "Tags": "Tags",
-    "MaxTags": "Du kan maksimum søge på {{maxTags}} tags.",
-    "MaxTagsCharacters": "Et tag kan ikke være mere end 20 tegn langt.",
-    "Language": "Sprog",
-    "Country": "Land",
-    "CountrycodeRequired": "Land er påkrævet.",
-    "Name": "Navn",
-    "Description": "Beskrivelse",
-    "Age": "Alder",
-    "Height": "Højde",
-    "Gender": "Køn",
-    "SexualOrientationType": "Seksuel orientering",
-    "BodyType": "Krops type",
-    "SmokingHabitsType": "Rygevaner",
-    "HasChildrenType": "Har børn",
-    "WantChildrenType": "Ønsker børn",
-    "HasPetsType": "Har husdyr",
-    "LivesInType": "Bor i",
-    "EducationType": "Udannelse",
-    "EducationStatusType": "Uddannelsesstatus",
-    "EmploymentStatusType": "Beskæftigelsesstatus",
-    "SportsActivityType": "Sports activity",
-    "EatingHabitsType": "Spisevaner",
-    "ClotheStyleType": "Tøj stil",
-    "BodyArtType": "Kropsudsmykninger",
-    "ContactableText": "Kan du kontaktes af andre profiler?",
-    "Contactable": "Kan kontaktes",
-    "NotContactable": "Kan ikke kontaktes",
     "NameRequired": "Navn er påkrævet",
     "LanguagecodeRequired": "Sprog er påkrævet",
     "NameMinCharacters": "Navnet skal være mindst 3 tegn langt.",
     "NameMaxCharacters": "Navnet må ikke være mere end 20 tegn langt.",
     "GenderRequired": "Køn er påkrævet.",
-    "SexualRequired": "Seksuel orientering er påkrævet."
+    "SeekingRequired": "Søger er påkrævet."
   },
   "CreateProfileDialog": {
     "Title": "Tillykke. Din profil er nu oprettet.",
@@ -199,37 +195,9 @@
   },
   "EditProfileComponent": {
     "UpdateDetails": "Opdater din profil",
-    "Save": "Gem",
-    "CouldNotSaveUser": "Kunne ikke gemme bruger",
     "CreatedOn": "Oprettet ",
     "UpdatedOn": "Opdateret ",
     "LastActive": "Sidst aktiv ",
-    "Tags": "Tags",
-    "MaxTags": "Du kan maksimum søge på {{maxTags}} tags.",
-    "MaxTagsCharacters": "Et tag kan ikke være mere end 20 tegn langt.",
-    "Language": "Sprog",
-    "Country": "Land",
-    "Name": "Navn",
-    "Description": "Beskrivelse",
-    "Age": "Alder",
-    "Height": "Højde",
-    "Gender": "Køn",
-    "SexualOrientationType": "Seksuel orientering",
-    "BodyType": "Krops type",
-    "SmokingHabitsType": "Rygevaner",
-    "HasChildrenType": "Har børn",
-    "WantChildrenType": "Ønsker børn",
-    "HasPetsType": "Har husdyr",
-    "LivesInType": "Bor i",
-    "EducationType": "Udannelse",
-    "EducationStatusType": "Uddannelsesstatus",
-    "EmploymentStatusType": "Beskæftigelsesstatus",
-    "SportsActivityType": "Sports activity",
-    "EatingHabitsType": "Spisevaner",
-    "ClotheStyleType": "Tøj stil",
-    "BodyArtType": "Kropsudsmykninger",
-    "ContactableText": "Kan du kontaktes af andre profiler?",
-    "Contactable": "Kan kontaktes",
     "DeleteProfile": "Slet profil",
     "Warning": "Advarsel!",
     "CountryReset": "Hvis du skifter land, nulstilles dine bogmærker, chatmedlemmer, visninger, likes osv."
@@ -358,35 +326,29 @@
     "Yes": "Ja",
     "No": "Nej"
   },
-  "GenderType": {
+  "GenderTypes": {
     "Female": "Kvinde",
     "Male": "Mand"
   },
-  "SexualOrientationType": {
-    "Heterosexual": "Heteroseksuel",
-    "Homosexual": "Homoseksuel",
-    "Bisexual": "Biseksuel",
-    "Asexual": "Aseksuel"
-  },
-  "ClotheStyleType": {
+  "ClotheStyleTypes": {
     "Casual": "Afslappet",
     "Dressy": "Dressy",
     "Dandy": "Dandy",
     "Stylish": "Stilfuld",
     "Formal": "Formel"
   },
-  "BodyType": {
+  "BodyTypes": {
     "Atlethic": "Atletisk",
     "Chubby": "Buttede",
     "Normal": "Normal",
     "Robust": "Robust",
     "Slim": "Slank"
   },
-  "BodyArtType": {
+  "BodyArtTypes": {
     "Piercing": "Piercing",
     "Tatoo": "Tatovering"
   },
-  "EatingHabitsType": {
+  "EatingHabitsTypes": {
     "Healthy": "Sund",
     "Gastronomic": "Gastronomisk",
     "Kosher": "Kosher",
@@ -394,37 +356,37 @@
     "Traditional": "Traditionel",
     "Vegetarian": "Vegetarisk"
   },
-  "EducationStatusType": {
+  "EducationStatusTypes": {
     "Graduated": "Gradueret",
     "Student": "Studerende"
   },
-  "EducationType": {
+  "EducationTypes": {
     "School": "Skole",
     "Highschool": "Gymnasium",
     "University": "Universitet"
   },
-  "EmploymentStatusType": {
+  "EmploymentStatusTypes": {
     "Unemployed": "Arbejdsløs",
     "Employed": "Fastansat",
     "SelfEmployed": "Selvstændig"
   },
-  "LivesInType": {
+  "LivesInTypes": {
     "City": "By",
     "Suburb": "Forstad",
     "Countryside": "Landet"
   },
-  "SmokingHabitsType": {
+  "SmokingHabitsTypes": {
     "NonSmoker": "Ikke ryger",
     "OccasionalSmoker": "Lejlighedsvis ryger",
     "Smoker": "Ryger"
   },
-  "SportsActivityType": {
+  "SportsActivityTypes": {
     "Regularly": "Regelmæssigt",
     "SomeRegularity": "Noget regelmæssigt",
     "Seldom": "Sjældent",
     "Never": "Aldrig"
   },
-  "FeedbackType": {
+  "FeedbackTypes": {
     "Comment": "Kommentar",
     "Error": "Fejl",
     "Improvement": "Forbedringer",

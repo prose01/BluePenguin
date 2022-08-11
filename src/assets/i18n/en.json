@@ -29,13 +29,39 @@
   "Yes": "Yes",
   "No": "No",
   "Ok": "Ok",
+  "Save": "Save",
+  "CouldNotSaveUser": "Could not save user",
+  "Tags": "Tags",
+  "MaxTags": "Max {{maxTags}} tags.",
+  "MaxTagsCharacters": "Max 20 characters long.",
+  "Name": "Name",
+  "Description": "Description",
+  "Age": "Age",
+  "Height": "Height",
+  "Gender": "Gender",
+  "Seeking": "Seeking",
+  "BodyType": "Body type",
+  "SmokingHabitsType": "Smoking habits",
+  "HasChildrenType": "Has children",
+  "WantChildrenType": "Want children",
+  "HasPetsType": "Has pets",
+  "LivesInType": "Lives in",
+  "EducationType": "Education",
+  "EducationStatusType": "Educational status",
+  "EmploymentStatusType": "Employment status",
+  "SportsActivityType": "Sports activity",
+  "EatingHabitsType": "Eating habits",
+  "ClotheStyleType": "Fashion style",
+  "BodyArtType": "Body art",
+  "ContactableText": "Are you contactable by other profiles?",
+  "Contactable": "Contactable",
+  "CreatedOn": "Created on ",
+  "UpdatedOn": "Updated on ",
+  "LastActive": "Last active ",
   "NoResultsText": "Sorry no results :(",
   "ListViewComponent": {
     "ProfileId": "ProfileId",
     "Name": "Name",
-    "CreatedOn": "Created on",
-    "UpdatedOn": "Updated on",
-    "LastActive": "Last active",
     "Age": "Age",
     "Height": "Height",
     "VisitBookmarked": "Visit/Bookmarked",
@@ -154,42 +180,12 @@
   },
   "CreateProfileComponent": {
     "Create": "Create your profile",
-    "Save": "Save",
-    "CouldNotSaveUser": "Could not save user",
-    "Tags": "Tags",
-    "MaxTags": "Max {{maxTags}} tags.",
-    "MaxTagsCharacters": "Max 20 characters long.",
-    "Language": "Language",
-    "Country": "Country",
-    "CountrycodeRequired": "Country is required.",
-    "Name": "Name",
-    "Description": "Description",
-    "Age": "Age",
-    "Height": "Height",
-    "Gender": "Gender",
-    "SexualOrientationType": "Sexual orientation",
-    "BodyType": "Body type",
-    "SmokingHabitsType": "Smoking habits",
-    "HasChildrenType": "Has children",
-    "WantChildrenType": "Want children",
-    "HasPetsType": "Has pets",
-    "LivesInType": "Lives in",
-    "EducationType": "Education",
-    "EducationStatusType": "Educational status",
-    "EmploymentStatusType": "Employment status",
-    "SportsActivityType": "Sports activity",
-    "EatingHabitsType": "Eating habits",
-    "ClotheStyleType": "Fashion style",
-    "BodyArtType": "Body art",
-    "ContactableText": "Are you contactable by other profiles?",
-    "Contactable": "Contactable",
-    "NotContactable": "Not Contactable",
     "NameRequired": "Name is required",
     "LanguagecodeRequired": "Language is required",
     "NameMinCharacters": "Name must be at least 3 characters long.",
     "NameMaxCharacters": "Name cannot be more than 20 characters long.",
     "GenderRequired": "Gender is required.",
-    "SexualRequired": "Sexual orientation is required."
+    "SeekingRequired": "Seking is required."
   },
   "CreateProfileDialog": {
     "Title": "Congratulations. Your profile is now created.",
@@ -199,37 +195,9 @@
   },
   "EditProfileComponent": {
     "UpdateDetails": "Update your details",
-    "Save": "Save",
-    "CouldNotSaveUser": "Could not save user",
     "CreatedOn": "Created on ",
     "UpdatedOn": "Updated on ",
     "LastActive": "Last active ",
-    "Tags": "Tags",
-    "MaxTags": "Max {{maxTags}} tags.",
-    "MaxTagsCharacters": "Max 20 characters long.",
-    "Language": "Language",
-    "Country": "Country",
-    "Name": "Name",
-    "Description": "Description",
-    "Age": "Age",
-    "Height": "Height",
-    "Gender": "Gender",
-    "SexualOrientationType": "Sexual orientation",
-    "BodyType": "Body type",
-    "SmokingHabitsType": "Smoking habits",
-    "HasChildrenType": "Has children",
-    "WantChildrenType": "Want children",
-    "HasPetsType": "Has pets",
-    "LivesInType": "Lives in",
-    "EducationType": "Education",
-    "EducationStatusType": "Educational status",
-    "EmploymentStatusType": "Employment status",
-    "SportsActivityType": "Sports activity",
-    "EatingHabitsType": "Eating habits",
-    "ClotheStyleType": "Fashion style",
-    "BodyArtType": "Body art",
-    "ContactableText": "Are you contactable by other profiles?",
-    "Contactable": "Contactable",
     "DeleteProfile": "Delete profile",
     "Warning": "Warning!",
     "CountryReset": "If you change country your bookmarks, chatmembers, visited, likes etc. will be reset."
@@ -359,35 +327,29 @@
     "Yes": "Yes",
     "No": "No"
   },
-  "GenderType": {
+  "GenderTypes": {
     "Female": "Female",
     "Male": "Male"
   },
-  "SexualOrientationType": {
-    "Heterosexual": "Heterosexual",
-    "Homosexual": "Homosexual",
-    "Bisexual": "Bisexual",
-    "Asexual": "Asexual"
-  },
-  "ClotheStyleType": {
+  "ClotheStyleTypes": {
     "Casual": "Casual",
     "Dressy": "Dressy",
     "Dandy": "Dandy",
     "Stylish": "Stylish",
     "Formal": "Formal"
   },
-  "BodyType": {
+  "BodyTypes": {
     "Atlethic": "Atlethic",
     "Chubby": "Chubby",
     "Normal": "Normal",
     "Robust": "Robust",
     "Slim": "Slim"
   },
-  "BodyArtType": {
+  "BodyArtTypes": {
     "Piercing": "Piercing",
     "Tatoo": "Tatoo"
   },
-  "EatingHabitsType": {
+  "EatingHabitsTypes": {
     "Healthy": "Healthy",
     "Gastronomic": "Gastronomic",
     "Kosher": "Kosher",
@@ -395,37 +357,37 @@
     "Traditional": "Traditional",
     "Vegetarian": "Vegetarian"
   },
-  "EducationStatusType": {
+  "EducationStatusTypes": {
     "Graduated": "Graduated",
     "Student": "Student"
   },
-  "EducationType": {
+  "EducationTypes": {
     "School": "School",
     "Highschool": "Highschool",
     "University": "University"
   },
-  "EmploymentStatusType": {
+  "EmploymentStatusTypes": {
     "Unemployed": "Unemployed",
     "Employed": "Employed",
     "SelfEmployed": "Self-Employed"
   },
-  "LivesInType": {
+  "LivesInTypes": {
     "City": "City",
     "Suburb": "Suburb",
     "Countryside": "Countryside"
   },
-  "SmokingHabitsType": {
+  "SmokingHabitsTypes": {
     "NonSmoker": "Non Smoker",
     "OccasionalSmoker": "Occasional Smoker",
     "Smoker": "Smoker"
   },
-  "SportsActivityType": {
+  "SportsActivityTypes": {
     "Regularly": "Regularly",
     "SomeRegularity": "Somewhat Regularly",
     "Seldom": "Seldom",
     "Never": "Never"
   },
-  "FeedbackType": {
+  "FeedbackTypes": {
     "Comment": "Comment",
     "Error": "Error",
     "Improvement": "Improvement",

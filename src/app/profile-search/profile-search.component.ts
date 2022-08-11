@@ -65,7 +65,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
   private currentProfileFilterSubject: ProfileFilter;
-  public showGenderChoise: boolean;
   public tagsPlaceholder: string;
   public defaultAge: number;
   private maxTags: number;
@@ -86,7 +85,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.push(
-      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) })
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
 
     // Get and load previous ProfileFilter.
@@ -213,10 +212,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       clotheStyle: ClotheStyleType.NotChosen,
       bodyArt: BodyArtType.NotChosen
     });
-  }
-
-  private setShowGenderChoise(sexualOrientationType: string): void {
-    this.showGenderChoise = (sexualOrientationType == 'Heterosexual' || sexualOrientationType == 'Homosexual') ? false : true;
   }
 
   private loadForm(filter: ProfileFilter): void {
