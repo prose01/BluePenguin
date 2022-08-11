@@ -1,11 +1,10 @@
-import { Component, Input, EventEmitter, Output, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
-import { OrderByType } from '../../models/enums';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
@@ -21,18 +20,17 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   styleUrls: ['./profile-tileview.component.scss']
 })
 
-export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
+export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
+  private _profiles: any[];
   private currentUserSubject: CurrentUser;
-  private selectedProfile: Profile;
   private pageIndex: number = 0;
   private pageSize: number;
   private currentSize: number;
   public throttle = 1;
   public scrollDistance = 2;
   public scrollUpDistance = 2;
-  private defaultImage = '../assets/default-person-icon.jpg';
   public noProfiles: boolean = false;
   public loading: boolean = false;
 
@@ -41,7 +39,15 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   private randomImagePlace: number;
   private adGroup: number;
 
-  @Input() profiles: any[];
+  @Input() set profiles(values: any[]) {
+    this._profiles = values;
+    this.updateProfiles();
+  }
+  get profiles(): any[] {
+    return this._profiles;
+  }
+
+
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
@@ -66,17 +72,17 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     this.subs = [];
   }
 
-  ngOnChanges(): void {
-    // Remove empty profile from array.
-    this.profiles = this.profiles?.filter(function (el) {
-      return el != null;
-    });
-    
+  private updateProfiles() {
+    //// Remove empty profile from array. // TODO: Find out if this is still needed
+    //this.profiles = this.profiles?.filter(function (el) {
+    //  return el != null;
+    //});
+
     // Add random ad-tile.
     for (let index = 0; index < this.profiles?.length; index++) {
 
       // Group list of Profiles by AdGroup.
-      if (index != 0 && index % this.adGroup === 0){
+      if (index != 0 && index % this.adGroup === 0) {
         // Select random index within group and apply ad-tile.
         var i = this.randomIntFromInterval(index - this.adGroup, index);
         this.profiles?.splice(i, 0, 'ad');
@@ -89,7 +95,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     // In case we only have small images set at leas one.
-    if (this.profiles?.length > 0 && !this.imageSize.includes('big')){
+    if (this.profiles?.length > 0 && !this.imageSize.includes('big')) {
       this.imageSize[this.randomImagePlace] = 'big'
     }
 

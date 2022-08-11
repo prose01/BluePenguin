@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -25,7 +25,7 @@ import { OrderByType } from '../../models/enums';
   styleUrls: ['./profile-listview.component.scss']
 })
 
-export class ProfileListviewComponent implements OnChanges, OnDestroy {
+export class ProfileListviewComponent implements OnDestroy {
   private pageSize: number;
   private adGroup: number;
   public loading: boolean = false;
@@ -36,10 +36,18 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
   private selection = new SelectionModel<Profile>(true, []);
 
   private subs: Subscription[] = [];
+  private _profiles: any[];
   private currentUserSubject: CurrentUser;
   public noProfiles: boolean = false;
 
-  @Input() profiles: any[];
+  @Input() set profiles(values: any[]) {
+    this._profiles = values;
+    this.updateProfiles();
+  }
+  get profiles(): any[] {
+    return this._profiles;
+  }
+
   @Input() length: number;
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
@@ -70,10 +78,11 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     this.subs = [];
   }
 
-  ngOnChanges(): void {
-    this.profiles = this.profiles?.filter(function (el) {
-      return el != null;
-    });
+  private updateProfiles() {
+    //// Remove empty profile from array. // TODO: Find out if this is still needed
+    //this.profiles = this.profiles?.filter(function (el) {
+    //  return el != null;
+    //});
 
     //// Add random ad-tile. TODO: Set the ad row to full width.
     //for (let index = 0; index < this.profiles?.length; index++) {
@@ -330,7 +339,6 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
               for (let profileId of this.selcetedProfileIds()) {
                 let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
                 this.profiles.splice(index, 1);
-                this.ngOnChanges();
               }
             }
           }
