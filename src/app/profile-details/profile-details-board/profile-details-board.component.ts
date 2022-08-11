@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
@@ -14,7 +14,7 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
   templateUrl: './profile-details-board.component.html'
 })
 
-export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestroy {
+export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
 
   public loading: boolean = false;
@@ -23,8 +23,16 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestro
   public tabIndex = 0;
 
   public currentUserSubject: CurrentUser;
+  private _profile: Profile;
 
-  @Input() profile: Profile;
+  @Input() set profile(values: Profile) {
+    this._profile = values;
+    this.updateProfile();
+  }
+  get profile(): Profile {
+    return this._profile;
+  }
+
   @Output("loadDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(ProfileChatListviewComponent) profileChatListviewComponent: ProfileChatListviewComponent;
@@ -44,13 +52,9 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestro
     this.subs = [];
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.profile.firstChange) {
-      if (changes.profile.currentValue != changes.profile.previousValue) {
-        this.getProfileImages();
-        this.tabIndex = 0;
-      }
-    }
+  updateProfile(): void {
+    this.getProfileImages();
+    this.tabIndex = 0;
   }
 
   private getProfileImages(): void {

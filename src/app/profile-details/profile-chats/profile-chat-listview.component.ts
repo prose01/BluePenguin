@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -25,18 +25,7 @@ import { ChatFilter } from '../../models/chatFilter';
   styleUrls: ['./profile-chat-listview.component.scss']
 })
 
-export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestroy {
-
-  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
-  @Output("chatSearch") chatSearch: EventEmitter<any> = new EventEmitter();
-
-  @Input() profile: Profile;
-
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(ProfileChatSearchComponent) profileChatSearchComponent: ProfileChatSearchComponent;
-
+export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public noFeedbacks: boolean = false;
 
@@ -44,6 +33,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
   private currentSearch: string;
 
   private subs: Subscription[] = [];
+  private _profile: Profile;
   private currentUserSubject: CurrentUser;
   private chatFilter: ChatFilter;
 
@@ -56,6 +46,22 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
   public mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
+
+  @Input() set profile(values: Profile) {
+    this._profile = values;
+    this.getProfileMessages();
+  }
+  get profile(): Profile {
+    return this._profile;
+  }
+
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
+  @Output("chatSearch") chatSearch: EventEmitter<any> = new EventEmitter();
+
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(ProfileChatSearchComponent) profileChatSearchComponent: ProfileChatSearchComponent;
 
   constructor(private chatService: ChatService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -77,14 +83,6 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.mobileQuery.removeListener(this._mobileQueryListener);
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.profile.firstChange) {
-      if (changes.profile.currentValue != changes.profile.previousValue) {
-        this.getProfileMessages();
-      }
-    }
   }
 
   private pageChanged(event): void {
