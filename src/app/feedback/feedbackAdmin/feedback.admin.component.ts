@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,7 +26,7 @@ import { Feedback } from '../../models/feedback';
   styleUrls: ['./feedback.admin.component.scss']
 })
 
-export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
+export class FeedbackAdminComponent implements OnInit, OnDestroy {
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
@@ -85,7 +85,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.translocoService.selectTranslate('FeedbackAdminComponent.MyAssignedFeedbacks').subscribe(value => this.matButtonToggleAllText = value);
   }
 
-  ngOnChanges(): void {
+  updateFeedbacks(): void {
 
     this.feedbacks = this.feedbacks?.filter(function (el) {
       return el != null;
@@ -177,7 +177,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
           this.feedbacks.push(...response);
         },
         complete: () => {
-          this.ngOnChanges();
+          this.updateFeedbacks();
         },
         error: () => {
           this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
@@ -282,7 +282,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
           this.feedbacks.push(...response);
         },
         complete: () => {
-          this.ngOnChanges();
+          this.updateFeedbacks();
         },
         error: () => {
           this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;

@@ -72,7 +72,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     this.subs = [];
   }
 
-  private updateProfiles() {
+  private updateProfiles(): void {
     //// Remove empty profile from array. // TODO: Find out if this is still needed
     //this.profiles = this.profiles?.filter(function (el) {
     //  return el != null;

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
@@ -17,15 +17,22 @@ export class ProfileImagesComponent {
   private randomImagePlace: number;
   private adGroupProfile: number;
   private imageSize: string[] = []
+  private _profile: Profile;
 
-  @Input() profile: Profile;
+  @Input() set profile(values: Profile) {
+    this._profile = values;
+    this.updateProfileImages();
+  }
+  get profile(): Profile {
+    return this._profile;
+  }
 
   constructor(private dialog: MatDialog, private configurationLoader: ConfigurationLoader) {
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroupProfile = this.configurationLoader.getConfiguration().adGroupProfile;
   }
 
-  ngOnChanges(): void {
+  updateProfileImages(): void {
     // Add random ad-tile.
     for (let index = 0; index < this.profile.images?.length; index++) {
 
