@@ -86,7 +86,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     //  }
     //}
 
-    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
     this.setDataSource();
   }

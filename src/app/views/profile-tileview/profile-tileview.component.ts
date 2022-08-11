@@ -97,7 +97,7 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
       this.currentProfiles.push(...this.profiles);
     }
 
-    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
   async resetCurrentProfiles(): Promise<void> {

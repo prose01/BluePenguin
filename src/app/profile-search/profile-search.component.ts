@@ -111,7 +111,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     );
 
     this.subs.push(
-      this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
 
     this.subs.push(
@@ -276,7 +276,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.searchResultProfiles = [];
 
     this.subs.push(
-      this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
     this.profileForm.controls.tags.setErrors({ 'incorrect': false });
 
@@ -372,7 +372,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
       this.subs.push(
-        this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+        this.translocoService.selectTranslate('MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
 
       // Reset the input value
@@ -392,7 +392,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
         this.subs.push(
-          this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+          this.translocoService.selectTranslate('MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
 
         // Reset the input value
@@ -405,7 +405,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       }
 
       this.subs.push(
-        this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+        this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
       );
 
       this.profileForm.controls.tags.setErrors(null);
