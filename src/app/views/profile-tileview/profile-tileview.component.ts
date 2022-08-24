@@ -112,38 +112,12 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
-    console.log('scrolled down!!');
-
     this.pageIndex++;
     this.currentSize = this.pageSize * this.pageIndex;
 
-    //console.log('pageIndex ' + this.pageIndex);
-    //console.log('pageSize ' + this.pageSize);
-    //console.log('currentSize ' + this.currentSize);
-    //console.log('profiles ' + this.profiles.length);
-    //console.log('currentProfiles ' + this.currentProfiles.length);
-
     if (this.profiles?.length > 0) {
-      //console.log('getting next');
       this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
     }
-  }
-
-  onScrollUp(): void {
-    console.log('scrolled up!!');
-
-    //this.pageIndex--;
-    //this.currentSize = this.pageSize * this.pageIndex;
-
-    ////console.log('pageIndex ' + this.pageIndex);
-    ////console.log('pageSize ' + this.pageSize);
-    ////console.log('currentSize ' + this.currentSize);
-    ////console.log('profiles ' + this.profiles.length);
-
-    //if (this.profiles?.length > 0) {
-    //  //console.log('getting next');
-    //  //this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
-    //}
   }
 
   // Load Detalails page

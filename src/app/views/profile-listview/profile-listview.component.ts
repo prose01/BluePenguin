@@ -102,33 +102,9 @@ export class ProfileListviewComponent implements OnDestroy {
 
   private pageChanged(event): void {
 
-    //// Not sure where this goes. Maybe it doesn't belogs here at all as pageChanged might not be called at first. Initial data call.
-    //if (event.pageIndex = 0) {
-    //  presentData -> this.getNextData.emit();
-    //  futureData -> this.getNextData.emit();
-    //}
-
-    //if (this.pageIndex > event.pageIndex) {
-    //  // We are going forward
-    //  presentData -> pastData;
-    //  futureData -> presentData;
-    //  futureData -> this.getNextData.emit();
-    //}
-    //else if (this.pageIndex < event.pageIndex) {
-    //  // We are going back
-    //  presentData -> futureData;
-    //  pastData -> presentData;
-    //  pastData -> this.getNextData.emit();
-    //}
-
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
-
-    //console.log('pageIndex ' + pageIndex);
-    //console.log('pageSize ' + pageSize);
-    //console.log('currentSize ' + currentSize);
-    //console.log('profiles ' + this.profiles.length);
 
     this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
   }
@@ -412,7 +388,7 @@ export class ProfileListviewComponent implements OnDestroy {
   }
 
   private liked(profile: Profile): string {
-    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+    return profile?.likes?.find(x => x == this.currentUserSubject.profileId);
   }
 
   private randomIntFromInterval(min, max): number { // min and max included

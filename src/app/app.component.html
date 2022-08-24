@@ -33,27 +33,27 @@
 
       <!--Dashboard menu-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button type="button" (click)="getLatestProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'All'| transloco}}">
+        <button type="button" (click)="getData('LatestProfiles');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'All'| transloco}}">
           {{'All'| transloco}}
         </button>
 
-        <button type="button" (click)="getProfileByCurrentUsersFilter(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'MySearchFilter'| transloco}}">
+        <button type="button" (click)="getData('FilterProfiles');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'MySearchFilter'| transloco}}">
           <i class="material-icons">tune</i>
         </button>
 
-        <button type="button" (click)="getBookmarkedProfiles(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'Bookmarks'| transloco}}">
+        <button type="button" (click)="getData('BookmarkedProfiles');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'Bookmarks'| transloco}}">
           <i class="material-icons">bookmarks</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoVisitedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'VisitedMe'| transloco}}">
+        <button type="button" (click)="getData('ProfilesWhoVisitedMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'VisitedMe'| transloco}}">
           <i class="material-icons">adjust</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoBookmarkedMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'BookmarkedMe'| transloco}}">
+        <button type="button" (click)="getData('ProfilesWhoBookmarkedMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'BookmarkedMe'| transloco}}">
           <i class="material-icons">bookmark_added</i>
         </button>
 
-        <button type="button" (click)="getProfilesWhoLikesMe(); resetSelectionPagination();" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'LikesMe'| transloco}}">
+        <button type="button" (click)="getData('ProfilesWhoLikesMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'LikesMe'| transloco}}">
           <i class="material-icons">favorite</i>
         </button>
       </div>
@@ -101,13 +101,6 @@
   </div>
 
   <mat-menu #menu="matMenu">
-
-    <!--<mat-select placeholder="{{'Language'| transloco}}" [(value)]="siteLocale" (selectionChange)="switchLanguage()" class="language">
-    <mat-option *ngFor="let lang of languageList" [value]="lang.code">
-      {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
-    </mat-option>
-  </mat-select>-->
-
     <div *ngIf="isProfileCreated">
       <a (click)="loadEdit()" mat-menu-item>
         {{'EditProfile'| transloco}}
@@ -150,7 +143,7 @@
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
     <mat-sidenav #sidenav [fixedInViewport]="true" [fixedTopGap]="mobileQuery.matches ? 200 : 140">
       <div *ngIf="pageView === 'Search'">
-        <app-profile-search (getProfileByFilter)="getProfileByFilter()" (toggleDisplay)="toggleDisplay()" (activateSearch)="activateSearch($event)"></app-profile-search>
+        <app-profile-search (getProfileByFilter)="getData('ProfilesSearch')" (toggleDisplay)="toggleDisplay()" (activateSearch)="activateSearch($event)"></app-profile-search>
       </div>
     </mat-sidenav>
 

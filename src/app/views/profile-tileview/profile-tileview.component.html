@@ -18,8 +18,7 @@
        [infiniteScrollUpDistance]="scrollUpDistance"
        [infiniteScrollThrottle]="throttle"
        [scrollWindow]="true"
-       (scrolled)="onScrollDown()"
-       (scrolledUp)="onScrollUp()">
+       (scrolled)="onScrollDown()">
     <div *ngFor="let profile of currentProfiles; let i = index" [ngClass]="imageSize[i]">
 
       <ad-tile *ngIf="profile==='ad'"></ad-tile>

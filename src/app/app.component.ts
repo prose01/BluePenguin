@@ -201,80 +201,15 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getData(): void {
-    this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
-  }
-
-  // Calls to DashboardComponent
-  private getLatestProfiles(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
+  private getData(viewFilterType: string = this.viewFilterType): void {
+    this.viewFilterType = ViewFilterTypeEnum[viewFilterType];
+    this.isTileView ? this.dashboardComponent.resetCurrentProfiles() : this.dashboardComponent.resetSelectionPagination();
+    if (viewFilterType == 'ProfilesSearch') {
+      this.toggleDisplay();
     }
-
-    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
-    this.getData();
+    this.dashboardComponent.getData(ViewFilterTypeEnum[viewFilterType], this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
-  private getProfileByCurrentUsersFilter(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-    this.getData();
-  }
-
-  private getBookmarkedProfiles(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
-    this.getData();
-  }
-
-  private getProfileByFilter(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
-    this.getData();
-    this.toggleDisplay();
-  }
-
-  private getProfilesWhoVisitedMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
-    this.getData();
-  }
-
-  private getProfilesWhoBookmarkedMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
-    this.getData();
-  }
-
-  private getProfilesWhoLikesMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
-    this.getData();
-  }
-
-  private resetSelectionPagination(): void {
-    if (!this.isTileView) {
-      this.dashboardComponent?.resetSelectionPagination();
-    }
-  }
 
   // Calls to ProfileSearchComponent
   private onSubmit(): void {
