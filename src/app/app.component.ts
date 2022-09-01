@@ -203,10 +203,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private getData(viewFilterType: string = this.viewFilterType): void {
     this.viewFilterType = ViewFilterTypeEnum[viewFilterType];
-    this.isTileView ? this.dashboardComponent.resetCurrentProfiles() : this.dashboardComponent.resetSelectionPagination();
-    if (viewFilterType == 'ProfilesSearch') {
-      this.toggleDisplay();
-    }
+    this.isTileView ? this.dashboardComponent.resetCurrentProfiles() : this.dashboardComponent.resetSelectionPagination();    
     this.dashboardComponent.getData(ViewFilterTypeEnum[viewFilterType], this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
@@ -215,6 +212,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private onSubmit(): void {
     this.profileSearchComponent.onSubmit();
     this.sidenav.toggle();
+    this.toggleDisplay();
   }
 
   private reset(): void {
