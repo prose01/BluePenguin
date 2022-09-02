@@ -77,9 +77,6 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   private isAllSelected(): boolean {
-    //const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length;
-    //return numSelected === numRows;
     return this.selection.selected.length === this.dataSource.data.length;
   }
 

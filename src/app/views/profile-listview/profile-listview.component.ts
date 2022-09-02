@@ -79,11 +79,6 @@ export class ProfileListviewComponent implements OnDestroy {
   }
 
   private updateProfiles(): void {
-    //// Remove empty profile from array. // TODO: Find out if this is still needed
-    //this.profiles = this.profiles?.filter(function (el) {
-    //  return el != null;
-    //});
-
     //// Add random ad-tile. TODO: Set the ad row to full width.
     //for (let index = 0; index < this.profiles?.length; index++) {
 
@@ -119,9 +114,6 @@ export class ProfileListviewComponent implements OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   private isAllSelected(): boolean {
-    //const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
-    //return numSelected === numRows;
     return this.selection.selected.length === this.dataSource.data.length;
   }
 

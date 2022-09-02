@@ -77,6 +77,7 @@
   "GetProfilesWhoVisitedMe": "Could not get profiles that have visited me",
   "GetProfilesWhoBookmarkedMe": "Could not get profiles that have bookmarked me",
   "GetProfilesWhoLikesMe": "Could not get profiles that have liked me",
+  "SearchSaved": "Search saved",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",

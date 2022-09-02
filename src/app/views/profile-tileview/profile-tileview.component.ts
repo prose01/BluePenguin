@@ -73,10 +73,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   private updateProfiles(): void {
-    //// Remove empty profile from array. // TODO: Find out if this is still needed
-    //this.profiles = this.profiles?.filter(function (el) {
-    //  return el != null;
-    //});
 
     // Add random ad-tile.
     for (let index = 0; index < this.profiles?.length; index++) {

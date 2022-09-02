@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -8,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { EnumMappingService } from '../services/enumMapping.service';
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
+import { ErrorDialog } from '../error-dialog/error-dialog.component';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
 import { Profile } from '../models/profile';
@@ -76,7 +78,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   @Output() activateSearch: EventEmitter<any> = new EventEmitter();
 
 
-  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.ageList = [...Array(1 + 120 - this.defaultAge).keys()].map(v => this.defaultAge + v);
@@ -332,7 +334,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.saveProfileFilter(this.filter)
       .subscribe({
-        next: () =>  {}, // TODO: Give feeback on succes
+        next: () => {
+          this.openErrorDialog(this.translocoService.translate('SearchSaved'), null);
+        }, 
         complete: () => { this.loading = false; },
         error: () => { this.loading = false; }
       })
@@ -434,5 +438,14 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   // Preserve original EnumMapping order
   originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
     return 0;
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }
