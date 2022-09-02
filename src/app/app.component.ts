@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private currentUserSubject: CurrentUser;
   private isProfileCreated: boolean = false;
 
-  private useChat = false; // TODO: Get from Config! Turns off Chat :)
+  private useChat = false;
 
   private pageView: pageViewEnum = pageViewEnum.Dashboard;
   private matButtonToggleText: string;
@@ -69,6 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _snackBar: MatSnackBar, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
+    this.useChat = this.configurationLoader.getConfiguration().useChat;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })

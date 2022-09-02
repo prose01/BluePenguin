@@ -2,6 +2,7 @@ export type Configuration = {
   avalonUrl: string;
   artemisUrl: string;
   junoUrl: string;
+  useChat: boolean;
   genderTypes: string[];
   maxTags: number;
   maxPhotos: number;
