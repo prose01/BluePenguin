@@ -153,7 +153,7 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
   private toggleBlocked(): void {
     this.showBlocked = !this.showBlocked;
-    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));    // TODO: Translate!!
+    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));
     this.matButtonToggleIcon = (this.showBlocked ? 'remove_moderator' : 'shield');
     this.refreshChatmemberlist(this.showBlocked);
   }

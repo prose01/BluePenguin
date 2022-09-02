@@ -73,10 +73,6 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
           this.profileService.deleteProfiles(this.profileIds).subscribe()
         );
       }
-      else if (this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
-        // TODO: Show error messsage - 'Administrators cannot delete themselves.';
-        console.log('Administrators cannot delete themselves.');
-      }
     }
   }
 

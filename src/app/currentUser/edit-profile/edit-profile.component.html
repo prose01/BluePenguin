@@ -211,7 +211,7 @@
 
     <hr class="solid">
 
-    <button type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
+    <button *ngIf="!currentUserSubject.admin" type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
       <i class="material-icons">delete</i>
     </button>
 
