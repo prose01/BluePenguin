@@ -146,7 +146,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`; // TODO: row ${row} needs an id.
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
 
   private selcetedFeedbackIds(): Feedback[] {

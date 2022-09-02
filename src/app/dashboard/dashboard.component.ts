@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;  // TODO: Add openErrorDialog message
+          this.openErrorDialog(this.translocoService.translate('GetLatestProfiles'), null); this.loading = false;
         }
       })
     );
@@ -176,7 +176,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetProfileByCurrentUsersFilter'), null); this.loading = false;
+        }
       })
     );
   }
@@ -195,7 +197,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetBookmarkedProfiles'), null); this.loading = false;
+        }
       })
     );
   }
@@ -214,7 +218,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
+        }
       })
     );
   }
@@ -233,7 +239,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoVisitedMe'), null); this.loading = false;
+        }
       })
     );
   }
@@ -252,7 +260,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoBookmarkedMe'), null); this.loading = false;
+        }
       })
     );
   }
@@ -271,7 +281,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.length = this.currentProfiles.length + currentSize + 1;
         },
         complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoLikesMe'), null); this.loading = false;
+        }
       })
     );
   }

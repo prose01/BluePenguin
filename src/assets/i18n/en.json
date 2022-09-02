@@ -70,6 +70,13 @@
   "NotContactable": "This profile is not contactable",
   "AddToBookmarked": "Add to Bookmarked",
   "RemoveFromBookmarked": "Remove from Bookmarked",
+  "GetLatestProfiles": "Could not get profiles",
+  "GetProfileByCurrentUsersFilter": "Could not get profiles by My Search Filter",
+  "GetBookmarkedProfiles": "Could not get bookmarked",
+  "GetProfileByFilter": "Could not get profiles by Search Filter",
+  "GetProfilesWhoVisitedMe": "Could not get profiles that have visited me",
+  "GetProfilesWhoBookmarkedMe": "Could not get profiles that have bookmarked me",
+  "GetProfilesWhoLikesMe": "Could not get profiles that have liked me",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",
