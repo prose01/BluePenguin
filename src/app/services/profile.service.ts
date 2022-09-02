@@ -103,7 +103,7 @@ export class ProfileService {
 
 
   // Bookmarks
-  addProfilesToBookmarks(profiles: string[]): Observable<{}> {   // TODO: Should not return all profiles
+  addProfilesToBookmarks(profiles: string[]): Observable<{}> {
     return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -111,7 +111,7 @@ export class ProfileService {
       );
   }
 
-  removeProfilesFromBookmarks(profiles: string[]): Observable<{}> {  // TODO: Should not return all profiles
+  removeProfilesFromBookmarks(profiles: string[]): Observable<{}> {
     return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
       .pipe(
         retry(3),
@@ -133,7 +133,7 @@ export class ProfileService {
   }
 
   // Likes
-  addLikeToProfile(profileId: string): Observable<{}> {  // TODO: Should not return all profiles
+  addLikeToProfile(profileId: string): Observable<{}> {
     return this.http.get(`${this.avalonUrl}AddLikeToProfile/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -141,7 +141,7 @@ export class ProfileService {
       );
   }
 
-  removeLikeFromProfile(profileId: string): Observable<{}> {  // TODO: Should not return all profiles
+  removeLikeFromProfile(profileId: string): Observable<{}> {
     return this.http.get(`${this.avalonUrl}RemoveLikeFromProfile/${profileId}`, { headers: this.headers })
       .pipe(
         retry(3),
@@ -153,13 +153,13 @@ export class ProfileService {
 
   // Profile
 
-  getProfiles(): Observable<Profile[]> { // TODO: Should not return all profiles
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //getProfiles(): Observable<Profile[]> {
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   getProfileById(profileId: string): Observable<Profile> {
     return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
