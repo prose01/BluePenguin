@@ -149,6 +149,23 @@ export class ProfileService {
       );
   }
 
+  addLikeToProfiles(profileIds: string[]): Observable<{}> {
+    console.log(profileIds);
+    return this.http.post(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  removeLikeFromProfiles(profileIds: string[]): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
 
 
   // Profile

@@ -192,18 +192,19 @@ export class ProfileListviewComponent implements OnDestroy {
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
 
       var profileId = this.selection.selected[_i].profileId;
-
+      console.log('profileId ' + profileId);
       if (this.liked(this.selection.selected[_i])) {
         removeProfiles.push(profileId);
       }
       else {
+        console.log('addProfiles ' + profileId);
         addProfiles.push(profileId);
       }
     }
-
+    console.log(addProfiles);
     if (removeProfiles.length > 0) {
       this.subs.push(
-        this.profileService.addLikeToProfile(profileId)
+        this.profileService.addLikeToProfiles(addProfiles)
         .subscribe({
           next: () =>  {
             this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
@@ -216,7 +217,7 @@ export class ProfileListviewComponent implements OnDestroy {
 
     if (addProfiles.length > 0) {
       this.subs.push(
-        this.profileService.addLikeToProfile(profileId)
+        this.profileService.removeLikeFromProfiles(removeProfiles)
         .subscribe({
           next: () =>  {
             this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
