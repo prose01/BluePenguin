@@ -69,8 +69,11 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
 
   /** Add or remove Likes */
   private addLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.profile.profileId);
+
     this.subs.push(
-      this.profileService.addLikeToProfile(this.profile.profileId)
+      this.profileService.addLikeToProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
           this.profile.likes.push(this.currentUserSubject.profileId);
@@ -82,8 +85,11 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   }
 
   private removeLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.profile.profileId);
+
     this.subs.push(
-      this.profileService.removeLikeFromProfile(this.profile.profileId)
+      this.profileService.removeLikeFromProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
           let index = this.profile.likes.indexOf(this.currentUserSubject.profileId, 0);

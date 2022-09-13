@@ -131,7 +131,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          // if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
         },
         complete: () => {},
         error: () => {}
@@ -148,7 +147,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          // if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
           let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
           this.currentProfiles.splice(index, 1);
         },
@@ -159,12 +157,15 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   /** Add or remove Likes */
-  private addLike(profile: Profile): void {
+  private addLike(profileId: string): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
+
     this.subs.push(
-      this.profileService.addLikeToProfile(profile.profileId)
+      this.profileService.addLikeToProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
-          this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
+          this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
         },
         complete: () => {},
         error: () => {}
@@ -172,13 +173,16 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private removeLike(profile: Profile): void {
+  private removeLike(profileId: string): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
+
     this.subs.push(
-      this.profileService.removeLikeFromProfile(profile.profileId)
+      this.profileService.removeLikeFromProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
-          let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-          this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
+          let index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+          this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
         },
         complete: () => {},
         error: () => {}
@@ -247,8 +251,12 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     return this.currentUserSubject?.bookmarks.find(x => x == profileId);
   }
 
-  private liked(profile: Profile): string {
-    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+  private liked(profile: Profile): boolean {
+    if (profile?.likes?.indexOf(this.currentUserSubject.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   // Set random tilesize for images.

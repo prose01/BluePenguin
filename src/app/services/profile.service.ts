@@ -92,14 +92,14 @@ export class ProfileService {
       );
   }
 
-  // Does not work so use putProfile instead.
-  patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //// Does not work so use putProfile instead.
+  //patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
+  //  return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
 
   // Bookmarks
@@ -133,22 +133,6 @@ export class ProfileService {
   }
 
   // Likes
-  addLikeToProfile(profileId: string): Observable<{}> {
-    return this.http.get(`${this.avalonUrl}AddLikeToProfile/${profileId}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
-
-  removeLikeFromProfile(profileId: string): Observable<{}> {
-    return this.http.get(`${this.avalonUrl}RemoveLikeFromProfile/${profileId}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
-
   addLikeToProfiles(profileIds: string[]): Observable<{}> {
     return this.http.post<Profile[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers })
       .pipe(
@@ -217,17 +201,17 @@ export class ProfileService {
       );
   }
 
-  getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
-    const params = new HttpParams()
-      .set('PageIndex', pageIndex)
-      .set('PageSize', pageSize);
+  //getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
+  //  const params = new HttpParams()
+  //    .set('PageIndex', pageIndex)
+  //    .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
+  //    .pipe(
+  //      retry(3),
+  //      catchError(this.handleError)
+  //    );
+  //}
 
   blockChatMembers(profileIds: string[]): Observable<{}>{ 
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })

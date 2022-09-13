@@ -1,18 +1,18 @@
 <div class="grid grid-pad">
   <div *ngIf="profile">
 
-    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
-      <i class="material-icons">favorite</i>
-    </button>
-    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
-      <i class="material-icons">favorite_border</i>
-    </button>
-
     <button type="button" *ngIf="bookmarked()" (click)="removeBookmarkedProfiles()" mat-icon mat-flat-button color="accent" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
       <i class="material-icons">bookmark</i>
     </button>
     <button type="button" *ngIf="!bookmarked()" (click)="addBookmarkedProfiles()" mat-icon mat-flat-button color="accent" matTooltip="{{'AddToBookmarked'| transloco}}">
       <i class="material-icons">bookmark_border</i>
+    </button>
+
+    <button type="button" *ngIf="liked()" (click)="removeLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+      <i class="material-icons">favorite</i>
+    </button>
+    <button type="button" *ngIf="!liked()" (click)="addLike()" mat-icon mat-flat-button color="accent" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+      <i class="material-icons">favorite_border</i>
     </button>
 
     <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">

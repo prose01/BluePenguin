@@ -66,8 +66,11 @@ export class ImageDialog implements OnInit, OnDestroy {
 
   /** Add or remove Likes */
   private addLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
     this.subs.push(
-      this.profileService.addLikeToProfile(this.data.profile.profileId)
+      this.profileService.addLikeToProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
           this.data.profile.likes.push(this.currentUserSubject.profileId);
@@ -79,8 +82,11 @@ export class ImageDialog implements OnInit, OnDestroy {
   }
 
   private removeLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
     this.subs.push(
-      this.profileService.removeLikeFromProfile(this.data.profile.profileId)
+      this.profileService.removeLikeFromProfiles(selcetedProfiles)
       .subscribe({
         next: () =>  {
           let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);

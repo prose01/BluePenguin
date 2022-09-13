@@ -37,10 +37,10 @@
         </div>
 
         <div class="button">
-          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
             <i class="material-icons icon-white">favorite</i>
           </button>
-          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
             <i class="material-icons icon-white">favorite_border</i>
           </button>
         </div>
