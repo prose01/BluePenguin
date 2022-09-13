@@ -133,58 +133,7 @@ export class ProfileListviewComponent implements OnDestroy {
   }
 
   /** Add or remove Likes */
-  private toggleLike(): void {    // TODO: Look at these two toggles again and decide which to keep.
-
-    for (var _i = 0; _i < this.selection.selected.length; _i++) {
-
-      var profileId = this.selection.selected[_i].profileId;
-
-      // If profile has no likes yet. 
-      if (this.selection.selected[_i].likes?.length == 0) {
-        this.subs.push(
-          this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-          .subscribe({
-            next: () =>  {
-              this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-            },
-            complete: () => {},
-            error: () => {}
-          })
-        );
-        return;
-      }
-
-      for (const value of this.selection.selected[_i].likes) {
-        if (this.liked(this.selection.selected[_i])) {
-          this.subs.push(
-            this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
-            .subscribe({
-              next: () =>  {
-                const index = this.profiles.find(x => x.profileId === profileId)?.likes.indexOf(this.currentUserSubject.profileId, 0);
-                this.profiles.find(x => x.profileId === profileId)?.likes.splice(index, 1);
-              },
-              complete: () => {},
-              error: () => {}
-            })
-          );
-        }
-        else {
-          this.subs.push(
-            this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-            .subscribe({
-              next: () =>  {
-                this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-              },
-              complete: () => {},
-              error: () => {}
-            })
-          );
-        }
-      }
-    }
-  }
-
-  private toggleLike2(): void {   // TODO: Look at these two toggles again and decide which to keep.
+  private toggleLikes(): void {
 
     var removeProfiles = new Array;
     var addProfiles = new Array;
@@ -192,35 +141,40 @@ export class ProfileListviewComponent implements OnDestroy {
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
 
       var profileId = this.selection.selected[_i].profileId;
-      console.log('profileId ' + profileId);
       if (this.liked(this.selection.selected[_i])) {
         removeProfiles.push(profileId);
       }
       else {
-        console.log('addProfiles ' + profileId);
         addProfiles.push(profileId);
       }
-    }
-    console.log(addProfiles);
-    if (removeProfiles.length > 0) {
-      this.subs.push(
-        this.profileService.addLikeToProfiles(addProfiles)
-        .subscribe({
-          next: () =>  {
-            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-          },
-          complete: () => {},
-          error: () => {}
-        })
-      );
     }
 
     if (addProfiles.length > 0) {
       this.subs.push(
+        this.profileService.addLikeToProfiles(addProfiles)
+          .subscribe({
+            next: () => {
+              addProfiles.forEach((currentValue, i) => {
+                this.profiles.find(x => x.profileId === currentValue).likes.push(this.currentUserSubject.profileId);
+              });              
+            },
+            complete: () => {},
+            error: () => {}
+          })
+      );
+    }
+
+    if (removeProfiles.length > 0) {
+      this.subs.push(
         this.profileService.removeLikeFromProfiles(removeProfiles)
         .subscribe({
-          next: () =>  {
-            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
+          next: () => {
+            removeProfiles.forEach((currentValue, i) => {
+              var index = this.profiles.find(x => x.profileId === currentValue)?.likes.indexOf(this.currentUserSubject.profileId);
+              if (index !== -1) {
+                this.profiles.find(x => x.profileId === currentValue)?.likes.splice(index, 1);
+              }
+            });              
           },
           complete: () => {},
           error: () => {}
@@ -380,8 +334,12 @@ export class ProfileListviewComponent implements OnDestroy {
     return this.currentUserSubject.bookmarks.find(x => x == profileId);
   }
 
-  private liked(profile: Profile): string {
-    return profile?.likes?.find(x => x == this.currentUserSubject.profileId);
+  private liked(profile: Profile): boolean {
+    if (profile?.likes?.indexOf(this.currentUserSubject.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private randomIntFromInterval(min, max): number { // min and max included

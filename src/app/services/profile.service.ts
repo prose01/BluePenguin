@@ -150,8 +150,7 @@ export class ProfileService {
   }
 
   addLikeToProfiles(profileIds: string[]): Observable<{}> {
-    console.log(profileIds);
-    return this.http.post(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -159,7 +158,7 @@ export class ProfileService {
   }
 
   removeLikeFromProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers })
+    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
