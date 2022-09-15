@@ -330,8 +330,12 @@ export class ProfileListviewComponent implements OnDestroy {
     }
   }
 
-  private bookmarked(profileId: string): string {
-    return this.currentUserSubject.bookmarks.find(x => x == profileId);
+  private bookmarked(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private liked(profile: Profile): boolean {

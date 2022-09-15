@@ -101,8 +101,12 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  private bookmarked(): string {
-    return this.currentUserSubject?.bookmarks.find(x => x == this.profile.profileId)
+  private bookmarked(): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(this.profile.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   /** Add or remove bookmarks */

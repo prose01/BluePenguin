@@ -147,8 +147,10 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
-          this.currentProfiles.splice(index, 1);
+          if (this.viewFilterType == "BookmarkedProfiles") {
+            let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+            this.currentProfiles.splice(index, 1);
+          }
         },
         complete: () => {},
         error: () => {}
@@ -247,8 +249,12 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private bookmarked(profileId: string): string {
-    return this.currentUserSubject?.bookmarks.find(x => x == profileId);
+  private bookmarked(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private liked(profile: Profile): boolean {
