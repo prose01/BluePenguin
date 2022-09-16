@@ -115,19 +115,19 @@
       {{'About'| transloco}}
       <i class="material-icons">plus_one</i>
     </a>
-    <div *ngIf="!currentUserSubject?.admin">
+    <div *ngIf="currentUserSubject != null && !currentUserSubject?.admin">
       <a (click)="loadFeedback()" mat-menu-item>
         {{'Feedback'| transloco}}
         <i class="material-icons">plus_one</i>
       </a>
     </div>
-    <div *ngIf="currentUserSubject?.admin">
+    <div *ngIf="currentUserSubject != null && currentUserSubject?.admin">
       <a (click)="loadFeedbackAdmin()" mat-menu-item>
         {{'FeedbackAdmin'| transloco}}
         <i class="material-icons">admin_panel_settings</i>
       </a>
     </div>
-    <div *ngIf="currentUserSubject?.admin">
+    <div *ngIf="currentUserSubject != null && currentUserSubject?.admin">
       <a (click)="loadAdmin()" mat-menu-item>
         {{'Admin'| transloco}}
         <i class="material-icons">admin_panel_settings</i>

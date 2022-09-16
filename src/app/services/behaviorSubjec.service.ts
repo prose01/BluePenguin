@@ -3,7 +3,9 @@ import { BehaviorSubject } from "rxjs";
 import { ProfileFilter } from "../models/profileFilter";
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BehaviorSubjectService {
 
   // ProfileFilter observable.

@@ -30,6 +30,7 @@ import { MatMomentDateModule }                from '@angular/material-moment-ada
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS }    from '@angular/material-moment-adapter';
 
 import { HTTP_INTERCEPTORS }                  from '@angular/common/http';
+import { HttpErrorInterceptor }               from './ErrorHandling/http-error.interceptor';
 import { AuthInterceptor }                    from './authorisation/auth/auth.interceptor';
 import { AuthService }                        from './authorisation/auth/auth.service';
 import { AppRoutingModule }                   from './app-routing.module';
@@ -186,7 +187,8 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     SnackBarService,
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { Observable, BehaviorSubject, throwError  } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
@@ -10,7 +9,9 @@ import { ProfileFilter } from '../models/profileFilter';
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 import { OrderByType } from '../models/enums';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProfileService {
 
   private avalonUrl: string;
@@ -45,78 +46,42 @@ export class ProfileService {
   }
 
   cleanCurrentUser(): Observable<{}>  {
-    return this.http.get<any>(`${this.avalonUrl}CleanCurrentUser`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<any>(`${this.avalonUrl}CleanCurrentUser`, { headers: this.headers });
   }
 
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-    return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers });
   }
 
   putProfile(currentUser: CurrentUser): Observable<{}> {
-    return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.put<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers });
   }
 
   deleteCurrentUser(): Observable<{}> {
-    return this.http.delete(`${this.avalonUrl}CurrentUser`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.delete(`${this.avalonUrl}CurrentUser`, { headers: this.headers });
   }
 
   saveProfileFilter(profileFilter: ProfileFilter): Observable<{}> {
-    return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<CurrentUser>(`${this.avalonUrl}SaveProfileFilter`, profileFilter, { headers: this.headers });
   }
 
   loadProfileFilter(): Observable<ProfileFilter> {
-    return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers });
   }
 
   //// Does not work so use putProfile instead.
   //patchProfile(currentUser: CurrentUser): Observable<CurrentUser> {
-  //  return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers })
-  //    .pipe(
-  //      retry(3),
-  //      catchError(this.handleError)
-  //    );
+  //  return this.http.patch<CurrentUser>(`${this.avalonUrl}CurrentUser`, { prof: currentUser }, { headers: this.headers });
   //}
 
 
   // Bookmarks
   addProfilesToBookmarks(profiles: string[]): Observable<{}> {
-    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers });
   }
 
   removeProfilesFromBookmarks(profiles: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers });
   }
 
   getBookmarkedProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -125,28 +90,16 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetBookmarkedProfiles`, { headers: this.headers, params: params });
   }
 
   // Likes
   addLikeToProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers });
   }
 
   removeLikeFromProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers });
   }
 
 
@@ -154,51 +107,27 @@ export class ProfileService {
   // Profile
 
   //getProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers })
-  //    .pipe(
-  //      retry(3),
-  //      catchError(this.handleError)
-  //    );
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers });
   //}
 
   getProfileById(profileId: string): Observable<Profile> {
-    return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers });
   }
 
   addVisitedToProfiles(profileId: string): Observable<{}> {
-    return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-    );
+    return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers });
   }
 
   deleteProfiles(profiles: string[]): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers });
   }
 
   setAsAdmin(profileId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}SetAsAdmin`, `\"${profileId}\"`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post(`${this.avalonUrl}SetAsAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   removeAdmin(profileId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   //getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
@@ -206,19 +135,11 @@ export class ProfileService {
   //    .set('PageIndex', pageIndex)
   //    .set('PageSize', pageSize);
 
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params })
-  //    .pipe(
-  //      retry(3),
-  //      catchError(this.handleError)
-  //    );
+  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params });
   //}
 
   blockChatMembers(profileIds: string[]): Observable<{}>{ 
-    return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers });
   }
 
   getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -227,11 +148,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params });
   }
 
   getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -240,11 +157,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfileByCurrentUsersFilter`, { headers: this.headers, params: params });
   }
 
   getLatestProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -253,11 +166,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetLatestProfiles`, { headers: this.headers, params: params });
   }
 
   getProfilesWhoVisitedMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -266,11 +175,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoVisitedMe`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoVisitedMe`, { headers: this.headers, params: params });
   }
 
   getProfilesWhoBookmarkedMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -279,11 +184,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoBookmarkedMe`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoBookmarkedMe`, { headers: this.headers, params: params });
   }
 
   getProfilesWhoLikesMe(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -292,11 +193,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoLikesMe`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoLikesMe`, { headers: this.headers, params: params });
   }
 
   deleteOldProfiles(daysBack: number, limit: number): Observable<{}> {
@@ -304,40 +201,6 @@ export class ProfileService {
       .set('daysBack', daysBack)
       .set('limit', limit);
 
-    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers, params: params })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
-  }
-
-
-  // Helper Lav en rigtig error handler inden produktion
-  // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
-  // Husk at opdater GET, POST etc this.handleError!
-  //private handleError(error: any): Promise<any> {
-  //  console.error('An error occurred', error); // for demo purposes only
-  //  return Promise.reject(error.message || error);
-  //}
-
-  private handleError(error: HttpErrorResponse) {
-    //if (error.error instanceof ErrorEvent) {
-    //  // A client-side or network error occurred. Handle it accordingly.
-    //  console.error('An error occurred:', error.error.message);
-    //} else if (error.status === 0) {
-    //  // A client-side or network error occurred. Handle it accordingly.
-    //  console.error('No connection to data server:', error.error);
-    //} else {
-    //  // The backend returned an unsuccessful response code.
-    //  // The response body may contain clues as to what went wrong.
-    //  console.error(
-    //    `Backend returned code ${error.status}, ` +
-    //    `body was: ${error.error}`);
-    //}
-    // Return an observable with a user-facing error message.
-    return throwError(
-      error
-      //'Something bad happened; please try again later.'
-    );
+    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers, params: params });
   }
 }

@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         (error: any) => {
           if (error.status === 0) {
             // A network error occurred.
-            this.openErrorDialog('No connection to server', null);
+            this.openErrorDialog(this.translocoService.translate('NoServerConnection'), null);
           }
         }
       );

@@ -1,6 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
@@ -65,7 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-  //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _snackBar: MatSnackBar, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
@@ -76,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     setTimeout(() => {
-      if (this.auth.isAuthenticated()) {
+      if (this.auth.isAuthenticated() && this.isProfileCreated) {
         this.profileService.cleanCurrentUser().subscribe();
       }
     }, 500);

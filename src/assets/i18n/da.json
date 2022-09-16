@@ -70,6 +70,7 @@
   "NotContactable": "Denne profile kan ikke kontaktes.",
   "AddToBookmarked": "Tilføj bookmarket",
   "RemoveFromBookmarked": "Fjern fra bookmarket",
+  "NoServerConnection": "Ingen forbindelse til server",
   "GetLatestProfiles": "Kunne ikke hente profiler",
   "GetProfileByCurrentUsersFilter": "Kunne ikke hente profiler efter Mit Søgefileter",
   "GetBookmarkedProfiles": "Kunne ikke hente bookmarkede profiler",

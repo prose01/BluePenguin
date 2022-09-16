@@ -70,6 +70,7 @@
   "NotContactable": "This profile is not contactable",
   "AddToBookmarked": "Add to Bookmarked",
   "RemoveFromBookmarked": "Remove from Bookmarked",
+  "NoServerConnection": "No connection to server",
   "GetLatestProfiles": "Could not get profiles",
   "GetProfileByCurrentUsersFilter": "Could not get profiles by My Search Filter",
   "GetBookmarkedProfiles": "Could not get bookmarked",

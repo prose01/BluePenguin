@@ -20,7 +20,9 @@ import {
 import { FeedbackType } from '../models/feedbackType';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EnumMappingService {
 
   NotChosenText: string;
