@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'image-dialog',
@@ -19,7 +22,7 @@ export class ImageDialog implements OnInit, OnDestroy {
 
   public index: number;
 
-  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>,
+  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
   }
@@ -76,7 +79,9 @@ export class ImageDialog implements OnInit, OnDestroy {
           this.data.profile.likes.push(this.currentUserSubject.profileId);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+        }
       })
     );
   }
@@ -93,7 +98,9 @@ export class ImageDialog implements OnInit, OnDestroy {
           this.data.profile.likes.splice(index, 1);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+        }
       })
     );
   }
@@ -119,7 +126,9 @@ export class ImageDialog implements OnInit, OnDestroy {
         complete: () => {
           this.profileService.updateCurrentUserSubject();
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+        }
       })
     );
   }
@@ -135,8 +144,19 @@ export class ImageDialog implements OnInit, OnDestroy {
         complete: () => {
           this.profileService.updateCurrentUserSubject();
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+        }
       })
     );
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

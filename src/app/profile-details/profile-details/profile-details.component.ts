@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -6,6 +7,7 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'profile-details',
@@ -18,7 +20,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
 
-  constructor(private profileService: ProfileService, private dialog: MatDialog) { }
+  constructor(private profileService: ProfileService, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
 
   ngOnInit(): void {
     this.subs.push(
@@ -38,7 +40,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response: any) => { this.profile = response },
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);
+          }
         })
       );
     }
@@ -51,7 +55,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response: any) => { this.profile = response },
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveProfileAsAdmin'), null);
+          }
         })
       );
     }
@@ -79,7 +85,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
           this.profile.likes.push(this.currentUserSubject.profileId);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+        }
       })
     );
   }
@@ -96,7 +104,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
           this.profile.likes.splice(index, 1);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+        }
       })
     );
   }
@@ -121,7 +131,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
         complete: () => {
           this.profileService.updateCurrentUserSubject();
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+        }
       })
     );
   }
@@ -137,8 +149,19 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
         complete: () => {
           this.profileService.updateCurrentUserSubject();
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+        }
       })
     );
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
@@ -17,6 +17,7 @@ import { ProfileService } from './services/profile.service';
 import { EnumMappingService } from './services/enumMapping.service';
 import { SnackBarService } from './services/snack-bar.service';
 import { ViewFilterTypeEnum } from './models/viewFilterTypeEnum';
+import { ErrorDialog } from './error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -66,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _snackBar: MatSnackBar, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
     this.useChat = this.configurationLoader.getConfiguration().useChat;
 
@@ -341,12 +342,28 @@ export class AppComponent implements OnInit, OnDestroy {
   // Load Details page
   private loadDetails(profile: Profile): void {
     this.subs.push(
-      this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { })
+      this.profileService.addVisitedToProfiles(profile.profileId)
+        .subscribe({
+          next: () => { },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
+          }
+        })
     );
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');
     this.matButtonToggleIcon = 'dashboard';
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 
 }

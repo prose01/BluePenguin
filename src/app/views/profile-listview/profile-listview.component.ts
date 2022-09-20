@@ -18,6 +18,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageModel } from '../../models/imageModel';
 import { OrderByType } from '../../models/enums';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -159,7 +160,9 @@ export class ProfileListviewComponent implements OnDestroy {
               });              
             },
             complete: () => {},
-            error: () => {}
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+            }
           })
       );
     }
@@ -177,7 +180,9 @@ export class ProfileListviewComponent implements OnDestroy {
             });              
           },
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+          }
         })
       );
     }
@@ -210,7 +215,9 @@ export class ProfileListviewComponent implements OnDestroy {
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
           },
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+          }
         })
       );
     }
@@ -224,7 +231,9 @@ export class ProfileListviewComponent implements OnDestroy {
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
           },
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+          }
         })
       );
     }
@@ -348,5 +357,14 @@ export class ProfileListviewComponent implements OnDestroy {
 
   private randomIntFromInterval(min, max): number { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

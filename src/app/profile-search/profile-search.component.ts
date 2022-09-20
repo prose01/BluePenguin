@@ -338,7 +338,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
           this.openErrorDialog(this.translocoService.translate('SearchSaved'), null);
         }, 
         complete: () => { this.loading = false; },
-        error: () => { this.loading = false; }
+        error: () => {
+          this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotSaveSearchFilter'), null);
+        }
       })
     );
   }
@@ -351,7 +354,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (filter: any) =>  { this.loadForm(filter); },
         complete: () => { this.loading = false; },
-        error: () => { this.loading = false; }
+        error: () => {
+          this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotLoadSearchFilter'), null);
+        }
       })
     );
 

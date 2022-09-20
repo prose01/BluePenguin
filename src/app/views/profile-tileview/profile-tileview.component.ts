@@ -1,4 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
@@ -6,13 +7,13 @@ import { Subscription } from 'rxjs';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
-import { MatDialog } from '@angular/material/dialog';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -133,7 +134,9 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
           this.profileService.updateCurrentUserSubject();
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+        }
       })
     );
   }
@@ -153,7 +156,9 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
           }
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+        }
       })
     );
   }
@@ -170,7 +175,9 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
           this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+        }
       })
     );
   }
@@ -187,7 +194,9 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
           this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
         },
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+        }
       })
     );
   }
@@ -297,5 +306,14 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

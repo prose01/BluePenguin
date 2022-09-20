@@ -15,6 +15,7 @@ import { ImageModel } from '../../models/imageModel';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'chatMemebers-listview',
@@ -103,7 +104,9 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
         complete: () => {
           this.updateCurrentUserSubject() 
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
+        }
       })
     );
   }
@@ -187,7 +190,9 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
             )
           );
         },
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotGetProfile'), null);
+        }
       })
     );
   }
@@ -226,5 +231,14 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
         });
       }
     }
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

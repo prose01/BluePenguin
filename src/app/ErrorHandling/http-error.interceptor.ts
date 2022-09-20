@@ -16,24 +16,20 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
           if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.
-            //errorMessage = `An error occurred: ${error.error.message}`;
-            //console.error('An error occurred:', error.error.message);
+            errorMessage = `An error occurred: ${error.error.message}`;
           } else if (error.status === 0) {
             // A client-side or network error occurred. Handle it accordingly.
-            //errorMessage = `No connection to data server: ${error.error}`;
-            //console.error('No connection to data server:', error.error);
+            errorMessage = `No connection to data server: ${error.error}`;
           } else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong.
-            //errorMessage = 
-            //  `Backend returned code ${error.status}, ` +
-            //  `body was: ${error.error}`;
-            //console.error(
-            //  `Backend returned code ${error.status}, ` +
-            //  `body was: ${error.error}`);
+            errorMessage = 
+              `Backend returned code ${error.status}, ` +
+              `body was: ${error.error}`;
           }
 
-          //window.alert(errorMessage); // Log errorMessage somewhere.
+          //console.error(errorMessage);
+          //console.error(error); // Log errorMessage somewhere.
           return throwError(error);
         })
       )

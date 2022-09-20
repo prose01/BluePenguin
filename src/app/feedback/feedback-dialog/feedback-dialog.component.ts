@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { Feedback } from '../../models/feedback';
 import { FeedBackService } from '../../services/feedback.service';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'feedback-dialog',
@@ -16,7 +19,7 @@ export class FeedbackDialog implements OnDestroy {
   private subs: Subscription[] = [];
   public feedback: Feedback;
 
-  constructor(public dialogRef: MatDialogRef<FeedbackDialog>, private feedBackService: FeedBackService,
+  constructor(public dialogRef: MatDialogRef<FeedbackDialog>, private feedBackService: FeedBackService, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.feedback = this.data.feedback;
@@ -49,7 +52,9 @@ export class FeedbackDialog implements OnDestroy {
       .subscribe({
         next: () =>  {},
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotOpenFeedbacks'), null);
+        }
       })
     );
 
@@ -66,11 +71,22 @@ export class FeedbackDialog implements OnDestroy {
       .subscribe({
         next: () =>  {},
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotCloseFeedbacks'), null);
+        }
       })
     );
 
     this.feedback.open = false;
     this.dialogRef.close(this.feedback);
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { ChatService } from '../../services/chat.service';
 import { MessageModel } from '../../models/messageModel';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'message-dialog',
@@ -16,7 +19,7 @@ export class MessageDialog implements OnDestroy {
   private subs: Subscription[] = [];
   public message: MessageModel;
 
-  constructor(public dialogRef: MatDialogRef<MessageDialog>, private chatService: ChatService,
+  constructor(public dialogRef: MatDialogRef<MessageDialog>, private chatService: ChatService, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.message = this.data.message;
@@ -44,7 +47,9 @@ export class MessageDialog implements OnDestroy {
       .subscribe({
         next: () =>  {},
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToDoNotDelete'), null);
+        }
       })
     );
 
@@ -61,11 +66,22 @@ export class MessageDialog implements OnDestroy {
       .subscribe({
         next: () =>  {},
         complete: () => {},
-        error: () => {}
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToAllowDelete'), null);
+        }
       })
     );
 
     this.message.doNotDelete = false;
     this.dialogRef.close(this.message);
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

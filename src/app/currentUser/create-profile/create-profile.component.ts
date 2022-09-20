@@ -262,13 +262,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
           complete: () => {
             this.openCreateProfileDialog();
           },
-          error: (error: any) => {
-            if (error.status === 400) {
-              this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), error);
-            }
-            else {
-              this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
-            }
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
           }
         })
       );

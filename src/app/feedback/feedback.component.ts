@@ -81,15 +81,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  private openErrorDialog(title: string, error: string): void {
-    const dialogRef = this.dialog.open(ErrorDialog, {
-      data: {
-        title: title,
-        content: error
-      }
-    });
-  }
-
   onSubmit(): void {
     this.loading = true;
     this.feedback = this.prepareFeedback();
@@ -108,4 +99,12 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     );
   }
 
+  private openErrorDialog(title: string, error: string): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error
+      }
+    });
+  }
 }

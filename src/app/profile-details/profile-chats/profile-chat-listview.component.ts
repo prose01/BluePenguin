@@ -229,7 +229,9 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () =>  {},
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToDoNotDelete'), null);
+          }
         })
       );
     }
@@ -240,7 +242,9 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () =>  {},
           complete: () => {},
-          error: () => {}
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToAllowDelete'), null);
+          }
         })
       );
     }

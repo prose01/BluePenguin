@@ -1,4 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
@@ -8,6 +9,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-delete-profile-dialog',
@@ -23,7 +25,7 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
   public matDialogTitle: string;
   public matDialogContent: string;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
     @Inject(MAT_DIALOG_DATA) public profileIds: string[], private readonly translocoService: TranslocoService) {
 
@@ -62,7 +64,9 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
             complete: () => { 
               this.auth.logout() 
             },
-            error: () => {}
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+            }
           })
         );
       }
@@ -70,10 +74,26 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
         this.subs.push(
-          this.profileService.deleteProfiles(this.profileIds).subscribe()
+          this.profileService.deleteProfiles(this.profileIds)
+            .subscribe({
+              next: () => { },
+              complete: () => { },
+              error: () => {
+                this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
+              }
+            })
         );
       }
     }
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 
 }

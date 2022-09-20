@@ -92,7 +92,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
       }
       else {
         var limitMB = (this.fileSizeLimit / 1000000);
-        this.openErrorDialog(this.translocoService.translate("ImageUploadComponent.CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
+        this.openErrorDialog(this.translocoService.translate("CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
       }
     }
   }
@@ -212,6 +212,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
             },
             error: () => {
               //this.openErrorDialog("Could not save image", error.error);
+              this.openErrorDialog(this.translocoService.translate('CouldNotUploadImage'), null);
               this.toggleDisplay.emit();
             }
           })
