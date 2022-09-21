@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
+import { Options } from '@angular-slider/ngx-slider';
 
 import { EnumMappingService } from '../services/enumMapping.service';
 import { ProfileService } from '../services/profile.service';
@@ -12,7 +13,6 @@ import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ErrorDialog } from '../error-dialog/error-dialog.component';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
-import { Profile } from '../models/profile';
 import {
   GenderType,
   BodyType,
@@ -45,10 +45,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
 
   private filter: ProfileFilter = new ProfileFilter();
-  private searchResultProfiles: Profile[];
   public profileForm: FormGroup;
-  public ageList: number[];
-  public heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
   private genderTypes: ReadonlyMap<string, string>;
   public bodyTypes: ReadonlyMap<string, string>;
   public smokingHabitsTypes: ReadonlyMap<string, string>;
@@ -68,10 +65,23 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private currentUserSubject: CurrentUser;
   private currentProfileFilterSubject: ProfileFilter;
   public tagsPlaceholder: string;
-  public defaultAge: number;
   private maxTags: number;
 
-  private displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
+  public minAge: number;
+  public maxAge: number = 125;
+  public AgeOptions: Options = {
+    floor: 0,
+    ceil: 125,
+    noSwitching: true
+  };
+
+  public minHeight: number;
+  public maxHeight: number = 125;
+  public HeightOptions: Options = {
+    floor: 0,
+    ceil: 125,
+    noSwitching: true
+  };
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
@@ -79,9 +89,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.AgeOptions.floor = this.configurationLoader.getConfiguration().defaultAge;
+    this.minAge = this.configurationLoader.getConfiguration().defaultAge;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
-    this.ageList = [...Array(1 + 120 - this.defaultAge).keys()].map(v => this.defaultAge + v);
     this.createForm();
   }
 
@@ -195,8 +205,8 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.profileForm = this.formBuilder.group({
       name: null,
-      age: null,
-      height: null,
+      ageSliderControl: null,
+      heightSliderControl: null,
       description: null,
       tags: null,
       gender: null,
@@ -217,10 +227,12 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(filter: ProfileFilter): void {
+    console.log(filter.age);
+    console.log(filter.height);
     this.profileForm.reset({
       name: filter.name,
-      age: filter.age == null ? this.defaultAge : filter.age[1],
-      height: filter.height == null ? 0 : filter.height[1],
+      ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
+      heightSliderControl: filter.height == null ? [this.HeightOptions.floor, this.HeightOptions.ceil] : [filter.height[0], filter.height[1]],
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -275,7 +287,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   reset(): void {
     this.tagsList.length = 0;
     this.createForm();
-    this.searchResultProfiles = [];
 
     this.subs.push(
       this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
@@ -298,14 +309,13 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   private prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
-
-    const ageRange: number[] = [this.defaultAge, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    
     const heightRange: number[] = [0, Number(formModel.height)];
 
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
-      age: ageRange,
-      height: heightRange,
+      age: formModel.ageSliderControl as number[],
+      height: formModel.heightSliderControl as number[],
       description: formModel.description as string,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,

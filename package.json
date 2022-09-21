@@ -18,6 +18,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^14.2.2",
+    "@angular-slider/ngx-slider": "^2.0.4",
     "@angular/animations": "^14.2.1",
     "@angular/cdk": "^14.2.1",
     "@angular/common": "^14.2.1",

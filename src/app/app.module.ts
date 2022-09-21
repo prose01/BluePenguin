@@ -92,6 +92,8 @@ import { ChatMembersListviewComponent }       from './currentUser/chatMembers/ch
 import { TranslocoRootModule }                from './transloco/transloco-root.module';
 import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
 
+import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
+
 
 @NgModule({
   declarations: [
@@ -165,6 +167,7 @@ import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
     InfiniteScrollModule,
     ImageCropperModule,
     NgChatModule,
+    NgxSliderModule,
     TranslocoRootModule,
     TranslocoLocaleModule.forRoot({
       langToLocaleMapping: {
