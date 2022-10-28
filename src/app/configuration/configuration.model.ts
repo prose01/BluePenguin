@@ -10,7 +10,10 @@ export type Configuration = {
   imageMaxWidth: number;
   imageMaxHeight: number;
   imageTitleMaxLength: number;
-  defaultAge: number;
+  minAge: number;
+  maxAge: number;
+  minHeight: number;
+  maxHeight: number;
   defaultPageSize: number;
   randomImagePlace: number;
   adGroup: number;

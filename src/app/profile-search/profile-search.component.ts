@@ -68,7 +68,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private maxTags: number;
 
   public minAge: number;
-  public maxAge: number = 125;
+  public maxAge: number;
   public AgeOptions: Options = {
     floor: 0,
     ceil: 125,
@@ -76,10 +76,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   };
 
   public minHeight: number;
-  public maxHeight: number = 125;
+  public maxHeight: number;
   public HeightOptions: Options = {
     floor: 0,
-    ceil: 125,
+    ceil: 300,
     noSwitching: true
   };
 
@@ -89,8 +89,11 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.AgeOptions.floor = this.configurationLoader.getConfiguration().defaultAge;
-    this.minAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.AgeOptions.floor = this.configurationLoader.getConfiguration().minAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.createForm();
   }
@@ -227,8 +230,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(filter: ProfileFilter): void {
-    console.log(filter.age);
-    console.log(filter.height);
     this.profileForm.reset({
       name: filter.name,
       ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
@@ -286,6 +287,11 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.tagsList.length = 0;
+    this.profileForm.reset({
+        ageSliderControl: [this.AgeOptions.floor, this.AgeOptions.ceil],
+        heightSliderControl: [this.HeightOptions.floor, this.HeightOptions.ceil]
+      }
+    );
     this.createForm();
 
     this.subs.push(

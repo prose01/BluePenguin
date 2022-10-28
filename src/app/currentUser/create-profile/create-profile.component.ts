@@ -59,7 +59,10 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
 
   private namePlaceholder: string;
   private genderPlaceholder: string;
-  private defaultAge: number;
+  private minAge: number;
+  private maxAge: number;
+  private minHeight: number;
+  private maxHeight: number;
   private tagsPlaceholder: string;
   private maxTags: number;
 
@@ -73,7 +76,10 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;

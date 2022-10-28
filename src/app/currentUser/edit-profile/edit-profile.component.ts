@@ -59,7 +59,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private bodyArtTypes: ReadonlyMap<string, string>;
 
   private isChecked: boolean;
-  private defaultAge: number;
+  private minAge: number;
+  private maxAge: number;
+  private minHeight: number;
+  private maxHeight: number;
 
   private tagsPlaceholder: string;
   private maxTags: number;
@@ -75,7 +78,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;
