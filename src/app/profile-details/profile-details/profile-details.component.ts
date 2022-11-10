@@ -156,6 +156,38 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  private blockChatMembers(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.profile.profileId);
+
+    this.subs.push(
+      this.profileService.blockChatMembers(selcetedProfiles) // TODO: Should not be possible unless there are messages / bookmark
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.profileService.updateCurrentUserSubject(); // TODO: Is this needed?
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
+          }
+        })
+    );
+  }
+
+  private addComplainToProfile(): void {
+    console.log('I am complaining!!!');
+    this.subs.push(
+      this.profileService.addComplainToProfile(this.profile.profileId)
+        .subscribe({
+          next: () => { },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotAddComplainToProfile'), null);
+          }
+        })
+    );
+  }
+
   private openErrorDialog(title: string, error: any): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {

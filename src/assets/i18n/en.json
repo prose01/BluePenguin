@@ -96,7 +96,9 @@
   "CouldNotDeleteCurrentUser": "Could not delete user",
   "CouldNotDeleteAllImagesForProfile": "Could not delete all images from user",
   "CouldNotBlockChatMembers": "Could not block ChatMembers",
+  "CouldNotAddComplainToProfile": "Could not complain about Profile",
   "CouldNotGetProfile": "Could not get Profile",
+  "ComplainAboutProfile": "Complain about Profile",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",

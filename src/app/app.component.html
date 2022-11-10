@@ -64,26 +64,24 @@
 
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
-        <!--[disabled]="profileForm.pristine"-->
+        
         <button *ngIf="allowSearch" type="submit" (click)="onSubmit()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
           <i class="material-icons">search</i>
         </button>
 
-        <!--[disabled]="profileForm.pristine"-->
         <button *ngIf="allowSearch" type="button" (click)="reset()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Reset'| transloco}}">
           <i class="material-icons">undo</i>
         </button>
 
-        <!--[disabled]="profileForm.pristine"-->
+        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'LoadSearchFilter'| transloco}}">
+          <i class="material-icons">find_in_page</i>
+        </button>
+
         <button *ngIf="allowSearch" type="button" (click)="saveSearch()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'SaveSearchFilter'| transloco}}">
           <i class="material-icons">save</i>
-        </button>
-
-        <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'LoadSearchFilter'| transloco}}">
-          <i class="material-icons">find_in_page</i>
         </button>
       </div>
 

@@ -142,6 +142,10 @@ export class ProfileService {
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers });
   }
 
+  addComplainToProfile(profileId: string): Observable<Profile> {
+    return this.http.post<Profile>(`${this.avalonUrl}AddComplainToProfile`, `\"${profileId}\"`, { headers: this.headers });
+  }
+
   getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
       .set('OrderByType', orderByType)

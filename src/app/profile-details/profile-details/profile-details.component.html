@@ -15,6 +15,14 @@
       <i class="material-icons">favorite_border</i>
     </button>
 
+    <button type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+      <i class="material-icons">security</i>
+    </button>
+
+    <button type="button" (click)="addComplainToProfile()" mat-icon mat-flat-button color="accent" matTooltip="{{'ComplainAboutProfile'| transloco}}">
+      <i class="material-icons">report</i>
+    </button>
+
     <button type="button" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" mat-icon mat-flat-button color="accent" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">
       <i class="material-icons">admin_panel_settings</i>
     </button>

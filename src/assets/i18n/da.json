@@ -96,7 +96,9 @@
   "CouldNotDeleteCurrentUser": "Kunne ikke slette bruger",
   "CouldNotDeleteAllImagesForProfile": "Kunne ikke slette billede fra bruger",
   "CouldNotBlockChatMembers": "Kunne ikke blokkere ChatMembers",
+  "CouldNotAddComplainToProfile": "Kunne ikke klage over profil",
   "CouldNotGetProfile": "Kunne ikke hente profil",
+  "ComplainAboutProfile": "Klag over profil",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",
