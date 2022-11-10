@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
@@ -25,6 +25,13 @@ import { ErrorDialog } from './error-dialog/error-dialog.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  @ViewChild('conditionDiv')      // TODO: https://stackoverflow.com/questions/70241184/execute-a-function-after-template-has-been-render-in-ngif-which-one-is-better-p
+  set watch(div: ElementRef) {    // cleanCurrentUser is not called for Alice in Chrome but for Peter in Edge.
+    if (this.auth.isAuthenticated() && div) {
+      console.log("button exists, do something!");
+    }
+  }
 
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
@@ -76,7 +83,9 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     setTimeout(() => {
+      console.log('cleanCurrentUser');
       if (this.auth.isAuthenticated() && this.isProfileCreated) {
+        console.log('cleanCurrentUser 2');
         this.profileService.cleanCurrentUser().subscribe();
       }
     }, 500);
@@ -111,6 +120,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+  }
+
+  callback() {
+    console.log("Do something else!");
   }
 
   private initiateTransloco(): void {

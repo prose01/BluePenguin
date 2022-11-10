@@ -11,7 +11,7 @@
   </h3>
 </div>
 
-<div *ngIf="auth.isAuthenticated()">
+<div #conditionDiv *ngIf="auth.isAuthenticated()">
 
   <div id="navbar" [class.mobile]="mobileQuery.matches">
     <h2 (click)="loadDashboard()">{{title}}</h2>
