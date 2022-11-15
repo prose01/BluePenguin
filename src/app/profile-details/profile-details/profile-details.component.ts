@@ -175,7 +175,6 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   }
 
   private addComplainToProfile(): void {
-    console.log('I am complaining!!!');
     this.subs.push(
       this.profileService.addComplainToProfile(this.profile.profileId)
         .subscribe({

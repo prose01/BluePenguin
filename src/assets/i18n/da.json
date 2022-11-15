@@ -99,6 +99,7 @@
   "CouldNotAddComplainToProfile": "Kunne ikke klage over profil",
   "CouldNotGetProfile": "Kunne ikke hente profil",
   "ComplainAboutProfile": "Klag over profil",
+  "ComplainTooMany": "Du har fået for mange klager",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",

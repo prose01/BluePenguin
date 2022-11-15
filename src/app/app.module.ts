@@ -181,6 +181,7 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     })
   ],
   providers: [
+    AuthService,
     ProfileService,
     BehaviorSubjectService,
     ImageService,
@@ -188,7 +189,6 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     FeedBackService,
     EnumMappingService,
     SnackBarService,
-    AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }

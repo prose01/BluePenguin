@@ -26,13 +26,6 @@ import { ErrorDialog } from './error-dialog/error-dialog.component';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  @ViewChild('conditionDiv')      // TODO: https://stackoverflow.com/questions/70241184/execute-a-function-after-template-has-been-render-in-ngif-which-one-is-better-p
-  set watch(div: ElementRef) {    // cleanCurrentUser is not called for Alice in Chrome but for Peter in Edge.
-    if (this.auth.isAuthenticated() && div) {
-      console.log("button exists, do something!");
-    }
-  }
-
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
@@ -82,13 +75,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
 
-    setTimeout(() => {
-      console.log('cleanCurrentUser');
-      if (this.auth.isAuthenticated() && this.isProfileCreated) {
-        console.log('cleanCurrentUser 2');
-        this.profileService.cleanCurrentUser().subscribe();
-      }
-    }, 500);
+    //setTimeout(() => {
+    //  console.log('cleanCurrentUser');
+    //  if (this.auth.isAuthenticated() && this.isProfileCreated) {
+    //    console.log('cleanCurrentUser 2');
+    //    this.profileService.cleanCurrentUser().subscribe();
+    //  }
+    //}, 500);
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
 
@@ -120,10 +113,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.removeListener(this._mobileQueryListener);
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
-  }
-
-  callback() {
-    console.log("Do something else!");
   }
 
   private initiateTransloco(): void {
@@ -181,6 +170,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleOrderBy(): void {
+    console.log('cleanCurrentUser 2');
+    this.subs.push(
+      this.profileService.checkForComplains()
+        .subscribe({
+          next: (response: any) => {
+            if (response) {
+              this.snackBarService.openSnackBar(this.translocoService.translate('ComplainTooMany'), 'info', '', 'center', 'top');
+            } },
+          complete: () => { },
+          error: () => {
+            //this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);
+          }
+        })
+    );
+    console.log('cleanCurrentUser 3');
+
     switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');

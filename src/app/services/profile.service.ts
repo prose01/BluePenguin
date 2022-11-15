@@ -49,6 +49,10 @@ export class ProfileService {
     return this.http.get<any>(`${this.avalonUrl}CleanCurrentUser`, { headers: this.headers });
   }
 
+  checkForComplains(): Observable<boolean>  {
+    return this.http.get<any>(`${this.avalonUrl}CheckForComplains`, { headers: this.headers });
+  }
+
   addProfile(currentUser: CurrentUser): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(`${this.avalonUrl}CurrentUser`, currentUser, { headers: this.headers });
   }

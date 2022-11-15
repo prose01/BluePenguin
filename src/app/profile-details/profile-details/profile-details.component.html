@@ -15,11 +15,11 @@
       <i class="material-icons">favorite_border</i>
     </button>
 
-    <button type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+    <button type="button" *ngIf="!currentUserSubject.admin" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
       <i class="material-icons">security</i>
     </button>
 
-    <button type="button" (click)="addComplainToProfile()" mat-icon mat-flat-button color="accent" matTooltip="{{'ComplainAboutProfile'| transloco}}">
+    <button type="button" *ngIf="!currentUserSubject.admin" (click)="addComplainToProfile()" mat-icon mat-flat-button color="accent" matTooltip="{{'ComplainAboutProfile'| transloco}}">
       <i class="material-icons">report</i>
     </button>
 

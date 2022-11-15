@@ -99,6 +99,7 @@
   "CouldNotAddComplainToProfile": "Could not complain about Profile",
   "CouldNotGetProfile": "Could not get Profile",
   "ComplainAboutProfile": "Complain about Profile",
+  "ComplainTooMany": "You have received too many complains",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",
