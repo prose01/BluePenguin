@@ -170,7 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleOrderBy(): void {
-    console.log('cleanCurrentUser 2');
+    console.log('cleanCurrentUser 2');    // TODO: When/How should we check for complains?
     this.subs.push(
       this.profileService.checkForComplains()
         .subscribe({
@@ -180,7 +180,7 @@ export class AppComponent implements OnInit, OnDestroy {
             } },
           complete: () => { },
           error: () => {
-            //this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);
+            //this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);  // TODO: add an error message
           }
         })
     );
