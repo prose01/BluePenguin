@@ -36,7 +36,7 @@
     "@ngneat/transloco-locale": "^4.0.0",
     "@types/node": "^18.11.9",
     "auth0-js": "^9.19.2",
-    "core-js": "^3.25.1",
+    "core-js": "^3.26.1",
     "jasmine-core": "^4.4.0",
     "ng-chat": "^3.1.0",
     "ng-lazyload-image": "^9.1.3",
