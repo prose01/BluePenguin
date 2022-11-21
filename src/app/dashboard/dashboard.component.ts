@@ -49,6 +49,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public isTileView = true;
 
+  private intervalId: any;
+
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
@@ -65,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // Check if user allready exist. Name is mandatory.
         if (this.currentUserSubject?.name != null) {
-          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false }); 
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false });
         }
 
         this.getLatestProfiles();
@@ -84,12 +86,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.filter = currentProfileFilterSubject;
         })
       );
+
+      this.myCallback('first');
+      this.intervalId = setInterval(() => {
+        this.myCallback('second');
+      }, 5 * 1000);
     }
   }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+    clearInterval(this.intervalId);
+  }
+
+  private myCallback(val: any): void {
+    console.log('Authenticated ' + val);
   }
 
   private getNextData(event: any): void {
@@ -145,20 +157,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetLatestProfiles'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetLatestProfiles'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -166,20 +178,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetProfileByCurrentUsersFilter'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfileByCurrentUsersFilter'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -187,20 +199,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetBookmarkedProfiles'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetBookmarkedProfiles'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -208,20 +220,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -229,20 +241,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoVisitedMe'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoVisitedMe'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -250,20 +262,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoBookmarkedMe'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoBookmarkedMe'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -271,20 +283,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
-      .subscribe({
-        next: (response: any) =>  {
+        .subscribe({
+          next: (response: any) => {
 
-          this.currentProfiles = new Array;
+            this.currentProfiles = new Array;
 
-          this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response);
 
-          this.length = this.currentProfiles.length + currentSize + 1;
-        },
-        complete: () => { this.getProfileImages(this.currentProfiles); },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('GetProfilesWhoLikesMe'), null); this.loading = false;
-        }
-      })
+            this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoLikesMe'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -307,20 +319,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
-          .subscribe({
-            next: (images: any[]) =>  { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
-            complete: () => { this.loading = false; },
-            error: () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage }
-          })
+            .subscribe({
+              next: (images: any[]) => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage }
+            })
         );
 
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
-          .subscribe({
-            next: (images: any[]) =>  { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
-            complete: () => { this.loading = false; },
-            error: () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image }
-          })
+            .subscribe({
+              next: (images: any[]) => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image }
+            })
         );
       }
       else {
