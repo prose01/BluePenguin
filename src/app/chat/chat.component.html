@@ -1,0 +1,43 @@
+<link *ngIf="customTheme" rel="stylesheet" [href]='customTheme | sanitize'>
+
+<div id="chat" *ngIf="!isDisabled && isBootstrapped && !unsupportedViewport" [ngClass]="theme">
+    <chat-friends-list
+        [localization]="localization"
+        [shouldDisplay]="!hideFriendsList"
+        [userId]="userId"
+        [isCollapsed]="isCollapsed"
+        [searchEnabled]="searchEnabled"
+        [participants]="participants"
+        [participantsResponse]="participantsResponse"
+        [participantsInteractedWith]="participantsInteractedWith"
+        [windows]="windows"
+        [currentActiveOption]="currentActiveOption"
+        (onParticipantClicked)="onParticipantClickedFromFriendsList($event)"
+        (onOptionPromptCanceled)="onOptionPromptCanceled()"
+        (onOptionPromptConfirmed)="onOptionPromptConfirmed($event)"
+    >
+    </chat-friends-list>
+
+    <div *ngFor="let window of windows; let i = index" [ngClass]="{'chat-window': true, 'primary-outline-color': true, 'chat-window-collapsed': window.isCollapsed}" [ngStyle]="{'right': (!hideFriendsList ? friendsListWidth : 0) + 20 + windowSizeFactor * i + 'px'}">
+        <chat-window
+            #chatWindow
+            [fileUploadAdapter]="fileUploadAdapter"
+            [localization]="localization"
+            [userId]="userId"
+            [window]="window"
+            [showOptions]="groupAdapter"
+            [emojisEnabled]="emojisEnabled"
+            [linkfyEnabled]="linkfyEnabled"
+            [showMessageDate]="showMessageDate"
+            [messageDatePipeFormat]="messageDatePipeFormat"
+            [hasPagedHistory]="hasPagedHistory"
+            (onMessagesSeen)="onWindowMessagesSeen($event)"
+            (onMessageSent)="onWindowMessageSent($event)"
+            (onTabTriggered)="onWindowTabTriggered($event)"
+            (onChatWindowClosed)="onWindowChatClosed($event)"
+            (onOptionTriggered)="onWindowOptionTriggered($event)"
+            (onLoadHistoryTriggered)="fetchMessageHistory($event)"
+        >
+        </chat-window>
+    </div>
+</div>

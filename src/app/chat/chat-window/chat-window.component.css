@@ -1,0 +1,214 @@
+.chat-window {
+  right: 260px;
+  height: 360px;
+  z-index: 999;
+  bottom: 0;
+  width: 300px;
+  position: fixed;
+  border-width: 1px;
+  border-style: solid;
+  border-bottom: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,.25);
+}
+
+.chat-window-collapsed {
+  height: 30px !important;
+}
+
+.chat-window .chat-footer {
+  box-sizing: border-box;
+  padding: 0;
+  display: block;
+  height: calc(10%);
+  width: 100%;
+  border: none;
+  border-top: 1px solid transparent;
+  border-color: inherit;
+}
+
+  .chat-window .chat-footer > input {
+    font-size: 0.8em;
+    box-sizing: border-box;
+    padding: 0 5px;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border: none;
+  }
+
+    .chat-window .chat-footer > input.has-side-action {
+      width: calc(100% - 30px);
+    }
+
+  .chat-window .chat-footer .btn-add-file {
+    position: absolute;
+    right: 5px;
+    bottom: 7px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .chat-window .chat-footer .loader {
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+  }
+
+.chat-window .chat-load-history {
+  height: 30px;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+  .chat-window .chat-load-history > a {
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+.chat-window .chat-messages {
+  padding: 10px;
+  width: 100%;
+  height: calc(90% - 30px);
+  box-sizing: border-box;
+  position: relative;
+  overflow: auto;
+}
+
+  .chat-window .chat-messages .chat-message {
+    clear: both;
+  }
+
+    .chat-window .chat-messages .chat-message > img.avatar, .chat-window .chat-messages .chat-message > .icon-wrapper {
+      position: absolute;
+      left: 10px;
+      border-radius: 25px;
+    }
+
+    .chat-window .chat-messages .chat-message .chat-participant-name {
+      display: inline-block;
+      margin-left: 40px;
+      padding-bottom: 5px;
+      font-weight: bold;
+      font-size: 0.8em;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+
+    .chat-window .chat-messages .chat-message > .icon-wrapper {
+      background-color: #BABABA;
+      overflow: hidden;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+    }
+
+      .chat-window .chat-messages .chat-message > .icon-wrapper > i {
+        color: #FFF;
+        transform: scale(0.7);
+      }
+
+    .chat-window .chat-messages .chat-message .message-sent-date {
+      font-size: 0.8em;
+      display: block;
+      text-align: right;
+      margin-top: 5px;
+    }
+
+    .chat-window .chat-messages .chat-message > div {
+      float: right;
+      width: 182px;
+      padding: 0;
+      margin-top: 0;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+      word-wrap: break-word;
+    }
+
+    .chat-window .chat-messages .chat-message.chat-message-received > div.received-chat-message-container {
+      float: left;
+      margin-left: 40px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-style: solid;
+      border-width: 3px;
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+
+    .chat-window .chat-messages .chat-message .file-message-container {
+      float: right;
+      width: 202px;
+      border-style: solid;
+      border-width: 3px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 5px;
+      display: block;
+      text-decoration: none;
+      font-size: 0.9em;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+      .chat-window .chat-messages .chat-message .file-message-container.received {
+        float: left;
+        margin-left: 40px;
+        width: 208px;
+      }
+
+      .chat-window .chat-messages .chat-message .file-message-container > .file-message-icon-container {
+        width: 20px;
+        height: 35px;
+        padding: 10px 5px;
+        float: left;
+      }
+
+        .chat-window .chat-messages .chat-message .file-message-container > .file-message-icon-container i {
+          margin-top: 8px;
+        }
+
+      .hat-window .chat-messages .chat-message .file-message-container > .file-details {
+        float: left;
+        padding: 10px;
+        width: calc(100% - 60px);
+        color: currentColor;
+        text-decoration: none;
+      }
+
+        .chat-window .chat-messages .chat-message .file-message-container > .file-details:hover {
+          text-decoration: underline;
+        }
+
+        .chat-window .chat-messages .chat-message .file-message-container > .file-details span {
+          display: block;
+          width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-title {
+          font-weight: bold;
+        }
+
+        .chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-size {
+          font-size: 0.8em;
+          margin-top: 5px;
+        }
+
+.chat-window .image-message {
+  width: 100%;
+  height: auto;
+}
+
+/* Mobile viewport only */
+@media only screen and (max-width: 581px) {
+  .chat-window {
+    position: initial;
+  }
+}

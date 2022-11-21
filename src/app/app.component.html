@@ -64,7 +64,7 @@
 
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
-        
+
         <button *ngIf="allowSearch" type="submit" (click)="onSubmit()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
           <i class="material-icons">search</i>
@@ -187,7 +187,11 @@
 
   <!--chat-component-->
   <div *ngIf="useChat">
-    <chat-component [currentUser]="currentUserSubject"></chat-component>
+    <ng-chat-component [currentUser]="currentUserSubject"></ng-chat-component>
+  </div>
+
+  <div *ngIf="newChat">
+    <ng-chat-component [currentUser]="currentUserSubject"></ng-chat-component>
   </div>
 
 

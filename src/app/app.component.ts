@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private isProfileCreated: boolean = false;
 
   private useChat = false;
+  private newChat = true;
 
   private pageView: pageViewEnum = pageViewEnum.Dashboard;
   private matButtonToggleText: string;

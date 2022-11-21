@@ -1,0 +1,10 @@
+<div *ngIf="options && options.length > 0" class="chat-options">
+  <button class="chat-options-activator">
+    <span class="primary-text">...</span>
+  </button>
+  <div class="chat-options-content primary-background shadowed">
+    <a *ngFor="let option of options; let i = index" [ngClass]="'primary-text'" (click)="onOptionClicked(option)">
+      {{option.displayLabel}}
+    </a>
+  </div>
+</div>
