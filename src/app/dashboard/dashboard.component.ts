@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public isTileView = true;
 
-  private intervalId: any;
+  //private intervalId: any;
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
@@ -87,22 +87,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
       );
 
-      this.myCallback('first');
-      this.intervalId = setInterval(() => {
-        this.myCallback('second');
-      }, 5 * 1000);
+      //this.myCallback('first');
+      //this.intervalId = setInterval(() => {
+      //  this.myCallback('second');
+      //}, 5 * 1000);
     }
   }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
-    clearInterval(this.intervalId);
+    //clearInterval(this.intervalId);
   }
 
-  private myCallback(val: any): void {
-    console.log('Authenticated ' + val);
-  }
+  //private myCallback(val: any): void {
+  //  console.log('Authenticated ' + val);
+  //}
 
   private getNextData(event: any): void {
     this.getData(this.viewFilterType, this.orderBy, event);

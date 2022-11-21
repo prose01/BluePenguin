@@ -11,9 +11,9 @@ import { ProfileService } from '../services/profile.service';
 
 
 @Component({
-  selector: 'chat-component',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
+  selector: 'ng-chat-component',
+  templateUrl: './ng-chat.component.html',
+  styleUrls: ['./ng-chat.component.scss'],
 })
 
 export class ChatComponent {
@@ -42,7 +42,8 @@ export class ChatComponent {
   }
 
   constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
-    this.junoUrl = this.configurationLoader.getConfiguration().junoUrl; 
+    this.junoUrl = this.configurationLoader.getConfiguration().junoUrl;
+    console.log('ChatComponent ');
   }
 
   private connectSignalRAdapter(): void {

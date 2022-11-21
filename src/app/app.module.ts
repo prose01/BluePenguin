@@ -86,7 +86,7 @@ import { DeleteImageDialog }                  from './image-components/delete-im
 import { ImageDialog }                        from './image-components/image-dialog/image-dialog.component';
 
 import { NgChatModule }                       from 'ng-chat';
-import { ChatComponent }                      from './chat/chat.component';
+import { ChatComponent }                      from './ng-chat/ng-chat.component';
 import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
 
 import { TranslocoRootModule }                from './transloco/transloco-root.module';
