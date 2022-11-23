@@ -1,5 +1,5 @@
 <!-- Offline bot instance -->
-<ng-chat *ngIf="adapter && userId"
+<chat *ngIf="adapter && userId"
          [title]="title"
          [adapter]="adapter"
          [groupAdapter]="adapter"
@@ -15,7 +15,7 @@
          [linkfyEnabled]="false"
          [isViewportOnMobileEnabled]="true"
          (onMessagesSeen)="onEventTriggered('MessageSeen triggered')">
-</ng-chat>
+</chat>
 
 <!--
   [pollFriendsList]="true"

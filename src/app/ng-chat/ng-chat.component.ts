@@ -5,7 +5,8 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 
 import { CurrentUser } from './../models/currentUser';
-import { ChatAdapter } from 'ng-chat';
+//import { ChatAdapter } from 'ng-chat';
+import { Chat } from '../chat/chat.component';
 import { SignalRAdapter } from './signalr-adapter';
 import { ProfileService } from '../services/profile.service';
 
@@ -30,7 +31,7 @@ export class ChatComponent {
   private title = 'Chats';
 
   public userId: string;
-  public adapter: ChatAdapter;
+  public adapter: Chat;
 
 
   @Input() set currentUser(values: CurrentUser) {

@@ -1,4 +1,8 @@
-import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
+//import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
+import { Chat } from '../chat/chat.component';
+import { Message } from '../chat/core/message';
+import { ParticipantResponse } from '../chat/core/participant-response';
+import { IChatParticipant } from '../chat/core/chat-participant';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -8,7 +12,7 @@ import { AuthService } from '../authorisation/auth/auth.service';
 import { CurrentUser } from '../models/currentUser';
 import { ProfileService } from '../services/profile.service';
 
-export class SignalRAdapter extends ChatAdapter {
+export class SignalRAdapter extends Chat {
   public userId: string;
 
   private hubConnection: signalR.HubConnection
@@ -16,7 +20,7 @@ export class SignalRAdapter extends ChatAdapter {
   private currentUserSubject: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private junoUrl: string, private username: string, private http: HttpClient) {
-    super();
+    super(http);
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
