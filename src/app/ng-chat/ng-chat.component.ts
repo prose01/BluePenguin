@@ -44,7 +44,6 @@ export class ChatComponent {
 
   constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
     this.junoUrl = this.configurationLoader.getConfiguration().junoUrl;
-    console.log('ChatComponent ');
   }
 
   private connectSignalRAdapter(): void {

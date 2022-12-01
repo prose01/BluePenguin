@@ -85,11 +85,9 @@ import { ImageUploadComponent }               from './image-components/image-upl
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 import { ImageDialog }                        from './image-components/image-dialog/image-dialog.component';
 
-import { NgChatModule }                       from 'ng-chat';
 import { ChatComponent }                      from './ng-chat/ng-chat.component';
 import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
-
-
+import { Chat }                               from './chat/chat.component';
 import { EmojifyPipe }                        from './chat/pipes/emojify.pipe';
 import { LinkfyPipe }                         from './chat/pipes/linkfy.pipe';
 import { SanitizePipe }                       from './chat/pipes/sanitize.pipe';
@@ -140,6 +138,7 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     DeleteImageDialog,
     ChatComponent,
     ChatMembersListviewComponent,
+    Chat,
     EmojifyPipe,
     LinkfyPipe,
     SanitizePipe,
@@ -182,7 +181,6 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,
-    NgChatModule,
     NgxSliderModule,
     TranslocoRootModule,
     TranslocoLocaleModule.forRoot({

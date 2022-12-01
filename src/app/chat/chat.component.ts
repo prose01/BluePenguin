@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ViewChildren, QueryList, HostListener, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChildren, QueryList, HostListener, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { ChatAdapter } from './core/chat-adapter';
 import { IChatGroupAdapter } from './core/chat-group-adapter';
@@ -22,7 +23,7 @@ import { ChatParticipantType } from "./core/chat-participant-type.enum";
 import { IChatParticipant } from "./core/chat-participant";
 
 import { map } from 'rxjs/operators';
-import { NgChatWindowComponent } from './components/chat-window/chat-window.component';
+import { ChatWindowComponent } from './chat-window/chat-window.component';
 
 @Component({
   selector: 'chat',
@@ -37,13 +38,15 @@ import { NgChatWindowComponent } from './components/chat-window/chat-window.comp
   encapsulation: ViewEncapsulation.None
 })
 
-export class Chat implements OnInit, IChatController {
+export class Chat implements OnInit, OnDestroy, IChatController {
   constructor(private _httpClient: HttpClient) { }
 
   // Exposes enums for the template
   public ChatParticipantType = ChatParticipantType;
   public ChatParticipantStatus = ChatParticipantStatus;
   public MessageType = MessageType;
+
+  private subs: Subscription[] = [];
 
   private _isDisabled: boolean = false;
 
@@ -80,7 +83,7 @@ export class Chat implements OnInit, IChatController {
   public maximizeWindowOnNewMessage: boolean = true;
 
   @Input()
-  public pollFriendsList: boolean = false;
+  public pollFriendsList: boolean = true;
 
   @Input()
   public pollingInterval: number = 5000;
@@ -92,7 +95,7 @@ export class Chat implements OnInit, IChatController {
   public emojisEnabled: boolean = true;
 
   @Input()
-  public linkfyEnabled: boolean = true;
+  public linkfyEnabled: boolean = false;
 
   @Input()
   public audioEnabled: boolean = true;
@@ -107,7 +110,7 @@ export class Chat implements OnInit, IChatController {
   public persistWindowsState: boolean = true;
 
   @Input()
-  public title: string = "Friends";
+  public title: string = "Chats";
 
   @Input()
   public messagePlaceholder: string = "Type a message";
@@ -152,7 +155,7 @@ export class Chat implements OnInit, IChatController {
   public showMessageDate: boolean = true;
 
   @Input()
-  public isViewportOnMobileEnabled: boolean = false;
+  public isViewportOnMobileEnabled: boolean = true;
 
   @Input()
   public fileUploadAdapter: IFileUploadAdapter;
@@ -212,10 +215,15 @@ export class Chat implements OnInit, IChatController {
   windows: Window[] = [];
   isBootstrapped: boolean = false;
 
-  @ViewChildren('chatWindow') chatWindows: QueryList<NgChatWindowComponent>;
+  @ViewChildren('chatWindow') chatWindows: QueryList<ChatWindowComponent>;
 
   ngOnInit() {
     this.bootstrapChat();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
   @HostListener('window:resize', ['$event'])
@@ -342,20 +350,22 @@ export class Chat implements OnInit, IChatController {
 
   // Sends a request to load the friends list
   private fetchFriendsList(isBootstrapping: boolean): void {
-    this.adapter.listFriends()
-      .pipe(
-        map((participantsResponse: ParticipantResponse[]) => {
-          this.participantsResponse = participantsResponse;
+    this.subs.push(
+      this.adapter.listFriends()
+        .pipe(
+          map((participantsResponse: ParticipantResponse[]) => {
+            this.participantsResponse = participantsResponse;
 
-          this.participants = participantsResponse.map((response: ParticipantResponse) => {
-            return response.participant;
-          });
+            this.participants = participantsResponse.map((response: ParticipantResponse) => {
+              return response.participant;
+            });
+          })
+        ).subscribe(() => {
+          if (isBootstrapping) {
+            this.restoreWindowsState();
+          }
         })
-      ).subscribe(() => {
-        if (isBootstrapping) {
-          this.restoreWindowsState();
-        }
-      });
+      );
   }
 
   fetchMessageHistory(window: Window) {
@@ -363,33 +373,45 @@ export class Chat implements OnInit, IChatController {
     if (this.adapter instanceof PagedHistoryChatAdapter) {
       window.isLoadingHistory = true;
 
-      this.adapter.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
-        .pipe(
-          map((result: Message[]) => {
-            result.forEach((message) => this.assertMessageType(message));
+      this.subs.push(
+        this.adapter.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
+          .pipe(
+            map((result: Message[]) => {
+              if (result != null) {
+                result.forEach((message) => this.assertMessageType(message));
 
-            window.messages = result.concat(window.messages);
-            window.isLoadingHistory = false;
+                window.messages = result.concat(window.messages);
+                window.isLoadingHistory = false;
 
-            const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
-            window.hasMoreMessages = result.length == this.historyPageSize;
+                const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
+                window.hasMoreMessages = result.length == this.historyPageSize;
 
-            setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
-          })
-        ).subscribe();
+                setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
+              }
+
+              window.isLoadingHistory = false;
+            })
+          ).subscribe()
+      )
     }
     else {
-      this.adapter.getMessageHistory(window.participant.id)
-        .pipe(
-          map((result: Message[]) => {
-            result.forEach((message) => this.assertMessageType(message));
+      this.subs.push(
+        this.adapter.getMessageHistory(window.participant.id)
+          .pipe(
+            map((result: Message[]) => {
+              if (result != null) {
+                result?.forEach((message) => this.assertMessageType(message));
 
-            window.messages = result.concat(window.messages);
-            window.isLoadingHistory = false;
+                window.messages = result.concat(window.messages);
+                window.isLoadingHistory = false;
 
-            setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-          })
-        ).subscribe();
+                setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
+              }
+
+              window.isLoadingHistory = false;
+            })
+          ).subscribe()
+      )
     }
   }
 
@@ -404,7 +426,7 @@ export class Chat implements OnInit, IChatController {
   }
 
   // Updates the friends list via the event handler
-  private onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
+  public onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
     if (participantsResponse) {
       this.participantsResponse = participantsResponse;
 
@@ -417,7 +439,7 @@ export class Chat implements OnInit, IChatController {
   }
 
   // Handles received messages by the adapter
-  private onMessageReceived(participant: IChatParticipant, message: Message) {
+  public onMessageReceived(participant: IChatParticipant, message: Message) {
     if (participant && message) {
       const chatWindow = this.openChatWindow(participant);
 
@@ -643,7 +665,7 @@ export class Chat implements OnInit, IChatController {
     this.onParticipantChatClosed.emit(window.participant);
   }
 
-  private getChatWindowComponentInstance(targetWindow: Window): NgChatWindowComponent | null {
+  private getChatWindowComponentInstance(targetWindow: Window): ChatWindowComponent | null {
     const windowIndex = this.windows.indexOf(targetWindow);
 
     if (this.chatWindows) {
