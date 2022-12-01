@@ -1,23 +1,23 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { AuthService } from './../authorisation/auth/auth.service';
-import { ConfigurationLoader } from "../configuration/configuration-loader.service";
+import { AuthService } from './../../authorisation/auth/auth.service';
+import { ConfigurationLoader } from "../../configuration/configuration-loader.service";
 
-import { CurrentUser } from './../models/currentUser';
+import { CurrentUser } from './../../models/currentUser';
 //import { ChatAdapter } from 'ng-chat';
-import { Chat } from '../chat/chat.component';
-import { SignalRAdapter } from './signalr-adapter';
-import { ProfileService } from '../services/profile.service';
+import { Chat } from '../../chat/chat.component';
+import { SignalRAdapter } from './../signalr/signalr-adapter';
+import { ProfileService } from '../../services/profile.service';
 
 
 @Component({
-  selector: 'ng-chat-component',
-  templateUrl: './ng-chat.component.html',
-  styleUrls: ['./ng-chat.component.scss'],
+  selector: 'chatWrapper',
+  templateUrl: './chatWrapper.component.html',
+  styleUrls: ['./chatWrapper.component.scss'],
 })
 
-export class ChatComponent {
+export class ChatWrapperComponent {
 
   private _currentUser: CurrentUser;
 

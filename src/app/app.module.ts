@@ -85,8 +85,7 @@ import { ImageUploadComponent }               from './image-components/image-upl
 import { DeleteImageDialog }                  from './image-components/delete-image/delete-image-dialog.component';
 import { ImageDialog }                        from './image-components/image-dialog/image-dialog.component';
 
-import { ChatComponent }                      from './ng-chat/ng-chat.component';
-import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
+import { ChatWrapperComponent }               from './chat/chat-wrapper/chatWrapper.component';
 import { Chat }                               from './chat/chat.component';
 import { EmojifyPipe }                        from './chat/pipes/emojify.pipe';
 import { LinkfyPipe }                         from './chat/pipes/linkfy.pipe';
@@ -95,6 +94,7 @@ import { GroupMessageDisplayNamePipe }        from './chat/pipes/group-message-d
 import { ChatOptionsComponent }               from './chat/chat-options/chat-options.component';
 import { ChatFriendsListComponent }           from './chat/chat-friends-list/chat-friends-list.component';
 import { ChatWindowComponent }                from './chat/chat-window/chat-window.component';
+import { ChatMembersListviewComponent }       from './currentUser/chatMembers/chatMembers-listview.component';
 
 import { TranslocoRootModule }                from './transloco/transloco-root.module';
 import { TranslocoLocaleModule }              from '@ngneat/transloco-locale';
@@ -136,7 +136,7 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     ImageUploadComponent,
     ImageDialog,
     DeleteImageDialog,
-    ChatComponent,
+    ChatWrapperComponent,
     ChatMembersListviewComponent,
     Chat,
     EmojifyPipe,

@@ -1,16 +1,15 @@
-//import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
-import { Chat } from '../chat/chat.component';
-import { Message } from '../chat/core/message';
-import { ParticipantResponse } from '../chat/core/participant-response';
-import { IChatParticipant } from '../chat/core/chat-participant';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@microsoft/signalr";
-import { AuthService } from '../authorisation/auth/auth.service';
-import { CurrentUser } from '../models/currentUser';
-import { ProfileService } from '../services/profile.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
+import { CurrentUser } from '../../models/currentUser';
+import { ProfileService } from '../../services/profile.service';
+import { Chat } from '../../chat/chat.component';
+import { Message } from '../../chat/core/message';
+import { ParticipantResponse } from '../../chat/core/participant-response';
+import { IChatParticipant } from '../../chat/core/chat-participant';
 
 export class SignalRAdapter extends Chat {
   public userId: string;
