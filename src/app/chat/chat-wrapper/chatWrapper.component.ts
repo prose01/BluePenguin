@@ -9,6 +9,7 @@ import { CurrentUser } from './../../models/currentUser';
 import { Chat } from '../../chat/chat.component';
 import { SignalRAdapter } from './../signalr/signalr-adapter';
 import { ProfileService } from '../../services/profile.service';
+import { ChatAdapter } from './../core/chat-adapter';
 
 
 @Component({
@@ -24,14 +25,14 @@ export class ChatWrapperComponent {
   private junoUrl: string;
 
   private currentTheme = 'light-theme';
-  //triggeredEvents = [];
+  triggeredEvents = [];
 
   private username: string;
 
   private title = 'Chats';
 
   public userId: string;
-  public adapter: Chat;
+  public adapter: ChatAdapter;
 
 
   @Input() set currentUser(values: CurrentUser) {
@@ -53,7 +54,7 @@ export class ChatWrapperComponent {
     }
   }
 
-  //onEventTriggered(event: string): void {
-  //  this.triggeredEvents.push(event);
-  //}
+  onEventTriggered(event: string): void {
+    this.triggeredEvents.push(event);
+  }
 }

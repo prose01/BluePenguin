@@ -39,7 +39,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
 })
 
 export class Chat implements OnInit, OnDestroy, IChatController {
-  constructor(private _httpClient: HttpClient) { }
+  constructor() { }
 
   // Exposes enums for the template
   public ChatParticipantType = ChatParticipantType;
@@ -271,7 +271,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
         this.hasPagedHistory = this.adapter instanceof PagedHistoryChatAdapter;
 
         if (this.fileUploadUrl && this.fileUploadUrl !== "") {
-          this.fileUploadAdapter = new DefaultFileUploadAdapter(this.fileUploadUrl, this._httpClient);
+          //this.fileUploadAdapter = new DefaultFileUploadAdapter(this.fileUploadUrl, this._httpClient);
         }
 
         this.NormalizeWindows();

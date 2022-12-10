@@ -10,8 +10,9 @@ import { Chat } from '../../chat/chat.component';
 import { Message } from '../../chat/core/message';
 import { ParticipantResponse } from '../../chat/core/participant-response';
 import { IChatParticipant } from '../../chat/core/chat-participant';
+import { ChatAdapter } from './../core/chat-adapter';
 
-export class SignalRAdapter extends Chat {
+export class SignalRAdapter extends ChatAdapter {
   public userId: string;
 
   private hubConnection: signalR.HubConnection
@@ -19,7 +20,7 @@ export class SignalRAdapter extends Chat {
   private currentUserSubject: CurrentUser;
 
   constructor(public auth: AuthService, private profileService: ProfileService, private junoUrl: string, private username: string, private http: HttpClient) {
-    super(http);
+    super();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     setTimeout(() => { this.initializeConnection(this.auth.getAccessToken()); }, 1000); 
@@ -33,9 +34,10 @@ export class SignalRAdapter extends Chat {
     this.hubConnection.keepAliveIntervalInMilliseconds = 15;
     this.hubConnection.serverTimeoutInMilliseconds = 30;
 
-    this.hubConnection.on('UserIsOnline', userId => {
-      console.log(userId + ' has connected');
-    })
+    //this.hubConnection.on('UserIsOnline', userId => {
+    //  console.log(userId + ' has connected');
+    //  this.userId = userId;
+    //})
 
     this.hubConnection
       .start()
