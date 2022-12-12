@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { getBrowserLang } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';

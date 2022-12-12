@@ -3,7 +3,7 @@ import { KeyValue } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { Feedback } from '../models/feedback';
 import { FeedbackType } from '../models/feedbackType';
