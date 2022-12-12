@@ -34,7 +34,7 @@
     "@microsoft/signalr": "^7.0.0",
     "@ngneat/transloco": "^4.2.1",
     "@ngneat/transloco-locale": "^4.0.0",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.11.13",
     "auth0-js": "^9.19.2",
     "core-js": "^3.26.1",
     "jasmine-core": "^4.5.0",
