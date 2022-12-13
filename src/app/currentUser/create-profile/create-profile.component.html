@@ -34,18 +34,18 @@
       </mat-form-field>
 
       <mat-form-field class="tag-list">
-        <mat-chip-list #chipList formControlName="tags">
-          <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"
+        <mat-chip-grid #chipList formControlName="tags">
+          <mat-chip-row *ngFor="let tag of tagsList" [selectable]="selectable"
                     [removable]="removable" (removed)="remove(tag)">
             {{tag}}
             <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
-          </mat-chip>
+          </mat-chip-row>
           <input matInput placeholder="{{tagsPlaceholder}}"
                  [matChipInputFor]="chipList"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  [matChipInputAddOnBlur]="addOnBlur"
                  (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
+        </mat-chip-grid>
       </mat-form-field>
 
       <mat-form-field>
@@ -57,11 +57,11 @@
       </mat-form-field>
 
       <mat-label>{{'Age'| transloco}}</mat-label>
-      <mat-slider min={{minAge}} max={{maxAge}} step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-slider min={{minAge}} max={{maxAge}} step="1" thumbLabel formControlName="age" class="cdk-focused"><input matSliderThumb [value]="age" />
       </mat-slider>
 
       <mat-label>{{'Height'| transloco}}</mat-label>
-      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" thumbLabel formControlName="height" class="cdk-focused"><input matSliderThumb [value]="height" />
       </mat-slider>
 
       <mat-form-field>

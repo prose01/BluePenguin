@@ -62,7 +62,7 @@
     </div>
 
     <div *ngIf="profile.tags.length > 0">
-      <label>{{'Tags'| transloco}}</label><mat-chip *ngFor="let tag of profile.tags">{{tag}}</mat-chip>
+      <label>{{'Tags'| transloco}}</label><mat-chip-option *ngFor="let tag of profile.tags">{{tag}}</mat-chip-option>
     </div>
 
     <div *ngIf="profile.body != 'NotChosen'">

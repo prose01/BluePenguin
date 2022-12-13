@@ -8,7 +8,7 @@ tr.detail-row {
   margin-top: 8px;
 }*/
 
-.mat-flat-button {
+.mat-mdc-unelevated-button {
   margin: 10px 00px 0px 10px;
 }
 
@@ -23,7 +23,7 @@ tr.detail-row {
 }
 
 /*Important in order stop hide MatPaginator items per page.*/
-::ng-deep .mat-paginator-range-label {
+::ng-deep .mat-mdc-paginator-range-label {
   display: none !important;
 }
 

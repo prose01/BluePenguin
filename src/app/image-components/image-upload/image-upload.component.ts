@@ -7,7 +7,7 @@
 
 import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { TranslocoService } from '@ngneat/transloco';
 
