@@ -1,6 +1,6 @@
 <div mat-dialog-content class="container">
   <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'FeedbackDialog.Close'| transloco}}">
-    <i class="material-icons">close</i>
+    <span class="material-icons">close</span>
   </button>
 
   <h1 mat-dialog-title>{{feedback.fromName}}</h1>
@@ -54,8 +54,8 @@
 
   <div *ngIf="feedback.open != null">
     <label>{{'FeedbackAdminComponent.FeedbackStatus'| transloco}}</label>
-    <i class="material-icons icon-orange" *ngIf="feedback?.open" matTooltip="{{'FeedbackAdminComponent.Open'| transloco}}">circle</i>
-    <i class="material-icons icon-white" *ngIf="!feedback?.open" matTooltip="{{'FeedbackAdminComponent.Closed'| transloco}}">check_circle</i>
+    <span class="material-icons icon-orange" *ngIf="feedback?.open" matTooltip="{{'FeedbackAdminComponent.Open'| transloco}}">circle</span>
+    <span class="material-icons icon-white" *ngIf="!feedback?.open" matTooltip="{{'FeedbackAdminComponent.Closed'| transloco}}">check_circle</span>
   </div>
 
   <div *ngIf="feedback.feedbackId != null">
@@ -66,13 +66,13 @@
 </div>
 
 <button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
-  <i class="material-icons">person</i>
+  <span class="material-icons">person</span>
 </button>
 
 <button *ngIf="feedback.open" type="button" class="fabbuttons" (click)="closeFeedbacks()" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
-  <i class="material-icons">check_circle</i>
+  <span class="material-icons">check_circle</span>
 </button>
 
 <button *ngIf="!feedback.open" type="button" class="fabbuttons" (click)="openFeedbacks()" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
-  <i class="material-icons">circle</i>
+  <span class="material-icons">circle</span>
 </button>

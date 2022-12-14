@@ -17,7 +17,7 @@
                     [removable]="removable"
                     (removed)="remove(tag)">
             {{tag}}
-            <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
+            <span class="material-icons" matChipRemove *ngIf="removable">cancel</span>
           </mat-chip-row>
           <input matInput placeholder="{{tagsPlaceholder}}"
                  [matChipInputFor]="chipList"

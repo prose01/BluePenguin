@@ -14,11 +14,11 @@
       <div style="margin-bottom: 1em">
         <button type="submit"
                 [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
-          <i class="material-icons">delete_forever</i>
+          <span class="material-icons">delete_forever</span>
         </button>
         <button type="button" (click)="createForm()"
                 [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-          <i class="material-icons">undo</i>
+          <span class="material-icons">undo</span>
         </button>
       </div>
 

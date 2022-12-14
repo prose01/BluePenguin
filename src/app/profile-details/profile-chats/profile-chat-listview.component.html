@@ -7,11 +7,11 @@
   </div>
 
   <button type="button" (click)="sidenav.open(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
-    <i class="material-icons">search</i>
+    <span class="material-icons">search</span>
   </button>
 
   <button type="button" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
-    <i class="material-icons">delete_forever</i>
+    <span class="material-icons">delete_forever</span>
   </button>
 
   <div *ngIf="noFeedbacks" class="noResults">
@@ -73,7 +73,7 @@
         <ng-container matColumnDef="doNotDelete">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DoNotDelete'| transloco}} </th>
           <td mat-cell *matCellDef="let element">
-            <i class="material-icons icon-white" *ngIf="element?.doNotDelete" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">delete_forever</i>
+            <span class="material-icons icon-white" *ngIf="element?.doNotDelete" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">delete_forever</span>
           </td>
         </ng-container>
 

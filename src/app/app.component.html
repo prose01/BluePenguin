@@ -20,14 +20,14 @@
       <!--Navigation buttons-->
       <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
         <button type="button" (click)="sidenav.toggle(); toggleDisplay();" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonToggleText}}>
-          <i class="material-icons">{{matButtonToggleIcon}}</i>
+          <span class="material-icons">{{matButtonToggleIcon}}</span>
         </button>
       </div>
 
       <!--ViewToggle button-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
         <button type="button" (click)="toggleViewDisplay()" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip={{matButtonViewToggleText}}>
-          <i class="material-icons">{{matButtonViewToggleIcon}}</i>
+          <span class="material-icons">{{matButtonViewToggleIcon}}</span>
         </button>
       </div>
 
@@ -38,27 +38,27 @@
         </button>
 
         <button type="button" (click)="getData('FilterProfiles');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'MySearchFilter'| transloco}}">
-          <i class="material-icons">tune</i>
+          <span class="material-icons">tune</span>
         </button>
 
         <button type="button" (click)="getData('BookmarkedProfiles');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'Bookmarks'| transloco}}">
-          <i class="material-icons">bookmarks</i>
+          <span class="material-icons">bookmarks</span>
         </button>
 
         <button type="button" (click)="getData('ProfilesWhoVisitedMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'VisitedMe'| transloco}}">
-          <i class="material-icons">adjust</i>
+          <span class="material-icons">adjust</span>
         </button>
 
         <button type="button" (click)="getData('ProfilesWhoBookmarkedMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'BookmarkedMe'| transloco}}">
-          <i class="material-icons">bookmark_added</i>
+          <span class="material-icons">bookmark_added</span>
         </button>
 
         <button type="button" (click)="getData('ProfilesWhoLikesMe');" class="mat-dashboard-flat-button" mat-flat-button color="primary" matTooltip="{{'LikesMe'| transloco}}">
-          <i class="material-icons">favorite</i>
+          <span class="material-icons">favorite</span>
         </button>
 
         <button type="button" (click)="toggleOrderBy()" class="mat-app-flat-button" mat-flat-button color="primary" matTooltip={{matButtonOrderByText}}>
-          <i class="material-icons">{{matButtonOrderByIcon}}</i>
+          <span class="material-icons">{{matButtonOrderByIcon}}</span>
         </button>
       </div>
 
@@ -67,21 +67,21 @@
 
         <button *ngIf="allowSearch" type="submit" (click)="onSubmit()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Search'| transloco}}">
-          <i class="material-icons">search</i>
+          <span class="material-icons">search</span>
         </button>
 
         <button *ngIf="allowSearch" type="button" (click)="reset()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'Reset'| transloco}}">
-          <i class="material-icons">undo</i>
+          <span class="material-icons">undo</span>
         </button>
 
         <button type="button" (click)="loadSearch()" class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'LoadSearchFilter'| transloco}}">
-          <i class="material-icons">find_in_page</i>
+          <span class="material-icons">find_in_page</span>
         </button>
 
         <button *ngIf="allowSearch" type="button" (click)="saveSearch()"
                 class="mat-search-flat-button" mat-flat-button color="primary" matTooltip="{{'SaveSearchFilter'| transloco}}">
-          <i class="material-icons">save</i>
+          <span class="material-icons">save</span>
         </button>
       </div>
 
@@ -106,29 +106,29 @@
     <div *ngIf="isProfileCreated">
       <a (click)="loadEdit()" mat-menu-item>
         {{'EditProfile'| transloco}}
-        <i class="material-icons">person</i>
+        <span class="material-icons">person</span>
       </a>
     </div>
     <a (click)="loadAbout()" mat-menu-item>
       {{'About'| transloco}}
-      <i class="material-icons">plus_one</i>
+      <span class="material-icons">plus_one</span>
     </a>
     <div *ngIf="currentUserSubject != null && !currentUserSubject?.admin">
       <a (click)="loadFeedback()" mat-menu-item>
         {{'Feedback'| transloco}}
-        <i class="material-icons">plus_one</i>
+        <span class="material-icons">plus_one</span>
       </a>
     </div>
     <div *ngIf="currentUserSubject != null && currentUserSubject?.admin">
       <a (click)="loadFeedbackAdmin()" mat-menu-item>
         {{'FeedbackAdmin'| transloco}}
-        <i class="material-icons">admin_panel_settings</i>
+        <span class="material-icons">admin_panel_settings</span>
       </a>
     </div>
     <div *ngIf="currentUserSubject != null && currentUserSubject?.admin">
       <a (click)="loadAdmin()" mat-menu-item>
         {{'Admin'| transloco}}
-        <i class="material-icons">admin_panel_settings</i>
+        <span class="material-icons">admin_panel_settings</span>
       </a>
     </div>
 

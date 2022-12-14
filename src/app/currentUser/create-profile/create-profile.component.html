@@ -7,11 +7,11 @@
     <div style="margin-bottom: 1em">
       <button type="submit"
               [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Save'| transloco}}">
-        <i class="material-icons">save</i>
+        <span class="material-icons">save</span>
       </button>
       <button type="button" (click)="revert()"
               [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-        <i class="material-icons">undo</i>
+        <span class="material-icons">undo</span>
       </button>
     </div>
 

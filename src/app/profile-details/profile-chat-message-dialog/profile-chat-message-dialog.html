@@ -1,6 +1,6 @@
 <div mat-dialog-content class="container">
   <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'FeedbackDialog.Close'| transloco}}">
-    <i class="material-icons">close</i>
+    <span class="material-icons">close</span>
   </button>
 
   <h1 mat-dialog-title>{{message.fromName}} - {{message.fromId}}</h1>
@@ -11,13 +11,13 @@
 </div>
 
 <button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
-  <i class="material-icons">person</i>
+  <span class="material-icons">person</span>
 </button>
 
 <button *ngIf="!message.doNotDelete" type="button" class="fabbuttons" (click)="doNotDelete()" mat-button matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
-  <i class="material-icons">delete_forever</i>
+  <span class="material-icons">delete_forever</span>
 </button>
 
 <button *ngIf="message.doNotDelete" type="button" class="fabbuttons" (click)="allowDelete()" mat-button matTooltip="{{'ProfileChatSearchComponent.AllowDelete'| transloco}}">
-  <i class="material-icons">delete</i>
+  <span class="material-icons">delete</span>
 </button>

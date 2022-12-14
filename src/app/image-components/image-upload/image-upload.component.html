@@ -10,7 +10,7 @@
 
     <button type="button"
             (click)="fileInput.click()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.ChooseFile'| transloco}}">
-      <i class="material-icons">folder_open</i>
+      <span class="material-icons">folder_open</span>
     </button>
     <input type="file" (change)="fileChangeEvent($event)" #fileInput hidden>
 
@@ -21,38 +21,38 @@
     <div style="margin-bottom: 1em">
       <button type="submit" *ngIf="showCropper"
               (click)="onSubmit()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Upload'| transloco}}">
-        <i class="material-icons">cloud_upload</i>
+        <span class="material-icons">cloud_upload</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="resetImage()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.ResetImage'| transloco}}">
-        <i class="material-icons">undo</i>
+        <span class="material-icons">undo</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="zoomIn()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Zoom+'| transloco}}">
-        <i class="material-icons">zoom_in</i>
+        <span class="material-icons">zoom_in</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="zoomOut()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.Zoom-'| transloco}}">
-        <i class="material-icons">zoom_out</i>
+        <span class="material-icons">zoom_out</span>
       </button>
     </div>
 
     <div style="margin-bottom: 1em">
       <button type="button" *ngIf="showCropper"
               (click)="rotateRight()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.RotateRight'| transloco}}">
-        <i class="material-icons">rotate_right</i>
+        <span class="material-icons">rotate_right</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="rotateLeft()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.RotateLeft'| transloco}}">
-        <i class="material-icons">rotate_left</i>
+        <span class="material-icons">rotate_left</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="flipHorizontal()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.FlipHorizontal'| transloco}}">
-        <i class="material-icons">swap_horiz</i>
+        <span class="material-icons">swap_horiz</span>
       </button>
       <button type="button" *ngIf="showCropper"
               (click)="flipVertical()" mat-flat-button color="accent" matTooltip="{{'ImageUploadComponent.FlipVertical'| transloco}}">
-        <i class="material-icons">swap_vert</i>
+        <span class="material-icons">swap_vert</span>
       </button>
     </div>
 
