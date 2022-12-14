@@ -57,11 +57,11 @@
       </mat-form-field>
 
       <mat-label>{{'Age'| transloco}}</mat-label>
-      <mat-slider min={{minAge}} max={{maxAge}} step="1" thumbLabel formControlName="age" class="cdk-focused"><input matSliderThumb [value]="age" />
+      <mat-slider min={{minAge}} max={{maxAge}} step="1" class="cdk-focused"><input thumbLabel formControlName="age" matSliderThumb [value]="age" />
       </mat-slider>
 
       <mat-label>{{'Height'| transloco}}</mat-label>
-      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" thumbLabel formControlName="height" class="cdk-focused"><input matSliderThumb [value]="height" />
+      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" class="cdk-focused"><input thumbLabel formControlName="height" matSliderThumb [value]="height" />
       </mat-slider>
 
       <mat-form-field>
