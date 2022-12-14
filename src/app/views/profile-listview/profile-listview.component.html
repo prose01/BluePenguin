@@ -115,15 +115,15 @@
 
 
     <button *ngIf="allowAssignment" type="button" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'Bookmarked'| transloco}}">
-      <span class="material-icons">bookmark</span>
+      <span class="material-icons icon-white-square">bookmark</span>
     </button>
 
     <button *ngIf="allowAssignment" type="button" (click)="toggleLikes()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'Like'| transloco}}">
-      <span class="material-icons">favorite</span>
+      <span class="material-icons icon-white-square">favorite</span>
     </button>
 
     <button *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" type="button" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'DeleteProfile'| transloco}}">
-      <span class="material-icons">delete</span>
+      <span class="material-icons icon-white-square">delete</span>
     </button>
 
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>

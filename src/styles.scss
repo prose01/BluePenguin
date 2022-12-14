@@ -181,21 +181,29 @@ button.mat-mdc-unelevated-button {
 }
 /* End - Hack overwrite to make slider show always */
 
-i.icon-white {
+.material-icons {
+  color: #607D8B;
+}
+
+.material-icons.icon-white-square {
+  color: #FFFFFF;
+}
+
+.material-icons.icon-white {
   color: #FFFFFF;
   padding: 5px;
   background: #44606e;
   border-radius: 50%;
 }
 
-i.icon-orange {
+.material-icons.icon-orange {
   color: #f07537;
   padding: 5px;
   background: #44606e;
   border-radius: 50%;
 }
 
-i.icon-orange-left {
+.material-icons.icon-orange-left {
   color: #f07537;
   position: absolute;
   top: 8px;
@@ -205,7 +213,7 @@ i.icon-orange-left {
   border-radius: 50%;
 }
 
-i.icon-orange-right {
+.material-icons.icon-orange-right {
   color: #f07537;
   position: absolute;
   top: 8px;
