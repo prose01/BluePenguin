@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -25,40 +25,43 @@ import { ChatFilter } from '../../models/chatFilter';
   styleUrls: ['./profile-chat-listview.component.scss']
 })
 
-export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestroy {
+export class ProfileChatListviewComponent implements OnInit, OnDestroy {
+  public loading: boolean = false;
+  public noFeedbacks: boolean = false;
+
+  private length: number = 5;
+  private currentSearch: string;
+
+  private subs: Subscription[] = [];
+  private _profile: Profile;
+  private currentUserSubject: CurrentUser;
+  private chatFilter: ChatFilter;
+
+  private messages: MessageModel[] = new Array;
+
+  public dataSource: MatTableDataSource<MessageModel>;
+  public selection = new SelectionModel<MessageModel>(true, []);
+
+  private displayedColumns: string[] = ['select', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
+
+  public mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
+  @Input() set profile(values: Profile) {
+    this._profile = values;
+    this.getProfileMessages();
+  }
+  get profile(): Profile {
+    return this._profile;
+  }
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @Output("chatSearch") chatSearch: EventEmitter<any> = new EventEmitter();
-
-  @Input() profile: Profile;
 
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(ProfileChatSearchComponent) profileChatSearchComponent: ProfileChatSearchComponent;
-
-  loading: boolean = false;
-  noFeedbacks: boolean = false;
-
-  //pageIndex: number = 0;
-  //pageSize: number = 10;
-  //currentSize: number = 0;
-  length: number = 5;
-  currentSearch: string;
-
-  private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  chatFilter: ChatFilter;
-
-  messages: MessageModel[] = new Array;
-
-  dataSource: MatTableDataSource<MessageModel>;
-  selection = new SelectionModel<MessageModel>(true, []);
-
-  displayedColumns: string[] = ['select', 'fromId', 'fromName', 'toId', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
-
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
 
   constructor(private chatService: ChatService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -82,14 +85,6 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     this.subs = [];
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.profile.firstChange) {
-      if (changes.profile.currentValue != changes.profile.previousValue) {
-        this.getProfileMessages();
-      }
-    }
-  }
-
   private pageChanged(event): void {
     this.loading = true;
 
@@ -105,24 +100,24 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
     this.subs.push(
       this.chatService.getProfileMessages(this.profile.profileId, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+      .subscribe({
+        next: (response: any) =>  {
 
-            this.messages = new Array;
+          this.messages = new Array;
 
-            this.messages.push(...response);
+          this.messages.push(...response);
 
-            this.length = currentSize + response.length + 1;
+          this.length = currentSize + response.length + 1;
 
-            this.loading = false;
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;
-          },
-          () => {
-            this.updateMessageList();
-          }
-        )
+          this.loading = false;
+        },
+        complete: () => {
+          this.updateMessageList();
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -148,10 +143,6 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
   /** Whether the number of selected elements matches the total number of rows. */
   private isAllSelected(): boolean {
-    //const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
-    ////this.allowAssignment = numSelected > 0 ? true : false;
-    //return numSelected === numRows;
     return this.selection.selected.length === this.dataSource.data.length;
   }
 
@@ -169,7 +160,7 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`; // TODO: row ${row} needs an id.
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
 
   // Calls to ProfileChatSearchComponent
@@ -193,24 +184,22 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
     this.subs.push(
       this.chatService.getChatsByFilter(this.chatFilter, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+      .subscribe({
+        next: (response: any) =>  {
 
-            this.messages = new Array;
+          this.messages = new Array;
 
-            this.messages.push(...response);
+          this.messages.push(...response);
 
-            this.length = currentSize + response.length + 1;
+          this.length = currentSize + response.length + 1;
 
-            this.loading = false;
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetChatsByFilter'), null); this.loading = false;
-          },
-          () => {
-            this.updateMessageList();
-          }
-        )
+          this.loading = false;
+        },
+        complete: () => {
+          this.updateMessageList();
+        },
+        error: () => { this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetChatsByFilter'), null); this.loading = false; }
+      })
     );
   }
 
@@ -237,14 +226,26 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
     if (notDelete.length > 0) {
       this.subs.push(
         this.chatService.doNotDelete(notDelete)
-          .subscribe(() => { }, () => { }, () => { })
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToDoNotDelete'), null);
+          }
+        })
       );
     }
 
     if (allowDelete.length > 0) {
       this.subs.push(
         this.chatService.allowDelete(allowDelete)
-          .subscribe(() => { }, () => { }, () => { })
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSetMessageToAllowDelete'), null);
+          }
+        })
       );
     }
 
@@ -289,13 +290,15 @@ export class ProfileChatListviewComponent implements OnInit, OnChanges, OnDestro
 
     this.subs.push(
       this.profileService.getProfileById(profileId)
-        .subscribe(
-          (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotLoadDetails'), null);
-          },
-          () => { }
-        )
+      .subscribe({
+        next: (response: any) =>  {
+          profile = response; this.loadProfileDetails.emit(profile); 
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotLoadDetails'), null);
+        }
+      })
     );
   }
 

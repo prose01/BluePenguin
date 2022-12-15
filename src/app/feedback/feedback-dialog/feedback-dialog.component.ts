@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { Feedback } from '../../models/feedback';
 import { FeedBackService } from '../../services/feedback.service';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'feedback-dialog',
@@ -14,9 +17,9 @@ import { FeedBackService } from '../../services/feedback.service';
 export class FeedbackDialog implements OnDestroy {
 
   private subs: Subscription[] = [];
-  feedback: Feedback;
+  public feedback: Feedback;
 
-  constructor(public dialogRef: MatDialogRef<FeedbackDialog>, private feedBackService: FeedBackService,
+  constructor(public dialogRef: MatDialogRef<FeedbackDialog>, private feedBackService: FeedBackService, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.feedback = this.data.feedback;
@@ -46,7 +49,13 @@ export class FeedbackDialog implements OnDestroy {
 
     this.subs.push(
       this.feedBackService.openFeedbacks(feedbackIds)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotOpenFeedbacks'), null);
+        }
+      })
     );
 
     this.feedback.open = true;
@@ -59,10 +68,25 @@ export class FeedbackDialog implements OnDestroy {
 
     this.subs.push(
       this.feedBackService.closeFeedbacks(feedbackIds)
-        .subscribe(() => { }, () => { }, () => { })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotCloseFeedbacks'), null);
+        }
+      })
     );
 
     this.feedback.open = false;
     this.dialogRef.close(this.feedback);
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

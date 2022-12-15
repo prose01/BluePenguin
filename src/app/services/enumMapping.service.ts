@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import {
   GenderType,
-  SexualOrientationType,
   BodyArtType,
   BodyType,
   ClotheStyleType,
@@ -21,7 +20,9 @@ import {
 import { FeedbackType } from '../models/feedbackType';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EnumMappingService {
 
   NotChosenText: string;
@@ -29,35 +30,29 @@ export class EnumMappingService {
   YesText: string;
   NoText: string;
 
-  // GenderType
+  // GenderTypes
   FemaleText: string;
   MaleText: string;
 
-  // SexualOrientationType
-  HeterosexualText: string;
-  HomosexualText: string;
-  BisexualText: string;
-  AsexualText: string;
-
-  // ClotheStyleType
+  // ClotheStyleTypes
   CasualText: string;
   DressyText: string;
   DandyText: string;
   StylishText: string;
   FormalText: string;
 
-  // BodyType
+  // BodyTypes
   AtlethicText: string;
   ChubbyText: string;
   NormalText: string;
   RobustText: string;
   SlimText: string;
 
-  // BodyArtType
+  // BodyArtTypes
   PiercingText: string;
   TatooText: string;
 
-  // EatingHabitsType
+  // EatingHabitsTypes
   HealthyText: string;
   GastronomicText: string;
   KosherText: string;
@@ -65,37 +60,37 @@ export class EnumMappingService {
   TraditionalText: string;
   VegetarianText: string;
 
-  // EducationStatusType
+  // EducationStatusTypes
   GraduatedText: string;
   StudentText: string;
 
-  // EducationType
+  // EducationTypes
   SchoolText: string;
   HighschoolText: string;
   UniversityText: string;
 
-  // EmploymentStatusType
+  // EmploymentStatusTypes
   UnemployedText: string;
   EmployedText: string;
   SelfEmployedText: string;
 
-  // LivesInType
+  // LivesInTypes
   CityText: string;
   SuburbText: string;
   CountrysideText: string;
 
-  // SmokingHabitsType
+  // SmokingHabitsTypes
   NonSmokerText: string;
   OccasionalSmokerText: string;
   SmokerText: string;
 
-  // SportsActivityType
+  // SportsActivityTypes
   RegularlyText: string;
   SomeRegularityText: string;
   SeldomText: string;
   NeverText: string;
 
-  // FeedbackType
+  // FeedbackTypes
   CommentText: string;
   ErrorText: string;
   ImprovementText: string;
@@ -107,64 +102,59 @@ export class EnumMappingService {
     this.translocoService.selectTranslate('Enum.Yes').subscribe(value => this.YesText = value);
     this.translocoService.selectTranslate('Enum.No').subscribe(value => this.NoText = value);
     // GenderType
-    this.translocoService.selectTranslate('GenderType.Female').subscribe(value => this.FemaleText = value);
-    this.translocoService.selectTranslate('GenderType.Male').subscribe(value => this.MaleText = value);
-    // SexualOrientationType
-    this.translocoService.selectTranslate('SexualOrientationType.Heterosexual').subscribe(value => this.HeterosexualText = value);
-    this.translocoService.selectTranslate('SexualOrientationType.Homosexual').subscribe(value => this.HomosexualText = value);
-    this.translocoService.selectTranslate('SexualOrientationType.Bisexual').subscribe(value => this.BisexualText = value);
-    this.translocoService.selectTranslate('SexualOrientationType.Asexual').subscribe(value => this.AsexualText = value);
+    this.translocoService.selectTranslate('GenderTypes.Female').subscribe(value => this.FemaleText = value);
+    this.translocoService.selectTranslate('GenderTypes.Male').subscribe(value => this.MaleText = value);
     // ClotheStyleType
-    this.translocoService.selectTranslate('ClotheStyleType.Casual').subscribe(value => this.CasualText = value);
-    this.translocoService.selectTranslate('ClotheStyleType.Dressy').subscribe(value => this.DressyText = value);
-    this.translocoService.selectTranslate('ClotheStyleType.Dandy').subscribe(value => this.DandyText = value);
-    this.translocoService.selectTranslate('ClotheStyleType.Stylish').subscribe(value => this.StylishText = value);
-    this.translocoService.selectTranslate('ClotheStyleType.Formal').subscribe(value => this.FormalText = value);
+    this.translocoService.selectTranslate('ClotheStyleTypes.Casual').subscribe(value => this.CasualText = value);
+    this.translocoService.selectTranslate('ClotheStyleTypes.Dressy').subscribe(value => this.DressyText = value);
+    this.translocoService.selectTranslate('ClotheStyleTypes.Dandy').subscribe(value => this.DandyText = value);
+    this.translocoService.selectTranslate('ClotheStyleTypes.Stylish').subscribe(value => this.StylishText = value);
+    this.translocoService.selectTranslate('ClotheStyleTypes.Formal').subscribe(value => this.FormalText = value);
     // BodyType
-    this.translocoService.selectTranslate('BodyType.Atlethic').subscribe(value => this.AtlethicText = value);
-    this.translocoService.selectTranslate('BodyType.Chubby').subscribe(value => this.ChubbyText = value);
-    this.translocoService.selectTranslate('BodyType.Normal').subscribe(value => this.NormalText = value);
-    this.translocoService.selectTranslate('BodyType.Robust').subscribe(value => this.RobustText = value);
-    this.translocoService.selectTranslate('BodyType.Slim').subscribe(value => this.SlimText = value);
+    this.translocoService.selectTranslate('BodyTypes.Atlethic').subscribe(value => this.AtlethicText = value);
+    this.translocoService.selectTranslate('BodyTypes.Chubby').subscribe(value => this.ChubbyText = value);
+    this.translocoService.selectTranslate('BodyTypes.Normal').subscribe(value => this.NormalText = value);
+    this.translocoService.selectTranslate('BodyTypes.Robust').subscribe(value => this.RobustText = value);
+    this.translocoService.selectTranslate('BodyTypes.Slim').subscribe(value => this.SlimText = value);
     // BodyArtType
-    this.translocoService.selectTranslate('BodyArtType.Piercing').subscribe(value => this.PiercingText = value);
-    this.translocoService.selectTranslate('BodyArtType.Tatoo').subscribe(value => this.TatooText = value);
+    this.translocoService.selectTranslate('BodyArtTypes.Piercing').subscribe(value => this.PiercingText = value);
+    this.translocoService.selectTranslate('BodyArtTypes.Tatoo').subscribe(value => this.TatooText = value);
     // EatingHabitsType
-    this.translocoService.selectTranslate('EatingHabitsType.Healthy').subscribe(value => this.HealthyText = value);
-    this.translocoService.selectTranslate('EatingHabitsType.Gastronomic').subscribe(value => this.GastronomicText = value);
-    this.translocoService.selectTranslate('EatingHabitsType.Kosher').subscribe(value => this.KosherText = value);
-    this.translocoService.selectTranslate('EatingHabitsType.Organic').subscribe(value => this.OrganicText = value);
-    this.translocoService.selectTranslate('EatingHabitsType.Traditional').subscribe(value => this.TraditionalText = value);
-    this.translocoService.selectTranslate('EatingHabitsType.Vegetarian').subscribe(value => this.VegetarianText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Healthy').subscribe(value => this.HealthyText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Gastronomic').subscribe(value => this.GastronomicText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Kosher').subscribe(value => this.KosherText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Organic').subscribe(value => this.OrganicText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Traditional').subscribe(value => this.TraditionalText = value);
+    this.translocoService.selectTranslate('EatingHabitsTypes.Vegetarian').subscribe(value => this.VegetarianText = value);
     // EducationStatusType
-    this.translocoService.selectTranslate('EducationStatusType.Graduated').subscribe(value => this.GraduatedText = value);
-    this.translocoService.selectTranslate('EducationStatusType.Student').subscribe(value => this.StudentText = value);
+    this.translocoService.selectTranslate('EducationStatusTypes.Graduated').subscribe(value => this.GraduatedText = value);
+    this.translocoService.selectTranslate('EducationStatusTypes.Student').subscribe(value => this.StudentText = value);
     // EducationType
-    this.translocoService.selectTranslate('EducationType.School').subscribe(value => this.SchoolText = value);
-    this.translocoService.selectTranslate('EducationType.Highschool').subscribe(value => this.HighschoolText = value);
-    this.translocoService.selectTranslate('EducationType.University').subscribe(value => this.UniversityText = value);
+    this.translocoService.selectTranslate('EducationTypes.School').subscribe(value => this.SchoolText = value);
+    this.translocoService.selectTranslate('EducationTypes.Highschool').subscribe(value => this.HighschoolText = value);
+    this.translocoService.selectTranslate('EducationTypes.University').subscribe(value => this.UniversityText = value);
     // EmploymentStatusType
-    this.translocoService.selectTranslate('EmploymentStatusType.Unemployed').subscribe(value => this.UnemployedText = value);
-    this.translocoService.selectTranslate('EmploymentStatusType.Employed').subscribe(value => this.EmployedText = value);
-    this.translocoService.selectTranslate('EmploymentStatusType.SelfEmployed').subscribe(value => this.SelfEmployedText = value);
+    this.translocoService.selectTranslate('EmploymentStatusTypes.Unemployed').subscribe(value => this.UnemployedText = value);
+    this.translocoService.selectTranslate('EmploymentStatusTypes.Employed').subscribe(value => this.EmployedText = value);
+    this.translocoService.selectTranslate('EmploymentStatusTypes.SelfEmployed').subscribe(value => this.SelfEmployedText = value);
     // LivesInType
-    this.translocoService.selectTranslate('LivesInType.City').subscribe(value => this.CityText = value);
-    this.translocoService.selectTranslate('LivesInType.Suburb').subscribe(value => this.SuburbText = value);
-    this.translocoService.selectTranslate('LivesInType.Countryside').subscribe(value => this.CountrysideText = value);
+    this.translocoService.selectTranslate('LivesInTypes.City').subscribe(value => this.CityText = value);
+    this.translocoService.selectTranslate('LivesInTypes.Suburb').subscribe(value => this.SuburbText = value);
+    this.translocoService.selectTranslate('LivesInTypes.Countryside').subscribe(value => this.CountrysideText = value);
     // SmokingHabitsType
-    this.translocoService.selectTranslate('SmokingHabitsType.NonSmoker').subscribe(value => this.NonSmokerText = value);
-    this.translocoService.selectTranslate('SmokingHabitsType.OccasionalSmoker').subscribe(value => this.OccasionalSmokerText = value);
-    this.translocoService.selectTranslate('SmokingHabitsType.Smoker').subscribe(value => this.SmokerText = value);
+    this.translocoService.selectTranslate('SmokingHabitsTypes.NonSmoker').subscribe(value => this.NonSmokerText = value);
+    this.translocoService.selectTranslate('SmokingHabitsTypes.OccasionalSmoker').subscribe(value => this.OccasionalSmokerText = value);
+    this.translocoService.selectTranslate('SmokingHabitsTypes.Smoker').subscribe(value => this.SmokerText = value);
     // SportsActivityType
-    this.translocoService.selectTranslate('SportsActivityType.Regularly').subscribe(value => this.RegularlyText = value);
-    this.translocoService.selectTranslate('SportsActivityType.SomeRegularity').subscribe(value => this.SomeRegularityText = value);
-    this.translocoService.selectTranslate('SportsActivityType.Seldom').subscribe(value => this.SeldomText = value);
-    this.translocoService.selectTranslate('SportsActivityType.Never').subscribe(value => this.NeverText = value);
+    this.translocoService.selectTranslate('SportsActivityTypes.Regularly').subscribe(value => this.RegularlyText = value);
+    this.translocoService.selectTranslate('SportsActivityTypes.SomeRegularity').subscribe(value => this.SomeRegularityText = value);
+    this.translocoService.selectTranslate('SportsActivityTypes.Seldom').subscribe(value => this.SeldomText = value);
+    this.translocoService.selectTranslate('SportsActivityTypes.Never').subscribe(value => this.NeverText = value);
     // FeedbackType
-    this.translocoService.selectTranslate('FeedbackType.Comment').subscribe(value => this.CommentText = value);
-    this.translocoService.selectTranslate('FeedbackType.Error').subscribe(value => this.ErrorText = value);
-    this.translocoService.selectTranslate('FeedbackType.Improvement').subscribe(value => this.ImprovementText = value);
-    this.translocoService.selectTranslate('FeedbackType.ReportProfile').subscribe(value => this.ReportProfileText = value);
+    this.translocoService.selectTranslate('FeedbackTypes.Comment').subscribe(value => this.CommentText = value);
+    this.translocoService.selectTranslate('FeedbackTypes.Error').subscribe(value => this.ErrorText = value);
+    this.translocoService.selectTranslate('FeedbackTypes.Improvement').subscribe(value => this.ImprovementText = value);
+    this.translocoService.selectTranslate('FeedbackTypes.ReportProfile').subscribe(value => this.ReportProfileText = value);
   }
 
   // GenderType
@@ -180,23 +170,6 @@ export class EnumMappingService {
 
   async updateGenderTypeSubject(): Promise<void> {
     this.genderTypes.next(this.genderTypesMap);
-  }
-
-  // SexualOrientationType
-  get sexualOrientationTypesMap(): ReadonlyMap<string, string> {
-    return new Map<string, string>([
-      [SexualOrientationType.Heterosexual, this.HeterosexualText],
-      [SexualOrientationType.Homosexual, this.HomosexualText],
-      [SexualOrientationType.Bisexual, this.BisexualText],
-      [SexualOrientationType.Asexual, this.AsexualText]
-    ]);
-  }
-
-  private sexualOrientationTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.sexualOrientationTypesMap);
-  sexualOrientationTypeSubject = this.sexualOrientationTypes.asObservable();
-
-  async updateSexualOrientationTypeSubject(): Promise<void> {
-    this.sexualOrientationTypes.next(this.sexualOrientationTypesMap);
   }
 
   // ClotheStyleType

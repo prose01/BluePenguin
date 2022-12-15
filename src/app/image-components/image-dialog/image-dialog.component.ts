@@ -1,9 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'image-dialog',
@@ -14,11 +17,12 @@ import { CurrentUser } from '../../models/currentUser';
 export class ImageDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  index: number;
-  defaultImage = '../assets/default-person-icon.jpg';
+  private currentUserSubject: CurrentUser;
+  private defaultImage = '../assets/default-person-icon.jpg';
 
-  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>,
+  public index: number;
+
+  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
   }
@@ -65,27 +69,49 @@ export class ImageDialog implements OnInit, OnDestroy {
 
   /** Add or remove Likes */
   private addLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
     this.subs.push(
-      this.profileService.addLikeToProfile(this.data.profile.profileId)
-        .subscribe(() => {
+      this.profileService.addLikeToProfiles(selcetedProfiles)
+      .subscribe({
+        next: () =>  {
           this.data.profile.likes.push(this.currentUserSubject.profileId);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+        }
+      })
     );
   }
 
   private removeLike(): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(this.data.profile.profileId);
+
     this.subs.push(
-      this.profileService.removeLikeFromProfile(this.data.profile.profileId)
-        .subscribe(() => {
+      this.profileService.removeLikeFromProfiles(selcetedProfiles)
+      .subscribe({
+        next: () =>  {
           let index = this.data.profile.likes.indexOf(this.currentUserSubject.profileId, 0);
           this.data.profile.likes.splice(index, 1);
-        }, () => { }, () => { })
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+        }
+      })
     );
   }
 
 
-  bookmarked(): string {
-    return this.currentUserSubject?.bookmarks.find(x => x == this.data.profile.profileId)
+  bookmarked(): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(this.data.profile.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   /** Add or remove bookmarks */
@@ -95,9 +121,15 @@ export class ImageDialog implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+        }
+      })
     );
   }
 
@@ -107,9 +139,24 @@ export class ImageDialog implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
           this.profileService.updateCurrentUserSubject();
-        })
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+        }
+      })
     );
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

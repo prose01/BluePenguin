@@ -2,16 +2,23 @@ export type Configuration = {
   avalonUrl: string;
   artemisUrl: string;
   junoUrl: string;
+  useChat: boolean;
   genderTypes: string[];
-  sexualOrientationTypes: string[];
   maxTags: number;
   maxPhotos: number;
   fileSizeLimit: number;
   imageMaxWidth: number;
   imageMaxHeight: number;
-  defaultAge: number;
+  imageTitleMaxLength: number;
+  minAge: number;
+  maxAge: number;
+  minHeight: number;
+  maxHeight: number;
   defaultPageSize: number;
+  randomImagePlace: number;
+  adGroup: number;
+  adGroupProfile: number;
   languageList: Array<any>;
   countryList: Array<any>;
-  randomImageSize: number;
+  showGlobalInfo: boolean;
 }

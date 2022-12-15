@@ -1,12 +1,16 @@
-import { ChatAdapter, Message, ParticipantResponse, IChatParticipant } from 'ng-chat';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import * as signalR from "@microsoft/signalr";
-import { AuthService } from '../authorisation/auth/auth.service';
-import { CurrentUser } from '../models/currentUser';
-import { ProfileService } from '../services/profile.service';
+import { AuthService } from '../../authorisation/auth/auth.service';
+import { CurrentUser } from '../../models/currentUser';
+import { ProfileService } from '../../services/profile.service';
+import { Chat } from '../../chat/chat.component';
+import { Message } from '../../chat/core/message';
+import { ParticipantResponse } from '../../chat/core/participant-response';
+import { IChatParticipant } from '../../chat/core/chat-participant';
+import { ChatAdapter } from './../core/chat-adapter';
 
 export class SignalRAdapter extends ChatAdapter {
   public userId: string;
@@ -30,9 +34,10 @@ export class SignalRAdapter extends ChatAdapter {
     this.hubConnection.keepAliveIntervalInMilliseconds = 15;
     this.hubConnection.serverTimeoutInMilliseconds = 30;
 
-    this.hubConnection.on('UserIsOnline', userId => {
-      console.log(userId + ' has connected');
-    })
+    //this.hubConnection.on('UserIsOnline', userId => {
+    //  console.log(userId + ' has connected');
+    //  this.userId = userId;
+    //})
 
     this.hubConnection
       .start()

@@ -8,8 +8,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 
 export class CreateProfileDialog {
-  matDialogTitle: string;
-  matDialogContent: string;
+  private matDialogTitle: string;
+  private matDialogContent: string;
 
   constructor(public dialogRef: MatDialogRef<CreateProfileDialog>) {
   }

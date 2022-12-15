@@ -70,7 +70,7 @@ export class ImageCropperComponent implements OnChanges, OnInit {
         }
     }
 
-    @Input() format: 'jpg' | 'jpeg';
+    @Input() format: 'jpg' | 'jpeg' | 'png'| 'webp';
     @Input() maintainAspectRatio = true;
     @Input() transform: ImageTransform = {};
     @Input() aspectRatio = 1;
@@ -186,8 +186,8 @@ export class ImageCropperComponent implements OnChanges, OnInit {
         fileReader.readAsDataURL(file);
     }
 
-    private isValidImageType(type: string): boolean {
-        return /image\/(jpg|jpeg)/.test(type);
+  private isValidImageType(type: string): boolean {
+        return /image\/(png|jpg|jpeg|webp)/.test(type);
     }
 
     private checkExifAndLoadBase64Image(imageBase64: string): Promise<void> {

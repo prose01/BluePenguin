@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
@@ -14,16 +14,25 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
   templateUrl: './profile-details-board.component.html'
 })
 
-export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestroy {
-  loading: boolean = false;
-  isChatSearch: boolean = false;
-
-  tabIndex = 0;
-
+export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
 
-  @Input() profile: Profile;
+  public loading: boolean = false;
+  public isChatSearch: boolean = false;
+
+  public tabIndex = 0;
+
+  public currentUserSubject: CurrentUser;
+  private _profile: Profile;
+
+  @Input() set profile(values: Profile) {
+    this._profile = values;
+    this.updateProfile();
+  }
+  get profile(): Profile {
+    return this._profile;
+  }
+
   @Output("loadDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(ProfileChatListviewComponent) profileChatListviewComponent: ProfileChatListviewComponent;
@@ -43,13 +52,9 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestro
     this.subs = [];
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.profile.firstChange) {
-      if (changes.profile.currentValue != changes.profile.previousValue) {
-        this.getProfileImages();
-        this.tabIndex = 0;
-      }
-    }
+  updateProfile(): void {
+    this.getProfileImages();
+    this.tabIndex = 0;
   }
 
   private getProfileImages(): void {
@@ -65,20 +70,20 @@ export class ProfileDetailsBoardComponent implements OnInit, OnChanges, OnDestro
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+            })
           );
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe(
-                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.image = defaultImageModel.image }
+            })
           );
         }
 

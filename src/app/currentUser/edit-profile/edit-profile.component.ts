@@ -17,7 +17,6 @@ import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.com
 import { CurrentUser } from '../../models/currentUser';
 import {
   GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -42,42 +41,47 @@ import {
 export class EditProfileComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  profileForm: FormGroup;
+  private profileForm: FormGroup;
 
-  genderTypes: ReadonlyMap<string, string>;
-  sexualOrientationTypes: ReadonlyMap<string, string>;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes: ReadonlyMap<string, string>;
-  employmentStatusTypes: ReadonlyMap<string, string>;
-  sportsActivityTypes: ReadonlyMap<string, string>;
-  eatingHabitsTypes: ReadonlyMap<string, string>;
-  clotheStyleTypes: ReadonlyMap<string, string>;
-  bodyArtTypes: ReadonlyMap<string, string>;
+  private genderTypes: ReadonlyMap<string, string>;
+  private bodyTypes: ReadonlyMap<string, string>;
+  private smokingHabitsTypes: ReadonlyMap<string, string>;
+  private hasChildrenTypes: ReadonlyMap<string, string>;
+  private wantChildrenTypes: ReadonlyMap<string, string>;
+  private hasPetsTypes: ReadonlyMap<string, string>;
+  private livesInTypes: ReadonlyMap<string, string>;
+  private educationTypes: ReadonlyMap<string, string>;
+  private educationStatusTypes: ReadonlyMap<string, string>;
+  private employmentStatusTypes: ReadonlyMap<string, string>;
+  private sportsActivityTypes: ReadonlyMap<string, string>;
+  private eatingHabitsTypes: ReadonlyMap<string, string>;
+  private clotheStyleTypes: ReadonlyMap<string, string>;
+  private bodyArtTypes: ReadonlyMap<string, string>;
 
-  isChecked: boolean;
-  defaultAge: number;
+  private isChecked: boolean;
+  private minAge: number;
+  private maxAge: number;
+  private minHeight: number;
+  private maxHeight: number;
 
-  tagsPlaceholder: string;
-  maxTags: number;
+  private tagsPlaceholder: string;
+  private maxTags: number;
 
-  loading: boolean = false;
+  private siteLocale: string;
+  private languageList: string[] = [];
+  private countryList: string[] = [];
 
-  siteLocale: string;
-  languageList: string[] = [];
-  countryList: string[] = [];
+  private warningText: string;
+  private countryResetText: string;
 
-  warningText: string;
-  countryResetText: string;
+  public currentUserSubject: CurrentUser;
+  public loading: boolean = false;
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;
@@ -86,10 +90,13 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.push(
-      this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.prefilForm(); })
+      this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => {
+        this.currentUserSubject = currentUserSubject;
+        this.prefilForm();
+      })
     );
     this.subs.push(
-      this.translocoService.selectTranslate('EditProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
     this.subs.push(
       this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value)
@@ -102,11 +109,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value)
     );
     this.enumMappings.updateGenderTypeSubject();
-
-    this.subs.push(
-      this.enumMappings.sexualOrientationTypeSubject.subscribe(value => this.sexualOrientationTypes = value)
-    );
-    this.enumMappings.updateSexualOrientationTypeSubject();
 
     this.subs.push(
       this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value)
@@ -193,7 +195,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       description: null,
       tags: null,
       gender: null,
-      sexualOrientation: null,
+      seeking: null,
       body: null,
       smokingHabits: null,
       hasChildren: null,
@@ -224,7 +226,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       description: this.currentUserSubject.description as string,
       tags: this.currentUserSubject.tags as string[],
       gender: this.currentUserSubject.gender as GenderType,
-      sexualOrientation: this.currentUserSubject.sexualOrientation as SexualOrientationType,
+      seeking: this.currentUserSubject.seeking as string[],
       body: this.currentUserSubject.body as BodyType,
       smokingHabits: this.currentUserSubject.smokingHabits as SmokingHabitsType,
       hasChildren: this.currentUserSubject.hasChildren as HasChildrenType,
@@ -251,7 +253,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.prefilForm();
       this.switchLanguage();
-    }, 50);
+    }, 50);   
+
+    this.subs.push(
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.profileForm.controls.tags.setErrors({ 'incorrect': false });
 
     this.profileForm.markAsPristine();
   }
@@ -261,13 +268,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.currentUserSubject = this.prepareSaveProfile();
     this.subs.push(
       this.profileService.putProfile(this.currentUserSubject)
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('EditProfileComponent.CouldNotSaveUser'), null); this.loading = false;
-          },
-          () => { this.profileForm.markAsPristine(); this.loading = false; }
-        )
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.profileForm.markAsPristine(); this.loading = false; 
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -292,7 +301,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       images: this.currentUserSubject.images,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
-      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
+      seeking: formModel.seeking as string[],
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -322,12 +331,12 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   // Tag section //
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
-  tagsList: string[] = [];
+  private visible = true;
+  private selectable = true;
+  private removable = true;
+  private addOnBlur = true;
+  private readonly separatorKeysCodes: number[] = [ENTER, SPACE];
+  private tagsList: string[] = [];
 
   private add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -336,8 +345,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
       this.subs.push(
-        this.translocoService.selectTranslate('EditProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+        this.translocoService.selectTranslate('MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+      
       return;
     }
 
@@ -347,8 +363,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
         this.subs.push(
-          this.translocoService.selectTranslate('EditProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+          this.translocoService.selectTranslate('MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+        
         return;
       }
 
@@ -359,6 +382,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 
@@ -390,7 +414,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
       this.enumMappings.updateGenderTypeSubject();
-      this.enumMappings.updateSexualOrientationTypeSubject();
       this.enumMappings.updateClotheStyleTypeSubject();
       this.enumMappings.updateBodyTypeSubject();
       this.enumMappings.updateBodyArtTypeSubject();

@@ -1,16 +1,18 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SPACE, ENTER } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
+import { Options } from '@angular-slider/ngx-slider';
 
 import { EnumMappingService } from '../services/enumMapping.service';
 import { ProfileService } from '../services/profile.service';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
+import { ErrorDialog } from '../error-dialog/error-dialog.component';
 import { ProfileFilter } from '../models/profileFilter';
 import { CurrentUser } from '../models/currentUser';
-import { Profile } from '../models/profile';
 import {
   GenderType,
   BodyType,
@@ -37,55 +39,68 @@ import { KeyValue } from '@angular/common';
 })
 
 export class ProfileSearchComponent implements OnInit, OnDestroy {
-  isTileView = true;
-  matButtonToggleText: string = 'ListView';
-  matButtonToggleIcon: string = 'line_style';
-  loading: boolean = false;
+  private isTileView = true;
+  private matButtonToggleText: string = 'ListView';
+  private matButtonToggleIcon: string = 'line_style';
+  public loading: boolean = false;
 
-  filter: ProfileFilter = new ProfileFilter();
-  searchResultProfiles: Profile[];
-  profileForm: FormGroup;
-  ageList: number[];
-  heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
-  genderTypes: ReadonlyMap<string, string>;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes: ReadonlyMap<string, string>;
-  employmentStatusTypes: ReadonlyMap<string, string>;
-  sportsActivityTypes: ReadonlyMap<string, string>;
-  eatingHabitsTypes: ReadonlyMap<string, string>;
-  clotheStyleTypes: ReadonlyMap<string, string>;
-  bodyArtTypes: ReadonlyMap<string, string>;
+  private filter: ProfileFilter = new ProfileFilter();
+  public profileForm: FormGroup;
+  private genderTypes: ReadonlyMap<string, string>;
+  public bodyTypes: ReadonlyMap<string, string>;
+  public smokingHabitsTypes: ReadonlyMap<string, string>;
+  public hasChildrenTypes: ReadonlyMap<string, string>;
+  public wantChildrenTypes: ReadonlyMap<string, string>;
+  public hasPetsTypes: ReadonlyMap<string, string>;
+  public livesInTypes: ReadonlyMap<string, string>;
+  public educationTypes: ReadonlyMap<string, string>;
+  public educationStatusTypes: ReadonlyMap<string, string>;
+  public employmentStatusTypes: ReadonlyMap<string, string>;
+  public sportsActivityTypes: ReadonlyMap<string, string>;
+  public eatingHabitsTypes: ReadonlyMap<string, string>;
+  public clotheStyleTypes: ReadonlyMap<string, string>;
+  public bodyArtTypes: ReadonlyMap<string, string>;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  currentProfileFilterSubject: ProfileFilter;
-  showGenderChoise: boolean;
-  tagsPlaceholder: string;
-  defaultAge: number;
-  maxTags: number;
+  private currentUserSubject: CurrentUser;
+  private currentProfileFilterSubject: ProfileFilter;
+  public tagsPlaceholder: string;
+  private maxTags: number;
 
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'age'];   // Add columns after search or just default?
+  public minAge: number;
+  public maxAge: number;
+  public AgeOptions: Options = {
+    floor: 0,
+    ceil: 125,
+    noSwitching: true
+  };
+
+  public minHeight: number;
+  public maxHeight: number;
+  public HeightOptions: Options = {
+    floor: 0,
+    ceil: 300,
+    noSwitching: true
+  };
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
+  @Output() activateSearch: EventEmitter<any> = new EventEmitter();
 
 
-  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+  constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
+    this.AgeOptions.floor = this.configurationLoader.getConfiguration().minAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
-    this.ageList = [...Array(1 + 120 - this.defaultAge).keys()].map(v => this.defaultAge + v);
     this.createForm();
   }
 
   ngOnInit(): void {
     this.subs.push(
-      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; this.setShowGenderChoise(currentUserSubject.sexualOrientation) })
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
 
     // Get and load previous ProfileFilter.
@@ -94,12 +109,24 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
         if (currentProfileFilterSubject) {
           this.loadForm(currentProfileFilterSubject);
           this.profileForm.markAsDirty();
+          this.activateSearch.emit({ allowSearch: true });
         }
       })
     );
 
     this.subs.push(
-      this.translocoService.selectTranslate('ProfileSearchComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
+      this.profileForm.statusChanges.subscribe(value => {
+        if (this.profileForm.status == 'VALID') {
+          this.activateSearch.emit({ allowSearch: true });
+        }
+        else {
+          this.activateSearch.emit({ allowSearch: false });
+        }
+      })
+    );
+
+    this.subs.push(
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
 
     this.subs.push(
@@ -181,8 +208,8 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.profileForm = this.formBuilder.group({
       name: null,
-      age: null,
-      height: null,
+      ageSliderControl: null,
+      heightSliderControl: null,
       description: null,
       tags: null,
       gender: null,
@@ -202,15 +229,11 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setShowGenderChoise(sexualOrientationType: string): void {
-    this.showGenderChoise = (sexualOrientationType == 'Heterosexual' || sexualOrientationType == 'Homosexual') ? false : true;
-  }
-
   private loadForm(filter: ProfileFilter): void {
     this.profileForm.reset({
       name: filter.name,
-      age: filter.age == null ? this.defaultAge : filter.age[1],
-      height: filter.height == null ? 0 : filter.height[1],
+      ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
+      heightSliderControl: filter.height == null ? [this.HeightOptions.floor, this.HeightOptions.ceil] : [filter.height[0], filter.height[1]],
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -229,7 +252,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       bodyArt: filter.bodyArt
     });
 
-    this.tagsList.push.apply(this.tagsList, filter.tags);
+    this.tagsList = filter.tags;
   }
 
   onSubmit(): void {
@@ -255,7 +278,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.filter.clotheStyle == ClotheStyleType.NotChosen &&
       this.filter.bodyArt == BodyArtType.NotChosen) {
 
-      this.toggleDisplay.emit()
+      this.toggleDisplay.emit();
       return;
     }
     this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
@@ -264,20 +287,41 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   reset(): void {
     this.tagsList.length = 0;
+    this.profileForm.reset({
+        ageSliderControl: [this.AgeOptions.floor, this.AgeOptions.ceil],
+        heightSliderControl: [this.HeightOptions.floor, this.HeightOptions.ceil]
+      }
+    );
     this.createForm();
-    this.searchResultProfiles = [];
+
+    this.subs.push(
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.profileForm.controls.tags.setErrors({ 'incorrect': false });
+
+    this.profileForm.markAsPristine();
+    this.activateSearch.emit({ allowSearch: false });
+    this.subs.push(
+      this.profileForm.statusChanges.subscribe(value => {
+        if (this.profileForm.status == 'VALID') {
+          this.activateSearch.emit({ allowSearch: true });
+        }
+        else {
+          this.activateSearch.emit({ allowSearch: false });
+        }
+      })
+    );
   }
 
   private prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
-
-    const ageRange: number[] = [this.defaultAge, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    
     const heightRange: number[] = [0, Number(formModel.height)];
 
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
-      age: ageRange,
-      height: heightRange,
+      age: formModel.ageSliderControl as number[],
+      height: formModel.heightSliderControl as number[],
       description: formModel.description as string,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
@@ -305,11 +349,16 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.filter = this.prepareSearch();
     this.subs.push(
       this.profileService.saveProfileFilter(this.filter)
-        .subscribe(
-          () => { },        // TODO: Give feeback on succes
-          () => { this.loading = false; },
-          () => { this.loading = false; }
-        )
+      .subscribe({
+        next: () => {
+          this.openErrorDialog(this.translocoService.translate('SearchSaved'), null);
+        }, 
+        complete: () => { this.loading = false; },
+        error: () => {
+          this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotSaveSearchFilter'), null);
+        }
+      })
     );
   }
 
@@ -318,11 +367,14 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.loadProfileFilter()
-        .subscribe(
-          filter => { this.loadForm(filter); },
-          () => { this.loading = false; },
-          () => { this.loading = false; }
-        )
+      .subscribe({
+        next: (filter: any) =>  { this.loadForm(filter); },
+        complete: () => { this.loading = false; },
+        error: () => {
+          this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotLoadSearchFilter'), null);
+        }
+      })
     );
 
     this.profileForm.markAsDirty();
@@ -330,40 +382,61 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   // Tag section //
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
-  tagsList: string[] = [];
+  private visible = true;
+  private selectable = true;
+  private removable = true;
+  public addOnBlur = true;
+  public readonly separatorKeysCodes: number[] = [ENTER, SPACE];
+  public tagsList: string[] = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
+    // Check for max number of tags.
     if (this.tagsList.length >= this.maxTags) {
       this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
       this.subs.push(
-        this.translocoService.selectTranslate('ProfileSearchComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+        this.translocoService.selectTranslate('MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
-      //this.tagsPlaceholder = "Max " + this.maxTags + " tags.";
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+      
       return;
     }
 
     // Add our tag
     if ((value || '').trim()) {
 
+      // Check Max 20 characters long.
       if (value.trim().length >= 20) {
         this.profileForm.controls.tags.setErrors({ 'incorrect': true });
 
         this.subs.push(
-          this.translocoService.selectTranslate('ProfileSearchComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+          this.translocoService.selectTranslate('MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
-        //this.tagsPlaceholder = "Max 20 characters long.";
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+
         return;
       }
 
+      this.subs.push(
+        this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
+      );
+
+      this.profileForm.controls.tags.setErrors(null);
+
+      this.activateSearch.emit({ allowSearch: true });
       this.tagsList.push(value.trim());
       this.profileForm.markAsDirty();
     }
@@ -371,6 +444,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 
@@ -386,5 +460,14 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   // Preserve original EnumMapping order
   originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
     return 0;
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

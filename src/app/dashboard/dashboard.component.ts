@@ -30,24 +30,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(ProfileTileviewComponent) profileTileviewComponent: ProfileTileviewComponent;
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
 
-  loading: boolean = false;
-  isTileView = true;
+  private length: number;
 
-  length: number;
+  private orderBy: OrderByType = OrderByType.LastActive;
+  private viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
-  orderBy: OrderByType = OrderByType.LastActive;
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+  private previousProfiles: Profile[];
+  private currentProfiles: Profile[];
+  private nextProfiles: Profile[];
+  private filter: ProfileFilter = new ProfileFilter();
 
-  previousProfiles: Profile[];
-  currentProfiles: Profile[];
-  nextProfiles: Profile[];
-  filter: ProfileFilter = new ProfileFilter();
+  private defaultPageSize: number;
 
-  defaultPageSize: number;
+  private displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
-  displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
+  public loading: boolean = false;
+  public isTileView = true;
+
+  //private intervalId: any;
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
@@ -63,13 +65,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
         );
 
-        this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode });
+        // Check if user allready exist. Name is mandatory.
+        if (this.currentUserSubject?.name != null) {
+          this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false });
+        }
+
         this.getLatestProfiles();
       },
         (error: any) => {
           if (error.status === 0) {
             // A network error occurred.
-            this.openErrorDialog('No connection to server', null);
+            this.openErrorDialog(this.translocoService.translate('NoServerConnection'), null);
           }
         }
       );
@@ -80,13 +86,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.filter = currentProfileFilterSubject;
         })
       );
+
+      //this.myCallback('first');
+      //this.intervalId = setInterval(() => {
+      //  this.myCallback('second');
+      //}, 5 * 1000);
     }
   }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+    //clearInterval(this.intervalId);
   }
+
+  //private myCallback(val: any): void {
+  //  console.log('Authenticated ' + val);
+  //}
 
   private getNextData(event: any): void {
     this.getData(this.viewFilterType, this.orderBy, event);
@@ -134,16 +150,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   resetCurrentProfiles(): void {
-    this.profileTileviewComponent.resetCurrentProfiles();
+    this.profileTileviewComponent?.resetCurrentProfiles();
   }
 
   // Get latest Profiles. 
   private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getLatestProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
 
@@ -151,143 +166,137 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.length = this.currentProfiles.length + currentSize + 1;
           },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;  // TODO: Add openErrorDialog message
-          },
-          () => { this.getProfileImages(this.currentProfiles); }
-        )
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetLatestProfiles'), null); this.loading = false;
+          }
+        })
     );
   }
 
   // Get Filtered Profiles.
   private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfileByCurrentUsersFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfileByCurrentUsersFilter'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
   // Get Bookmarked Profiles.
   private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getBookmarkedProfiles ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetBookmarkedProfiles'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
   // Get Profiles by searchfilter. 
-  private getProfileByFilter(filter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfileByFilter ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
+  private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
-      this.profileService.getProfileByFilter(filter, selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+      this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
   // Get Profiles who has visited my profile.
   private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoVisitedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoVisitedMe'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
   // Get Profiles who has visited my profile.
   private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoBookmarkedMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoBookmarkedMe'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
   // Get Profiles who like my profile.
   private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    console.log('getProfilesWhoLikesMe ' + 'selectedOrderBy ' + selectedOrderBy + ' currentSize ' + currentSize + ' pageIndex ' + pageIndex + ' pageSize ' + pageSize);
     this.subs.push(
       this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
-        .subscribe(
-          (response: any) => {
+        .subscribe({
+          next: (response: any) => {
 
             this.currentProfiles = new Array;
-
-            this.currentProfiles.length = currentSize;
 
             this.currentProfiles.push(...response);
 
             this.length = this.currentProfiles.length + currentSize + 1;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetProfilesWhoLikesMe'), null); this.loading = false;
           }
-          , () => { }
-          , () => { this.getProfileImages(this.currentProfiles); }
-        )
+        })
     );
   }
 
@@ -310,20 +319,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
-            .subscribe(
-              images => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage },
-              () => { this.loading = false; }
-            )
+            .subscribe({
+              next: (images: any[]) => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage }
+            })
         );
 
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
-            .subscribe(
-              images => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
-              () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image },
-              () => { this.loading = false; }
-            )
+            .subscribe({
+              next: (images: any[]) => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image }
+            })
         );
       }
       else {

@@ -1,22 +1,105 @@
-@import '~@material/image-list/mdc-image-list';
-
-.masonry-image-list {
-  @include mdc-image-list-masonry-columns(5);
+.label {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
-@media (max-width: 1080px) {
-  .masonry-image-list {
-    @include mdc-image-list-masonry-columns(3);
-  }
+.supporting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 8px 0;
+  line-height: 24px;
 }
 
-@media (max-width: 599px) {
-  .masonry-image-list {
-    @include mdc-image-list-masonry-columns(1);
-  }
+.overlay {
+  background-color: #44606e;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: .5s ease;
 }
 
-.mdc-image-list__item {
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.profile-list-grid > div {
+  max-width: 20%; // TODO: Find best size
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.profile-list-grid > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; // TODO: find fit
   border-style: solid;
   border-color: #607d8b;
+}
+
+.profile-list-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: 250px;
+  grid-auto-flow: dense;
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.profile-list-grid .big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.profile-list-grid > div:hover .overlay {
+  height: 50px;
+}
+
+/*Responsive layout - makes overlay visible for tablets*/
+@media (max-width: 1368px) {
+  .overlay {
+    height: 50px;
+  }
+
+  .profile-list-grid {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+/*Responsive layout - makes overlay visible for phones*/
+@media (max-width: 599px) {
+  .overlay {
+    height: 50px;
+  }
+
+  .profile-list-grid {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
 }

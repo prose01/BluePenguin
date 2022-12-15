@@ -6,19 +6,19 @@
 
     <div style="margin-bottom: 1em">
       <button type="submit"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'CreateProfileComponent.Save'| transloco}}">
-        <i class="material-icons">save</i>
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Save'| transloco}}">
+        <span class="material-icons">save</span>
       </button>
       <button type="button" (click)="revert()"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'CreateProfileComponent.Reset'| transloco}}">
-        <i class="material-icons">undo</i>
+              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+        <span class="material-icons">undo</span>
       </button>
     </div>
 
     <div class="form-container">
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()" required>
+        <mat-select placeholder="{{'Language'| transloco}}" formControlName="languagecode" [(value)]="siteLocale" (selectionChange)="switchLanguage()" required>
           <mat-option *ngFor="let lang of languageList" [value]="lang.code">
             {{ lang.label }}<span class="flag-icon flag-icon-{{lang.alpha2}}"></span>
           </mat-option>
@@ -34,18 +34,18 @@
       </mat-form-field>
 
       <mat-form-field class="tag-list">
-        <mat-chip-list #chipList formControlName="tags">
-          <mat-chip *ngFor="let tag of tagsList" [selectable]="selectable"
+        <mat-chip-grid #chipList formControlName="tags">
+          <mat-chip-row *ngFor="let tag of tagsList" [selectable]="selectable"
                     [removable]="removable" (removed)="remove(tag)">
             {{tag}}
             <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
-          </mat-chip>
+          </mat-chip-row>
           <input matInput placeholder="{{tagsPlaceholder}}"
                  [matChipInputFor]="chipList"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  [matChipInputAddOnBlur]="addOnBlur"
                  (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
+        </mat-chip-grid>
       </mat-form-field>
 
       <mat-form-field>
@@ -53,19 +53,19 @@
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput maxlength="2000" placeholder="{{'CreateProfileComponent.Description'| transloco}}" formControlName="description"></textarea>
+        <textarea matInput maxlength="2000" placeholder="{{'Description'| transloco}}" formControlName="description"></textarea>
       </mat-form-field>
 
-      <mat-label>{{'CreateProfileComponent.Age'| transloco}}</mat-label>
-      <mat-slider min={{defaultAge}} max="120" step="1" [value]="age" thumbLabel formControlName="age" class="cdk-focused">
+      <mat-label>{{'Age'| transloco}}</mat-label>
+      <mat-slider min={{minAge}} max={{maxAge}} step="1" class="cdk-focused"><input thumbLabel formControlName="age" matSliderThumb [value]="age" />
       </mat-slider>
 
-      <mat-label>{{'CreateProfileComponent.Height'| transloco}}</mat-label>
-      <mat-slider min="1" max="250" step="1" [value]="height" thumbLabel formControlName="height" class="cdk-focused">
+      <mat-label>{{'Height'| transloco}}</mat-label>
+      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" class="cdk-focused"><input thumbLabel formControlName="height" matSliderThumb [value]="height" />
       </mat-slider>
 
       <mat-form-field>
-        <mat-select placeholder="{{genderPlaceholder}}" formControlName="gender" [(value)]="currentUser.gender" required>
+        <mat-select placeholder="{{Gender}}" formControlName="gender" required>
           <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
             {{ genderType.value }}
           </mat-option>
@@ -73,15 +73,15 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{sexualOrientationPlaceholder}}" formControlName="sexualOrientation" [(value)]="currentUser.sexualOrientation" required>
-          <mat-option *ngFor="let sexualOrientationType of sexualOrientationTypes | keyvalue: originalOrder" [value]="sexualOrientationType.key">
-            {{ sexualOrientationType.value }}
+        <mat-select placeholder="{{'Seeking'| transloco}}" formControlName="seeking" multiple>
+          <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
+            {{ genderType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.BodyType'| transloco}}" formControlName="body" [(value)]="currentUser.body">
+        <mat-select placeholder="{{'BodyType'| transloco}}" formControlName="body">
           <mat-option *ngFor="let bodyType of bodyTypes | keyvalue: originalOrder" [value]="bodyType.key">
             {{ bodyType.value }}
           </mat-option>
@@ -89,7 +89,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.SmokingHabitsType'| transloco}}" formControlName="smokingHabits" [(value)]="currentUser.smokingHabits">
+        <mat-select placeholder="{{'SmokingHabitsType'| transloco}}" formControlName="smokingHabits">
           <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes | keyvalue: originalOrder" [value]="smokingHabitsType.key">
             {{ smokingHabitsType.value }}
           </mat-option>
@@ -97,7 +97,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.HasChildrenType'| transloco}}" formControlName="hasChildren" [(value)]="currentUser.hasChildren">
+        <mat-select placeholder="{{'HasChildrenType'| transloco}}" formControlName="hasChildren">
           <mat-option *ngFor="let hasChildrenType of hasChildrenTypes | keyvalue: originalOrder" [value]="hasChildrenType.key">
             {{ hasChildrenType.value }}
           </mat-option>
@@ -105,7 +105,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.WantChildrenType'| transloco}}" formControlName="wantChildren" [(value)]="currentUser.wantChildren">
+        <mat-select placeholder="{{'WantChildrenType'| transloco}}" formControlName="wantChildren">
           <mat-option *ngFor="let wantChildrenType of wantChildrenTypes | keyvalue: originalOrder" [value]="wantChildrenType.key">
             {{ wantChildrenType.value }}
           </mat-option>
@@ -113,7 +113,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.HasPetsType'| transloco}}" formControlName="hasPets" [(value)]="currentUser.hasPets">
+        <mat-select placeholder="{{'HasPetsType'| transloco}}" formControlName="hasPets">
           <mat-option *ngFor="let hasPetsType of hasPetsTypes | keyvalue: originalOrder" [value]="hasPetsType.key">
             {{ hasPetsType.value }}
           </mat-option>
@@ -121,7 +121,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.LivesInType'| transloco}}" formControlName="livesIn" [(value)]="currentUser.livesIn">
+        <mat-select placeholder="{{'LivesInType'| transloco}}" formControlName="livesIn">
           <mat-option *ngFor="let livesInType of livesInTypes | keyvalue: originalOrder" [value]="livesInType.key">
             {{ livesInType.value }}
           </mat-option>
@@ -129,7 +129,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.EducationType'| transloco}}" formControlName="education" [(value)]="currentUser.education">
+        <mat-select placeholder="{{'EducationType'| transloco}}" formControlName="education">
           <mat-option *ngFor="let educationType of educationTypes | keyvalue: originalOrder" [value]="educationType.key">
             {{ educationType.value }}
           </mat-option>
@@ -137,7 +137,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.EducationStatusType'| transloco}}" formControlName="educationStatus" [(value)]="currentUser.educationStatus">
+        <mat-select placeholder="{{'EducationStatusType'| transloco}}" formControlName="educationStatus">
           <mat-option *ngFor="let educationStatusType of educationStatusTypes | keyvalue: originalOrder" [value]="educationStatusType.key">
             {{ educationStatusType.value }}
           </mat-option>
@@ -145,7 +145,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.EmploymentStatusType'| transloco}}" formControlName="employmentStatus" [(value)]="currentUser.employmentStatus">
+        <mat-select placeholder="{{'EmploymentStatusType'| transloco}}" formControlName="employmentStatus">
           <mat-option *ngFor="let employmentStatusType of employmentStatusTypes | keyvalue: originalOrder" [value]="employmentStatusType.key">
             {{ employmentStatusType.value }}
           </mat-option>
@@ -153,7 +153,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.SportsActivityType'| transloco}}" formControlName="sportsActivity" [(value)]="currentUser.sportsActivity">
+        <mat-select placeholder="{{'SportsActivityType'| transloco}}" formControlName="sportsActivity">
           <mat-option *ngFor="let sportsActivityType of sportsActivityTypes | keyvalue: originalOrder" [value]="sportsActivityType.key">
             {{ sportsActivityType.value }}
           </mat-option>
@@ -161,7 +161,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.EatingHabitsType'| transloco}}" formControlName="eatingHabits" [(value)]="currentUser.eatingHabits">
+        <mat-select placeholder="{{'EatingHabitsType'| transloco}}" formControlName="eatingHabits">
           <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes | keyvalue: originalOrder" [value]="eatingHabitsType.key">
             {{ eatingHabitsType.value }}
           </mat-option>
@@ -169,7 +169,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.ClotheStyleType'| transloco}}" formControlName="clotheStyle" [(value)]="currentUser.clotheStyle">
+        <mat-select placeholder="{{'ClotheStyleType'| transloco}}" formControlName="clotheStyle">
           <mat-option *ngFor="let clotheStyleType of clotheStyleTypes | keyvalue: originalOrder" [value]="clotheStyleType.key">
             {{ clotheStyleType.value }}
           </mat-option>
@@ -177,14 +177,14 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'CreateProfileComponent.BodyArtType'| transloco}}" formControlName="bodyArt" [(value)]="currentUser.bodyArt">
+        <mat-select placeholder="{{'BodyArtType'| transloco}}" formControlName="bodyArt">
           <mat-option *ngFor="let bodyArtType of bodyArtTypes | keyvalue: originalOrder" [value]="bodyArtType.key">
             {{ bodyArtType.value }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'CreateProfileComponent.ContactableText'| transloco}}" placeholder="{{'CreateProfileComponent.Contactable'| transloco}}" formControlName="contactable">{{isChecked ? 'Contactable' : 'Not Contactable'}}</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'ContactableText'| transloco}}" placeholder="{{'Contactable'| transloco}}" formControlName="contactable">{{'Contactable'| transloco}}</mat-slide-toggle>
 
     </div>
 

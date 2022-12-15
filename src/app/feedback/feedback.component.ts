@@ -22,11 +22,11 @@ import { TranslocoService } from '@ngneat/transloco';
 export class FeedbackComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  feedback: Feedback = new Feedback();
-  feedbackForm: FormGroup;
-  feedbackTypes: ReadonlyMap<string, string>;
+  public feedback: Feedback = new Feedback();
+  public feedbackForm: FormGroup;
+  public feedbackTypes: ReadonlyMap<string, string>;
 
-  loading: boolean = false;
+  public loading: boolean = false;
 
   constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private formBuilder: FormBuilder, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.createForm();
@@ -68,7 +68,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       adminName: null,
       feedbackType: formModel.feedbackType as FeedbackType,
       message: formModel.message as string,
-      open: null,
+      open: true,
       countrycode: null,
       languagecode: null
     };
@@ -81,6 +81,24 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     return 0;
   }
 
+  onSubmit(): void {
+    this.loading = true;
+    this.feedback = this.prepareFeedback();
+    this.subs.push(
+      this.feedBackService.addFeedback(this.feedback)
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.feedbackForm.markAsPristine(); this.loading = false; this.createForm();
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.Thanks'), null); 
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+        }
+      })
+    );
+  }
+
   private openErrorDialog(title: string, error: string): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
@@ -89,20 +107,4 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  onSubmit(): void {
-    this.loading = true;
-    this.feedback = this.prepareFeedback();
-    this.subs.push(
-      this.feedBackService.addFeedback(this.feedback)
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-          },
-          () => { this.feedbackForm.markAsPristine(); this.loading = false; this.createForm(); }
-        )
-    );
-  }
-
 }

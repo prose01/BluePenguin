@@ -15,6 +15,7 @@ import { ImageModel } from '../../models/imageModel';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'chatMemebers-listview',
@@ -23,19 +24,19 @@ import { ImageDialog } from '../../image-components/image-dialog/image-dialog.co
 })
 
 export class ChatMembersListviewComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['select', 'name', 'status'];
-  dataSource: MatTableDataSource<ChatMember>;
-  selection = new SelectionModel<ChatMember>(true, []);
-
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  chatMembers: ChatMember[];
+  private currentUserSubject: CurrentUser;
+  private chatMembers: ChatMember[];
 
-  showBlocked: boolean = false;
-  matButtonToggleText: string;
-  matButtonToggleIcon: string = 'shield';
+  private showBlocked: boolean = false;
+  private matButtonToggleText: string;
+  private matButtonToggleIcon: string = 'shield';
 
-  loading: boolean = true;
+  private displayedColumns: string[] = ['select', 'name', 'status'];
+  private selection = new SelectionModel<ChatMember>(true, []);
+  public dataSource: MatTableDataSource<ChatMember>;
+
+  public loading: boolean = true;
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -77,9 +78,6 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   private isAllSelected(): boolean {
-    //const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length;
-    //return numSelected === numRows;
     return this.selection.selected.length === this.dataSource.data.length;
   }
 
@@ -101,7 +99,15 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   private blockChatMembers(): void {
     this.subs.push(
       this.profileService.blockChatMembers(this.selcetedProfileIds())
-        .subscribe(() => { }, () => { }, () => { this.updateCurrentUserSubject() })
+      .subscribe({
+        next: () =>  {},
+        complete: () => {
+          this.updateCurrentUserSubject() 
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
+        }
+      })
     );
   }
 
@@ -147,7 +153,7 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
   private toggleBlocked(): void {
     this.showBlocked = !this.showBlocked;
-    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));    // TODO: Translate!!
+    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));
     this.matButtonToggleIcon = (this.showBlocked ? 'remove_moderator' : 'shield');
     this.refreshChatmemberlist(this.showBlocked);
   }
@@ -163,29 +169,31 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.getProfileById(chatMember.profileId)
-        .subscribe(
-          res => profile = res,
-          () => { },
-          () => {
-            this.getProfileImages(profile);
+      .subscribe({
+        next: (res: any) =>  { profile = res },
+        complete: () => {          
+          this.getProfileImages(profile);
 
-            const dialogRef = this.dialog.open(ImageDialog, {
-              data: {
-                index: 0,
-                imageModels: profile.images,
-                profile: profile
+          const dialogRef = this.dialog.open(ImageDialog, {
+            data: {
+              index: 0,
+              imageModels: profile.images,
+              profile: profile
+            }
+          });
+
+          this.subs.push(
+            dialogRef.afterClosed().subscribe(
+              res => {
+                if (res === true) { this.loadDetails(profile) }
               }
-            });
-
-            this.subs.push(
-              dialogRef.afterClosed().subscribe(
-                res => {
-                  if (res === true) { this.loadDetails(profile) }
-                }
-              )
-            );
-          }
-        )
+            )
+          );
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotGetProfile'), null);
+        }
+      })
     );
   }
 
@@ -203,25 +211,34 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe(
-                  images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+              })
             );
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe(
-                  images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.image = defaultImageModel.image },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.image = defaultImageModel.image }
+              })
             );
           }
 
         });
       }
     }
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

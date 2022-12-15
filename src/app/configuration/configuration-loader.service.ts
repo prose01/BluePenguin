@@ -29,7 +29,7 @@ export class ConfigurationLoader {
       });
   }
 
-  getConfiguration(): Configuration {
+  public getConfiguration(): Configuration {
     return this._configuration;
   }
 }

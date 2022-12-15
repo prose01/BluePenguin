@@ -1,0 +1,13 @@
+<div mat-dialog-content class="mat-snack-bar">
+  <!--<span>{{data.message}}</span>
+  <i class="material-icons">{{getIcon.icon}}</i>
+  <i class="material-icons" (click)="closeSnackbar()">cancel</i>-->
+
+  <span class="material-icons">{{getIcon.icon}}</span>
+  <h1 mat-dialog-title>{{data.message}}</h1>
+  <br />
+  <div mat-dialog-actions>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="closeSnackbar()">{{'Ok'| transloco}}</button>
+  </div>
+
+</div>

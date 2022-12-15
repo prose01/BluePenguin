@@ -18,15 +18,15 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 export class ImageBoardComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  loading: boolean = false;
-  maxPhotos: number;
-  morePhotosAllowed: boolean = false;
-  isMatButtonToggled = true;
-  matButtonToggleIcon: string = 'add_photo_alternate';
-  matButtonToggleText: string;
+  private maxPhotos: number;
+  private matButtonToggleIcon: string = 'add_photo_alternate';
+  private matButtonToggleText: string;
 
-  currentUserSubject: CurrentUser;
-  imageModels: ImageModel[];
+  private currentUserSubject: CurrentUser;
+
+  public loading: boolean = false;
+  public morePhotosAllowed: boolean = false;
+  public isMatButtonToggled = true;
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
@@ -38,7 +38,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
         .subscribe(
           currentUserSubject => {
             this.currentUserSubject = currentUserSubject;
-            this.morePhotosAllowed = this.maxPhotos > currentUserSubject.images.length ? true : false;
+            this.morePhotosAllowed = this.maxPhotos > currentUserSubject?.images.length ? true : false;
           }
         )
     );
@@ -57,6 +57,11 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
   private getCurrentUserImages(): void {
 
+    // If there is no this.currentUserSubject yet don't even try.
+    if(this.currentUserSubject == null){
+      return;
+    }
+
     let defaultImageModel: ImageModel = new ImageModel();
 
     if (this.currentUserSubject.images != null && this.currentUserSubject.images.length > 0) {
@@ -70,20 +75,20 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe(
-                  images => { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
-                  () => { this.loading = false; element.image = defaultImageModel.image },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+              })
             );
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe(
-                  images => { element.image = 'data:image/jpg;base64,' + images.toString() },
-                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.image = 'data:image/jpg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.image = defaultImageModel.image }
+              })
             );
           }
 
@@ -95,7 +100,6 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   private refreshCurrentUserImages(): void {
     this.profileService.updateCurrentUserSubject().then(() => {
       this.getCurrentUserImages();
-      this.morePhotosAllowed = this.maxPhotos > this.currentUserSubject.images.length ? true : false;
     });
   }
 

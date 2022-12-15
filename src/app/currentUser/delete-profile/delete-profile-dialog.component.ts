@@ -1,4 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
@@ -8,6 +9,7 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-delete-profile-dialog',
@@ -18,12 +20,12 @@ import { CurrentUser } from '../../models/currentUser';
 export class DeleteProfileDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  IsChecked: boolean;
-  matDialogTitle: string;
-  matDialogContent: string;
+  private currentUserSubject: CurrentUser;
+  public IsChecked: boolean;
+  public matDialogTitle: string;
+  public matDialogContent: string;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService,
+  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog,
     public dialogRef: MatDialogRef<DeleteProfileDialog>,
     @Inject(MAT_DIALOG_DATA) public profileIds: string[], private readonly translocoService: TranslocoService) {
 
@@ -56,21 +58,42 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForCurrentUser();
         this.subs.push(
-          this.profileService.deleteCurrentUser().subscribe(() => { }, () => { }, () => { this.auth.logout() })
+          this.profileService.deleteCurrentUser()
+          .subscribe({
+            next: () =>  {},
+            complete: () => { 
+              this.auth.logout() 
+            },
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+            }
+          })
         );
       }
       else if (!this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
         // Images must be deleted before user as the imageService uses the profileId!!!
         const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
         this.subs.push(
-          this.profileService.deleteProfiles(this.profileIds).subscribe()
+          this.profileService.deleteProfiles(this.profileIds)
+            .subscribe({
+              next: () => { },
+              complete: () => { },
+              error: () => {
+                this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
+              }
+            })
         );
       }
-      else if (this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
-        // TODO: Show error messsage - 'Administrators cannot delete themselves.';
-        console.log('Administrators cannot delete themselves.');
-      }
     }
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 
 }

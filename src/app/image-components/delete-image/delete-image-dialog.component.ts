@@ -14,9 +14,9 @@ import { ImageService } from './../../services/image.service';
 export class DeleteImageDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  IsChecked: boolean;
-  matDialogTitle: string;
-  matDialogContent: string;
+  public IsChecked: boolean;
+  public matDialogTitle: string;
+  public matDialogContent: string;
 
   constructor(private imageService: ImageService, public dialogRef: MatDialogRef<DeleteImageDialog>,
     @Inject(MAT_DIALOG_DATA) public imageId: string, private readonly translocoService: TranslocoService) {
@@ -43,12 +43,12 @@ export class DeleteImageDialog implements OnInit, OnDestroy {
   async onYesClick(): Promise<void> {
     if (this.IsChecked) {
 
-      this.dialogRef.close(true); // TODO: Hack to remove Image from list. If imageService.deleteImagesForCurrentUser fails this should be 'false' but it doesn't work.
-
       var id = [];
       id.push(this.imageId["imageId"]);
 
-      const reponse = await this.imageService.deleteImagesForCurrentUser(id);
+      this.imageService.deleteImagesForCurrentUser(id);
+
+      this.dialogRef.close(true);
     }
   }
 

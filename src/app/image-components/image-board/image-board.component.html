@@ -11,7 +11,7 @@
   </p>
 
   <button *ngIf="morePhotosAllowed" type="button" class="matButtonToggle" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-    <i class="material-icons">{{matButtonToggleIcon}}</i>
+    <span class="material-icons">{{matButtonToggleIcon}}</span>
   </button>
 
   <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images" [currentProfileId]="currentUserSubject.profileId" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>

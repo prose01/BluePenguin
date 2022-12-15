@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -18,6 +18,7 @@ import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageModel } from '../../models/imageModel';
 import { OrderByType } from '../../models/enums';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
@@ -25,20 +26,29 @@ import { OrderByType } from '../../models/enums';
   styleUrls: ['./profile-listview.component.scss']
 })
 
-export class ProfileListviewComponent implements OnChanges, OnDestroy {
-  pageSize: number;
-  loading: boolean = false;
+export class ProfileListviewComponent implements OnDestroy {
+  private pageSize: number;
+  private adGroup: number;
+  public loading: boolean = false;
 
-  allowAssignment: boolean = false;
+  private allowAssignment: boolean = false;
 
-  dataSource: MatTableDataSource<Profile>;
-  selection = new SelectionModel<Profile>(true, []);
+  public dataSource: MatTableDataSource<Profile>;
+  private selection = new SelectionModel<Profile>(true, []);
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  noProfiles: boolean = false;
+  private _profiles: any[];
+  private currentUserSubject: CurrentUser;
+  public noProfiles: boolean = false;
 
-  @Input() profiles: Profile[];
+  @Input() set profiles(values: any[]) {
+    this._profiles = values;
+    this.updateProfiles();
+  }
+  get profiles(): any[] {
+    return this._profiles;
+  }
+
   @Input() length: number;
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Input() displayedColumns: string[];
@@ -51,6 +61,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.adGroup = this.configurationLoader.getConfiguration().adGroup;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
@@ -68,45 +79,28 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     this.subs = [];
   }
 
-  ngOnChanges(): void {
-    this.profiles = this.profiles?.filter(function (el) {
-      return el != null;
-    });
+  private updateProfiles(): void {
+    //// Add random ad-tile. TODO: Set the ad row to full width.
+    //for (let index = 0; index < this.profiles?.length; index++) {
 
-    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    //  // Group list of Profiles by AdGroup.
+    //  if (index != 0 && index % this.adGroup === 0){
+    //    // Select random index within group and apply ad-tile.
+    //    var i = this.randomIntFromInterval(index - this.adGroup, index);
+    //    this.profiles?.splice(i, 0, 'ad');
+    //  }
+    //}
+
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
 
     this.setDataSource();
   }
 
   private pageChanged(event): void {
 
-    //// Not sure where this goes. Maybe it doesn't belogs here at all as pageChanged might not be called at first. Initial data call.
-    //if (event.pageIndex = 0) {
-    //  presentData -> this.getNextData.emit();
-    //  futureData -> this.getNextData.emit();
-    //}
-
-    //if (this.pageIndex > event.pageIndex) {
-    //  // We are going forward
-    //  presentData -> pastData;
-    //  futureData -> presentData;
-    //  futureData -> this.getNextData.emit();
-    //}
-    //else if (this.pageIndex < event.pageIndex) {
-    //  // We are going back
-    //  presentData -> futureData;
-    //  pastData -> presentData;
-    //  pastData -> this.getNextData.emit();
-    //}
-
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
-
-    //console.log('pageIndex ' + pageIndex);
-    //console.log('pageSize ' + pageSize);
-    //console.log('currentSize ' + currentSize);
-    //console.log('profiles ' + this.profiles.length);
 
     this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
   }
@@ -121,9 +115,6 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
   /** Whether the number of selected elements matches the total number of rows. */
   private isAllSelected(): boolean {
-    //const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length > 1 ? this.dataSource.data.length - 1 : this.dataSource.data.length;
-    //return numSelected === numRows;
     return this.selection.selected.length === this.dataSource.data.length;
   }
 
@@ -143,46 +134,7 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
   }
 
   /** Add or remove Likes */
-  private toggleLike(): void {    // TODO: Look at these two toggles again and decide which to keep.
-
-    for (var _i = 0; _i < this.selection.selected.length; _i++) {
-
-      var profileId = this.selection.selected[_i].profileId;
-
-      // If profile has no likes yet. 
-      if (this.selection.selected[_i].likes?.length == 0) {
-        this.subs.push(
-          this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-            .subscribe(() => {
-              this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-            }, () => { }, () => { })
-        );
-        return;
-      }
-
-      for (const value of this.selection.selected[_i].likes) {
-        if (this.liked(this.selection.selected[_i])) {
-          this.subs.push(
-            this.profileService.removeLikeFromProfile(this.selection.selected[_i].profileId)
-              .subscribe(() => {
-                const index = this.profiles.find(x => x.profileId === profileId)?.likes.indexOf(this.currentUserSubject.profileId, 0);
-                this.profiles.find(x => x.profileId === profileId)?.likes.splice(index, 1);
-              }, () => { }, () => { })
-          );
-        }
-        else {
-          this.subs.push(
-            this.profileService.addLikeToProfile(this.selection.selected[_i].profileId)
-              .subscribe(() => {
-                this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-              }, () => { }, () => { })
-          );
-        }
-      }
-    }
-  }
-
-  private toggleLike2(): void {   // TODO: Look at these two toggles again and decide which to keep.
+  private toggleLikes(): void {
 
     var removeProfiles = new Array;
     var addProfiles = new Array;
@@ -190,7 +142,6 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     for (var _i = 0; _i < this.selection.selected.length; _i++) {
 
       var profileId = this.selection.selected[_i].profileId;
-
       if (this.liked(this.selection.selected[_i])) {
         removeProfiles.push(profileId);
       }
@@ -199,21 +150,40 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
       }
     }
 
-    if (removeProfiles.length > 0) {
+    if (addProfiles.length > 0) {
       this.subs.push(
-        this.profileService.addLikeToProfile(profileId)
-          .subscribe(() => {
-            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-          }, () => { }, () => { })
+        this.profileService.addLikeToProfiles(addProfiles)
+          .subscribe({
+            next: () => {
+              addProfiles.forEach((currentValue, i) => {
+                this.profiles.find(x => x.profileId === currentValue).likes.push(this.currentUserSubject.profileId);
+              });              
+            },
+            complete: () => {},
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+            }
+          })
       );
     }
 
-    if (addProfiles.length > 0) {
+    if (removeProfiles.length > 0) {
       this.subs.push(
-        this.profileService.addLikeToProfile(profileId)
-          .subscribe(() => {
-            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-          }, () => { }, () => { })
+        this.profileService.removeLikeFromProfiles(removeProfiles)
+        .subscribe({
+          next: () => {
+            removeProfiles.forEach((currentValue, i) => {
+              var index = this.profiles.find(x => x.profileId === currentValue)?.likes.indexOf(this.currentUserSubject.profileId);
+              if (index !== -1) {
+                this.profiles.find(x => x.profileId === currentValue)?.likes.splice(index, 1);
+              }
+            });              
+          },
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+          }
+        })
       );
     }
   }
@@ -239,20 +209,32 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     if (removeProfiles.length > 0) {
       this.subs.push(
         this.profileService.removeProfilesFromBookmarks(removeProfiles)
-          .subscribe(() => { }, () => { }, () => {
+        .subscribe({
+          next: () =>  {
             this.profileService.updateCurrentUserSubject();
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-          })
+          },
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+          }
+        })
       );
     }
 
     if (addProfiles.length > 0) {
       this.subs.push(
         this.profileService.addProfilesToBookmarks(addProfiles)
-          .subscribe(() => { }, () => { }, () => {
+        .subscribe({
+          next: () =>  {
             this.profileService.updateCurrentUserSubject();
             if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-          })
+          },
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+          }
+        })
       );
     }
   }
@@ -289,7 +271,6 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
               for (let profileId of this.selcetedProfileIds()) {
                 let index = this.profiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
                 this.profiles.splice(index, 1);
-                this.ngOnChanges();
               }
             }
           }
@@ -337,20 +318,20 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe(
-                images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+            })
           );
 
           this.subs.push(
             this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe(
-                images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                () => { this.loading = false; element.image = defaultImageModel.image },
-                () => { this.loading = false; }
-              )
+            .subscribe({
+              next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+              complete: () => { this.loading = false; },
+              error: () => { this.loading = false; element.image = defaultImageModel.image }
+            })
           );
         }
 
@@ -358,11 +339,32 @@ export class ProfileListviewComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private bookmarked(profileId: string): string {
-    return this.currentUserSubject.bookmarks.find(x => x == profileId);
+  private bookmarked(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
-  private liked(profile: Profile): string {
-    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+  private liked(profile: Profile): boolean {
+    if (profile?.likes?.indexOf(this.currentUserSubject.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

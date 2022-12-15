@@ -1,19 +1,19 @@
-import { Component, Input, EventEmitter, Output, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
-import { OrderByType } from '../../models/enums';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
-import { MatDialog } from '@angular/material/dialog';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ImageModel } from '../../models/imageModel';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
+import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -21,26 +21,34 @@ import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-pro
   styleUrls: ['./profile-tileview.component.scss']
 })
 
-export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
+export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  selectedProfile: Profile;
-  pageIndex: number = 0;
-  pageSize: number;
-  currentSize: number;
-  throttle = 1;
-  scrollDistance = 2;
-  scrollUpDistance = 2;
-  defaultImage = '../assets/default-person-icon.jpg';
-  noProfiles: boolean = false;
-  loading: boolean = false;
+  private _profiles: any[];
+  private currentUserSubject: CurrentUser;
+  private pageIndex: number = 0;
+  private pageSize: number;
+  private currentSize: number;
+  public throttle = 1;
+  public scrollDistance = 2;
+  public scrollUpDistance = 2;
+  public noProfiles: boolean = false;
+  public loading: boolean = false;
 
-  currentProfiles: Profile[] = [];
-  imageSize: string[] = []
-  randomImageSize: number;
+  public currentProfiles: any[] = [];
+  private imageSize: string[] = []
+  private randomImagePlace: number;
+  private adGroup: number;
 
-  @Input() profiles: Profile[];
+  @Input() set profiles(values: any[]) {
+    this._profiles = values;
+    this.updateProfiles();
+  }
+  get profiles(): any[] {
+    return this._profiles;
+  }
+
+
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
@@ -48,7 +56,8 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
-    this.randomImageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
+    this.adGroup = this.configurationLoader.getConfiguration().adGroup;
   }
 
   ngOnInit(): void {
@@ -64,23 +73,34 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     this.subs = [];
   }
 
-  ngOnChanges(): void {
-    // Remove empty profile from array.
-    this.profiles = this.profiles?.filter(function (el) {
-      return el != null;
-    });
+  private updateProfiles(): void {
 
-    // Set random image size
+    // Add random ad-tile.
+    for (let index = 0; index < this.profiles?.length; index++) {
+
+      // Group list of Profiles by AdGroup.
+      if (index != 0 && index % this.adGroup === 0) {
+        // Select random index within group and apply ad-tile.
+        var i = this.randomIntFromInterval(index - this.adGroup, index);
+        this.profiles?.splice(i, 0, 'ad');
+      }
+    }
+
+    // Set random image size.
     for (var i = 0, len = this.profiles?.length; i < len; i++) {
       this.imageSize.push(this.randomSize());
+    }
+
+    // In case we only have small images set at leas one.
+    if (this.profiles?.length > 0 && !this.imageSize.includes('big')) {
+      this.imageSize[this.randomImagePlace] = 'big'
     }
 
     if (this.profiles?.length > 0) {
       this.currentProfiles.push(...this.profiles);
     }
-    //this.currentProfiles.splice(0, 5);
 
-    //this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
   }
 
   async resetCurrentProfiles(): Promise<void> {
@@ -89,38 +109,12 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onScrollDown(): void {
-    console.log('scrolled down!!');
-
     this.pageIndex++;
     this.currentSize = this.pageSize * this.pageIndex;
 
-    //console.log('pageIndex ' + this.pageIndex);
-    //console.log('pageSize ' + this.pageSize);
-    //console.log('currentSize ' + this.currentSize);
-    //console.log('profiles ' + this.profiles.length);
-    //console.log('currentProfiles ' + this.currentProfiles.length);
-
     if (this.profiles?.length > 0) {
-      //console.log('getting next');
       this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
     }
-  }
-
-  onScrollUp(): void {
-    console.log('scrolled up!!');
-
-    //this.pageIndex--;
-    //this.currentSize = this.pageSize * this.pageIndex;
-
-    ////console.log('pageIndex ' + this.pageIndex);
-    ////console.log('pageSize ' + this.pageSize);
-    ////console.log('currentSize ' + this.currentSize);
-    ////console.log('profiles ' + this.profiles.length);
-
-    //if (this.profiles?.length > 0) {
-    //  //console.log('getting next');
-    //  //this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
-    //}
   }
 
   // Load Detalails page
@@ -135,10 +129,15 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        })
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+        }
+      })
     );
   }
 
@@ -148,30 +147,57 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-        .subscribe(() => { }, () => { }, () => {
+      .subscribe({
+        next: () =>  {
           this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") { this.getBookmarkedProfiles.emit(OrderByType.CreatedOn); }
-        })
+          if (this.viewFilterType == "BookmarkedProfiles") {
+            let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+            this.currentProfiles.splice(index, 1);
+          }
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
+        }
+      })
     );
   }
 
   /** Add or remove Likes */
-  private addLike(profile: Profile): void {
+  private addLike(profileId: string): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
+
     this.subs.push(
-      this.profileService.addLikeToProfile(profile.profileId)
-        .subscribe(() => {
-          this.profiles.find(x => x.profileId === profile.profileId).likes.push(this.currentUserSubject.profileId);
-        }, () => { }, () => { })
+      this.profileService.addLikeToProfiles(selcetedProfiles)
+      .subscribe({
+        next: () =>  {
+          this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+        }
+      })
     );
   }
 
-  private removeLike(profile: Profile): void {
+  private removeLike(profileId: string): void {
+    let selcetedProfiles = new Array;
+    selcetedProfiles.push(profileId);
+
     this.subs.push(
-      this.profileService.removeLikeFromProfile(profile.profileId)
-        .subscribe(() => {
-          let index = this.profiles.find(x => x.profileId === profile.profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-          this.profiles.find(x => x.profileId === profile.profileId).likes.splice(index, 1);
-        }, () => { }, () => { })
+      this.profileService.removeLikeFromProfiles(selcetedProfiles)
+      .subscribe({
+        next: () =>  {
+          let index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+          this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+        }
+      })
     );
   }
 
@@ -210,20 +236,20 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe(
-                  images => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.smallimage = defaultImageModel.smallimage },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+              })
             );
 
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe(
-                  images => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                  () => { this.loading = false; element.image = defaultImageModel.image },
-                  () => { this.loading = false; }
-                )
+              .subscribe({
+                next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                complete: () => { this.loading = false; },
+                error: () => { this.loading = false; element.image = defaultImageModel.image }
+              })
             );
           }
 
@@ -232,17 +258,25 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private bookmarked(profileId: string): string {
-    return this.currentUserSubject?.bookmarks.find(x => x == profileId);
+  private bookmarked(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
-  private liked(profile: Profile): string {
-    return profile.likes?.find(x => x == this.currentUserSubject.profileId);
+  private liked(profile: Profile): boolean {
+    if (profile?.likes?.indexOf(this.currentUserSubject.profileId) !== -1) {
+      return true;
+    }
+
+    return false;
   }
 
   // Set random tilesize for images.
   private randomSize(): string {
-    var randomInt = this.randomIntFromInterval(1, this.randomImageSize);
+    var randomInt = this.randomIntFromInterval(1, this.randomImagePlace);
 
     if (randomInt === 1) {
       return 'big';
@@ -272,5 +306,14 @@ export class ProfileTileviewComponent implements OnInit, OnChanges, OnDestroy {
         }
       )
     );
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ConfigurationLoader } from './configuration/configuration-loader.service';
 import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
@@ -14,7 +15,9 @@ import { ProfileFilter } from './models/profileFilter';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { ProfileService } from './services/profile.service';
 import { EnumMappingService } from './services/enumMapping.service';
+import { SnackBarService } from './services/snack-bar.service';
 import { ViewFilterTypeEnum } from './models/viewFilterTypeEnum';
+import { ErrorDialog } from './error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -27,48 +30,58 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
 
-  title = 'PlusOne';
+  private title = 'PlusOne';
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
-  isProfileCreated: boolean = false;
+  private currentUserSubject: CurrentUser;
+  private isProfileCreated: boolean = false;
 
-  useChat = false; // Get from Config! Turns off Chat :)
+  private useChat = false;
 
-  pageView: pageViewEnum = pageViewEnum.Dashboard;
-  matButtonToggleText: string;
-  matButtonToggleIcon: string = 'search';
+  private pageView: pageViewEnum = pageViewEnum.Dashboard;
+  private matButtonToggleText: string;
+  private matButtonToggleIcon: string = 'search';
 
-  isTileView = true;
-  matButtonViewToggleText: string;
-  matButtonViewToggleIcon: string = 'line_style';
+  private isTileView = true;
+  private matButtonViewToggleText: string;
+  private matButtonViewToggleIcon: string = 'line_style';
 
-  matButtonOrderByText: string;
-  matButtonOrderByIcon: string = 'watch_later';
-  orderBy: OrderByType = OrderByType.LastActive;
+  private matButtonOrderByText: string;
+  private matButtonOrderByIcon: string = 'watch_later';
+  private orderBy: OrderByType = OrderByType.LastActive;
 
-  viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
+  private viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
 
-  profile: Profile;
-  filter: ProfileFilter;
-  lastCalledFilter: string = "getLatestProfiles";
-  pageSize: number;
+  private profile: Profile;
+  private filter: ProfileFilter;
+  private allowSearch: boolean = false;
+  private lastCalledFilter: string = "getLatestProfiles";
+  private pageSize: number;
 
-  siteLocale: string = getBrowserLang();
-  languageList: Array<any>;
+  private siteLocale: string = getBrowserLang();
+  private languageList: Array<any>;
 
-  CurrentUserBoardTabIndex: number = 1;
+  private showGlobalInfo: boolean = false;
 
-  isAdmin: boolean = false;
+  private CurrentUserBoardTabIndex: number = 1;
 
-  mobileQuery: MediaQueryList;
+  private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-  //fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
-  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
+    this.useChat = this.configurationLoader.getConfiguration().useChat;
+
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
+
+    //setTimeout(() => {
+    //  console.log('cleanCurrentUser');
+    //  if (this.auth.isAuthenticated() && this.isProfileCreated) {
+    //    console.log('cleanCurrentUser 2');
+    //    this.profileService.cleanCurrentUser().subscribe();
+    //  }
+    //}, 500);
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
 
@@ -77,6 +90,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this.showGlobalInfo = this.configurationLoader.getConfiguration().showGlobalInfo;
   }
 
   ngOnInit(): void {
@@ -86,7 +101,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.initiateTransloco();
 
-    setTimeout(() => { this.isAdmin = this.currentUserSubject?.admin; }, 5000);
+    
+    setTimeout(() => {
+      if (this.auth.isAuthenticated() && this.showGlobalInfo) {
+        this.snackBarService.openSnackBar(this.translocoService.translate('GlobalInfo.Info'), 'info', '', 'center', 'top');
+      }
+    }, 10000);
   }
 
   ngOnDestroy(): void {
@@ -150,6 +170,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleOrderBy(): void {
+    console.log('cleanCurrentUser 2');    // TODO: When/How should we check for complains?
+    this.subs.push(
+      this.profileService.checkForComplains()
+        .subscribe({
+          next: (response: any) => {
+            if (response) {
+              this.snackBarService.openSnackBar(this.translocoService.translate('ComplainTooMany'), 'info', '', 'center', 'top');
+            } },
+          complete: () => { },
+          error: () => {
+            //this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);  // TODO: add an error message
+          }
+        })
+    );
+    console.log('cleanCurrentUser 3');
+
     switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
@@ -184,89 +220,26 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getData(): void {
-    this.dashboardComponent.getData(this.viewFilterType, this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
+  private getData(viewFilterType: string = this.viewFilterType): void {
+    this.viewFilterType = ViewFilterTypeEnum[viewFilterType];
+    this.isTileView ? this.dashboardComponent.resetCurrentProfiles() : this.dashboardComponent.resetSelectionPagination();    
+    this.dashboardComponent.getData(ViewFilterTypeEnum[viewFilterType], this.orderBy, { currentSize: 0, pageIndex: 0, pageSize: this.pageSize });
   }
 
-  // Calls to DashboardComponent
-  private getLatestProfiles(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.LatestProfiles;
-    this.getData();
-  }
-
-  private getProfileByCurrentUsersFilter(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.FilterProfiles;
-    this.getData();
-  }
-
-  private getBookmarkedProfiles(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.BookmarkedProfiles;
-    this.getData();
-  }
-
-  private getProfileByFilter(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesSearch;
-    this.getData();
-    this.toggleDisplay();
-  }
-
-  private getProfilesWhoVisitedMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoVisitedMe;
-    this.getData();
-  }
-
-  private getProfilesWhoBookmarkedMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoBookmarkedMe;
-    this.getData();
-  }
-
-  private getProfilesWhoLikesMe(): void {
-    if (this.isTileView) {
-      this.dashboardComponent.resetCurrentProfiles();
-    }
-
-    this.viewFilterType = ViewFilterTypeEnum.ProfilesWhoLikesMe;
-    this.getData();
-  }
-
-  private resetSelectionPagination(): void {
-    if (!this.isTileView) {
-      this.dashboardComponent?.resetSelectionPagination();
-    }
-  }
 
   // Calls to ProfileSearchComponent
   private onSubmit(): void {
     this.profileSearchComponent.onSubmit();
     this.sidenav.toggle();
+    this.toggleDisplay();
   }
 
   private reset(): void {
     this.profileSearchComponent.reset();
+  }
+
+  private activateSearch(event: any): void {
+    this.allowSearch = event.allowSearch
   }
 
   private saveSearch(): void {
@@ -313,6 +286,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // Load Edit page
   private loadEdit(): void {
     if (this.pageView != pageViewEnum.Edit) {
+      this.CurrentUserBoardTabIndex = 0;
       this.pageView = pageViewEnum.Edit;
     }
     else {
@@ -359,6 +333,24 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Load Delete Old Profiles Admin
+  private loadAdmin(): void {
+
+    if (this.pageView != pageViewEnum.Admin) {
+      this.pageView = pageViewEnum.Admin;
+    }
+    else {
+      this.pageView = pageViewEnum.Dashboard;
+      this.toggleViewDisplay();
+      this.matButtonToggleText = this.translocoService.translate('Search');
+      this.matButtonToggleIcon = 'search';
+    }
+
+    if (this.sidenav.opened) {
+      this.sidenav.toggle();
+    }
+  }
+
   private loadDashboard(): void {
     this.pageView = pageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
@@ -368,12 +360,28 @@ export class AppComponent implements OnInit, OnDestroy {
   // Load Details page
   private loadDetails(profile: Profile): void {
     this.subs.push(
-      this.profileService.addVisitedToProfiles(profile.profileId).subscribe(() => { })
+      this.profileService.addVisitedToProfiles(profile.profileId)
+        .subscribe({
+          next: () => { },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
+          }
+        })
     );
     this.profile = profile;
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');
     this.matButtonToggleIcon = 'dashboard';
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 
 }
@@ -398,5 +406,6 @@ export enum pageViewEnum {
   "Details" = "Details",
   "About" = "About",
   "Feedback" = "Feedback",
-  "FeedbackAdmin" = "FeedbackAdmin"
+  "FeedbackAdmin" = "FeedbackAdmin",
+  "Admin" = "Admin"
 }

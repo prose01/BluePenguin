@@ -3,13 +3,6 @@ export enum GenderType {
   "Male" = "Male"
 }
 
-export enum SexualOrientationType {
-  "Heterosexual" = "Heterosexual",
-  "Homosexual" = "Homosexual",
-  "Bisexual" = "Bisexual",
-  "Asexual" = "Asexual"
-}
-
 export enum ClotheStyleType {
   "NotChosen" = "NotChosen",
   "Casual" = "Casual",

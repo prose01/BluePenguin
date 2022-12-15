@@ -7,12 +7,12 @@
   </div>
 
   <button *ngIf="isChatSearch" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">
-    <i class="material-icons">search</i>
+    <span class="material-icons">search</span>
   </button>
 
   <button *ngIf="isChatSearch" type="button" (click)="reset()"
           class="mat-search-flat-button" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-    <i class="material-icons">undo</i>
+    <span class="material-icons">undo</span>
   </button>
 
   <mat-tab-group [(selectedIndex)]="tabIndex">

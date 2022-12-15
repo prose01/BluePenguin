@@ -15,7 +15,6 @@ import { AuthService } from '../../authorisation/auth/auth.service';
 import { CurrentUser } from '../../models/currentUser';
 import {
   GenderType,
-  SexualOrientationType,
   BodyType,
   SmokingHabitsType,
   HasChildrenType,
@@ -41,43 +40,46 @@ import { CreateProfileDialog } from '../create-profile-dialog/create-profile-dia
 
 export class CreateProfileComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
-  currentUser: CurrentUser;
-  newUserForm: FormGroup;
-  genderTypes: ReadonlyMap<string, string>;
-  sexualOrientationTypes: ReadonlyMap<string, string>;
-  bodyTypes: ReadonlyMap<string, string>;
-  smokingHabitsTypes: ReadonlyMap<string, string>;
-  hasChildrenTypes: ReadonlyMap<string, string>;
-  wantChildrenTypes: ReadonlyMap<string, string>;
-  hasPetsTypes: ReadonlyMap<string, string>;
-  livesInTypes: ReadonlyMap<string, string>;
-  educationTypes: ReadonlyMap<string, string>;
-  educationStatusTypes: ReadonlyMap<string, string>;
-  employmentStatusTypes: ReadonlyMap<string, string>;
-  sportsActivityTypes: ReadonlyMap<string, string>;
-  eatingHabitsTypes: ReadonlyMap<string, string>;
-  clotheStyleTypes: ReadonlyMap<string, string>;
-  bodyArtTypes: ReadonlyMap<string, string>;
+  private currentUser: CurrentUser;
+  private newUserForm: FormGroup;
+  private genderTypes: ReadonlyMap<string, string>;
+  private bodyTypes: ReadonlyMap<string, string>;
+  private smokingHabitsTypes: ReadonlyMap<string, string>;
+  private hasChildrenTypes: ReadonlyMap<string, string>;
+  private wantChildrenTypes: ReadonlyMap<string, string>;
+  private hasPetsTypes: ReadonlyMap<string, string>;
+  private livesInTypes: ReadonlyMap<string, string>;
+  private educationTypes: ReadonlyMap<string, string>;
+  private educationStatusTypes: ReadonlyMap<string, string>;
+  private employmentStatusTypes: ReadonlyMap<string, string>;
+  private sportsActivityTypes: ReadonlyMap<string, string>;
+  private eatingHabitsTypes: ReadonlyMap<string, string>;
+  private clotheStyleTypes: ReadonlyMap<string, string>;
+  private bodyArtTypes: ReadonlyMap<string, string>;
 
-  namePlaceholder: string;
-  genderPlaceholder: string;
-  defaultAge: number;
-  sexualOrientationPlaceholder: string;
-  tagsPlaceholder: string;
-  maxTags: number;
+  private namePlaceholder: string;
+  private genderPlaceholder: string;
+  private minAge: number;
+  private maxAge: number;
+  private minHeight: number;
+  private maxHeight: number;
+  private tagsPlaceholder: string;
+  private maxTags: number;
 
-  isChecked: boolean = true;
+  private isChecked: boolean = true;
 
-  siteLocale: string;
-  languageList: string[] = [];
-  countryList: string[] = [];
-  countrycodePlaceholder: string;
+  private siteLocale: string;
+  private languageList: string[] = [];
+  private countryList: string[] = [];
+  private countrycodePlaceholder: string;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
-  @Output("initDefaultData") initDefaultData: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.defaultAge = this.configurationLoader.getConfiguration().defaultAge;
+    this.minAge = this.configurationLoader.getConfiguration().minAge;
+    this.maxAge = this.configurationLoader.getConfiguration().maxAge;
+    this.minHeight = this.configurationLoader.getConfiguration().minHeight;
+    this.maxHeight = this.configurationLoader.getConfiguration().maxHeight;
     this.maxTags = this.configurationLoader.getConfiguration().maxTags;
     this.languageList = this.configurationLoader.getConfiguration().languageList;
     this.countryList = this.configurationLoader.getConfiguration().countryList;
@@ -90,30 +92,19 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     }
 
     this.subs.push(
-      this.translocoService.selectTranslate('CreateProfileComponent.Name').subscribe(value => this.namePlaceholder = value)
+      this.translocoService.selectTranslate('Name').subscribe(value => this.namePlaceholder = value)
     );
     this.subs.push(
-      this.translocoService.selectTranslate('CreateProfileComponent.Gender').subscribe(value => this.genderPlaceholder = value)
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
     this.subs.push(
-      this.translocoService.selectTranslate('CreateProfileComponent.SexualOrientationType').subscribe(value => this.sexualOrientationPlaceholder = value)
-    );
-    this.subs.push(
-      this.translocoService.selectTranslate('CreateProfileComponent.Tags').subscribe(value => this.tagsPlaceholder = value)
-    );
-    this.subs.push(
-      this.translocoService.selectTranslate('CreateProfileComponent.Country').subscribe(value => this.countrycodePlaceholder = value)
+      this.translocoService.selectTranslate('Country').subscribe(value => this.countrycodePlaceholder = value)
     );
 
     this.subs.push(
       this.enumMappings.genderTypeSubject.subscribe(value => this.genderTypes = value)
     );
     this.enumMappings.updateGenderTypeSubject();
-
-    this.subs.push(
-      this.enumMappings.sexualOrientationTypeSubject.subscribe(value => this.sexualOrientationTypes = value)
-    );
-    this.enumMappings.updateSexualOrientationTypeSubject();
 
     this.subs.push(
       this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value)
@@ -200,7 +191,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       description: null,
       tags: null,
       gender: [null, [Validators.required]],
-      sexualOrientation: [null, [Validators.required]],
+      seeking: [null, [Validators.required]],
       body: BodyType.NotChosen,
       smokingHabits: SmokingHabitsType.NotChosen,
       hasChildren: HasChildrenType.NotChosen,
@@ -220,13 +211,20 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   private revert(): void {
     this.tagsList.length = 0;
     this.createForm();
-    this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.Name');
-    this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.Gender');
-    this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualOrientationType');
+    this.namePlaceholder = this.translocoService.translate('Name');
+    this.genderPlaceholder = this.translocoService.translate('Gender');
+
+    this.subs.push(
+      this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
+    );
+    this.newUserForm.controls.tags.setErrors({ 'incorrect': false });
+    this.newUserForm.markAsPristine();
   }
 
   private onSubmit(): void {
+
     this.currentUser = this.prepareSaveProfile();
+
     if (this.newUserForm.invalid) {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
@@ -246,10 +244,6 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
         this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.GenderRequired');
       }
 
-      if (this.newUserForm.controls.sexualOrientation?.errors != null && this.newUserForm.controls.sexualOrientation.errors.required) {
-        this.sexualOrientationPlaceholder = this.translocoService.translate('CreateProfileComponent.SexualRequired');
-      }
-
       if (this.newUserForm.controls.countrycode?.errors != null && this.newUserForm.controls.countrycode.errors.required) {
         this.countrycodePlaceholder = this.translocoService.translate('CreateProfileComponent.CountrycodeRequired');
       }
@@ -266,31 +260,18 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     }
     else if (this.newUserForm.valid) {
       this.subs.push(
-        this.profileService.addProfile(this.currentUser).subscribe(
-          () => { },
-          (error: any) => {
-            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: this.currentUser.languagecode, uploadImageClick: false });
-            if (error.status === 400) {
-              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), error);
-            }
-            else {
-              this.openErrorDialog(this.translocoService.translate('CreateProfileComponent.CouldNotSaveUser'), null);
-            }
-          },
-          () => {
+        this.profileService.addProfile(this.currentUser)
+        .subscribe({
+          next: () => {
             this.profileService.updateCurrentUserSubject();
-            this.initDefaultData.emit(); // TODO: Move to Photo tab after Create
-
-            this.openCreateProfileDialog().then(res => {
-              if (res) {
-                this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: false });
-              }
-              else {
-                this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: true });
-              }
-            }
-            );
-          })
+          },
+          complete: () => {
+            this.openCreateProfileDialog();
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
+          }
+        })
       );
     }
   }
@@ -316,7 +297,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       description: formModel.description as string,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
-      sexualOrientation: formModel.sexualOrientation as SexualOrientationType,
+      seeking: formModel.seeking as string[],
       body: formModel.body as BodyType,
       smokingHabits: formModel.smokingHabits as SmokingHabitsType,
       hasChildren: formModel.hasChildren as HasChildrenType,
@@ -338,12 +319,12 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   }
 
   // Tag section //
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, SPACE];
-  tagsList: string[] = [];
+  private visible = true;
+  private selectable = true;
+  private removable = true;
+  private addOnBlur = true;
+  private readonly separatorKeysCodes: number[] = [ENTER, SPACE];
+  private tagsList: string[] = [];
 
   private add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -352,8 +333,15 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     if (this.tagsList.length >= this.maxTags) {
       this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
       this.subs.push(
-        this.translocoService.selectTranslate('CreateProfileComponent.MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
+        this.translocoService.selectTranslate('MaxTags', { maxTags: this.maxTags }).subscribe(value => this.tagsPlaceholder = value)
       );
+
+      // Reset the input value
+      if (input) {
+        input.value = null;
+        event.chipInput.clear;
+      }
+
       return;
     }
 
@@ -363,8 +351,15 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       if (value.trim().length >= 20) {
         this.newUserForm.controls.tags.setErrors({ 'incorrect': true });
         this.subs.push(
-          this.translocoService.selectTranslate('CreateProfileComponent.MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
+          this.translocoService.selectTranslate('MaxTagsCharacters').subscribe(value => this.tagsPlaceholder = value)
         );
+
+        // Reset the input value
+        if (input) {
+          input.value = null;
+          event.chipInput.clear;
+        }
+
         return;
       }
 
@@ -375,6 +370,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     // Reset the input value
     if (input) {
       input.value = '';
+      event.chipInput.clear;
     }
   }
 
@@ -406,7 +402,6 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     // TranslocoService needs to finsh first before we can update.
     setTimeout(() => {
       this.enumMappings.updateGenderTypeSubject();
-      this.enumMappings.updateSexualOrientationTypeSubject();
       this.enumMappings.updateClotheStyleTypeSubject();
       this.enumMappings.updateBodyTypeSubject();
       this.enumMappings.updateBodyArtTypeSubject();
@@ -423,7 +418,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     }, 50);
   }
 
-  private async openCreateProfileDialog(): Promise<boolean> {
+  private openCreateProfileDialog(): void {
 
     const dialogRef = this.dialog.open(CreateProfileDialog);
 
@@ -431,15 +426,13 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe(
         res => {
           if (res === true) {
-            return Promise.resolve(true);
+            this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: true });
           }
           else {
-            return Promise.resolve(false);
+            this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUser.languagecode, uploadImageClick: false });
           }
         }
       )
     );
-
-    return Promise.resolve(false);
   }
 }

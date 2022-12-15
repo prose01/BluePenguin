@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -26,7 +26,7 @@ import { Feedback } from '../../models/feedback';
   styleUrls: ['./feedback.admin.component.scss']
 })
 
-export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
+export class FeedbackAdminComponent implements OnInit, OnDestroy {
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
@@ -35,32 +35,31 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(FeedbackSearchComponent) feedbackSearchComponent: FeedbackSearchComponent;
 
-  loading: boolean = false;
-  noFeedbacks: boolean = false;
-
+  private displayedColumns: string[] = ['select', 'dateSent', 'dateSeen', 'fromName', 'adminName', 'feedbackType', 'message', 'open', 'countrycode', 'languagecode'];
   private subs: Subscription[] = [];
-  currentUserSubject: CurrentUser;
+  private currentUserSubject: CurrentUser;
+  private openChecked = true;
+  private languageChecked = false;
 
-  allowAssignment: boolean = false;
+  private feedbacks: Feedback[] = new Array;
 
-  pageSearch: string = "list";
-  matButtonToggleSearchText: string = 'Search';
-  matButtonToggleSearchIcon: string = 'search';
-  pageView: string = "assignment";
-  matButtonToggleAllText: string;
-  matButtonToggleAllIcon: string = 'assignment_ind';
+  public loading: boolean = false;
+  public noFeedbacks: boolean = false;
 
-  openChecked = true;
-  languageChecked = false;
+  public allowAssignment: boolean = false;
 
-  feedbacks: Feedback[] = new Array;
+  public pageSearch: string = "list";
+  public matButtonToggleSearchText: string = 'Search';
+  public matButtonToggleSearchIcon: string = 'search';
+  public pageView: string = "assignment";
+  public matButtonToggleAllText: string;
+  public matButtonToggleAllIcon: string = 'assignment_ind';
 
-  dataSource: MatTableDataSource<Feedback>;
-  selection = new SelectionModel<Feedback>(true, []);
 
-  displayedColumns: string[] = ['select', 'dateSent', 'dateSeen', 'fromName', 'adminName', 'feedbackType', 'message', 'open', 'countrycode', 'languagecode'];
+  public dataSource: MatTableDataSource<Feedback>;
+  private selection = new SelectionModel<Feedback>(true, []);
 
-  mobileQuery: MediaQueryList;
+  public mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
   constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, media: MediaMatcher, private readonly translocoService: TranslocoService) {
@@ -86,7 +85,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.translocoService.selectTranslate('FeedbackAdminComponent.MyAssignedFeedbacks').subscribe(value => this.matButtonToggleAllText = value);
   }
 
-  ngOnChanges(): void {
+  updateFeedbacks(): void {
 
     this.feedbacks = this.feedbacks?.filter(function (el) {
       return el != null;
@@ -147,7 +146,7 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`; // TODO: row ${row} needs an id.
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row}`;
   }
 
   private selcetedFeedbackIds(): Feedback[] {
@@ -172,19 +171,18 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.feedBackService.getUnassignedFeedbacks(countrycode, languagecode)
-        .subscribe(
-          (response: any) => {
-            this.feedbacks = new Array;
-
-            this.feedbacks.push(...response);
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
-          },
-          () => {
-            this.ngOnChanges();
-          }
-        )
+      .subscribe({
+        next: (response: any) =>  {
+          this.feedbacks = new Array;
+          this.feedbacks.push(...response);
+        },
+        complete: () => {
+          this.updateFeedbacks();
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -192,13 +190,13 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   private assignFeedbackToAdmin(): void {
     this.subs.push(
       this.feedBackService.assignFeedbackToAdmin(this.selcetedFeedbackIds())
-        .subscribe(
-          () => { },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
-          },
-          () => { }
-        )
+      .subscribe({
+        next: () =>  {},
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -225,26 +223,26 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     if (openFeedbackIds.length > 0) {
       this.subs.push(
         this.feedBackService.openFeedbacks(openFeedbackIds)
-          .subscribe(
-            () => { },
-            (error: any) => {
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
-            },
-            () => { }
-          )
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          }
+        })
       );
     }
 
     if (closeFeedbackIds.length > 0) {
       this.subs.push(
         this.feedBackService.closeFeedbacks(closeFeedbackIds)
-          .subscribe(
-            () => { },
-            (error: any) => {
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
-            },
-            () => { }
-          )
+        .subscribe({
+          next: () =>  {},
+          complete: () => {},
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+          }
+        })
       );
     }
 
@@ -277,19 +275,19 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
   getFeedbacksByFilter($event): void {
     this.subs.push(
       this.feedBackService.getFeedbacksByFilter($event)
-        .subscribe(
-          (response: any) => {
-            this.feedbacks = new Array;
+      .subscribe({
+        next: (response: any) =>  {
+          this.feedbacks = new Array;
 
-            this.feedbacks.push(...response);
-
-            this.ngOnChanges();
-          },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
-          },
-          () => { }
-        )
+          this.feedbacks.push(...response);
+        },
+        complete: () => {
+          this.updateFeedbacks();
+        },
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
+        }
+      })
     );
   }
 
@@ -298,6 +296,10 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
     this.feedbackSearchComponent.onSubmit();
     this.toggleDisplay();
     this.sidenav.toggle();
+  }
+
+  private addAdminInfo(): void {
+    this.feedbackSearchComponent.createForm(true);
   }
 
   private reset(): void {
@@ -311,13 +313,15 @@ export class FeedbackAdminComponent implements OnInit, OnChanges, OnDestroy {
 
     this.subs.push(
       this.profileService.getProfileById(profileId)
-        .subscribe(
-          (response: any) => { profile = response; this.loadProfileDetails.emit(profile); },
-          (error: any) => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
-          },
-          () => { }
-        )
+      .subscribe({
+        next: (response: any) =>  {
+          profile = response; this.loadProfileDetails.emit(profile); 
+        },
+        complete: () => {},
+        error: () => {
+          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
+        }
+      })
     );
   }
 

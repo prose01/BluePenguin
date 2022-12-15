@@ -26,26 +26,28 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 export class ImageUploadComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
-  uploadImageForm: FormGroup;
-  imageChangedEvent: any = '';
-  croppedImage: any = null;
-  canvasRotation = 0;
-  rotation = 0;
-  scale = 1;
-  showCropper = false;
-  containWithinAspectRatio = false;
-  transform: ImageTransform = {};
-  fileUploadProgress: string = null;
-  titlePlaceholder: string;
-  uploadingPhoto: boolean = false;
-  fileSizeLimit: number;
-  imageMaxWidth: number;
-  imageMaxHeight: number;
+  public uploadImageForm: FormGroup;
+  public imageChangedEvent: any = '';
+  private croppedImage: any = null;
+  public canvasRotation = 0;
+  private rotation = 0;
+  private scale = 1;
+  public showCropper = false;
+  private containWithinAspectRatio = false;
+  public transform: ImageTransform = {};
+  private fileUploadProgress: string = null;
+  private titlePlaceholder: string;
+  public uploadingPhoto: boolean = false;
+  private fileSizeLimit: number;
+  private imageTitleMaxLength: number;
+  private imageMaxWidth: number;
+  private imageMaxHeight: number;
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
   constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
+    this.imageTitleMaxLength = this.configurationLoader.getConfiguration().imageTitleMaxLength;
     this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
     this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
     this.createForm();
@@ -65,7 +67,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.uploadImageForm = this.formBuilder.group({
       file: null,
-      title: [null, [Validators.maxLength(25)]]
+      title: [null, [Validators.maxLength(this.imageTitleMaxLength)]]
     });
   }
 
@@ -75,7 +77,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength : this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
     }
@@ -90,7 +92,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
       }
       else {
         var limitMB = (this.fileSizeLimit / 1000000);
-        this.openErrorDialog(this.translocoService.translate("ImageUploadComponent.CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
+        this.openErrorDialog(this.translocoService.translate("CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
       }
     }
   }
@@ -181,7 +183,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError').subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength: this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
 
@@ -200,16 +202,20 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
         this.uploadingPhoto = true;
         this.subs.push(
           this.imageService.uploadImage(formData)
-            .subscribe(
-              (res) => {
-                if (res.status == 200) {
-                }
-              }, (error: any) => {
-                //this.openErrorDialog("Could not save image", error.error);
-                this.toggleDisplay.emit();
-              },
-              () => { this.toggleDisplay.emit(); }
-            )
+          .subscribe({
+            next: (res: any) =>  {
+              if (res.status == 200) {
+              }
+            },
+            complete: () => {
+              this.toggleDisplay.emit(); 
+            },
+            error: () => {
+              //this.openErrorDialog("Could not save image", error.error);
+              this.openErrorDialog(this.translocoService.translate('CouldNotUploadImage'), null);
+              this.toggleDisplay.emit();
+            }
+          })
         );
       });
     }

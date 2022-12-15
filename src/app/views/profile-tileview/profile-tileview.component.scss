@@ -1,13 +1,15 @@
-@import '~@material/image-list/mdc-image-list';
-
 .sortOrder{
   margin-bottom: 10px;
 }
 
-.mat-icon-button {
+.mat-mdc-icon-button {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.material-icons {
+  color: #FFFFFF;
 }
 
 .like {
@@ -55,117 +57,9 @@
   transition: .5s ease;
 }
 
-
-// Masonry-image-list layout
-
-.masonry-image-list {
-  @include mdc-image-list-masonry-columns(5);
-  /*max-width: 1080px;*/
-}
-
-@media (max-width: 1080px) {
-  .masonry-image-list {
-    @include mdc-image-list-masonry-columns(3);
-  }
-}
-
-@media (max-width: 599px) {
-  .masonry-image-list {
-    @include mdc-image-list-masonry-columns(1);
-  }
-}
-
 .noResults {
   padding-bottom: 25%;
 }
-
-.mdc-image-list__item {
-  border-style: solid;
-  border-color: #607d8b;
-}
-
-.mdc-image-list__item:hover .overlay-images {
-  height: 50px;
-}
-
-.overlay-images {
-  background-color: #44606e;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-  width: 100%;
-  height: 0;
-  transition: .5s ease;
-}
-
-.mdc-image-list__label {
-  color: white;
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-
-// Alternative Flex layout
-
-/*.profile-list {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  padding: 0;
-  position: relative;
-  box-sizing: border-box;
-  align-items: flex-start;
-}
-
-.profile-tile {
-  flex: 19%;
-  max-width: 19%;
-  position: relative;
-  padding: 0 4px;
-  margin: 4px;
-  height: auto;
-  border-style: solid;
-  border-color: #607d8b;
-}
-
-.profile-tile:hover .overlay {
-  height: 50px;
-}
-
-.profile-tile img {
-  margin-top: 8px;
-  vertical-align: middle;
-  display: block;
-  height: auto;
-  width: 100%;
-}*/
-
- /*Responsive layout - makes a three column-layout instead of four columns*/ 
-/*@media (max-width: 1080px) {
-  .profile-tile {
-    flex: 33%;
-    max-width: 33%;
-  }
-}*/
-
- /*Responsive layout - makes the two columns stack on top of each other instead of next to each other*/ 
-/*@media (max-width: 599px) {
-  .profile-tile {
-    flex: 100%;
-    max-width: 100%;
-  }
-}*/
-
-
-// Alternative Grid layout
 
 * {
   margin: 0;
@@ -221,5 +115,16 @@ img {
   .profile-list-grid {
     grid-column: span 2;
     grid-row: span 2;
+  }
+}
+
+/*Responsive layout - makes overlay visible for phones*/
+@media (max-width: 599px) {
+  .overlay {
+    height: 50px;
+  }
+  .profile-list-grid {
+    grid-column: span 1;
+    grid-row: span 1;
   }
 }

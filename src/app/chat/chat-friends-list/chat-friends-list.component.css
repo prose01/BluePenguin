@@ -1,0 +1,130 @@
+#chat-people {
+  position: relative;
+  width: 240px;
+  height: 360px;
+  border-width: 1px;
+  border-style: solid;
+  margin-right: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.25);
+  border-bottom: 0;
+}
+
+  #chat-people.chat-people-collapsed {
+    height: 30px;
+  }
+
+#chat-search_friend {
+  display: block;
+  padding: 7px 10px;
+  margin: 0 auto;
+  width: calc(100% - 20px);
+  margin-top: 10px;
+  font-size: 0.9em;
+  -webkit-appearance: searchfield;
+}
+
+#chat-users {
+  padding: 0 10px;
+  list-style: none;
+  margin: 0;
+  overflow: auto;
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+  #chat-users.offset-search {
+    top: 84px;
+  }
+
+  #chat-users .chat-users-checkbox {
+    float: left;
+    margin-right: 5px;
+    margin-top: 8px;
+  }
+
+  #chat-users li {
+    clear: both;
+    margin-bottom: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    max-height: 30px;
+  }
+
+    #chat-users li > .chat-friends-list-selectable-offset {
+      margin-left: 22px;
+    }
+
+    #chat-users li .chat-friends-list-container {
+      display: inline-block;
+      width: 100%;
+    }
+
+    #chat-users li > .chat-friends-list-selectable-offset.chat-friends-list-container {
+      display: block;
+      width: auto;
+    }
+
+    #chat-users li .chat-friends-list-container > img.avatar, #chat-users li .chat-friends-list-container > .icon-wrapper {
+      float: left;
+      margin-right: 5px;
+      border-radius: 25px;
+    }
+
+    #chat-users li .nchat-friends-list-container > .icon-wrapper {
+      background-color: #BABABA;
+      overflow: hidden;
+      width: 30px;
+      height: 30px;
+    }
+
+      #chat-users li .chat-friends-list-container > .icon-wrapper > i {
+        color: #FFF;
+        transform: scale(0.7);
+      }
+
+    #chat-users li .chat-friends-list-container > strong {
+      float: left;
+      line-height: 30px;
+      font-size: 0.8em;
+      max-width: 57%;
+      max-height: 30px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    #chat-users li .chat-friends-list-container > .chat-participant-status {
+      float: right;
+    }
+
+.chat-people-actions {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+}
+
+  .chat-people-actions > a.chat-people-action {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    margin-right: 8px;
+    text-decoration: none;
+    border: none;
+    border-radius: 25px;
+    padding: 1px;
+  }
+
+/* Mobile viewport only */
+@media only screen and (max-width: 581px) {
+  #chat-people {
+    width: 300px;
+    height: 360px;
+    margin-right: 0;
+  }
+}
