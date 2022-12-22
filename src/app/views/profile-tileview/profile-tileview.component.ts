@@ -39,6 +39,8 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   private imageSize: string[] = []
   private randomImagePlace: number;
   private adGroup: number;
+  private imageMaxWidth: number;
+  private imageMaxHeight: number;
 
   @Input() set profiles(values: any[]) {
     this._profiles = values;
@@ -58,6 +60,8 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;
+    this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
+    this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
   }
 
   ngOnInit(): void {

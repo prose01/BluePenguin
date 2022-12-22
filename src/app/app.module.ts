@@ -77,7 +77,6 @@ import { FeedbackAdminComponent }             from './feedback/feedbackAdmin/fee
 import { FeedbackSearchComponent }            from './feedback/feedback-search/feedback-search.component';
 import { FeedbackDialog }                     from './feedback/feedback-dialog/feedback-dialog.component';
 
-import { LazyLoadImageModule }                from 'ng-lazyload-image';
 import { InfiniteScrollModule }               from 'ngx-infinite-scroll';
 import { ImageCropperModule }                 from './image-components/image-cropper/image-cropper.module';
 import { ImageBoardComponent }                from './image-components/image-board/image-board.component';
@@ -178,7 +177,6 @@ import { NgxSliderModule }                    from '@angular-slider/ngx-slider';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
-    LazyLoadImageModule,
     InfiniteScrollModule,
     ImageCropperModule,
     NgxSliderModule,

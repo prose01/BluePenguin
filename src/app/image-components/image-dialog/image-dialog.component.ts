@@ -18,7 +18,6 @@ export class ImageDialog implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
-  private defaultImage = '../assets/default-person-icon.jpg';
 
   public index: number;
 

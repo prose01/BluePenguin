@@ -68,10 +68,11 @@
 }
 
 img {
-  max-width: 100%;
+  max-inline-size: 100%;
   height: 100%;
   vertical-align: middle;
   display: inline-block;
+  block-size: auto;
 }
 .profile-list-grid > div {
   display: flex;

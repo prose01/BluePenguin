@@ -5,7 +5,7 @@
 
         <ad-tile *ngIf="imageModel.imageId==='ad'"></ad-tile>
 
-        <img *ngIf="imageModel.imageId!=='ad'" [lazyLoad]="imageModel.image" [defaultImage]="imageModel.smallimage" (click)="openImageDialog(indexOfelement)">
+        <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
         <div *ngIf="imageModel.imageId!=='ad'" class="overlay">
           <div class="supporting">
             <span class="label">{{imageModel.title}}</span>
