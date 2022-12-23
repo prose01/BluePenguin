@@ -1,21 +1,17 @@
-<div class="grid grid-pad">
+<div class="profile-list-grid">
+  <div *ngFor="let imageModel of imageModels;let indexOfelement=index">
 
-    <div class="profile-list-grid">
-      <div *ngFor="let imageModel of imageModels;let indexOfelement=index">
+    <ad-tile *ngIf="imageModel.imageId==='ad'"></ad-tile>
 
-        <ad-tile *ngIf="imageModel.imageId==='ad'"></ad-tile>
-
-        <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
-        <div *ngIf="imageModel.imageId!=='ad'" class="overlay">
-          <div class="supporting">
-            <span class="label">{{imageModel.title}}</span>
-          </div>
-          <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}">
-            <span class="material-icons">delete</span>
-          </button>
-        </div>
-
+    <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
+    <div *ngIf="imageModel.imageId!=='ad'" class="imageOverlay">
+      <div class="imageTitle">
+        <span class="imageLabel">{{imageModel.title}}</span>
       </div>
+      <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}">
+        <span class="material-icons icon-white-square">delete</span>
+      </button>
     </div>
 
   </div>
+</div>

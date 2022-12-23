@@ -1,18 +1,14 @@
-<div class="grid grid-pad">
+<div class="profile-list-grid">
+  <div *ngFor="let image of profile.images;let indexOfelement=index" [ngClass]="imageSize[indexOfelement]">
 
-  <div class="profile-list-grid">
-    <div *ngFor="let image of profile.images;let indexOfelement=index" [ngClass]="imageSize[indexOfelement]">
+    <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
 
-      <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
-
-      <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" src="{{profile.images[indexOfelement].image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
-      <div *ngIf="profile.images[indexOfelement].imageId!=='ad'" class="overlay">
-        <div class="supporting">
-          <span class="label">{{profile.images[indexOfelement].title}}</span>
-        </div>
+    <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" src="{{profile.images[indexOfelement].image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
+    <div *ngIf="profile.images[indexOfelement].imageId!=='ad'" class="imageOverlay">
+      <div class="imageTitle">
+        <span class="imageLabel">{{profile.images[indexOfelement].title}}</span>
       </div>
-
     </div>
-  </div>
 
+  </div>
 </div>
