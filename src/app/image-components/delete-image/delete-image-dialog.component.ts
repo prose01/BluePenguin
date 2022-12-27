@@ -7,8 +7,7 @@ import { ImageService } from './../../services/image.service';
 
 @Component({
   selector: 'delete-image-dialog',
-  templateUrl: './delete-image-dialog.component.html',
-  styleUrls: ['./delete-image-dialog.component.scss']
+  templateUrl: './delete-image-dialog.component.html'
 })
 
 export class DeleteImageDialog implements OnInit, OnDestroy {

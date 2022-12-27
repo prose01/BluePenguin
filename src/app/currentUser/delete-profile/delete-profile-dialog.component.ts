@@ -13,8 +13,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-delete-profile-dialog',
-  templateUrl: './delete-profile-dialog.component.html',
-  styleUrls: ['./delete-profile-dialog.component.scss']
+  templateUrl: './delete-profile-dialog.component.html'
 })
 
 export class DeleteProfileDialog implements OnInit, OnDestroy {

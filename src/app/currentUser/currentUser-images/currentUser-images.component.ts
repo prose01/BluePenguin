@@ -9,8 +9,7 @@ import { DeleteImageDialog } from '../../image-components/delete-image/delete-im
 
 @Component({
   selector: 'currentUser-images',
-  templateUrl: './currentUser-images.component.html',
-  styleUrls: ['./currentUser-images.component.scss']
+  templateUrl: './currentUser-images.component.html'
 })
 
 export class CurrentUserImagesComponent implements OnDestroy {

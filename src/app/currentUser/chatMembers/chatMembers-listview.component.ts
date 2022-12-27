@@ -19,8 +19,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'chatMemebers-listview',
-  templateUrl: './chatMembers-listview.component.html',
-  styleUrls: ['./chatMembers-listview.component.scss']
+  templateUrl: './chatMembers-listview.component.html'
 })
 
 export class ChatMembersListviewComponent implements OnInit, OnDestroy {

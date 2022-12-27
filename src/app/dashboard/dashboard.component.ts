@@ -21,8 +21,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  templateUrl: './dashboard.component.html'
 })
 
 export class DashboardComponent implements OnInit, OnDestroy {

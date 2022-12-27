@@ -5,8 +5,7 @@ import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'currentUserBoard',
-  templateUrl: './currentUser-board.component.html',
-  styleUrls: ['./currentUser-board.component.scss']
+  templateUrl: './currentUser-board.component.html'
 })
 
 export class CurrentUserBoardComponent {

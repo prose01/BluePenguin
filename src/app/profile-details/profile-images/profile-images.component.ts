@@ -8,8 +8,7 @@ import { Profile } from '../../models/profile';
 
 @Component({
   selector: 'profile-images',
-  templateUrl: './profile-images.component.html',
-  styleUrls: ['./profile-images.component.scss']
+  templateUrl: './profile-images.component.html'
 })
 
 export class ProfileImagesComponent {

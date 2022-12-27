@@ -11,8 +11,7 @@ import { ConfigurationLoader } from '../../configuration/configuration-loader.se
 
 @Component({
   selector: 'image-board',
-  templateUrl: './image-board.component.html',
-  styleUrls: ['./image-board.component.scss']
+  templateUrl: './image-board.component.html'
 })
 
 export class ImageBoardComponent implements OnInit, OnDestroy {

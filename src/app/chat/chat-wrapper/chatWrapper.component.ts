@@ -14,8 +14,7 @@ import { ChatAdapter } from './../core/chat-adapter';
 
 @Component({
   selector: 'chatWrapper',
-  templateUrl: './chatWrapper.component.html',
-  styleUrls: ['./chatWrapper.component.scss'],
+  templateUrl: './chatWrapper.component.html'
 })
 
 export class ChatWrapperComponent {

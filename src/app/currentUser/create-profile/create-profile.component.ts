@@ -34,8 +34,7 @@ import { CreateProfileDialog } from '../create-profile-dialog/create-profile-dia
 
 @Component({
   selector: 'create-profile',
-  templateUrl: './create-profile.component.html',
-  styleUrls: ['./create-profile.component.scss']
+  templateUrl: './create-profile.component.html'
 })
 
 export class CreateProfileComponent implements OnInit, OnDestroy {

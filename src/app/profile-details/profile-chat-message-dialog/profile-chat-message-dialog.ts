@@ -10,8 +10,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'message-dialog',
-  templateUrl: './profile-chat-message-dialog.html',
-  styleUrls: ['./profile-chat-message-dialog.scss']
+  templateUrl: './profile-chat-message-dialog.html'
 })
 
 export class MessageDialog implements OnDestroy {

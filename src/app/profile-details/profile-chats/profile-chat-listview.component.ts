@@ -21,8 +21,7 @@ import { ChatFilter } from '../../models/chatFilter';
 
 @Component({
   selector: 'profile-chat-listview',
-  templateUrl: './profile-chat-listview.component.html',
-  styleUrls: ['./profile-chat-listview.component.scss']
+  templateUrl: './profile-chat-listview.component.html'
 })
 
 export class ProfileChatListviewComponent implements OnInit, OnDestroy {

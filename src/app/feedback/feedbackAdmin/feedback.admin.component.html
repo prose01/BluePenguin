@@ -24,11 +24,11 @@
   </button>
 
   <section *ngIf="pageView === 'all' && pageSearch === 'list'" class="section">
-    <mat-checkbox class="margin" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">{{'FeedbackAdminComponent.Open'| transloco}}</mat-checkbox>
+    <mat-checkbox class="checkbox" [(ngModel)]="openChecked" (change)="myAssignedFeedbacks()">{{'FeedbackAdminComponent.Open'| transloco}}</mat-checkbox>
   </section>
 
   <section *ngIf="pageView === 'assignment' && pageSearch === 'list'" class="section">
-    <mat-checkbox class="margin" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">{{'FeedbackAdminComponent.MyLanguage'| transloco}}</mat-checkbox>
+    <mat-checkbox class="checkbox" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">{{'FeedbackAdminComponent.MyLanguage'| transloco}}</mat-checkbox>
   </section>
 
   <button *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" class="mat-app-flat-button" mat-flat-button color="accent" matTooltip="{{'Search'| transloco}}">

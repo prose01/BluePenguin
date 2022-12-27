@@ -1,4 +1,4 @@
-<div class="profile-list-grid">
+<div class="profile-list-grid details">
   <div *ngFor="let image of profile.images;let indexOfelement=index" [ngClass]="imageSize[indexOfelement]">
 
     <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>

@@ -3,8 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'create-profile-dialog',
-  templateUrl: './create-profile-dialog.component.html',
-  styleUrls: ['./create-profile-dialog.component.scss']
+  templateUrl: './create-profile-dialog.component.html'
 })
 
 export class CreateProfileDialog {

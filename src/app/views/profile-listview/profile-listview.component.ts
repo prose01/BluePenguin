@@ -22,8 +22,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-listview',
-  templateUrl: './profile-listview.component.html',
-  styleUrls: ['./profile-listview.component.scss']
+  templateUrl: './profile-listview.component.html'
 })
 
 export class ProfileListviewComponent implements OnDestroy {

@@ -17,8 +17,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-profile-tileview',
-  templateUrl: './profile-tileview.component.html',
-  styleUrls: ['./profile-tileview.component.scss']
+  templateUrl: './profile-tileview.component.html'
 })
 
 export class ProfileTileviewComponent implements OnInit, OnDestroy {

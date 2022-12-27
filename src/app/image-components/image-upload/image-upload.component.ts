@@ -20,8 +20,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss']
+  templateUrl: './image-upload.component.html'
 })
 
 export class ImageUploadComponent implements OnInit, OnDestroy {
