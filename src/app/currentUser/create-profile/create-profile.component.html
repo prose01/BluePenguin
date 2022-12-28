@@ -5,12 +5,10 @@
   <form (ngSubmit)="onSubmit()" [formGroup]="newUserForm">
 
     <div style="margin-bottom: 1em">
-      <button type="submit"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Save'| transloco}}">
+      <button type="submit" [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Save'| transloco}}">
         <span class="material-icons">save</span>
       </button>
-      <button type="button" (click)="revert()"
-              [disabled]="newUserForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+      <button mat-flat-button color="accent" (click)="revert()" [disabled]="newUserForm.pristine" matTooltip="{{'Reset'| transloco}}">
         <span class="material-icons">undo</span>
       </button>
     </div>

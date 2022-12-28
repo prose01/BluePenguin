@@ -29,30 +29,26 @@
       <span class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'NotContactable'| transloco}}">person_off</span>
       
       <div *ngIf="profile!=='ad'" class="imageOverlay">
-        <div class="imageTitle">
-          <span class="imageLabel">{{profile.name}}</span>
-          <button mat-icon-button class="delete" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'DeleteProfile'| transloco}}">
-            <span class="material-icons icon-white">delete</span>
-          </button>
-        </div>
 
-        <div class="button">
-          <button mat-icon-button class="like" *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
-            <span class="material-icons icon-white">favorite</span>
-          </button>
-          <button mat-icon-button class="like" *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
-            <span class="material-icons icon-white">favorite_border</span>
-          </button>
-        </div>
+        <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+          <span class="material-icons icon-white">favorite</span>
+        </button>
+        <button mat-icon-button *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+          <span class="material-icons icon-white">favorite_border</span>
+        </button>
 
-        <div class="button">
-          <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
-            <span class="material-icons icon-white">bookmark</span>
-          </button>
-          <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'AddToBookmarked'| transloco}}">
-            <span class="material-icons icon-white">bookmark_border</span>
-          </button>
-        </div>
+        <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
+          <span class="material-icons icon-white">bookmark</span>
+        </button>
+        <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'AddToBookmarked'| transloco}}">
+          <span class="material-icons icon-white">bookmark_border</span>
+        </button>
+
+        <span class="imageLabel">{{profile.name}}</span>
+
+        <button mat-icon-button *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'DeleteProfile'| transloco}}">
+          <span class="material-icons icon-white">delete</span>
+        </button>
 
       </div>
 

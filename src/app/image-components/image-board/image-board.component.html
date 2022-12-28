@@ -10,8 +10,8 @@
     {{'ImageBoardComponent.MaxImages'| transloco: { maxPhotos: maxPhotos} }}
   </p>
 
-  <button *ngIf="morePhotosAllowed" type="button" class="imageBoadButtonToggle" (click)="toggleDisplay()" mat-flat-button color="accent" matTooltip={{matButtonToggleText}}>
-    <span class="material-icons">{{matButtonToggleIcon}}</span>
+  <button *ngIf="morePhotosAllowed" mat-flat-button color="accent" class="imageBoadButtonToggle" (click)="toggleDisplay()" matTooltip={{matButtonToggleText}}>
+    <span class="material-icons icon-white-square">{{matButtonToggleIcon}}</span>
   </button>
 
   <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images" [currentProfileId]="currentUserSubject.profileId" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>

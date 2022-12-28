@@ -12,12 +12,10 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
 
       <div style="margin-bottom: 1em">
-        <button type="submit"
-                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="{{'Save'| transloco}}">
+        <button type="submit" mat-flat-button color="accent" [disabled]="profileForm.pristine" matTooltip="{{'Save'| transloco}}">
           <span class="material-icons">save</span>
         </button>
-        <button type="button" (click)="revert()"
-                [disabled]="profileForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
+        <button mat-flat-button color="accent" (click)="revert()" [disabled]="profileForm.pristine" matTooltip="{{'Reset'| transloco}}">
           <span class="material-icons">undo</span>
         </button>
       </div>
@@ -211,8 +209,8 @@
 
     <hr class="solid">
 
-    <button *ngIf="!currentUserSubject.admin" type="button" (click)="openDeleteCurrentUserDialog()" mat-flat-button color="accent" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
-      <span class="material-icons">delete</span>
+    <button *ngIf="!currentUserSubject.admin" mat-flat-button color="accent" (click)="openDeleteCurrentUserDialog()" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
+      <span class="material-icons icon-white-square">delete</span>
     </button>
 
   </div>

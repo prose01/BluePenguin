@@ -12,7 +12,7 @@
     </p>
   </div>
 
-  <div *ngIf="dataSource && !noProfiles" class="mat-elevation-z8">
+  <div *ngIf="dataSource && !noProfiles">
     <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
       <!-- Checkbox Column -->
@@ -73,8 +73,8 @@
       <ng-container matColumnDef="visit/book">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'VisitBookmarked'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
-          <span class="material-icons icon-orange" *ngIf="!currentUserSubject?.isBookmarked[element?.profileId] && currentUserSubject?.visited[element?.profileId]" matTooltip="{{'VisitedMe'| transloco}} {{currentUserSubject.visited[element?.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</span>
-          <span class="material-icons icon-orange" *ngIf="currentUserSubject?.isBookmarked[element?.profileId]" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>
+          <span class="material-icons icon-white" *ngIf="!currentUserSubject?.isBookmarked[element?.profileId] && currentUserSubject?.visited[element?.profileId]" matTooltip="{{'VisitedMe'| transloco}} {{currentUserSubject.visited[element?.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</span>
+          <span class="material-icons icon-white" *ngIf="currentUserSubject?.isBookmarked[element?.profileId]" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>
         </td>
       </ng-container>
 
@@ -114,15 +114,15 @@
     </table>
 
 
-    <button *ngIf="allowAssignment" type="button" (click)="toggleBookmarkedProfiles()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'Bookmarked'| transloco}}">
+    <button *ngIf="allowAssignment" mat-flat-button color="accent" (click)="toggleBookmarkedProfiles()" matTooltip="{{'Bookmarked'| transloco}}">
       <span class="material-icons icon-white-square">bookmark</span>
     </button>
 
-    <button *ngIf="allowAssignment" type="button" (click)="toggleLikes()" class="mat-flat-button" mat-flat-button color="accent" matTooltip="{{'Like'| transloco}}">
+    <button *ngIf="allowAssignment" mat-flat-button color="accent" (click)="toggleLikes()" matTooltip="{{'Like'| transloco}}">
       <span class="material-icons icon-white-square">favorite</span>
     </button>
 
-    <button *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" type="button" (click)="openDeleteProfilesDialog()" mat-flat-button color="accent" matTooltip="{{'DeleteProfile'| transloco}}">
+    <button *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" mat-flat-button color="accent" (click)="openDeleteProfilesDialog()" matTooltip="{{'DeleteProfile'| transloco}}">
       <span class="material-icons icon-white-square">delete</span>
     </button>
 

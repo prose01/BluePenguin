@@ -9,11 +9,11 @@
   <div *ngIf="dataSource" class="mat-elevation-z8">
 
     <div class="menu-buttons">
-      <button *ngIf="selection.hasValue()" type="button" (click)="blockChatMembers()" mat-flat-button color="accent" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+      <button *ngIf="selection.hasValue()" mat-flat-button color="accent" (click)="blockChatMembers()" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
         <span class="material-icons">security</span>
       </button>
 
-      <button type="button" (click)="toggleBlocked()" mat-flat-button color="accent" matTooltip="{{matButtonToggleText}}">
+      <button mat-flat-button color="accent" (click)="toggleBlocked()" matTooltip="{{matButtonToggleText}}">
         <span class="material-icons">{{matButtonToggleIcon}}</span>
       </button>
     </div>
