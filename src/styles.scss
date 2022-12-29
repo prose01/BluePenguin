@@ -491,10 +491,20 @@ mat-sidenav {
   vertical-align: middle;
   margin: 10px 0;
 }
+.title, fabbuttons {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0;
+}
 
 /*Snack-bar*/
 .mat-snack-bar {
   background-color: #ffffff;
   color: #607D8B;
   border: none;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #607D8B;
 }

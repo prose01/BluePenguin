@@ -69,10 +69,10 @@
   <span class="material-icons">person</span>
 </button>
 
-<button *ngIf="feedback.open" type="button" class="fabbuttons" (click)="closeFeedbacks()" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
-  <span class="material-icons">check_circle</span>
+<button mat-flat-button color="accent" *ngIf="feedback.open" class="fabbuttons" (click)="closeFeedbacks()" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+  <span class="material-icons icon-white-square">check_circle</span>
 </button>
 
-<button *ngIf="!feedback.open" type="button" class="fabbuttons" (click)="openFeedbacks()" mat-flat-button color="accent" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
-  <span class="material-icons">circle</span>
+<button mat-flat-button color="accent" *ngIf="!feedback.open" class="fabbuttons" (click)="openFeedbacks()" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+  <span class="material-icons icon-white-square">circle</span>
 </button>

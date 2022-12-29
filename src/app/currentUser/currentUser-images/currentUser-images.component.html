@@ -5,11 +5,9 @@
 
     <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
     <div *ngIf="imageModel.imageId!=='ad'" class="imageOverlay">
-      <div class="imageTitle">
-        <span class="imageLabel">{{imageModel.title}}</span>
-      </div>
+      <span class="imageLabel">{{imageModel.title}}</span>
       <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" matTooltip="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}">
-        <span class="material-icons  icon-white">delete</span>
+        <span class="material-icons icon-white">delete</span>
       </button>
     </div>
 

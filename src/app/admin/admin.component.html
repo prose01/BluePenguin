@@ -12,13 +12,11 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="deleteProfilesForm">
 
       <div style="margin-bottom: 1em">
-        <button type="submit"
-                [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
-          <span class="material-icons">delete_forever</span>
+        <button mat-flat-button color="accent" type="submit" [disabled]="deleteProfilesForm.pristine" matTooltip="{{'AdminComponent.DeleteOldProfiles'| transloco}}">
+          <span class="material-icons icon-white-square">delete_forever</span>
         </button>
-        <button type="button" (click)="createForm()"
-                [disabled]="deleteProfilesForm.pristine" mat-flat-button color="accent" matTooltip="{{'Reset'| transloco}}">
-          <span class="material-icons">undo</span>
+        <button mat-flat-button color="accent" (click)="createForm()" [disabled]="deleteProfilesForm.pristine" matTooltip="{{'Reset'| transloco}}">
+          <span class="material-icons icon-white-square">undo</span>
         </button>
       </div>
 
