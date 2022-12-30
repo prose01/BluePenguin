@@ -10,8 +10,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'feedback-dialog',
-  templateUrl: './feedback-dialog.component.html',
-  styleUrls: ['./feedback-dialog.component.scss']
+  templateUrl: './feedback-dialog.component.html'
 })
 
 export class FeedbackDialog implements OnDestroy {

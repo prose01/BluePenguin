@@ -5,9 +5,7 @@
 
     <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" src="{{profile.images[indexOfelement].image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
     <div *ngIf="profile.images[indexOfelement].imageId!=='ad'" class="imageOverlay">
-      <div class="imageTitle">
-        <span class="imageLabel">{{profile.images[indexOfelement].title}}</span>
-      </div>
+       <span class="imageLabel">{{profile.images[indexOfelement].title}}</span>
     </div>
 
   </div>

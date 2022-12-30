@@ -1,15 +1,15 @@
-<div mat-dialog-content class="imageDialogContainer">
-  <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'ImageDialogComponent.Close'| transloco}}">
+<div mat-dialog-content class="container">
+  <button mat-flat-button class="close" (click)="onCloseClick()" matTooltip="{{'ImageDialogComponent.Close'| transloco}}">
     <span class="material-icons">close</span>
   </button>
 
   <img src="{{data.imageModels[index].image}}" loading="lazy" alt="{{data.imageModels[index].title}}" decoding="async">
 
-  <button *ngIf="(data.imageModels.length - 1) > index" type="button" class="next" (click)="onNextClick()" mat-button matTooltip="{{'ImageDialogComponent.Next'| transloco}}">
+  <button mat-flat-button class="next" *ngIf="(data.imageModels.length - 1) > index" (click)="onNextClick()" matTooltip="{{'ImageDialogComponent.Next'| transloco}}">
     <span class="material-icons">navigate_next</span>
   </button>
 
-  <button *ngIf="0 < (data.imageModels.length - 1) && 0 < index" type="button" class="before" (click)="onBeforeClick()" mat-button matTooltip="{{'ImageDialogComponent.Before'| transloco}}">
+  <button mat-flat-button class="before" *ngIf="0 < (data.imageModels.length - 1) && 0 < index" (click)="onBeforeClick()" matTooltip="{{'ImageDialogComponent.Before'| transloco}}">
     <span class="material-icons">navigate_before</span>
   </button>
 
@@ -17,20 +17,20 @@
 
 <h3 class="title" mat-dialog-title (click)="loadDetailsClick()">{{data.imageModels[index].title}}</h3>
 
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser()" (click)="loadDetailsClick()" mat-button matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser()" (click)="loadDetailsClick()" matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
   <span class="material-icons">person</span>
 </button>
 
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && liked()" (click)="removeLike()" mat-button matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && liked()" (click)="removeLike()" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
   <span class="material-icons">favorite</span>
 </button>
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && !liked()" (click)="addLike()" mat-button matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && !liked()" (click)="addLike()" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
   <span class="material-icons">favorite_border</span>
 </button>
 
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeBookmarkedProfiles()" mat-button matTooltip="{{'ImageDialogComponent.RemoveFromBookmarked'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeBookmarkedProfiles()" matTooltip="{{'ImageDialogComponent.RemoveFromBookmarked'| transloco}}">
   <span class="material-icons">bookmark</span>
 </button>
-<button type="button" class="fabbuttons" *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addBookmarkedProfiles()" mat-button matTooltip="{{'ImageDialogComponent.AddToBookmarked'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addBookmarkedProfiles()" matTooltip="{{'ImageDialogComponent.AddToBookmarked'| transloco}}">
   <span class="material-icons">bookmark_border</span>
 </button>

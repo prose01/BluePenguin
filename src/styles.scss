@@ -81,24 +81,55 @@ body {
   margin-bottom: 10px;
 }
 
-/*.menu {               // TODO: Needs to be moved from app.component
-  color: #cfd8dc;
-  position: absolute;
-  right: 0em;
-  padding: 0px;
-  margin: 10px 10px 0px 0px;
-  top: 0;
-}*/
-
-.mat-menu-flat-button {
-  margin: 10px;
-}
-
+// Containers and dialog boxes
 .container {
   position: relative;
   width: auto;
-  height: auto;
+  height: 80vh;
   overflow: hidden;
+}
+
+.container .close {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  z-index: 1;
+  background-color: #ffffff;
+}
+
+.container .close:hover {
+  background-color: #44606e;
+  right: 2px;
+}
+
+.container .next {
+  position: absolute;
+  right: 2px;
+  top: calc(50% - 9px);
+  z-index: 1;
+  background-color: #ffffff;
+}
+
+.container .next:hover {
+  background-color: #44606e;
+}
+
+.container .before {
+  position: absolute;
+  left: 2px;
+  top: calc(50% - 9px);
+  z-index: 1;
+  background-color: #ffffff;
+}
+
+.container .before:hover {
+  background-color: #44606e;
+}
+
+.container img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* images */
@@ -125,15 +156,6 @@ img {
   transition: .5s ease;
 }
 
-/*.imageTitle {*/
-  /*display: flex;*/
-  /*align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 8px 0;
-  line-height: 24px;
-}*/
-
 .imageLabel {
   color: white;
   font-size: 20px;
@@ -150,56 +172,8 @@ img {
   margin-bottom: 10px;
 }
 
-/*image dialog*/
-.imageDialogContainer {
-  position: relative;
-  width: auto;
-  height: 80vh;
-  overflow: hidden;
-}
 
-.imageDialogContainer img {
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-}
-
-.imageDialogContainer .close {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  z-index: 1;
-  background-color: #ffffff;
-}
-
-.imageDialogContainer .close:hover {
-  background-color: #44606e;
-}
-
-.imageDialogContainer .next {
-  position: absolute;
-  right: 5px;
-  top: calc(50% - 9px);
-  z-index: 1;
-  background-color: #ffffff;
-}
-
-.imageDialogContainer .next:hover {
-  background-color: #44606e;
-}
-
-.imageDialogContainer .before {
-  position: absolute;
-  left: 5px;
-  top: calc(50% - 9px);
-  z-index: 1;
-  background-color: #ffffff;
-}
-
-.imageDialogContainer .before:hover {
-  background-color: #44606e;
-}
-
+// TileView and other grid layouts
 .profile-list-grid > div {
   display: flex;
   justify-content: center;
@@ -240,82 +214,13 @@ img {
 }
 
 
-/* columns / TileView */
-/*[class*='col-'] {
-  float: left;
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
-
-[class*='col-']:last-of-type {
-  padding-right: 0;
-}
-
-*, *:after, *:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.col-1-4 {
-  width: 25%;
-}*/
-
-
-
 /* ListView, tables etc */
 /*Important in order stop hide MatPaginator items per page.*/
 ::ng-deep .mat-mdc-paginator-range-label {
   display: none !important;
 }
 
-/*tr.element-row:not(.expanded-row):hover {
-  background: #e0e0e0;
-}*/
 
-/*.element-row td {
-  border-bottom-width: 0;
-}*/
-
-/*.element-detail {
-  overflow: hidden;
-  display: flex;
-}*/
-
-/*.element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}*/
-
-/*.element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
-
-.element-description {
-  padding: 16px;
-}
-
-.element-description-attribution {
-  opacity: 0.5;
-}*/
-
-/*.mat-form-field-dashboard {
-  background: red;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-*/
-
-/*.dropdownmenu {
-  background: #cfd8dc;
-  margin-left: 10px;
-}*/
 
 .space-grey.mat-mdc-select-panel {
   /*background: red;*/
@@ -351,6 +256,8 @@ button.mat-mdc-unelevated-button {
 }
 /* End - Hack overwrite to make slider show always */
 
+
+// Icons and buttons
 .material-icons {
   color: #607D8B;
 }
@@ -393,16 +300,11 @@ button.mat-mdc-unelevated-button {
   border-radius: 50%;
 }
 
-/*Spinners*/
-.spinner-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
+.mat-menu-flat-button {
+  margin: 10px;
 }
 
+/*Spinners*/
 .spinner-overlay {
   height: 100vh;
   width: 100%;
@@ -411,6 +313,15 @@ button.mat-mdc-unelevated-button {
   top: 0;
   left: 0;
   position: fixed;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .custom-spinner circle {
@@ -433,7 +344,7 @@ mat-form-field {
   width: 90%;
 }
 
-.textarea, input {  // TODO: Fin out why this does not work, look at edit-profile
+.textarea, input {  // TODO: Find out why this does not work, look at edit-profile
   caret-color: #f07537;
 }
 
@@ -455,7 +366,6 @@ mat-sidenav {
   width: 98%;
 }
 
-
 .section {
   margin: 12px 0;
   display: inline;
@@ -463,38 +373,6 @@ mat-sidenav {
 
 .checkbox {
   margin: 0 12px;
-}
-
-/*Chat dialog*/
-.chatDialogContainer {
-  position: relative;
-  width: 80vh;
-  height: 80vh;
-  overflow: hidden;
-}
-
-.chatDialogContainer .close {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  z-index: 1;
-  background-color: #ffffff;
-}
-
-.chatDialogContainer .close:hover {
-  background-color: #44606e;
-  right: 2px;
-}
-
-.chatDialogTitle, fabbuttons {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 10px 0;
-}
-.title, fabbuttons {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 10px 0;
 }
 
 /*Snack-bar*/
