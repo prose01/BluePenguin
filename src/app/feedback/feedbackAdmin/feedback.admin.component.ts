@@ -22,8 +22,7 @@ import { Feedback } from '../../models/feedback';
 
 @Component({
   selector: 'feedback-admin',
-  templateUrl: './feedback.admin.component.html',
-  styleUrls: ['./feedback.admin.component.scss']
+  templateUrl: './feedback.admin.component.html'
 })
 
 export class FeedbackAdminComponent implements OnInit, OnDestroy {

@@ -1,37 +1,37 @@
 <div class="grid grid-pad">
   <div *ngIf="profile">
 
-    <button mat-flat-button color="accent" *ngIf="bookmarked()" (click)="removeBookmarkedProfiles()" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="bookmarked()" (click)="removeBookmarkedProfiles()" attr.aria-label="{{'RemoveFromBookmarked'| transloco}}" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
       <span class="material-icons icon-white-square">bookmark</span>
     </button>
-    <button mat-flat-button color="accent" *ngIf="!bookmarked()" (click)="addBookmarkedProfiles()" matTooltip="{{'AddToBookmarked'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="!bookmarked()" (click)="addBookmarkedProfiles()" attr.aria-label="{{'AddToBookmarked'| transloco}}" matTooltip="{{'AddToBookmarked'| transloco}}">
       <span class="material-icons icon-white-square">bookmark_border</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="liked()" (click)="removeLike()" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="liked()" (click)="removeLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
       <span class="material-icons icon-white-square">favorite</span>
     </button>
-    <button mat-flat-button color="accent" *ngIf="!liked()" (click)="addLike()" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="!liked()" (click)="addLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
       <span class="material-icons icon-white-square">favorite_border</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="!currentUserSubject.admin" (click)="blockChatMembers()" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="!currentUserSubject.admin" (click)="blockChatMembers()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
       <span class="material-icons icon-white-square">security</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="!currentUserSubject.admin" (click)="addComplainToProfile()" matTooltip="{{'ComplainAboutProfile'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="!currentUserSubject.admin" (click)="addComplainToProfile()" attr.aria-label="{{'ComplainAboutProfile'| transloco}}" matTooltip="{{'ComplainAboutProfile'| transloco}}">
       <span class="material-icons icon-white-square">report</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" attr.aria-label="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">
       <span class="material-icons icon-white-square">admin_panel_settings</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" matTooltip="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" attr.aria-label="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}" matTooltip="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}">
       <span class="material-icons icon-white-square">verified_user</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" matTooltip="{{'DeleteProfile'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" attr.aria-label="{{'DeleteProfile'| transloco}}" matTooltip="{{'DeleteProfile'| transloco}}">
       <span class="material-icons icon-white-square">delete</span>
     </button>
 

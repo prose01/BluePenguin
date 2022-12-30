@@ -16,10 +16,10 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="feedbackForm">
 
       <div style="margin-bottom: 1em">
-        <button type="submit" mat-flat-button color="accent" [disabled]="feedbackForm.pristine" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
+        <button mat-flat-button color="accent" type="submit" [disabled]="feedbackForm.pristine" attr.aria-label="{{'FeedbackComponent.Send'| transloco}}" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
           <span class="material-icons icon-white-square">email</span>
         </button>
-        <button type="button" mat-flat-button color="accent" (click)="revert()" [disabled]="feedbackForm.pristine" matTooltip="{{'Reset'| transloco}}">
+        <button mat-flat-button color="accent" (click)="revert()" [disabled]="feedbackForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
           <span class="material-icons icon-white-square">undo</span>
         </button>
       </div>

@@ -16,45 +16,45 @@
     <div *ngIf="isProfileCreated">
       <!--Navigation buttons-->
       <div *ngIf="pageView === 'Dashboard' || pageView === 'Search'" class="menu-buttons">
-        <button mat-flat-button color="primary" (click)="sidenav.toggle(); toggleDisplay();" matTooltip={{matButtonToggleText}}>
+        <button mat-flat-button color="primary" (click)="sidenav.toggle(); toggleDisplay();" attr.aria-label="{{matButtonToggleText}}" matTooltip={{matButtonToggleText}}>
           <span class="material-icons">{{matButtonToggleIcon}}</span>
         </button>
       </div>
 
       <!--ViewToggle button-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button mat-flat-button color="primary" (click)="toggleViewDisplay()" matTooltip={{matButtonViewToggleText}}>
+        <button mat-flat-button color="primary" (click)="toggleViewDisplay()" attr.aria-label="{{matButtonViewToggleText}}" matTooltip={{matButtonViewToggleText}}>
           <span class="material-icons">{{matButtonViewToggleIcon}}</span>
         </button>
       </div>
 
       <!--Dashboard menu-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button mat-flat-button color="primary" (click)="getData('LatestProfiles');" matTooltip="{{'All'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('LatestProfiles');" attr.aria-label="{{'All'| transloco}}" matTooltip="{{'All'| transloco}}">
           {{'All'| transloco}}
         </button>
 
-        <button mat-flat-button color="primary" (click)="getData('FilterProfiles');" matTooltip="{{'MySearchFilter'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('FilterProfiles');" attr.aria-label="{{'MySearchFilter'| transloco}}" matTooltip="{{'MySearchFilter'| transloco}}">
           <span class="material-icons">tune</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="getData('BookmarkedProfiles');" matTooltip="{{'Bookmarks'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('BookmarkedProfiles');" attr.aria-label="{{'Bookmarks'| transloco}}" matTooltip="{{'Bookmarks'| transloco}}">
           <span class="material-icons">bookmarks</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoVisitedMe');" matTooltip="{{'VisitedMe'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoVisitedMe');" attr.aria-label="{{'VisitedMe'| transloco}}" matTooltip="{{'VisitedMe'| transloco}}">
           <span class="material-icons">adjust</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoBookmarkedMe');" matTooltip="{{'BookmarkedMe'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoBookmarkedMe');" attr.aria-label="{{'BookmarkedMe'| transloco}}" matTooltip="{{'BookmarkedMe'| transloco}}">
           <span class="material-icons">bookmark_added</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoLikesMe');" matTooltip="{{'LikesMe'| transloco}}">
+        <button mat-flat-button color="primary" (click)="getData('ProfilesWhoLikesMe');" attr.aria-label="{{'LikesMe'| transloco}}" matTooltip="{{'LikesMe'| transloco}}">
           <span class="material-icons">favorite</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="toggleOrderBy()" matTooltip={{matButtonOrderByText}}>
+        <button mat-flat-button color="primary" (click)="toggleOrderBy()" attr.aria-label="{{matButtonOrderByText}}" matTooltip={{matButtonOrderByText}}>
           <span class="material-icons">{{matButtonOrderByIcon}}</span>
         </button>
       </div>
@@ -62,19 +62,19 @@
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
 
-        <button *ngIf="allowSearch" type="submit" mat-flat-button color="primary" (click)="onSubmit()" matTooltip="{{'Search'| transloco}}">
+        <button mat-flat-button color="primary" *ngIf="allowSearch" type="submit" (click)="onSubmit()" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
           <span class="material-icons">search</span>
         </button>
 
-        <button *ngIf="allowSearch" mat-flat-button color="primary" (click)="reset()" matTooltip="{{'Reset'| transloco}}">
+        <button mat-flat-button color="primary" *ngIf="allowSearch" (click)="reset()" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
           <span class="material-icons">undo</span>
         </button>
 
-        <button mat-flat-button color="primary" (click)="loadSearch()" matTooltip="{{'LoadSearchFilter'| transloco}}">
+        <button mat-flat-button color="primary" (click)="loadSearch()" attr.aria-label="{{'LoadSearchFilter'| transloco}}" matTooltip="{{'LoadSearchFilter'| transloco}}">
           <span class="material-icons">find_in_page</span>
         </button>
 
-        <button *ngIf="allowSearch" mat-flat-button color="primary" (click)="saveSearch()" matTooltip="{{'SaveSearchFilter'| transloco}}">
+        <button mat-flat-button color="primary" *ngIf="allowSearch" (click)="saveSearch()" attr.aria-label="{{'SaveSearchFilter'| transloco}}" matTooltip="{{'SaveSearchFilter'| transloco}}">
           <span class="material-icons">save</span>
         </button>
       </div>
@@ -82,7 +82,7 @@
     </div>
 
     <!--Upper right corner menu-->
-    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu" class="menu">
+    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu" class="menu" attr.aria-label="{{'Menu'| transloco}}" matTooltip="{{'Menu'| transloco}}">
       <span class="material-icons">menu</span>
     </button>
   </div>
@@ -117,7 +117,7 @@
       </a>
     </div>
 
-    <button *ngIf="auth.isAuthenticated()" mat-flat-button color="accent" (click)="auth.logout()" type="button">
+    <button mat-flat-button color="accent" *ngIf="auth.isAuthenticated()" (click)="auth.logout()" attr.aria-label="{{'LogOut'| transloco}}">
       {{'LogOut'| transloco}}
     </button>
   </mat-menu>

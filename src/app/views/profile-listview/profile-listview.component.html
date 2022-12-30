@@ -114,15 +114,15 @@
     </table>
 
 
-    <button *ngIf="allowAssignment" mat-flat-button color="accent" (click)="toggleBookmarkedProfiles()" matTooltip="{{'Bookmarked'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="allowAssignment" (click)="toggleBookmarkedProfiles()" attr.aria-label="{{'Bookmarked'| transloco}}" matTooltip="{{'Bookmarked'| transloco}}">
       <span class="material-icons icon-white-square">bookmark</span>
     </button>
 
-    <button *ngIf="allowAssignment" mat-flat-button color="accent" (click)="toggleLikes()" matTooltip="{{'Like'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="allowAssignment" (click)="toggleLikes()" attr.aria-label="{{'Like'| transloco}}" matTooltip="{{'Like'| transloco}}">
       <span class="material-icons icon-white-square">favorite</span>
     </button>
 
-    <button *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" mat-flat-button color="accent" (click)="openDeleteProfilesDialog()" matTooltip="{{'DeleteProfile'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="allowAssignment && currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog()" attr.aria-label="{{'DeleteProfile'| transloco}}" matTooltip="{{'DeleteProfile'| transloco}}">
       <span class="material-icons icon-white-square">delete</span>
     </button>
 

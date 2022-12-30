@@ -6,11 +6,11 @@
     </div>
   </div>
 
-  <button mat-flat-button color="accent" *ngIf="isChatSearch" type="submit" (click)="onSubmit()" matTooltip="{{'Search'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="isChatSearch" type="submit" (click)="onSubmit()" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
     <span class="material-icons icon-white-square">search</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="isChatSearch"(click)="reset()" matTooltip="{{'Reset'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="isChatSearch"(click)="reset()" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
     <span class="material-icons icon-white-square">undo</span>
   </button>
 

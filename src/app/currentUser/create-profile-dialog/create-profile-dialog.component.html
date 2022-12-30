@@ -5,7 +5,11 @@
   </div>
   <br />
   <div mat-dialog-actions>
-    <button mat-flat-button color="accent" mat-dialog-close (click)="uploadImageClick()">{{'CreateProfileDialog.UploadImage'| transloco}}</button>
-    <button mat-flat-button color="accent" mat-dialog-close (click)="goToDashboardClick()">{{'CreateProfileDialog.GoToDashboard'| transloco}}</button>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="uploadImageClick()" attr.aria-label="{{'CreateProfileDialog.UploadImage'| transloco}}">
+      {{'CreateProfileDialog.UploadImage'| transloco}}
+    </button>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="goToDashboardClick()" attr.aria-label="{{'CreateProfileDialog.GoToDashboard'| transloco}}">
+      {{'CreateProfileDialog.GoToDashboard'| transloco}}
+    </button>
   </div>
 </div>

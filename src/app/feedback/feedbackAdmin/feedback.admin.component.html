@@ -7,19 +7,19 @@
   </div>
 
 
-  <button mat-flat-button color="accent" (click)="sidenav.toggle(); toggleDisplay();" matTooltip={{matButtonToggleSearchText}}>
+  <button mat-flat-button color="accent" (click)="sidenav.toggle(); toggleDisplay();" attr.aria-label="{{matButtonToggleSearchText}}" matTooltip={{matButtonToggleSearchText}}>
     <span class="material-icons icon-white-square">{{matButtonToggleSearchIcon}}</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="pageView === 'assignment' && pageSearch === 'list' && allowAssignment" (click)="assignFeedbackToAdmin()" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="pageView === 'assignment' && pageSearch === 'list' && allowAssignment" (click)="assignFeedbackToAdmin()" attr.aria-label="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}" matTooltip="{{'FeedbackAdminComponent.AssignFeedbackToAdmin'| transloco}}">
     <span class="material-icons icon-white-square">assignment_returned</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="pageView === 'all' && pageSearch === 'list' && allowAssignment" (click)="toggleFeedbackStatus()" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="pageView === 'all' && pageSearch === 'list' && allowAssignment" (click)="toggleFeedbackStatus()" attr.aria-label="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
     <span class="material-icons icon-white-square">check_circle</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="pageSearch === 'list'" (click)="toggleAllDisplay()" matTooltip="{{matButtonToggleAllText}}">
+  <button mat-flat-button color="accent" *ngIf="pageSearch === 'list'" (click)="toggleAllDisplay()" attr.aria-label="{{matButtonToggleAllText}}" matTooltip="{{matButtonToggleAllText}}">
     <span class="material-icons icon-white-square">{{matButtonToggleAllIcon}}</span>
   </button>
 
@@ -31,15 +31,15 @@
     <mat-checkbox class="checkbox" [(ngModel)]="languageChecked" (change)="getUnassignedFeedbacks()">{{'FeedbackAdminComponent.MyLanguage'| transloco}}</mat-checkbox>
   </section>
 
-  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" matTooltip="{{'Search'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" type="submit" (click)="onSubmit()" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
     <span class="material-icons icon-white-square">search</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" (click)="addAdminInfo()" matTooltip="{{'FeedbackAdminComponent.AddAdminInfo'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" (click)="addAdminInfo()" attr.aria-label="{{'FeedbackAdminComponent.AddAdminInfo'| transloco}}" matTooltip="{{'FeedbackAdminComponent.AddAdminInfo'| transloco}}">
     <span class="material-icons icon-white-square">admin_panel_settings</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" (click)="reset()" matTooltip="{{'Reset'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="pageSearch === 'search'" (click)="reset()" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
     <span class="material-icons icon-white-square">undo</span>
   </button>
 

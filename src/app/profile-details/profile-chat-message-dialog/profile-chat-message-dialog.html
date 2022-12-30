@@ -1,5 +1,5 @@
 <div mat-dialog-content class="container">
-  <button type="button" class="close" (click)="onCloseClick()" mat-button matTooltip="{{'FeedbackDialog.Close'| transloco}}">
+  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'FeedbackDialog.Close'| transloco}}" matTooltip="{{'FeedbackDialog.Close'| transloco}}">
     <span class="material-icons">close</span>
   </button>
 
@@ -8,16 +8,16 @@
     {{message.message}}
   </div>
 
-  <button type="button" class="fabbuttons" (click)="loadDetailsClick()" mat-button matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
-    <span class="material-icons">person</span>
-  </button>
-
-  <button *ngIf="!message.doNotDelete" type="button" class="fabbuttons" (click)="doNotDelete()" mat-button matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
-    <span class="material-icons">delete_forever</span>
-  </button>
-
-  <button *ngIf="message.doNotDelete" type="button" class="fabbuttons" (click)="allowDelete()" mat-button matTooltip="{{'ProfileChatSearchComponent.AllowDelete'| transloco}}">
-    <span class="material-icons">delete</span>
-  </button>
-
 </div>
+
+<button mat-flat-button color="accent" (click)="loadDetailsClick()" attr.aria-label="{{'FeedbackDialog.ProfileDetails'| transloco}}" matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
+  <span class="material-icons icon-white-square">person</span>
+</button>
+
+<button mat-flat-button color="accent" *ngIf="!message.doNotDelete" (click)="doNotDelete()" attr.aria-label="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
+  <span class="material-icons icon-white-square">delete_forever</span>
+</button>
+
+<button mat-flat-button color="accent" *ngIf="message.doNotDelete" (click)="allowDelete()" attr.aria-label="{{'ProfileChatSearchComponent.AllowDelete'| transloco}}" matTooltip="{{'ProfileChatSearchComponent.AllowDelete'| transloco}}">
+  <span class="material-icons icon-white-square">delete</span>
+</button>

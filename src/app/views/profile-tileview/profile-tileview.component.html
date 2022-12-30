@@ -30,23 +30,23 @@
       
       <div *ngIf="profile!=='ad'" class="imageOverlay">
 
-        <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+        <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite</span>
         </button>
-        <button mat-icon-button *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+        <button mat-icon-button *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite_border</span>
         </button>
 
-        <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
+        <button mat-icon-button *ngIf="bookmarked(profile.profileId)" (click)="removeBookmarkedProfiles(profile.profileId)" attr.aria-label="{{'RemoveFromBookmarked'| transloco}}" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
           <span class="material-icons icon-white">bookmark</span>
         </button>
-        <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" matTooltip="{{'AddToBookmarked'| transloco}}">
+        <button mat-icon-button *ngIf="!bookmarked(profile.profileId)" (click)="addBookmarkedProfiles(profile.profileId)" attr.aria-label="{{'AddToBookmarked'| transloco}}" matTooltip="{{'AddToBookmarked'| transloco}}">
           <span class="material-icons icon-white">bookmark_border</span>
         </button>
 
         <span class="imageLabel">{{profile.name}}</span>
 
-        <button mat-icon-button *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" matTooltip="{{'DeleteProfile'| transloco}}">
+        <button mat-icon-button *ngIf="currentUserSubject != null && currentUserSubject.admin" (click)="openDeleteProfilesDialog(profile)" attr.aria-label="{{'DeleteProfile'| transloco}}" matTooltip="{{'DeleteProfile'| transloco}}">
           <span class="material-icons icon-white">delete</span>
         </button>
 

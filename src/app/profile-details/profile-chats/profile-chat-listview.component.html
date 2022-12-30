@@ -6,11 +6,11 @@
     </div>
   </div>
 
-  <button mat-flat-button color="accent" (click)="sidenav.open(); toggleDisplay();" matTooltip="{{'Search'| transloco}}">
+  <button mat-flat-button color="accent" (click)="sidenav.open(); toggleDisplay();" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
     <span class="material-icons icon-white-square">search</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" attr.aria-label="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
     <span class="material-icons icon-white-square">delete_forever</span>
   </button>
 

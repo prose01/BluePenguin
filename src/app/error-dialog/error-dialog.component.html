@@ -5,6 +5,8 @@
   </div>
   <br />
   <div mat-dialog-actions>
-    <button mat-flat-button color="accent" mat-dialog-close (click)="onCloseClick()">{{'Ok'| transloco}}</button>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="onCloseClick()" attr.aria-label="{{'Ok'| transloco}}">
+      {{'Ok'| transloco}}
+    </button>
   </div>
 </div>
