@@ -3,7 +3,7 @@
 
     <ad-tile *ngIf="imageModel.imageId==='ad'"></ad-tile>
 
-    <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
+    <img *ngIf="imageModel.imageId!=='ad'" src="{{imageModel.image}}" alt="{{imageModel.title}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
     <div *ngIf="imageModel.imageId!=='ad'" class="imageOverlay">
       <span class="imageLabel">{{imageModel.title}}</span>
       <button mat-icon-button (click)="openDeleteImageDialog(imageModel.imageId)" attr.aria-label="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}" matTooltip="{{'CurrentUserImagesComponent.DeleteImage'| transloco}}">

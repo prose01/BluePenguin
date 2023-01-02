@@ -3,7 +3,7 @@
 
     <ad-tile *ngIf="profile.images[indexOfelement].imageId==='ad'"></ad-tile>
 
-    <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" src="{{profile.images[indexOfelement].image}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
+    <img *ngIf="profile.images[indexOfelement].imageId!=='ad'" src="{{profile.images[indexOfelement].image}}" alt="{{profile.images[indexOfelement].title}}" loading="lazy" decoding="async" (click)="openImageDialog(indexOfelement)">
     <div *ngIf="profile.images[indexOfelement].imageId!=='ad'" class="imageOverlay">
        <span class="imageLabel">{{profile.images[indexOfelement].title}}</span>
     </div>

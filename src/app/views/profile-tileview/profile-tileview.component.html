@@ -23,7 +23,7 @@
 
       <ad-tile *ngIf="profile==='ad'"></ad-tile>
 
-      <img *ngIf="profile!=='ad'" src="{{profile.images[profile.imageNumber]?.image}}" loading="lazy" alt="{{profile.name}}" (click)="openImageDialog(profile)" width="{{imageMaxWidth}}" height="{{imageMaxHeight}}" decoding="async">
+      <img *ngIf="profile!=='ad'" src="{{profile.images[profile.imageNumber]?.image}}" alt="{{profile.name}}" loading="lazy" (click)="openImageDialog(profile)" width="{{imageMaxWidth}}" height="{{imageMaxHeight}}" decoding="async">
       <span class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</span>
       <span class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>
       <span class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'NotContactable'| transloco}}">person_off</span>
