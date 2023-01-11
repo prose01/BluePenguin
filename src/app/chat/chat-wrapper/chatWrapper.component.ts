@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from './../../authorisation/auth/auth.service';
@@ -10,6 +10,7 @@ import { Chat } from '../../chat/chat.component';
 import { SignalRAdapter } from './../signalr/signalr-adapter';
 import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
+import { IChatController } from '../core/chat-controller';
 
 
 @Component({
@@ -18,6 +19,9 @@ import { ChatAdapter } from './../core/chat-adapter';
 })
 
 export class ChatWrapperComponent {
+
+  @ViewChild('ngChatInstance')
+  protected ngChatInstance: IChatController;
 
   private _currentUser: CurrentUser;
 
@@ -38,6 +42,7 @@ export class ChatWrapperComponent {
     this._currentUser = values;
     this.connectSignalRAdapter();
   }
+
   get currentUser(): CurrentUser {
     return this._currentUser;
   }
@@ -55,5 +60,9 @@ export class ChatWrapperComponent {
 
   onEventTriggered(event: string): void {
     this.triggeredEvents.push(event);
+  }
+
+  logOut() {
+    this.ngChatInstance.callIsDisabled();
   }
 }

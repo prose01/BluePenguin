@@ -6,4 +6,6 @@ export interface IChatController {
   triggerCloseChatWindow(userId: any): void;
 
   triggerToggleChatWindowVisibility(userId: any): void;
+
+  callIsDisabled(): void;
 }

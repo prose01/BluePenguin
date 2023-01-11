@@ -1,10 +1,12 @@
 <!-- Offline bot instance -->
-<chat *ngIf="adapter && userId"
+<chat #ngChatInstance *ngIf="adapter && userId"
          [title]="title"
          [adapter]="adapter"
          [groupAdapter]="adapter"
          [userId]="userId"
          [isCollapsed]="true"
+         [pollFriendsList]="true"
+         [pollingInterval]="2000"
          [historyEnabled]="true"
          [historyPageSize]="10"
          [hideFriendsList]="false"

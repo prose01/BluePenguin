@@ -117,7 +117,7 @@
       </a>
     </div>
 
-    <button mat-flat-button color="accent" *ngIf="auth.isAuthenticated()" (click)="auth.logout()" attr.aria-label="{{'LogOut'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="auth.isAuthenticated()" (click)="logOut()" attr.aria-label="{{'LogOut'| transloco}}">
       {{'LogOut'| transloco}}
     </button>
   </mat-menu>

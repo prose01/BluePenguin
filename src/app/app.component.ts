@@ -18,6 +18,7 @@ import { EnumMappingService } from './services/enumMapping.service';
 import { SnackBarService } from './services/snack-bar.service';
 import { ViewFilterTypeEnum } from './models/viewFilterTypeEnum';
 import { ErrorDialog } from './error-dialog/error-dialog.component';
+import { ChatWrapperComponent } from './chat/chat-wrapper/chatWrapper.component';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') sidenav: MatSidenav;
   @ViewChild(DashboardComponent) dashboardComponent: DashboardComponent;
   @ViewChild(ProfileSearchComponent) profileSearchComponent: ProfileSearchComponent;
+  @ViewChild(ChatWrapperComponent) chatWrapperComponent: ChatWrapperComponent;
 
   private title = 'PlusOne';
   private subs: Subscription[] = [];
@@ -125,6 +127,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value)
     );
+  }
+
+  logOut() {
+    this.chatWrapperComponent.logOut();
+    this.auth.logout();
   }
 
   private switchLanguage(): void {

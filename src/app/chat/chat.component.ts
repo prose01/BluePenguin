@@ -83,7 +83,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   public maximizeWindowOnNewMessage: boolean = true;
 
   @Input()
-  public pollFriendsList: boolean = true;
+  public pollFriendsList: boolean = false;
 
   @Input()
   public pollingInterval: number = 5000;
@@ -754,5 +754,9 @@ export class Chat implements OnInit, OnDestroy, IChatController {
         chatWindow.onChatWindowClicked(openedWindow);
       }
     }
+  }
+
+  callIsDisabled() {
+    this.isDisabled = true;
   }
 }
