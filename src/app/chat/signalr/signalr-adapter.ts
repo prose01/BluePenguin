@@ -34,11 +34,6 @@ export class SignalRAdapter extends ChatAdapter {
     this.hubConnection.keepAliveIntervalInMilliseconds = 15;
     this.hubConnection.serverTimeoutInMilliseconds = 30;
 
-    //this.hubConnection.on('UserIsOnline', userId => {
-    //  console.log(userId + ' has connected');
-    //  this.userId = userId;
-    //})
-
     this.hubConnection
       .start()
       .then(() => {
@@ -47,10 +42,6 @@ export class SignalRAdapter extends ChatAdapter {
         this.initializeListeners();
       })
       .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
-
-    this.hubConnection.on('UserIsOffline', userId => {
-      console.log(userId + ' has disconnected');
-    })
   }
 
   private initializeListeners(): void {
@@ -98,6 +89,11 @@ export class SignalRAdapter extends ChatAdapter {
   sendMessage(message: Message): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
       this.hubConnection.send("sendMessage", message);
+  }
+
+  onDisconnectedAsync(): void {
+    if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
+      this.hubConnection.send("onDisconnectedAsync", null);
   }
 
 

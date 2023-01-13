@@ -757,6 +757,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   }
 
   callIsDisabled() {
+    this.adapter.onDisconnectedAsync();
     this.isDisabled = true;
   }
 }

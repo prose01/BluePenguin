@@ -13,6 +13,8 @@ export abstract class ChatAdapter {
 
   public abstract sendMessage(message: Message): void;
 
+  public abstract onDisconnectedAsync(): void;
+
   // ### Adapter/Chat income/ingress events ###
 
   public onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
