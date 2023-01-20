@@ -110,22 +110,10 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   public persistWindowsState: boolean = true;
 
   @Input()
-  public title: string = "Chats";
-
-  @Input()
-  public messagePlaceholder: string = "Type a message";
-
-  @Input()
-  public searchPlaceholder: string = "Search";
-
-  @Input()
   public browserNotificationsEnabled: boolean = true;
 
   @Input() // TODO: This might need a better content strategy
   public browserNotificationIconSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.png';
-
-  @Input()
-  public browserNotificationTitle: string = "New message from";
 
   @Input()
   public historyPageSize: number = 10;
@@ -211,6 +199,62 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   // Set to true if there is no space to display at least one chat window and 'hideFriendsListOnUnsupportedViewport' is true
   public unsupportedViewport: boolean = false;
+
+  // following properties are all string inputs that can be translated
+  private _chatTitle: string;
+
+  @Input() set chatTitle(values: string) {
+    this._chatTitle = values;
+    this.initializeDefaultText();
+  }
+
+  get chatTitle(): string {
+    return this._chatTitle;
+  }
+
+  private _searchPlaceholder: string;
+
+  @Input() set searchPlaceholder(values: string) {
+    this._searchPlaceholder = values;
+    this.initializeDefaultText();
+  }
+
+  get searchPlaceholder(): string {
+    return this._searchPlaceholder;
+  }
+
+  private _messagePlaceholder: string;
+
+  @Input() set messagePlaceholder(values: string) {
+    this._messagePlaceholder = values;
+    this.initializeDefaultText();
+  }
+
+  get messagePlaceholder(): string {
+    return this._messagePlaceholder;
+  }
+
+  private _browserNotificationTitle: string;
+
+  @Input() set browserNotificationTitle(values: string) {
+    this._browserNotificationTitle = values;
+    this.initializeDefaultText();
+  }
+
+  get browserNotificationTitle(): string {
+    return this._browserNotificationTitle;
+  }
+
+  private _loadMessageHistoryPlaceholder: string;
+
+  @Input() set loadMessageHistoryPlaceholder(values: string) {
+    this._loadMessageHistoryPlaceholder = values;
+    this.initializeDefaultText();
+  }
+
+  get loadMessageHistoryPlaceholder(): string {
+    return this._loadMessageHistoryPlaceholder;
+  }
 
   windows: Window[] = [];
   isBootstrapped: boolean = false;
@@ -326,16 +370,14 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   // Initializes default text
   private initializeDefaultText(): void {
-    if (!this.localization) {
-      this.localization = {
-        messagePlaceholder: this.messagePlaceholder,
-        searchPlaceholder: this.searchPlaceholder,
-        title: this.title,
-        statusDescription: this.statusDescription,
-        browserNotificationTitle: this.browserNotificationTitle,
-        loadMessageHistoryPlaceholder: "Load older messages"
-      };
-    }
+    this.localization = {
+      messagePlaceholder: this.messagePlaceholder,
+      searchPlaceholder: this.searchPlaceholder,
+      title: this.chatTitle,
+      statusDescription: this.statusDescription,
+      browserNotificationTitle: this.browserNotificationTitle,
+      loadMessageHistoryPlaceholder: this.loadMessageHistoryPlaceholder
+    };
   }
 
   private initializeTheme(): void {

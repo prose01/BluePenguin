@@ -1,6 +1,10 @@
 <!-- Offline bot instance -->
 <chat #ngChatInstance *ngIf="adapter && userId"
-         [title]="title"
+         [chatTitle]="chatTitle"
+         [searchPlaceholder]="searchPlaceholder"
+         [messagePlaceholder]="messagePlaceholder"
+         [browserNotificationTitle]="browserNotificationTitle"
+         [loadMessageHistoryPlaceholder]="loadMessageHistoryPlaceholder"
          [adapter]="adapter"
          [groupAdapter]="adapter"
          [userId]="userId"

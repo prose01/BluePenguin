@@ -1,5 +1,6 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './../../authorisation/auth/auth.service';
 import { ConfigurationLoader } from "../../configuration/configuration-loader.service";
@@ -11,6 +12,7 @@ import { SignalRAdapter } from './../signalr/signalr-adapter';
 import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
 import { IChatController } from '../core/chat-controller';
+import { TranslocoService } from '@ngneat/transloco';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { IChatController } from '../core/chat-controller';
   templateUrl: './chatWrapper.component.html'
 })
 
-export class ChatWrapperComponent {
+export class ChatWrapperComponent implements OnInit, OnDestroy {
 
   @ViewChild('ngChatInstance')
   protected ngChatInstance: IChatController;
@@ -32,11 +34,16 @@ export class ChatWrapperComponent {
 
   private username: string;
 
-  private title = 'Chats';
+  private chatTitle: string;
+  private searchPlaceholder: string;
+  private messagePlaceholder: string;
+  private browserNotificationTitle: string;
+  private loadMessageHistoryPlaceholder: string;
 
   public userId: string;
   public adapter: ChatAdapter;
 
+  private subs: Subscription[] = [];
 
   @Input() set currentUser(values: CurrentUser) {
     this._currentUser = values;
@@ -47,8 +54,26 @@ export class ChatWrapperComponent {
     return this._currentUser;
   }
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient, private readonly translocoService: TranslocoService) {
     this.junoUrl = this.configurationLoader.getConfiguration().junoUrl;
+  }
+
+  ngOnInit() {
+    this.subs.push(
+      this.translocoService.selectTranslate('ChatTitle').subscribe(value => this.chatTitle = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('Search').subscribe(value => this.searchPlaceholder = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('messagePlaceholder').subscribe(value => this.messagePlaceholder = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('browserNotificationTitle').subscribe(value => this.browserNotificationTitle = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('loadMessageHistoryPlaceholder').subscribe(value => this.loadMessageHistoryPlaceholder = value)
+    );
   }
 
   private connectSignalRAdapter(): void {
@@ -56,6 +81,11 @@ export class ChatWrapperComponent {
       setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000);
       setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.junoUrl, this.username, this.http); }, 2000);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+    this.subs = [];
   }
 
   onEventTriggered(event: string): void {
