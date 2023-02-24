@@ -27,8 +27,9 @@
       <span class="material-icons icon-orange-left" *ngIf="!currentUserSubject?.isBookmarked[profile.profileId] && currentUserSubject?.visited[profile.profileId]" matTooltip="{{'VisitedMe'| transloco}} {{currentUserSubject.visited[profile.profileId] | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}">adjust</span>
       <span class="material-icons icon-orange-left" *ngIf="currentUserSubject?.isBookmarked[profile.profileId]" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>
       <span class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'NotContactable'| transloco}}">person_off</span>
-      
+
       <div *ngIf="profile!=='ad'" class="imageOverlay">
+        <avatar-photo [photoUrl]="something" [avatarname]="someone"></avatar-photo>
 
         <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite</span>

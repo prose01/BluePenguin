@@ -172,34 +172,34 @@
           margin-top: 8px;
         }
 
-      .hat-window .chat-messages .chat-message .file-message-container > .file-details {
-        float: left;
-        padding: 10px;
-        width: calc(100% - 60px);
-        color: currentColor;
-        text-decoration: none;
-      }
+.hat-window .chat-messages .chat-message .file-message-container > .file-details {
+  float: left;
+  padding: 10px;
+  width: calc(100% - 60px);
+  color: currentColor;
+  text-decoration: none;
+}
 
-        .chat-window .chat-messages .chat-message .file-message-container > .file-details:hover {
-          text-decoration: underline;
-        }
+.chat-window .chat-messages .chat-message .file-message-container > .file-details:hover {
+  text-decoration: underline;
+}
 
-        .chat-window .chat-messages .chat-message .file-message-container > .file-details span {
-          display: block;
-          width: 100%;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-        }
+.chat-window .chat-messages .chat-message .file-message-container > .file-details span {
+  display: block;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
-        .chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-title {
-          font-weight: bold;
-        }
+.chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-title {
+  font-weight: bold;
+}
 
-        .chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-size {
-          font-size: 0.8em;
-          margin-top: 5px;
-        }
+.chat-window .chat-messages .chat-message .file-message-container > .file-details .file-message-size {
+  font-size: 0.8em;
+  margin-top: 5px;
+}
 
 .chat-window .image-message {
   width: 100%;
@@ -211,4 +211,28 @@
   .chat-window {
     position: initial;
   }
+}
+
+
+.circle {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img
+
+{
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.initials {
+  color: #FFFFFF;
+  font-size: 20px;
+  line-height: 19px;
+  letter-spacing: 0.2625px;
+}
 }

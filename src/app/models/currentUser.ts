@@ -52,6 +52,10 @@ export class CurrentUser {
   bodyArt: BodyArtType;
   visited: Array<Visited>;
   likes: string[];
+  avatar: {
+    initials: string;
+    circleColor: string;
+  };
 }
 
 export interface CurrentUser {
@@ -89,4 +93,8 @@ export interface CurrentUser {
   bodyArt: BodyArtType;
   visited: Array<Visited>;
   likes: string[];
+  avatar: {
+    initials: string;
+    circleColor: string;
+  };
 }

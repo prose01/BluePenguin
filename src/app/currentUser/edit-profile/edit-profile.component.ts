@@ -253,7 +253,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.prefilForm();
       this.switchLanguage();
-    }, 50);   
+    }, 50);
 
     this.subs.push(
       this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
@@ -268,15 +268,15 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.currentUserSubject = this.prepareSaveProfile();
     this.subs.push(
       this.profileService.putProfile(this.currentUserSubject)
-      .subscribe({
-        next: () =>  {},
-        complete: () => {
-          this.profileForm.markAsPristine(); this.loading = false; 
-        },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null); this.loading = false;
-        }
-      })
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.profileForm.markAsPristine(); this.loading = false;
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null); this.loading = false;
+          }
+        })
     );
   }
 
@@ -316,7 +316,11 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType,
       visited: this.currentUserSubject.visited,
-      likes: this.currentUserSubject.likes
+      likes: this.currentUserSubject.likes,
+      avatar: {
+        initials: null,
+        circleColor: null
+      }
     };
 
     return saveProfile;
@@ -353,7 +357,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         input.value = null;
         event.chipInput.clear;
       }
-      
+
       return;
     }
 
@@ -371,7 +375,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
           input.value = null;
           event.chipInput.clear;
         }
-        
+
         return;
       }
 

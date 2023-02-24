@@ -260,17 +260,17 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     else if (this.newUserForm.valid) {
       this.subs.push(
         this.profileService.addProfile(this.currentUser)
-        .subscribe({
-          next: () => {
-            this.profileService.updateCurrentUserSubject();
-          },
-          complete: () => {
-            this.openCreateProfileDialog();
-          },
-          error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
-          }
-        })
+          .subscribe({
+            next: () => {
+              this.profileService.updateCurrentUserSubject();
+            },
+            complete: () => {
+              this.openCreateProfileDialog();
+            },
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('CouldNotSaveUser'), null);
+            }
+          })
       );
     }
   }
@@ -311,7 +311,11 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       clotheStyle: formModel.clotheStyle as ClotheStyleType,
       bodyArt: formModel.bodyArt as BodyArtType,
       visited: null,
-      likes: null
+      likes: null,
+      avatar: {
+        initials: null,
+        circleColor: null
+      }
     };
 
     return saveProfile;

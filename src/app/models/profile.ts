@@ -1,4 +1,4 @@
-import { ImageModel } from './imageModel'; 
+import { ImageModel } from './imageModel';
 import { ChatMember } from './chatMember';
 import {
   BodyType,
@@ -43,6 +43,10 @@ export class Profile {
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
   likes: string[];
+  avatar: {
+    initials: string;
+    circleColor: string;
+  };
 }
 
 export interface Profile {
@@ -72,4 +76,8 @@ export interface Profile {
   clotheStyle: ClotheStyleType;
   bodyArt: BodyArtType;
   likes: string[];
+  avatar: {
+    initials: string;
+    circleColor: string;
+  };
 }

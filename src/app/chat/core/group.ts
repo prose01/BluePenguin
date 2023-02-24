@@ -21,4 +21,6 @@ export class Group implements IChatParticipant {
   public status: ChatParticipantStatus;
   public avatar: string | null;
   public displayName: string;
+  public initials: string;
+  public circleColor: string;
 }

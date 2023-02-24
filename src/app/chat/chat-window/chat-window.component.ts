@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 
 import { Message } from "./../core/message";
 import { MessageType } from "./../core/message-type.enum";
@@ -20,7 +20,7 @@ import { chatParticipantStatusDescriptor } from './../core/chat-participant-stat
   styleUrls: ['./chat-window.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatWindowComponent {
+export class ChatWindowComponent implements OnInit {
   constructor() { }
 
   @Input()
@@ -71,6 +71,9 @@ export class ChatWindowComponent {
   @Output()
   public onLoadHistoryTriggered: EventEmitter<Window> = new EventEmitter();
 
+  public initials: string;
+  public circleColor: string;
+
   @ViewChild('chatMessages') chatMessages: any;
   @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
   @ViewChild('chatWindowInput') chatWindowInput: any;
@@ -83,6 +86,26 @@ export class ChatWindowComponent {
   public ChatParticipantStatus = ChatParticipantStatus;
   public MessageType = MessageType;
   public chatParticipantStatusDescriptor = chatParticipantStatusDescriptor;
+
+  ngOnInit() {
+    this.initials = this.window.participant.initials;
+    this.circleColor = this.window.participant.circleColor;
+
+    // TODO: This is the getChatWindowAvatar code that sets Avatar for User or Group. We need to add Group at some point.
+    //if (this.window.participant.participantType == ChatParticipantType.User) {
+    //  this.initials = this.window.participant.initials;
+    //  this.circleColor = this.window.participant.circleColor;
+    //}
+    //else if (this.window.participant.participantType == ChatParticipantType.Group) {
+    //  let group = this.window.participant as Group;
+    //  let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
+
+    //  //this.initials = participant.initials; // TODO: Add correct data for group participant
+    //  //this.circleColor = participant.circleColor; // TODO: Add correct data for group participant
+
+    //  return group.chattingTo[userIndex >= 0 ? userIndex : 0].avatar;
+    //}
+  }
 
   defaultWindowOptions(currentWindow: Window): IChatOption[] {
     if (this.showOptions && currentWindow.participant.participantType == ChatParticipantType.User) {
@@ -117,6 +140,7 @@ export class ChatWindowComponent {
   }
 
   getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
+    //console.log(participant);
     if (participant.participantType == ChatParticipantType.User) {
       return participant.avatar;
     }
