@@ -29,11 +29,6 @@
       <span class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'NotContactable'| transloco}}">person_off</span>
 
       <div *ngIf="profile!=='ad'" class="imageOverlay">
-        <div class="circle" [ngStyle]="{'background-color':  profile.avatar['Colour'] }">
-          <div class="initials">
-            {{ profile.avatar['Initials'] }}
-          </div>
-        </div>
 
         <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite</span>
