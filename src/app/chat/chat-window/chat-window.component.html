@@ -32,10 +32,6 @@
 
     <div *ngFor="let message of window.messages; let i = index" [ngClass]="{'chat-message': true, 'chat-message-received': message.fromId != userId}">
       <container *ngIf="isAvatarVisible(window, message, i)">
-        <!--<div *ngIf="!getChatWindowAvatar(window.participant, message)" class="icon-wrapper">
-          <i class="user-icon"></i>
-        </div>
-        <img *ngIf="getChatWindowAvatar(window.participant, message)" alt="" class="avatar" height="30" width="30" [src]="getChatWindowAvatar(window.participant, message) | sanitize" />-->
         <div class="circle" [ngStyle]="{'background-color':  circleColor }">
           <div class="initials">
             {{ initials }}

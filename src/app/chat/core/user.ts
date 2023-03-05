@@ -7,7 +7,7 @@ export class User implements IChatParticipant {
   public id: any;
   public displayName: string;
   public status: ChatParticipantStatus;
-  public avatar: string;
+  //public avatar: string;
   public initials: string;
   public circleColor: string;
 }

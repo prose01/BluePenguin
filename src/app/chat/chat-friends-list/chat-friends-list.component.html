@@ -21,10 +21,11 @@
              (change)="onFriendsListCheckboxChange(user, $event.target.checked)"
              [checked]="isUserSelectedFromFriendsList(user)" />
       <div [ngClass]="{'chat-friends-list-selectable-offset': currentActiveOption, 'chat-friends-list-container': true}" (click)="onUserClick(user)">
-        <div *ngIf="!user.avatar" class="icon-wrapper">
-          <i class="user-icon"></i>
+        <div class="circle" [ngStyle]="{'background-color':  user.circleColor }">
+          <div class="initials">
+            {{ user.initials }}
+          </div>
         </div>
-        <img *ngIf="user.avatar" alt="" class="avatar" height="30" width="30" [src]="user.avatar | sanitize" />
         <strong title="{{user.displayName}}">{{user.displayName}}</strong>
         <span [ngClass]="{'chat-participant-status': true, 'online': user.status == ChatParticipantStatus.Online, 'busy': user.status == ChatParticipantStatus.Busy, 'away': user.status == ChatParticipantStatus.Away, 'offline': user.status == ChatParticipantStatus.Offline}" title="{{chatParticipantStatusDescriptor(user.status, localization)}}"></span>
         <span *ngIf="unreadMessagesTotalByParticipant(user).length > 0" class="chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotalByParticipant(user)}}</span>

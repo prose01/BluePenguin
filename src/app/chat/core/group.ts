@@ -19,7 +19,7 @@ export class Group implements IChatParticipant {
   public readonly participantType: ChatParticipantType = ChatParticipantType.Group;
 
   public status: ChatParticipantStatus;
-  public avatar: string | null;
+  //public avatar: string | null;
   public displayName: string;
   public initials: string;
   public circleColor: string;
