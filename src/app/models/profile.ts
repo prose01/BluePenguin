@@ -1,5 +1,5 @@
 import { ImageModel } from './imageModel';
-import { ChatMember } from './chatMember';
+//import { ChatMember } from './chatMember';
 import {
   BodyType,
   SmokingHabitsType,
