@@ -208,7 +208,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       sportsActivity: null,
       eatingHabits: null,
       clotheStyle: null,
-      bodyArt: null
+      bodyArt: null,
+      avatarInitials: null,
+      avatarColour: null
     });
   }
 
@@ -239,7 +241,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       sportsActivity: this.currentUserSubject.sportsActivity as SportsActivityType,
       eatingHabits: this.currentUserSubject.eatingHabits as EatingHabitsType,
       clotheStyle: this.currentUserSubject.clotheStyle as ClotheStyleType,
-      bodyArt: this.currentUserSubject.bodyArt as BodyArtType
+      bodyArt: this.currentUserSubject.bodyArt as BodyArtType,
+      avatarInitials: this.currentUserSubject.avatar.initials as string,
+      avatarColour: this.currentUserSubject.avatar.colour as string
     });
 
     this.isChecked = this.currentUserSubject.contactable as boolean;
@@ -318,8 +322,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       visited: this.currentUserSubject.visited,
       likes: this.currentUserSubject.likes,
       avatar: {
-        initials: null,
-        circleColor: null
+        initials: formModel.avatarInitials as string,
+        colour: formModel.avatarColour as string
       }
     };
 

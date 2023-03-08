@@ -105,6 +105,8 @@
   "messagePlaceholder": "Type a message",
   "browserNotificationTitle": "New message from",
   "loadMessageHistoryPlaceholder": "Load older messages",
+  "AvatarInitials": "Your Avatar Initials",
+  "AvatarColour": "Your Avatar Colour",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",

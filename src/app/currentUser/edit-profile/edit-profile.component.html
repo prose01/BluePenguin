@@ -41,7 +41,7 @@
         <mat-form-field class="tag-list">
           <mat-chip-grid #chipList formControlName="tags">
             <mat-chip-row *ngFor="let tag of tagsList" [selectable]="selectable"
-                      [removable]="removable" (removed)="remove(tag)">
+                          [removable]="removable" (removed)="remove(tag)">
               {{tag}}
               <i class="material-icons" matChipRemove *ngIf="removable">cancel</i>
             </mat-chip-row>
@@ -74,11 +74,13 @@
         </mat-form-field>
 
         <mat-label>{{'Age'| transloco}}</mat-label>
-        <mat-slider min={{minAge}} max={{maxAge}} step="1" class="cdk-focused"><input thumbLabel formControlName="age" matSliderThumb [value]="age" />
+        <mat-slider min={{minAge}} max={{maxAge}} step="1" class="cdk-focused">
+          <input thumbLabel formControlName="age" matSliderThumb [value]="age" />
         </mat-slider>
 
         <mat-label>{{'Height'| transloco}}</mat-label>
-        <mat-slider min={{minHeight}} max={{maxHeight}} step="1" class="cdk-focused"><input thumbLabel formControlName="height" matSliderThumb [value]="height" />
+        <mat-slider min={{minHeight}} max={{maxHeight}} step="1" class="cdk-focused">
+          <input thumbLabel formControlName="height" matSliderThumb [value]="height" />
         </mat-slider>
 
         <mat-form-field>
@@ -199,6 +201,14 @@
               {{ bodyArtType.value }}
             </mat-option>
           </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput maxlength="2" placeholder="{{'AvatarInitials'| transloco}}" formControlName="avatarInitials">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput maxlength="10" placeholder="{{'AvatarColour'| transloco}}" formControlName="avatarColour">
         </mat-form-field>
 
         <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'ContactableText'| transloco}}" placeholder="{{'Contactable'| transloco}}" formControlName="contactable">{{'Contactable'| transloco}}</mat-slide-toggle>

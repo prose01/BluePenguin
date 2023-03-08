@@ -105,6 +105,8 @@
   "messagePlaceholder": "Skriv en besked",
   "browserNotificationTitle": "Ny besked fra",
   "loadMessageHistoryPlaceholder": "Load gamle beskeder",
+  "AvatarInitials": "Your Avatar Initials",
+  "AvatarColour": "Your Avatar Colour",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",

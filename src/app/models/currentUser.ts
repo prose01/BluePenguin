@@ -1,6 +1,7 @@
 import { ImageModel } from './imageModel';
 import { ChatMember } from './chatMember';
 import { Visited } from './visited';
+import { AvatarModel } from './AvatarModel'
 import {
   BodyType,
   SmokingHabitsType,
@@ -52,10 +53,7 @@ export class CurrentUser {
   bodyArt: BodyArtType;
   visited: Array<Visited>;
   likes: string[];
-  avatar: {
-    initials: string;
-    circleColor: string;
-  };
+  avatar: AvatarModel;
 }
 
 export interface CurrentUser {
@@ -93,8 +91,5 @@ export interface CurrentUser {
   bodyArt: BodyArtType;
   visited: Array<Visited>;
   likes: string[];
-  avatar: {
-    initials: string;
-    circleColor: string;
-  };
+  avatar: AvatarModel;
 }

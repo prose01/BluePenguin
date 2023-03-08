@@ -203,7 +203,9 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       sportsActivity: SportsActivityType.NotChosen,
       eatingHabits: EatingHabitsType.NotChosen,
       clotheStyle: ClotheStyleType.NotChosen,
-      bodyArt: BodyArtType.NotChosen
+      bodyArt: BodyArtType.NotChosen,
+      avatarInitials: null,
+      avatarColour: null
     });
   }
 
@@ -313,8 +315,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       visited: null,
       likes: null,
       avatar: {
-        initials: null,
-        circleColor: null
+        initials: formModel.avatarInitials as string,
+        colour: formModel.avatarColour as string
       }
     };
 
