@@ -22,7 +22,9 @@
              [checked]="isUserSelectedFromFriendsList(user)" />
       <div [ngClass]="{'chat-friends-list-selectable-offset': currentActiveOption, 'chat-friends-list-container': true}" (click)="onUserClick(user)">
         <div class="circle" [ngStyle]="{'background-color':  user.circleColor }">
-          <div class="initials">
+          <img *ngIf="!showInitials" src="{{photoUrl}}">
+
+          <div *ngIf="showInitials" class="initials">
             {{ user.initials }}
           </div>
         </div>

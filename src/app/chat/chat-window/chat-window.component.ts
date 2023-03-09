@@ -73,6 +73,7 @@ export class ChatWindowComponent implements OnInit {
 
   public initials: string;
   public circleColor: string;
+  private showInitials: boolean = true;
 
   @ViewChild('chatMessages') chatMessages: any;
   @ViewChild('nativeFileInput') nativeFileInput: ElementRef;

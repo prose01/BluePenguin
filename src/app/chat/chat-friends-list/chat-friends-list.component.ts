@@ -62,6 +62,8 @@ export class ChatFriendsListComponent implements OnChanges {
 
   public searchInput: string = '';
 
+  private showInitials: boolean = true;
+
   // Exposes enums and functions for the template
   public ChatParticipantStatus = ChatParticipantStatus;
   public chatParticipantStatusDescriptor = chatParticipantStatusDescriptor;
