@@ -1,0 +1,16 @@
+<div mat-dialog-content class="container">
+  <div class=colour-wrapper>
+    <colour-palette [hue]="hue" (colour)="colour = $event"></colour-palette>
+    <colour-slider (colour)="hue=$event" style="margin-left:16px"></colour-slider>
+  </div>
+  <div class="input-wrapper">
+    <span class="text">{{colour}}</span>
+    <div class="colour-div" [ngStyle]="{'background-color': colour || 'white'}"></div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="onCloseClick()" attr.aria-label="{{'Ok'| transloco}}">
+      {{'Ok'| transloco}}
+    </button>
+  </div>
+</div>

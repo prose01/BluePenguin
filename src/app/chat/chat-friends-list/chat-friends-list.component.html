@@ -21,10 +21,10 @@
              (change)="onFriendsListCheckboxChange(user, $event.target.checked)"
              [checked]="isUserSelectedFromFriendsList(user)" />
       <div [ngClass]="{'chat-friends-list-selectable-offset': currentActiveOption, 'chat-friends-list-container': true}" (click)="onUserClick(user)">
-        <div class="circle" [ngStyle]="{'background-color':  user.circleColor }">
+        <div class="circle" [ngStyle]="{'background-color':  user.circleColour }">
           <img *ngIf="!showInitials" src="{{photoUrl}}">
 
-          <div *ngIf="showInitials" class="initials">
+          <div *ngIf="showInitials" class="initials" [ngStyle]="{'color':  user.initialsColour }">
             {{ user.initials }}
           </div>
         </div>

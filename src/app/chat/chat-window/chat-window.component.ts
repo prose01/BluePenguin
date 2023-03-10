@@ -72,7 +72,8 @@ export class ChatWindowComponent implements OnInit {
   public onLoadHistoryTriggered: EventEmitter<Window> = new EventEmitter();
 
   public initials: string;
-  public circleColor: string;
+  public initialsColour: string;
+  public circleColour: string;
   private showInitials: boolean = true;
 
   @ViewChild('chatMessages') chatMessages: any;
@@ -90,19 +91,20 @@ export class ChatWindowComponent implements OnInit {
 
   ngOnInit() {
     this.initials = this.window.participant.initials;
-    this.circleColor = this.window.participant.circleColor;
+    this.initialsColour = this.window.participant.initialsColour;
+    this.circleColour = this.window.participant.circleColour;
 
     // TODO: This is the getChatWindowAvatar code that sets Avatar for User or Group. We need to add Group at some point.
     //if (this.window.participant.participantType == ChatParticipantType.User) {
     //  this.initials = this.window.participant.initials;
-    //  this.circleColor = this.window.participant.circleColor;
+    //  this.circleColour = this.window.participant.circleColour;
     //}
     //else if (this.window.participant.participantType == ChatParticipantType.Group) {
     //  let group = this.window.participant as Group;
     //  let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
 
     //  //this.initials = participant.initials; // TODO: Add correct data for group participant
-    //  //this.circleColor = participant.circleColor; // TODO: Add correct data for group participant
+    //  //this.circleColour = participant.circleColour; // TODO: Add correct data for group participant
 
     //  return group.chattingTo[userIndex >= 0 ? userIndex : 0].avatar;
     //}

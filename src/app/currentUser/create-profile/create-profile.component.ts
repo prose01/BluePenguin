@@ -205,6 +205,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       clotheStyle: ClotheStyleType.NotChosen,
       bodyArt: BodyArtType.NotChosen,
       avatarInitials: null,
+      avatarInitialsColour: null,
       avatarColour: null
     });
   }
@@ -316,11 +317,32 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       likes: null,
       avatar: {
         initials: formModel.avatarInitials as string,
-        colour: formModel.avatarColour as string
+        initialsColour: formModel.avatarInitialsColour as string,
+        circleColour: formModel.avatarColour as string
       }
     };
 
     return saveProfile;
+  }
+
+  private createInititals(name: string): string {
+    let initials = "";
+
+    for (let i = 0; i < name.length; i++) {
+      if (name.charAt(i) === ' ') {
+        continue;
+      }
+
+      if (name.charAt(i) === name.charAt(i).toUpperCase()) {
+        initials += name.charAt(i);
+
+        if (initials.length == 2) {
+          break;
+        }
+      }
+    }
+
+    return initials;
   }
 
   // Tag section //

@@ -207,9 +207,13 @@
           <input matInput maxlength="2" placeholder="{{'AvatarInitials'| transloco}}" formControlName="avatarInitials">
         </mat-form-field>
 
-        <mat-form-field>
-          <input matInput maxlength="10" placeholder="{{'AvatarColour'| transloco}}" formControlName="avatarColour">
-        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="selectAvatarColours('initialsColour');" attr.aria-label="{{'AvatarInitialsColour'| transloco}}" matTooltip="{{'AvatarInitialsColour'| transloco}}">
+          <span class="material-icons" style="color:{{ avatarInitialsColour }}">palette</span>
+        </button>
+
+        <button mat-flat-button color="primary" (click)="selectAvatarColours('circleColour');" attr.aria-label="{{'AvatarColour'| transloco}}" matTooltip="{{'AvatarColour'| transloco}}">
+          <span class="material-icons" style="color:{{ avatarColour }}">palette</span>
+        </button>
 
         <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'ContactableText'| transloco}}" placeholder="{{'Contactable'| transloco}}" formControlName="contactable">{{'Contactable'| transloco}}</mat-slide-toggle>
 

@@ -14,6 +14,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 import { ProfileService } from '../../services/profile.service';
 import { EnumMappingService } from '../../services/enumMapping.service';
 import { DeleteProfileDialog } from '../delete-profile/delete-profile-dialog.component';
+import { ColourPickerComponent } from '../../colour-picker/colour-picker.component';
 import { CurrentUser } from '../../models/currentUser';
 import {
   GenderType,
@@ -75,6 +76,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private countryResetText: string;
 
   public currentUserSubject: CurrentUser;
+  private avatarInitialsColour: string;
+  private avatarColour: string;
   public loading: boolean = false;
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService, private translocoLocale: TranslocoLocaleService) {
@@ -92,6 +95,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.currentUserSubject.pipe(first()).subscribe(currentUserSubject => {
         this.currentUserSubject = currentUserSubject;
+        this.avatarInitialsColour = this.currentUserSubject.avatar.initialsColour;
+        this.avatarColour = this.currentUserSubject.avatar.circleColour;
         this.prefilForm();
       })
     );
@@ -243,9 +248,11 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       clotheStyle: this.currentUserSubject.clotheStyle as ClotheStyleType,
       bodyArt: this.currentUserSubject.bodyArt as BodyArtType,
       avatarInitials: this.currentUserSubject.avatar.initials as string,
-      avatarColour: this.currentUserSubject.avatar.colour as string
+      avatarColour: this.currentUserSubject.avatar.circleColour as string
     });
 
+    this.avatarInitialsColour = this.currentUserSubject.avatar.initialsColour;
+    this.avatarColour = this.currentUserSubject.avatar.circleColour;
     this.isChecked = this.currentUserSubject.contactable as boolean;
     this.tagsList.push.apply(this.tagsList, this.currentUserSubject.tags);
     this.siteLocale = this.currentUserSubject.languagecode;
@@ -323,7 +330,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       likes: this.currentUserSubject.likes,
       avatar: {
         initials: formModel.avatarInitials as string,
-        colour: formModel.avatarColour as string
+        initialsColour: this.avatarInitialsColour as string,
+        circleColour: this.avatarColour as string
       }
     };
 
@@ -410,6 +418,30 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         content: error
       }
     });
+  }
+
+  private selectAvatarColours(colourType: string): void {
+    const dialogRef = this.dialog.open(ColourPickerComponent, {
+      data: {
+        colour: colourType == 'circleColour' ? this.avatarColour : this.avatarInitialsColour
+      }
+    });
+
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res) {
+            if (colourType == 'circleColour') {
+              this.avatarColour = res;
+            }
+            else {
+              this.avatarInitialsColour = res;
+            }
+            this.profileForm.markAsDirty();
+          }
+        }
+      )
+    );
   }
 
   // Preserve original EnumMapping order

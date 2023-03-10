@@ -85,7 +85,7 @@ body {
 .container {
   position: relative;
   width: auto;
-  height: 80vh;
+  height: auto;
   overflow: hidden;
 }
 
@@ -411,8 +411,8 @@ hr.solid {
   }
 
   .initials {
-    color: #FFFFFF;
-    font-size: 20px;
+    /*color: #FFFFFF;*/
+    font-size: 15px;
     line-height: 19px;
     letter-spacing: 0.2625px;
   }

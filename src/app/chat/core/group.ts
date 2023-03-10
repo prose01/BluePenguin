@@ -22,5 +22,6 @@ export class Group implements IChatParticipant {
   //public avatar: string | null;
   public displayName: string;
   public initials: string;
-  public circleColor: string;
+  public initialsColour: string;
+  public circleColour: string;
 }

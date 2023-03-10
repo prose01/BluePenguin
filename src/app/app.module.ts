@@ -99,6 +99,9 @@ import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { AvatarPhotoComponent } from './avatar-photo/avatar-photo.component';
+import { ColourPaletteComponent } from './colour-picker/colour-palette/colour-palette.component';
+import { ColourSliderComponent } from './colour-picker/colour-slider/colour-slider.component';
+import { ColourPickerComponent } from './colour-picker/colour-picker.component';
 
 
 @NgModule({
@@ -145,7 +148,10 @@ import { AvatarPhotoComponent } from './avatar-photo/avatar-photo.component';
     ChatOptionsComponent,
     ChatFriendsListComponent,
     ChatWindowComponent,
-    AvatarPhotoComponent
+    AvatarPhotoComponent,
+    ColourPaletteComponent,
+    ColourSliderComponent,
+    ColourPickerComponent
   ],
   imports: [
     BrowserModule,

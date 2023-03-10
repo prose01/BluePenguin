@@ -106,6 +106,7 @@
   "browserNotificationTitle": "New message from",
   "loadMessageHistoryPlaceholder": "Load older messages",
   "AvatarInitials": "Your Avatar Initials",
+  "AvatarInitialsColour": "Your Avatar Initials Colour",
   "AvatarColour": "Your Avatar Colour",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",

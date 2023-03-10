@@ -8,5 +8,6 @@ export interface IChatParticipant {
   //readonly avatar: string | null;
   readonly displayName: string;
   readonly initials: string;
-  readonly circleColor: string;
+  readonly initialsColour: string;
+  readonly circleColour: string;
 }

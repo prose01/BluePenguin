@@ -1,9 +1,11 @@
 export class AvatarModel {
   initials: string;
-  colour: string;
+  initialsColour: string;
+  circleColour: string;
 }
 
 export interface AvatarModel {
   initials: string;
-  colour: string;
+  initialsColour: string;
+  circleColour: string;
 }
