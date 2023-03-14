@@ -12,7 +12,7 @@ export class ColourPaletteComponent implements AfterViewInit, OnChanges {
   @Output()
   colour: EventEmitter<string> = new EventEmitter(true);
 
-  @ViewChild('colourcanvas')
+  @ViewChild('colourcanvas', { static: true })
   colourcanvas: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
