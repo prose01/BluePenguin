@@ -206,7 +206,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       bodyArt: BodyArtType.NotChosen,
       avatarInitials: null,
       avatarInitialsColour: null,
-      avatarColour: null
+      avatarColour: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
     });
   }
 
@@ -281,6 +281,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   private prepareSaveProfile(): CurrentUser {
     const formModel = this.newUserForm.value;
 
+    var setInitials = formModel.avatarInitials as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
+
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
       countrycode: formModel.countrycode as string,
@@ -316,7 +318,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       visited: null,
       likes: null,
       avatar: {
-        initials: formModel.avatarInitials as string,
+        initials: setInitials as string,
         initialsColour: formModel.avatarInitialsColour as string,
         circleColour: formModel.avatarColour as string
       }
@@ -325,24 +327,20 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     return saveProfile;
   }
 
-  private createInititals(name: string): string {
+  private createDefaultInititals(name: string): string {
     let initials = "";
 
-    for (let i = 0; i < name.length; i++) {
-      if (name.charAt(i) === ' ') {
-        continue;
-      }
+    initials += name.charAt(0).toUpperCase();
 
-      if (name.charAt(i) === name.charAt(i).toUpperCase()) {
-        initials += name.charAt(i);
+    var randomChar = this.randomIntFromInterval(1, name.length)
 
-        if (initials.length == 2) {
-          break;
-        }
-      }
-    }
+    initials += name.charAt(randomChar).toUpperCase();
 
     return initials;
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   // Tag section //

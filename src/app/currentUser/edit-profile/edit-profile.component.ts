@@ -294,6 +294,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
+    var setInitials = formModel.avatarInitials as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
+
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
       countrycode: formModel.countrycode as string,
@@ -329,13 +331,29 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       visited: this.currentUserSubject.visited,
       likes: this.currentUserSubject.likes,
       avatar: {
-        initials: formModel.avatarInitials as string,
+        initials: setInitials as string,
         initialsColour: this.avatarInitialsColour as string,
         circleColour: this.avatarColour as string
       }
     };
 
     return saveProfile;
+  }
+
+  private createDefaultInititals(name: string): string {
+    let initials = "";
+
+    initials += name.charAt(0).toUpperCase();
+
+    var randomChar = this.randomIntFromInterval(1, name.length)
+
+    initials += name.charAt(randomChar).toUpperCase();
+
+    return initials;
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   private openDeleteCurrentUserDialog(): void {
