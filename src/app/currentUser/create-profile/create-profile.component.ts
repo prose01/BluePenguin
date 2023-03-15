@@ -282,6 +282,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     const formModel = this.newUserForm.value;
 
     var setInitials = formModel.avatarInitials as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
+    var setInitialsColour = formModel.avatarInitialsColour as string == "" ? '#f07537' : formModel.avatarInitialsColour as string;
+    var setCircleColour = formModel.avatarColour as string == "" ? '#607D8B' : formModel.avatarColour as string;
 
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
@@ -319,8 +321,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       likes: null,
       avatar: {
         initials: setInitials as string,
-        initialsColour: formModel.avatarInitialsColour as string,
-        circleColour: formModel.avatarColour as string
+        initialsColour: setInitialsColour as string,
+        circleColour: setCircleColour as string
       }
     };
 
