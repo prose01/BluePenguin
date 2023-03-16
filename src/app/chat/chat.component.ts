@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, ViewChildren, QueryList, HostListener, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
@@ -24,6 +25,8 @@ import { IChatParticipant } from "./core/chat-participant";
 
 import { map } from 'rxjs/operators';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
+import { ErrorDialog } from './../error-dialog/error-dialog.component';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'chat',
@@ -39,7 +42,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
 })
 
 export class Chat implements OnInit, OnDestroy, IChatController {
-  constructor() { }
+  constructor(private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
 
   // Exposes enums for the template
   public ChatParticipantType = ChatParticipantType;
@@ -329,17 +332,21 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
     // TODO: Look if this is needed!
     if (!this.isBootstrapped) {
-      console.error("chat component couldn't be bootstrapped.");
+      this.openErrorDialog(this.translocoService.translate('ChatNoBootstrapped'), null);
+      //console.error("chat component couldn't be bootstrapped.");
 
       if (this.userId == null) {
-        console.error("chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.");
+        this.openErrorDialog(this.translocoService.translate('ChatMissingUser'), null);
+        //console.error("chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.");
       }
       if (this.adapter == null) {
-        console.error("chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.");
+        this.openErrorDialog(this.translocoService.translate('ChatMissingChatAdapter'), null);
+        //console.error("chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.");
       }
       if (initializationException) {
-        console.error(`An exception has occurred while initializing chat. Details: ${initializationException.message}`);
-        console.error(initializationException);
+        this.openErrorDialog(this.translocoService.translate('ChatException'), initializationException.message);
+        //console.error(`An exception has occurred while initializing chat. Details: ${initializationException.message}`);
+        //console.error(initializationException);
       }
     }
   }
@@ -801,5 +808,14 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   callIsDisabled() {
     this.adapter.onDisconnectedAsync();
     this.isDisabled = true;
+  }
+
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

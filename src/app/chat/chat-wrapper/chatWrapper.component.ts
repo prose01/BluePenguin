@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
@@ -54,7 +55,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
     return this._currentUser;
   }
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private http: HttpClient, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private http: HttpClient, private readonly translocoService: TranslocoService) {
     this.junoUrl = this.configurationLoader.getConfiguration().junoUrl;
   }
 
@@ -79,7 +80,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   private connectSignalRAdapter(): void {
     if (this.currentUser != null) {
       setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000);
-      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.junoUrl, this.username, this.http); }, 2000);
+      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.dialog, this.junoUrl, this.username, this.http, this.translocoService); }, 2000);
     }
   }
 

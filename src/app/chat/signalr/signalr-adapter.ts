@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError, retry } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 import * as signalR from "@microsoft/signalr";
 import { AuthService } from '../../authorisation/auth/auth.service';
@@ -11,6 +11,8 @@ import { Message } from '../../chat/core/message';
 import { ParticipantResponse } from '../../chat/core/participant-response';
 import { IChatParticipant } from '../../chat/core/chat-participant';
 import { ChatAdapter } from './../core/chat-adapter';
+import { ErrorDialog } from './../../error-dialog/error-dialog.component';
+import { TranslocoService } from '@ngneat/transloco';
 
 export class SignalRAdapter extends ChatAdapter {
   public userId: string;
@@ -19,7 +21,7 @@ export class SignalRAdapter extends ChatAdapter {
   private headers: HttpHeaders;
   private currentUserSubject: CurrentUser;
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private junoUrl: string, private username: string, private http: HttpClient) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private dialog: MatDialog, private junoUrl: string, private username: string, private http: HttpClient, private readonly translocoService: TranslocoService) {
     super();
     this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject);
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
@@ -41,7 +43,10 @@ export class SignalRAdapter extends ChatAdapter {
 
         this.initializeListeners();
       })
-      .catch(err => console.log(`Error while starting SignalR connection: ${err}`));
+      .catch(error  => {
+        this.openErrorDialog(this.translocoService.translate('ErrorStartingConnection'), null);
+        }
+      );
   }
 
   private initializeListeners(): void {
@@ -69,21 +74,11 @@ export class SignalRAdapter extends ChatAdapter {
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-    return this.http
-      .post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, this.currentUserSubject, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-    );
+    return this.http.post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, this.currentUserSubject, { headers: this.headers });
   }
 
   getMessageHistory(destinataryId: string): Observable<Message[]> {
-    return this.http
-      .post(`${this.junoUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers })
-      .pipe(
-        map((res: Message[]) => res),
-        catchError(this.handleError),
-    );
+    return this.http.post<Message[]>(`${this.junoUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers });
   }
 
   sendMessage(message: Message): void {
@@ -96,31 +91,12 @@ export class SignalRAdapter extends ChatAdapter {
       this.hubConnection.send("onDisconnectedAsync", null);
   }
 
-
-  //TODO: Helper Lav en rigtig error handler inden produktion
-  // https://stackblitz.com/angular/jyrxkavlvap?file=src%2Fapp%2Fheroes%2Fheroes.service.ts
-  // Husk at opdater GET, POST etc this.handleError!
-  //private handleError(error: any): Promise<any> {
-  //  console.error('An error occurred', error); // for demo purposes only
-  //  return Promise.reject(error.message || error);
-  //}
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('No connection to chat server:', error.error);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.');
+  private openErrorDialog(title: string, error: any): void {
+    const dialogRef = this.dialog.open(ErrorDialog, {
+      data: {
+        title: title,
+        content: error?.error
+      }
+    });
   }
 }

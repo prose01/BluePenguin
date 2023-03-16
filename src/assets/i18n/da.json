@@ -108,6 +108,11 @@
   "AvatarInitials": "Din Avatar initialer",
   "AvatarInitialsColour": "Din Avatar initialers farve",
   "AvatarColour": "Din Avatar farve",
+  "ErrorStartingConnection": "`Problemer med at starte forbindelsen til chat",
+  "ChatNoBootstrapped": "chat component couldn't be bootstrapped.",
+  "ChatMissingUser": "chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.",
+  "ChatMissingChatAdapter": "chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.",
+  "ChatException": "An exception has occurred while initializing chat. Details:",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",
