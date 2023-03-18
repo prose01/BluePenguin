@@ -10,6 +10,7 @@ import { CurrentUser } from './../../models/currentUser';
 //import { ChatAdapter } from 'ng-chat';
 import { Chat } from '../../chat/chat.component';
 import { SignalRAdapter } from './../signalr/signalr-adapter';
+import { SignalRGroupAdapter } from './../signalr/signalr-group-adapter';
 import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
 import { IChatController } from '../core/chat-controller';
@@ -80,7 +81,7 @@ export class ChatWrapperComponent implements OnInit, OnDestroy {
   private connectSignalRAdapter(): void {
     if (this.currentUser != null) {
       setTimeout(() => { this.userId = this.currentUser.profileId; this.username = this.currentUser.name; }, 2000);
-      setTimeout(() => { this.adapter = new SignalRAdapter(this.auth, this.profileService, this.dialog, this.junoUrl, this.username, this.http, this.translocoService); }, 2000);
+      setTimeout(() => { this.adapter = new SignalRGroupAdapter(this.auth, this.profileService, this.dialog, this.junoUrl, this.username, this.http, this.translocoService); }, 2000);
     }
   }
 
