@@ -15,7 +15,7 @@ import { ParticipantResponse } from "./../core/participant-response";
 import { ChatParticipantStatus } from "./../core/chat-participant-status.enum";
 import { ChatParticipantType } from "./../core/chat-participant-type.enum";
 import { ParticipantMetadata } from './../core/participant-metadata';
-import { IChatParticipant } from "./../core/chat-participant";
+import { ChatParticipant } from "./../core/chat-participant";
 import { ErrorDialog } from './../../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -99,8 +99,8 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
   //  return of([]);
   //}
 
-  getMessageHistory(destinataryId: string): Observable<Message[]> {
-    return this.http.post<Message[]>(`${this.junoUrl}messagehistory`, '"' + destinataryId + '"', { headers: this.headers });
+  getMessageHistory(chatparticipant: ChatParticipant): Observable<Message[]> {
+    return this.http.post<Message[]>(`${this.junoUrl}messagehistory`, chatparticipant, { headers: this.headers });
   }
 
   sendMessage(message: Message): void {

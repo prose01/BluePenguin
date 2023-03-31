@@ -445,7 +445,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     }
     else {
       this.subs.push(
-        this.adapter.getMessageHistory(window.participant.id)
+        this.adapter.getMessageHistory(window.participant)
           .pipe(
             map((result: Message[]) => {
               if (result != null) {

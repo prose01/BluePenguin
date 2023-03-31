@@ -417,3 +417,26 @@ hr.solid {
     letter-spacing: 0.2625px;
   }
 }
+
+.square {
+  float: left;
+  margin-right: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .initials {
+    /*color: #FFFFFF;*/
+    font-size: 15px;
+    line-height: 19px;
+    letter-spacing: 0.2625px;
+  }
+}
