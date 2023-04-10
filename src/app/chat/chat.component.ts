@@ -519,35 +519,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     this.openChatWindow(participant, true, true);
   }
 
-  private cancelOptionPrompt(): void {
-    if (this.currentActiveOption) {
-      this.currentActiveOption.isActive = false;
-      this.currentActiveOption = null;
-    }
-  }
-
-  onOptionPromptCanceled(): void {
-    this.cancelOptionPrompt();
-  }
-
-  onOptionPromptConfirmed(event: any): void {
-    // For now this is fine as there is only one option available. Introduce option types and type checking if a new option is added.
-    this.confirmNewGroup(event);
-
-    // Canceling current state
-    this.cancelOptionPrompt();
-  }
-
-  private confirmNewGroup(users: User[]): void {
-    const newGroup = new Group(users);
-
-    this.openChatWindow(newGroup);
-
-    if (this.groupAdapter) {
-      this.groupAdapter.groupCreated(newGroup);
-    }
-  }
-
   // Opens a new chat whindow. Takes care of available viewport
   // Works for opening a chat window for an user or for a group
   // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
@@ -771,8 +742,11 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     this.focusOnWindow(windowToFocus);
   }
 
-  onWindowMessageSent(messageSent: Message): void {
-    this.adapter.sendMessage(messageSent);
+  onWindowMessageSent(onMessageSent: any): void {
+    var message = onMessageSent.message;
+    var window = onMessageSent.window
+
+    this.adapter.sendMessage(message, window.participant);
   }
 
   onWindowOptionTriggered(option: IChatOption): void {

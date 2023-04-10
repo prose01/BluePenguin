@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
@@ -8,14 +8,10 @@ import { CurrentUser } from '../../models/currentUser';
 import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
 import { IChatGroupAdapter } from './../core/chat-group-adapter';
-import { User } from "./../core/user";
 import { Group } from "./../core/group";
 import { Message } from "./../core/message";
 import { ParticipantResponse } from "./../core/participant-response";
-import { ChatParticipantStatus } from "./../core/chat-participant-status.enum";
-import { ChatParticipantType } from "./../core/chat-participant-type.enum";
-import { ParticipantMetadata } from './../core/participant-metadata';
-import { ChatParticipant } from "./../core/chat-participant";
+import { ChatParticipant, IChatParticipant } from "./../core/chat-participant";
 import { ErrorDialog } from './../../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -37,7 +33,6 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
   private initializeConnection(token: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(`${this.junoUrl}groupchathub`, { accessTokenFactory: () => token })
-      //.withUrl(`${SignalRGroupAdapter.serverBaseUrl}groupchat`)
       .build();
 
     this.hubConnection.keepAliveIntervalInMilliseconds = 15;
@@ -103,7 +98,8 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
     return this.http.post<Message[]>(`${this.junoUrl}messagehistory`, chatparticipant, { headers: this.headers });
   }
 
-  sendMessage(message: Message): void {
+  sendMessage(message: Message, chatparticipant: ChatParticipant): void {
+    message.participantType = chatparticipant.participantType;
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
       this.hubConnection.send("sendMessage", message);
   }
@@ -114,7 +110,8 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
 
   onDisconnectedAsync(): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
-      this.hubConnection.send("onDisconnectedAsync", null);
+      //this.hubConnection.send("onDisconnectedAsync", null);
+      this.hubConnection.stop();
   }
 
   private openErrorDialog(title: string, error: any): void {

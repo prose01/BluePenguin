@@ -1,4 +1,4 @@
 export enum ChatParticipantType {
-  User,
-  Group
+  User = 0,
+  Group = 1
 }

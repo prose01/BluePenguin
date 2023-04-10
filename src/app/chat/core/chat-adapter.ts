@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { Message } from "./message";
-import { User } from "./user";
 import { ParticipantResponse } from "./participant-response";
 import { IChatParticipant } from './chat-participant';
 
@@ -11,7 +10,7 @@ export abstract class ChatAdapter {
 
   public abstract getMessageHistory(destinataryId: any): Observable<Message[]>;
 
-  public abstract sendMessage(message: Message): void;
+  public abstract sendMessage(message: Message, chatparticipant: IChatParticipant): void;
 
   public abstract onDisconnectedAsync(): void;
 

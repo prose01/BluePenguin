@@ -10,7 +10,7 @@ export class Group implements IChatParticipant {
     this.status = ChatParticipantStatus.Online;
 
     // TODO: Add some customization for this in future releases
-    this.displayName = participants.map((p) => p.displayName).sort((first, second) => second > first ? -1 : 1).join(", ");
+    //this.displayName = participants.map((p) => p.displayName).sort((first, second) => second > first ? -1 : 1).join(", ");
   }
 
   public id: string = Guid.newGuid();

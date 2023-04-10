@@ -60,7 +60,7 @@ export class ChatWindowComponent implements OnInit {
   public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter();
 
   @Output()
-  public onMessageSent: EventEmitter<Message> = new EventEmitter();
+  public onMessageSent: EventEmitter<{ message: Message, window: Window }> = new EventEmitter();
 
   @Output()
   public onTabTriggered: EventEmitter<{ triggeringWindow: Window, shiftKeyPressed: boolean }> = new EventEmitter();
@@ -245,7 +245,7 @@ export class ChatWindowComponent implements OnInit {
 
           window.messages.push(message);
 
-          this.onMessageSent.emit(message);
+          this.onMessageSent.emit({ message, window });
 
           window.newMessage = ""; // Resets the new message input
 
@@ -290,15 +290,16 @@ export class ChatWindowComponent implements OnInit {
       this.fileUploadersInUse.push(fileUploadInstanceId);
 
       this.fileUploadAdapter.uploadFile(file, window.participant.id)
-        .subscribe(fileMessage => {
+        .subscribe(message => {
           this.clearInUseFileUploader(fileUploadInstanceId);
 
-          fileMessage.fromId = this.userId;
+          message.fromId = this.userId;
 
           // Push file message to current user window   
-          window.messages.push(fileMessage);
+          window.messages.push(message);
 
-          this.onMessageSent.emit(fileMessage);
+          //this.onMessageSent.emit(message);// Probably wrong but we do not send files anyway.
+          this.onMessageSent.emit({ message, window });
 
           this.scrollChatWindow(window, ScrollDirection.Bottom);
 

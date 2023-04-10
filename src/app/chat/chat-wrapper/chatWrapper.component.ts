@@ -9,7 +9,7 @@ import { ConfigurationLoader } from "../../configuration/configuration-loader.se
 import { CurrentUser } from './../../models/currentUser';
 //import { ChatAdapter } from 'ng-chat';
 import { Chat } from '../../chat/chat.component';
-import { SignalRAdapter } from './../signalr/signalr-adapter';
+//import { SignalRAdapter } from './../signalr/signalr-adapter';
 import { SignalRGroupAdapter } from './../signalr/signalr-group-adapter';
 import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
