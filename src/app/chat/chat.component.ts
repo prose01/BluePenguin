@@ -163,7 +163,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   @Output()
   public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
 
-  private browserNotificationsBootstrapped: boolean = false;
+  private browserNotificationsBootstrapped: boolean = true;
 
   public hasPagedHistory: boolean = false;
 

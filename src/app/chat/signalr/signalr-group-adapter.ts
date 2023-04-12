@@ -64,6 +64,11 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
       // If you want to use push notifications you will have to send filtered messages through your hub instead of using the "All" broadcast channel
       this.onFriendsListChanged(participantsResponse.filter(x => x.participant.id != this.userId));
     });
+
+    this.hubConnection.on("updateCurrentUserSubject", () => {
+      // Update CurrentUser so the Chatmemberlist is updated and friendsList can be updated
+      this.profileService.updateCurrentUserSubject();
+    });
   }
 
   joinRoom(): void {
