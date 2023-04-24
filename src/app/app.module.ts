@@ -93,6 +93,8 @@ import { ChatOptionsComponent } from './chat/chat-options/chat-options.component
 import { ChatFriendsListComponent } from './chat/chat-friends-list/chat-friends-list.component';
 import { ChatWindowComponent } from './chat/chat-window/chat-window.component';
 import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
+import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
+import { GroupMembersListview } from './groups/groupMembers-listview/groupMembers-listview.component';
 
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -129,6 +131,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     CurrentUserImagesComponent,
     CallbackComponent,
     ProfileListviewComponent,
+    GroupMembersListview,
     ProfileTileviewComponent,
     AdTileComponent,
     AdRowComponent,
@@ -140,6 +143,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     DeleteImageDialog,
     ChatWrapperComponent,
     ChatMembersListviewComponent,
+    GroupMembershipListviewComponent,
     Chat,
     EmojifyPipe,
     LinkfyPipe,

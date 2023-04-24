@@ -4,6 +4,7 @@
     <mat-tab label="{{'CurrentUserBoardComponent.EditProfile'| transloco}}"> <edit-profile></edit-profile> </mat-tab>
     <mat-tab label="{{'CurrentUserBoardComponent.ProfileImages'| transloco}}"> <image-board></image-board> </mat-tab>
     <mat-tab label="{{'CurrentUserBoardComponent.ChatMembers'| transloco}}"> <chatMemebers-listview (loadProfileDetails)="loadProfileDetails($event)"></chatMemebers-listview> </mat-tab>
+    <mat-tab label="{{'CurrentUserBoardComponent.Groups'| transloco}}"> <groupMembership-listview></groupMembership-listview> </mat-tab>
   </mat-tab-group>
 
 </div>

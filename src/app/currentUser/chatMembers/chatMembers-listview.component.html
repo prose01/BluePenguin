@@ -10,11 +10,11 @@
 
     <div class="menu-buttons">
       <button *ngIf="selection.hasValue()" mat-flat-button color="accent" (click)="blockChatMembers()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
-        <span class="material-icons">security</span>
+        <span class="material-icons icon-white-square">security</span>
       </button>
 
       <button mat-flat-button color="accent" (click)="toggleBlocked()" attr.aria-label="{{matButtonToggleText}}" matTooltip="{{matButtonToggleText}}">
-        <span class="material-icons">{{matButtonToggleIcon}}</span>
+        <span class="material-icons icon-white-square">{{matButtonToggleIcon}}</span>
       </button>
     </div>
 

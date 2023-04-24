@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
+import { GroupModel } from '../models/groupModel';
 import { ProfileFilter } from '../models/profileFilter';
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 import { OrderByType } from '../models/enums';
@@ -71,6 +72,10 @@ export class ProfileService {
 
   loadProfileFilter(): Observable<ProfileFilter> {
     return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers });
+  }
+
+  getGroups(): Observable<GroupModel[]> {
+    return this.http.get<GroupModel[]>(`${this.avalonUrl}GetGroups`, { headers: this.headers });
   }
 
   //// Does not work so use putProfile instead.
@@ -202,6 +207,14 @@ export class ProfileService {
       .set('PageSize', pageSize);
 
     return this.http.get<Profile[]>(`${this.avalonUrl}GetProfilesWhoLikesMe`, { headers: this.headers, params: params });
+  }
+
+  getProfilesByIds(profileIds: string[], pageIndex: number, pageSize: number): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfilesByIds`, { profileIds }, { headers: this.headers, params: params });
   }
 
   deleteOldProfiles(daysBack: number, limit: number): Observable<{}> {

@@ -196,7 +196,8 @@
   "CurrentUserBoardComponent": {
     "EditProfile": "Rediger Profil",
     "ProfileImages": "Profil billeder",
-    "ChatMembers": "ChatMembers"
+    "ChatMembers": "ChatMembers",
+    "Groups": "Mine grupper"
   },
   "ChatMembersListviewComponent": {
     "ProfileId": "ProfileId",
