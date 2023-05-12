@@ -74,8 +74,13 @@ export class ProfileService {
     return this.http.get<ProfileFilter>(`${this.avalonUrl}LoadProfileFilter`, { headers: this.headers });
   }
 
+  // Groups
   getGroups(): Observable<GroupModel[]> {
     return this.http.get<GroupModel[]>(`${this.avalonUrl}GetGroups`, { headers: this.headers });
+  }
+
+  removeGroupsFromCurrentUserAndCurrentUserFromGroups(groupIds: string[]): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}RemoveGroupsFromCurrentUserAndCurrentUserFromGroups`, groupIds, { headers: this.headers });
   }
 
   //// Does not work so use putProfile instead.

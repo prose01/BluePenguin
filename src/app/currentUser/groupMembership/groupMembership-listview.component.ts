@@ -76,7 +76,6 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private updateCurrentUserSubject() {
     this.profileService.updateCurrentUserSubject().then(res => {
       this.getGroups();
-      this.removeGroup();
     });
   }
 
@@ -109,21 +108,6 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.groupId}`;
   }
-
-  //private blockChatMembers(): void {
-  //  this.subs.push(
-  //    this.profileService.blockChatMembers(this.selcetedGroupIds())
-  //      .subscribe({
-  //        next: () => { },
-  //        complete: () => {
-  //          this.updateCurrentUserSubject()
-  //        },
-  //        error: () => {
-  //          this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
-  //        }
-  //      })
-  //  );
-  //}
 
   private selcetedGroupIds(): string[] {
     let groupIds = new Array;
@@ -166,19 +150,18 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   }
 
   private removeGroup(): void {
-    //this.subs.push(
-    //  this.profileService.removeGroups(this.selcetedGroupIds())
-    //    .subscribe({
-    //      next: () => { },
-    //      complete: () => {
-    //        this.updateCurrentUserSubject();
-    //        this.getGroups();
-    //      },
-    //      error: () => {
-    //        this.openErrorDialog(this.translocoService.translate('CouldNotRemoveGroups'), null);
-    //      }
-    //    })
-    //);
+    this.subs.push(
+      this.profileService.removeGroupsFromCurrentUserAndCurrentUserFromGroups(this.selcetedGroupIds())
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.updateCurrentUserSubject();
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveGroups'), null);
+          }
+        })
+    );
   }
 
   private getGroupMembers(group: GroupModel, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
@@ -216,40 +199,6 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     this.loadProfileDetails.emit(profile);
   }
 
-  private async openImageDialog(groupMember: GroupMember): Promise<void> {
-    this.loading = true;
-    let profile: Profile;
-
-    this.subs.push(
-      this.profileService.getProfileById(groupMember.profileId)
-        .subscribe({
-          next: (res: any) => { profile = res },
-          complete: () => {
-            this.getProfileImages(profile);
-
-            const dialogRef = this.dialog.open(ImageDialog, {
-              data: {
-                index: 0,
-                imageModels: profile.images,
-                profile: profile
-              }
-            });
-
-            this.subs.push(
-              dialogRef.afterClosed().subscribe(
-                res => {
-                  if (res === true) { this.loadDetails(profile) }
-                }
-              )
-            );
-          },
-          error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotGetProfile'), null);
-          }
-        })
-    );
-  }
-
   private async openGroupMembersListView(): Promise<void> {
     const dialogRef = this.dialog.open(GroupMembersListview, {
       data: {
@@ -261,46 +210,10 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       dialogRef.afterClosed().subscribe(
         res => {
-          //if (res === true) { this.loadDetails(profile) }
+          if (res.result === true) { this.loadDetails(res.profile) }
         }
       )
     );
-  }
-
-  private getProfileImages(profile: Profile): void {
-    let defaultImageModel: ImageModel = new ImageModel();
-
-    if (profile.images != null && profile.images.length > 0) {
-      if (profile.images.length > 0) {
-
-        profile.images.forEach((element, i) => {
-
-          if (typeof element.fileName !== 'undefined') {
-
-            this.loading = true;
-
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-                .subscribe({
-                  next: (images: any[]) => { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
-                  complete: () => { this.loading = false; },
-                  error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
-                })
-            );
-
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-                .subscribe({
-                  next: (images: any[]) => { element.image = 'data:image/jpeg;base64,' + images.toString() },
-                  complete: () => { this.loading = false; },
-                  error: () => { this.loading = false; element.image = defaultImageModel.image }
-                })
-            );
-          }
-
-        });
-      }
-    }
   }
 
   private openErrorDialog(title: string, error: any): void {
