@@ -387,6 +387,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matButtonToggleIcon = 'dashboard';
   }
 
+  private loadGroups(): void {
+    this.pageView = pageViewEnum.Groups;
+  }
+
   private openErrorDialog(title: string, error: any): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
       data: {
@@ -419,5 +423,6 @@ export enum pageViewEnum {
   "About" = "About",
   "Feedback" = "Feedback",
   "FeedbackAdmin" = "FeedbackAdmin",
-  "Admin" = "Admin"
+  "Admin" = "Admin",
+  "Groups" = "Groups"
 }

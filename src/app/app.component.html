@@ -57,6 +57,10 @@
         <button mat-flat-button color="primary" (click)="toggleOrderBy()" attr.aria-label="{{matButtonOrderByText}}" matTooltip={{matButtonOrderByText}}>
           <span class="material-icons">{{matButtonOrderByIcon}}</span>
         </button>
+
+        <button mat-flat-button color="primary" (click)="loadGroups()" attr.aria-label="{{'Groups'| transloco}}" matTooltip="{{'Groups'| transloco}}">
+          <span class="material-icons">groups</span>
+        </button>
       </div>
 
       <!--Search menu-->
@@ -163,6 +167,11 @@
         <!-- Tile and List should call details-page with Profile as input -->
         <profileDetailsBoard (loadDetails)="loadDetails($event)" [profile]="profile"></profileDetailsBoard>
       </div>
+
+      <div *ngIf="pageView === 'Groups'">
+        <groups-listview></groups-listview>
+      </div>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
 

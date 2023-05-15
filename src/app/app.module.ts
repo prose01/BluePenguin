@@ -68,6 +68,10 @@ import { ProfileChatListviewComponent } from './profile-details/profile-chats/pr
 import { ProfileChatSearchComponent } from './profile-details/profile-chat-search/profile-chat-search.component';
 import { MessageDialog } from './profile-details/profile-chat-message-dialog/profile-chat-message-dialog';
 
+import { GroupsListviewComponent } from './groups/groups-listview/groups-listview.component';
+import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
+import { GroupMembersListview } from './groups/groupMembers-listview/groupMembers-listview.component';
+
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { AboutComponent } from './about/about.component';
 import { AdminComponent } from './admin/admin.component';
@@ -93,8 +97,6 @@ import { ChatOptionsComponent } from './chat/chat-options/chat-options.component
 import { ChatFriendsListComponent } from './chat/chat-friends-list/chat-friends-list.component';
 import { ChatWindowComponent } from './chat/chat-window/chat-window.component';
 import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
-import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
-import { GroupMembersListview } from './groups/groupMembers-listview/groupMembers-listview.component';
 
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -148,6 +150,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     EmojifyPipe,
     LinkfyPipe,
     SanitizePipe,
+    GroupsListviewComponent,
     GroupMessageDisplayNamePipe,
     ChatOptionsComponent,
     ChatFriendsListComponent,

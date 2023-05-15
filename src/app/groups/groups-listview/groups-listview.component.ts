@@ -9,21 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
-import { CurrentUser } from '../../models/currentUser';
-import { Profile } from '../../models/profile';
-import { GroupModel } from '../../models/groupModel';
-import { GroupMember } from '../../models/groupMember';
 import { ProfileService } from '../../services/profile.service';
-import { ImageModel } from '../../models/imageModel';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
-import { ImageService } from '../../services/image.service';
-import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
-import { GroupMembersListview } from '../../groups/groupMembers-listview/groupMembers-listview.component';
+import { CurrentUser } from '../../models/currentUser';
+import { GroupModel } from '../../models/groupModel';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
-  selector: 'groupMembership-listview',
-  templateUrl: './groupMembership-listview.component.html',
+  selector: 'groups-listview',
+  templateUrl: './groups-listview.component.html',
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -33,16 +26,15 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
   ],
 })
 
-export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
+export class GroupsListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
   private groups: GroupModel[];
 
   private defaultPageSize: number;
-  private currentProfiles: Profile[];
   private length: number;
 
-  public displayedColumns: string[] = ['select', 'name'];
+  public displayedColumns: string[] = ['name'];
   private columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
@@ -50,11 +42,11 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
   public loading: boolean = true;
 
-  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+
+  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 
@@ -63,7 +55,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
       this.profileService.currentUserSubject
         .subscribe(currentUserSubject => {
           this.currentUserSubject = currentUserSubject;
-          this.getCurrenUsersGroups();
+          this.getGroups();
         })
     );
   }
@@ -75,7 +67,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
   private updateCurrentUserSubject() {
     this.profileService.updateCurrentUserSubject().then(res => {
-      this.getCurrenUsersGroups();
+      this.getGroups();
     });
   }
 
@@ -101,24 +93,6 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  /** The label for the checkbox on the passed row */
-  private checkboxLabel(row?: GroupModel): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.groupId}`;
-  }
-
-  private selcetedGroupIds(): string[] {
-    let groupIds = new Array;
-
-    for (var _i = 0; _i < this.selection.selected.length; _i++) {
-      groupIds.push(this.selection.selected[_i].groupId);
-    }
-
-    return groupIds;
-  }
-
   //pageChanged(event) {
   //  this.loading = true;
 
@@ -131,15 +105,17 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   //}
 
 
-  private getCurrenUsersGroups(): void {
+  private getGroups(currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
-      this.profileService.getCurrenUsersGroups()
+      this.profileService.getGroups(pageIndex, pageSize)
         .subscribe({
           next: (response: any) => {
 
             this.groups = new Array;
 
             this.groups.push(...response);
+
+            this.length = this.groups.length + currentSize + 1;
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {
@@ -149,72 +125,18 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private removeGroup(): void {
-    this.subs.push(
-      this.profileService.removeGroupsFromCurrentUserAndCurrentUserFromGroups(this.selcetedGroupIds())
-        .subscribe({
-          next: () => { },
-          complete: () => {
-            this.updateCurrentUserSubject();
-          },
-          error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveGroups'), null);
-          }
-        })
-    );
-  }
-
-  private getGroupMembers(group: GroupModel, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-    let profileIds = new Array;
-    
-    for (var _i = 0; _i < group.groupMemberslist.length; _i++) {
-      profileIds.push(group.groupMemberslist[_i].profileId);
-    }
-
-    this.subs.push(
-      this.profileService.getProfilesByIds(profileIds, pageIndex, pageSize)
-        .subscribe({
-          next: (response: any) => {
-
-            this.currentProfiles = new Array;
-
-            this.currentProfiles.push(...response);
-
-            //this.length = this.currentProfiles.length + currentSize + 1;
-          },
-          complete: () => { },
-          error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotGetGroupMembers'), null);
-          }
-        })
-    );
-  }
-
-  private complainAboutGroupMember(profileId: string, groupId: string): void {
+  private createGroup(): void {
 
   }
 
-  // Load Detalails page
-  private loadDetails(profile: Profile) {
-    this.loadProfileDetails.emit(profile);
+  private joinGroup(): void {
+
   }
 
-  private async openGroupMembersListView(): Promise<void> {
-    const dialogRef = this.dialog.open(GroupMembersListview, {
-      data: {
-        index: 0,
-        profiles: this.currentProfiles
-      }
-    });
+  private leaveGroup(): void {
 
-    this.subs.push(
-      dialogRef.afterClosed().subscribe(
-        res => {
-          if (res.result === true) { this.loadDetails(res.profile) }
-        }
-      )
-    );
   }
+
 
   private openErrorDialog(title: string, error: any): void {
     const dialogRef = this.dialog.open(ErrorDialog, {

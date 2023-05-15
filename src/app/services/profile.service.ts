@@ -75,8 +75,17 @@ export class ProfileService {
   }
 
   // Groups
-  getGroups(): Observable<GroupModel[]> {
-    return this.http.get<GroupModel[]>(`${this.avalonUrl}GetGroups`, { headers: this.headers });
+
+  getGroups(pageIndex: number, pageSize: number): Observable<GroupModel[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<GroupModel[]>(`${this.avalonUrl}GetGroups`, { headers: this.headers, params: params });
+  }
+
+  getCurrenUsersGroups(): Observable<GroupModel[]> {
+    return this.http.get<GroupModel[]>(`${this.avalonUrl}GetCurrenUsersGroups`, { headers: this.headers });
   }
 
   removeGroupsFromCurrentUserAndCurrentUserFromGroups(groupIds: string[]): Observable<{}> {
