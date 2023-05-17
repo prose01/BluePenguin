@@ -211,7 +211,7 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
               .subscribe({
-                next: (images: any[]) =>  { element.smallimage = 'data:image/jpeg;base64,' + images.toString() },
+                next: (images: any[]) =>  { element.smallimage = 'data:image/webp;base64,' + images.toString() },
                 complete: () => { this.loading = false; },
                 error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
               })
@@ -220,7 +220,7 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
             this.subs.push(
               this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
               .subscribe({
-                next: (images: any[]) =>  { element.image = 'data:image/jpeg;base64,' + images.toString() },
+                next: (images: any[]) =>  { element.image = 'data:image/webp;base64,' + images.toString() },
                 complete: () => { this.loading = false; },
                 error: () => { this.loading = false; element.image = defaultImageModel.image }
               })

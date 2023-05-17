@@ -319,7 +319,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
             .subscribe({
-              next: (images: any[]) => { element.images[element.imageNumber].smallimage = 'data:image/jpeg;base64,' + images.toString() },
+              next: (images: any[]) => { element.images[element.imageNumber].smallimage = 'data:image/webp;base64,' + images.toString() },
               complete: () => { this.loading = false; },
               error: () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage }
             })
@@ -328,7 +328,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.subs.push(
           this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
             .subscribe({
-              next: (images: any[]) => { element.images[element.imageNumber].image = 'data:image/jpeg;base64,' + images.toString() },
+              next: (images: any[]) => { element.images[element.imageNumber].image = 'data:image/webp;base64,' + images.toString() },
               complete: () => { this.loading = false; },
               error: () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image }
             })
