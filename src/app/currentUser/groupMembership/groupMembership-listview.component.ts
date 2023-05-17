@@ -12,12 +12,8 @@ import { Subscription } from 'rxjs';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { GroupModel } from '../../models/groupModel';
-import { GroupMember } from '../../models/groupMember';
 import { ProfileService } from '../../services/profile.service';
-import { ImageModel } from '../../models/imageModel';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
-import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { GroupMembersListview } from '../../groups/groupMembers-listview/groupMembers-listview.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
@@ -210,7 +206,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       dialogRef.afterClosed().subscribe(
         res => {
-          if (res.result === true) { this.loadDetails(res.profile) }
+          if (res?.result === true) { this.loadDetails(res.profile) }
         }
       )
     );

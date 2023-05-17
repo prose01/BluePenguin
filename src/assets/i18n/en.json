@@ -114,6 +114,13 @@
   "ChatMissingUser": "chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.",
   "ChatMissingChatAdapter": "chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.",
   "ChatException": "An exception has occurred while initializing chat. Details:",
+  "CouldNotGetGroups": "Could not get groups",
+  "CouldNotRemoveGroups": "Could not remove groups",
+  "CouldNotGetGroupMembers": "Could not get group members",
+  "CouldNotJoinGroup": "Could not join group",
+  "CouldNotLeaveGroup": "Could not leave group",
+  "GroupJoin": "Join group",
+  "GroupLeave": "Leave group",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",

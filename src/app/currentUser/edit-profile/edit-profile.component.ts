@@ -334,7 +334,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         initials: setInitials as string,
         initialsColour: this.avatarInitialsColour as string,
         circleColour: this.avatarColour as string
-      }
+      },
+      groups: this.currentUserSubject.groups
     };
 
     return saveProfile;

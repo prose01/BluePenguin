@@ -25,23 +25,30 @@
       </ng-container>
 
       <!-- Expand arrow Column -->
-      <ng-container matColumnDef="expand">
+      <!--<ng-container matColumnDef="expand">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
-            <span class="material-icons icon-white" *ngIf="expandedElement !== element" matTooltip="{{'ChatMembersListviewComponent.Blocked'| transloco}}">keyboard_arrow_down</span>
-            <span class="material-icons icon-white" *ngIf="expandedElement === element" matTooltip="{{'ChatMembersListviewComponent.Blocked'| transloco}}">keyboard_arrow_up</span>
-          </button>
-        </td>
-      </ng-container>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>-->
 
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
           <div class="element-detail"
                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div (click)="openGroupMembersListView()">{{element.description}}</div>
+            <div>{{element.description}}</div>
           </div>
+        </td>
+      </ng-container>
+
+      <!-- Joined Column -->
+      <ng-container matColumnDef="joined">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Groups'| transloco}} </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button aria-label="expand row" (click)="toggleGroupJoin(element?.groupId); $event.stopPropagation()">
+            <span class="material-icons icon-orange" *ngIf="joinedGroup(element?.groupId)" matTooltip="{{'GroupJoin'| transloco}}">groups</span>
+            <span class="material-icons icon-white" *ngIf="!joinedGroup(element?.groupId)" matTooltip="{{'GroupLeave'| transloco}}">groups</span>
+          </button>
+
         </td>
       </ng-container>
 

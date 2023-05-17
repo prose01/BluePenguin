@@ -323,7 +323,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
         initials: setInitials as string,
         initialsColour: setInitialsColour as string,
         circleColour: setCircleColour as string
-      }
+      },
+      groups: null
     };
 
     return saveProfile;

@@ -54,6 +54,7 @@ export class CurrentUser {
   visited: Array<Visited>;
   likes: string[];
   avatar: AvatarModel;
+  groups: string[];
 }
 
 export interface CurrentUser {
@@ -92,4 +93,5 @@ export interface CurrentUser {
   visited: Array<Visited>;
   likes: string[];
   avatar: AvatarModel;
+  groups: string[];
 }

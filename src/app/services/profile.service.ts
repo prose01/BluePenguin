@@ -88,6 +88,10 @@ export class ProfileService {
     return this.http.get<GroupModel[]>(`${this.avalonUrl}GetCurrenUsersGroups`, { headers: this.headers });
   }
 
+  joinGroup(groupId: string): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}JoinGroup`, `\"${groupId}\"`, { headers: this.headers });
+  }
+
   removeGroupsFromCurrentUserAndCurrentUserFromGroups(groupIds: string[]): Observable<{}> {
     return this.http.post(`${this.avalonUrl}RemoveGroupsFromCurrentUserAndCurrentUserFromGroups`, groupIds, { headers: this.headers });
   }

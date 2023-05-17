@@ -34,8 +34,8 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   private defaultPageSize: number;
   private length: number;
 
-  public displayedColumns: string[] = ['name'];
-  private columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  public displayedColumns: string[] = ['name', 'joined'];
+  private columnsToDisplayWithExpand = [...this.displayedColumns];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
   public expandedElement: GroupModel[] | null;
@@ -129,14 +129,59 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
   }
 
-  private joinGroup(): void {
+  private toggleGroupJoin(groupId: string): void {
+
+    var joined = this.joinedGroup(groupId);
+
+    if (joined) {
+      this.leaveGroup(groupId);
+    }
+    else {
+      this.joinGroup(groupId);
+    }
+  }
+
+  private joinGroup(groupId: string): void {
+    this.subs.push(
+      this.profileService.joinGroup(groupId)
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.updateCurrentUserSubject();
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotJoinGroup'), null);
+          }
+        })
+    );
 
   }
 
-  private leaveGroup(): void {
+  private leaveGroup(groupId: string): void {
+    let selcetedGroupIds = new Array;
+    selcetedGroupIds.push(groupId);
 
+    this.subs.push(
+      this.profileService.removeGroupsFromCurrentUserAndCurrentUserFromGroups(selcetedGroupIds)
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.updateCurrentUserSubject();
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotLeaveGroup'), null);
+          }
+        })
+    );
   }
 
+  private joinedGroup(groupId: string): boolean {
+    if (this.currentUserSubject.groups.indexOf(groupId) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
 
   private openErrorDialog(title: string, error: any): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
