@@ -1,0 +1,53 @@
+<div mat-dialog-content class="container">
+  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'Close'| transloco}}" matTooltip="{{'Close'| transloco}}">
+    <span class="material-icons">close</span>
+  </button>
+
+  <h3>{{'FeedbackComponent.Feedback'| transloco}}</h3>
+
+  <p>
+    {{'FeedbackComponent.FeedbackText'| transloco}}
+  </p>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
+
+    <div style="margin-bottom: 1em">
+      <button mat-flat-button color="accent" type="submit" [disabled]="groupForm.pristine" attr.aria-label="{{'FeedbackComponent.Send'| transloco}}" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
+        <span class="material-icons icon-white-square">email</span>
+      </button>
+      <button mat-flat-button color="accent" (click)="revert()" [disabled]="groupForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
+        <span class="material-icons icon-white-square">undo</span>
+      </button>
+    </div>
+
+    <div class="form-container">
+
+      <mat-form-field>
+        <input matInput maxlength="50" placeholder="{{'Name'| transloco}}" formControlName="name" required minlength="3">
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea class="textarea" matInput
+                  maxlength="500"
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="10"
+                  cdkAutosizeMaxRows="50"
+                  placeholder="{{'Description'| transloco}}" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput maxlength="2" placeholder="{{'AvatarInitials'| transloco}}" formControlName="avatarInitials">
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="selectAvatarColours('initialsColour');" attr.aria-label="{{'AvatarInitialsColour'| transloco}}" matTooltip="{{'AvatarInitialsColour'| transloco}}">
+        <span class="material-icons" style="color:{{ avatarInitialsColour }}">palette</span>
+      </button>
+
+      <button mat-flat-button color="primary" (click)="selectAvatarColours('circleColour');" attr.aria-label="{{'AvatarColour'| transloco}}" matTooltip="{{'AvatarColour'| transloco}}">
+        <span class="material-icons" style="color:{{ avatarColour }}">palette</span>
+      </button>
+
+    </div>
+
+  </form>
+</div>

@@ -97,6 +97,7 @@ import { ChatOptionsComponent } from './chat/chat-options/chat-options.component
 import { ChatFriendsListComponent } from './chat/chat-friends-list/chat-friends-list.component';
 import { ChatWindowComponent } from './chat/chat-window/chat-window.component';
 import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
+import { CreateGroupDialog } from './groups/create-group-dialog/create-group-dialog';
 
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
@@ -145,6 +146,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     DeleteImageDialog,
     ChatWrapperComponent,
     ChatMembersListviewComponent,
+    CreateGroupDialog,
     GroupMembershipListviewComponent,
     Chat,
     EmojifyPipe,

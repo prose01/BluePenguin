@@ -67,7 +67,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       adminProfileId: null,
       adminName: null,
       feedbackType: formModel.feedbackType as FeedbackType,
-      message: formModel.message as string,
+      message: formModel.message?.trimEnd() as string,
       open: true,
       countrycode: null,
       languagecode: null

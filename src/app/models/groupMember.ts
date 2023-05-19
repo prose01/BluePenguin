@@ -1,5 +1,3 @@
-import { Profile } from "./profile";
-
 export class GroupMember {
   profileId: string;
   name: string;
@@ -7,7 +5,7 @@ export class GroupMember {
   complains: number;
 }
 
-export interface GroupMember extends Profile {
+export interface GroupMember {
   profileId: string;
   name: string;
   blocked: boolean;

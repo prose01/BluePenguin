@@ -76,6 +76,10 @@ export class ProfileService {
 
   // Groups
 
+  createGroup(group: GroupModel): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}CreateGroup`, group, { headers: this.headers });
+  }
+
   getGroups(pageIndex: number, pageSize: number): Observable<GroupModel[]> {
     const params = new HttpParams()
       .set('PageIndex', pageIndex)

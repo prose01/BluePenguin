@@ -8,11 +8,11 @@
 
   <div *ngIf="dataSource" class="mat-elevation-z8">
 
-    <!--<div class="menu-buttons">
-      <button *ngIf="selection.hasValue()" mat-flat-button color="accent" (click)="removeGroup()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
-        <span class="material-icons icon-white-square">group_remove</span>
+    <div class="menu-buttons">
+      <button mat-flat-button color="accent" (click)="openCreateGroupDialog()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+        <span class="material-icons icon-white-square">groups</span>
       </button>
-    </div>-->
+    </div>
 
     <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 

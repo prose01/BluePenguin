@@ -294,7 +294,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   private prepareSaveProfile(): CurrentUser {
     const formModel = this.profileForm.value;
 
-    var setInitials = formModel.avatarInitials as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
+    var setInitials = formModel.avatarInitials?.trimEnd() as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
 
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,

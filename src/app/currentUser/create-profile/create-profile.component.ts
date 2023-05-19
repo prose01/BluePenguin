@@ -31,6 +31,7 @@ import {
 } from '../../models/enums';
 import { KeyValue } from '@angular/common';
 import { CreateProfileDialog } from '../create-profile-dialog/create-profile-dialog.component';
+import { ColourPickerComponent } from '../../colour-picker/colour-picker.component';
 
 @Component({
   selector: 'create-profile',
@@ -71,6 +72,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   private languageList: string[] = [];
   private countryList: string[] = [];
   private countrycodePlaceholder: string;
+  private avatarInitialsColour: string;
+  private avatarColour: string;
 
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
@@ -204,9 +207,9 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       eatingHabits: EatingHabitsType.NotChosen,
       clotheStyle: ClotheStyleType.NotChosen,
       bodyArt: BodyArtType.NotChosen,
-      avatarInitials: null,
-      avatarInitialsColour: null,
-      avatarColour: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
+      avatarInitials: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+      avatarInitialsColour: '#f07537',
+      avatarColour: '#607D8B'
     });
   }
 
@@ -281,9 +284,9 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   private prepareSaveProfile(): CurrentUser {
     const formModel = this.newUserForm.value;
 
-    var setInitials = formModel.avatarInitials as string == "" ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
-    var setInitialsColour = formModel.avatarInitialsColour as string == "" ? '#f07537' : formModel.avatarInitialsColour as string;
-    var setCircleColour = formModel.avatarColour as string == "" ? '#607D8B' : formModel.avatarColour as string;
+    var setInitials = formModel.avatarInitials?.trimEnd() as string == "" || formModel.avatarInitials?.trimEnd() as string === undefined ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
+    var setInitialsColour = formModel.avatarInitialsColour?.trimEnd() as string == "" ? '#f07537' : formModel.avatarInitialsColour as string;
+    var setCircleColour = formModel.avatarColour?.trimEnd() as string == "" ? '#607D8B' : formModel.avatarColour as string;
 
     const saveProfile: CurrentUser = {
       languagecode: formModel.languagecode as string,
@@ -418,6 +421,30 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
         content: error?.error
       }
     });
+  }
+
+  private selectAvatarColours(colourType: string): void {
+    const dialogRef = this.dialog.open(ColourPickerComponent, {
+      data: {
+        colour: colourType == 'circleColour' ? this.avatarColour : this.avatarInitialsColour
+      }
+    });
+
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res) {
+            if (colourType == 'circleColour') {
+              this.avatarColour = res;
+            }
+            else {
+              this.avatarInitialsColour = res;
+            }
+            this.newUserForm.markAsDirty();
+          }
+        }
+      )
+    );
   }
 
   // Preserve original EnumMapping order

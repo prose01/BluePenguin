@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
 import { GroupModel } from '../../models/groupModel';
+import { GroupMember } from '../../models/groupMember';
+import { CreateGroupDialog } from '../create-group-dialog/create-group-dialog';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
@@ -127,6 +129,32 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
   private createGroup(): void {
 
+  }
+
+  private async openCreateGroupDialog(): Promise<void> {
+
+    const dialogRef = this.dialog.open(CreateGroupDialog, {});
+
+    this.subs.push(
+      dialogRef.afterClosed().subscribe(
+        res => {
+          if (res.name.length > 0) {
+
+            var groupMember: GroupMember = {
+              profileId: this.currentUserSubject.profileId,
+              name: this.currentUserSubject.name,
+              blocked: false,
+              complains: 0
+            }
+
+            res.countrycode = this.currentUserSubject.countrycode;
+            res.groupMemberslist.push(groupMember);
+
+            console.log(res);
+          }
+        }
+      )
+    );
   }
 
   private toggleGroupJoin(groupId: string): void {
