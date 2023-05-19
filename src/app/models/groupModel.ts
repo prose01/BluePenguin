@@ -3,6 +3,7 @@ import { AvatarModel } from './AvatarModel'
 
 export class GroupModel {
   groupId: string;
+  createdOn: Date;
   name: string;
   description: string;
   avatar: AvatarModel;
@@ -12,6 +13,7 @@ export class GroupModel {
 
 export interface GroupModel {
   groupId: string;
+  createdOn: Date;
   name: string;
   description: string;
   avatar: AvatarModel;

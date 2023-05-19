@@ -27,7 +27,9 @@
           <div *ngIf="showInitials" class="initials" [ngStyle]="{'color':  user.initialsColour }">
             {{ user.initials }}
           </div>
-        </div><div *ngIf="user.participantType === 'Group'" class="square" [ngStyle]="{'background-color':  user.circleColour }">
+        </div>
+
+        <div *ngIf="user.participantType === 'Group'" class="square" [ngStyle]="{'background-color':  user.circleColour }">
           <img *ngIf="!showInitials" src="{{photoUrl}}">
 
           <div *ngIf="showInitials" class="initials" [ngStyle]="{'color':  user.initialsColour }">

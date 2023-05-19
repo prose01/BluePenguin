@@ -57,15 +57,16 @@ export class CreateGroupDialog implements OnDestroy {
 
     const group: GroupModel = {
       groupId: null,
+      createdOn: new Date(),
       name: formModel.name?.trimEnd() as string,
       description: formModel.description?.trimEnd() as string,
       avatar: {
         initials: setInitials,
-        initialsColour: setInitialsColour,
-        circleColour: setCircleColour
+        initialsColour: this.avatarInitialsColour,
+        circleColour: this.avatarColour
       },
       countrycode: null,
-      groupMemberslist: [] = []
+      groupMemberslist: null
     };
 
     return group;

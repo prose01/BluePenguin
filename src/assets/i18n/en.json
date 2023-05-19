@@ -3,6 +3,7 @@
   "LogIn": "Log In",
   "NotLoggedIn": "You are not logged in! Please Log In to continue.",
   "All": "All",
+  "Close": "Close",
   "MySearchFilter": "My Search Filter",
   "Bookmarks": "Bookmarks",
   "VisitedMe": "Visited me",
@@ -119,6 +120,8 @@
   "CouldNotGetGroupMembers": "Could not get group members",
   "CouldNotJoinGroup": "Could not join group",
   "CouldNotLeaveGroup": "Could not leave group",
+  "CouldNotCreateGroup": "Could not create group",
+  "CreateGroup": "Create new Chat Group",
   "GroupJoin": "Join group",
   "GroupLeave": "Leave group",
   "ProfileDetailsBoardComponent": {

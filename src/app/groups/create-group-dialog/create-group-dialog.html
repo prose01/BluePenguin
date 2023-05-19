@@ -3,17 +3,13 @@
     <span class="material-icons">close</span>
   </button>
 
-  <h3>{{'FeedbackComponent.Feedback'| transloco}}</h3>
-
-  <p>
-    {{'FeedbackComponent.FeedbackText'| transloco}}
-  </p>
+  <h3>{{'CreateGroup'| transloco}}</h3>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
 
     <div style="margin-bottom: 1em">
-      <button mat-flat-button color="accent" type="submit" [disabled]="groupForm.pristine" attr.aria-label="{{'FeedbackComponent.Send'| transloco}}" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
-        <span class="material-icons icon-white-square">email</span>
+      <button mat-flat-button color="accent" type="submit" [disabled]="groupForm.pristine" attr.aria-label="{{'Save'| transloco}}" matTooltip="{{'Save'| transloco}}">
+        <span class="material-icons icon-white-square">group_add</span>
       </button>
       <button mat-flat-button color="accent" (click)="revert()" [disabled]="groupForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
         <span class="material-icons icon-white-square">undo</span>
@@ -39,11 +35,11 @@
         <input matInput maxlength="2" placeholder="{{'AvatarInitials'| transloco}}" formControlName="avatarInitials">
       </mat-form-field>
 
-      <button mat-flat-button color="primary" (click)="selectAvatarColours('initialsColour');" attr.aria-label="{{'AvatarInitialsColour'| transloco}}" matTooltip="{{'AvatarInitialsColour'| transloco}}">
+      <button type="button" mat-flat-button color="primary" (click)="selectAvatarColours('initialsColour');" attr.aria-label="{{'AvatarInitialsColour'| transloco}}" matTooltip="{{'AvatarInitialsColour'| transloco}}">
         <span class="material-icons" style="color:{{ avatarInitialsColour }}">palette</span>
       </button>
 
-      <button mat-flat-button color="primary" (click)="selectAvatarColours('circleColour');" attr.aria-label="{{'AvatarColour'| transloco}}" matTooltip="{{'AvatarColour'| transloco}}">
+      <button type="button" mat-flat-button color="primary" (click)="selectAvatarColours('circleColour');" attr.aria-label="{{'AvatarColour'| transloco}}" matTooltip="{{'AvatarColour'| transloco}}">
         <span class="material-icons" style="color:{{ avatarColour }}">palette</span>
       </button>
 

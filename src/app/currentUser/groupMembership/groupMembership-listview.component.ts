@@ -38,7 +38,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private currentProfiles: Profile[];
   private length: number;
 
-  public displayedColumns: string[] = ['select', 'name'];
+  public displayedColumns: string[] = ['select', 'avatar', 'name'];
   private columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;

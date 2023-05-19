@@ -3,6 +3,7 @@
   "LogIn": "Log Ind",
   "NotLoggedIn": "Du er ikke logget ind! Log venligst ind for at forsætte.",
   "All": "Alle",
+  "Close": "Luk",
   "MySearchFilter": "Mit søgefileter",
   "Bookmarks": "Bookmarks",
   "VisitedMe": "Har beøgt mig",
@@ -121,6 +122,8 @@
   "CouldNotLeaveGroup": "Kunne ikke forlade gruppe",
   "GroupJoin": "Tilmelde gruppe",
   "GroupLeave": "Forlad gruppe",
+  "CouldNotCreateGroup": "Kunne ikke oprette gruppe",
+  "CreateGroup": "Opret ny Chat Group",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",

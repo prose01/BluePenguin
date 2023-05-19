@@ -36,7 +36,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   private defaultPageSize: number;
   private length: number;
 
-  public displayedColumns: string[] = ['name', 'joined'];
+  public displayedColumns: string[] = ['avatar','name', 'joined'];
   private columnsToDisplayWithExpand = [...this.displayedColumns];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
@@ -127,10 +127,6 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private createGroup(): void {
-
-  }
-
   private async openCreateGroupDialog(): Promise<void> {
 
     const dialogRef = this.dialog.open(CreateGroupDialog, {});
@@ -138,22 +134,26 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       dialogRef.afterClosed().subscribe(
         res => {
-          if (res.name.length > 0) {
-
-            var groupMember: GroupMember = {
-              profileId: this.currentUserSubject.profileId,
-              name: this.currentUserSubject.name,
-              blocked: false,
-              complains: 0
-            }
-
-            res.countrycode = this.currentUserSubject.countrycode;
-            res.groupMemberslist.push(groupMember);
-
-            console.log(res);
+          if (res?.name.length > 0) {
+            this.createGroup(res);
           }
         }
       )
+    );
+  }
+
+  private createGroup(group: GroupModel): void {
+    this.subs.push(
+      this.profileService.createGroup(group)
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            this.updateCurrentUserSubject();
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotCreateGroup'), null);
+          }
+        })
     );
   }
 
@@ -182,7 +182,6 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
           }
         })
     );
-
   }
 
   private leaveGroup(groupId: string): void {
