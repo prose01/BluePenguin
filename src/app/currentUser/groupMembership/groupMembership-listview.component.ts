@@ -39,7 +39,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private length: number;
 
   public displayedColumns: string[] = ['select', 'avatar', 'name'];
-  private columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  private columnsToDisplayWithExpand = [...this.displayedColumns];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
   public expandedElement: GroupModel[] | null;
@@ -186,20 +186,21 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private complainAboutGroupMember(profileId: string, groupId: string): void {
+  //private complainAboutGroupMember(profileId: string, groupId: string): void {
 
-  }
+  //}
 
   // Load Detalails page
   private loadDetails(profile: Profile) {
     this.loadProfileDetails.emit(profile);
   }
 
-  private async openGroupMembersListView(): Promise<void> {
+  private async openGroupMembersListView(groupId: string): Promise<void> {
     const dialogRef = this.dialog.open(GroupMembersListview, {
       data: {
         index: 0,
-        profiles: this.currentProfiles
+        profiles: this.currentProfiles,
+        groupId: groupId 
       }
     });
 

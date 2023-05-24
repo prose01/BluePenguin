@@ -11,7 +11,7 @@
 
       <!-- Avatar Column -->
       <ng-container matColumnDef="avatar">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Name'| transloco}} </th> <!-- TODO: Avatar Column needs a name -->
+        <th mat-header-cell *matHeaderCellDef> </th>
         <td mat-cell *matCellDef="let element" class="circle" [ngStyle]="{'background-color':  element?.avatar.circleColour }">
           <div class="initials" [ngStyle]="{'color':  element?.avatar.initialsColour }">{{element?.avatar.initials}}</div>
         </td>
@@ -21,6 +21,16 @@
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Name'| transloco}} </th>
         <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+      </ng-container>
+
+      <!-- Joined Column -->
+      <ng-container matColumnDef="complain">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button color="primary" *ngIf="element" (click)="complain(element?.profileId); $event.stopPropagation()" attr.aria-label="{{'MySearchFilter'| transloco}}" matTooltip="{{'MySearchFilter'| transloco}}">
+            <span class="material-icons">report</span>
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

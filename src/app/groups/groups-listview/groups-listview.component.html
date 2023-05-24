@@ -44,7 +44,7 @@
 
       <!-- Joined Column -->
       <ng-container matColumnDef="joined">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Groups'| transloco}} </th>
+        <th mat-header-cell *matHeaderCellDef> {{'Groups'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button aria-label="expand row" (click)="toggleGroupJoin(element?.groupId); $event.stopPropagation()">
             <span class="material-icons icon-orange" *ngIf="joinedGroup(element?.groupId)" matTooltip="{{'GroupJoin'| transloco}}">groups</span>

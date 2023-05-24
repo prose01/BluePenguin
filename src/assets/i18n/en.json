@@ -124,6 +124,7 @@
   "CreateGroup": "Create new Chat Group",
   "GroupJoin": "Join group",
   "GroupLeave": "Leave group",
+  "CouldNotComplainAboutGroupMember": "Could not complain about group member",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
     "ProfileImages": "Profile Images",

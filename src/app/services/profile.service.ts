@@ -75,7 +75,6 @@ export class ProfileService {
   }
 
   // Groups
-
   createGroup(group: GroupModel): Observable<{}> {
     return this.http.post(`${this.avalonUrl}CreateGroup`, group, { headers: this.headers });
   }
@@ -98,6 +97,10 @@ export class ProfileService {
 
   removeGroupsFromCurrentUserAndCurrentUserFromGroups(groupIds: string[]): Observable<{}> {
     return this.http.post(`${this.avalonUrl}RemoveGroupsFromCurrentUserAndCurrentUserFromGroups`, groupIds, { headers: this.headers });
+  }
+
+  addComplainToGroupMember(groupId: string, profileId: string): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}AddComplainToGroupMember/${groupId}`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   //// Does not work so use putProfile instead.

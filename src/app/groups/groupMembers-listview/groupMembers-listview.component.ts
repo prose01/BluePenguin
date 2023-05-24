@@ -1,4 +1,4 @@
-import { Component, Inject, Input, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -23,20 +23,21 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
   templateUrl: './groupMembers-listview.component.html'
 })
 
-export class GroupMembersListview implements OnDestroy {
+export class GroupMembersListview implements OnInit, OnDestroy {
   private pageSize: number;
   public loading: boolean = false;
 
   public index: number;
+  private groupId: string;
 
   public dataSource: MatTableDataSource<Profile>;
   private selection = new SelectionModel<Profile>(true, []);
 
   private subs: Subscription[] = [];
 
-  private profiles: any[] = new Array;
+  private profiles: Profile[];
   private currentUserSubject: CurrentUser;
-  private displayedColumns: string[] = ['avatar','name'];
+  private displayedColumns: string[] = ['avatar', 'name', 'complain'];
 
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
@@ -47,15 +48,19 @@ export class GroupMembersListview implements OnDestroy {
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
-    this.profiles.push(this.data.profiles[0]);  // TODO: Why [0]?
-
-    this.setDataSource();
+    this.profiles = new Array;
+    this.profiles.push(...this.data.profiles);
+    this.groupId = this.data.groupId;
 
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
     );
+  }
+
+  ngOnInit(): void {
+    this.setDataSource();
   }
 
   ngOnDestroy(): void {
@@ -76,7 +81,7 @@ export class GroupMembersListview implements OnDestroy {
     this.dataSource = new MatTableDataSource(this.profiles);
     this.dataSource._updateChangeSubscription();
 
-    //this.cdr.detectChanges(); // Needed to get sort working.
+    this.cdr.detectChanges(); // Needed to get sort working.
     this.dataSource.sort = this.sort;
   }
 
@@ -86,6 +91,21 @@ export class GroupMembersListview implements OnDestroy {
       this.paginator.pageIndex = 0;
       this.paginator.pageSize = this.pageSize;
     }
+  }
+
+  private complain(profileId: string): void {
+    this.subs.push(
+      this.profileService.addComplainToGroupMember(this.groupId, profileId)
+        .subscribe({
+          next: () => { },
+          complete: () => {
+            // TODO: We need to notify user that a complain has been made
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotComplainAboutGroupMember'), null);
+          }
+        })
+    );
   }
 
   private loadDetailsClick(profile: Profile): void {    

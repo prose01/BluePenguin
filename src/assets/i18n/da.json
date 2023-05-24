@@ -124,6 +124,7 @@
   "GroupLeave": "Forlad gruppe",
   "CouldNotCreateGroup": "Kunne ikke oprette gruppe",
   "CreateGroup": "Opret ny Chat Group",
+  "CouldNotComplainAboutGroupMember": "Kunne ikke klage over gruppe medlem",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
     "ProfileImages": "Profile billeder",
