@@ -32,7 +32,7 @@
     "@angular/platform-server": "^16.0.3",
     "@angular/router": "^16.0.3",
     "@microsoft/signalr": "^7.0.2",
-    "@ngneat/transloco": "^4.2.2",
+    "@ngneat/transloco": "^4.2.7",
     "@ngneat/transloco-locale": "^4.0.0",
     "@types/node": "^18.11.18",
     "auth0-js": "^9.20.1",
