@@ -35,7 +35,7 @@
     "@ngneat/transloco": "^4.2.7",
     "@ngneat/transloco-locale": "^4.1.0",
     "@types/node": "^20.2.3",
-    "auth0-js": "^9.20.1",
+    "auth0-js": "^9.21.0",
     "core-js": "^3.27.1",
     "jasmine-core": "^4.5.0",
     "ngx-image-cropper": "^6.3.2",
