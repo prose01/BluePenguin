@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
-import { Options } from '@angular-slider/ngx-slider';
+/*import { Options } from '@angular-slider/ngx-slider';*/
 
 import { EnumMappingService } from '../services/enumMapping.service';
 import { ProfileService } from '../services/profile.service';
@@ -69,19 +69,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   public minAge: number;
   public maxAge: number;
-  public AgeOptions: Options = {
-    floor: 0,
-    ceil: 125,
-    noSwitching: true
-  };
+  //public AgeOptions: Options = {
+  //  floor: 0,
+  //  ceil: 125,
+  //  noSwitching: true
+  //};
 
   public minHeight: number;
   public maxHeight: number;
-  public HeightOptions: Options = {
-    floor: 0,
-    ceil: 300,
-    noSwitching: true
-  };
+  //public HeightOptions: Options = {
+  //  floor: 0,
+  //  ceil: 300,
+  //  noSwitching: true
+  //};
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
@@ -89,7 +89,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.AgeOptions.floor = this.configurationLoader.getConfiguration().minAge;
+    //this.AgeOptions.floor = this.configurationLoader.getConfiguration().minAge;
     this.minAge = this.configurationLoader.getConfiguration().minAge;
     this.maxAge = this.configurationLoader.getConfiguration().maxAge;
     this.minHeight = this.configurationLoader.getConfiguration().minHeight;
@@ -232,8 +232,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private loadForm(filter: ProfileFilter): void {
     this.profileForm.reset({
       name: filter.name,
-      ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
-      heightSliderControl: filter.height == null ? [this.HeightOptions.floor, this.HeightOptions.ceil] : [filter.height[0], filter.height[1]],
+      //ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
+      ageSliderControl: filter.age = [filter.age[0], filter.age[1]],
+      //heightSliderControl: filter.height == null ? [this.HeightOptions.floor, this.HeightOptions.ceil] : [filter.height[0], filter.height[1]],
+      heightSliderControl: filter.height = [filter.height[0], filter.height[1]],
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -288,8 +290,8 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   reset(): void {
     this.tagsList.length = 0;
     this.profileForm.reset({
-        ageSliderControl: [this.AgeOptions.floor, this.AgeOptions.ceil],
-        heightSliderControl: [this.HeightOptions.floor, this.HeightOptions.ceil]
+        //ageSliderControl: [this.AgeOptions.floor, this.AgeOptions.ceil],
+        //heightSliderControl: [this.HeightOptions.floor, this.HeightOptions.ceil]
       }
     );
     this.createForm();
