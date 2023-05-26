@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GroupModel } from '../../models/groupModel';
-import { AvatarModel } from '../../models/avatarModel';
 import { ColourPickerComponent } from '../../colour-picker/colour-picker.component';
 
 @Component({

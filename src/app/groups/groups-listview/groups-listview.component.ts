@@ -202,6 +202,16 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     );
   }
 
+  //private isCurrentUserBlocked(group: GroupModel): boolean {
+  //  for (var i = 0; i < group?.groupMemberslist?.length; i++) {
+  //    var member = group.groupMemberslist[i];
+  //    if (member.profileId == this.currentUserSubject.profileId && member.blocked)
+  //      return true
+  //  }
+
+  //  return false
+  //}
+
   private joinedGroup(groupId: string): boolean {
     if (this.currentUserSubject.groups.indexOf(groupId) !== -1) {
       return true;

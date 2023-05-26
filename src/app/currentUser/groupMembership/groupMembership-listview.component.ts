@@ -38,7 +38,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private currentProfiles: Profile[];
   private length: number;
 
-  public displayedColumns: string[] = ['select', 'avatar', 'name'];
+  public displayedColumns: string[] = ['select', 'avatar', 'name', 'joined'];
   private columnsToDisplayWithExpand = [...this.displayedColumns];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
@@ -186,9 +186,15 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  //private complainAboutGroupMember(profileId: string, groupId: string): void {
+  public isCurrentUserBlocked(group: GroupModel): boolean {
+    for (var i = 0; i < group?.groupMemberslist?.length; i++) {
+      var member = group.groupMemberslist[i];
+      if (member.profileId == this.currentUserSubject.profileId && member.blocked)
+        return true
+    }
 
-  //}
+    return false
+  }
 
   // Load Detalails page
   private loadDetails(profile: Profile) {

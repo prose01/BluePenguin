@@ -122,6 +122,7 @@
   "CouldNotLeaveGroup": "Kunne ikke forlade gruppe",
   "GroupJoin": "Tilmelde gruppe",
   "GroupLeave": "Forlad gruppe",
+  "GroupBlocked": "Du er blevet blokeret for gruppen",
   "CouldNotCreateGroup": "Kunne ikke oprette gruppe",
   "CreateGroup": "Opret ny Chat Group",
   "CouldNotComplainAboutGroupMember": "Kunne ikke klage over gruppe medlem",
