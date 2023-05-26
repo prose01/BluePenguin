@@ -102,7 +102,7 @@ import { CreateGroupDialog } from './groups/create-group-dialog/create-group-dia
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
+/*import { NgxSliderModule } from '@angular-slider/ngx-slider';*/
 import { AvatarPhotoComponent } from './avatar-photo/avatar-photo.component';
 import { ColourPaletteComponent } from './colour-picker/colour-palette/colour-palette.component';
 import { ColourSliderComponent } from './colour-picker/colour-slider/colour-slider.component';
@@ -194,7 +194,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     MatMomentDateModule,
     InfiniteScrollModule,
     ImageCropperModule,
-    NgxSliderModule,
+   /* NgxSliderModule,*/
     TranslocoRootModule,
     TranslocoLocaleModule.forRoot({
       langToLocaleMapping: {
@@ -220,11 +220,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    DeleteProfileDialog,
-    SnackbarComponent
-  ]
+  bootstrap: [AppComponent]
 })
 
 export class AppModule { }
