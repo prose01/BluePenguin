@@ -14,6 +14,23 @@
       </button>
     </div>
 
+
+    
+    <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
+
+      <div class="form-container">
+        <mat-form-field>
+          <input matInput maxlength="50" placeholder="{{'NameOrDescription'| transloco}}" formControlName="searchfield">
+        </mat-form-field>
+
+        <button type="submit" mat-flat-button color="primary" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
+          <span class="material-icons">search</span>
+        </button>
+
+      </div>
+    </form>
+
+
     <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
       <!-- Avatar Column -->

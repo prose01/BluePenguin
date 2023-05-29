@@ -8,11 +8,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
 import { GroupModel } from '../../models/groupModel';
-import { GroupMember } from '../../models/groupMember';
 import { CreateGroupDialog } from '../create-group-dialog/create-group-dialog';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
@@ -42,14 +42,18 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<GroupModel>;
   public expandedElement: GroupModel[] | null;
 
+
+  public groupForm: FormGroup;
+
   public loading: boolean = true;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
 
-  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.createForm();
   }
 
   ngOnInit(): void {
@@ -65,6 +69,43 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+  }
+
+  private createForm(): void {
+    this.groupForm = this.formBuilder.group({
+      searchfield: null
+    });
+  }
+
+  onSubmit(): void {
+    const formModel = this.groupForm.value;
+    const filter = formModel.searchfield as string;
+    this.getGroupsByFilter(filter);
+  }
+
+  reset(): void {
+    this.createForm();
+  }
+
+  // Get Groups by filter. 
+  private getGroupsByFilter(filter: string, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+    this.subs.push(
+      this.profileService.getGroupsByFilter(filter, pageIndex, pageSize)
+        .subscribe({
+          next: (response: any) => {
+
+            this.groups = new Array;
+
+            this.groups.push(...response);
+
+            this.length = this.groups.length + currentSize + 1;
+          },
+          complete: () => { this.setDataSource(); this.loading = false; },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetGroupsByFilter'), null); this.loading = false;
+          }
+        })
+    );
   }
 
   private updateCurrentUserSubject() {
@@ -121,7 +162,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotGetGroups'), null);
+            this.openErrorDialog(this.translocoService.translate('CouldNotGetGroups'), null); this.loading = false;
           }
         })
     );

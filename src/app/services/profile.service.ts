@@ -91,6 +91,14 @@ export class ProfileService {
     return this.http.get<GroupModel[]>(`${this.avalonUrl}GetCurrenUsersGroups`, { headers: this.headers });
   }
 
+  getGroupsByFilter(filter: string, pageIndex: number, pageSize: number): Observable<GroupModel[]> {
+    const params = new HttpParams()
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.post<GroupModel[]>(`${this.avalonUrl}GetGroupsByFilter`, `\"${filter}\"`, { headers: this.headers, params: params });
+  }
+
   joinGroup(groupId: string): Observable<{}> {
     return this.http.post(`${this.avalonUrl}JoinGroup`, `\"${groupId}\"`, { headers: this.headers });
   }
