@@ -45,6 +45,15 @@
 
         </ng-container>
 
+        <!-- MessageType Column -->
+        <ng-container matColumnDef="messageType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'MessageType'| transloco}} </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="material-icons icon-white" *ngIf="element?.messageType == 'Group'" attr.aria-label="{{'Group'| transloco}}" matTooltip="{{'Group'| transloco}}">groups</span>
+            <span class="material-icons icon-white" *ngIf="element?.messageType == 'PrivateMessage'" attr.aria-label="{{'PrivateMessage'| transloco}}" matTooltip="{{'PrivateMessage'| transloco}}">person</span>
+          </td>
+        </ng-container>
+
         <!-- FromName Column -->
         <ng-container matColumnDef="fromName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromName'| transloco}} </th>

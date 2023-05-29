@@ -41,7 +41,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   public dataSource: MatTableDataSource<MessageModel>;
   public selection = new SelectionModel<MessageModel>(true, []);
 
-  private displayedColumns: string[] = ['select', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
+  private displayedColumns: string[] = ['select', 'messageType', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
 
   public mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;

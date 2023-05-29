@@ -17,6 +17,8 @@
   "EditProfile": "Rediger Profil",
   "About": "Om os",
   "Groups": "Chat Grupper",
+  "Group": "Chat Gruppe",
+  "PrivateMessage": "Privat Chat",
   "Feedback": "Feedback",
   "FeedbackAdmin": "Feedback Admin",
   "Admin": "Admin side",
@@ -125,6 +127,7 @@
   "GroupBlocked": "Du er blevet blokeret for gruppen",
   "CouldNotCreateGroup": "Kunne ikke oprette gruppe",
   "CreateGroup": "Opret ny Chat Group",
+  "MessageType": "Besked Type",
   "CouldNotComplainAboutGroupMember": "Kunne ikke klage over gruppe medlem",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profiloplysninger",
@@ -384,5 +387,9 @@
     "Error": "Fejl",
     "Improvement": "Forbedringer",
     "ReportProfile": "Reporter Profil"
+  },
+  "MessageTypes": {
+    "PrivateMessage": "Privat Chat",
+    "Group": "Chat Gruppe"
   }
 }

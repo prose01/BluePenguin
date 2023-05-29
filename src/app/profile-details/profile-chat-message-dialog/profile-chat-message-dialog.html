@@ -3,7 +3,11 @@
     <span class="material-icons">close</span>
   </button>
 
-  <h1 mat-dialog-title>{{message.fromName}} -> {{message.fromId}}</h1>
+  <h1 mat-dialog-title>
+    {{message.fromName}} -> {{message.toName}}
+    <span class="material-icons icon-white" *ngIf="message.messageType == 'Group'" attr.aria-label="{{'Group'| transloco}}" matTooltip="{{'Group'| transloco}}">groups</span>
+    <span class="material-icons icon-white" *ngIf="message?.messageType == 'PrivateMessage'" attr.aria-label="{{'PrivateMessage'| transloco}}" matTooltip="{{'PrivateMessage'| transloco}}">person</span>
+  </h1>
   <div mat-dialog-content>
     {{message.message}}
   </div>

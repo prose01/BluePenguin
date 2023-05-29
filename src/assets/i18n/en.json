@@ -17,6 +17,8 @@
   "EditProfile": "Edit Profile",
   "About": "About",
   "Groups": "Chat Groups",
+  "Group": "Chat Group",
+  "PrivateMessage": "Private Chat",
   "Feedback": "Feedback",
   "FeedbackAdmin": "Feedback Admin",
   "Admin": "Admin Page",
@@ -125,6 +127,7 @@
   "GroupJoin": "Join group",
   "GroupLeave": "Leave group",
   "GroupBlocked": "You have been blocked from group",
+  "MessageType": "Message Type",
   "CouldNotComplainAboutGroupMember": "Could not complain about group member",
   "ProfileDetailsBoardComponent": {
     "ProfileDetails": "Profile Details",
@@ -381,5 +384,9 @@
     "Error": "Error",
     "Improvement": "Improvement",
     "ReportProfile": "Report Profile"
+  },
+  "MessageTypes": {
+    "PrivateMessage": "Privaet Chat",
+    "Group": "Chat Group"
   }
 }

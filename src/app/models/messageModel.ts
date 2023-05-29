@@ -1,4 +1,5 @@
 export class MessageModel {
+  messageType: string;
   fromId: string;
   fromName: string;
   toId: string;
@@ -10,6 +11,7 @@ export class MessageModel {
 }
 
 export interface MessageModel {
+  messageType: string;
   fromId: string;
   fromName: string;
   toId: string;

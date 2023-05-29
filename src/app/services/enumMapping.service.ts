@@ -18,6 +18,7 @@ import {
   WantChildrenType
 } from '../models/enums';
 import { FeedbackType } from '../models/feedbackType';
+import { MessageType } from '../models/messageType';
 
 
 @Injectable({
@@ -96,6 +97,10 @@ export class EnumMappingService {
   ImprovementText: string;
   ReportProfileText: string;
 
+  // MessageTypes
+  PrivateText: string;
+  GroupText: string;
+
   constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.selectTranslate('Enum.NotChosen').subscribe(value => this.NotChosenText = value);
     this.translocoService.selectTranslate('Enum.Other').subscribe(value => this.OtherText = value);
@@ -155,6 +160,9 @@ export class EnumMappingService {
     this.translocoService.selectTranslate('FeedbackTypes.Error').subscribe(value => this.ErrorText = value);
     this.translocoService.selectTranslate('FeedbackTypes.Improvement').subscribe(value => this.ImprovementText = value);
     this.translocoService.selectTranslate('FeedbackTypes.ReportProfile').subscribe(value => this.ReportProfileText = value);
+    // MessageType
+    this.translocoService.selectTranslate('MessageTypes.PrivateMessage').subscribe(value => this.PrivateText = value);
+    this.translocoService.selectTranslate('MessageTypes.Group').subscribe(value => this.GroupText = value);
   }
 
   // GenderType
@@ -426,5 +434,23 @@ export class EnumMappingService {
 
   async updateFeedbackTypeSubject(): Promise<void> {
     this.feedbackTypes.next(this.feedbackTypesMap);
+  }
+
+
+
+  // MessageType
+  get messageTypesMap(): ReadonlyMap<string, string> {
+    return new Map<string, string>([
+      [MessageType.NotChosen, this.NotChosenText],
+      [MessageType.PrivateMessage, this.PrivateText],
+      [MessageType.Group, this.GroupText]
+    ]);
+  }
+
+  private messageTypes = new BehaviorSubject<ReadonlyMap<string, string>>(this.messageTypesMap);
+  messageTypesSubject = this.messageTypes.asObservable();
+
+  async updateMessageTypeSubject(): Promise<void> {
+    this.messageTypes.next(this.messageTypesMap);
   }
 }

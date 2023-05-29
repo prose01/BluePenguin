@@ -3,6 +3,7 @@ export class ChatFilter {
   dateSentEnd: Date;
   dateSeenStart: Date;
   dateSeenEnd: Date;
+  messageType: string;
   fromId: string;
   fromName: string;
   toId: string;
@@ -16,6 +17,7 @@ export interface ChatFilter {
   dateSentEnd: Date;
   dateSeenStart: Date;
   dateSeenEnd: Date;
+  messageType: string;
   fromId: string;
   fromName: string;
   toId: string;

@@ -37,6 +37,14 @@
       </mat-form-field>
 
       <mat-form-field>
+        <mat-select placeholder="{{'MessageType'| transloco}}" formControlName="messageType">
+          <mat-option *ngFor="let messageType of messageTypes | keyvalue: originalOrder" [value]="messageType.key">
+            {{ messageType.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
         <textarea matInput maxlength="50" placeholder="{{'ProfileChatSearchComponent.FromId'| transloco}}" formControlName="fromId"></textarea>
       </mat-form-field>
 
@@ -53,8 +61,8 @@
       </mat-form-field>
 
       <!--<mat-form-field>
-        <input matInput maxlength="2000" placeholder="{{'ProfileChatSearchComponent.Message'| transloco}}" formControlName="message">
-      </mat-form-field>-->
+    <input matInput maxlength="2000" placeholder="{{'ProfileChatSearchComponent.Message'| transloco}}" formControlName="message">
+  </mat-form-field>-->
 
       <mat-form-field>
         <mat-select placeholder="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" formControlName="doNotDelete" [(value)]="doNotDelete">
