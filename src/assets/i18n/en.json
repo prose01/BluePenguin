@@ -105,6 +105,7 @@
   "CouldNotAddComplainToProfile": "Could not complain about Profile",
   "CouldNotGetProfile": "Could not get Profile",
   "ComplainAboutProfile": "Complain about Profile",
+  "ComplainAboutChatMember": "Complain about chat member",
   "ComplainTooMany": "You have received too many complains",
   "ChatTitle": "Chat",
   "messagePlaceholder": "Type a message",

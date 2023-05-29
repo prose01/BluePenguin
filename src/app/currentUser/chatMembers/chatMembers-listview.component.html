@@ -9,7 +9,7 @@
   <div *ngIf="dataSource" class="mat-elevation-z8">
 
     <div class="menu-buttons">
-      <button *ngIf="selection.hasValue()" mat-flat-button color="accent" (click)="blockChatMembers()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
+      <button *ngIf="selection.hasValue() && !currentUserSubject.admin" mat-flat-button color="accent" (click)="blockChatMembers()" attr.aria-label="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}" matTooltip="{{'ChatMembersListviewComponent.BlockChatMember'| transloco}}">
         <span class="material-icons icon-white-square">security</span>
       </button>
 
