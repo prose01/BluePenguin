@@ -36,7 +36,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   private defaultPageSize: number;
   private length: number;
 
-  public displayedColumns: string[] = ['avatar','name', 'joined'];
+  public displayedColumns: string[] = ['avatar', 'name', 'joined'];
   private columnsToDisplayWithExpand = [...this.displayedColumns];
   private selection = new SelectionModel<GroupModel>(true, []);
   public dataSource: MatTableDataSource<GroupModel>;
@@ -120,7 +120,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    //this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -175,7 +175,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       dialogRef.afterClosed().subscribe(
         res => {
-          if (res?.name.length > 0) {
+          if (res?.name?.length > 0) {
             this.createGroup(res);
           }
         }

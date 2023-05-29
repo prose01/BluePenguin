@@ -107,11 +107,11 @@ export class CreateGroupDialog implements OnDestroy {
   private createDefaultInititals(name: string): string {
     let initials = "";
 
-    initials += name.charAt(0).toUpperCase();
+    initials += name?.charAt(0).toUpperCase();
 
-    var randomChar = this.randomIntFromInterval(1, name.length)
+    var randomChar = this.randomIntFromInterval(1, name?.length)
 
-    initials += name.charAt(randomChar).toUpperCase();
+    initials += name?.charAt(randomChar).toUpperCase();
 
     return initials;
   }
