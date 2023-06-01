@@ -29,6 +29,7 @@ export class GroupMembersListview implements OnInit, OnDestroy {
 
   public index: number;
   private groupId: string;
+  private length: number;
 
   public dataSource: MatTableDataSource<Profile>;
   private selection = new SelectionModel<Profile>(true, []);
@@ -39,8 +40,8 @@ export class GroupMembersListview implements OnInit, OnDestroy {
   private currentUserSubject: CurrentUser;
   private displayedColumns: string[] = ['avatar', 'name', 'complain'];
 
-  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
-  @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
+  //@Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
+  @Output("getNextGroupMembers") getNextGroupMembers: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -48,6 +49,7 @@ export class GroupMembersListview implements OnInit, OnDestroy {
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
+    this.length = this.data.membersLength;
     this.profiles = new Array;
     this.profiles.push(...this.data.profiles);
     this.groupId = this.data.groupId;
@@ -68,14 +70,14 @@ export class GroupMembersListview implements OnInit, OnDestroy {
     this.subs = [];
   }
 
-  //private pageChanged(event): void {
+  private pageChanged(event): void {
 
-  //  let pageIndex = event.pageIndex;
-  //  let pageSize = event.pageSize;
-  //  let currentSize = pageSize * pageIndex;
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
 
-  //  this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
-  //}
+    this.getNextGroupMembers.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
+  }
 
   private setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.profiles);
@@ -85,13 +87,13 @@ export class GroupMembersListview implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
   }
 
-  resetSelectionPagination(): void {
-    this.selection?.clear();
-    if (this.paginator != null) {
-      this.paginator.pageIndex = 0;
-      this.paginator.pageSize = this.pageSize;
-    }
-  }
+  //resetSelectionPagination(): void {
+  //  this.selection?.clear();
+  //  if (this.paginator != null) {
+  //    this.paginator.pageIndex = 0;
+  //    this.paginator.pageSize = this.pageSize;
+  //  }
+  //}
 
   private complain(profileId: string): void {
     this.subs.push(

@@ -33,10 +33,12 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
   private groups: GroupModel[];
+  private currentGroup: GroupModel;
+  private length: number;
 
   private defaultPageSize: number;
   private currentProfiles: Profile[];
-  private length: number;
+  private membersLength: number;
 
   public displayedColumns: string[] = ['select', 'avatar', 'name', 'joined'];
   private columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -115,19 +117,19 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     return groupIds;
   }
 
-  //pageChanged(event) {
-  //  this.loading = true;
+  pageChanged(event) {
+    this.loading = true;
 
-  //  let pageIndex = event.pageIndex;
-  //  let pageSize = event.pageSize;
-  //  let currentSize = pageSize * pageIndex;
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
 
-  //  console.log('pageChanged');
-  //  //this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
-  //}
+    console.log('pageChanged');
+    this.getCurrenUsersGroups(currentSize, pageIndex, pageSize); // TODO: pagination på getCurrenUsersGroups is not implemented. We need to run through current users groups
+  }
 
 
-  private getCurrenUsersGroups(): void {
+  private getCurrenUsersGroups(currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getCurrenUsersGroups()
         .subscribe({
@@ -136,6 +138,8 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
             this.groups = new Array;
 
             this.groups.push(...response);
+
+            this.length = this.groups.length + currentSize + 1;
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {
@@ -160,10 +164,11 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getGroupMembers(group: GroupModel, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getGroupMembers(group: GroupModel = this.currentGroup, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+    this.currentGroup = group;
     let profileIds = new Array;
     
-    for (var _i = 0; _i < group.groupMemberslist.length; _i++) {
+    for (var _i = 0; _i < group.groupMemberslist?.length; _i++) {
       profileIds.push(group.groupMemberslist[_i].profileId);
     }
 
@@ -176,7 +181,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response);
 
-            //this.length = this.currentProfiles.length + currentSize + 1;
+            this.membersLength = this.currentProfiles.length + currentSize + 1;
           },
           complete: () => { },
           error: () => {
@@ -205,10 +210,17 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GroupMembersListview, {
       data: {
         index: 0,
+        length: this.membersLength,
         profiles: this.currentProfiles,
         groupId: groupId 
       }
     });
+
+    this.subs.push(
+      dialogRef.componentInstance.getNextGroupMembers.subscribe(event => {
+        this.getGroupMembers(this.currentGroup, event.currentSize, event.pageIndex, event.pageSize);
+      })
+    );
 
     this.subs.push(
       dialogRef.afterClosed().subscribe(

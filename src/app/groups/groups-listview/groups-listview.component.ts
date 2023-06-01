@@ -120,7 +120,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    this.dataSource.paginator = this.paginator;
+    //this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
@@ -136,16 +136,15 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
-  //pageChanged(event) {
-  //  this.loading = true;
+  pageChanged(event) {
+    this.loading = true;
 
-  //  let pageIndex = event.pageIndex;
-  //  let pageSize = event.pageSize;
-  //  let currentSize = pageSize * pageIndex;
+    let pageIndex = event.pageIndex;
+    let pageSize = event.pageSize;
+    let currentSize = pageSize * pageIndex;
 
-  //  console.log('pageChanged');
-  //  //this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
-  //}
+    this.getGroups(currentSize, pageIndex, pageSize);
+  }
 
 
   private getGroups(currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {

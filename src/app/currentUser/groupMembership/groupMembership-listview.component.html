@@ -60,7 +60,6 @@
         </td>
       </ng-container>
 
-
       <!-- Joined Column -->
       <ng-container matColumnDef="joined">
         <th mat-header-cell *matHeaderCellDef> {{'Groups'| transloco}} </th>
@@ -85,7 +84,7 @@
 
     </table>
 
-    <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
+    <mat-paginator [length]="length" [pageSize]="defaultPageSize" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
 
   </div>
 
