@@ -124,14 +124,13 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     let pageSize = event.pageSize;
     let currentSize = pageSize * pageIndex;
 
-    console.log('pageChanged');
-    this.getCurrenUsersGroups(currentSize, pageIndex, pageSize); // TODO: pagination på getCurrenUsersGroups is not implemented. We need to run through current users groups
+    this.getCurrenUsersGroups(currentSize, pageIndex, pageSize);
   }
 
 
   private getCurrenUsersGroups(currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
-      this.profileService.getCurrenUsersGroups()
+      this.profileService.getCurrenUsersGroups(pageIndex, pageSize)
         .subscribe({
           next: (response: any) => {
 
@@ -139,7 +138,8 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.groups.push(...response);
 
-            this.length = this.groups.length + currentSize + 1;
+            //this.length = this.groups.length + currentSize + 1;
+            this.length = this.currentUserSubject.groups.length;
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {
@@ -181,7 +181,8 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response);
 
-            this.membersLength = this.currentProfiles.length + currentSize + 1;
+            //this.membersLength = this.currentProfiles.length + currentSize + 1;
+            this.membersLength = group.groupMemberslist?.length;
           },
           complete: () => { },
           error: () => {
