@@ -105,7 +105,7 @@ export class ProfileListviewComponent implements OnDestroy {
   }
 
   private setDataSource(): void {
-    this.dataSource = new MatTableDataSource(this.profiles);
+    this.dataSource = new MatTableDataSource<Profile>(this.profiles);
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get sort working.
@@ -119,9 +119,7 @@ export class ProfileListviewComponent implements OnDestroy {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   private masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() :this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */

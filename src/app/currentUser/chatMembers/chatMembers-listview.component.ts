@@ -71,7 +71,6 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    //this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 

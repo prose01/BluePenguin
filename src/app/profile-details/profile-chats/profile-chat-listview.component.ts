@@ -131,13 +131,11 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   }
 
   private setDataSource(): void {
-    this.dataSource = new MatTableDataSource(this.messages);
+    this.dataSource = new MatTableDataSource<MessageModel>(this.messages);
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
     this.dataSource.sort = this.sort;
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.paginator.length = this.length;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
