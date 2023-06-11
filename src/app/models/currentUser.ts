@@ -1,7 +1,7 @@
 import { ImageModel } from './imageModel';
 import { ChatMember } from './chatMember';
 import { Visited } from './visited';
-import { AvatarModel } from './AvatarModel'
+import { AvatarModel } from './avatarModel'
 import {
   BodyType,
   SmokingHabitsType,
