@@ -1,5 +1,5 @@
 import { GroupMember } from './groupMember';
-import { AvatarModel } from './AvatarModel'
+import { AvatarModel } from './avatarModel'
 
 export class GroupModel {
   groupId: string;
