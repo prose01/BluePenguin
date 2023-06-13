@@ -41,14 +41,31 @@ stages:
     #   inputs:
     #     script: "npm run test:unit"
     
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
-      inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
+    #- task: ArchiveFiles@2
+    #  displayName: 'Archive files'
+    #  inputs:
+    #    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/'
+    #    includeRootFolder: false
+    #    archiveType: zip
+    #    archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    #    replaceExistingArchive: true
 
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop
+    #- upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    #  artifact: drop
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/dist'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        CleanTargetFolder: true
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive Files'
+      inputs:
+        rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: staticwebsite'
+      inputs:
+        ArtifactName: staticwebsite
