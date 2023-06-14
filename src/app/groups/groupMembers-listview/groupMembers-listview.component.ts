@@ -40,7 +40,6 @@ export class GroupMembersListview implements OnInit, OnDestroy {
   private currentUserSubject: CurrentUser;
   private displayedColumns: string[] = ['avatar', 'name', 'complain'];
 
-  //@Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
   @Output("getNextGroupMembers") getNextGroupMembers: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -81,6 +80,14 @@ export class GroupMembersListview implements OnInit, OnDestroy {
 
   private setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.profiles);
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'avatar.initials': return item.avatar.initials;
+        default: return item[property];
+      }
+    };
+
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get sort working.

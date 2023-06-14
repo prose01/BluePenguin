@@ -36,7 +36,7 @@
 
       <!-- Avatar Column -->
       <ng-container matColumnDef="avatar">
-        <th mat-header-cell *matHeaderCellDef> </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="avatar.initials"> </th>
         <td mat-cell *matCellDef="let element" class="square" [ngStyle]="{'background-color':  element.avatar.circleColour }">
           <div class="initials" [ngStyle]="{'color':  element.avatar.initialsColour }">{{element.avatar.initials}}</div>
         </td>

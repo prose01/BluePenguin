@@ -80,6 +80,14 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private setDataSource(): void {
     this.loading = false;
     this.dataSource = new MatTableDataSource<GroupModel>(this.groups);
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'avatar.initials': return item.avatar.initials;
+        default: return item[property];
+      }
+    };
+
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
