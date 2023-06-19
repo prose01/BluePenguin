@@ -7,6 +7,7 @@ import { Profile } from '../models/profile';
 import { CurrentUser } from '../models/currentUser';
 import { GroupModel } from '../models/groupModel';
 import { ProfileFilter } from '../models/profileFilter';
+import { ProfileList } from '../models/profileList';
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
 import { OrderByType } from '../models/enums';
 
@@ -198,8 +199,17 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params });
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params });      // TODO: Do we still need ProfileList ???????????????????????????????????????????
   }
+
+  //getProfileByFilterCount(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<ProfileList> {
+  //  const params = new HttpParams()
+  //    .set('OrderByType', orderByType)
+  //    .set('PageIndex', pageIndex)
+  //    .set('PageSize', pageSize);
+
+  //  return this.http.post<ProfileList>(`${this.avalonUrl}GetProfileByFilterCount`, { profileFilter }, { headers: this.headers, params: params });
+  //}
 
   getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
     const params = new HttpParams()
@@ -262,3 +272,4 @@ export class ProfileService {
     return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers, params: params });
   }
 }
+

@@ -161,9 +161,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -215,18 +215,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Get Profiles by searchfilter. 
+  //// Get Profiles by searchfilter. 
+  //private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  //  this.subs.push(
+  //    this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
+  //      .subscribe({
+  //        next: (response: any) => {
+
+  //          this.currentProfiles = new Array;
+
+  //          this.currentProfiles.push(...response);
+
+  //          this.length = this.currentProfiles.length + currentSize + 1;
+  //        },
+  //        complete: () => { this.getProfileImages(this.currentProfiles); },
+  //        error: () => {
+  //          this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
+  //        }
+  //      })
+  //  );
+  //}
+
+  // Get Profiles by searchfilter.
   private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
         .subscribe({
           next: (response: any) => {
 
+            console.log('response');
+            console.log(response);
+            console.log('response.total');
+            console.log(response.totalPages);
+            console.log('response.profiles');
+            console.log(response.profiles);
+
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -245,9 +273,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -266,9 +294,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -287,9 +315,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
