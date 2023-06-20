@@ -114,35 +114,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     switch (viewFilterType) {
       case ViewFilterTypeEnum.LatestProfiles: {
-        this.getLatestProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(orderBy, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.FilterProfiles: {
-        this.getProfileByCurrentUsersFilter(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByCurrentUsersFilter(orderBy, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.BookmarkedProfiles: {
-        this.getBookmarkedProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getBookmarkedProfiles(orderBy,  event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesSearch: {
-        this.getProfileByFilter(this.filter, orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfileByFilter(this.filter, orderBy, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoVisitedMe: {
-        this.getProfilesWhoVisitedMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoVisitedMe(orderBy, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoBookmarkedMe: {
-        this.getProfilesWhoBookmarkedMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoBookmarkedMe(orderBy, event.pageIndex, event.pageSize);
         break;
       }
       case ViewFilterTypeEnum.ProfilesWhoLikesMe: {
-        this.getProfilesWhoLikesMe(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getProfilesWhoLikesMe(orderBy, event.pageIndex, event.pageSize);
         break;
       }
       default: {
-        this.getLatestProfiles(orderBy, event.currentSize, event.pageIndex, event.pageSize);
+        this.getLatestProfiles(orderBy, event.pageIndex, event.pageSize);
         break;
       }
     }
@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get latest Profiles. 
-  private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getLatestProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getLatestProfiles(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -163,7 +163,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.total;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -174,7 +174,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get Filtered Profiles.
-  private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getProfileByCurrentUsersFilter(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfileByCurrentUsersFilter(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -182,9 +182,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -195,7 +195,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get Bookmarked Profiles.
-  private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getBookmarkedProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getBookmarkedProfiles(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -203,9 +203,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            this.length = this.currentProfiles.length + currentSize + 1;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -215,46 +215,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  //// Get Profiles by searchfilter. 
-  //private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
-  //  this.subs.push(
-  //    this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
-  //      .subscribe({
-  //        next: (response: any) => {
-
-  //          this.currentProfiles = new Array;
-
-  //          this.currentProfiles.push(...response);
-
-  //          this.length = this.currentProfiles.length + currentSize + 1;
-  //        },
-  //        complete: () => { this.getProfileImages(this.currentProfiles); },
-  //        error: () => {
-  //          this.openErrorDialog(this.translocoService.translate('GetProfileByFilter'), null); this.loading = false;
-  //        }
-  //      })
-  //  );
-  //}
-
   // Get Profiles by searchfilter.
-  private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getProfileByFilter(profileFilter: ProfileFilter, selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfileByFilter(profileFilter, selectedOrderBy, pageIndex, pageSize)
         .subscribe({
           next: (response: any) => {
 
-            console.log('response');
-            console.log(response);
-            console.log('response.total');
-            console.log(response.totalPages);
-            console.log('response.profiles');
-            console.log(response.profiles);
-
             this.currentProfiles = new Array;
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.total;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -265,7 +237,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get Profiles who has visited my profile.
-  private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getProfilesWhoVisitedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoVisitedMe(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -275,7 +247,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.total;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -286,7 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get Profiles who has visited my profile.
-  private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getProfilesWhoBookmarkedMe(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoBookmarkedMe(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -296,7 +268,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.total;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -307,7 +279,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   // Get Profiles who like my profile.
-  private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getProfilesWhoLikesMe(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
     this.subs.push(
       this.profileService.getProfilesWhoLikesMe(selectedOrderBy, pageIndex, pageSize)
         .subscribe({
@@ -317,7 +289,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.total;
+            this.length = response.totalPages;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {

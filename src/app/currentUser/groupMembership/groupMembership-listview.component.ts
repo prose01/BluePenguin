@@ -187,10 +187,9 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.currentProfiles = new Array;
 
-            this.currentProfiles.push(...response);
+            this.currentProfiles.push(...response.profiles);
 
-            //this.membersLength = this.currentProfiles.length + currentSize + 1;
-            this.membersLength = group.groupMemberslist?.length;
+            this.membersLength = response.totalPages;
           },
           complete: () => { },
           error: () => {

@@ -99,9 +99,8 @@ export class ProfileListviewComponent implements OnDestroy {
 
     let pageIndex = event.pageIndex;
     let pageSize = event.pageSize;
-    let currentSize = pageSize * pageIndex;
 
-    this.getNextData.emit({ currentSize: currentSize, pageIndex: pageIndex, pageSize: pageSize });
+    this.getNextData.emit({ pageIndex: pageIndex, pageSize: pageSize });
   }
 
   private setDataSource(): void {
