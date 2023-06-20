@@ -55,7 +55,7 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
           <div class="element-detail"
                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div (click)="openGroupMembersListView(element.groupId)">{{element.description}}</div>
+            <div (click)="openGroupMembersDialog(element.groupId)">{{element.description}}</div>
           </div>
         </td>
       </ng-container>

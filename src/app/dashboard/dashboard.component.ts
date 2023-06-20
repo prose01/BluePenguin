@@ -163,7 +163,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -184,7 +184,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -205,7 +205,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -226,7 +226,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -247,7 +247,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -268,7 +268,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
@@ -289,7 +289,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.length = response.totalPages;
+            this.length = response.total;
           },
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {

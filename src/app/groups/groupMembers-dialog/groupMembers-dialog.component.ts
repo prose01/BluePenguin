@@ -19,11 +19,11 @@ import { ImageModel } from '../../models/imageModel';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
-  selector: 'groupMembers-listview',
-  templateUrl: './groupMembers-listview.component.html'
+  selector: 'groupMembers-dialog',
+  templateUrl: './groupMembers-dialog.component.html'
 })
 
-export class GroupMembersListview implements OnInit, OnDestroy {
+export class GroupMembersDialog implements OnInit, OnDestroy {
   private pageSize: number;
   public loading: boolean = false;
 
@@ -48,7 +48,7 @@ export class GroupMembersListview implements OnInit, OnDestroy {
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
-    this.length = this.data.membersLength;
+    this.length = this.data.length;
     this.profiles = new Array;
     this.profiles.push(...this.data.profiles);
     this.groupId = this.data.groupId;

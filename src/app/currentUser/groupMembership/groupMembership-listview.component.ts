@@ -14,7 +14,7 @@ import { Profile } from '../../models/profile';
 import { GroupModel } from '../../models/groupModel';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
-import { GroupMembersListview } from '../../groups/groupMembers-listview/groupMembers-listview.component';
+import { GroupMembersDialog } from '../../groups/groupMembers-dialog/groupMembers-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
@@ -189,7 +189,7 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.currentProfiles.push(...response.profiles);
 
-            this.membersLength = response.totalPages;
+            this.membersLength = response.total;
           },
           complete: () => { },
           error: () => {
@@ -214,8 +214,8 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
     this.loadProfileDetails.emit(profile);
   }
 
-  private async openGroupMembersListView(groupId: string): Promise<void> {
-    const dialogRef = this.dialog.open(GroupMembersListview, {
+  private async openGroupMembersDialog(groupId: string): Promise<void> {
+    const dialogRef = this.dialog.open(GroupMembersDialog, {
       data: {
         index: 0,
         length: this.membersLength,
