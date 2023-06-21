@@ -96,9 +96,9 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
             this.groups = new Array;
 
-            this.groups.push(...response);
+            this.groups.push(...response.groups);
 
-            this.length = this.groups.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {
@@ -164,9 +164,9 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
             this.groups = new Array;
 
-            this.groups.push(...response);
+            this.groups.push(...response.groups);
 
-            this.length = this.groups.length + currentSize + 1;
+            this.length = response.total;
           },
           complete: () => { this.setDataSource(); this.loading = false; },
           error: () => {

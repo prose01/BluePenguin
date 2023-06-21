@@ -198,7 +198,7 @@ export class ProfileService {
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params });      // TODO: Do we still need ProfileList ???????????????????????????????????????????
+    return this.http.post<Profile[]>(`${this.avalonUrl}GetProfileByFilter`, { profileFilter }, { headers: this.headers, params: params });
   }
 
   getProfileByCurrentUsersFilter(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
