@@ -70,7 +70,7 @@ import { MessageDialog } from './profile-details/profile-chat-message-dialog/pro
 
 import { GroupsListviewComponent } from './groups/groups-listview/groups-listview.component';
 import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
-import { GroupMembersListview } from './groups/groupMembers-listview/groupMembers-listview.component';
+import { GroupMembersDialog } from './groups/groupMembers-dialog/groupMembers-dialog.component';
 
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { AboutComponent } from './about/about.component';
@@ -134,7 +134,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     CurrentUserImagesComponent,
     CallbackComponent,
     ProfileListviewComponent,
-    GroupMembersListview,
+    GroupMembersDialog,
     ProfileTileviewComponent,
     AdTileComponent,
     AdRowComponent,
