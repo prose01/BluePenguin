@@ -67,8 +67,24 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   public tagsPlaceholder: string;
   private maxTags: number;
 
-  public minAge: number;
-  public maxAge: number;
+  private _minAge: number;
+  get minAge(): number {
+    return this._minAge;
+  }
+
+  set minAge(value: number) {
+    this._minAge = value;
+  }
+
+  private _maxAge: number;
+  get maxAge(): number {
+    return this._maxAge;
+  }
+
+  set maxAge(value: number) {
+    this._maxAge = value;
+  }
+
   //public AgeOptions: Options = {
   //  floor: 0,
   //  ceil: 125,
@@ -82,6 +98,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   //  ceil: 300,
   //  noSwitching: true
   //};
+  // TODO: Delete next 3 lines when ngx-slider works
+  public defaultAge: number = 18;
+  public ageList: number[];
+  public heightList: number[] = [...Array(1 + 250 - 0).keys()].map(v => 0 + v);
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();
@@ -89,7 +109,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
 
   constructor(private enumMappings: EnumMappingService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    //this.AgeOptions.floor = this.configurationLoader.getConfiguration().minAge;
     this.minAge = this.configurationLoader.getConfiguration().minAge;
     this.maxAge = this.configurationLoader.getConfiguration().maxAge;
     this.minHeight = this.configurationLoader.getConfiguration().minHeight;
@@ -107,6 +126,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
         if (currentProfileFilterSubject) {
+          console.log('ngOnInit');
           this.loadForm(currentProfileFilterSubject);
           this.profileForm.markAsDirty();
           this.activateSearch.emit({ allowSearch: true });
@@ -208,7 +228,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private createForm(): void {
     this.profileForm = this.formBuilder.group({
       name: null,
-      ageSliderControl: null,
+      //ageSliderControl: null,
+      minAgeSliderControl: this.minAge,
+      maxAgeSliderControl: this.maxAge,
       heightSliderControl: null,
       description: null,
       tags: null,
@@ -230,12 +252,18 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(filter: ProfileFilter): void {
+    console.log('loadForm');
     this.profileForm.reset({
       name: filter.name,
+      //age: filter.age == null ? this.defaultAge : filter.age[1],
+      height: filter.height == null ? 0 : filter.height[1],
+      //ageSliderControl: filter.age == null ? [this.minAge, this.maxAge] : [filter.age[0], filter.age[1]],
+      minAgeSliderControl: filter.age[0] == null ? this.minAge : filter.age[0],
+      maxAgeSliderControl: filter.age[1] == null ? this.maxAge : filter.age[1],
       //ageSliderControl: filter.age == null ? [this.AgeOptions.floor, this.AgeOptions.ceil] : [filter.age[0], filter.age[1]],
-      ageSliderControl: filter.age = [filter.age[0], filter.age[1]],
+      //ageSliderControl: filter.age = [filter.age[0], filter.age[1]],
       //heightSliderControl: filter.height == null ? [this.HeightOptions.floor, this.HeightOptions.ceil] : [filter.height[0], filter.height[1]],
-      heightSliderControl: filter.height = [filter.height[0], filter.height[1]],
+      //heightSliderControl: filter.height = [filter.height[0], filter.height[1]],
       description: filter.description,
       tags: filter.tags,
       gender: filter.gender,
@@ -318,12 +346,17 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   private prepareSearch(): ProfileFilter {
     const formModel = this.profileForm.value;
     
-    const heightRange: number[] = [0, Number(formModel.height)];
+    //const heightRange: number[] = [0, Number(formModel.height)];
+
+    //const ageRange: number[] = [this.defaultAge, Number(formModel.age)];    // TODO: Remove these ranges when slider can take two values!
+    const heightRange: number[] = [0, Number(formModel.height)];            // TODO: Remove these ranges when slider can take two values!
 
     const filterProfile: ProfileFilter = {
       name: formModel.name as string,
-      age: formModel.ageSliderControl as number[],
-      height: formModel.heightSliderControl as number[],
+      //age: formModel.ageSliderControl as number[],
+      //height: formModel.heightSliderControl as number[],
+      age: [formModel.minAgeSliderControl as number, formModel.maxAgeSliderControl as number],
+      height: heightRange,
       description: formModel.description as string,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
@@ -365,6 +398,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   loadSearch(): void {
+    console.log('loadSearch');
     this.loading = true;
 
     this.subs.push(

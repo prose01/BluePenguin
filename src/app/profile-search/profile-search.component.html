@@ -13,9 +13,9 @@
       <mat-form-field class="tag-list">
         <mat-chip-grid #chipList formControlName="tags">
           <mat-chip-row *ngFor="let tag of tagsList"
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="remove(tag)">
+                        [selectable]="selectable"
+                        [removable]="removable"
+                        (removed)="remove(tag)">
             {{tag}}
             <span class="material-icons" matChipRemove *ngIf="removable">cancel</span>
           </mat-chip-row>
@@ -37,11 +37,15 @@
 
       <mat-label>{{'Age'| transloco}}</mat-label>
       <!--<ngx-slider [value]="minAge" [highValue]="maxAge" [options]="AgeOptions" formControlName="ageSliderControl"></ngx-slider>-->
+      <mat-slider [min]="minAge" [max]="maxAge" discrete>
+        <input [value]="minAge" matSliderStartThumb formControlName="minAgeSliderControl">
+        <input [value]="maxAge" matSliderEndThumb formControlName="maxAgeSliderControl">
+      </mat-slider>
 
       <mat-label>{{'Height'| transloco}}</mat-label>
       <!--<ngx-slider [value]="minHeight" [highValue]="maxHeight" [options]="HeightOptions" formControlName="heightSliderControl"></ngx-slider>-->
       <!--<mat-slider min="1" max="250" step="1" [value]="heightList" thumbLabel formControlName="height" class="cdk-focused">
-  </mat-slider>-->
+      </mat-slider>-->
 
       <mat-form-field>
         <mat-select placeholder="{{'BodyType'| transloco}}" formControlName="body">

@@ -65,6 +65,13 @@
 
       <!--Search menu-->
       <div *ngIf="pageView === 'Search'" class="menu-buttons">
+        <button mat-flat-button color="primary" (click)="loadSearch()" attr.aria-label="{{'LoadSearchFilter'| transloco}}" matTooltip="{{'LoadSearchFilter'| transloco}}">
+          <span class="material-icons">find_in_page</span>
+        </button>
+
+        <button mat-flat-button color="primary" *ngIf="allowSearch" (click)="saveSearch()" attr.aria-label="{{'SaveSearchFilter'| transloco}}" matTooltip="{{'SaveSearchFilter'| transloco}}">
+          <span class="material-icons">save</span>
+        </button>
 
         <button mat-flat-button color="primary" *ngIf="allowSearch" type="submit" (click)="onSubmit()" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
           <span class="material-icons">search</span>
@@ -72,14 +79,6 @@
 
         <button mat-flat-button color="primary" *ngIf="allowSearch" (click)="reset()" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
           <span class="material-icons">undo</span>
-        </button>
-
-        <button mat-flat-button color="primary" (click)="loadSearch()" attr.aria-label="{{'LoadSearchFilter'| transloco}}" matTooltip="{{'LoadSearchFilter'| transloco}}">
-          <span class="material-icons">find_in_page</span>
-        </button>
-
-        <button mat-flat-button color="primary" *ngIf="allowSearch" (click)="saveSearch()" attr.aria-label="{{'SaveSearchFilter'| transloco}}" matTooltip="{{'SaveSearchFilter'| transloco}}">
-          <span class="material-icons">save</span>
         </button>
       </div>
 
