@@ -35,7 +35,8 @@ import { ColourPickerComponent } from '../../colour-picker/colour-picker.compone
 
 @Component({
   selector: 'create-profile',
-  templateUrl: './create-profile.component.html'
+  templateUrl: './create-profile.component.html',
+  styleUrls: ['./create-profile.component.scss']
 })
 
 export class CreateProfileComponent implements OnInit, OnDestroy {

@@ -66,41 +66,10 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   public tagsPlaceholder: string;
   private maxTags: number;
 
-  private _minAge: number;
-  get minAge(): number {
-    return this._minAge;
-  }
-
-  set minAge(value: number) {
-    this._minAge = value;
-  }
-
-  private _maxAge: number;
-  get maxAge(): number {
-    return this._maxAge;
-  }
-
-  set maxAge(value: number) {
-    this._maxAge = value;
-  }
-
-  private _minHeight: number;
-  get minHeight(): number {
-    return this._minHeight;
-  }
-
-  set minHeight(value: number) {
-    this._minHeight = value;
-  }
-
-  private _maxHeight: number;
-  get maxHeight(): number {
-    return this._maxHeight;
-  }
-
-  set maxHeight(value: number) {
-    this._maxHeight = value;
-  }
+  public minAge: number;
+  public maxAge: number;
+  public minHeight: number;
+  public maxHeight: number;
 
   @Output() getProfileByFilter: EventEmitter<any> = new EventEmitter();
   @Output() toggleDisplay: EventEmitter<any> = new EventEmitter();

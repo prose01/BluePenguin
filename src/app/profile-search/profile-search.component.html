@@ -36,15 +36,15 @@
       </mat-form-field>
 
       <mat-label>{{'Age'| transloco}}</mat-label>
-      <mat-slider [min]="minAge" [max]="maxAge" discrete>
+      <mat-slider min={{minAge}} max={{maxAge}} step="1" discrete>
         <input [value]="minAge" matSliderStartThumb formControlName="minAgeSliderControl">
         <input [value]="maxAge" matSliderEndThumb formControlName="maxAgeSliderControl">
       </mat-slider>
 
       <mat-label>{{'Height'| transloco}}</mat-label>
-      <mat-slider [min]="minHeight" [max]="maxHeight" discrete>
-        <input [value]="minHeight" matSliderStartThumb formControlName="minHeightSliderControl">
-        <input [value]="maxHeight" matSliderEndThumb formControlName="maxHeightSliderControl">
+      <mat-slider min={{minHeight}} max={{maxHeight}} step="1" discrete>
+        <input [value]="minHeight" matSliderStartThumb thumbLabel formControlName="minHeightSliderControl">
+        <input [value]="maxHeight" matSliderEndThumb thumbLabel formControlName="maxHeightSliderControl">
       </mat-slider>
 
       <mat-form-field>
