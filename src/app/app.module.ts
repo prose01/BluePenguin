@@ -102,7 +102,6 @@ import { CreateGroupDialog } from './groups/create-group-dialog/create-group-dia
 import { TranslocoRootModule } from './transloco/transloco-root.module';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
-/*import { NgxSliderModule } from '@angular-slider/ngx-slider';*/
 import { AvatarPhotoComponent } from './avatar-photo/avatar-photo.component';
 import { ColourPaletteComponent } from './colour-picker/colour-palette/colour-palette.component';
 import { ColourSliderComponent } from './colour-picker/colour-slider/colour-slider.component';
