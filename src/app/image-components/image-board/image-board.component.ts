@@ -5,8 +5,6 @@ import { Subscription } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
-import { ImageModel } from '../../models/imageModel';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
 @Component({
@@ -61,34 +59,20 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let defaultImageModel: ImageModel = new ImageModel();
-
     if (this.currentUserSubject.images != null && this.currentUserSubject.images.length > 0) {
       if (this.currentUserSubject.images.length > 0) {
 
-        this.currentUserSubject.images.forEach((element, i) => {
+        this.currentUserSubject.images.forEach((element) => {
 
           if (typeof element.fileName !== 'undefined') {
 
-            this.loading = true;
+            // TODO: Remove this is-statement when all photos have format
+            if (!element.fileName.includes('.jpeg')) {
+              element.fileName = element.fileName + '.jpeg'
+            }
 
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe({
-                next: (images: any[]) =>  { element.smallimage = 'data:image/jpg;base64,' + images.toString() },
-                complete: () => { this.loading = false; },
-                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
-              })
-            );
-
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(this.currentUserSubject.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe({
-                next: (images: any[]) =>  { element.image = 'data:image/jpg;base64,' + images.toString() },
-                complete: () => { this.loading = false; },
-                error: () => { this.loading = false; element.image = defaultImageModel.image }
-              })
-            );
+            element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/large/' + element.fileName
+            //element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/small/' + element.fileName
           }
 
         });

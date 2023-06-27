@@ -73,8 +73,6 @@ export class ProfileImagesComponent {
 
   private openImageDialog(indexOfelement: any): void {
     const dialogRef = this.dialog.open(ImageDialog, {
-      //height: '80%',
-      //width: '80%',
       data: {
         index: indexOfelement,
         imageModels: this.profile.images,

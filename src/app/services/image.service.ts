@@ -45,9 +45,9 @@ export class ImageService {
   //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId},${size}`, { headers: this.headers });
   //}
 
-  getProfileImageByFileName(profileId: string, fileName: string, size: ImageSizeEnum): Observable<any[]> {
-    return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers });
-  }
+  //getProfileImageByFileName(profileId: string, fileName: string, size: ImageSizeEnum): Observable<any[]> {
+  //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers });
+  //}
 
   deleteAllImagesForProfile(profileIds: string[]): Observable<any> {
     return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfile`, profileIds, { headers: this.headers });

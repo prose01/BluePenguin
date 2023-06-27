@@ -9,7 +9,6 @@ import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
 import { ImageService } from '../services/image.service';
 import { OrderByType } from '../models/enums';
-import { ImageSizeEnum } from '../models/imageSizeEnum';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
 import { ProfileTileviewComponent } from '../views/profile-tileview/profile-tileview.component';
@@ -98,10 +97,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subs = [];
     //clearInterval(this.intervalId);
   }
-
-  //private myCallback(val: any): void {
-  //  console.log('Authenticated ' + val);
-  //}
 
   private getNextData(event: any): void {
     this.getData(this.viewFilterType, this.orderBy, event);
@@ -309,30 +304,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     let defaultImageModel: ImageModel = new ImageModel();
 
-    profiles?.forEach((element, i) => {
+    profiles?.forEach((element) => {
       // Take a random image from profile.
       element.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
 
       if (element.images != null && element.images.length > 0 && typeof element.images[element.imageNumber].fileName !== 'undefined') {
-        this.loading = true;
 
-        this.subs.push(
-          this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.small)
-            .subscribe({
-              next: (images: any[]) => { element.images[element.imageNumber].smallimage = 'data:image/webp;base64,' + images.toString() },
-              complete: () => { this.loading = false; },
-              error: () => { this.loading = false; element.images[element.imageNumber].smallimage = defaultImageModel.smallimage }
-            })
-        );
+        // TODO: Remove this is-statement when all photos have format
+        if (!element.images[element.imageNumber].fileName.includes('.jpeg')) {
+          element.images[element.imageNumber].fileName = element.images[element.imageNumber].fileName + '.jpeg'
+        }
 
-        this.subs.push(
-          this.imageService.getProfileImageByFileName(element.profileId, element.images[element.imageNumber].fileName, ImageSizeEnum.large)
-            .subscribe({
-              next: (images: any[]) => { element.images[element.imageNumber].image = 'data:image/webp;base64,' + images.toString() },
-              complete: () => { this.loading = false; },
-              error: () => { this.loading = false; element.images[element.imageNumber].image = defaultImageModel.image }
-            })
-        );
+        element.images[element.imageNumber].image = 'https://freetrail.blob.core.windows.net/photos/' + element.profileId + '/large/' + element.images[element.imageNumber].fileName
+        //element.images[element.imageNumber].smallimage = 'https://freetrail.blob.core.windows.net/photos/' + element.profileId + '/small/' + element.images[element.imageNumber].fileName
       }
       else {
         // Set default profile image.

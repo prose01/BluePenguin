@@ -3,8 +3,6 @@ import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
-import { ImageModel } from '../../models/imageModel';
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-listview.component';
@@ -58,33 +56,20 @@ export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
   }
 
   private getProfileImages(): void {
-    let defaultImageModel: ImageModel = new ImageModel();
 
     if (this.profile.images != null && this.profile.images.length > 0) {
 
-      this.profile.images.forEach((element, i) => {
+      this.profile.images.forEach((element) => {
 
         if (typeof element.fileName !== 'undefined') {
 
-          this.loading = true;
+          // TODO: Remove this is-statement when all photos have format
+          if (!element.fileName.includes('.jpeg')) {
+            element.fileName = element.fileName + '.jpeg'
+          }
 
-          this.subs.push(
-            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.small)
-            .subscribe({
-              next: (images: any[]) =>  { element.smallimage = 'data:image/webp;base64,' + images.toString() },
-              complete: () => { this.loading = false; },
-              error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
-            })
-          );
-
-          this.subs.push(
-            this.imageService.getProfileImageByFileName(this.profile.profileId, element.fileName, ImageSizeEnum.large)
-            .subscribe({
-              next: (images: any[]) =>  { element.image = 'data:image/webp;base64,' + images.toString() },
-              complete: () => { this.loading = false; },
-              error: () => { this.loading = false; element.image = defaultImageModel.image }
-            })
-          );
+          element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.profile.profileId + '/large/' + element.fileName
+          //element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + this.profile.profileId + '/small/' + element.fileName
         }
 
       });

@@ -26,6 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { NgOptimizedImage } from '@angular/common';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -192,6 +193,7 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
     MatNativeDateModule,
     MatMomentDateModule,
     InfiniteScrollModule,
+    NgOptimizedImage,
     ImageCropperModule,
    /* NgxSliderModule,*/
     TranslocoRootModule,
