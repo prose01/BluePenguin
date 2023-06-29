@@ -51,8 +51,8 @@
 
   <div style="margin: 1em">
     <image-cropper [imageChangedEvent]="imageChangedEvent"
-                   [resizeToWidth]="1080"
-                   [resizeToHeight]="1350"
+                   [resizeToWidth]=imageMaxWidth
+                   [resizeToHeight]=imageMaxHeight
                    [aspectRatio]="1 / 1"
                    [maintainAspectRatio]="true"
                    [onlyScaleDown]="true"

@@ -311,7 +311,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (element.images != null && element.images.length > 0 && typeof element.images[element.imageNumber].fileName !== 'undefined') {
 
         // TODO: Remove this is-statement when all photos have format
-        if (!element.images[element.imageNumber].fileName.includes('.jpeg')) {
+        if (!element.images[element.imageNumber].fileName.includes('.')) {
           element.images[element.imageNumber].fileName = element.images[element.imageNumber].fileName + '.jpeg'
         }
 

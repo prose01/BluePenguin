@@ -39,8 +39,8 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   public uploadingPhoto: boolean = false;
   private fileSizeLimit: number;
   private imageTitleMaxLength: number;
-  private imageMaxWidth: number;
-  private imageMaxHeight: number;
+  public imageMaxWidth: number;
+  public imageMaxHeight: number;
 
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
@@ -85,7 +85,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   fileChangeEvent(event: any): void {
     if (event.target.files[0] != null) {
       let sizeInBytes: number = event.target.files[0].size;
-
+      
       if (sizeInBytes <= this.fileSizeLimit) {
         this.imageChangedEvent = event;
       }
@@ -194,68 +194,28 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
       const image: any = base64ToFile(this.croppedImage);
       image.lastModifiedDate = new Date();
       image.name = 'tempname';
+      formData.append('image', image);
+      formData.append('title', uploadModel.title as string);
 
-      this.resizeImage(image, this.imageMaxWidth, this.imageMaxHeight).then(res => {
-        formData.append('image', res);
-        formData.append('title', uploadModel.title as string);
-        this.uploadingPhoto = true;
-        this.subs.push(
-          this.imageService.uploadImage(formData)
+      this.uploadingPhoto = true;
+
+      this.subs.push(
+        this.imageService.uploadImage(formData)
           .subscribe({
-            next: (res: any) =>  {
+            next: (res: any) => {
               if (res.status == 200) {
               }
             },
             complete: () => {
-              this.toggleDisplay.emit(); 
+              this.toggleDisplay.emit();
             },
             error: () => {
-              //this.openErrorDialog("Could not save image", error.error);
               this.openErrorDialog(this.translocoService.translate('CouldNotUploadImage'), null);
               this.toggleDisplay.emit();
             }
           })
-        );
-      });
+      );
     }
-  }
-
-  // Hack to resize image before upload - https://jsfiddle.net/ascorbic/wn655txt/2/   // TODO: Should not resize if already big enough, and should no make bigger than fileSizeLimit.
-  private resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
-    return new Promise((resolve, reject) => {
-      let image = new Image();
-      image.src = URL.createObjectURL(file);
-      image.onload = () => {
-        let width = image.width;
-        let height = image.height;
-
-        if (width <= maxWidth && height <= maxHeight) {
-          resolve(file);
-        }
-
-        let newWidth;
-        let newHeight;
-
-        if (width > height) {
-          newHeight = height * (maxWidth / width);
-          newWidth = maxWidth;
-        } else {
-          newWidth = width * (maxHeight / height);
-          newHeight = maxHeight;
-        }
-
-        let canvas = document.createElement('canvas');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-
-        let context = canvas.getContext('2d');
-
-        context.drawImage(image, 0, 0, newWidth, newHeight);
-
-        context.canvas.toBlob(resolve, file.type);
-      };
-      image.onerror = reject;
-    });
   }
 
   private openErrorDialog(title: string, error: string): void {

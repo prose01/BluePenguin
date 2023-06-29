@@ -67,7 +67,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
           if (typeof element.fileName !== 'undefined') {
 
             // TODO: Remove this is-statement when all photos have format
-            if (!element.fileName.includes('.jpeg')) {
+            if (!element.fileName.includes('.')) {
               element.fileName = element.fileName + '.jpeg'
             }
 
