@@ -31,7 +31,7 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   private matButtonToggleText: string;
   private matButtonToggleIcon: string = 'shield';
 
-  private displayedColumns: string[] = ['select', 'name', 'status'];
+  private displayedColumns: string[] = ['select', 'avatar', 'name', 'status'];
   private selection = new SelectionModel<ChatMember>(true, []);
   public dataSource: MatTableDataSource<ChatMember>;
 
@@ -68,6 +68,14 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   private setDataSource(): void {
     this.loading = false;
     this.dataSource = new MatTableDataSource<ChatMember>(this.chatMembers);
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'avatar.initials': return item.avatar.initials;
+        default: return item[property];
+      }
+    };
+
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
@@ -205,25 +213,33 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
           if (typeof element.fileName !== 'undefined') {
 
-            this.loading = true;
+            // TODO: Remove this is-statement when all photos have format
+            if (!element.fileName.includes('.')) {
+              element.fileName = element.fileName + '.jpeg'
+            }
 
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-              .subscribe({
-                next: (images: any[]) =>  { element.smallimage = 'data:image/webp;base64,' + images.toString() },
-                complete: () => { this.loading = false; },
-                error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
-              })
-            );
+            element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/large/' + element.fileName
+            element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/small/' + element.fileName
 
-            this.subs.push(
-              this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-              .subscribe({
-                next: (images: any[]) =>  { element.image = 'data:image/webp;base64,' + images.toString() },
-                complete: () => { this.loading = false; },
-                error: () => { this.loading = false; element.image = defaultImageModel.image }
-              })
-            );
+            //this.loading = true;
+
+            //this.subs.push(
+            //  this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
+            //  .subscribe({
+            //    next: (images: any[]) =>  { element.smallimage = 'data:image/webp;base64,' + images.toString() },
+            //    complete: () => { this.loading = false; },
+            //    error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
+            //  })
+            //);
+
+            //this.subs.push(
+            //  this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
+            //  .subscribe({
+            //    next: (images: any[]) =>  { element.image = 'data:image/webp;base64,' + images.toString() },
+            //    complete: () => { this.loading = false; },
+            //    error: () => { this.loading = false; element.image = defaultImageModel.image }
+            //  })
+            //);
           }
 
         });

@@ -38,6 +38,14 @@
         </td>
       </ng-container>
 
+      <!-- Avatar Column -->
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="avatar.initials"> avatar</th>
+        <td mat-cell *matCellDef="let element" class="circle" [ngStyle]="{'background-color':  element?.avatar.circleColour }">
+          <div class="initials" [ngStyle]="{'color':  element?.avatar.initialsColour }">{{element?.avatar?.initials}}</div>
+        </td>
+      </ng-container>
+
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ChatMembersListviewComponent.Name'| transloco}} </th>
@@ -46,7 +54,7 @@
 
       <!-- Status Column -->
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> {{'ChatMembersListviewComponent.Status'| transloco}} </th>
+        <th mat-header-cell *matHeaderCellDef> {{'ChatMembersListviewComponent.Blocked'| transloco}} </th>
         <td mat-cell *matCellDef="let element">
           <span class="material-icons icon-orange" *ngIf="element.blocked" matTooltip="{{'ChatMembersListviewComponent.Blocked'| transloco}}">remove_moderator</span>
         </td>
