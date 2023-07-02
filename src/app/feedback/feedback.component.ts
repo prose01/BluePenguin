@@ -46,7 +46,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
 
   private createForm(): void {
     this.feedbackForm = this.formBuilder.group({
-      feedbackType: FeedbackType.Comment,
+      feedbackType: FeedbackType.NotChosen,
       message: null
     });
   }
