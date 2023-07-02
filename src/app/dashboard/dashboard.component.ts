@@ -41,6 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private filter: ProfileFilter = new ProfileFilter();
 
   private defaultPageSize: number;
+  private pinacothecaUrl: string;
 
   private displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
 
@@ -53,6 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
 

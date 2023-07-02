@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -16,13 +17,15 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 export class ImageDialog implements OnInit, OnDestroy {
 
+  public pinacothecaUrl: string;
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
 
   public index: number;
 
-  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private readonly translocoService: TranslocoService,
+  constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
     this.index = this.data.index;
   }
 

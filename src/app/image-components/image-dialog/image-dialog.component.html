@@ -3,7 +3,7 @@
     <span class="material-icons">close</span>
   </button>
 
-  <img src="{{data.imageModels[index].image}}" loading="lazy" alt="{{data.imageModels[index].title}}" decoding="async">
+  <img src="{{pinacothecaUrl}}{{data.profile.profileId}}/large/{{data.profile.images[index].fileName}}" loading="lazy" alt="{{data.profile.images[index].title}}" decoding="async">
   <!--<img ngSrc="{{data.imageModels[index].image}}" alt="{{data.imageModels[index].title}}" fill priority sizes="100vw">-->
 
   <button mat-flat-button class="next" *ngIf="(data.imageModels.length - 1) > index" (click)="onNextClick()" attr.aria-label="{{'ImageDialogComponent.Next'| transloco}}" matTooltip="{{'ImageDialogComponent.Next'| transloco}}">

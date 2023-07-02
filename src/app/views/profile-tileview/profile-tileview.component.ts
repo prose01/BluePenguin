@@ -204,8 +204,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
   private async openImageDialog(profile: Profile): Promise<void> {
 
-    this.getProfileImages(profile);
-
     const dialogRef = this.dialog.open(ImageDialog, {
       data: {
         index: profile.imageNumber,
@@ -221,29 +219,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
         }
       )
     );
-  }
-
-  private getProfileImages(profile: Profile): void {
-    
-    if (profile.images != null && profile.images.length > 0) {
-      if (profile.images.length > 0) {
-
-        profile.images.forEach((element) => {
-
-          if (typeof element.fileName !== 'undefined') {
-
-            // TODO: Remove this is-statement when all photos have format
-            if (!element.fileName.includes('.')) {
-              element.fileName = element.fileName + '.jpeg'
-            }
-
-            element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/large/' + element.fileName
-            //element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/small/' + element.fileName
-          }
-
-        });
-      }
-    }
   }
 
   private bookmarked(profileId: string): boolean {
