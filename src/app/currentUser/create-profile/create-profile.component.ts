@@ -258,10 +258,6 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
         this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.LanguagecodeRequired');
       }
 
-      if (this.newUserForm.controls.countrycode.errors?.required) {
-        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.CountrycodeRequired');
-      }
-
       return;
     }
     else if (this.newUserForm.valid) {

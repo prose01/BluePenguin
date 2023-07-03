@@ -28,6 +28,9 @@ export class FeedbackComponent implements OnInit, OnDestroy {
 
   public loading: boolean = false;
 
+  public feedbackMessagePlaceholder: string;
+  public feedbackTypePlaceholder: string;
+
   constructor(private enumMappings: EnumMappingService, private feedBackService: FeedBackService, private formBuilder: FormBuilder, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
     this.createForm();
   }
@@ -37,6 +40,14 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       this.enumMappings.feedbackTypeSubject.subscribe(value => this.feedbackTypes = value)
     );
     this.enumMappings.updateFeedbackTypeSubject();
+
+    this.subs.push(
+      this.translocoService.selectTranslate('FeedbackComponent.FeedbackType').subscribe(value => this.feedbackTypePlaceholder = value)
+    );
+
+    this.subs.push(
+      this.translocoService.selectTranslate('FeedbackComponent.FeedbackMessage').subscribe(value => this.feedbackMessagePlaceholder = value)
+    );
   }
 
   ngOnDestroy(): void {
@@ -84,19 +95,36 @@ export class FeedbackComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.loading = true;
     this.feedback = this.prepareFeedback();
-    this.subs.push(
-      this.feedBackService.addFeedback(this.feedback)
-      .subscribe({
-        next: () =>  {},
-        complete: () => {
-          this.feedbackForm.markAsPristine(); this.loading = false; this.createForm();
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.Thanks'), null); 
-        },
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
-        }
-      })
-    );
+
+    if (this.feedbackForm.invalid || this.feedback.feedbackType == FeedbackType.NotChosen) {
+      this.loading = false;
+
+      if (this.feedbackForm.controls.feedbackType?.errors != null && this.feedbackForm.controls.feedbackType.errors.required || this.feedback.feedbackType == FeedbackType.NotChosen) {
+        this.feedbackTypePlaceholder = this.translocoService.translate('FeedbackComponent.FeedbackTypeRequired');
+      }
+
+      if (this.feedbackForm.controls.message?.errors != null && this.feedbackForm.controls.message.errors.required) {
+        this.feedbackMessagePlaceholder = this.translocoService.translate('FeedbackComponent.FeedbackMessageRequired');
+      }
+
+      return;
+    }
+    else if (this.feedbackForm.valid) {
+      console.log('valid');
+      this.subs.push(
+        this.feedBackService.addFeedback(this.feedback)
+          .subscribe({
+            next: () => { },
+            complete: () => {
+              this.feedbackForm.markAsPristine(); this.loading = false; this.createForm();
+              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.Thanks'), null);
+            },
+            error: () => {
+              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+            }
+          })
+      );
+    }
   }
 
   private openErrorDialog(title: string, error: string): void {

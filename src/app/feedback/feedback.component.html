@@ -27,7 +27,7 @@
       <div class="form-container">
 
         <mat-form-field>
-          <mat-select placeholder="{{'FeedbackComponent.FeedbackType'| transloco}}" formControlName="feedbackType" [(value)]="feedback.feedbackType">
+          <mat-select placeholder="{{feedbackTypePlaceholder}}" formControlName="feedbackType" [(value)]="feedback.feedbackType" required>
             <mat-option *ngFor="let feedbackType of feedbackTypes | keyvalue: originalOrder" [value]="feedbackType.key">
               {{ feedbackType.value }}
             </mat-option>
@@ -40,7 +40,7 @@
                     cdkTextareaAutosize
                     cdkAutosizeMinRows="10"
                     cdkAutosizeMaxRows="50"
-                    placeholder="{{'FeedbackComponent.Message'| transloco}}" formControlName="message"></textarea>
+                    placeholder="{{feedbackMessagePlaceholder}}" formControlName="message" required></textarea>
         </mat-form-field>
 
       </div>

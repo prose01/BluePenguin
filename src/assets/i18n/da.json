@@ -243,7 +243,9 @@
     "FeedbackText": "Giv os din feedback",
     "Send": "Send",
     "FeedbackType": "Typen af feedback",
-    "Message": "Besked",
+    "FeedbackMessage": "Besked",
+    "FeedbackMessageRequired": "Feedback besked mangler",
+    "FeedbackTypeRequired": "Feedback Type skal vælges",
     "CouldNotSendFeedback": "Kunne desværre ikke sende feedback",
     "Thanks": "Tak for dit feedback"
   },

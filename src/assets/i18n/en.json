@@ -240,7 +240,9 @@
     "FeedbackText": "Give us your Feedback here",
     "Send": "Send",
     "FeedbackType": "FeedbackType",
-    "Message": "Message",
+    "FeedbackMessage": "Message",
+    "FeedbackMessageRequired": "Feedback Message is require",
+    "FeedbackTypeRequired": "FeedbackType is required",
     "CouldNotSendFeedback": "Could not send Feedback",
     "Thanks": "Thank you for your feedback"
   },
