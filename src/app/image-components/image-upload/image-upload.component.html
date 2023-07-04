@@ -51,20 +51,28 @@
 
   <div style="margin: 1em">
     <image-cropper [imageChangedEvent]="imageChangedEvent"
-                   [resizeToWidth]=imageMaxWidth
-                   [resizeToHeight]=imageMaxHeight
-                   [aspectRatio]="1 / 1"
                    [maintainAspectRatio]="true"
+                   [containWithinAspectRatio]="containWithinAspectRatio"
+                   [aspectRatio]="1 / 1"
+                   [cropperMinWidth]=imageMaxWidth
+                   [cropperMinHeight]=imageMaxHeight
                    [onlyScaleDown]="true"
-                   [roundCropper]="false"
                    [canvasRotation]="canvasRotation"
-                   [transform]="transform"
+                   [(transform)]="transform"
                    [alignImage]="'left'"
                    [style.display]="showCropper ? null : 'none'"
+                   [allowMoveImage]="allowMoveImage"
+                   [hidden]="hidden"
+                   backgroundColor="white"
+                   output="blob"
                    format="webp"
+                   [resizeToWidth]=imageMaxWidth
+                   [resizeToHeight]=imageMaxHeight
+                   [roundCropper]="false"
                    (imageCropped)="imageCropped($event)"
                    (imageLoaded)="imageLoaded()"
                    (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div *ngIf="loading" class="loader">Loading...</div>
   </div>
 
 </div>

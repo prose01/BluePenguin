@@ -1,17 +1,24 @@
-<div [style.background]="imageVisible && backgroundColor">
+<div [style.background]="imageVisible && backgroundColor"
+     #wrapper>
   <img #sourceImage
-       class="source-image"
+       class="ngx-ic-source-image"
        *ngIf="safeImgDataUrl"
        [src]="safeImgDataUrl"
        [style.visibility]="imageVisible ? 'visible' : 'hidden'"
        [style.transform]="safeTransformStyle"
-       (load)="imageLoadedInView()" />
-  <div class="overlay"
+       [class.ngx-ic-draggable]="!disabled && allowMoveImage"
+       [attr.alt]="imageAltText"
+       (load)="imageLoadedInView()"
+       (mousedown)="startMove($event, moveTypes.Drag)"
+       (touchstart)="startMove($event, moveTypes.Drag)"
+       (error)="loadImageError($event)">
+  <div class="ngx-ic-overlay"
        [style.width.px]="maxSize.width"
-       [style.height.px]="maxSize.height"></div>
-  <div class="cropper"
+       [style.height.px]="maxSize.height"
+       [style.margin-left]="alignImage === 'center' ? marginLeft : null"></div>
+  <div class="ngx-ic-cropper"
        *ngIf="imageVisible"
-       [class.rounded]="roundCropper"
+       [class.ngx-ic-round]="roundCropper"
        [style.top.px]="cropper.y1"
        [style.left.px]="cropper.x1"
        [style.width.px]="cropper.x2 - cropper.x1"
@@ -20,36 +27,59 @@
        [style.visibility]="imageVisible ? 'visible' : 'hidden'"
        (keydown)="keyboardAccess($event)"
        tabindex="0">
-    <div (mousedown)="startMove($event, 'move')"
-         (touchstart)="startMove($event, 'move')"
-         class="move">&nbsp;</div>
-    <span class="resize topleft"
-          (mousedown)="startMove($event, 'resize', 'topleft')"
-          (touchstart)="startMove($event, 'resize', 'topleft')"><span class="square"></span></span>
-    <span class="resize top"><span class="square"></span></span>
-    <span class="resize topright"
-          (mousedown)="startMove($event, 'resize', 'topright')"
-          (touchstart)="startMove($event, 'resize', 'topright')"><span class="square"></span></span>
-    <span class="resize right"><span class="square"></span></span>
-    <span class="resize bottomright"
-          (mousedown)="startMove($event, 'resize', 'bottomright')"
-          (touchstart)="startMove($event, 'resize', 'bottomright')"><span class="square"></span></span>
-    <span class="resize bottom"><span class="square"></span></span>
-    <span class="resize bottomleft"
-          (mousedown)="startMove($event, 'resize', 'bottomleft')"
-          (touchstart)="startMove($event, 'resize', 'bottomleft')"><span class="square"></span></span>
-    <span class="resize left"><span class="square"></span></span>
-    <span class="resize-bar top"
-          (mousedown)="startMove($event, 'resize', 'top')"
-          (touchstart)="startMove($event, 'resize', 'top')"></span>
-    <span class="resize-bar right"
-          (mousedown)="startMove($event, 'resize', 'right')"
-          (touchstart)="startMove($event, 'resize', 'right')"></span>
-    <span class="resize-bar bottom"
-          (mousedown)="startMove($event, 'resize', 'bottom')"
-          (touchstart)="startMove($event, 'resize', 'bottom')"></span>
-    <span class="resize-bar left"
-          (mousedown)="startMove($event, 'resize', 'left')"
-          (touchstart)="startMove($event, 'resize', 'left')"></span>
+    <div (mousedown)="startMove($event, moveTypes.Move)"
+         (touchstart)="startMove($event, moveTypes.Move)"
+         class="ngx-ic-move">
+    </div>
+    <ng-container *ngIf="!hideResizeSquares">
+      <span class="ngx-ic-resize ngx-ic-topleft"
+            (mousedown)="startMove($event, moveTypes.Resize, 'topleft')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'topleft')">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-top">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-topright"
+            (mousedown)="startMove($event, moveTypes.Resize, 'topright')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'topright')">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-right">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-bottomright"
+            (mousedown)="startMove($event, moveTypes.Resize, 'bottomright')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'bottomright')">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-bottom">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-bottomleft"
+            (mousedown)="startMove($event, moveTypes.Resize, 'bottomleft')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'bottomleft')">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize ngx-ic-left">
+        <span class="ngx-ic-square"></span>
+      </span>
+      <span class="ngx-ic-resize-bar ngx-ic-top"
+            (mousedown)="startMove($event, moveTypes.Resize, 'top')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'top')">
+      </span>
+      <span class="ngx-ic-resize-bar ngx-ic-right"
+            (mousedown)="startMove($event, moveTypes.Resize, 'right')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'right')">
+      </span>
+      <span class="ngx-ic-resize-bar ngx-ic-bottom"
+            (mousedown)="startMove($event, moveTypes.Resize, 'bottom')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'bottom')">
+      </span>
+      <span class="ngx-ic-resize-bar ngx-ic-left"
+            (mousedown)="startMove($event, moveTypes.Resize, 'left')"
+            (touchstart)="startMove($event, moveTypes.Resize, 'left')">
+      </span>
+    </ng-container>
   </div>
 </div>

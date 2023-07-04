@@ -11,8 +11,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
-import { base64ToFile } from '../image-cropper/utils/blob.utils';
+import { Dimensions, ImageCroppedEvent, ImageTransform } from '../image-cropper/interfaces/index';
+import { DomSanitizer } from '@angular/platform-browser';
+//import { base64ToFile } from '../image-cropper/utils/blob.utils';
 import { Subscription } from 'rxjs';
 
 import { ImageService } from '../../services/image.service';
@@ -30,11 +31,18 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   private croppedImage: any = null;
   public canvasRotation = 0;
   private rotation = 0;
+  public translateH: number = 0;
+  public translateV: number = 0;
   private scale = 1;
   public showCropper = false;
-  private containWithinAspectRatio = false;
-  public transform: ImageTransform = {};
-  private fileUploadProgress: string = null;
+  public containWithinAspectRatio = false;
+  public transform: ImageTransform = {
+    translateUnit: 'px'
+  };
+  public loading: boolean = false;
+  public allowMoveImage: boolean = false;
+  public hidden: boolean = false;
+
   private titlePlaceholder: string;
   public uploadingPhoto: boolean = false;
   private fileSizeLimit: number;
@@ -42,9 +50,10 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   public imageMaxWidth: number;
   public imageMaxHeight: number;
 
+
   @Output("toggleDisplay") toggleDisplay: EventEmitter<any> = new EventEmitter();
 
-  constructor(private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private sanitizer: DomSanitizer, private imageService: ImageService, private formBuilder: FormBuilder, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.fileSizeLimit = this.configurationLoader.getConfiguration().fileSizeLimit;
     this.imageTitleMaxLength = this.configurationLoader.getConfiguration().imageTitleMaxLength;
     this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
@@ -97,7 +106,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   }
 
   imageCropped(event: ImageCroppedEvent): void {
-    this.croppedImage = event.base64;
+    this.croppedImage = event.blob;
   }
 
   imageLoaded(): void {
@@ -108,14 +117,53 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
     //console.log('Load failed');
   }
 
+  cropperReady(sourceImageDimensions: Dimensions) {
+    console.log('Cropper ready', sourceImageDimensions);
+    this.loading = false;
+  }
+
   private rotateLeft(): void {
-    this.canvasRotation--;
-    this.flipAfterRotate();
+    this.loading = true;
+    setTimeout(() => { // Use timeout because rotating image is a heavy operation and will block the ui thread
+      this.canvasRotation--;
+      this.flipAfterRotate();
+    });
   }
 
   private rotateRight(): void {
-    this.canvasRotation++;
-    this.flipAfterRotate();
+    this.loading = true;
+    setTimeout(() => {
+      this.canvasRotation++;
+      this.flipAfterRotate();
+    });
+  }
+
+  moveLeft() {
+    this.transform = {
+      ...this.transform,
+      translateH: ++this.translateH
+    };
+  }
+
+  moveRight() {
+    this.transform = {
+      ...this.transform,
+      translateH: --this.translateH
+    };
+  }
+
+  moveTop() {
+    this.transform = {
+      ...this.transform,
+      translateV: ++this.translateV
+    };
+  }
+
+  moveBottom() {
+    this.transform = {
+      ...this.transform,
+      translateV: --this.translateV
+    };
   }
 
   private flipAfterRotate(): void {
@@ -126,6 +174,8 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
       flipH: flippedV,
       flipV: flippedH
     };
+    this.translateH = 0;
+    this.translateV = 0;
   }
 
   private flipHorizontal(): void {
@@ -146,7 +196,9 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
     this.scale = 1;
     this.rotation = 0;
     this.canvasRotation = 0;
-    this.transform = {};
+    this.transform = {
+      translateUnit: 'px'
+    };
   }
 
   private zoomOut(): void {
@@ -191,7 +243,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
     else if (this.uploadImageForm.valid) {
       const uploadModel = this.uploadImageForm.value;
       const formData = new FormData();
-      const image: any = base64ToFile(this.croppedImage);
+      const image: any = this.croppedImage;
       image.lastModifiedDate = new Date();
       image.name = 'tempname';
       formData.append('image', image);
