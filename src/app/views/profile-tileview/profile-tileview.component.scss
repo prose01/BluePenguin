@@ -1,0 +1,51 @@
+// TileView and other grid layouts
+
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+  max-width: 100% !important;
+  /*position: static !important;*/
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper > div {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper.details > div {
+  max-width: 250px !important; // TODO: Find best size
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper > div > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important; // TODO: Find best fit
+  border-style: solid !important;
+  border-color: #607d8b !important;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+  display: grid !important;
+  gap: 10px !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  grid-auto-rows: 250px !important;
+  grid-auto-flow: dense !important;
+  grid-column: span 1 !important;
+  grid-row: span 1 !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper .big {
+  grid-column: span 2 !important;
+  grid-row: span 2 !important;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper .big {
+  /*max-width: 500px !important; // TODO: Find best size*/
+  grid-column: span 2 !important;
+  grid-row: span 2 !important;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper > div:hover .imageOverlay {
+  height: 50px !important;
+}
