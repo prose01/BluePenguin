@@ -1,9 +1,8 @@
-import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
@@ -17,16 +16,13 @@ import { ArrayDataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-profile-tileview',
-  templateUrl: './profile-tileview.component.html',
-  styleUrls: ['./profile-tileview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './profile-tileview.component.html'
 })
 
 export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
   private _profiles: any[];
-  public dataSource: ArrayDataSource<Profile>;
   private currentUserSubject: CurrentUser;
   private pageIndex: number = 0;
   private pageSize: number;
@@ -46,66 +42,23 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
   @Input() set profiles(values: any[]) {
     this._profiles = values;
-    console.log(this._profiles);
     this.updateProfiles();
   }
   get profiles(): any[] {
     return this._profiles;
   }
 
-  pageSize2 = 10;
-
-  fetchedRanges = new Set<number>();
-
-  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport; 
-
-
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;
     this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
     this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
-  }
-
-  private setDataSource(): void {
-    this.dataSource = new ArrayDataSource<Profile>(this.profiles);
-    //this.dataSource._updateChangeSubscription();
-
-    this.cdr.detectChanges(); // Needed to get sort working.
-    //this.dataSource.sort = this.sort;
-  }
-
-  onScroll(): void {
-    const renderedRange = this.virtualScroll.getRenderedRange();
-    const end = renderedRange.end;
-    const total = this._profiles.length;
-    console.log('onScroll');
-    const nextRange = end + 1;
-
-    if (end == total && !this.fetchedRanges.has(nextRange)) {
-      this._profiles = [...this._profiles, ...this.loadData(nextRange, this.pageSize2)];
-      this.fetchedRanges.add(nextRange);
-    }
-  }
-
-
-  private loadData(start: number, size: number): any[] {
-    if (start === 100000) {
-      console.log('100000');
-      return [];
-    }
-    return this.range(start, size);
-  }
-
-  private range(start: number, size: number): any[] {
-    console.log('100000');
-    return [...Array(size).keys()].map(i => `profile #${i + start}`);
   }
 
   ngOnInit(): void {
@@ -149,8 +102,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     }
 
     this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
-
-    this.setDataSource();
   }
 
   async resetCurrentProfiles(): Promise<void> {
