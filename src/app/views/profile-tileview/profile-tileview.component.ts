@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
@@ -12,7 +12,6 @@ import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
-import { ArrayDataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-profile-tileview',
@@ -24,10 +23,9 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private _profiles: any[];
   private currentUserSubject: CurrentUser;
-  private pageIndex: number = 0;
   private pageSize: number;
-  private currentSize: number;
-  public throttle = 1;
+  private currentPage: number = 0;
+  public throttle = 150;
   public scrollDistance = 2;
   public scrollUpDistance = 2;
   public noProfiles: boolean = false;
@@ -37,8 +35,8 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   private imageSize: string[] = []
   private randomImagePlace: number;
   private adGroup: number;
-  private imageMaxWidth: number;
-  private imageMaxHeight: number;
+  //private imageMaxWidth: number;
+  //private imageMaxHeight: number;
 
   @Input() set profiles(values: any[]) {
     this._profiles = values;
@@ -47,6 +45,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   get profiles(): any[] {
     return this._profiles;
   }
+
 
   @Input() viewFilterType: ViewFilterTypeEnum;
   @Output("getNextData") getNextData: EventEmitter<any> = new EventEmitter();
@@ -57,8 +56,8 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;
-    this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
-    this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
+    //this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
+    //this.imageMaxHeight = this.configurationLoader.getConfiguration().imageMaxHeight;
   }
 
   ngOnInit(): void {
@@ -110,13 +109,14 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
-    this.pageIndex++;
-    this.currentSize = this.pageSize * this.pageIndex;
+    var pageIndex = (this.currentProfiles?.length - this.currentPage) / this.pageSize;
 
-    if (this.profiles?.length > 0) {
-      this.getNextData.emit({ currentSize: this.currentSize, pageIndex: this.pageIndex, pageSize: this.pageSize });
+    if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
+      this.currentPage = Math.floor(pageIndex);
+      this.getNextData.emit({ pageIndex: Math.floor(pageIndex), pageSize: this.pageSize });
     }
   }
+
 
   // Load Detalails page
   private loadDetails(profile: Profile): void {
@@ -130,15 +130,15 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.addProfilesToBookmarks(selcetedProfiles)
-      .subscribe({
-        next: () =>  {
-          this.profileService.updateCurrentUserSubject();
-        },
-        complete: () => {},
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
-        }
-      })
+        .subscribe({
+          next: () => {
+            this.profileService.updateCurrentUserSubject();
+          },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotAddBookmarkedProfiles'), null);
+          }
+        })
     );
   }
 
@@ -148,19 +148,19 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.removeProfilesFromBookmarks(selcetedProfiles)
-      .subscribe({
-        next: () =>  {
-          this.profileService.updateCurrentUserSubject();
-          if (this.viewFilterType == "BookmarkedProfiles") {
-            let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
-            this.currentProfiles.splice(index, 1);
+        .subscribe({
+          next: () => {
+            this.profileService.updateCurrentUserSubject();
+            if (this.viewFilterType == "BookmarkedProfiles") {
+              let index = this.currentProfiles.indexOf(this.profiles.find(x => x.profileId === profileId), 0);
+              this.currentProfiles.splice(index, 1);
+            }
+          },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
           }
-        },
-        complete: () => {},
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveBookmarkedProfiles'), null);
-        }
-      })
+        })
     );
   }
 
@@ -171,15 +171,15 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.addLikeToProfiles(selcetedProfiles)
-      .subscribe({
-        next: () =>  {
-          this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
-        },
-        complete: () => {},
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
-        }
-      })
+        .subscribe({
+          next: () => {
+            this.profiles.find(x => x.profileId === profileId).likes.push(this.currentUserSubject.profileId);
+          },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotAddLike'), null);
+          }
+        })
     );
   }
 
@@ -189,16 +189,16 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
 
     this.subs.push(
       this.profileService.removeLikeFromProfiles(selcetedProfiles)
-      .subscribe({
-        next: () =>  {
-          let index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
-          this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
-        },
-        complete: () => {},
-        error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
-        }
-      })
+        .subscribe({
+          next: () => {
+            let index = this.profiles.find(x => x.profileId === profileId).likes.indexOf(this.currentUserSubject.profileId, 0);
+            this.profiles.find(x => x.profileId === profileId).likes.splice(index, 1);
+          },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotRemoveLike'), null);
+          }
+        })
     );
   }
 
