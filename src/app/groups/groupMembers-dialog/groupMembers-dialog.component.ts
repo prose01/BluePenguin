@@ -106,7 +106,7 @@ export class GroupMembersDialog implements OnInit, OnDestroy {
         .subscribe({
           next: () => { },
           complete: () => {
-            // TODO: We need to notify user that a complain has been made
+            // TODO: Do we need to notify user that a complain has been made. No, if too many complains user is blocked.
           },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotComplainAboutGroupMember'), null);
