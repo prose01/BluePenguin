@@ -1,16 +1,17 @@
 <div class="grid grid-pad">
 
-  <!--<div class="spinner-overlay" *ngIf="loading">
+  <div class="spinner-overlay" *ngIf="loading">
     <div class="spinner-container">
       <mat-spinner class="custom-spinner"></mat-spinner>
     </div>
-  </div>-->
+  </div>
 
   <div *ngIf="noProfiles" class="noResults">
     <p>
       {{'NoResultsText'| transloco}}
     </p>
   </div>
+
   <div class="profile-list-grid"
        infinite-scroll
        [infiniteScrollDistance]="scrollDistance"

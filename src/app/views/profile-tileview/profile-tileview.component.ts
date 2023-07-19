@@ -101,6 +101,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     }
 
     this.profiles?.length <= 0 ? this.noProfiles = true : this.noProfiles = false;
+    this.loading = false;
   }
 
   async resetCurrentProfiles(): Promise<void> {
@@ -114,6 +115,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
     if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
       this.currentPage = Math.floor(pageIndex);
       this.getNextData.emit({ pageIndex: Math.floor(pageIndex), pageSize: this.pageSize });
+      this.loading = true;
     }
   }
 
