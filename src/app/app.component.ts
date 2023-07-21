@@ -168,6 +168,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
+      this.pageView == pageViewEnum.Search ? disable() : enable(); // Prevent scroll when Search is open
       this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
       this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
     }
@@ -192,7 +193,7 @@ export class AppComponent implements OnInit, OnDestroy {
             } },
           complete: () => { },
           error: () => {
-            //this.openErrorDialog(this.translocoService.translate('CouldNotSetProfileAsAdmin'), null);  // TODO: add an error message
+            //this.openErrorDialog(this.translocoService.translate('CouldNotComplainAboutProfile'), null);  // TODO: add an error message
           }
         })
     );
@@ -412,6 +413,16 @@ export class AppComponent implements OnInit, OnDestroy {
       document.getElementById("navbar").style.top = "-100px";
     }
     prevScrollpos = currentScrollPos;
+  }
+
+  // Prevent scroll when Search is open
+  function disable() {
+    console.log('disable');
+    document.querySelector('.scrollable').classList.add('disable-scroll');
+  }
+  function enable() {
+    console.log('enable');
+    document.querySelector('.scrollable').classList.remove('disable-scroll');
   }
 
 export enum pageViewEnum {
