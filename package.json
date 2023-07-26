@@ -30,6 +30,7 @@
     "@angular/platform-browser-dynamic": "^16.0.3",
     "@angular/platform-server": "^16.0.3",
     "@angular/router": "^16.0.3",
+    "@angular/service-worker": "^16.0.3",
     "@microsoft/signalr": "^7.0.2",
     "@ngneat/transloco": "^4.2.7",
     "@ngneat/transloco-locale": "^4.1.0",

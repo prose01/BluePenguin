@@ -7,7 +7,7 @@ import { DashboardComponent }   from './dashboard/dashboard.component';
 const routes: Routes = [
   { path: 'callback', component: CallbackComponent },
   { path: '', component: DashboardComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'index.html' }
 ];
 
 @NgModule({

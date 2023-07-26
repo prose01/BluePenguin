@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -108,6 +108,7 @@ import { AvatarPhotoComponent } from './avatar-photo/avatar-photo.component';
 import { ColourPaletteComponent } from './colour-picker/colour-palette/colour-palette.component';
 import { ColourSliderComponent } from './colour-picker/colour-slider/colour-slider.component';
 import { ColourPickerComponent } from './colour-picker/colour-picker.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -208,6 +209,12 @@ import { ColourPickerComponent } from './colour-picker/colour-picker.component';
         fr: 'fr-FR',
         ko: 'ko-KR'
       }
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     })
   ],
   providers: [
