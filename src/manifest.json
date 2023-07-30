@@ -15,21 +15,7 @@
   "icons": [
     {
       "src": "/favicon.ico",
-      "sizes": "16x16 32x32 48x48"
-    },
-    {
-      "src": "https://stobluepenguincdev.blob.core.windows.net/$web/assets/icons/icon-36x36.png",
-      "sizes": "36x36",
-      "type": "image/png",
-      "density": "0.75",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "/assets/icons/icon-48x48.png",
-      "sizes": "48x48",
-      "type": "image.png",
-      "density": "1.0",
-      "purpose": "maskable any"
+      "sizes": "16x16 32x32"
     },
     {
       "src": "/assets/icons/icon-72x72.png",
