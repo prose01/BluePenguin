@@ -4,7 +4,7 @@
   "name": "blue-penguin-app",
   "scope": "/",
   "display": "fullscreen",
-  "start_url": "https://stobluepenguincdev.blob.core.windows.net/",
+  "start_url": "https://stobluepenguincdev.z16.web.core.windows.net/",
   "short_name": "blue-penguin-app",
   "theme_color": "transparent",
   "description": "Sample PWA App",
