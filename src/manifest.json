@@ -4,7 +4,7 @@
   "name": "Angular PWA ",
   "scope": "/",
   "display": "fullscreen",
-  "start_url": "http://localhost:4200/",
+  "start_url": "https://stobluepenguincdev.z16.web.core.windows.net/",
   "short_name": "Angular PWA",
   "theme_color": "transparent",
   "description": "Sample PWA App",
