@@ -2,7 +2,7 @@
   "dir": "ltr",
   "lang": "en",
   "name": "blue-penguin-app",
-  "scope": "/",
+  "scope": "./",
   "display": "fullscreen",
   "start_url": "./",
   "short_name": "blue-penguin-app",
@@ -18,7 +18,7 @@
       "sizes": "16x16 32x32 48x48"
     },
     {
-      "src": "/assets/icons/android-icon-36x36.png",
+      "src": "https://stobluepenguincdev.blob.core.windows.net/$web/assets/icons/android-icon-36x36.png",
       "sizes": "36x36",
       "type": "image/png",
       "density": "0.75",
