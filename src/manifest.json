@@ -1,15 +1,15 @@
 {
   "dir": "ltr",
   "lang": "en",
-  "name": "blue-penguin-app",
+  "name": "+1",
   "scope": "./",
   "display": "fullscreen",
   "start_url": "./",
-  "short_name": "blue-penguin-app",
-  "theme_color": "transparent",
-  "description": "Sample PWA App",
+  "short_name": "+1",
+  "theme_color": "#607d8b",
+  "description": "The world's number +1 dating app",
   "orientation": "any",
-  "background_color": "transparent",
+  "background_color": "#ffffff",
   "related_applications": [],
   "prefer_related_applications": false,
   "icons": [
@@ -32,10 +32,24 @@
       "purpose": "maskable any"
     },
     {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "density": "2.0",
+      "purpose": "maskable any"
+    },
+    {
       "src": "/assets/icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
       "density": "3.0",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "density": "4.0",
       "purpose": "maskable any"
     },
     {
@@ -46,8 +60,22 @@
       "purpose": "maskable any"
     },
     {
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "density": "4.0",
+      "purpose": "maskable any"
+    },
+    {
       "src": "/assets/icons/icon-512x512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "density": "4.0",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/assets/icons/icon-1024x1024.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "density": "4.0",
       "purpose": "maskable any"
