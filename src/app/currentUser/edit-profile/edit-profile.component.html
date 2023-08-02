@@ -9,10 +9,10 @@
   <div *ngIf="currentUserSubject">
     <h4>{{'EditProfileComponent.UpdateDetails'| transloco}}</h4>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+    <form [formGroup]="profileForm">
 
       <div style="margin-bottom: 1em">
-        <button type="submit" mat-flat-button color="accent" [disabled]="profileForm.pristine" attr.aria-label="{{'Save'| transloco}}" matTooltip="{{'Save'| transloco}}">
+        <button mat-flat-button color="accent" (click)="onSubmit()" [disabled]="profileForm.pristine" attr.aria-label="{{'Save'| transloco}}" matTooltip="{{'Save'| transloco}}">
           <span class="material-icons icon-white-square">save</span>
         </button>
         <button mat-flat-button color="accent" (click)="revert()" [disabled]="profileForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
@@ -54,7 +54,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'Name'| transloco}}" formControlName="name" [readonly]="true">
+          <input matInput placeholder="{{'Name'| transloco}}" tabindex="-1" formControlName="name" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
@@ -62,15 +62,15 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'CreatedOn'| transloco}}" formControlName="createdOn" [readonly]="true">
+          <input matInput placeholder="{{'CreatedOn'| transloco}}" tabindex="-1" formControlName="createdOn" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'UpdatedOn'| transloco}}" formControlName="updatedOn" [readonly]="true">
+          <input matInput placeholder="{{'UpdatedOn'| transloco}}" tabindex="-1" formControlName="updatedOn" [readonly]="true">
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="{{'LastActive'| transloco}}" formControlName="lastActive" [readonly]="true">
+          <input matInput placeholder="{{'LastActive'| transloco}}" tabindex="-1" formControlName="lastActive" [readonly]="true">
         </mat-form-field>
 
         <mat-label>{{'Age'| transloco}}</mat-label>

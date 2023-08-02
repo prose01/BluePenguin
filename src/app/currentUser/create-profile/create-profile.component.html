@@ -2,14 +2,14 @@
 
   <h4>{{'CreateProfileComponent.Create'| transloco}}Create your profile</h4>
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="newUserForm">
+  <form [formGroup]="newUserForm">
 
     <div style="margin-bottom: 1em">
-      <button type="submit" [disabled]="newUserForm.pristine" mat-flat-button color="accent" attr.aria-label="{{'Save'| transloco}}" matTooltip="{{'Save'| transloco}}">
-        <span class="material-icons">save</span>
+      <button mat-flat-button color="accent" (click)="onSubmit()" [disabled]="newUserForm.pristine" attr.aria-label="{{'Save'| transloco}}" matTooltip="{{'Save'| transloco}}">
+        <span class="material-icons icon-white-square">save</span>
       </button>
       <button mat-flat-button color="accent" (click)="revert()" [disabled]="newUserForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">
-        <span class="material-icons">undo</span>
+        <span class="material-icons icon-white-square">undo</span>
       </button>
     </div>
 
@@ -65,7 +65,7 @@
       </mat-slider>
 
       <mat-form-field>
-        <mat-select placeholder="{{Gender}}" formControlName="gender" required>
+        <mat-select placeholder="{{genderPlaceholder}}" formControlName="gender" required>
           <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
             {{ genderType.value }}
           </mat-option>
@@ -73,7 +73,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'Seeking'| transloco}}" formControlName="seeking" multiple>
+        <mat-select placeholder="{{seekingPlaceholder}}" formControlName="seeking" multiple>
           <mat-option *ngFor="let genderType of genderTypes | keyvalue: originalOrder" [value]="genderType.key">
             {{ genderType.value }}
           </mat-option>
@@ -195,11 +195,6 @@
       <button mat-flat-button color="primary" (click)="selectAvatarColours('circleColour');" attr.aria-label="{{'AvatarColour'| transloco}}" matTooltip="{{'AvatarColour'| transloco}}">
         <span class="material-icons" style="color:{{ avatarColour }}">palette</span>
       </button>
-
-      <mat-form-field>
-        <input matInput maxlength="10" placeholder="{{'AvatarColour'| transloco}}" formControlName="avatarColour">
-      </mat-form-field>
-
 
       <mat-slide-toggle [(ngModel)]="isChecked" [checked]="contactable" matTooltip="{{'ContactableText'| transloco}}" placeholder="{{'Contactable'| transloco}}" formControlName="contactable">{{'Contactable'| transloco}}</mat-slide-toggle>
 

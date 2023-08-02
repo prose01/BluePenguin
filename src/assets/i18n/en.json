@@ -180,6 +180,7 @@
     "LanguagecodeRequired": "Language is required",
     "NameMinCharacters": "Name must be at least 3 characters long.",
     "NameMaxCharacters": "Name cannot be more than 20 characters long.",
+    "CountrycodeRequired": "Country is required.",
     "GenderRequired": "Gender is required.",
     "SeekingRequired": "Seking is required."
   },

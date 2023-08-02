@@ -60,6 +60,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
 
   private namePlaceholder: string;
   private genderPlaceholder: string;
+  private seekingPlaceholder: string;
   private minAge: number;
   private maxAge: number;
   private minHeight: number;
@@ -102,6 +103,12 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     );
     this.subs.push(
       this.translocoService.selectTranslate('Country').subscribe(value => this.countrycodePlaceholder = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('Gender').subscribe(value => this.genderPlaceholder = value)
+    );
+    this.subs.push(
+      this.translocoService.selectTranslate('Seeking').subscribe(value => this.seekingPlaceholder = value)
     );
 
     this.subs.push(
@@ -219,6 +226,8 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     this.createForm();
     this.namePlaceholder = this.translocoService.translate('Name');
     this.genderPlaceholder = this.translocoService.translate('Gender');
+    this.seekingPlaceholder = this.translocoService.translate('Seeking');
+    this.countrycodePlaceholder = this.translocoService.translate('Country');
 
     this.subs.push(
       this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
@@ -232,6 +241,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
     this.currentUser = this.prepareSaveProfile();
 
     if (this.newUserForm.invalid) {
+
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
       if (this.newUserForm.controls.name.errors?.required) {
@@ -248,6 +258,10 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
 
       if (this.newUserForm.controls.gender?.errors != null && this.newUserForm.controls.gender.errors.required) {
         this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.GenderRequired');
+      }
+
+      if (this.newUserForm.controls.seeking?.errors != null && this.newUserForm.controls.seeking.errors.required) {
+        this.seekingPlaceholder = this.translocoService.translate('CreateProfileComponent.SeekingRequired');
       }
 
       if (this.newUserForm.controls.countrycode?.errors != null && this.newUserForm.controls.countrycode.errors.required) {
@@ -279,6 +293,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   }
 
   private prepareSaveProfile(): CurrentUser {
+    
     const formModel = this.newUserForm.value;
 
     var setInitials = formModel.avatarInitials?.trimEnd() as string == "" || formModel.avatarInitials?.trimEnd() as string === undefined ? this.createDefaultInititals(formModel.name as string) : formModel.avatarInitials as string;
@@ -331,6 +346,11 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
   }
 
   private createDefaultInititals(name: string): string {
+
+    if (!name) {
+      return;
+    }
+    
     let initials = "";
 
     initials += name.charAt(0).toUpperCase();

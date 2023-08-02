@@ -182,6 +182,7 @@
     "LanguagecodeRequired": "Sprog er påkrævet",
     "NameMinCharacters": "Navnet skal være mindst 3 tegn langt.",
     "NameMaxCharacters": "Navnet må ikke være mere end 20 tegn langt.",
+    "CountrycodeRequired": "Land er påkrævet.",
     "GenderRequired": "Køn er påkrævet.",
     "SeekingRequired": "Søger er påkrævet."
   },
