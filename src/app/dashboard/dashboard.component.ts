@@ -7,7 +7,6 @@ import { AuthService } from './../authorisation/auth/auth.service';
 import { Profile } from '../models/profile';
 import { ImageModel } from '../models/imageModel';
 import { ProfileService } from '../services/profile.service';
-import { ImageService } from '../services/image.service';
 import { OrderByType } from '../models/enums';
 import { ViewFilterTypeEnum } from '../models/viewFilterTypeEnum';
 import { ProfileListviewComponent } from '../views/profile-listview/profile-listview.component';
@@ -16,7 +15,7 @@ import { ProfileFilter } from '../models/profileFilter';
 import { BehaviorSubjectService } from '../services/behaviorSubjec.service';
 import { ErrorDialog } from '../error-dialog/error-dialog.component';
 import { CurrentUser } from '../models/currentUser';
-import { TranslocoService } from '@ngneat/transloco';
+import { getBrowserLang, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dashboard',
@@ -47,13 +46,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public loading: boolean = false;
   public isTileView = true;
+  public isProfileCreated = false;
 
   //private intervalId: any;
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
 
-  constructor(public auth: AuthService, private profileService: ProfileService, private imageService: ImageService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(public auth: AuthService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
   }
@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // Check if user allready exist. Name is mandatory.
         if (this.currentUserSubject?.name != null) {
+          this.isProfileCreated = true;
           this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false });
         }
 
@@ -75,7 +76,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         (error: any) => {
           if (error.status === 0) {
             // A network error occurred.
+            this.isProfileCreated = false;
             this.openErrorDialog(this.translocoService.translate('NoServerConnection'), null);
+          }
+          if (error.status === 404) {
+            this.isProfileCreated = false;
+            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: getBrowserLang(), uploadImageClick: false });
           }
         }
       );

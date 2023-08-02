@@ -8,7 +8,6 @@ import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { ViewFilterTypeEnum } from '../../models/viewFilterTypeEnum';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
-import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { DeleteProfileDialog } from '../../currentUser/delete-profile/delete-profile-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
@@ -52,7 +51,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   @Output("getBookmarkedProfiles") getBookmarkedProfiles: EventEmitter<any> = new EventEmitter();
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;

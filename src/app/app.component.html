@@ -175,7 +175,7 @@
   </mat-sidenav-container>
 
   <!--chat-component-->
-  <div *ngIf="useChat">
+  <div *ngIf="isProfileCreated && useChat">
     <chatWrapper [currentUser]="currentUserSubject"></chatWrapper>
   </div>
 
