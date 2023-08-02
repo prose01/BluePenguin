@@ -48,10 +48,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public isTileView = true;
   public isProfileCreated = false;
 
-  //private intervalId: any;
-
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
+  @Output("cleaningAndChecks") cleaningAndChecks: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
@@ -69,6 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.currentUserSubject?.name != null) {
           this.isProfileCreated = true;
           this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false });
+          this.cleaningAndChecks.emit();
         }
 
         this.getLatestProfiles();
@@ -93,17 +93,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
       );
 
-      //this.myCallback('first');
-      //this.intervalId = setInterval(() => {
-      //  this.myCallback('second');
-      //}, 5 * 1000);
     }
   }
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
-    //clearInterval(this.intervalId);
   }
 
   private getNextData(event: any): void {
