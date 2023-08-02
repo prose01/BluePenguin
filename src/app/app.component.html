@@ -135,7 +135,7 @@
 
     <mat-sidenav-content>
       <div *ngIf="pageView === 'Search' || pageView === 'Dashboard'">
-        <dashboard (isCurrentUserCreated)="isCurrentUserCreated($event)" (loadDetails)="loadDetails($event)"></dashboard>
+        <dashboard (isCurrentUserCreated)="isCurrentUserCreated($event)" (cleaningAndChecks)="cleaningAndChecks()" (loadDetails)="loadDetails($event)"></dashboard>
       </div>
 
       <div *ngIf="pageView === 'About'">

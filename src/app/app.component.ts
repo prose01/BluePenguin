@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
   private isProfileCreated: boolean = false;
+  private haveAlreadyRun = false;
 
   private useChat = false;
 
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
+
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     auth.handleAuthentication();
     this.useChat = this.configurationLoader.getConfiguration().useChat;
@@ -76,14 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
-
-    //setTimeout(() => {
-    //  console.log('cleanCurrentUser');
-    //  if (this.auth.isAuthenticated() && this.isProfileCreated) {
-    //    console.log('cleanCurrentUser 2');
-    //    this.profileService.cleanCurrentUser().subscribe();
-    //  }
-    //}, 500);
 
     this.languageList = this.configurationLoader.getConfiguration().languageList;
 
@@ -102,10 +96,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.initiateTransloco();
-
     
     setTimeout(() => {
-      if (this.auth.isAuthenticated() && this.showGlobalInfo) {
+      if (this.isProfileCreated && this.showGlobalInfo) {
         this.snackBarService.openSnackBar(this.translocoService.translate('GlobalInfo.Info'), 'info', '', 'center', 'top');
       }
     }, 10000);
@@ -132,6 +125,33 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.translocoService.selectTranslate('SortByLastActive').subscribe(value => this.matButtonOrderByText = value)
     );
+  }
+
+  public cleaningAndChecks(): void {
+    if (this.isProfileCreated && !this.haveAlreadyRun) {
+      setTimeout(() => {
+        this.subs.push(
+          this.profileService.cleanCurrentUser().subscribe()
+        );
+      }, 10000);
+
+      setTimeout(() => {
+        this.subs.push(
+          this.profileService.checkForComplains()
+            .subscribe({
+              next: (response: any) => {
+                if (response) {
+                  this.snackBarService.openSnackBar(this.translocoService.translate('ComplainTooMany'), 'info', '', 'center', 'top');
+                }
+              },
+              complete: () => { },
+              error: () => { }
+            })
+          );
+      }, 30000);
+
+      this.haveAlreadyRun = true;
+    }
   }
 
   logOut() {
@@ -183,22 +203,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleOrderBy(): void {
-    console.log('cleanCurrentUser 2');    // TODO: When/How should we check for complains?
-    this.subs.push(
-      this.profileService.checkForComplains()
-        .subscribe({
-          next: (response: any) => {
-            if (response) {
-              this.snackBarService.openSnackBar(this.translocoService.translate('ComplainTooMany'), 'info', '', 'center', 'top');
-            } },
-          complete: () => { },
-          error: () => {
-            //this.openErrorDialog(this.translocoService.translate('CouldNotComplainAboutProfile'), null);  // TODO: add an error message
-          }
-        })
-    );
-    console.log('cleanCurrentUser 3');
-
     switch (this.orderBy) {
       case OrderByType.CreatedOn: {
         this.matButtonOrderByText = this.translocoService.translate('SortByUpdatedOn');
@@ -417,11 +421,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Prevent scroll when Search is open
   function disable() {
-    console.log('disable');
     document.querySelector('.scrollable').classList.add('disable-scroll');
   }
   function enable() {
-    console.log('enable');
     document.querySelector('.scrollable').classList.remove('disable-scroll');
   }
 
