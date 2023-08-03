@@ -94,7 +94,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
         if (currentProfileFilterSubject) {
-          console.log('ngOnInit');
           this.loadForm(currentProfileFilterSubject);
           this.profileForm.markAsDirty();
           this.activateSearch.emit({ allowSearch: true });
@@ -221,7 +220,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(filter: ProfileFilter): void {
-    console.log('loadForm');
     this.profileForm.reset({
       name: filter.name,
       minAgeSliderControl: filter.age[0] == null ? this.minAge : filter.age[0],
@@ -351,7 +349,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   loadSearch(): void {
-    console.log('loadSearch');
     this.loading = true;
 
     this.subs.push(

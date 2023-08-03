@@ -325,6 +325,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.sidenav.opened) {
       this.sidenav.toggle();
+      enable();
     }
   }
 
@@ -342,6 +343,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.sidenav.opened) {
       this.sidenav.toggle();
+      enable();
     }
   }
 
@@ -358,6 +360,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.sidenav.opened) {
       this.sidenav.toggle();
+      enable();
     }
   }
 
@@ -375,6 +378,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.sidenav.opened) {
       this.sidenav.toggle();
+      enable();
     }
   }
 
@@ -393,6 +397,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.sidenav.opened) {
       this.sidenav.toggle();
+      enable();
     }
   }
 
@@ -400,6 +405,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.pageView = pageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
     this.matButtonToggleIcon = 'search';
+    enable();
   }
 
   // Load Details page
@@ -418,10 +424,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.pageView = pageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');
     this.matButtonToggleIcon = 'dashboard';
+    enable();
   }
 
   private loadGroups(): void {
     this.pageView = pageViewEnum.Groups;
+    enable();
   }
 
   private openErrorDialog(title: string, error: any): void {
