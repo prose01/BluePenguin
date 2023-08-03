@@ -127,13 +127,16 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Not pretty but it works.
   public cleaningAndChecks(): void {
     if (this.isProfileCreated && !this.haveAlreadyRun) {
+
+      // Run first time to clean and check. 
       setTimeout(() => {
         this.subs.push(
           this.profileService.cleanCurrentUser().subscribe()
         );
-      }, 10000);
+      }, 10000); // delay is 10 seconds
 
       setTimeout(() => {
         this.subs.push(
@@ -148,7 +151,32 @@ export class AppComponent implements OnInit, OnDestroy {
               error: () => { }
             })
           );
-      }, 30000);
+      }, 30000); // delay is 30 seconds
+
+      // run again at set interval.
+      setInterval((): void => {
+
+        this.subs.push(
+          this.profileService.cleanCurrentUser().subscribe()
+        );
+
+        // Allow clean to finish before checking for complains.
+        setTimeout(() => {
+          this.subs.push(
+            this.profileService.checkForComplains()
+              .subscribe({
+                next: (response: any) => {
+                  if (response) {
+                    this.snackBarService.openSnackBar(this.translocoService.translate('ComplainTooMany'), 'info', '', 'center', 'top');
+                  }
+                },
+                complete: () => { },
+                error: () => { }
+              })
+          );
+        }, 30000); // delay is 30 seconds
+
+      }, 21600000); // interval is 6 hours
 
       this.haveAlreadyRun = true;
     }
