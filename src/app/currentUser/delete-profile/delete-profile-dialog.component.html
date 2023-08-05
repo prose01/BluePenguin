@@ -9,7 +9,7 @@
     <button mat-flat-button color="accent" (click)="onNoClick()" cdkFocusInitial attr.aria-label="{{'NoThanks'| transloco}}">
       {{'NoThanks'| transloco}}
     </button>
-    <button mat-flat-button color="warn" mat-dialog-close (click)="onYesClick()" attr.aria-label="{{'Ok'| transloco}}">
+    <button mat-flat-button color="warn" *ngIf="IsChecked" mat-dialog-close (click)="onYesClick()" attr.aria-label="{{'Ok'| transloco}}">
       {{'Ok'| transloco}}
     </button>
   </div>

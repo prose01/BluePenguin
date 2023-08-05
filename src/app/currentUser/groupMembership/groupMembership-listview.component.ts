@@ -32,7 +32,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
-  private groups: GroupModel[];
+  private groups: GroupModel[] = [];
   private currentGroup: GroupModel;
   private length: number;
 
@@ -144,7 +144,9 @@ export class GroupMembershipListviewComponent implements OnInit, OnDestroy {
 
             this.groups = new Array;
 
-            this.groups.push(...response);
+            if (response != null) {
+              this.groups.push(...response);
+            }
 
             //this.length = this.groups.length + currentSize + 1;
             this.length = this.currentUserSubject.groups.length;
