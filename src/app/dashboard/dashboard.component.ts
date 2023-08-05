@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
   @Output("isCurrentUserCreated") isCurrentUserCreated: EventEmitter<any> = new EventEmitter();
   @Output("cleaningAndChecks") cleaningAndChecks: EventEmitter<any> = new EventEmitter();
+  @Output("logOut") logOut: EventEmitter<any> = new EventEmitter();
 
   constructor(public auth: AuthService, private profileService: ProfileService, private behaviorSubjectService: BehaviorSubjectService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
@@ -93,6 +94,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
       );
 
+    }
+    else {
+      this.logOut.emit();
     }
   }
 
