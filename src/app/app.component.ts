@@ -183,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logOut() {
-    this.chatWrapperComponent.logOut();
+    this.chatWrapperComponent?.logOut();
     this.auth.logout();
   }
 

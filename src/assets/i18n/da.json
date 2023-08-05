@@ -166,7 +166,7 @@
   },
   "ImageBoardComponent": {
     "MaxImages": "Du har nået det maksimale antal {{maxPhotos}} tilladte profilbilleder.",
-    "UploadNewPhoto": "Upload nyt billede",
+    "AddPhoto": "Tilføj billede",
     "TileView": "TileView"
   },
   "ImageDeleteDialogComponent": {

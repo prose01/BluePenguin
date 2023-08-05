@@ -43,7 +43,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
     this.getCurrentUserImages();
 
     this.subs.push(
-      this.translocoService.selectTranslate('ImageBoardComponent.UploadNewPhoto').subscribe(value => this.matButtonToggleText = value)
+      this.translocoService.selectTranslate('ImageBoardComponent.AddPhoto').subscribe(value => this.matButtonToggleText = value)
     );
   }
 
@@ -88,10 +88,10 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
   private toggleDisplay(): void {
     this.isMatButtonToggled = !this.isMatButtonToggled;
-    this.matButtonToggleText = (this.isMatButtonToggled ? this.translocoService.translate('ImageBoardComponent.UploadNewPhoto') : this.translocoService.translate('ImageBoardComponent.TileView'));
+    this.matButtonToggleText = (this.isMatButtonToggled ? this.translocoService.translate('ImageBoardComponent.AddPhoto') : this.translocoService.translate('ImageBoardComponent.TileView'));
     this.matButtonToggleIcon = (this.isMatButtonToggled ? 'add_photo_alternate' : 'collections');
 
-    if (this.matButtonToggleText == this.translocoService.translate('ImageBoardComponent.UploadNewPhoto')) {
+    if (this.matButtonToggleText == this.translocoService.translate('ImageBoardComponent.AddPhoto')) {
       this.refreshCurrentUserImages();
     }
   }

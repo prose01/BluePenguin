@@ -11,7 +11,7 @@
     <button mat-flat-button color="accent" (click)="fileInput.click()" attr.aria-label="{{'ImageUploadComponent.ChooseFile'| transloco}}" matTooltip="{{'ImageUploadComponent.ChooseFile'| transloco}}">
       <span class="material-icons icon-white-square">folder_open</span>
     </button>
-    <input type="file" (change)="fileChangeEvent($event)" #fileInput hidden>
+    <input type="file" accept="image/*" (change)="fileChangeEvent($event)" #fileInput hidden>
 
     <mat-form-field *ngIf="showCropper" style="margin-left: 10px">
       <input matInput placeholder="{{ titlePlaceholder }}" formControlName="title" (ngModelChange)="onChange()">

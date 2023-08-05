@@ -166,7 +166,7 @@
   },
   "ImageBoardComponent": {
     "MaxImages": "You have reached the maximum {{maxPhotos}} number of profile images allowed.",
-    "UploadNewPhoto": "Upload new image",
+    "AddPhoto": "Add image",
     "TileView": "TileView"
   },
   "ImageDeleteDialogComponent": {
