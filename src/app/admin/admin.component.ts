@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
 
   constructor(private profileService: ProfileService, private formBuilder: FormBuilder, private dialog: MatDialog, private readonly translocoService: TranslocoService) {
-    this.createForm();
+    //this.createForm();
   }
 
   ngOnInit(): void {
@@ -36,41 +36,41 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
 
-  createForm(): void {
-    this.deleteProfilesForm = this.formBuilder.group({
-      daysBack: null,
-      limit: null
-    });
-  }
+  //createForm(): void {
+  //  this.deleteProfilesForm = this.formBuilder.group({
+  //    daysBack: null,
+  //    limit: null
+  //  });
+  //}
 
-  onSubmit(): void {
-    if (this.currentUserSubject.admin) {
-      this.loading = true;
-      const formModel = this.deleteProfilesForm.value;
+  //onSubmit(): void {
+  //  if (this.currentUserSubject.admin) {
+  //    this.loading = true;
+  //    const formModel = this.deleteProfilesForm.value;
 
-      this.subs.push(
-        this.profileService.deleteOldProfiles(formModel.daysBack, formModel.limit)
-          .subscribe({
-            next: () => { },
-            complete: () => {
-              this.deleteProfilesForm.markAsPristine(); this.loading = false;
-            },
-            error: () => {
-              this.openErrorDialog(this.translocoService.translate('AdminComponent.CouldNotDeleteProfiles'), null); this.loading = false;
-            }
-          })
-      );
-    }
-  }
+  //    this.subs.push(
+  //      this.profileService.deleteOldProfiles(formModel.daysBack, formModel.limit)
+  //        .subscribe({
+  //          next: () => { },
+  //          complete: () => {
+  //            this.deleteProfilesForm.markAsPristine(); this.loading = false;
+  //          },
+  //          error: () => {
+  //            this.openErrorDialog(this.translocoService.translate('AdminComponent.CouldNotDeleteProfiles'), null); this.loading = false;
+  //          }
+  //        })
+  //    );
+  //  }
+  //}
 
-  private openErrorDialog(title: string, error: string): void {
-    const dialogRef = this.dialog.open(ErrorDialog, {
-      data: {
-        title: title,
-        content: error
-      }
-    });
-  }
+  //private openErrorDialog(title: string, error: string): void {
+  //  const dialogRef = this.dialog.open(ErrorDialog, {
+  //    data: {
+  //      title: title,
+  //      content: error
+  //    }
+  //  });
+  //}
 }
 
 

@@ -253,13 +253,5 @@ export class ProfileService {
 
     return this.http.post<Profile[]>(`${this.avalonUrl}GetProfilesByIds`, { profileIds }, { headers: this.headers, params: params });
   }
-
-  deleteOldProfiles(daysBack: number, limit: number): Observable<{}> {
-    const params = new HttpParams()
-      .set('daysBack', daysBack)
-      .set('limit', limit);
-
-    return this.http.delete(`${this.avalonUrl}DeleteOldProfiles`, { headers: this.headers, params: params });
-  }
 }
 
