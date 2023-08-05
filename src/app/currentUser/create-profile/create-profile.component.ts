@@ -215,7 +215,7 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       eatingHabits: EatingHabitsType.NotChosen,
       clotheStyle: ClotheStyleType.NotChosen,
       bodyArt: BodyArtType.NotChosen,
-      avatarInitials: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+      avatarInitials: [null, [Validators.minLength(2), Validators.maxLength(2)]],
       avatarInitialsColour: '#f07537',
       avatarColour: '#607D8B'
     });
