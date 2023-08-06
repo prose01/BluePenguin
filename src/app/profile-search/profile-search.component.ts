@@ -94,9 +94,12 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.behaviorSubjectService.currentProfileFilterSubject.subscribe(currentProfileFilterSubject => {
         if (currentProfileFilterSubject) {
-          this.loadForm(currentProfileFilterSubject);
-          this.profileForm.markAsDirty();
-          this.activateSearch.emit({ allowSearch: true });
+          setTimeout(() => {
+            this.loadForm(currentProfileFilterSubject);
+            this.profileForm.markAsDirty();
+            this.activateSearch.emit({ allowSearch: true });
+          }, 100);
+
         }
       })
     );
@@ -196,9 +199,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.profileForm = this.formBuilder.group({
       name: null,
       minAgeSliderControl: this.minAge,
-      maxAgeSliderControl: this.maxAge,
+      maxAgeSliderControl: this.minAge,
       minHeightSliderControl: this.minHeight,
-      maxHeightSliderControl: this.maxHeight,
+      maxHeightSliderControl: this.minHeight,
       heightSliderControl: null,
       description: null,
       tags: null,
@@ -220,31 +223,37 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   private loadForm(filter: ProfileFilter): void {
-    this.profileForm.reset({
-      name: filter.name,
-      minAgeSliderControl: filter.age[0] == null ? this.minAge : filter.age[0],
-      maxAgeSliderControl: filter.age[1] == null ? this.maxAge : filter.age[1],
-      minHeightSliderControl: filter.height[0] == null ? this.minHeight : filter.height[0],
-      maxHeightSliderControl: filter.height[1] == null ? this.maxHeight : filter.height[1],
-      description: filter.description,
-      tags: filter.tags,
-      gender: filter.gender,
-      body: filter.body,
-      smokingHabits: filter.smokingHabits,
-      hasChildren: filter.hasChildren,
-      wantChildren: filter.wantChildren,
-      hasPets: filter.hasPets,
-      livesIn: filter.livesIn,
-      education: filter.education,
-      educationStatus: filter.educationStatus,
-      employmentStatus: filter.employmentStatus,
-      sportsActivity: filter.sportsActivity,
-      eatingHabits: filter.eatingHabits,
-      clotheStyle: filter.clotheStyle,
-      bodyArt: filter.bodyArt
-    });
+    if (filter != null) {
+      this.profileForm.reset({
+        name: filter.name,
+        minAgeSliderControl: filter.age[0] == null ? this.minAge : filter.age[0],
+        maxAgeSliderControl: filter.age[1] == null ? this.maxAge : filter.age[1],
+        minHeightSliderControl: filter.height[0] == null ? this.minHeight : filter.height[0],
+        maxHeightSliderControl: filter.height[1] == null ? this.maxHeight : filter.height[1],
+        description: filter.description,
+        tags: filter.tags,
+        gender: filter.gender,
+        body: filter.body,
+        smokingHabits: filter.smokingHabits,
+        hasChildren: filter.hasChildren,
+        wantChildren: filter.wantChildren,
+        hasPets: filter.hasPets,
+        livesIn: filter.livesIn,
+        education: filter.education,
+        educationStatus: filter.educationStatus,
+        employmentStatus: filter.employmentStatus,
+        sportsActivity: filter.sportsActivity,
+        eatingHabits: filter.eatingHabits,
+        clotheStyle: filter.clotheStyle,
+        bodyArt: filter.bodyArt
+      });
 
-    this.tagsList = filter.tags;
+      this.tagsList = filter.tags;
+    }
+    else {
+      this.profileForm.markAsPristine();
+      this.activateSearch.emit({ allowSearch: false });
+    }
   }
 
   onSubmit(): void {
@@ -252,8 +261,8 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
     // Just return if no search input.
     if (this.filter.name == null &&
-      this.filter.age[1] == 0 &&
-      this.filter.height[1] == 0 &&
+      this.filter.age[1] == this.minAge &&
+      this.filter.height[1] == this.minHeight &&
       this.filter.description == null &&
       this.filter.tags.length == 0 &&
       this.filter.body == BodyType.NotChosen &&
@@ -270,9 +279,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.filter.clotheStyle == ClotheStyleType.NotChosen &&
       this.filter.bodyArt == BodyArtType.NotChosen) {
 
-      this.toggleDisplay.emit();
       return;
     }
+
     this.behaviorSubjectService.updateCurrentProfileFilterSubject(this.filter);
     this.getProfileByFilter.emit();
   }
@@ -333,6 +342,31 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.filter = this.prepareSearch();
+
+    // Just return if no search input.
+    if (this.filter.name == null &&
+      this.filter.age[1] == this.minAge &&
+      this.filter.height[1] == this.minHeight &&
+      this.filter.description == null &&
+      this.filter.tags.length == 0 &&
+      this.filter.body == BodyType.NotChosen &&
+      this.filter.smokingHabits == SmokingHabitsType.NotChosen &&
+      this.filter.hasChildren == HasChildrenType.NotChosen &&
+      this.filter.wantChildren == WantChildrenType.NotChosen &&
+      this.filter.hasPets == HasPetsType.NotChosen &&
+      this.filter.livesIn == LivesInType.NotChosen &&
+      this.filter.education == EducationType.NotChosen &&
+      this.filter.educationStatus == EducationStatusType.NotChosen &&
+      this.filter.employmentStatus == EmploymentStatusType.NotChosen &&
+      this.filter.sportsActivity == SportsActivityType.NotChosen &&
+      this.filter.eatingHabits == EatingHabitsType.NotChosen &&
+      this.filter.clotheStyle == ClotheStyleType.NotChosen &&
+      this.filter.bodyArt == BodyArtType.NotChosen) {
+
+      this.loading = false;
+      return;
+    }
+
     this.subs.push(
       this.profileService.saveProfileFilter(this.filter)
       .subscribe({

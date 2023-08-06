@@ -217,6 +217,7 @@ export class AppComponent implements OnInit, OnDestroy {
     else {
       this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
       this.pageView == pageViewEnum.Search ? disable() : enable(); // Prevent scroll when Search is open
+      this.allowSearch = (this.pageView == pageViewEnum.Dashboard ? true : false);
       this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
       this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
     }
@@ -284,7 +285,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private activateSearch(event: any): void {
-    this.allowSearch = event.allowSearch
+    this.allowSearch = event.allowSearch;
   }
 
   private saveSearch(): void {
@@ -307,7 +308,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.pageView = pageViewEnum.Edit;
       }
       else {
-        this.pageView = pageViewEnum.Dashboard;
+        this.loadDashboard();
+        this.getData();
+        //this.pageView = pageViewEnum.Dashboard;
       }
     }
   }
