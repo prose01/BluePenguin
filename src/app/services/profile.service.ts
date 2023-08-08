@@ -164,8 +164,8 @@ export class ProfileService {
     return this.http.get(`${this.avalonUrl}AddVisitedToProfiles/${profileId}`, { headers: this.headers });
   }
 
-  deleteProfiles(profiles: string[]): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profiles, { headers: this.headers });
+  deleteProfiles(profileIds: string[]): Observable<{}> {
+    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profileIds, { headers: this.headers });
   }
 
   setAsAdmin(profileId: string): Observable<{}> {

@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   constructor(public auth: AuthService, private enumMappings: EnumMappingService, private profileService: ProfileService, private snackBarService: SnackBarService, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
-    auth.handleAuthentication();
+    this.auth.handleAuthentication();
     this.useChat = this.configurationLoader.getConfiguration().useChat;
 
     this.subs.push(

@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
-import { ImageSizeEnum } from '../models/imageSizeEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class ImageService {
   private headers: HttpHeaders;
 
   constructor(private configurationLoader: ConfigurationLoader, private http: HttpClient) {
-    this.artemisUrl = configurationLoader.getConfiguration().artemisUrl;
+    this.artemisUrl = this.configurationLoader.getConfiguration().artemisUrl;
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
@@ -49,7 +48,7 @@ export class ImageService {
   //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers });
   //}
 
-  deleteAllImagesForProfile(profileIds: string[]): Observable<any> {
-    return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfile`, profileIds, { headers: this.headers });
+  deleteAllImagesForProfiles(profileIds: string[]): Observable<{}> {
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfiles`, profileIds, { headers: this.headers });
   }
 }
