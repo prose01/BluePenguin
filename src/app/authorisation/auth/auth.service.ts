@@ -3,10 +3,14 @@ import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { getBrowserLang } from '@ngneat/transloco';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class AuthService {
 
+
+  private headers: HttpHeaders;
   private _idToken: string;
   private _accessToken: string;
   private _expiresAt: number;
@@ -22,10 +26,11 @@ export class AuthService {
     grant_type : AUTH_CONFIG.grant_type
   });
 
-  constructor(public router: Router) {
+  constructor(public router: Router, private http: HttpClient) {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 0;
+    this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
   get accessToken(): string {
@@ -83,6 +88,12 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
     // Go back to the home route
     this.router.navigate(['/']);
+    this.auth0.logout();
+  }
+
+  public getAuth0Id(): Observable<{}> {
+    var url = 'https://' + AUTH_CONFIG.domain + '/userinfo';
+    return this.http.get(url, { headers: this.headers });
   }
 
   public isAuthenticated(): boolean {

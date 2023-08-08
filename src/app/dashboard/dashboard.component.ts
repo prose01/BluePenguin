@@ -81,8 +81,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.openErrorDialog(this.translocoService.translate('NoServerConnection'), null);
           }
           if (error.status === 404) {
-            this.isProfileCreated = false;
-            this.isCurrentUserCreated.emit({ isCreated: false, languagecode: getBrowserLang(), uploadImageClick: false });
+            var user = this.auth.getAuth0Id().subscribe({
+              next: () => {
+                // User exist in Auth0 => create new user.
+                this.isProfileCreated = false;
+                this.isCurrentUserCreated.emit({ isCreated: false, languagecode: getBrowserLang(), uploadImageClick: false });
+              },
+              complete: () => { },
+              error: () => {
+              // User does not exist in Auth0 => just log out.
+                this.logOut.emit();
+              }
+            })
           }
         }
       );
@@ -96,6 +106,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     }
     else {
+      // Just log out if not Authenticated.
       this.logOut.emit();
     }
   }
