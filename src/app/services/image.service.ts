@@ -30,12 +30,12 @@ export class ImageService {
   //  return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers });
   //}
 
-  deleteImagesForCurrentUser(imageId: string[]) {
-    return this.http.post(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageId, { headers: this.headers }).toPromise();
+  deleteImagesForCurrentUser(imageId: string[]): Observable<{}> {
+    return this.http.post(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageId, { headers: this.headers });
   }
 
-  deleteAllImagesForCurrentUser() {
-    return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers }).toPromise();
+  deleteAllImagesForCurrentUser(): Observable<{}> {
+    return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers });
   }
 
   // Profile

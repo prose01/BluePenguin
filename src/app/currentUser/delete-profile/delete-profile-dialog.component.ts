@@ -55,33 +55,83 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
 
       if (this.profileIds.includes(this.currentUserSubject.profileId) && !this.currentUserSubject.admin) {
         // Images must be deleted before user as the imageService uses the profileId!!!
-        const reponse = await this.imageService.deleteAllImagesForCurrentUser();
+        //const reponse = await this.imageService.deleteAllImagesForCurrentUser();
+
         this.subs.push(
-          this.profileService.deleteCurrentUser()
-          .subscribe({
-            next: () =>  {},
-            complete: () => { 
-              this.auth.logout() 
-            },
-            error: () => {
-              this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
-            }
-          })
+          this.imageService.deleteAllImagesForCurrentUser()
+            .subscribe({
+              next: () => { },
+              complete: () => {
+                //this.subs.push(
+                //  this.profileService.deleteCurrentUser()
+                //    .subscribe({
+                //      next: () => { },
+                //      complete: () => {
+                //        this.auth.logout()
+                //      },
+                //      error: () => {
+                //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+                //      }
+                //    })
+                //);
+              },
+              error: () => {
+                this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+              }
+            })
         );
+
+        //this.subs.push(
+        //  this.profileService.deleteCurrentUser()
+        //  .subscribe({
+        //    next: () =>  {},
+        //    complete: () => { 
+        //      this.auth.logout() 
+        //    },
+        //    error: () => {
+        //      this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+        //    }
+        //  })
+        //);
       }
       else if (!this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
         // Images must be deleted before user as the imageService uses the profileId!!!
-        const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
+        //const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
+
         this.subs.push(
-          this.profileService.deleteProfiles(this.profileIds)
+          this.imageService.deleteAllImagesForProfiles(this.profileIds)
             .subscribe({
-              next: () => { },
-              complete: () => { },
+              next: () => { console.log('next'); },
+              complete: () => {
+                console.log('complete');
+                //this.subs.push(
+                //  this.profileService.deleteProfiles(this.profileIds)
+                //    .subscribe({
+                //      next: () => { },
+                //      complete: () => { },
+                //      error: () => {
+                //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
+                //      }
+                //    })
+                //);
+              },
               error: () => {
+                console.log('error');
                 this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
               }
             })
         );
+
+        //this.subs.push(
+        //  this.profileService.deleteProfiles(this.profileIds)
+        //    .subscribe({
+        //      next: () => { },
+        //      complete: () => { },
+        //      error: () => {
+        //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
+        //      }
+        //    })
+        //);
       }
     }
   }
