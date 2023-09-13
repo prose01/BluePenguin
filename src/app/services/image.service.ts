@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
+import { Profile } from '../models/profile';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class ImageService {
   //  return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers });
   //}
 
-  deleteImagesForCurrentUser(imageId: string[]): Observable<{}> {
-    return this.http.post(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageId, { headers: this.headers });
+  deleteImagesForCurrentUser(imageIds: string[]): Observable<{}> {
+    return this.http.post<string[]>(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageIds, { headers: this.headers });
   }
 
   deleteAllImagesForCurrentUser(): Observable<{}> {
@@ -49,6 +50,6 @@ export class ImageService {
   //}
 
   deleteAllImagesForProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post(`${this.artemisUrl}DeleteAllImagesForProfiles`, profileIds, { headers: this.headers });
+    return this.http.post<string[]>(`${this.artemisUrl}DeleteAllImagesForProfiles`, profileIds, { headers: this.headers });
   }
 }

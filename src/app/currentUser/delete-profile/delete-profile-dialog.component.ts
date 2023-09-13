@@ -51,87 +51,61 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
   async onYesClick(): Promise<void> {
     if (this.IsChecked) {
 
-      this.dialogRef.close(true);
-
       if (this.profileIds.includes(this.currentUserSubject.profileId) && !this.currentUserSubject.admin) {
-        // Images must be deleted before user as the imageService uses the profileId!!!
-        //const reponse = await this.imageService.deleteAllImagesForCurrentUser();
 
+        // Images must be deleted before user as the imageService uses the profileId!!!
         this.subs.push(
           this.imageService.deleteAllImagesForCurrentUser()
             .subscribe({
               next: () => { },
               complete: () => {
-                //this.subs.push(
-                //  this.profileService.deleteCurrentUser()
-                //    .subscribe({
-                //      next: () => { },
-                //      complete: () => {
-                //        this.auth.logout()
-                //      },
-                //      error: () => {
-                //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
-                //      }
-                //    })
-                //);
+                this.subs.push(
+                  this.profileService.deleteCurrentUser()
+                    .subscribe({
+                      next: () => { },
+                      complete: () => {
+                        this.auth.logout()
+                      },
+                      error: () => {
+                        this.dialogRef.close(false);
+                        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
+                      }
+                    })
+                );
               },
               error: () => {
+                this.dialogRef.close(false);
                 this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
               }
             })
         );
-
-        //this.subs.push(
-        //  this.profileService.deleteCurrentUser()
-        //  .subscribe({
-        //    next: () =>  {},
-        //    complete: () => { 
-        //      this.auth.logout() 
-        //    },
-        //    error: () => {
-        //      this.openErrorDialog(this.translocoService.translate('CouldNotDeleteCurrentUser'), null);
-        //    }
-        //  })
-        //);
       }
       else if (!this.profileIds.includes(this.currentUserSubject.profileId) && this.currentUserSubject.admin) {
-        // Images must be deleted before user as the imageService uses the profileId!!!
-        //const reponse = await this.imageService.deleteAllImagesForProfile(this.profileIds);
 
+        // Images must be deleted before user as the imageService uses the profileId!!!
         this.subs.push(
           this.imageService.deleteAllImagesForProfiles(this.profileIds)
             .subscribe({
-              next: () => { console.log('next'); },
+              next: () => { },
               complete: () => {
-                console.log('complete');
-                //this.subs.push(
-                //  this.profileService.deleteProfiles(this.profileIds)
-                //    .subscribe({
-                //      next: () => { },
-                //      complete: () => { },
-                //      error: () => {
-                //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
-                //      }
-                //    })
-                //);
+                this.subs.push(
+                  this.profileService.deleteProfiles(this.profileIds)
+                    .subscribe({
+                      next: () => { },
+                      complete: () => { this.dialogRef.close(true); },
+                      error: () => {
+                        this.dialogRef.close(false);
+                        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
+                      }
+                    })
+                );
               },
               error: () => {
-                console.log('error');
+                this.dialogRef.close(false);
                 this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
               }
             })
         );
-
-        //this.subs.push(
-        //  this.profileService.deleteProfiles(this.profileIds)
-        //    .subscribe({
-        //      next: () => { },
-        //      complete: () => { },
-        //      error: () => {
-        //        this.openErrorDialog(this.translocoService.translate('CouldNotDeleteAllImagesForProfile'), null);
-        //      }
-        //    })
-        //);
       }
     }
   }
