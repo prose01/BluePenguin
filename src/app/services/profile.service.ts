@@ -76,7 +76,7 @@ export class ProfileService {
 
   // Groups
   createGroup(group: GroupModel): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}CreateGroup`, group, { headers: this.headers });
+    return this.http.post<GroupModel>(`${this.avalonUrl}CreateGroup`, group, { headers: this.headers });
   }
 
   getGroups(pageIndex: number, pageSize: number): Observable<GroupModel[]> {
@@ -104,15 +104,15 @@ export class ProfileService {
   }
 
   joinGroup(groupId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}JoinGroup`, `\"${groupId}\"`, { headers: this.headers });
+    return this.http.post<string>(`${this.avalonUrl}JoinGroup`, `\"${groupId}\"`, { headers: this.headers });
   }
 
   removeGroupsFromCurrentUserAndCurrentUserFromGroups(groupIds: string[]): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}RemoveGroupsFromCurrentUserAndCurrentUserFromGroups`, groupIds, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}RemoveGroupsFromCurrentUserAndCurrentUserFromGroups`, groupIds, { headers: this.headers });
   }
 
   addComplainToGroupMember(groupId: string, profileId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}AddComplainToGroupMember/${groupId}`, `\"${profileId}\"`, { headers: this.headers });
+    return this.http.post<string>(`${this.avalonUrl}AddComplainToGroupMember/${groupId}`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   //// Does not work so use putProfile instead.
@@ -123,11 +123,11 @@ export class ProfileService {
 
   // Bookmarks
   addProfilesToBookmarks(profiles: string[]): Observable<{}> {
-    return this.http.post<Profile>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}AddProfilesToBookmarks`, profiles, { headers: this.headers });
   }
 
   removeProfilesFromBookmarks(profiles: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}RemoveProfilesFromBookmarks`, profiles, { headers: this.headers });
   }
 
   getBookmarkedProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
@@ -141,11 +141,11 @@ export class ProfileService {
 
   // Likes
   addLikeToProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}AddLikeToProfiles`, profileIds, { headers: this.headers });
   }
 
   removeLikeFromProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post<Profile[]>(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}RemoveLikeFromProfiles`, profileIds, { headers: this.headers });
   }
 
 
@@ -165,15 +165,15 @@ export class ProfileService {
   }
 
   deleteProfiles(profileIds: string[]): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}DeleteProfiles`, profileIds, { headers: this.headers });
+    return this.http.post<string[]>(`${this.avalonUrl}DeleteProfiles`, profileIds, { headers: this.headers });
   }
 
   setAsAdmin(profileId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}SetAsAdmin`, `\"${profileId}\"`, { headers: this.headers });
+    return this.http.post<string>(`${this.avalonUrl}SetAsAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   removeAdmin(profileId: string): Observable<{}> {
-    return this.http.post(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
+    return this.http.post<string>(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   //getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
@@ -188,8 +188,8 @@ export class ProfileService {
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers });
   }
 
-  addComplainToProfile(profileId: string): Observable<Profile> {
-    return this.http.post<Profile>(`${this.avalonUrl}AddComplainToProfile`, `\"${profileId}\"`, { headers: this.headers });
+  addComplainToProfile(profileId: string): Observable<{}> {
+    return this.http.post<string>(`${this.avalonUrl}AddComplainToProfile`, `\"${profileId}\"`, { headers: this.headers });
   }
 
   getProfileByFilter(profileFilter: ProfileFilter, orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
