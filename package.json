@@ -33,7 +33,7 @@
     "@angular/service-worker": "^16.0.3",
     "@microsoft/signalr": "^7.0.2",
     "@ngneat/transloco": "^5.0.9",
-    "@ngneat/transloco-locale": "^5.1.1",
+    "@ngneat/transloco-locale": "^4.1.0",
     "@types/node": "^20.2.3",
     "auth0-js": "^9.21.0",
     "core-js": "^3.30.2",
