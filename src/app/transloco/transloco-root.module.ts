@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  TRANSLOCO_LOADER,
   Translation,
   TranslocoLoader,
-  TRANSLOCO_CONFIG,
-  translocoConfig,
+  provideTransloco,
   TranslocoModule
 } from '@ngneat/transloco';
-import { Injectable, NgModule } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { TranslocoLocaleModule, provideTranslocoLocale } from '@ngneat/transloco-locale';
+import { Injectable, isDevMode, NgModule } from '@angular/core';
 import { getBrowserLang } from '@ngneat/transloco';
 
 @Injectable({ providedIn: 'root' })
@@ -21,20 +19,29 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 }
 
 @NgModule({
-  exports: [ TranslocoModule ],
+  exports: [TranslocoModule, TranslocoLocaleModule],
   providers: [
-    {
-      provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig({
-        availableLangs: ['da', 'de', 'en', 'es', 'fr', 'ko'], // Remember to also to update transloco.config.js
+    provideTransloco({
+      config: {
+        availableLangs: ['da', 'de', 'en', 'es', 'fr', 'ko'],
         defaultLang: getBrowserLang() || 'en',
         fallbackLang: 'en',
         // Remove this option if your application doesn't support changing language in runtime.
         reRenderOnLangChange: true,
-        prodMode: environment.production,
-      })
-    },
-    { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader }
-  ]
+        prodMode: !isDevMode(),
+      },
+      loader: TranslocoHttpLoader
+    }),
+    provideTranslocoLocale({
+      langToLocaleMapping: {
+        da: 'da-DK',
+        de: 'de-DE',
+        en: 'en-GB',
+        es: 'es-ES',
+        fr: 'fr-FR',
+        ko: 'ko-KR'
+      }
+    })
+  ],
 })
-export class TranslocoRootModule {}
+export class TranslocoRootModule { }

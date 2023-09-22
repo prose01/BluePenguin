@@ -200,16 +200,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ImageCropperModule,
    /* NgxSliderModule,*/
     TranslocoRootModule,
-    TranslocoLocaleModule.forRoot({
-      langToLocaleMapping: {
-        da: 'da-DK',
-        de: 'de-DE',
-        en: 'en-GB',
-        es: 'es-ES',
-        fr: 'fr-FR',
-        ko: 'ko-KR'
-      }
-    }),
+    TranslocoLocaleModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
