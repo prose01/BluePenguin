@@ -66,13 +66,12 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
           if (typeof element.fileName !== 'undefined') {
 
-            // TODO: Remove this is-statement when all photos have format
-            if (!element.fileName.includes('.')) {
-              element.fileName = element.fileName + '.jpeg'
-            }
+            //// TODO: Remove this is-statement when all photos have format
+            //if (!element.fileName.includes('.')) {
+            //  element.fileName = element.fileName + '.jpeg'
+            //}
 
-            element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/large/' + element.fileName
-            //element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/small/' + element.fileName
+            element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/' + element.fileName
           }
 
         });

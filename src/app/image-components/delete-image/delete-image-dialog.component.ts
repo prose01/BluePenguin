@@ -42,10 +42,10 @@ export class DeleteImageDialog implements OnInit, OnDestroy {
   async onYesClick(): Promise<void> {
     if (this.IsChecked) {
 
-      var id = [];
-      id.push(this.imageId["imageId"]);
+      var imageIds = new Array;
+      imageIds.push(this.imageId["imageId"]);
 
-      this.imageService.deleteImagesForCurrentUser(id);
+      this.imageService.deleteImagesForCurrentUser(imageIds).subscribe();
 
       this.dialogRef.close(true);
     }

@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ConfigurationLoader } from '../configuration/configuration-loader.service';
-import { Profile } from '../models/profile';
 
 @Injectable({
   providedIn: 'root'
@@ -19,17 +18,11 @@ export class ImageService {
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   }
 
-  // CurrentUser
-
   uploadImage(formData: FormData): Observable<any> {
     return this.http.post(`${this.artemisUrl}UploadImage`, formData, {
       observe: 'events'
     });
   }
-
-  //getImageByFileName(fileName: string): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.artemisUrl}GetImageByFileName/${fileName}`, { headers: this.headers });
-  //}
 
   deleteImagesForCurrentUser(imageIds: string[]): Observable<{}> {
     return this.http.post<string[]>(`${this.artemisUrl}DeleteImagesForCurrentUser`, imageIds, { headers: this.headers });
@@ -38,16 +31,6 @@ export class ImageService {
   deleteAllImagesForCurrentUser(): Observable<{}> {
     return this.http.post(`${this.artemisUrl}DeleteAllImagesForCurrentUser`, { headers: this.headers });
   }
-
-  // Profile
-
-  //getProfileImages(profileId: string, size: ImageSizeEnum): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImages/${profileId},${size}`, { headers: this.headers });
-  //}
-
-  //getProfileImageByFileName(profileId: string, fileName: string, size: ImageSizeEnum): Observable<any[]> {
-  //  return this.http.get<any[]>(`${this.artemisUrl}GetProfileImageByFileName/${profileId},${fileName},${size}`, { headers: this.headers });
-  //}
 
   deleteAllImagesForProfiles(profileIds: string[]): Observable<{}> {
     return this.http.post<string[]>(`${this.artemisUrl}DeleteAllImagesForProfiles`, profileIds, { headers: this.headers });

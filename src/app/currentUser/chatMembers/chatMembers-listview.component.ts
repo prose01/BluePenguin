@@ -12,7 +12,6 @@ import { Profile } from '../../models/profile';
 import { ChatMember } from '../../models/chatMember';
 import { ProfileService } from '../../services/profile.service';
 import { ImageModel } from '../../models/imageModel';
-import { ImageSizeEnum } from '../../models/imageSizeEnum';
 import { ImageService } from '../../services/image.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
@@ -213,33 +212,9 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
           if (typeof element.fileName !== 'undefined') {
 
-            // TODO: Remove this is-statement when all photos have format
-            if (!element.fileName.includes('.')) {
-              element.fileName = element.fileName + '.jpeg'
-            }
-
-            element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/large/' + element.fileName
-            element.smallimage = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/small/' + element.fileName
+            element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/' + element.fileName
 
             //this.loading = true;
-
-            //this.subs.push(
-            //  this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.small)
-            //  .subscribe({
-            //    next: (images: any[]) =>  { element.smallimage = 'data:image/webp;base64,' + images.toString() },
-            //    complete: () => { this.loading = false; },
-            //    error: () => { this.loading = false; element.smallimage = defaultImageModel.smallimage }
-            //  })
-            //);
-
-            //this.subs.push(
-            //  this.imageService.getProfileImageByFileName(profile.profileId, element.fileName, ImageSizeEnum.large)
-            //  .subscribe({
-            //    next: (images: any[]) =>  { element.image = 'data:image/webp;base64,' + images.toString() },
-            //    complete: () => { this.loading = false; },
-            //    error: () => { this.loading = false; element.image = defaultImageModel.image }
-            //  })
-            //);
           }
 
         });
