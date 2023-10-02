@@ -152,12 +152,8 @@ export class ProfileService {
 
   // Profile
 
-  //getProfiles(): Observable<Profile[]> {
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetAllProfiles`, { headers: this.headers });
-  //}
-
-  getProfileById(profileId: string): Observable<Profile> {
-    return this.http.get<Profile>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers });
+  getProfileById(profileId: string): Observable<string> {
+    return this.http.get<string>(`${this.avalonUrl}GetProfileById/${profileId}`, { headers: this.headers });
   }
 
   addVisitedToProfiles(profileId: string): Observable<{}> {
@@ -175,14 +171,6 @@ export class ProfileService {
   removeAdmin(profileId: string): Observable<{}> {
     return this.http.post<string>(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
-
-  //getChatMemberProfiles(pageIndex: string, pageSize: string): Observable<Profile[]> {
-  //  const params = new HttpParams()
-  //    .set('PageIndex', pageIndex)
-  //    .set('PageSize', pageSize);
-
-  //  return this.http.get<Profile[]>(`${this.avalonUrl}GetChatMemberProfiles`, { headers: this.headers, params: params });
-  //}
 
   blockChatMembers(profileIds: string[]): Observable<{}>{ 
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers });

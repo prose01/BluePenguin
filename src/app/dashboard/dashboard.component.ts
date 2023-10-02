@@ -327,13 +327,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       element.imageNumber = this.randomIntFromInterval(0, element.images.length - 1);
 
       if (element.images != null && element.images.length > 0 && typeof element.images[element.imageNumber].fileName !== 'undefined') {
-
-        //// TODO: Remove this is-statement when all photos have format
-        //if (!element.images[element.imageNumber].fileName.includes('.')) {
-        //  element.images[element.imageNumber].fileName = element.images[element.imageNumber].fileName + '.jpeg'
-        //}
-
-        element.images[element.imageNumber].image = 'https://freetrail.blob.core.windows.net/photos/' + element.profileId + '/' + element.images[element.imageNumber].fileName
+        element.images[element.imageNumber].image = this.pinacothecaUrl + element.profileId + '/' + element.images[element.imageNumber].fileName
       }
       else {
         // Set default profile image.

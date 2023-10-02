@@ -14,7 +14,7 @@
     <span class="material-icons icon-white-square">{{matButtonToggleIcon}}</span>
   </button>
 
-  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images" [currentProfileId]="currentUserSubject.profileId" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>
+  <div *ngIf="isMatButtonToggled"><currentUser-images [imageModels]="currentUserSubject.images" [currentUserSubject]="currentUserSubject" (refreshCurrentUserImages)="refreshCurrentUserImages()"></currentUser-images></div>
   <div *ngIf="!isMatButtonToggled"><image-upload (toggleDisplay)="toggleDisplay()"></image-upload></div>
 
 </div>

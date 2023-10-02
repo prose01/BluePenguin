@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
-import { ImageService } from '../../services/image.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
@@ -23,6 +22,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 export class GroupMembersDialog implements OnInit, OnDestroy {
   private pageSize: number;
+  private pinacothecaUrl: string;
   public loading: boolean = false;
 
   public index: number;
@@ -43,7 +43,7 @@ export class GroupMembersDialog implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
+  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.index = this.data.index;
     this.length = this.data.length;
@@ -52,6 +52,7 @@ export class GroupMembersDialog implements OnInit, OnDestroy {
     this.groupId = this.data.groupId;
 
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
@@ -150,13 +151,7 @@ export class GroupMembersDialog implements OnInit, OnDestroy {
       profile.images.forEach((element) => {
 
         if (typeof element.fileName !== 'undefined') {
-
-          //// TODO: Remove this is-statement when all photos have format
-          //if (!element.fileName.includes('.jpeg')) {
-          //  element.fileName = element.fileName + '.jpeg'
-          //}
-
-          element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/' + element.fileName
+          element.image = this.pinacothecaUrl + profile.profileId + '/' + element.fileName
         }
 
       });

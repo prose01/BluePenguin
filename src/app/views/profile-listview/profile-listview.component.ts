@@ -26,6 +26,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 export class ProfileListviewComponent implements OnDestroy {
   private pageSize: number;
   private adGroup: number;
+  private pinacothecaUrl: string;
   public loading: boolean = false;
 
   private allowAssignment: boolean = false;
@@ -59,6 +60,7 @@ export class ProfileListviewComponent implements OnDestroy {
   constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
 
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
@@ -306,13 +308,7 @@ export class ProfileListviewComponent implements OnDestroy {
       profile.images.forEach((element) => {
 
         if (typeof element.fileName !== 'undefined') {
-
-          //// TODO: Remove this is-statement when all photos have format
-          //if (!element.fileName.includes('.jpeg')) {
-          //  element.fileName = element.fileName + '.jpeg'
-          //}
-
-          element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/' + element.fileName
+          element.image = this.pinacothecaUrl + profile.profileId + '/' + element.fileName
         }
 
       });

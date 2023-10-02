@@ -62,7 +62,7 @@ export class ImageDialog implements OnInit, OnDestroy {
 
 
   isThisCurrentUser(): boolean {
-    return this.currentUserSubject.profileId == this.data.currentProfileId;
+    return this.currentUserSubject.profileId == this.data.profile.profileId;
   }
 
   liked(): string {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
 
-import { ImageService } from '../../services/image.service';
 import { Profile } from '../../models/profile';
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
@@ -13,6 +13,8 @@ import { ProfileChatListviewComponent } from '../profile-chats/profile-chat-list
 })
 
 export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
+  private pinacothecaUrl: string;
+
   private subs: Subscription[] = [];
 
   public loading: boolean = false;
@@ -35,7 +37,9 @@ export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
 
   @ViewChild(ProfileChatListviewComponent) profileChatListviewComponent: ProfileChatListviewComponent;
 
-  constructor(private imageService: ImageService, private profileService: ProfileService) { }
+  constructor(private profileService: ProfileService, private configurationLoader: ConfigurationLoader) {
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
+  }
 
   ngOnInit(): void {
     this.subs.push(
@@ -62,13 +66,7 @@ export class ProfileDetailsBoardComponent implements OnInit, OnDestroy {
       this.profile.images.forEach((element) => {
 
         if (typeof element.fileName !== 'undefined') {
-
-          //// TODO: Remove this is-statement when all photos have format
-          //if (!element.fileName.includes('.jpeg')) {
-          //  element.fileName = element.fileName + '.jpeg'
-          //}
-
-          element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.profile.profileId + '/' + element.fileName
+          element.image = this.pinacothecaUrl + this.profile.profileId + '/' + element.fileName
         }
 
       });

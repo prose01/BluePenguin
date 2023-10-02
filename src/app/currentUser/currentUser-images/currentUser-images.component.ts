@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ImageModel } from '../../models/imageModel';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { DeleteImageDialog } from '../../image-components/delete-image/delete-image-dialog.component';
+import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'currentUser-images',
@@ -18,7 +19,7 @@ export class CurrentUserImagesComponent implements OnDestroy {
   private _imageModels: ImageModel[];
   private subs: Subscription[] = [];
 
-  @Input() currentProfileId: string;
+  @Input() currentUserSubject: CurrentUser;
   @Input() set imageModels(values: ImageModel[]) {
     this._imageModels = values;
     this.addRandomAdTile();
@@ -63,7 +64,7 @@ export class CurrentUserImagesComponent implements OnDestroy {
       data: {
         index: indexOfelement,
         imageModels: this.imageModels,
-        currentProfileId: this.currentProfileId
+        profile: this.currentUserSubject
       }
     });
   }

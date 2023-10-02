@@ -16,6 +16,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
   private subs: Subscription[] = [];
   private maxPhotos: number;
+  private pinacothecaUrl: string;
   private matButtonToggleIcon: string = 'add_photo_alternate';
   private matButtonToggleText: string;
 
@@ -27,6 +28,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
   constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
   }
 
   ngOnInit(): void {
@@ -66,12 +68,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
 
           if (typeof element.fileName !== 'undefined') {
 
-            //// TODO: Remove this is-statement when all photos have format
-            //if (!element.fileName.includes('.')) {
-            //  element.fileName = element.fileName + '.jpeg'
-            //}
-
-            element.image = 'https://freetrail.blob.core.windows.net/photos/' + this.currentUserSubject.profileId + '/' + element.fileName
+            element.image = this.pinacothecaUrl + this.currentUserSubject.profileId + '/' + element.fileName
           }
 
         });

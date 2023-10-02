@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
+import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { Subscription } from 'rxjs';
 
 import { CurrentUser } from '../../models/currentUser';
@@ -12,7 +13,6 @@ import { Profile } from '../../models/profile';
 import { ChatMember } from '../../models/chatMember';
 import { ProfileService } from '../../services/profile.service';
 import { ImageModel } from '../../models/imageModel';
-import { ImageService } from '../../services/image.service';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
@@ -23,6 +23,9 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
+
+  private pinacothecaUrl: string;
+
   private currentUserSubject: CurrentUser;
   private chatMembers: ChatMember[];
 
@@ -40,7 +43,9 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
+  constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+    this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
+  }
 
   ngOnInit(): void {
     this.subs.push(
@@ -194,27 +199,25 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
               }
             )
           );
+
+          this.loading = false;
         },
         error: () => {
           this.openErrorDialog(this.translocoService.translate('CouldNotGetProfile'), null);
+          this.loading = false;
         }
       })
     );
   }
 
   private getProfileImages(profile: Profile): void {
-    let defaultImageModel: ImageModel = new ImageModel();
-
     if (profile.images != null && profile.images.length > 0) {
       if (profile.images.length > 0) {
 
         profile.images.forEach((element, i) => {
 
           if (typeof element.fileName !== 'undefined') {
-
-            element.image = 'https://freetrail.blob.core.windows.net/photos/' + profile.profileId + '/' + element.fileName
-
-            //this.loading = true;
+            element.image = this.pinacothecaUrl + profile.profileId + '/' + element.fileName
           }
 
         });
