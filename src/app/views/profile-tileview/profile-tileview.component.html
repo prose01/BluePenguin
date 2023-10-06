@@ -30,10 +30,10 @@
 
       <div *ngIf="profile!=='ad'" class="imageOverlay">
 
-        <button mat-icon-button *ngIf="liked(profile)" (click)="removeLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+        <button mat-icon-button *ngIf="liked(profile) && !currentUserSubject.admin" (click)="removeLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite</span>
         </button>
-        <button mat-icon-button *ngIf="!liked(profile)" (click)="addLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+        <button mat-icon-button *ngIf="!liked(profile) && !currentUserSubject.admin" (click)="addLike(profile.profileId)" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
           <span class="material-icons icon-white">favorite_border</span>
         </button>
 

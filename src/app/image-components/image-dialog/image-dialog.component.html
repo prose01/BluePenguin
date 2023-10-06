@@ -21,10 +21,10 @@
   <span class="material-icons">person</span>
 </button>
 
-<button mat-flat-button *ngIf="!isThisCurrentUser() && liked()" (click)="removeLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="(!isThisCurrentUser() && liked()) && !currentUserSubject.admin" (click)="removeLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
   <span class="material-icons">favorite</span>
 </button>
-<button mat-flat-button *ngIf="!isThisCurrentUser() && !liked()" (click)="addLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="(!isThisCurrentUser() && !liked()) && !currentUserSubject.admin" (click)="addLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
   <span class="material-icons">favorite_border</span>
 </button>
 

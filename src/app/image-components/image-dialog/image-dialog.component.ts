@@ -19,8 +19,8 @@ export class ImageDialog implements OnInit, OnDestroy {
 
   public pinacothecaUrl: string;
   private subs: Subscription[] = [];
-  private currentUserSubject: CurrentUser;
-
+  public currentUserSubject: CurrentUser;
+  
   public index: number;
 
   constructor(private profileService: ProfileService, public dialogRef: MatDialogRef<ImageDialog>, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService,

@@ -8,10 +8,10 @@
       <span class="material-icons icon-white-square">bookmark_border</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="liked()" (click)="removeLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="liked() && !currentUserSubject.admin" (click)="removeLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
       <span class="material-icons icon-white-square">favorite</span>
     </button>
-    <button mat-flat-button color="accent" *ngIf="!liked()" (click)="addLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="!liked() && !currentUserSubject.admin" (click)="addLike()" attr.aria-label="{{profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{profile.likes?.length}} {{'Likes'| transloco}}">
       <span class="material-icons icon-white-square">favorite_border</span>
     </button>
 
