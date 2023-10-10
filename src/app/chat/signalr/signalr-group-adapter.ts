@@ -73,7 +73,7 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
 
   joinRoom(): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected) {
-      this.hubConnection.send("join", this.username);
+      this.hubConnection.send("join");
     }
   }
 
