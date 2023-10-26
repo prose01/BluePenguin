@@ -142,21 +142,6 @@ export class ChatWindowComponent implements OnInit {
     return false;
   }
 
-  //getChatWindowAvatar(participant: IChatParticipant, message: Message): string | null {
-  //  //console.log(participant);
-  //  if (participant.participantType == ChatParticipantType.User) {
-  //    return participant.avatar;
-  //  }
-  //  else if (participant.participantType == ChatParticipantType.Group) {
-  //    let group = participant as Group;
-  //    let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
-
-  //    return group.chattingTo[userIndex >= 0 ? userIndex : 0].avatar;
-  //  }
-
-  //  return null;
-  //}
-
   isUploadingFile(window: Window): boolean {
     const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
 
@@ -170,10 +155,6 @@ export class ChatWindowComponent implements OnInit {
     }
 
     return 'chat-file-upload';
-  }
-
-  unreadMessagesTotal(window: Window): string {
-    return MessageCounter.unreadMessagesTotal(window, this.userId);
   }
 
   // Scrolls a chat window message flow to the bottom
@@ -203,19 +184,6 @@ export class ChatWindowComponent implements OnInit {
   // Toggles a window focus on the focus/blur of a 'newMessage' input
   toggleWindowFocus(window: Window): void {
     window.hasFocus = !window.hasFocus;
-    if (window.hasFocus) {
-      const unreadMessages = window.messages
-        .filter(message => message.dateSeen == null
-          && (message.toId == this.userId || window.participant.participantType === ChatParticipantType.Group));
-
-      if (unreadMessages && unreadMessages.length > 0) {
-        this.onMessagesSeen.emit(unreadMessages);
-      }
-    }
-  }
-
-  markMessagesAsRead(messages: Message[]): void {
-    this.onMessagesSeen.emit(messages);
   }
 
   fetchMessageHistory(window: Window): void {

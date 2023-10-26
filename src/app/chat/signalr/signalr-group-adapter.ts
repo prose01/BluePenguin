@@ -90,7 +90,11 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
 
   listFriends(): Observable<ParticipantResponse[]> {
     // List connected users to show in the friends list
-    return this.http.post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, this.currentUserSubject, { headers: this.headers });
+    return this.http.post<ParticipantResponse[]>(`${this.junoUrl}ParticipantResponses`, { headers: this.headers });
+  }
+
+  unreadMessages(): Observable<any> {
+    return this.http.post<any>(`${this.junoUrl}UnreadMessages`, { headers: this.headers });
   }
 
   //getMessageHistory(destinataryId: any): Observable<Message[]> {

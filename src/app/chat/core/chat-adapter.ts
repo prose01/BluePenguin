@@ -8,6 +8,8 @@ export abstract class ChatAdapter {
 
   public abstract listFriends(): Observable<ParticipantResponse[]>;
 
+  public abstract unreadMessages(): Observable<ParticipantResponse[]>;
+
   public abstract getMessageHistory(destinataryId: any): Observable<Message[]>;
 
   public abstract sendMessage(message: Message, chatparticipant: IChatParticipant): void;

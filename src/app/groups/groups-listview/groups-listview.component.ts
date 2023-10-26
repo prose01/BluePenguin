@@ -252,7 +252,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   }
 
   private joinedGroup(groupId: string): boolean {
-    if (this.currentUserSubject.groups.indexOf(groupId) !== -1) {
+    if (typeof this.currentUserSubject.groups[groupId] !== 'undefined') {
       return true;
     }
 

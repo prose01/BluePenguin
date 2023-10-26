@@ -3,7 +3,6 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { ProfileService } from '../../services/profile.service';
-import { ImageService } from '../../services/image.service';
 import { CurrentUser } from '../../models/currentUser';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 
@@ -26,7 +25,7 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
   public morePhotosAllowed: boolean = false;
   public isMatButtonToggled = true;
 
-  constructor(private profileService: ProfileService, private imageService: ImageService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
+  constructor(private profileService: ProfileService, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.maxPhotos = this.configurationLoader.getConfiguration().maxPhotos;
     this.pinacothecaUrl = this.configurationLoader.getConfiguration().pinacothecaUrl;
   }
@@ -37,12 +36,11 @@ export class ImageBoardComponent implements OnInit, OnDestroy {
         .subscribe(
           currentUserSubject => {
             this.currentUserSubject = currentUserSubject;
+            this.getCurrentUserImages();
             this.morePhotosAllowed = this.maxPhotos > currentUserSubject?.images.length ? true : false;
           }
         )
     );
-
-    this.getCurrentUserImages();
 
     this.subs.push(
       this.translocoService.selectTranslate('ImageBoardComponent.AddPhoto').subscribe(value => this.matButtonToggleText = value)

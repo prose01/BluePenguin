@@ -181,6 +181,8 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   public participantsResponse: ParticipantResponse[];
 
+  public oldParticipantsResponse: ParticipantResponse[];
+
   public participantsInteractedWith: IChatParticipant[] = [];
 
   public currentActiveOption: IChatOption | null;
@@ -333,20 +335,15 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     // TODO: Look if this is needed!
     if (!this.isBootstrapped) {
       this.openErrorDialog(this.translocoService.translate('ChatNoBootstrapped'), null);
-      //console.error("chat component couldn't be bootstrapped.");
 
       if (this.userId == null) {
         this.openErrorDialog(this.translocoService.translate('ChatMissingUser'), null);
-        //console.error("chat can't be initialized without an user id. Please make sure you've provided an userId as a parameter of the chat component.");
       }
       if (this.adapter == null) {
         this.openErrorDialog(this.translocoService.translate('ChatMissingChatAdapter'), null);
-        //console.error("chat can't be bootstrapped without a ChatAdapter. Please make sure you've provided a ChatAdapter implementation as a parameter of the chat component.");
       }
       if (initializationException) {
         this.openErrorDialog(this.translocoService.translate('ChatException'), initializationException.message);
-        //console.error(`An exception has occurred while initializing chat. Details: ${initializationException.message}`);
-        //console.error(initializationException);
       }
     }
   }
@@ -358,10 +355,20 @@ export class Chat implements OnInit, OnDestroy, IChatController {
         // Setting a long poll interval to update the friends list
         this.fetchFriendsList(true);
         this.pollingIntervalWindowInstance = window.setInterval(() => this.fetchFriendsList(false), this.pollingInterval);
+
+        // Get number of unread messages
+        setTimeout(() => {
+          this.fetchUnreadMessages(true);
+        }, 2000); // delay is 2 seconds
       }
       else {
         // Since polling was disabled, a friends list update mechanism will have to be implemented in the ChatAdapter.
         this.fetchFriendsList(true);
+
+        // Get number of unread messages
+        setTimeout(() => {
+          this.fetchUnreadMessages(true);
+        }, 2000); // delay is 2 seconds
       }
     }
   }
@@ -405,6 +412,13 @@ export class Chat implements OnInit, OnDestroy, IChatController {
           map((participantsResponse: ParticipantResponse[]) => {
             this.participantsResponse = participantsResponse;
 
+            this.participantsResponse?.forEach((element) => {
+              var oldParticipantMetadata = this.oldParticipantsResponse?.find(x => x.participant.id == element.participant.id);
+              if (oldParticipantMetadata?.metadata?.totalUnreadMessages > 0) {
+                element.metadata.totalUnreadMessages = oldParticipantMetadata?.metadata.totalUnreadMessages;
+              }
+            })
+
             this.participants = participantsResponse.map((response: ParticipantResponse) => {
               return response.participant;
             });
@@ -417,8 +431,35 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       );
   }
 
+  // Sends a request to get number of unread messages
+  private fetchUnreadMessages(isBootstrapping: boolean): void {
+    this.subs.push(
+      this.adapter.unreadMessages()
+        .subscribe({
+          next: (response: any) => {
+
+            this.participantsResponse?.forEach((element) => {
+              const unreadMessages = response[element.participant.id];
+              if (unreadMessages !== 'undefined') {
+                element.metadata.totalUnreadMessages = unreadMessages;
+              }
+            })
+
+            this.oldParticipantsResponse = this.participantsResponse;
+          },
+          complete: () => {
+            if (isBootstrapping) {
+              this.restoreWindowsState();
+            }
+          },
+          error: () => { }
+        })
+    );
+  }
+
   fetchMessageHistory(window: Window) {
-    // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
+    // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter [From ng-chat]
+    // Never seem to get into the if-part of this and besides we don't use pagination as we don't have that many messages.
     if (this.adapter instanceof PagedHistoryChatAdapter) {
       window.isLoadingHistory = true;
 
@@ -467,17 +508,23 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
     this.scrollChatWindow(window, direction)
 
-    if (window.hasFocus || forceMarkMessagesAsSeen) {
-      const unseenMessages = messages.filter(m => !m.dateSeen);
-
-      this.markMessagesAsRead(unseenMessages);
-    }
+    //if (window.hasFocus || forceMarkMessagesAsSeen) {
+    //  const unseenMessages = messages.filter(m => !m.dateSeen);
+    //  this.markMessagesAsRead(unseenMessages);
+    //}
   }
 
   // Updates the friends list via the event handler
   public onFriendsListChanged(participantsResponse: ParticipantResponse[]): void {
     if (participantsResponse) {
       this.participantsResponse = participantsResponse;
+
+      this.participantsResponse?.forEach((element) => {
+        var oldParticipantMetadata = this.oldParticipantsResponse?.find(x => x.participant.id == element.participant.id);
+        if (oldParticipantMetadata?.metadata?.totalUnreadMessages > 0) {
+          element.metadata.totalUnreadMessages = oldParticipantMetadata?.metadata.totalUnreadMessages;
+        }
+      })
 
       this.participants = participantsResponse.map((response: ParticipantResponse) => {
         return response.participant;
@@ -494,17 +541,18 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
       this.assertMessageType(message);
 
-      if (!chatWindow[1] || !this.historyEnabled) {
-        chatWindow[0].messages.push(message);
+      //if (!chatWindow[1] || !this.historyEnabled) {
+      //  chatWindow[0].messages.push(message);
 
-        this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
+      //  this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
+      //}
 
-        if (chatWindow[0].hasFocus) {
-          this.markMessagesAsRead([message]);
-        }
-      }
+      chatWindow[0].messages.push(message);
+
+      this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
 
       this.emitMessageSound(chatWindow[0]);
+      //this.markMessagesAsRead([message]);
 
       // Github issue #58
       // Do not push browser notifications with message content for privacy purposes if the 'maximizeWindowOnNewMessage' setting is off and this is a new chat window.
@@ -590,16 +638,10 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     }
   }
 
-  // Marks all messages provided as read with the current time.
-  markMessagesAsRead(messages: Message[]): void {
-    const currentDate = new Date();
-
-    messages.forEach((msg) => {
-      msg.dateSeen = currentDate;
-    });
-
-    this.onMessagesSeen.emit(messages);
-  }
+  //// Marks all messages provided as read.
+  //markMessagesAsRead(messages: Message[]): void {
+  //  this.oldParticipantsResponse.find(x => x.participant.id == messages[messages.length - 1]?.toId).metadata.totalUnreadMessages = 0;
+  //}
 
   // Buffers audio file (For component's bootstrapping)
   private bufferAudioFile(): void {
@@ -704,10 +746,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     if (chatWindow) {
       chatWindow.scrollChatWindow(window, direction);
     }
-  }
-
-  onWindowMessagesSeen(messagesSeen: Message[]): void {
-    this.markMessagesAsRead(messagesSeen);
   }
 
   onWindowChatClosed(payload: { closedWindow: Window, closedViaEscapeKey: boolean }): void {

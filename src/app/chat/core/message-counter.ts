@@ -14,18 +14,18 @@ export class MessageCounter {
     return "";
   }
 
-  /**
-   * Returns a formatted string containing the total unread messages of a chat window.
-   * @param window The window instance to count the unread total messages.
-   * @param currentUserId The current chat instance user id. In this context it would be the sender.
-   */
-  public static unreadMessagesTotal(window: Window, currentUserId: any): string {
-    let totalUnreadMessages = 0;
+  ///**
+  // * Returns a formatted string containing the total unread messages of a chat window.
+  // * @param window The window instance to count the unread total messages.
+  // * @param currentUserId The current chat instance user id. In this context it would be the sender.
+  // */
+  //public static unreadMessagesTotal(window: Window, currentUserId: any): string {
+  //  let totalUnreadMessages = 0;
 
-    if (window) {
-      totalUnreadMessages = window.messages.filter(x => x.fromId != currentUserId && !x.dateSeen).length;
-    }
+  //  if (window) {
+  //    totalUnreadMessages = window.messages.filter(x => x.fromId != currentUserId && !x.dateSeen).length;
+  //  }
 
-    return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
-  }
+  //  return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
+  //}
 }

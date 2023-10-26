@@ -93,20 +93,27 @@ export class ChatFriendsListComponent implements OnChanges {
   }
 
   unreadMessagesTotalByParticipant(participant: IChatParticipant): string {
-    let openedWindow = this.windows.find(x => x.participant.id == participant.id);
+    //let openedWindow = this.windows.find(x => x.participant.id == participant.id);
 
-    if (openedWindow) {
-      return MessageCounter.unreadMessagesTotal(openedWindow, this.userId);
-    }
-    else {
-      let totalUnreadMessages = this.participantsResponse
-        .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
-        .map((participantResponse) => {
-          return participantResponse.metadata.totalUnreadMessages
-        })[0];
+    //if (openedWindow) {
+    //  return MessageCounter.unreadMessagesTotal(openedWindow, this.userId);
+    //}
+    //else {
+    //  let totalUnreadMessages = this.participantsResponse
+    //    .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
+    //    .map((participantResponse) => {
+    //      return participantResponse.metadata.totalUnreadMessages
+    //    })[0];
 
-      return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
-    }
+    //  return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
+    //}
+    let totalUnreadMessages = this.participantsResponse
+      .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
+      .map((participantResponse) => {
+        return participantResponse.metadata.totalUnreadMessages
+      })[0];
+
+    return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
   }
 
   cleanUpUserSelection = () => this.selectedUsersFromFriendsList = [];
