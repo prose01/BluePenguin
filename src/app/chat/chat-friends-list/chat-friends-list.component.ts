@@ -82,7 +82,7 @@ export class ChatFriendsListComponent implements OnChanges {
   get filteredParticipants(): IChatParticipant[] {
     if (this.searchInput.length > 0) {
       // Searches in the friend list by the inputted search string
-      return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
+      return this.participants.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()) || x.initials.toUpperCase().includes(this.searchInput.toUpperCase()));
     }
 
     return this.participants;
@@ -93,20 +93,6 @@ export class ChatFriendsListComponent implements OnChanges {
   }
 
   unreadMessagesTotalByParticipant(participant: IChatParticipant): string {
-    //let openedWindow = this.windows.find(x => x.participant.id == participant.id);
-
-    //if (openedWindow) {
-    //  return MessageCounter.unreadMessagesTotal(openedWindow, this.userId);
-    //}
-    //else {
-    //  let totalUnreadMessages = this.participantsResponse
-    //    .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
-    //    .map((participantResponse) => {
-    //      return participantResponse.metadata.totalUnreadMessages
-    //    })[0];
-
-    //  return MessageCounter.formatUnreadMessagesTotal(totalUnreadMessages);
-    //}
     let totalUnreadMessages = this.participantsResponse
       .filter(x => x.participant.id == participant.id && !this.participantsInteractedWith.find(u => u.id == participant.id) && x.metadata && x.metadata.totalUnreadMessages > 0)
       .map((participantResponse) => {
