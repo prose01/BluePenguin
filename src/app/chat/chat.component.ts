@@ -7,7 +7,6 @@ import { ChatAdapter } from './core/chat-adapter';
 import { IChatGroupAdapter } from './core/chat-group-adapter';
 import { User } from "./core/user";
 import { ParticipantResponse } from "./core/participant-response";
-import { Message } from "./core/message";
 import { MessageType } from "./core/message-type.enum";
 import { Window } from "./core/window";
 import { ChatParticipantStatus } from "./core/chat-participant-status.enum";
@@ -27,6 +26,7 @@ import { map } from 'rxjs/operators';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { ErrorDialog } from './../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
+import { MessageModel } from '../models/messageModel';
 
 @Component({
   selector: 'chat',
@@ -161,7 +161,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   public onParticipantChatClosed: EventEmitter<IChatParticipant> = new EventEmitter<IChatParticipant>();
 
   @Output()
-  public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
+  public onMessagesSeen: EventEmitter<MessageModel[]> = new EventEmitter<MessageModel[]>();
 
   private browserNotificationsBootstrapped: boolean = true;
 
@@ -466,7 +466,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       this.subs.push(
         this.adapter.getMessageHistoryByPage(window.participant.id, this.historyPageSize, ++window.historyPage)
           .pipe(
-            map((result: Message[]) => {
+            map((result: MessageModel[]) => {
               if (result != null) {
                 result.forEach((message) => this.assertMessageType(message));
 
@@ -488,7 +488,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       this.subs.push(
         this.adapter.getMessageHistory(window.participant)
           .pipe(
-            map((result: Message[]) => {
+            map((result: MessageModel[]) => {
               if (result != null) {
                 result?.forEach((message) => this.assertMessageType(message));
 
@@ -505,7 +505,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     }
   }
 
-  private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
+  private onFetchMessageHistoryLoaded(messages: MessageModel[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
     this.scrollChatWindow(window, direction)
 
     //if (window.hasFocus || forceMarkMessagesAsSeen) {
@@ -535,7 +535,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   }
 
   // Handles received messages by the adapter
-  public onMessageReceived(participant: IChatParticipant, message: Message) {
+  public onMessageReceived(participant: IChatParticipant, message: MessageModel) {
     if (participant && message) {
       const chatWindow = this.openChatWindow(participant);
 
@@ -631,10 +631,10 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     }
   }
 
-  private assertMessageType(message: Message): void {
-    // Always fallback to "Text" messages to avoid rendenring issues
-    if (!message.type) {
-      message.type = MessageType.Text;
+  private assertMessageType(message: MessageModel): void {
+    // Always fallback to "NotChosen" messages to avoid rendenring issues
+    if (!message.messageType) {
+      message.messageType = MessageType.NotChosen;
     }
   }
 
@@ -660,7 +660,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   }
 
   // Emits a browser notification
-  private emitBrowserNotification(window: Window, message: Message): void {
+  private emitBrowserNotification(window: Window, message: MessageModel): void {
     if (this.browserNotificationsBootstrapped && !window.hasFocus && message) {
       const notification = new Notification(`${this.localization.browserNotificationTitle} ${window.participant.displayName}`, {
         'body': message.message,
@@ -780,11 +780,8 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     this.focusOnWindow(windowToFocus);
   }
 
-  onWindowMessageSent(onMessageSent: any): void {
-    var message = onMessageSent.message;
-    var window = onMessageSent.window
-
-    this.adapter.sendMessage(message, window.participant);
+  onWindowMessageSent(message: MessageModel): void {
+    this.adapter.sendMessage(message);
   }
 
   onWindowOptionTriggered(option: IChatOption): void {

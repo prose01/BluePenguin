@@ -9,11 +9,12 @@ import { ProfileService } from '../../services/profile.service';
 import { ChatAdapter } from './../core/chat-adapter';
 import { IChatGroupAdapter } from './../core/chat-group-adapter';
 import { Group } from "./../core/group";
-import { Message } from "./../core/message";
 import { ParticipantResponse } from "./../core/participant-response";
 import { ChatParticipant, IChatParticipant } from "./../core/chat-participant";
 import { ErrorDialog } from './../../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
+import { ChatParticipantType } from '../core/chat-participant-type.enum';
+import { MessageModel } from '../../models/messageModel';
 
 export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapter {
   public userId: string;
@@ -32,11 +33,12 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
 
   private initializeConnection(token: string): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${this.junoUrl}groupchathub`, { accessTokenFactory: () => token })
+      .withUrl(`${this.junoUrl}groupchathub`, { accessTokenFactory: () => token, transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.LongPolling })    // TODO: https://stackoverflow.com/questions/69633704/what-means-skipnegotiation-in-signalr-hubconnection     https://learn.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz?view=aspnetcore-6.0#built-in-jwt-authentication    https://learn.microsoft.com/en-us/aspnet/core/signalr/configuration?view=aspnetcore-7.0&tabs=dotnet
+      //.configureLogging(signalR.LogLevel.Debug)
       .build();
 
-    this.hubConnection.keepAliveIntervalInMilliseconds = 15;
-    this.hubConnection.serverTimeoutInMilliseconds = 30;
+    this.hubConnection.keepAliveIntervalInMilliseconds = 150000;
+    this.hubConnection.serverTimeoutInMilliseconds = 300000;
 
     this.hubConnection
       .start()
@@ -54,8 +56,10 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
       this.userId = userId;
     });
 
-    this.hubConnection.on("messageReceived", (participant, message) => {
+    this.hubConnection.on("messageReceived", (participant: ChatParticipant, message: MessageModel) => {
       // Handle the received message to ng-chat
+      participant.participantType = ChatParticipantType[participant.participantType.toString()];
+
       this.onMessageReceived(participant, message);
     });
 
@@ -103,12 +107,11 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
   //  return of([]);
   //}
 
-  getMessageHistory(chatparticipant: ChatParticipant): Observable<Message[]> {
-    return this.http.post<Message[]>(`${this.junoUrl}messagehistory`, chatparticipant, { headers: this.headers });
+  getMessageHistory(chatparticipant: ChatParticipant): Observable<MessageModel[]> {
+    return this.http.post<MessageModel[]>(`${this.junoUrl}messagehistory`, chatparticipant, { headers: this.headers });
   }
 
-  sendMessage(message: Message, chatparticipant: ChatParticipant): void {
-    message.participantType = chatparticipant.participantType;
+  sendMessage(message: MessageModel): void {
     if (this.hubConnection && this.hubConnection.state == signalR.HubConnectionState.Connected)
       this.hubConnection.send("sendMessage", message);
   }

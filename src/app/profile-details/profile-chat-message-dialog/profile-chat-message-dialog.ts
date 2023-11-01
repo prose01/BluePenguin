@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { ChatService } from '../../services/chat.service';
-import { MessageModel } from '../../models/messageModel';
+import { IMessageModel } from '../../models/messageModel';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
@@ -16,7 +16,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 export class MessageDialog implements OnDestroy {
 
   private subs: Subscription[] = [];
-  public message: MessageModel;
+  public message: IMessageModel;
 
   constructor(public dialogRef: MatDialogRef<MessageDialog>, private chatService: ChatService, private dialog: MatDialog, private readonly translocoService: TranslocoService,
     @Inject(MAT_DIALOG_DATA) public data: any) {

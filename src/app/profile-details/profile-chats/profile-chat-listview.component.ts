@@ -14,7 +14,7 @@ import { ChatService } from '../../services/chat.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
-import { MessageModel } from '../../models/messageModel';
+import { IMessageModel } from '../../models/messageModel';
 import { MessageDialog } from '../profile-chat-message-dialog/profile-chat-message-dialog';
 import { ProfileChatSearchComponent } from '../profile-chat-search/profile-chat-search.component';
 import { ChatFilter } from '../../models/chatFilter';
@@ -36,10 +36,10 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   private currentUserSubject: CurrentUser;
   private chatFilter: ChatFilter;
 
-  private messages: MessageModel[] = new Array;
+  private messages: IMessageModel[] = new Array;
 
-  public dataSource: MatTableDataSource<MessageModel>;
-  public selection = new SelectionModel<MessageModel>(true, []);
+  public dataSource: MatTableDataSource<IMessageModel>;
+  public selection = new SelectionModel<IMessageModel>(true, []);
 
   private displayedColumns: string[] = ['select', 'messageType', 'fromName', 'toName', 'dateSent', 'dateSeen', 'doNotDelete'];
 
@@ -131,7 +131,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   }
 
   private setDataSource(): void {
-    this.dataSource = new MatTableDataSource<MessageModel>(this.messages);
+    this.dataSource = new MatTableDataSource<IMessageModel>(this.messages);
     this.dataSource._updateChangeSubscription();
 
     this.cdr.detectChanges(); // Needed to get pagination & sort working.
@@ -153,7 +153,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
   }
 
   /** The label for the checkbox on the passed row */
-  private checkboxLabel(row?: MessageModel): string {
+  private checkboxLabel(row?: IMessageModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -249,7 +249,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
     this.setDataSource();
   }
 
-  private async openMessageDialog(message: MessageModel): Promise<void> {
+  private async openMessageDialog(message: IMessageModel): Promise<void> {
 
     const dialogRef = this.dialog.open(MessageDialog, {
       data: {

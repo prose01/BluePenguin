@@ -1,3 +1,5 @@
+import { ChatParticipantType } from "../chat/core/chat-participant-type.enum";
+
 export class MessageModel {
   messageType: string;
   fromId: string;
@@ -8,9 +10,10 @@ export class MessageModel {
   dateSent: Date;
   dateSeen: Date;
   doNotDelete: boolean;
+  participantType: ChatParticipantType;
 }
 
-export interface MessageModel {
+export interface IMessageModel {
   messageType: string;
   fromId: string;
   fromName: string;
@@ -20,4 +23,5 @@ export interface MessageModel {
   dateSent: Date;
   dateSeen: Date;
   doNotDelete: boolean;
+  participantType: ChatParticipantType;
 }

@@ -1,9 +1,9 @@
-import { Message } from "./message";
+import { IChatParticipant } from "./chat-participant";
+import { MessageModel } from "../../models/messageModel";
 import { User } from "./user";
 import { ChatParticipantType } from "./chat-participant-type.enum";
 import { ChatParticipantStatus } from "./chat-participant-status.enum";
 import { Group } from "./group";
-import { IChatParticipant } from "./chat-participant";
 
 export class Window {
   constructor(participant: IChatParticipant, isLoadingHistory: boolean, isCollapsed: boolean) {
@@ -17,7 +17,7 @@ export class Window {
   }
 
   public participant: IChatParticipant;
-  public messages: Message[] = [];
+  public messages: MessageModel[] = [];
   public newMessage?: string = "";
 
   // UI Behavior properties

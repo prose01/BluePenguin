@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 
-import { Message } from "./../core/message";
 import { MessageType } from "./../core/message-type.enum";
 import { Window } from "./../core/window";
 import { ChatParticipantStatus } from "./../core/chat-participant-status.enum";
@@ -13,6 +12,7 @@ import { ChatParticipantType } from "./../core/chat-participant-type.enum";
 import { IChatParticipant } from "./../core/chat-participant";
 import { MessageCounter } from "./../core/message-counter";
 import { chatParticipantStatusDescriptor } from './../core/chat-participant-status-descriptor';
+import { MessageModel } from '../../models/messageModel';
 
 @Component({
   selector: 'chat-window',
@@ -57,10 +57,10 @@ export class ChatWindowComponent implements OnInit {
   public onChatWindowClosed: EventEmitter<{ closedWindow: Window, closedViaEscapeKey: boolean }> = new EventEmitter();
 
   @Output()
-  public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter();
+  public onMessagesSeen: EventEmitter<MessageModel[]> = new EventEmitter();
 
   @Output()
-  public onMessageSent: EventEmitter<{ message: Message, window: Window }> = new EventEmitter();
+  public onMessageSent: EventEmitter<MessageModel> = new EventEmitter();
 
   @Output()
   public onTabTriggered: EventEmitter<{ triggeringWindow: Window, shiftKeyPressed: boolean }> = new EventEmitter();
@@ -126,7 +126,7 @@ export class ChatWindowComponent implements OnInit {
   }
 
   // Asserts if a user avatar is visible in a chat cluster
-  isAvatarVisible(window: Window, message: Message, index: number): boolean {
+  isAvatarVisible(window: Window, message: MessageModel, index: number): boolean {
     if (message.fromId != this.userId) {
       if (index == 0) {
         return true; // First message, good to show the thumbnail
@@ -204,16 +204,17 @@ export class ChatWindowComponent implements OnInit {
     switch (event.keyCode) {
       case 13:
         if (window.newMessage && window.newMessage.trim() != "") {
-          let message = new Message();
+          let message = new MessageModel();
 
           message.fromId = this.userId;
           message.toId = window.participant.id;
           message.message = window.newMessage;
           message.dateSent = new Date();
+          message.participantType = window.participant.participantType;
 
           window.messages.push(message);
 
-          this.onMessageSent.emit({ message, window });
+          this.onMessageSent.emit(message);
 
           window.newMessage = ""; // Resets the new message input
 
@@ -267,7 +268,7 @@ export class ChatWindowComponent implements OnInit {
           window.messages.push(message);
 
           //this.onMessageSent.emit(message);// Probably wrong but we do not send files anyway.
-          this.onMessageSent.emit({ message, window });
+          this.onMessageSent.emit(message);
 
           this.scrollChatWindow(window, ScrollDirection.Bottom);
 

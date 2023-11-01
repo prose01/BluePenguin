@@ -1,8 +1,8 @@
 import { IFileUploadAdapter } from './file-upload-adapter';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { MessageModel } from '../../models/messageModel';
 import { User } from './user';
-import { Message } from './message';
 
 export class DefaultFileUploadAdapter implements IFileUploadAdapter {
   /**
@@ -12,14 +12,14 @@ export class DefaultFileUploadAdapter implements IFileUploadAdapter {
   constructor(private _serverEndpointUrl: string, private _http: HttpClient) {
   }
 
-  uploadFile(file: File, participantId: any): Observable<Message> {
+  uploadFile(file: File, participantId: any): Observable<MessageModel> {
     const formData: FormData = new FormData();
 
     //formData.append('ng-chat-sender-userid', currentUserId);
     formData.append('chat-participant-id', participantId);
     formData.append('file', file, file.name);
 
-    return this._http.post<Message>(this._serverEndpointUrl, formData);
+    return this._http.post<MessageModel>(this._serverEndpointUrl, formData);
 
     // TODO: Leaving this if we want to track upload progress in detail in the future. Might need a different Subject generic type wrapper
     // const fileRequest = new HttpRequest('POST', this._serverEndpointUrl, formData, {

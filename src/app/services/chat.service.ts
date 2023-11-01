@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ConfigurationLoader } from "../configuration/configuration-loader.service";
-import { MessageModel } from '../models/messageModel';
+import { IMessageModel } from '../models/messageModel';
 import { ChatFilter } from '../models/chatFilter';
 
 @Injectable({
@@ -21,27 +21,27 @@ export class ChatService {
   }
 
 
-  getProfileMessages(profileId: string, pageIndex: number, pageSize: number): Observable<MessageModel[]> {
+  getProfileMessages(profileId: string, pageIndex: number, pageSize: number): Observable<IMessageModel[]> {
     const params = new HttpParams()
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.get<MessageModel[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers, params: params });
+    return this.http.get<IMessageModel[]>(`${this.junoUrl}ProfileMessages/${profileId}`, { headers: this.headers, params: params });
   }
 
-  getChatsByFilter(chatFilter: ChatFilter, pageIndex: number, pageSize: number): Observable<MessageModel[]> {
+  getChatsByFilter(chatFilter: ChatFilter, pageIndex: number, pageSize: number): Observable<IMessageModel[]> {
     const params = new HttpParams()
       .set('PageIndex', pageIndex)
       .set('PageSize', pageSize);
 
-    return this.http.post<MessageModel[]>(`${this.junoUrl}GetChatsByFilter`, { chatFilter }, { headers: this.headers, params: params });
+    return this.http.post<IMessageModel[]>(`${this.junoUrl}GetChatsByFilter`, { chatFilter }, { headers: this.headers, params: params });
   }
 
-  doNotDelete(messages: MessageModel[]): Observable<{}> {
-    return this.http.post<MessageModel[]>(`${this.junoUrl}DoNotDelete`, messages, { headers: this.headers });
+  doNotDelete(messages: IMessageModel[]): Observable<{}> {
+    return this.http.post<IMessageModel[]>(`${this.junoUrl}DoNotDelete`, messages, { headers: this.headers });
   }
 
-  allowDelete(messages: MessageModel[]): Observable<{}> {
-    return this.http.post<MessageModel[]>(`${this.junoUrl}AllowDelete`, messages, { headers: this.headers });
+  allowDelete(messages: IMessageModel[]): Observable<{}> {
+    return this.http.post<IMessageModel[]>(`${this.junoUrl}AllowDelete`, messages, { headers: this.headers });
   }
 }

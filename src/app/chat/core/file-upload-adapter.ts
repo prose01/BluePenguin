@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
+import { MessageModel } from '../../models/messageModel';
 import { User } from './user';
-import { Message } from './message';
 
 export interface IFileUploadAdapter {
-  uploadFile(file: File, participantId: any): Observable<Message>;
+  uploadFile(file: File, participantId: any): Observable<MessageModel>;
 }
