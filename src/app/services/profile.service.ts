@@ -172,8 +172,8 @@ export class ProfileService {
     return this.http.post<string>(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
-  blockChatMembers(profileIds: string[]): Observable<{}>{ 
-    return this.http.post<Profile[]>(`${this.avalonUrl}BlockChatMembers`, profileIds, { headers: this.headers });
+  blockBookmarks(profileIds: string[]): Observable<{}>{ 
+    return this.http.post<Profile[]>(`${this.avalonUrl}BlockBookmarks`, profileIds, { headers: this.headers });
   }
 
   addComplainToProfile(profileId: string): Observable<{}> {

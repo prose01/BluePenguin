@@ -10,32 +10,31 @@ import { Subscription } from 'rxjs';
 
 import { CurrentUser } from '../../models/currentUser';
 import { Profile } from '../../models/profile';
-import { ChatMember } from '../../models/chatMember';
+import { Bookmark } from '../../models/bookmark';
 import { ProfileService } from '../../services/profile.service';
-import { ImageModel } from '../../models/imageModel';
 import { ImageDialog } from '../../image-components/image-dialog/image-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
-  selector: 'chatMemebers-listview',
-  templateUrl: './chatMembers-listview.component.html'
+  selector: 'bookmarks-listview',
+  templateUrl: './bookmarks-listview.component.html'
 })
 
-export class ChatMembersListviewComponent implements OnInit, OnDestroy {
+export class BookmarksListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
 
   private pinacothecaUrl: string;
 
   private currentUserSubject: CurrentUser;
-  private chatMembers: ChatMember[];
+  private bookmarks: Bookmark[];
 
   private showBlocked: boolean = false;
   private matButtonToggleText: string;
   private matButtonToggleIcon: string = 'shield';
 
   private displayedColumns: string[] = ['select', 'avatar', 'name', 'status'];
-  private selection = new SelectionModel<ChatMember>(true, []);
-  public dataSource: MatTableDataSource<ChatMember>;
+  private selection = new SelectionModel<Bookmark>(true, []);
+  public dataSource: MatTableDataSource<Bookmark>;
 
   public loading: boolean = true;
 
@@ -51,12 +50,12 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.currentUserSubject
         .subscribe(currentUserSubject => {
-          this.currentUserSubject = currentUserSubject; this.refreshChatmemberlist(false);
+          this.currentUserSubject = currentUserSubject; this.refreshBookmarks(false);
         })
     );
 
     this.subs.push(
-      this.translocoService.selectTranslate('ChatMembersListviewComponent.ShowBlocked').subscribe(value => this.matButtonToggleText = value)
+      this.translocoService.selectTranslate('BookmarksListviewComponent.ShowBlocked').subscribe(value => this.matButtonToggleText = value)
     );
   }
 
@@ -66,12 +65,12 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   }
 
   private updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject().then(res => { this.refreshChatmemberlist(true); this.toggleBlocked(); });
+    this.profileService.updateCurrentUserSubject().then(res => { this.refreshBookmarks(true); this.toggleBlocked(); });
   }
 
   private setDataSource(): void {
     this.loading = false;
-    this.dataSource = new MatTableDataSource<ChatMember>(this.chatMembers);
+    this.dataSource = new MatTableDataSource<Bookmark>(this.bookmarks);
 
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -99,23 +98,23 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
   }
 
   /** The label for the checkbox on the passed row */
-  private checkboxLabel(row?: ChatMember): string {
+  private checkboxLabel(row?: Bookmark): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.profileId}`;
   }
 
-  private blockChatMembers(): void {
+  private blockBookmarks(): void {
     this.subs.push(
-      this.profileService.blockChatMembers(this.selcetedProfileIds())
+      this.profileService.blockBookmarks(this.selcetedProfileIds())
       .subscribe({
         next: () =>  {},
         complete: () => {
           this.updateCurrentUserSubject() 
         },
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
+          this.openErrorDialog(this.translocoService.translate('CouldNotBlockBookmark'), null);
         }
       })
     );
@@ -131,28 +130,17 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
     return profileIds;
   }
 
-  //pageChanged(event) {
-  //  this.loading = true;
-
-  //  let pageIndex = event.pageIndex;
-  //  let pageSize = event.pageSize;
-  //  let currentSize = pageSize * pageIndex;
-
-  //  console.log('pageChanged');
-  //  //this.getChatMemberProfiles(currentSize, pageIndex, pageSize);
-  //}
-
-  private refreshChatmemberlist(showBlocked: boolean): void {
-    let chatMembers = new Array;
+  private refreshBookmarks(showBlocked: boolean): void {
+    let bookmarks = new Array;
     if (this.currentUserSubject != null) {
-      if (this.currentUserSubject.chatMemberslist.length > 0) {
-        this.currentUserSubject.chatMemberslist.forEach(function (member) {
-          if (showBlocked == member.blocked) {
-            chatMembers.push(member);
+      if (this.currentUserSubject.bookmarks.length > 0) {
+        this.currentUserSubject.bookmarks.forEach(function (member) {
+          if (showBlocked == member.blocked && member.isBookmarked) {
+            bookmarks.push(member);
           }
         });
 
-        this.chatMembers = chatMembers;
+        this.bookmarks = bookmarks;
         this.setDataSource();
       }
       else {
@@ -163,9 +151,9 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
 
   private toggleBlocked(): void {
     this.showBlocked = !this.showBlocked;
-    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ChatMembersListviewComponent.ShowNonBlocked') : this.translocoService.translate('ChatMembersListviewComponent.ShowBlocked'));
+    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('BookmarksListviewComponent.ShowNonBlocked') : this.translocoService.translate('BookmarksListviewComponent.ShowBlocked'));
     this.matButtonToggleIcon = (this.showBlocked ? 'remove_moderator' : 'shield');
-    this.refreshChatmemberlist(this.showBlocked);
+    this.refreshBookmarks(this.showBlocked);
   }
 
   // Load Detalails page
@@ -173,12 +161,12 @@ export class ChatMembersListviewComponent implements OnInit, OnDestroy {
     this.loadProfileDetails.emit(profile);
   }
 
-  private async openImageDialog(chatMember: ChatMember): Promise<void> {
+  private async openImageDialog(bookmark: Bookmark): Promise<void> {
     this.loading = true;
     let profile: Profile;
 
     this.subs.push(
-      this.profileService.getProfileById(chatMember.profileId)
+      this.profileService.getProfileById(bookmark.profileId)
       .subscribe({
         next: (res: any) =>  { profile = res },
         complete: () => {          

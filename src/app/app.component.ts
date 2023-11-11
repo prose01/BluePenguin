@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private profile: Profile;
   private filter: ProfileFilter;
   private allowSearch: boolean = false;
-  private lastCalledFilter: string = "getLatestProfiles";
+  //private lastCalledFilter: string = "getLatestProfiles";
   private pageSize: number;
 
   private siteLocale: string = getBrowserLang();

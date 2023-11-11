@@ -70,7 +70,7 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
     });
 
     this.hubConnection.on("updateCurrentUserSubject", () => {
-      // Update CurrentUser so the Chatmemberlist is updated and friendsList can be updated
+      // Update CurrentUser so the bookmarks is updated and friendsList can be updated
       this.profileService.updateCurrentUserSubject();
     });
   }

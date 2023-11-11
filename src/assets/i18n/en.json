@@ -101,11 +101,11 @@
   "CouldNotLoadDetails": "Could not load details",
   "CouldNotDeleteCurrentUser": "Could not delete user",
   "CouldNotDeleteAllImagesForProfile": "Could not delete all images from user",
-  "CouldNotBlockChatMembers": "Could not block ChatMembers",
+  "CouldNotBlockBookmarks": "Could not block bookmarks",
   "CouldNotAddComplainToProfile": "Could not complain about Profile",
   "CouldNotGetProfile": "Could not get Profile",
   "ComplainAboutProfile": "Complain about Profile",
-  "ComplainAboutChatMember": "Complain about chat member",
+  "ComplainAboutBookmark": "Complain about chat member",
   "ComplainTooMany": "You have received too many complains",
   "ChatTitle": "Chat",
   "messagePlaceholder": "Type a message",
@@ -197,7 +197,7 @@
     "LastActive": "Last active ",
     "DeleteProfile": "Delete profile",
     "Warning": "Warning!",
-    "CountryReset": "If you change country your bookmarks, chatmembers, visited, likes etc. will be reset."
+    "CountryReset": "If you change country your bookmarks, bookmarks, visited, likes etc. will be reset."
   },
   "DeleteProfileDialog": {
     "YesDeleteProfile": "Yes delete profile.",
@@ -212,17 +212,17 @@
   "CurrentUserBoardComponent": {
     "EditProfile": "Edit Profile",
     "ProfileImages": "Profile Images",
-    "ChatMembers": "ChatMembers",
+    "Bookmarks": "Bookmarked me",
     "Groups": "My grupper"
   },
-  "ChatMembersListviewComponent": {
+  "BookmarksListviewComponent": {
     "ProfileId": "ProfileId",
     "Name": "Name",
     "Status": "Status",
     "Blocked": "Blocked",
-    "BlockChatMember": "(Un)Block ChatMember(s)",
-    "ShowBlocked": "Show blocked ChatMember(s)",
-    "ShowNonBlocked": "Show unblocked ChatMember(s)"
+    "BlockBookmark": "(Un)Block bookmark(s)",
+    "ShowBlocked": "Show blocked bookmark(s)",
+    "ShowNonBlocked": "Show unblocked bookmark(s)"
   },
   "AboutComponent": {
     "About": "About us",

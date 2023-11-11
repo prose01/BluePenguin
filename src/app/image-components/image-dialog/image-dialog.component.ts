@@ -109,7 +109,7 @@ export class ImageDialog implements OnInit, OnDestroy {
 
 
   bookmarked(): boolean {
-    if (this.currentUserSubject.bookmarks.indexOf(this.data.profile.profileId) !== -1) {
+    if (this.currentUserSubject.bookmarks.filter(p => p.profileId === this.data.profile.profileId && !p.isBookmarked).length > 0) {
       return true;
     }
 

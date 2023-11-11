@@ -1,6 +1,5 @@
 import { ImageModel } from './imageModel';
 import { AvatarModel } from './avatarModel'
-//import { ChatMember } from './chatMember';
 import {
   BodyType,
   SmokingHabitsType,

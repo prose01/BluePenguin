@@ -112,7 +112,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   }
 
   private bookmarked(): boolean {
-    if (this.currentUserSubject.bookmarks.indexOf(this.profile.profileId) !== -1) {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == this.profile.profileId && !bookmark.isBookmarked) !== -1) {
       return true;
     }
 
@@ -156,19 +156,19 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  private blockChatMembers(): void {
+  private blockBookmarks(): void {
     let selcetedProfiles = new Array;
     selcetedProfiles.push(this.profile.profileId);
 
     this.subs.push(
-      this.profileService.blockChatMembers(selcetedProfiles) // TODO: Should not be possible unless there are messages / bookmark
+      this.profileService.blockBookmarks(selcetedProfiles) // TODO: Should not be possible unless there are messages / bookmark
         .subscribe({
           next: () => { },
           complete: () => {
             this.profileService.updateCurrentUserSubject(); // TODO: Is this needed?
           },
           error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotBlockChatMembers'), null);
+            this.openErrorDialog(this.translocoService.translate('CouldNotBlockBookmarks'), null);
           }
         })
     );

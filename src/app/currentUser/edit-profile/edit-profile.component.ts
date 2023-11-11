@@ -300,7 +300,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       languagecode: formModel.languagecode as string,
       countrycode: formModel.countrycode as string,
       bookmarks: this.currentUserSubject.bookmarks,
-      chatMemberslist: this.currentUserSubject.chatMemberslist,
       profileId: this.currentUserSubject.profileId,
       admin: this.currentUserSubject.admin,
       name: this.currentUserSubject.name,

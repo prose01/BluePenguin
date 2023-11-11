@@ -101,11 +101,11 @@
   "CouldNotLoadDetails": "Kunne desværre ikke hente Profiloplysninger",
   "CouldNotDeleteCurrentUser": "Kunne ikke slette bruger",
   "CouldNotDeleteAllImagesForProfile": "Kunne ikke slette billede fra bruger",
-  "CouldNotBlockChatMembers": "Kunne ikke blokkere ChatMembers",
+  "CouldNotBlockbookmarks": "Kunne ikke blokkere bookmark",
   "CouldNotAddComplainToProfile": "Kunne ikke klage over profil",
   "CouldNotGetProfile": "Kunne ikke hente profil",
   "ComplainAboutProfile": "Klag over profil",
-  "ComplainAboutChatMember": "Klag over chat medlem",
+  "ComplainAboutbookmark": "Klag over chat medlem",
   "ComplainTooMany": "Du har fået for mange klager",
   "ChatTitle": "Chat",
   "messagePlaceholder": "Skriv en besked",
@@ -216,17 +216,17 @@
   "CurrentUserBoardComponent": {
     "EditProfile": "Rediger Profil",
     "ProfileImages": "Profil billeder",
-    "ChatMembers": "ChatMembers",
+    "Bookmarks": "Bookmarket mig",
     "Groups": "Mine grupper"
   },
-  "ChatMembersListviewComponent": {
+  "BookmarksListviewComponent": {
     "ProfileId": "ProfileId",
     "Name": "Navn",
     "Status": "Status",
     "Blocked": "Blokeret",
-    "BlockChatMember": "Tilføj/Fjern blokering af ChatMember(s)",
-    "ShowBlocked": "Vis blokeret ChatMember(s)",
-    "ShowNonBlocked": "Vis ikke blokeret ChatMember(s)"
+    "BlockBookmark": "Tilføj/Fjern blokering af bookmark(s)",
+    "ShowBlocked": "Vis blokeret bookmark(s)",
+    "ShowNonBlocked": "Vis ikke blokeret bookmark(s)"
   },
   "AboutComponent": {
     "About": "Om os",

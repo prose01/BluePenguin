@@ -316,7 +316,15 @@ export class ProfileListviewComponent implements OnDestroy {
   }
 
   private bookmarked(profileId: string): boolean {
-    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && !bookmark.isBookmarked) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private bookmarkedMe(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && bookmark.isBookmarked) !== -1) {
       return true;
     }
 

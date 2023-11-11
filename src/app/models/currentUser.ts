@@ -1,5 +1,5 @@
 import { ImageModel } from './imageModel';
-import { ChatMember } from './chatMember';
+import { Bookmark } from './bookmark';
 import { Visited } from './visited';
 import { Groups } from './groups';
 import { AvatarModel } from './avatarModel'
@@ -22,9 +22,7 @@ import {
 export class CurrentUser {
   languagecode: string;
   countrycode: string;
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  //auth0Id: string;
+  bookmarks: Array<Bookmark>;
   profileId: string;
   admin: boolean;
   name: string;
@@ -61,9 +59,7 @@ export class CurrentUser {
 export interface CurrentUser {
   languagecode: string;
   countrycode: string;
-  bookmarks: string[];
-  chatMemberslist: Array<ChatMember>;
-  //auth0Id: string;
+  bookmarks: Array<Bookmark>;
   profileId: string;
   admin: boolean;
   name: string;

@@ -98,7 +98,7 @@ import { GroupMessageDisplayNamePipe } from './chat/pipes/group-message-display-
 import { ChatOptionsComponent } from './chat/chat-options/chat-options.component';
 import { ChatFriendsListComponent } from './chat/chat-friends-list/chat-friends-list.component';
 import { ChatWindowComponent } from './chat/chat-window/chat-window.component';
-import { ChatMembersListviewComponent } from './currentUser/chatMembers/chatMembers-listview.component';
+import { BookmarksListviewComponent } from './currentUser/bookmarks/bookmarks-listview.component';
 import { CreateGroupDialog } from './groups/create-group-dialog/create-group-dialog';
 
 import { TranslocoRootModule } from './transloco/transloco-root.module';
@@ -147,7 +147,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ImageDialog,
     DeleteImageDialog,
     ChatWrapperComponent,
-    ChatMembersListviewComponent,
+    BookmarksListviewComponent,
     CreateGroupDialog,
     GroupMembershipListviewComponent,
     Chat,

@@ -109,6 +109,8 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
+    console.log('onScrollDown');
+    console.log(this.currentProfiles?.length);
     var pageIndex = (this.currentProfiles?.length - this.currentPage) / this.pageSize;
 
     if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
@@ -223,7 +225,15 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   private bookmarked(profileId: string): boolean {
-    if (this.currentUserSubject.bookmarks.indexOf(profileId) !== -1) {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && !bookmark.isBookmarked) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private bookmarkedMe(profileId: string): boolean {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && bookmark.isBookmarked) !== -1) {
       return true;
     }
 

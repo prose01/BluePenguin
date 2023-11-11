@@ -1,16 +1,18 @@
 import { Profile } from "./profile";
 import { AvatarModel } from './avatarModel'
 
-export class ChatMember {
+export class Bookmark {
   profileId: string;
   name: string;
   blocked: boolean;
   avatar: AvatarModel;
+  isBookmarked: boolean;
 }
 
-export interface ChatMember extends Profile {
+export interface Bookmark extends Profile {
   profileId: string;
   name: string;
   blocked: boolean;
   avatar: AvatarModel;
+  isBookmarked: boolean;
 }

@@ -71,8 +71,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.isCurrentUserCreated.emit({ isCreated: true, languagecode: this.currentUserSubject.languagecode, uploadImageClick: false });
           this.cleaningAndChecks.emit();
         }
-
-        this.getLatestProfiles();
       },
         (error: any) => {
           if (error.status === 0) {

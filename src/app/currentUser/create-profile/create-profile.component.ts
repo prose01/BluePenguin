@@ -300,7 +300,6 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       languagecode: formModel.languagecode as string,
       countrycode: formModel.countrycode as string,
       bookmarks: null,
-      chatMemberslist: null,
       profileId: null,
       admin: false,
       images: null,
