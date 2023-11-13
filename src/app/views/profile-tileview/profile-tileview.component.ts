@@ -233,7 +233,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   private bookmarkedMe(profileId: string): boolean {
-    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && bookmark.isBookmarked) !== -1) {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == profileId && bookmark.isBookmarked && !bookmark.blocked) !== -1) {
       return true;
     }
 

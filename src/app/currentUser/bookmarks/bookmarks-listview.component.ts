@@ -139,13 +139,13 @@ export class BookmarksListviewComponent implements OnInit, OnDestroy {
             bookmarks.push(member);
           }
         });
-
-        this.bookmarks = bookmarks;
-        this.setDataSource();
       }
       else {
         this.loading = false;
       }
+
+      this.bookmarks = bookmarks;
+      this.setDataSource();
     }
   }
 

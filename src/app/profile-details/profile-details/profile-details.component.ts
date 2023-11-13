@@ -119,6 +119,14 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  private bookmarkedMe(): boolean {
+    if (this.currentUserSubject.bookmarks.findIndex(bookmark => bookmark.profileId == this.profile.profileId && bookmark.isBookmarked) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
   /** Add or remove bookmarks */
   private addBookmarkedProfiles(): void {
     let selcetedProfiles = new Array;
