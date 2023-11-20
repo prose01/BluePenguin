@@ -42,7 +42,7 @@ export class ChatWindowComponent implements OnInit {
   public emojisEnabled: boolean = true;
 
   @Input()
-  public linkfyEnabled: boolean = true;
+  public linkfyEnabled: boolean = false;
 
   @Input()
   public showMessageDate: boolean = true;
@@ -138,7 +138,8 @@ export class ChatWindowComponent implements OnInit {
         }
       }
     }
-
+    console.log('isAvatarVisible');
+    console.log('index ' + index);
     return false;
   }
 
