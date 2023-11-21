@@ -6,7 +6,7 @@
     "ng": "ng",
     "clean": "rimraf ./dist",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --configuration production",
     "build-prod": "ng build --configuration production",
     "build-test": "ng build --configuration=test production",
     "build-dev": "ng build --configuration=dev production",
