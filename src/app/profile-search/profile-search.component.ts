@@ -199,9 +199,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.profileForm = this.formBuilder.group({
       name: null,
       minAgeSliderControl: this.minAge,
-      maxAgeSliderControl: this.minAge,
+      maxAgeSliderControl: this.maxAge,
       minHeightSliderControl: this.minHeight,
-      maxHeightSliderControl: this.minHeight,
+      maxHeightSliderControl: this.maxHeight,
       heightSliderControl: null,
       description: null,
       tags: null,
