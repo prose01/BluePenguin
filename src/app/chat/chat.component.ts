@@ -161,7 +161,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   public onParticipantChatClosed: EventEmitter<IChatParticipant> = new EventEmitter<IChatParticipant>();
 
   @Output()
-  public onMessagesSeen: EventEmitter<MessageModel[]> = new EventEmitter<MessageModel[]>();
+  public onMessagesSeen: EventEmitter<IChatParticipant> = new EventEmitter<IChatParticipant>();
 
   private browserNotificationsBootstrapped: boolean = true;
 
@@ -535,9 +535,9 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   }
 
   // Handles received messages by the adapter
-  public onMessageReceived(participant: IChatParticipant, message: MessageModel) {
-    if (participant && message) {
-      const chatWindow = this.openChatWindow(participant);
+  public onMessageReceived(chatparticipant: IChatParticipant, message: MessageModel) {
+    if (chatparticipant && message) {
+      const chatWindow = this.openChatWindow(chatparticipant);
 
       this.assertMessageType(message);
 
@@ -552,7 +552,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
 
       this.emitMessageSound(chatWindow[0]);
-      //this.markMessagesAsRead([message]);
+      this.onWindowMessagesSeen(chatparticipant);
 
       // Github issue #58
       // Do not push browser notifications with message content for privacy purposes if the 'maximizeWindowOnNewMessage' setting is off and this is a new chat window.
@@ -563,26 +563,26 @@ export class Chat implements OnInit, OnDestroy, IChatController {
     }
   }
 
-  onParticipantClickedFromFriendsList(participant: IChatParticipant): void {
-    this.openChatWindow(participant, true, true);
+  onParticipantClickedFromFriendsList(chatparticipant: IChatParticipant): void {
+    this.openChatWindow(chatparticipant, true, true);
   }
 
   // Opens a new chat whindow. Takes care of available viewport
   // Works for opening a chat window for an user or for a group
   // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
-  private openChatWindow(participant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean] {
+  private openChatWindow(chatparticipant: IChatParticipant, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean] {
     // Is this window opened?
-    const openedWindow = this.windows.find(x => x.participant.id == participant.id);
+    const openedWindow = this.windows.find(x => x.participant.id == chatparticipant.id);
 
     if (!openedWindow) {
       if (invokedByUserClick) {
-        this.onParticipantClicked.emit(participant);
+        this.onParticipantClicked.emit(chatparticipant);
       }
 
       // Refer to issue #58 on Github
       const collapseWindow = invokedByUserClick ? false : !this.maximizeWindowOnNewMessage;
 
-      const newChatWindow: Window = new Window(participant, this.historyEnabled, collapseWindow);
+      const newChatWindow: Window = new Window(chatparticipant, this.historyEnabled, collapseWindow);
 
       // Loads the chat history via an RxJs Observable
       if (this.historyEnabled) {
@@ -604,8 +604,8 @@ export class Chat implements OnInit, OnDestroy, IChatController {
         this.focusOnWindow(newChatWindow);
       }
 
-      this.participantsInteractedWith.push(participant);
-      this.onParticipantChatOpened.emit(participant);
+      this.participantsInteractedWith.push(chatparticipant);
+      this.onParticipantChatOpened.emit(chatparticipant);
 
       return [newChatWindow, true];
     }
@@ -637,11 +637,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       message.messageType = MessageType.NotChosen;
     }
   }
-
-  //// Marks all messages provided as read.
-  //markMessagesAsRead(messages: Message[]): void {
-  //  this.oldParticipantsResponse.find(x => x.participant.id == messages[messages.length - 1]?.toId).metadata.totalUnreadMessages = 0;
-  //}
 
   // Buffers audio file (For component's bootstrapping)
   private bufferAudioFile(): void {
@@ -782,6 +777,12 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   onWindowMessageSent(message: MessageModel): void {
     this.adapter.sendMessage(message);
+  }
+
+  onWindowMessagesSeen(chatparticipant: IChatParticipant): void {
+    this.subs.push(
+      this.adapter.sendSaveLastMessagesSeen(chatparticipant).subscribe()
+    )
   }
 
   onWindowOptionTriggered(option: IChatOption): void {

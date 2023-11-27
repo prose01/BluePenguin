@@ -12,6 +12,8 @@ export abstract class ChatAdapter {
 
   public abstract getMessageHistory(destinataryId: any): Observable<MessageModel[]>;
 
+  public abstract sendSaveLastMessagesSeen(chatparticipant: IChatParticipant): Observable<any>;
+
   public abstract sendMessage(message: MessageModel): void;
 
   public abstract onDisconnectedAsync(): void;
@@ -22,13 +24,13 @@ export abstract class ChatAdapter {
     this.friendsListChangedHandler(participantsResponse);
   }
 
-  public onMessageReceived(participant: IChatParticipant, message: MessageModel): void {
-    this.messageReceivedHandler(participant, message);
+  public onMessageReceived(chatparticipant: IChatParticipant, message: MessageModel): void {
+    this.messageReceivedHandler(chatparticipant, message);
   }
 
   // Event handlers
   /** @internal */
   friendsListChangedHandler: (participantsResponse: ParticipantResponse[]) => void = (participantsResponse: ParticipantResponse[]) => { };
   /** @internal */
-  messageReceivedHandler: (participant: IChatParticipant, message: MessageModel) => void = (participant: IChatParticipant, message: MessageModel) => { };
+  messageReceivedHandler: (chatparticipant: IChatParticipant, message: MessageModel) => void = (chatparticipant: IChatParticipant, message: MessageModel) => { };
 }

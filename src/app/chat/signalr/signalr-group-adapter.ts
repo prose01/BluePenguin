@@ -10,7 +10,7 @@ import { ChatAdapter } from './../core/chat-adapter';
 import { IChatGroupAdapter } from './../core/chat-group-adapter';
 import { Group } from "./../core/group";
 import { ParticipantResponse } from "./../core/participant-response";
-import { ChatParticipant, IChatParticipant } from "./../core/chat-participant";
+import { IChatParticipant } from "./../core/chat-participant";
 import { ErrorDialog } from './../../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { ChatParticipantType } from '../core/chat-participant-type.enum';
@@ -56,7 +56,7 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
       this.userId = userId;
     });
 
-    this.hubConnection.on("messageReceived", (participant: ChatParticipant, message: MessageModel) => {
+    this.hubConnection.on("messageReceived", (participant: IChatParticipant, message: MessageModel) => {
       // Handle the received message to ng-chat
       participant.participantType = ChatParticipantType[participant.participantType.toString()];
 
@@ -107,8 +107,12 @@ export class SignalRGroupAdapter extends ChatAdapter implements IChatGroupAdapte
   //  return of([]);
   //}
 
-  getMessageHistory(chatparticipant: ChatParticipant): Observable<MessageModel[]> {
+  getMessageHistory(chatparticipant: IChatParticipant): Observable<MessageModel[]> {
     return this.http.post<MessageModel[]>(`${this.junoUrl}messagehistory`, chatparticipant, { headers: this.headers });
+  }
+
+  sendSaveLastMessagesSeen(chatparticipant: IChatParticipant): Observable<any> {
+    return this.http.post(`${this.junoUrl}saveLastmessagesseen`, chatparticipant, { headers: this.headers });
   }
 
   sendMessage(message: MessageModel): void {

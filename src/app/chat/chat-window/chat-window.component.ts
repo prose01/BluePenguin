@@ -57,7 +57,7 @@ export class ChatWindowComponent implements OnInit {
   public onChatWindowClosed: EventEmitter<{ closedWindow: Window, closedViaEscapeKey: boolean }> = new EventEmitter();
 
   @Output()
-  public onMessagesSeen: EventEmitter<MessageModel[]> = new EventEmitter();
+  public onMessagesSeen: EventEmitter<IChatParticipant> = new EventEmitter();
 
   @Output()
   public onMessageSent: EventEmitter<MessageModel> = new EventEmitter();
@@ -93,21 +93,6 @@ export class ChatWindowComponent implements OnInit {
     this.initials = this.window.participant.initials;
     this.initialsColour = this.window.participant.initialsColour;
     this.circleColour = this.window.participant.circleColour;
-
-    // TODO: This is the getChatWindowAvatar code that sets Avatar for User or Group. We need to add Group at some point.
-    //if (this.window.participant.participantType == ChatParticipantType.User) {
-    //  this.initials = this.window.participant.initials;
-    //  this.circleColour = this.window.participant.circleColour;
-    //}
-    //else if (this.window.participant.participantType == ChatParticipantType.Group) {
-    //  let group = this.window.participant as Group;
-    //  let userIndex = group.chattingTo.findIndex(x => x.id == message.fromId);
-
-    //  //this.initials = participant.initials; // TODO: Add correct data for group participant
-    //  //this.circleColour = participant.circleColour; // TODO: Add correct data for group participant
-
-    //  return group.chattingTo[userIndex >= 0 ? userIndex : 0].avatar;
-    //}
   }
 
   defaultWindowOptions(currentWindow: Window): IChatOption[] {
@@ -138,8 +123,6 @@ export class ChatWindowComponent implements OnInit {
         }
       }
     }
-    console.log('isAvatarVisible');
-    console.log('index ' + index);
     return false;
   }
 
