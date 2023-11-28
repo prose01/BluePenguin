@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 
 import { MessageType } from "./../core/message-type.enum";
 import { Window } from "./../core/window";
@@ -20,7 +20,7 @@ import { MessageModel } from '../../models/messageModel';
   styleUrls: ['./chat-window.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ChatWindowComponent implements OnInit {
+export class ChatWindowComponent {
   constructor() { }
 
   @Input()
@@ -88,12 +88,7 @@ export class ChatWindowComponent implements OnInit {
   public ChatParticipantStatus = ChatParticipantStatus;
   public MessageType = MessageType;
   public chatParticipantStatusDescriptor = chatParticipantStatusDescriptor;
-
-  ngOnInit() {
-    this.initials = this.window.participant.initials;
-    this.initialsColour = this.window.participant.initialsColour;
-    this.circleColour = this.window.participant.circleColour;
-  }
+  
 
   defaultWindowOptions(currentWindow: Window): IChatOption[] {
     if (this.showOptions && currentWindow.participant.participantType == ChatParticipantType.User) {
