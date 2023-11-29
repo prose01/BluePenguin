@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, ViewChildren, QueryList, HostListener, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
 import { ChatAdapter } from './core/chat-adapter';
@@ -14,11 +13,8 @@ import { ScrollDirection } from "./core/scroll-direction.enum";
 import { Localization, StatusDescription } from './core/localization';
 import { IChatController } from './core/chat-controller';
 import { PagedHistoryChatAdapter } from './core/paged-history-chat-adapter';
-import { IFileUploadAdapter } from './core/file-upload-adapter';
-import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
 import { Theme } from './core/theme.enum';
 import { IChatOption } from './core/chat-option';
-import { Group } from "./core/group";
 import { ChatParticipantType } from "./core/chat-participant-type.enum";
 import { IChatParticipant } from "./core/chat-participant";
 
@@ -132,9 +128,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   public hideFriendsListOnUnsupportedViewport: boolean = true;
 
   @Input()
-  public fileUploadUrl: string;
-
-  @Input()
   public theme: Theme = Theme.Light;
 
   @Input()
@@ -148,9 +141,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   @Input()
   public isViewportOnMobileEnabled: boolean = true;
-
-  @Input()
-  public fileUploadAdapter: IFileUploadAdapter;
 
   @Output()
   public onParticipantClicked: EventEmitter<IChatParticipant> = new EventEmitter<IChatParticipant>();
@@ -329,10 +319,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
         this.bufferAudioFile();
 
         this.hasPagedHistory = this.adapter instanceof PagedHistoryChatAdapter;
-
-        if (this.fileUploadUrl && this.fileUploadUrl !== "") {
-          //this.fileUploadAdapter = new DefaultFileUploadAdapter(this.fileUploadUrl, this._httpClient);
-        }
 
         this.NormalizeWindows();
 
@@ -517,12 +503,7 @@ export class Chat implements OnInit, OnDestroy, IChatController {
   }
 
   private onFetchMessageHistoryLoaded(messages: MessageModel[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void {
-    this.scrollChatWindow(window, direction)
-
-    //if (window.hasFocus || forceMarkMessagesAsSeen) {
-    //  const unseenMessages = messages.filter(m => !m.dateSeen);
-    //  this.markMessagesAsRead(unseenMessages);
-    //}
+    this.scrollChatWindow(window, direction);
   }
 
   // Updates the friends list via the event handler
@@ -551,12 +532,6 @@ export class Chat implements OnInit, OnDestroy, IChatController {
       const chatWindow = this.openChatWindow(chatparticipant);
 
       this.assertMessageType(message);
-
-      //if (!chatWindow[1] || !this.historyEnabled) {
-      //  chatWindow[0].messages.push(message);
-
-      //  this.scrollChatWindow(chatWindow[0], ScrollDirection.Bottom);
-      //}
 
       chatWindow[0].messages.push(message);
 

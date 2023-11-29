@@ -5,12 +5,9 @@ import { Window } from "./../core/window";
 import { ChatParticipantStatus } from "./../core/chat-participant-status.enum";
 import { ScrollDirection } from "./../core/scroll-direction.enum";
 import { Localization } from './../core/localization';
-import { IFileUploadAdapter } from './../core/file-upload-adapter';
 import { IChatOption } from './../core/chat-option';
-import { Group } from "./../core/group";
 import { ChatParticipantType } from "./../core/chat-participant-type.enum";
 import { IChatParticipant } from "./../core/chat-participant";
-import { MessageCounter } from "./../core/message-counter";
 import { chatParticipantStatusDescriptor } from './../core/chat-participant-status-descriptor';
 import { MessageModel } from '../../models/messageModel';
 import { CurrentUser } from '../../models/currentUser';
@@ -31,10 +28,7 @@ export class ChatWindowComponent {
   get currentUser(): CurrentUser {
     return this._currentUser;
   }
-
-  @Input()
-  public fileUploadAdapter: IFileUploadAdapter;
-
+  
   @Input()
   public window: Window;
 
@@ -82,12 +76,8 @@ export class ChatWindowComponent {
 
 
   @ViewChild('chatMessages') chatMessages: any;
-  @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
   @ViewChild('chatWindowInput') chatWindowInput: any;
-
-  // File upload state
-  public fileUploadersInUse: string[] = []; // Id bucket of uploaders in use
-
+  
   private _currentUser: CurrentUser;
 
   // Exposes enums and functions for the template
@@ -126,21 +116,6 @@ export class ChatWindowComponent {
     return false;
   }
 
-  isUploadingFile(window: Window): boolean {
-    const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
-
-    return this.fileUploadersInUse.indexOf(fileUploadInstanceId) > -1;
-  }
-
-  // Generates a unique file uploader id for each participant
-  getUniqueFileUploadInstanceId(window: Window): string {
-    if (window && window.participant) {
-      return `chat-file-upload-${window.participant.id}`;
-    }
-
-    return 'chat-file-upload';
-  }
-
   // Scrolls a chat window message flow to the bottom
   scrollChatWindow(window: Window, direction: ScrollDirection): void {
     if (!window.isCollapsed) {
@@ -156,13 +131,6 @@ export class ChatWindowComponent {
 
   activeOptionTrackerChange(option: IChatOption): void {
     this.onOptionTriggered.emit(option);
-  }
-
-  // Triggers native file upload for file selection from the user
-  triggerNativeFileUpload(window: Window): void {
-    if (window) {
-      if (this.nativeFileInput) this.nativeFileInput.nativeElement.click();
-    }
   }
 
   // Toggles a window focus on the focus/blur of a 'newMessage' input
@@ -222,50 +190,5 @@ export class ChatWindowComponent {
   onChatWindowClicked(window: Window): void {
     window.isCollapsed = !window.isCollapsed;
     this.scrollChatWindow(window, ScrollDirection.Bottom);
-  }
-
-  private clearInUseFileUploader(fileUploadInstanceId: string): void {
-    const uploaderInstanceIdIndex = this.fileUploadersInUse.indexOf(fileUploadInstanceId);
-
-    if (uploaderInstanceIdIndex > -1) {
-      this.fileUploadersInUse.splice(uploaderInstanceIdIndex, 1);
-    }
-  }
-
-  // Handles file selection and uploads the selected file using the file upload adapter
-  onFileChosen(window: Window): void {
-    const fileUploadInstanceId = this.getUniqueFileUploadInstanceId(window);
-    const uploadElementRef = this.nativeFileInput;
-
-    if (uploadElementRef) {
-      const file: File = uploadElementRef.nativeElement.files[0];
-
-      this.fileUploadersInUse.push(fileUploadInstanceId);
-
-      this.fileUploadAdapter.uploadFile(file, window.participant.id)
-        .subscribe(message => {
-          this.clearInUseFileUploader(fileUploadInstanceId);
-
-          message.fromId = this.userId;
-
-          // Push file message to current user window   
-          window.messages.push(message);
-
-          //this.onMessageSent.emit(message);// Probably wrong but we do not send files anyway.
-          this.onMessageSent.emit(message);
-
-          this.scrollChatWindow(window, ScrollDirection.Bottom);
-
-          // Resets the file upload element
-          uploadElementRef.nativeElement.value = '';
-        }, (error) => {
-          this.clearInUseFileUploader(fileUploadInstanceId);
-
-          // Resets the file upload element
-          uploadElementRef.nativeElement.value = '';
-
-          // TODO: Invoke a file upload adapter error here
-        });
-    }
   }
 }
