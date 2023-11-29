@@ -1,5 +1,6 @@
 <!-- Offline bot instance -->
 <chat #ngChatInstance *ngIf="adapter && userId"
+         [currentUser]="currentUser"
          [chatTitle]="chatTitle"
          [searchPlaceholder]="searchPlaceholder"
          [messagePlaceholder]="messagePlaceholder"

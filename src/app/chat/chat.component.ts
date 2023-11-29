@@ -27,6 +27,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { ErrorDialog } from './../error-dialog/error-dialog.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { MessageModel } from '../models/messageModel';
+import { CurrentUser } from '../models/currentUser';
 
 @Component({
   selector: 'chat',
@@ -207,6 +208,16 @@ export class Chat implements OnInit, OnDestroy, IChatController {
 
   // following properties are all string inputs that can be translated
   private _chatTitle: string;
+
+  private _currentUser: CurrentUser;
+
+  @Input() set currentUser(values: CurrentUser) {
+    this._currentUser = values;
+  }
+
+  get currentUser(): CurrentUser {
+    return this._currentUser;
+  }
 
   @Input() set chatTitle(values: string) {
     this._chatTitle = values;

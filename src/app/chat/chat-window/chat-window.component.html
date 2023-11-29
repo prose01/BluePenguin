@@ -32,11 +32,10 @@
 
     <div *ngFor="let message of window.messages; let i = index" [ngClass]="{'chat-message': true, 'chat-message-received': message.fromId != userId}">
       <container *ngIf="isAvatarVisible(window, message, i)">
-        <div class="circle" [ngStyle]="{'background-color':  message.fromAvatar.circleColour }">
-          <!--<img *ngIf="!showInitials" src="{{photoUrl}}">-->
+        <div class="circle" [ngStyle]="{'background-color': message.fromId != userId ? message.fromAvatar.circleColour : currentUser.avatar.circleColour }">
 
-          <div *ngIf="showInitials" class="initials" [ngStyle]="{'color':  message.fromAvatar.initialsColour }">
-            {{ message.fromAvatar.initials }}
+          <div class="initials" [ngStyle]="{'color': message.fromId != userId ? message.fromAvatar.initialsColour : currentUser.avatar.initialsColour }">
+            {{ message.fromId != userId ? message.fromAvatar.initials : currentUser.avatar.initials }}
           </div>
         </div>
 

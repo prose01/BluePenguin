@@ -13,6 +13,7 @@ import { IChatParticipant } from "./../core/chat-participant";
 import { MessageCounter } from "./../core/message-counter";
 import { chatParticipantStatusDescriptor } from './../core/chat-participant-status-descriptor';
 import { MessageModel } from '../../models/messageModel';
+import { CurrentUser } from '../../models/currentUser';
 
 @Component({
   selector: 'chat-window',
@@ -22,6 +23,14 @@ import { MessageModel } from '../../models/messageModel';
 })
 export class ChatWindowComponent {
   constructor() { }
+
+  @Input() set currentUser(values: CurrentUser) {
+    this._currentUser = values;
+  }
+
+  get currentUser(): CurrentUser {
+    return this._currentUser;
+  }
 
   @Input()
   public fileUploadAdapter: IFileUploadAdapter;
@@ -71,10 +80,6 @@ export class ChatWindowComponent {
   @Output()
   public onLoadHistoryTriggered: EventEmitter<Window> = new EventEmitter();
 
-  public initials: string;
-  public initialsColour: string;
-  public circleColour: string;
-  private showInitials: boolean = true;
 
   @ViewChild('chatMessages') chatMessages: any;
   @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
@@ -82,6 +87,8 @@ export class ChatWindowComponent {
 
   // File upload state
   public fileUploadersInUse: string[] = []; // Id bucket of uploaders in use
+
+  private _currentUser: CurrentUser;
 
   // Exposes enums and functions for the template
   public ChatParticipantType = ChatParticipantType;
@@ -107,15 +114,13 @@ export class ChatWindowComponent {
 
   // Asserts if a user avatar is visible in a chat cluster
   isAvatarVisible(window: Window, message: MessageModel, index: number): boolean {
-    if (message.fromId != this.userId) {
-      if (index == 0) {
-        return true; // First message, good to show the thumbnail
-      }
-      else {
-        // Check if the previous message belongs to the same user, if it belongs there is no need to show the avatar again to form the message cluster
-        if (window.messages[index - 1].fromId != message.fromId) {
-          return true;
-        }
+    if (index == 0) {
+      return true; // First message, good to show the thumbnail
+    }
+    else {
+      // Check if the previous message belongs to the same user, if it belongs there is no need to show the avatar again to form the message cluster
+      if (window.messages[index - 1].fromId != message.fromId) {
+        return true;
       }
     }
     return false;

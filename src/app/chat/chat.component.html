@@ -19,6 +19,7 @@
     <div *ngFor="let window of windows; let i = index" [ngClass]="{'chat-window': true, 'primary-outline-color': true, 'chat-window-collapsed': window.isCollapsed}" [ngStyle]="{'right': (!hideFriendsList ? friendsListWidth : 0) + 20 + windowSizeFactor * i + 'px'}">
         <chat-window
             #chatWindow
+            [currentUser]="currentUser"
             [fileUploadAdapter]="fileUploadAdapter"
             [localization]="localization"
             [userId]="userId"
