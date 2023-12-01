@@ -51,6 +51,7 @@
   <div class="chat-footer primary-outline-color primary-background">
     <input #chatWindowInput
            type="text"
+           maxlength="500"
            [ngModel]="window.newMessage | emojify:emojisEnabled"
            (ngModelChange)="window.newMessage=$event"
            [placeholder]="localization.messagePlaceholder"
