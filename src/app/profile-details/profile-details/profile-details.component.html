@@ -23,11 +23,11 @@
       <span class="material-icons icon-white-square">report</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" attr.aria-label="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}" matTooltip="{{'ProfileDetailsComponent.SetProfileAsAdmin'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && !profile.admin" (click)="setProfileAsAdmin()" attr.aria-label="{{'SetProfileAsAdmin'| transloco}}" matTooltip="{{'SetProfileAsAdmin'| transloco}}">
       <span class="material-icons icon-white-square">admin_panel_settings</span>
     </button>
 
-    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" attr.aria-label="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}" matTooltip="{{'ProfileDetailsComponent.RemoveProfileAsAdmin'| transloco}}">
+    <button mat-flat-button color="accent" *ngIf="currentUserSubject != null && currentUserSubject.admin && profile.admin" (click)="removeProfileAsAdmin()" attr.aria-label="{{'RemoveProfileAsAdmin'| transloco}}" matTooltip="{{'RemoveProfileAsAdmin'| transloco}}">
       <span class="material-icons icon-white-square">verified_user</span>
     </button>
 
