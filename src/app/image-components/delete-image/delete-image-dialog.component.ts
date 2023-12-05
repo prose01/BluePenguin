@@ -23,10 +23,10 @@ export class DeleteImageDialog implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.push(
-      this.translocoService.selectTranslate('ImageDeleteDialogComponent.DeleteImage').subscribe(value => this.matDialogTitle = value)
+      this.translocoService.selectTranslate('DeleteImage').subscribe(value => this.matDialogTitle = value)
     );
     this.subs.push(
-      this.translocoService.selectTranslate('ImageDeleteDialogComponent.CannotBeUndone').subscribe(value => this.matDialogContent = value)
+      this.translocoService.selectTranslate('CannotBeUndone').subscribe(value => this.matDialogContent = value)
     );
   }
 

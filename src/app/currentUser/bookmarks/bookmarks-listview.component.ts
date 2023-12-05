@@ -55,7 +55,7 @@ export class BookmarksListviewComponent implements OnInit, OnDestroy {
     );
 
     this.subs.push(
-      this.translocoService.selectTranslate('BookmarksListviewComponent.ShowBlocked').subscribe(value => this.matButtonToggleText = value)
+      this.translocoService.selectTranslate('ShowBlocked').subscribe(value => this.matButtonToggleText = value)
     );
   }
 
@@ -151,7 +151,7 @@ export class BookmarksListviewComponent implements OnInit, OnDestroy {
 
   private toggleBlocked(): void {
     this.showBlocked = !this.showBlocked;
-    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('BookmarksListviewComponent.ShowNonBlocked') : this.translocoService.translate('BookmarksListviewComponent.ShowBlocked'));
+    this.matButtonToggleText = (this.showBlocked ? this.translocoService.translate('ShowNonBlocked') : this.translocoService.translate('ShowBlocked'));
     this.matButtonToggleIcon = (this.showBlocked ? 'remove_moderator' : 'shield');
     this.refreshBookmarks(this.showBlocked);
   }

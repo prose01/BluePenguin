@@ -35,8 +35,8 @@ export class DeleteProfileDialog implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.DeleteProfile') : this.translocoService.translate('DeleteProfileDialog.DeleteYourProfile'));
-    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfileDialog.ProfileDeleteCannotBeUndone') : this.translocoService.translate('DeleteProfileDialog.DeletionCannotBeUndone'));
+    this.matDialogTitle = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('DeleteProfile') : this.translocoService.translate('DeleteYourProfile'));
+    this.matDialogContent = (this.profileIds[0] != this.currentUserSubject.profileId ? this.translocoService.translate('ProfileDeleteCannotBeUndone') : this.translocoService.translate('DeletionCannotBeUndone'));
   }
 
   ngOnDestroy(): void {

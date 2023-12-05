@@ -245,27 +245,27 @@ export class CreateProfileComponent implements OnInit, OnDestroy {
       this.newUserForm.setErrors({ ...this.newUserForm.errors, 'newUserForm': true });
 
       if (this.newUserForm.controls.name.errors?.required) {
-        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameRequired');
+        this.namePlaceholder = this.translocoService.translate('NameRequired');
       }
 
       if (this.newUserForm.controls.name.errors?.minlength) {
-        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMinCharacters');
+        this.namePlaceholder = this.translocoService.translate('NameMinCharacters');
       }
 
       if (this.newUserForm.controls.name.errors?.maxlength) {
-        this.namePlaceholder = this.translocoService.translate('CreateProfileComponent.NameMaxCharacters');
+        this.namePlaceholder = this.translocoService.translate('NameMaxCharacters');
       }
 
       if (this.newUserForm.controls.gender?.errors != null && this.newUserForm.controls.gender.errors.required) {
-        this.genderPlaceholder = this.translocoService.translate('CreateProfileComponent.GenderRequired');
+        this.genderPlaceholder = this.translocoService.translate('GenderRequired');
       }
 
       if (this.newUserForm.controls.seeking?.errors != null && this.newUserForm.controls.seeking.errors.required) {
-        this.seekingPlaceholder = this.translocoService.translate('CreateProfileComponent.SeekingRequired');
+        this.seekingPlaceholder = this.translocoService.translate('SeekingRequired');
       }
 
       if (this.newUserForm.controls.countrycode?.errors != null && this.newUserForm.controls.countrycode.errors.required) {
-        this.countrycodePlaceholder = this.translocoService.translate('CreateProfileComponent.CountrycodeRequired');
+        this.countrycodePlaceholder = this.translocoService.translate('CountrycodeRequired');
       }
 
       return;

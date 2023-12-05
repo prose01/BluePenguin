@@ -114,7 +114,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
           this.updateMessageList();
         },
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetMessages'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotGetMessages'), null); this.loading = false;
         }
       })
     );
@@ -195,7 +195,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
         complete: () => {
           this.updateMessageList();
         },
-        error: () => { this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotGetChatsByFilter'), null); this.loading = false; }
+        error: () => { this.openErrorDialog(this.translocoService.translate('CouldNotGetChatsByFilter'), null); this.loading = false; }
       })
     );
   }
@@ -293,7 +293,7 @@ export class ProfileChatListviewComponent implements OnInit, OnDestroy {
         },
         complete: () => {},
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('ProfileChatListviewComponent.CouldNotLoadDetails'), null);
+          this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
         }
       })
     );

@@ -63,7 +63,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs.push(
-      this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholder').subscribe(value => this.titlePlaceholder = value)
+      this.translocoService.selectTranslate('TitlePlaceholder').subscribe(value => this.titlePlaceholder = value)
     );
   }
 
@@ -85,7 +85,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength : this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('TitlePlaceholderError', { imageTitleMaxLength : this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
     }
@@ -100,7 +100,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
       }
       else {
         var limitMB = (this.fileSizeLimit / 1000000);
-        this.openErrorDialog(this.translocoService.translate("CouldNotUploadImage"), this.translocoService.translate("ImageUploadComponent.ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
+        this.openErrorDialog(this.translocoService.translate("CouldNotUploadImage"), this.translocoService.translate("ImageSizeLimit", { limitMB: Math.floor(limitMB) }));
       }
     }
   }
@@ -234,7 +234,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
 
       if (this.uploadImageForm.controls.title.errors.maxlength) {
         this.subs.push(
-          this.translocoService.selectTranslate('ImageUploadComponent.TitlePlaceholderError', { imageTitleMaxLength: this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
+          this.translocoService.selectTranslate('TitlePlaceholderError', { imageTitleMaxLength: this.imageTitleMaxLength }).subscribe(value => this.titlePlaceholder = value)
         );
       }
 

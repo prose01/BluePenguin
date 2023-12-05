@@ -104,10 +104,10 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       this.translocoService.selectTranslate('Tags').subscribe(value => this.tagsPlaceholder = value)
     );
     this.subs.push(
-      this.translocoService.selectTranslate('EditProfileComponent.Warning').subscribe(value => this.warningText = value)
+      this.translocoService.selectTranslate('Warning').subscribe(value => this.warningText = value)
     );
     this.subs.push(
-      this.translocoService.selectTranslate('EditProfileComponent.CountryReset').subscribe(value => this.countryResetText = value)
+      this.translocoService.selectTranslate('CountryReset').subscribe(value => this.countryResetText = value)
     );
 
     this.subs.push(

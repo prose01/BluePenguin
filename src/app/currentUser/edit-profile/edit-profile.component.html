@@ -7,7 +7,7 @@
   </div>
 
   <div *ngIf="currentUserSubject">
-    <h4>{{'EditProfileComponent.UpdateDetails'| transloco}}</h4>
+    <h4>{{'UpdateDetails'| transloco}}</h4>
 
     <form [formGroup]="profileForm">
 
@@ -249,7 +249,7 @@
 
     <hr class="solid">
 
-    <button *ngIf="!currentUserSubject.admin" mat-flat-button color="accent" (click)="openDeleteCurrentUserDialog()" attr.aria-label="{{'EditProfileComponent.DeleteProfile'| transloco}}" matTooltip="{{'EditProfileComponent.DeleteProfile'| transloco}}">
+    <button *ngIf="!currentUserSubject.admin" mat-flat-button color="accent" (click)="openDeleteCurrentUserDialog()" attr.aria-label="{{'DeleteProfile'| transloco}}" matTooltip="{{'DeleteProfile'| transloco}}">
       <span class="material-icons icon-white-square">delete</span>
     </button>
 

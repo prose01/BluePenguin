@@ -1,15 +1,15 @@
 <div mat-dialog-content class="container">
-  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'ImageDialogComponent.Close'| transloco}}" matTooltip="{{'ImageDialogComponent.Close'| transloco}}">
+  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'Close'| transloco}}" matTooltip="{{'Close'| transloco}}">
     <span class="material-icons">close</span>
   </button>
 
   <img ngSrc="{{pinacothecaUrl}}{{data.profile.profileId}}/{{data.imageModels[index].fileName}}" alt="{{data.imageModels[index].title}}" fill priority sizes="100vw">
 
-  <button mat-flat-button class="next" *ngIf="(data.imageModels.length - 1) > index" (click)="onNextClick()" attr.aria-label="{{'ImageDialogComponent.Next'| transloco}}" matTooltip="{{'ImageDialogComponent.Next'| transloco}}">
+  <button mat-flat-button class="next" *ngIf="(data.imageModels.length - 1) > index" (click)="onNextClick()" attr.aria-label="{{'Next'| transloco}}" matTooltip="{{'Next'| transloco}}">
     <span class="material-icons">navigate_next</span>
   </button>
 
-  <button mat-flat-button class="before" *ngIf="0 < (data.imageModels.length - 1) && 0 < index" (click)="onBeforeClick()" attr.aria-label="{{'ImageDialogComponent.Before'| transloco}}" matTooltip="{{'ImageDialogComponent.Before'| transloco}}">
+  <button mat-flat-button class="before" *ngIf="0 < (data.imageModels.length - 1) && 0 < index" (click)="onBeforeClick()" attr.aria-label="{{'Before'| transloco}}" matTooltip="{{'Before'| transloco}}">
     <span class="material-icons">navigate_before</span>
   </button>
 
@@ -17,20 +17,20 @@
 
 <h3 class="title" mat-dialog-title (click)="loadDetailsClick()">{{data.imageModels[index].title}}</h3>
 
-<button mat-flat-button *ngIf="!isThisCurrentUser()" (click)="loadDetailsClick()" attr.aria-label="{{'ImageDialogComponent.ProfileDetails'| transloco}}" matTooltip="{{'ImageDialogComponent.ProfileDetails'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser()" (click)="loadDetailsClick()" attr.aria-label="{{'ProfileDetails'| transloco}}" matTooltip="{{'ProfileDetails'| transloco}}">
   <span class="material-icons">person</span>
 </button>
 
-<button mat-flat-button *ngIf="(!isThisCurrentUser() && liked()) && !currentUserSubject.admin" (click)="removeLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="(!isThisCurrentUser() && liked()) && !currentUserSubject.admin" (click)="removeLike()" attr.aria-label="{{data.profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'Likes'| transloco}}">
   <span class="material-icons">favorite</span>
 </button>
-<button mat-flat-button *ngIf="(!isThisCurrentUser() && !liked()) && !currentUserSubject.admin" (click)="addLike()" attr.aria-label="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'ImageDialogComponent.Likes'| transloco}}">
+<button mat-flat-button *ngIf="(!isThisCurrentUser() && !liked()) && !currentUserSubject.admin" (click)="addLike()" attr.aria-label="{{data.profile.likes?.length}} {{'Likes'| transloco}}" matTooltip="{{data.profile.likes?.length}} {{'Likes'| transloco}}">
   <span class="material-icons">favorite_border</span>
 </button>
 
-<button mat-flat-button *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeBookmarkedProfiles()" attr.aria-label="{{'ImageDialogComponent.RemoveFromBookmarked'| transloco}}" matTooltip="{{'ImageDialogComponent.RemoveFromBookmarked'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && bookmarked()" (click)="removeBookmarkedProfiles()" attr.aria-label="{{'RemoveFromBookmarked'| transloco}}" matTooltip="{{'RemoveFromBookmarked'| transloco}}">
   <span class="material-icons">bookmark</span>
 </button>
-<button mat-flat-button *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addBookmarkedProfiles()" attr.aria-label="{{'ImageDialogComponent.AddToBookmarked'| transloco}}" matTooltip="{{'ImageDialogComponent.AddToBookmarked'| transloco}}">
+<button mat-flat-button *ngIf="!isThisCurrentUser() && !bookmarked()" (click)="addBookmarkedProfiles()" attr.aria-label="{{'AddToBookmarked'| transloco}}" matTooltip="{{'AddToBookmarked'| transloco}}">
   <span class="material-icons">bookmark_border</span>
 </button>
