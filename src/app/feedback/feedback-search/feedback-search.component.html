@@ -11,53 +11,53 @@
     <div class="form-container">
 
       <mat-form-field>
-        <input matInput maxlength="50" placeholder="{{'FeedbackSearchComponent.FeedbackId'| transloco}}" formControlName="feedbackId">
+        <input matInput maxlength="50" placeholder="{{'FeedbackId'| transloco}}" formControlName="feedbackId">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{'FeedbackSearchComponent.SentRange'| transloco}}</mat-label>
+        <mat-label>{{'SentRange'| transloco}}</mat-label>
         <mat-date-range-input [formGroup]="feedbackForm" [rangePicker]="sentpicker">
-          <input matStartDate placeholder="{{'FeedbackSearchComponent.StartDate'| transloco}}" formControlName="dateSentStart">
-          <input matEndDate placeholder="{{'FeedbackSearchComponent.EndDate'| transloco}}" formControlName="dateSentEnd">
+          <input matStartDate placeholder="{{'StartDate'| transloco}}" formControlName="dateSentStart">
+          <input matEndDate placeholder="{{'EndDate'| transloco}}" formControlName="dateSentEnd">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="sentpicker"></mat-datepicker-toggle>
         <mat-date-range-picker touchUi #sentpicker></mat-date-range-picker>
 
-        <mat-error *ngIf="feedbackForm.controls.dateSentStart.hasError('matStartDateInvalid')">{{'FeedbackSearchComponent.InvalidRange'| transloco}}</mat-error>
-        <mat-error *ngIf="feedbackForm.controls.dateSentEnd.hasError('matEndDateInvalid')">{{'FeedbackSearchComponent.InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSentStart.hasError('matStartDateInvalid')">{{'InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSentEnd.hasError('matEndDateInvalid')">{{'InvalidRange'| transloco}}</mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>{{'FeedbackSearchComponent.SeenRange'| transloco}}</mat-label>
+        <mat-label>{{'SeenRange'| transloco}}</mat-label>
         <mat-date-range-input [formGroup]="feedbackForm" [rangePicker]="seenpicker">
-          <input matStartDate placeholder="{{'FeedbackSearchComponent.StartDate'| transloco}}" formControlName="dateSeenStart">
-          <input matEndDate placeholder="{{'FeedbackSearchComponent.EndDate'| transloco}}" formControlName="dateSeenEnd">
+          <input matStartDate placeholder="{{'StartDate'| transloco}}" formControlName="dateSeenStart">
+          <input matEndDate placeholder="{{'EndDate'| transloco}}" formControlName="dateSeenEnd">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="seenpicker"></mat-datepicker-toggle>
         <mat-date-range-picker touchUi #seenpicker></mat-date-range-picker>
 
-        <mat-error *ngIf="feedbackForm.controls.dateSeenStart.hasError('matStartDateInvalid')">{{'FeedbackSearchComponent.InvalidRange'| transloco}}</mat-error>
-        <mat-error *ngIf="feedbackForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">{{'FeedbackSearchComponent.InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSeenStart.hasError('matStartDateInvalid')">{{'InvalidRange'| transloco}}</mat-error>
+        <mat-error *ngIf="feedbackForm.controls.dateSeenEnd.hasError('matEndDateInvalid')">{{'InvalidRange'| transloco}}</mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput maxlength="50" placeholder="{{'FeedbackSearchComponent.FromId'| transloco}}" formControlName="fromProfileId" class="textarea"></textarea>
+        <textarea matInput maxlength="50" placeholder="{{'FromId'| transloco}}" formControlName="fromProfileId" class="textarea"></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput maxlength="50" placeholder="{{'FeedbackSearchComponent.FromName'| transloco}}" formControlName="fromName" class="textarea"></textarea>
+        <textarea matInput maxlength="50" placeholder="{{'FromName'| transloco}}" formControlName="fromName" class="textarea"></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput maxlength="50" placeholder="{{'FeedbackSearchComponent.AdminId'| transloco}}" formControlName="adminProfileId" class="textarea"></textarea>
+        <textarea matInput maxlength="50" placeholder="{{'AdminId'| transloco}}" formControlName="adminProfileId" class="textarea"></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <textarea matInput maxlength="50" placeholder="{{'FeedbackSearchComponent.AdminName'| transloco}}" formControlName="adminName" class="textarea"></textarea>
+        <textarea matInput maxlength="50" placeholder="{{'AdminName'| transloco}}" formControlName="adminName" class="textarea"></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'FeedbackSearchComponent.FeedbackType'| transloco}}" formControlName="feedbackType" [(value)]="filter.feedbackType">
+        <mat-select placeholder="{{'FeedbackType'| transloco}}" formControlName="feedbackType" [(value)]="filter.feedbackType">
           <mat-option *ngFor="let feedbackType of feedbackTypes | keyvalue: originalOrder" [value]="feedbackType.key">
             {{ feedbackType.value }}
           </mat-option>
@@ -65,14 +65,14 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput maxlength="2000" placeholder="{{'FeedbackSearchComponent.Message'| transloco}}" formControlName="message">
+        <input matInput maxlength="2000" placeholder="{{'Message'| transloco}}" formControlName="message">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="{{'FeedbackSearchComponent.Open'| transloco}}" formControlName="open" [(value)]="open">
+        <mat-select placeholder="{{'Open'| transloco}}" formControlName="open" [(value)]="open">
           <mat-option value="notChosen">{{'Enum.NotChosen'| transloco}}</mat-option>
-          <mat-option value="true">{{'FeedbackSearchComponent.Open'| transloco}}</mat-option>
-          <mat-option value="false">{{'FeedbackSearchComponent.Closed'| transloco}}</mat-option>
+          <mat-option value="true">{{'Open'| transloco}}</mat-option>
+          <mat-option value="false">{{'Closed'| transloco}}</mat-option>
         </mat-select>
       </mat-form-field>
 

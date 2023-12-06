@@ -10,7 +10,7 @@
     <span class="material-icons icon-white-square">search</span>
   </button>
 
-  <button mat-flat-button color="accent" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" attr.aria-label="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">
+  <button mat-flat-button color="accent" *ngIf="!noFeedbacks && selection.selected.length > 0" (click)="toggleDoNotDelete()" attr.aria-label="{{'DoNotDelete'| transloco}}" matTooltip="{{'DoNotDelete'| transloco}}">
     <span class="material-icons icon-white-square">delete_forever</span>
   </button>
 
@@ -56,33 +56,33 @@
 
         <!-- FromName Column -->
         <ng-container matColumnDef="fromName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.FromName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'FromName'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.fromName}} </td>
         </ng-container>
 
         <!-- ToName Column -->
         <ng-container matColumnDef="toName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.ToName'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ToName'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.toName}} </td>
         </ng-container>
 
         <!-- DateSent Column -->
         <ng-container matColumnDef="dateSent">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSent'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'DateSent'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.dateSent | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
         </ng-container>
 
         <!-- DateSeen Column -->
         <ng-container matColumnDef="dateSeen">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DateSeen'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'DateSeen'| transloco}} </th>
           <td mat-cell *matCellDef="let element"> {{element?.dateSeen | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }} </td>
         </ng-container>
 
         <!-- ToName Column -->
         <ng-container matColumnDef="doNotDelete">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ProfileChatSearchComponent.DoNotDelete'| transloco}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'DoNotDelete'| transloco}} </th>
           <td mat-cell *matCellDef="let element">
-            <span class="material-icons icon-white" *ngIf="element?.doNotDelete" matTooltip="{{'ProfileChatSearchComponent.DoNotDelete'| transloco}}">delete_forever</span>
+            <span class="material-icons icon-white" *ngIf="element?.doNotDelete" matTooltip="{{'DoNotDelete'| transloco}}">delete_forever</span>
           </td>
         </ng-container>
 

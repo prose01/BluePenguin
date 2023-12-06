@@ -7,16 +7,16 @@
   </div>
 
   <div>
-    <h3>{{'FeedbackComponent.Feedback'| transloco}}</h3>
+    <h3>{{'Feedback'| transloco}}</h3>
 
     <p>
-      {{'FeedbackComponent.FeedbackText'| transloco}}
+      {{'FeedbackText'| transloco}}
     </p>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="feedbackForm">
 
       <div style="margin-bottom: 1em">
-        <button mat-flat-button color="accent" type="submit" [disabled]="feedbackForm.pristine" attr.aria-label="{{'FeedbackComponent.Send'| transloco}}" matTooltip="{{'FeedbackComponent.Send'| transloco}}">
+        <button mat-flat-button color="accent" type="submit" [disabled]="feedbackForm.pristine" attr.aria-label="{{'Send'| transloco}}" matTooltip="{{'Send'| transloco}}">
           <span class="material-icons icon-white-square">email</span>
         </button>
         <button mat-flat-button color="accent" (click)="revert()" [disabled]="feedbackForm.pristine" attr.aria-label="{{'Reset'| transloco}}" matTooltip="{{'Reset'| transloco}}">

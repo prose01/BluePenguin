@@ -81,7 +81,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => { this.currentUserSubject = currentUserSubject; })
     );
-    this.translocoService.selectTranslate('FeedbackAdminComponent.MyAssignedFeedbacks').subscribe(value => this.matButtonToggleAllText = value);
+    this.translocoService.selectTranslate('MyAssignedFeedbacks').subscribe(value => this.matButtonToggleAllText = value);
   }
 
   updateFeedbacks(): void {
@@ -134,7 +134,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
 
   private toggleAllDisplay(): void {
     this.pageView = (this.pageView == 'all' ? 'assignment' : 'all');
-    this.matButtonToggleAllText = (this.pageView == 'all' ? this.translocoService.translate('All') : this.translocoService.translate('FeedbackAdminComponent.MyAssignedFeedbacks'));
+    this.matButtonToggleAllText = (this.pageView == 'all' ? this.translocoService.translate('All') : this.translocoService.translate('MyAssignedFeedbacks'));
     this.matButtonToggleAllIcon = (this.pageView == 'all' ? 'apps' : 'assignment_ind');
 
     this.pageView == 'all' ? this.myAssignedFeedbacks() : this.getUnassignedFeedbacks();
@@ -179,7 +179,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
           this.updateFeedbacks();
         },
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotGetUnassignedFeedbacks'), null); this.loading = false;
         }
       })
     );
@@ -193,7 +193,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
         next: () =>  {},
         complete: () => {},
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotAssignFeedbackToAdmin'), null); this.loading = false;
         }
       })
     );
@@ -226,7 +226,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
           next: () =>  {},
           complete: () => {},
           error: () => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+            this.openErrorDialog(this.translocoService.translate('CouldNotToggleFeedbackStatus'), null); this.loading = false;
           }
         })
       );
@@ -239,7 +239,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
           next: () =>  {},
           complete: () => {},
           error: () => {
-            this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotToggleFeedbackStatus'), null); this.loading = false;
+            this.openErrorDialog(this.translocoService.translate('CouldNotToggleFeedbackStatus'), null); this.loading = false;
           }
         })
       );
@@ -284,7 +284,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
           this.updateFeedbacks();
         },
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotGetFeedbacksByFilter'), null); this.loading = false;
+          this.openErrorDialog(this.translocoService.translate('CouldNotGetFeedbacksByFilter'), null); this.loading = false;
         }
       })
     );
@@ -318,7 +318,7 @@ export class FeedbackAdminComponent implements OnInit, OnDestroy {
         },
         complete: () => {},
         error: () => {
-          this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotLoadDetails'), null);
+          this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
         }
       })
     );

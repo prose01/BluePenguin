@@ -1,78 +1,78 @@
 <div mat-dialog-content class="container">
-  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'FeedbackDialog.Close'| transloco}}" matTooltip="{{'FeedbackDialog.Close'| transloco}}">
+  <button mat-flat-button class="close" (click)="onCloseClick()" attr.aria-label="{{'Close'| transloco}}" matTooltip="{{'Close'| transloco}}">
     <span class="material-icons">close</span>
   </button>
 
   <h1 mat-dialog-title>{{feedback.fromName}}</h1>
 
   <div *ngIf="feedback.fromProfileId != null">
-    <label>{{'FeedbackAdminComponent.FromProfileId'| transloco}}</label>
+    <label>{{'FromProfileId'| transloco}}</label>
     <p mat-dialog-title>{{feedback.fromProfileId}}</p>
   </div>
 
   <div *ngIf="feedback.dateSent != null">
-    <label>{{'FeedbackAdminComponent.DateSent'| transloco}}</label>
+    <label>{{'DateSent'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.dateSent | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}</p>
   </div>
 
   <div *ngIf="feedback.feedbackType != null">
-    <label>{{'FeedbackAdminComponent.FeedbackType'| transloco}}</label>
+    <label>{{'FeedbackType'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.feedbackType}}</p>
   </div>
 
   <div *ngIf="feedback.message != null">
-    <label>{{'FeedbackAdminComponent.Message'| transloco}}</label>
+    <label>{{'Message'| transloco}}</label>
     <div mat-dialog-content>
       {{feedback.message}}
     </div>
   </div>
 
   <div *ngIf="feedback.adminName != null">
-    <label>{{'FeedbackAdminComponent.AdminName'| transloco}}</label>
+    <label>{{'AdminName'| transloco}}</label>
     <p mat-dialog-title>{{feedback.adminName}}</p>
   </div>
 
   <div *ngIf="feedback.adminProfileId != null">
-    <label>{{'FeedbackAdminComponent.AdminProfileId'| transloco}}</label>
+    <label>{{'AdminProfileId'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.adminProfileId}}</p>
   </div>
 
   <div *ngIf="feedback.dateSeen != null">
-    <label>{{'FeedbackAdminComponent.DateSeen'| transloco}}</label>
+    <label>{{'DateSeen'| transloco}}</label>
     <h2 mat-dialog-title>{{feedback?.dateSeen | translocoDate: { dateStyle: 'medium', timeStyle: 'medium'} }}</h2>
   </div>
 
   <div *ngIf="feedback.countrycode != null">
-    <label>{{'FeedbackAdminComponent.Countrycode'| transloco}}</label>
+    <label>{{'Countrycode'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.countrycode}}</p>
   </div>
 
   <div *ngIf="feedback.languagecode != null">
-    <label>{{'FeedbackAdminComponent.Languagecode'| transloco}}</label>
+    <label>{{'Languagecode'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.languagecode}}</p>
   </div>
 
   <div *ngIf="feedback.open != null">
-    <label>{{'FeedbackAdminComponent.FeedbackStatus'| transloco}}</label>
-    <span class="material-icons icon-orange" *ngIf="feedback?.open" matTooltip="{{'FeedbackAdminComponent.Open'| transloco}}">circle</span>
-    <span class="material-icons icon-white" *ngIf="!feedback?.open" matTooltip="{{'FeedbackAdminComponent.Closed'| transloco}}">check_circle</span>
+    <label>{{'FeedbackStatus'| transloco}}</label>
+    <span class="material-icons icon-orange" *ngIf="feedback?.open" matTooltip="{{'Open'| transloco}}">circle</span>
+    <span class="material-icons icon-white" *ngIf="!feedback?.open" matTooltip="{{'Closed'| transloco}}">check_circle</span>
   </div>
 
   <div *ngIf="feedback.feedbackId != null">
-    <label>{{'FeedbackAdminComponent.FeedbackId'| transloco}}</label>
+    <label>{{'FeedbackId'| transloco}}</label>
     <p mat-dialog-title>{{feedback?.feedbackId}}</p>
   </div>
 
 </div>
 
-<button mat-flat-button color="accent" (click)="loadDetailsClick()" attr.aria-label="{{'FeedbackDialog.ProfileDetails'| transloco}}" matTooltip="{{'FeedbackDialog.ProfileDetails'| transloco}}">
+<button mat-flat-button color="accent" (click)="loadDetailsClick()" attr.aria-label="{{'ProfileDetails'| transloco}}" matTooltip="{{'ProfileDetails'| transloco}}">
   <span class="material-icons icon-white-square">person</span>
 </button>
 
-<button mat-flat-button color="accent" *ngIf="feedback.open" (click)="closeFeedbacks()" attr.aria-label="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+<button mat-flat-button color="accent" *ngIf="feedback.open" (click)="closeFeedbacks()" attr.aria-label="{{'ToggleStatus'| transloco}}" matTooltip="{{'ToggleStatus'| transloco}}">
   <span class="material-icons icon-white-square">check_circle</span>
 </button>
 
-<button mat-flat-button color="accent" *ngIf="!feedback.open" (click)="openFeedbacks()" attr.aria-label="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}" matTooltip="{{'FeedbackAdminComponent.ToggleStatus'| transloco}}">
+<button mat-flat-button color="accent" *ngIf="!feedback.open" (click)="openFeedbacks()" attr.aria-label="{{'ToggleStatus'| transloco}}" matTooltip="{{'ToggleStatus'| transloco}}">
   <span class="material-icons icon-white-square">circle</span>
 </button>

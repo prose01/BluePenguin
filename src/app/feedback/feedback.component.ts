@@ -42,11 +42,11 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     this.enumMappings.updateFeedbackTypeSubject();
 
     this.subs.push(
-      this.translocoService.selectTranslate('FeedbackComponent.FeedbackType').subscribe(value => this.feedbackTypePlaceholder = value)
+      this.translocoService.selectTranslate('FeedbackType').subscribe(value => this.feedbackTypePlaceholder = value)
     );
 
     this.subs.push(
-      this.translocoService.selectTranslate('FeedbackComponent.FeedbackMessage').subscribe(value => this.feedbackMessagePlaceholder = value)
+      this.translocoService.selectTranslate('FeedbackMessage').subscribe(value => this.feedbackMessagePlaceholder = value)
     );
   }
 
@@ -100,11 +100,11 @@ export class FeedbackComponent implements OnInit, OnDestroy {
       this.loading = false;
 
       if (this.feedbackForm.controls.feedbackType?.errors != null && this.feedbackForm.controls.feedbackType.errors.required || this.feedback.feedbackType == FeedbackType.NotChosen) {
-        this.feedbackTypePlaceholder = this.translocoService.translate('FeedbackComponent.FeedbackTypeRequired');
+        this.feedbackTypePlaceholder = this.translocoService.translate('FeedbackTypeRequired');
       }
 
       if (this.feedbackForm.controls.message?.errors != null && this.feedbackForm.controls.message.errors.required) {
-        this.feedbackMessagePlaceholder = this.translocoService.translate('FeedbackComponent.FeedbackMessageRequired');
+        this.feedbackMessagePlaceholder = this.translocoService.translate('FeedbackMessageRequired');
       }
 
       return;
@@ -117,10 +117,10 @@ export class FeedbackComponent implements OnInit, OnDestroy {
             next: () => { },
             complete: () => {
               this.feedbackForm.markAsPristine(); this.loading = false; this.createForm();
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.Thanks'), null);
+              this.openErrorDialog(this.translocoService.translate('Thanks'), null);
             },
             error: () => {
-              this.openErrorDialog(this.translocoService.translate('FeedbackComponent.CouldNotSendFeedback'), null); this.loading = false;
+              this.openErrorDialog(this.translocoService.translate('CouldNotSendFeedback'), null); this.loading = false;
             }
           })
       );

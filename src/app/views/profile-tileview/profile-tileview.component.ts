@@ -109,8 +109,6 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
-    console.log('onScrollDown');
-    console.log(this.currentProfiles?.length);
     var pageIndex = (this.currentProfiles?.length - this.currentPage) / this.pageSize;
 
     if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
