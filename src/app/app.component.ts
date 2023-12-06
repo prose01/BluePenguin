@@ -7,6 +7,7 @@ import { TranslocoService, getBrowserLang } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './authorisation/auth/auth.service';
+import { PageViewEnum } from './models/pageViewEnum';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CurrentUser } from './models/currentUser';
 import { OrderByType } from './models/enums';
@@ -40,7 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private useChat = false;
 
-  private pageView: pageViewEnum = pageViewEnum.Dashboard;
+  private pageView: PageViewEnum = PageViewEnum.Dashboard;
   private matButtonToggleText: string;
   private matButtonToggleIcon: string = 'search';
 
@@ -208,18 +209,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleDisplay(): void {
-    if (this.pageView == pageViewEnum.Edit || this.pageView == pageViewEnum.About || this.pageView == pageViewEnum.Feedback || this.pageView == pageViewEnum.Details) {
-      this.pageView = pageViewEnum.Dashboard;
+    if (this.pageView == PageViewEnum.Edit || this.pageView == PageViewEnum.About || this.pageView == PageViewEnum.Feedback || this.pageView == PageViewEnum.Details) {
+      this.pageView = PageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
       this.sidenav.toggle();
     }
     else {
-      this.pageView = (this.pageView == pageViewEnum.Dashboard ? pageViewEnum.Search : pageViewEnum.Dashboard);
-      this.pageView == pageViewEnum.Search ? disable() : enable(); // Prevent scroll when Search is open
-      this.allowSearch = (this.pageView == pageViewEnum.Dashboard ? true : false);
-      this.matButtonToggleText = (this.pageView == pageViewEnum.Dashboard ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
-      this.matButtonToggleIcon = (this.pageView == pageViewEnum.Dashboard ? 'search' : 'dashboard');
+      this.pageView = (this.pageView == PageViewEnum.Dashboard ? PageViewEnum.Search : PageViewEnum.Dashboard);
+      this.pageView == PageViewEnum.Search ? disable() : enable(); // Prevent scroll when Search is open
+      this.allowSearch = (this.pageView == PageViewEnum.Dashboard ? true : false);
+      this.matButtonToggleText = (this.pageView == PageViewEnum.Dashboard ? this.translocoService.translate('Search') : this.translocoService.translate('Dashboard'));
+      this.matButtonToggleIcon = (this.pageView == PageViewEnum.Dashboard ? 'search' : 'dashboard');
     }
   }
 
@@ -305,7 +306,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       if (event.uploadImageClick) {
         this.CurrentUserBoardTabIndex = 1;
-        this.pageView = pageViewEnum.Edit;
+        this.pageView = PageViewEnum.Edit;
       }
       else {
         this.loadDashboard();
@@ -317,11 +318,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Load About page
   private loadAbout(): void {
-    if (this.pageView != pageViewEnum.About) {
-      this.pageView = pageViewEnum.About;
+    if (this.pageView != PageViewEnum.About) {
+      this.pageView = PageViewEnum.About;
     }
     else {
-      this.pageView = pageViewEnum.Dashboard;
+      this.pageView = PageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
@@ -334,12 +335,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Load Edit page
   private loadEdit(): void {
-    if (this.pageView != pageViewEnum.Edit) {
+    if (this.pageView != PageViewEnum.Edit) {
       this.CurrentUserBoardTabIndex = 0;
-      this.pageView = pageViewEnum.Edit;
+      this.pageView = PageViewEnum.Edit;
     }
     else {
-      this.pageView = pageViewEnum.Dashboard;
+      this.pageView = PageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
@@ -352,11 +353,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Load Feedback page
   private loadFeedback(): void {
-    if (this.pageView != pageViewEnum.Feedback) {
-      this.pageView = pageViewEnum.Feedback;
+    if (this.pageView != PageViewEnum.Feedback) {
+      this.pageView = PageViewEnum.Feedback;
     }
     else {
-      this.pageView = pageViewEnum.Dashboard;
+      this.pageView = PageViewEnum.Dashboard;
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
@@ -369,11 +370,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // Load Feedback Admin page
   private loadFeedbackAdmin(): void {
-    if (this.pageView != pageViewEnum.FeedbackAdmin) {
-      this.pageView = pageViewEnum.FeedbackAdmin;
+    if (this.pageView != PageViewEnum.FeedbackAdmin) {
+      this.pageView = PageViewEnum.FeedbackAdmin;
     }
     else {
-      this.pageView = pageViewEnum.Dashboard;
+      this.pageView = PageViewEnum.Dashboard;
       this.toggleViewDisplay();
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
@@ -388,11 +389,11 @@ export class AppComponent implements OnInit, OnDestroy {
   // Load Delete Old Profiles Admin
   private loadAdmin(): void {
 
-    if (this.pageView != pageViewEnum.Admin) {
-      this.pageView = pageViewEnum.Admin;
+    if (this.pageView != PageViewEnum.Admin) {
+      this.pageView = PageViewEnum.Admin;
     }
     else {
-      this.pageView = pageViewEnum.Dashboard;
+      this.pageView = PageViewEnum.Dashboard;
       this.toggleViewDisplay();
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
@@ -405,7 +406,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private loadDashboard(): void {
-    this.pageView = pageViewEnum.Dashboard;
+    this.pageView = PageViewEnum.Dashboard;
     this.matButtonToggleText = this.translocoService.translate('Search');
     this.matButtonToggleIcon = 'search';
     enable();
@@ -424,14 +425,14 @@ export class AppComponent implements OnInit, OnDestroy {
         })
     );
     this.profile = profile;
-    this.pageView = pageViewEnum.Details;
+    this.pageView = PageViewEnum.Details;
     this.matButtonToggleText = this.translocoService.translate('Dashboard');
     this.matButtonToggleIcon = 'dashboard';
     enable();
   }
 
   private loadGroups(): void {
-    this.pageView = pageViewEnum.Groups;
+    this.pageView = PageViewEnum.Groups;
     enable();
   }
 
@@ -465,16 +466,3 @@ export class AppComponent implements OnInit, OnDestroy {
   function enable() {
     document.querySelector('.scrollable').classList.remove('disable-scroll');
   }
-
-export enum pageViewEnum {
-  "Dashboard" = "Dashboard",
-  "Search" = "Search",
-  "Create" = "Create",
-  "Edit" = "Edit",
-  "Details" = "Details",
-  "About" = "About",
-  "Feedback" = "Feedback",
-  "FeedbackAdmin" = "FeedbackAdmin",
-  "Admin" = "Admin",
-  "Groups" = "Groups"
-}
