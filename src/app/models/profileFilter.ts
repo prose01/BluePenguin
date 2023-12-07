@@ -21,19 +21,19 @@ export class ProfileFilter {
   description: string;
   tags: string[];
   gender: string;
-  body: BodyType;
-  smokingHabits: SmokingHabitsType;
-  hasChildren: HasChildrenType;
-  wantChildren: WantChildrenType;
-  hasPets: HasPetsType;
-  livesIn: LivesInType;
-  education: EducationType;
-  educationStatus: EducationStatusType;
-  employmentStatus: EmploymentStatusType;
-  sportsActivity: SportsActivityType;
-  eatingHabits: EatingHabitsType;
-  clotheStyle: ClotheStyleType;
-  bodyArt: BodyArtType;
+  body: Array<BodyType>;
+  smokingHabits: Array<SmokingHabitsType>;
+  hasChildren: Array<HasChildrenType>;
+  wantChildren: Array<WantChildrenType>;
+  hasPets: Array<HasPetsType>;
+  livesIn: Array<LivesInType>;
+  education: Array<EducationType>;
+  educationStatus: Array<EducationStatusType>;
+  employmentStatus: Array<EmploymentStatusType>;
+  sportsActivity: Array<SportsActivityType>;
+  eatingHabits: Array<EatingHabitsType>;
+  clotheStyle: Array<ClotheStyleType>;
+  bodyArt: Array<BodyArtType>;
 }
 
 export interface ProfileFilter {
@@ -43,17 +43,17 @@ export interface ProfileFilter {
   description: string;
   tags: string[];
   gender: string;
-  body: BodyType;
-  smokingHabits: SmokingHabitsType;
-  hasChildren: HasChildrenType;
-  wantChildren: WantChildrenType;
-  hasPets: HasPetsType;
-  livesIn: LivesInType;
-  education: EducationType;
-  educationStatus: EducationStatusType;
-  employmentStatus: EmploymentStatusType;
-  sportsActivity: SportsActivityType;
-  eatingHabits: EatingHabitsType;
-  clotheStyle: ClotheStyleType;
-  bodyArt: BodyArtType;
+  body: Array<BodyType>;
+  smokingHabits: Array<SmokingHabitsType>;
+  hasChildren: Array<HasChildrenType>;
+  wantChildren: Array<WantChildrenType>;
+  hasPets: Array<HasPetsType>;
+  livesIn: Array<LivesInType>;
+  education: Array<EducationType>;
+  educationStatus: Array<EducationStatusType>;
+  employmentStatus: Array<EmploymentStatusType>;
+  sportsActivity: Array<SportsActivityType>;
+  eatingHabits: Array<EatingHabitsType>;
+  clotheStyle: Array<ClotheStyleType>;
+  bodyArt: Array<BodyArtType>;
 }

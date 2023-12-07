@@ -4,7 +4,6 @@ export enum GenderType {
 }
 
 export enum ClotheStyleType {
-  "NotChosen" = "NotChosen",
   "Casual" = "Casual",
   "Dressy" = "Dressy",
   "Dandy" = "Dandy",
@@ -14,7 +13,6 @@ export enum ClotheStyleType {
 }
 
 export enum BodyType {
-  "NotChosen" = "NotChosen",
   "Atlethic" = "Atlethic",
   "Chubby" = "Chubby",
   "Normal" = "Normal",
@@ -24,14 +22,12 @@ export enum BodyType {
 }
 
 export enum BodyArtType {
-  "NotChosen" = "NotChosen",
   "Piercing" = "Piercing",
   "Tatoo" = "Tatoo",
   "Other" = "Other"
 }
 
 export enum EatingHabitsType {
-  "NotChosen" = "NotChosen",
   "Healthy" = "Healthy",
   "Gastronomic" = "Gastronomic",
   "Kosher" = "Kosher",
@@ -42,14 +38,12 @@ export enum EatingHabitsType {
 }
 
 export enum EducationStatusType {
-  "NotChosen" = "NotChosen",
   "Graduated" = "Graduated",
   "Student" = "Student",
   "Other" = "Other"
 }
 
 export enum EducationType {
-  "NotChosen" = "NotChosen",
   "School" = "School",
   "Highschool" = "Highschool",
   "University" = "University" ,
@@ -57,7 +51,6 @@ export enum EducationType {
 }
 
 export enum EmploymentStatusType {
-  "NotChosen" = "NotChosen",
   "Unemployed" = "Unemployed",
   "Employed" = "Employed",
   "SelfEmployed" = "SelfEmployed",
@@ -65,28 +58,24 @@ export enum EmploymentStatusType {
 }
 
 export enum HasChildrenType {
-  "NotChosen" = "NotChosen",
   "Yes" = "Yes",
   "No" = "No",
   "Other" = "Other"
 }
 
 export enum WantChildrenType {
-  "NotChosen" = "NotChosen",
   "Yes" = "Yes",
   "No" = "No",
   "Other" = "Other"
 }
 
 export enum HasPetsType {
-  "NotChosen" = "NotChosen",
   "Yes" = "Yes",
   "No" = "No",
   "Other" = "Other"
 }
 
 export enum LivesInType {
-  "NotChosen" = "NotChosen",
   "City" = "City",
   "Suburb" = "Suburb",
   "Countryside" = "Countryside",
@@ -94,7 +83,6 @@ export enum LivesInType {
 }
 
 export enum SmokingHabitsType {
-  "NotChosen" = "NotChosen",
   "NonSmoker" = "NonSmoker",
   "OccasionalSmoker" = "OccasionalSmoker",
   "Smoker" = "Smoker",
@@ -102,7 +90,6 @@ export enum SmokingHabitsType {
 }
 
 export enum SportsActivityType {
-  "NotChosen" = "NotChosen",
   "Regularly" = "Regularly",
   "SomeRegularity" = "SomeRegularity",
   "Seldom" = "Seldom",

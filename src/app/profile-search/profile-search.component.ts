@@ -206,19 +206,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       description: null,
       tags: null,
       gender: null,
-      body: BodyType.NotChosen,
-      smokingHabits: SmokingHabitsType.NotChosen,
-      hasChildren: HasChildrenType.NotChosen,
-      wantChildren: WantChildrenType.NotChosen,
-      hasPets: HasPetsType.NotChosen,
-      livesIn: LivesInType.NotChosen,
-      education: EducationType.NotChosen,
-      educationStatus: EducationStatusType.NotChosen,
-      employmentStatus: EmploymentStatusType.NotChosen,
-      sportsActivity: SportsActivityType.NotChosen,
-      eatingHabits: EatingHabitsType.NotChosen,
-      clotheStyle: ClotheStyleType.NotChosen,
-      bodyArt: BodyArtType.NotChosen
+      body: null,
+      smokingHabits: null,
+      hasChildren: null,
+      wantChildren: null,
+      hasPets: null,
+      livesIn: null,
+      education: null,
+      educationStatus: null,
+      employmentStatus: null,
+      sportsActivity: null,
+      eatingHabits: null,
+      clotheStyle: null,
+      bodyArt: null
     });
   }
 
@@ -265,19 +265,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.filter.height[1] == this.minHeight &&
       this.filter.description == null &&
       this.filter.tags.length == 0 &&
-      this.filter.body == BodyType.NotChosen &&
-      this.filter.smokingHabits == SmokingHabitsType.NotChosen &&
-      this.filter.hasChildren == HasChildrenType.NotChosen &&
-      this.filter.wantChildren == WantChildrenType.NotChosen &&
-      this.filter.hasPets == HasPetsType.NotChosen &&
-      this.filter.livesIn == LivesInType.NotChosen &&
-      this.filter.education == EducationType.NotChosen &&
-      this.filter.educationStatus == EducationStatusType.NotChosen &&
-      this.filter.employmentStatus == EmploymentStatusType.NotChosen &&
-      this.filter.sportsActivity == SportsActivityType.NotChosen &&
-      this.filter.eatingHabits == EatingHabitsType.NotChosen &&
-      this.filter.clotheStyle == ClotheStyleType.NotChosen &&
-      this.filter.bodyArt == BodyArtType.NotChosen) {
+      this.filter.body.length == 0 &&
+      this.filter.smokingHabits.length == 0 &&
+      this.filter.hasChildren.length == 0 &&
+      this.filter.wantChildren.length == 0 &&
+      this.filter.hasPets.length == 0 &&
+      this.filter.livesIn.length == 0 &&
+      this.filter.education.length == 0 &&
+      this.filter.educationStatus.length == 0 &&
+      this.filter.employmentStatus.length == 0 &&
+      this.filter.sportsActivity.length == 0 &&
+      this.filter.eatingHabits.length == 0 &&
+      this.filter.clotheStyle.length == 0 &&
+      this.filter.bodyArt.length == 0) {
 
       return;
     }
@@ -320,19 +320,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       description: formModel.description as string,
       tags: this.tagsList as string[],
       gender: formModel.gender as GenderType,
-      body: formModel.body as BodyType,
-      smokingHabits: formModel.smokingHabits as SmokingHabitsType,
-      hasChildren: formModel.hasChildren as HasChildrenType,
-      wantChildren: formModel.wantChildren as WantChildrenType,
-      hasPets: formModel.hasPets as HasPetsType,
-      livesIn: formModel.livesIn as LivesInType,
-      education: formModel.education as EducationType,
-      educationStatus: formModel.educationStatus as EducationStatusType,
-      employmentStatus: formModel.employmentStatus as EmploymentStatusType,
-      sportsActivity: formModel.sportsActivity as SportsActivityType,
-      eatingHabits: formModel.eatingHabits as EatingHabitsType,
-      clotheStyle: formModel.clotheStyle as ClotheStyleType,
-      bodyArt: formModel.bodyArt as BodyArtType
+      body: formModel.body as Array<BodyType>,
+      smokingHabits: formModel.smokingHabits as Array<SmokingHabitsType>,
+      hasChildren: formModel.hasChildren as Array<HasChildrenType>,
+      wantChildren: formModel.wantChildren as Array<WantChildrenType>,
+      hasPets: formModel.hasPets as Array<HasPetsType>,
+      livesIn: formModel.livesIn as Array<LivesInType>,
+      education: formModel.education as Array<EducationType>,
+      educationStatus: formModel.educationStatus as Array<EducationStatusType>,
+      employmentStatus: formModel.employmentStatus as Array<EmploymentStatusType>,
+      sportsActivity: formModel.sportsActivity as Array<SportsActivityType>,
+      eatingHabits: formModel.eatingHabits as Array<EatingHabitsType>,
+      clotheStyle: formModel.clotheStyle as Array<ClotheStyleType>,
+      bodyArt: formModel.bodyArt as Array<BodyArtType>
     };
 
     return filterProfile;
@@ -349,19 +349,19 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
       this.filter.height[1] == this.minHeight &&
       this.filter.description == null &&
       this.filter.tags.length == 0 &&
-      this.filter.body == BodyType.NotChosen &&
-      this.filter.smokingHabits == SmokingHabitsType.NotChosen &&
-      this.filter.hasChildren == HasChildrenType.NotChosen &&
-      this.filter.wantChildren == WantChildrenType.NotChosen &&
-      this.filter.hasPets == HasPetsType.NotChosen &&
-      this.filter.livesIn == LivesInType.NotChosen &&
-      this.filter.education == EducationType.NotChosen &&
-      this.filter.educationStatus == EducationStatusType.NotChosen &&
-      this.filter.employmentStatus == EmploymentStatusType.NotChosen &&
-      this.filter.sportsActivity == SportsActivityType.NotChosen &&
-      this.filter.eatingHabits == EatingHabitsType.NotChosen &&
-      this.filter.clotheStyle == ClotheStyleType.NotChosen &&
-      this.filter.bodyArt == BodyArtType.NotChosen) {
+      this.filter.body.length == 0 &&
+      this.filter.smokingHabits.length == 0 &&
+      this.filter.hasChildren.length == 0 &&
+      this.filter.wantChildren.length == 0 &&
+      this.filter.hasPets.length == 0 &&
+      this.filter.livesIn.length == 0 &&
+      this.filter.education.length == 0 &&
+      this.filter.educationStatus.length == 0 &&
+      this.filter.employmentStatus.length == 0 &&
+      this.filter.sportsActivity.length == 0 &&
+      this.filter.eatingHabits.length == 0 &&
+      this.filter.clotheStyle.length == 0 &&
+      this.filter.bodyArt.length == 0) {
 
       this.loading = false;
       return;

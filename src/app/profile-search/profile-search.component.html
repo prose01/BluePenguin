@@ -52,7 +52,7 @@
 
       <mat-form-field>
         <mat-label>{{'BodyType'| transloco}}</mat-label>
-        <mat-select formControlName="body">
+        <mat-select formControlName="body" multiple>
           <mat-option *ngFor="let bodyType of bodyTypes | keyvalue: originalOrder" [value]="bodyType.key">
             {{ bodyType.value }}
           </mat-option>
@@ -61,7 +61,7 @@
 
       <mat-form-field>
         <mat-label>{{'SmokingHabitsType'| transloco}}</mat-label>
-        <mat-select formControlName="smokingHabits">
+        <mat-select formControlName="smokingHabits" multiple>
           <mat-option *ngFor="let smokingHabitsType of smokingHabitsTypes | keyvalue: originalOrder" [value]="smokingHabitsType.key">
             {{ smokingHabitsType.value }}
           </mat-option>
@@ -70,7 +70,7 @@
 
       <mat-form-field>
         <mat-label>{{'HasChildrenType'| transloco}}</mat-label>
-        <mat-select formControlName="hasChildren">
+        <mat-select formControlName="hasChildren" multiple>
           <mat-option *ngFor="let hasChildrenType of hasChildrenTypes | keyvalue: originalOrder" [value]="hasChildrenType.key">
             {{ hasChildrenType.value }}
           </mat-option>
@@ -79,7 +79,7 @@
 
       <mat-form-field>
         <mat-label>{{'WantChildrenType'| transloco}}</mat-label>
-        <mat-select formControlName="wantChildren">
+        <mat-select formControlName="wantChildren" multiple>
           <mat-option *ngFor="let wantChildrenType of wantChildrenTypes | keyvalue: originalOrder" [value]="wantChildrenType.key">
             {{ wantChildrenType.value }}
           </mat-option>
@@ -88,7 +88,7 @@
 
       <mat-form-field>
         <mat-label>{{'HasPetsType'| transloco}}</mat-label>
-        <mat-select formControlName="hasPets">
+        <mat-select formControlName="hasPets" multiple>
           <mat-option *ngFor="let hasPetsType of hasPetsTypes | keyvalue: originalOrder" [value]="hasPetsType.key">
             {{ hasPetsType.value }}
           </mat-option>
@@ -97,7 +97,7 @@
 
       <mat-form-field>
         <mat-label>{{'LivesInType'| transloco}}</mat-label>
-        <mat-select formControlName="livesIn">
+        <mat-select formControlName="livesIn" multiple>
           <mat-option *ngFor="let livesInType of livesInTypes | keyvalue: originalOrder" [value]="livesInType.key">
             {{ livesInType.value }}
           </mat-option>
@@ -106,7 +106,7 @@
 
       <mat-form-field>
         <mat-label>{{'EducationType'| transloco}}</mat-label>
-        <mat-select formControlName="education">
+        <mat-select formControlName="education" multiple>
           <mat-option *ngFor="let educationType of educationTypes | keyvalue: originalOrder" [value]="educationType.key">
             {{ educationType.value }}
           </mat-option>
@@ -115,7 +115,7 @@
 
       <mat-form-field>
         <mat-label>{{'EducationStatusType'| transloco}}</mat-label>
-        <mat-select formControlName="educationStatus">
+        <mat-select formControlName="educationStatus" multiple>
           <mat-option *ngFor="let educationStatusType of educationStatusTypes | keyvalue: originalOrder" [value]="educationStatusType.key">
             {{ educationStatusType.value }}
           </mat-option>
@@ -124,7 +124,7 @@
 
       <mat-form-field>
         <mat-label>{{'EmploymentStatusType'| transloco}}</mat-label>
-        <mat-select formControlName="employmentStatus">
+        <mat-select formControlName="employmentStatus" multiple>
           <mat-option *ngFor="let employmentStatusType of employmentStatusTypes | keyvalue: originalOrder" [value]="employmentStatusType.key">
             {{ employmentStatusType.value }}
           </mat-option>
@@ -133,7 +133,7 @@
 
       <mat-form-field>
         <mat-label>{{'SportsActivityType'| transloco}}</mat-label>
-        <mat-select formControlName="sportsActivity">
+        <mat-select formControlName="sportsActivity" multiple>
           <mat-option *ngFor="let sportsActivityType of sportsActivityTypes | keyvalue: originalOrder" [value]="sportsActivityType.key">
             {{ sportsActivityType.value }}
           </mat-option>
@@ -142,7 +142,7 @@
 
       <mat-form-field>
         <mat-label>{{'EatingHabitsType'| transloco}}</mat-label>
-        <mat-select formControlName="eatingHabits">
+        <mat-select formControlName="eatingHabits" multiple>
           <mat-option *ngFor="let eatingHabitsType of eatingHabitsTypes | keyvalue: originalOrder" [value]="eatingHabitsType.key">
             {{ eatingHabitsType.value }}
           </mat-option>
@@ -151,7 +151,7 @@
 
       <mat-form-field>
         <mat-label>{{'ClotheStyleType'| transloco}}</mat-label>
-        <mat-select formControlName="clotheStyle">
+        <mat-select formControlName="clotheStyle" multiple>
           <mat-option *ngFor="let clotheStyleType of clotheStyleTypes | keyvalue: originalOrder" [value]="clotheStyleType.key">
             {{ clotheStyleType.value }}
           </mat-option>
@@ -160,7 +160,7 @@
 
       <mat-form-field>
         <mat-label>{{'BodyArtType'| transloco}}</mat-label>
-        <mat-select formControlName="bodyArt">
+        <mat-select formControlName="bodyArt" multiple>
           <mat-option *ngFor="let bodyArtType of bodyArtTypes | keyvalue: originalOrder" [value]="bodyArtType.key">
             {{ bodyArtType.value }}
           </mat-option>
