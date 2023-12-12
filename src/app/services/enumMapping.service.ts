@@ -183,6 +183,7 @@ export class EnumMappingService {
   // ClotheStyleType
   get clotheStyleTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [ClotheStyleType.Casual, this.CasualText],
       [ClotheStyleType.Dressy, this.DressyText],
       [ClotheStyleType.Dandy, this.DandyText],
@@ -202,6 +203,7 @@ export class EnumMappingService {
   // BodyType
   get bodyTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [BodyType.Atlethic, this.AtlethicText],
       [BodyType.Chubby, this.ChubbyText],
       [BodyType.Normal, this.NormalText],
@@ -221,6 +223,7 @@ export class EnumMappingService {
   // BodyArtType
   get bodyArtTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [BodyArtType.Piercing, this.PiercingText],
       [BodyArtType.Tatoo, this.TatooText],
       [BodyArtType.Other, this.OtherText]
@@ -237,6 +240,7 @@ export class EnumMappingService {
   // EatingHabitsType
   get eatingHabitsTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [EatingHabitsType.Healthy, this.HealthyText],
       [EatingHabitsType.Gastronomic, this.GastronomicText],
       [EatingHabitsType.Kosher, this.KosherText],
@@ -257,6 +261,7 @@ export class EnumMappingService {
   // EducationStatusType
   get educationStatusTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [EducationStatusType.Graduated, this.GraduatedText],
       [EducationStatusType.Student, this.StudentText],
       [EducationStatusType.Other, this.OtherText]
@@ -273,6 +278,7 @@ export class EnumMappingService {
   // EducationType
   get educationTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [EducationType.School, this.SchoolText],
       [EducationType.Highschool, this.HighschoolText],
       [EducationType.University, this.UniversityText],
@@ -290,6 +296,7 @@ export class EnumMappingService {
   // EmploymentStatusType
   get employmentStatusTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [EmploymentStatusType.Unemployed, this.UnemployedText],
       [EmploymentStatusType.Employed, this.EmployedText],
       [EmploymentStatusType.SelfEmployed, this.SelfEmployedText],
@@ -307,6 +314,7 @@ export class EnumMappingService {
   // HasChildrenType
   get hasChildrenTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [HasChildrenType.Yes, this.YesText],
       [HasChildrenType.No, this.NoText],
       [HasChildrenType.Other, this.OtherText]
@@ -323,6 +331,7 @@ export class EnumMappingService {
   // WantChildrenType
   get wantChildrenTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [WantChildrenType.Yes, this.YesText],
       [WantChildrenType.No, this.NoText],
       [WantChildrenType.Other, this.OtherText]
@@ -339,6 +348,7 @@ export class EnumMappingService {
   // HasPetsType
   get hasPetsTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [HasPetsType.Yes, this.YesText],
       [HasPetsType.No, this.NoText],
       [HasPetsType.Other, this.OtherText]
@@ -355,6 +365,7 @@ export class EnumMappingService {
   // LivesInType
   get livesInTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [LivesInType.City, this.CityText],
       [LivesInType.Suburb, this.SuburbText],
       [LivesInType.Countryside, this.CountrysideText],
@@ -372,6 +383,7 @@ export class EnumMappingService {
   // SmokingHabitsType
   get smokingHabitsTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [SmokingHabitsType.NonSmoker, this.NonSmokerText],
       [SmokingHabitsType.OccasionalSmoker, this.OccasionalSmokerText],
       [SmokingHabitsType.Smoker, this.SmokerText],
@@ -389,6 +401,7 @@ export class EnumMappingService {
   // SportsActivityType
   get sportsActivityTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
+      [ClotheStyleType.NotChosen, this.NotChosenText],
       [SportsActivityType.Regularly, this.RegularlyText],
       [SportsActivityType.SomeRegularity, this.SomeRegularityText],
       [SportsActivityType.Seldom, this.SeldomText],
