@@ -66,55 +66,68 @@
     </div>
 
     <div *ngIf="profile.body != 'NotChosen'">
-      <label>{{'BodyType'| transloco}}</label>{{profile.body}}
+      <label>{{'BodyType'| transloco}}</label>
+      {{bodyType}}
     </div>
 
     <div *ngIf="profile.smokingHabits != 'NotChosen'">
-      <label>{{'SmokingHabitsType'| transloco}}</label>{{profile.smokingHabits}}
+      <label>{{'SmokingHabitsType'| transloco}}</label>
+      {{smokingHabitsType}}
     </div>
 
     <div *ngIf="profile.hasChildren != 'NotChosen'">
-      <label>{{'HasChildrenType'| transloco}}</label>{{profile.hasChildren}}
+      <label>{{'HasChildrenType'| transloco}}</label>
+      {{hasChildrenType}}
     </div>
 
     <div *ngIf="profile.wantChildren != 'NotChosen'">
-      <label>{{'WantChildrenType'| transloco}}</label>{{profile.wantChildren}}
+      <label>{{'WantChildrenType'| transloco}}</label>
+      {{wantChildrenType}}
     </div>
 
     <div *ngIf="profile.hasPets != 'NotChosen'">
-      <label>{{'HasPetsType'| transloco}}</label>{{profile.hasPets}}
+      <label>{{'HasPetsType'| transloco}}</label>
+      {{hasPetsType}}
     </div>
 
     <div *ngIf="profile.livesIn != 'NotChosen'">
-      <label>{{'LivesInType'| transloco}}</label>{{profile.livesIn}}
+      <label>{{'LivesInType'| transloco}}</label>
+      {{livesInType}}
     </div>
 
     <div *ngIf="profile.education != 'NotChosen'">
-      <label>{{'EducationType'| transloco}}</label>{{profile.education}}
+      <label>{{'EducationType'| transloco}}</label>
+      {{educationType}}
     </div>
 
     <div *ngIf="profile.educationStatus != 'NotChosen'">
-      <label>{{'EducationStatusType'| transloco}}</label>{{profile.educationStatus}}
+      <label>{{'EducationStatusType'| transloco}}</label>
+      {{educationStatusType}}
     </div>
 
     <div *ngIf="profile.employmentStatus != 'NotChosen'">
-      <label>{{'EmploymentStatusType'| transloco}}</label>{{profile.employmentStatus}}
+      <label>{{'EmploymentStatusType'| transloco}}</label>
+      {{employmentStatusType}}
     </div>
 
     <div *ngIf="profile.sportsActivity != 'NotChosen'">
-      <label>{{'SportsActivityType'| transloco}}</label>{{profile.sportsActivity}}
+      <label>{{'SportsActivityType'| transloco}}</label>
+      {{sportsActivityType}}
     </div>
 
     <div *ngIf="profile.eatingHabits != 'NotChosen'">
-      <label>{{'EatingHabitsType'| transloco}}</label>{{profile.eatingHabits}}
+      <label>{{'EatingHabitsType'| transloco}}</label>
+      {{eatingHabitsType}}
     </div>
 
     <div *ngIf="profile.clotheStyle != 'NotChosen'">
-      <label>{{'ClotheStyleType'| transloco}}</label>{{profile.clotheStyle}}
+      <label>{{'ClotheStyleType'| transloco}}</label>
+      {{clotheStyleType}}
     </div>
 
     <div *ngIf="profile.bodyArt != 'NotChosen'">
-      <label>{{'BodyArtType'| transloco}}</label>{{profile.bodyArt}}
+      <label>{{'BodyArtType'| transloco}}</label>
+      {{bodyArtType}}
     </div>
 
     <div *ngIf="!profile.contactable">
