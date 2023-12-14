@@ -41,9 +41,11 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
     );
 
-    this.subs.push(
-      this.translocoService.selectTranslate('BodyTypes.' + this.profile.body).subscribe(value => this.bodyType = value)
-    );
+    if (this.profile.smokingHabits != 'NotChosen') {
+      this.subs.push(
+        this.translocoService.selectTranslate('BodyTypes.' + this.profile.body).subscribe(value => this.bodyType = value)
+      );
+    }
 
     if (this.profile.smokingHabits != 'NotChosen') {
       this.subs.push(
@@ -259,11 +261,11 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     selcetedProfiles.push(this.profile.profileId);
 
     this.subs.push(
-      this.profileService.blockBookmarks(selcetedProfiles) // TODO: Should not be possible unless there are messages / bookmark
+      this.profileService.blockBookmarks(selcetedProfiles)
         .subscribe({
           next: () => { },
           complete: () => {
-            this.profileService.updateCurrentUserSubject(); // TODO: Is this needed?
+            this.profileService.updateCurrentUserSubject();
           },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotBlockBookmarks'), null);

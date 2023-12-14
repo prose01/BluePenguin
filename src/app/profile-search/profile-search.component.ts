@@ -125,74 +125,85 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.enumMappings.updateGenderTypeSubject();
 
     this.subs.push(
-      this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = value)
+      this.enumMappings.clotheStyleTypeSubject.subscribe(value => this.clotheStyleTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateClotheStyleTypeSubject();
 
     this.subs.push(
-      this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = value)
+      this.enumMappings.bodyTypeSubject.subscribe(value => this.bodyTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateBodyTypeSubject();
 
     this.subs.push(
-      this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = value)
+      this.enumMappings.bodyArtTypeSubject.subscribe(value => this.bodyArtTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateBodyArtTypeSubject();
 
     this.subs.push(
-      this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = value)
+      this.enumMappings.eatingHabitsTypeSubject.subscribe(value => this.eatingHabitsTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateEatingHabitsTypeSubject();
 
     this.subs.push(
-      this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = value)
+      this.enumMappings.educationStatusTypeSubject.subscribe(value => this.educationStatusTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateEducationStatusTypeSubject();
 
     this.subs.push(
-      this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = value)
+      this.enumMappings.educationTypeSubject.subscribe(value => this.educationTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateEducationTypeSubject();
 
     this.subs.push(
-      this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = value)
+      this.enumMappings.employmentStatusTypesSubject.subscribe(value => this.employmentStatusTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateEmploymentStatusTypeSubject();
 
     this.subs.push(
-      this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = value)
+      this.enumMappings.hasChildrenTypesSubject.subscribe(value => this.hasChildrenTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateHasChildrenTypeSubject();
 
     this.subs.push(
-      this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = value)
+      this.enumMappings.wantChildrenTypesSubject.subscribe(value => this.wantChildrenTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateWantChildrenTypeSubject();
 
     this.subs.push(
-      this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = value)
+      this.enumMappings.hasPetsTypeSubject.subscribe(value => this.hasPetsTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateHasPetsTypeSubject();
 
     this.subs.push(
-      this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = value)
+      this.enumMappings.livesInTypeSubject.subscribe(value => this.livesInTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateLivesInTypeSubject();
 
     this.subs.push(
-      this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = value)
+      this.enumMappings.smokingHabitsTypeSubject.subscribe(value => this.smokingHabitsTypes = this.stripNotChosen(value))
     );
     this.enumMappings.updateSmokingHabitsTypeSubject();
 
     this.subs.push(
-      this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = value)
+      this.enumMappings.sportsActivityTypeSubject.subscribe(value => this.sportsActivityTypes = this.stripNotChosen(value))
     );
-    this.enumMappings.updateSportsActivityTypeSubject();
-  }
-
+    this.enumMappings.updateSportsActivityTypeSubject();    
+  } 
+  
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
     this.subs = [];
+  }
+
+  private stripNotChosen(obj: any): any {
+    var types = new Map<string, string>()
+
+    for (let k of obj.keys()) {
+      if (k != 'NotChosen')
+        types.set(k, obj.get(k))
+    }
+
+    return types;
   }
 
   private createForm(): void {
