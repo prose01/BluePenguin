@@ -20,104 +20,12 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
 
-  public bodyType: string;
-  public smokingHabitsType: string;
-  public hasChildrenType: string;
-  public wantChildrenType: string;
-  public hasPetsType: string;
-  public livesInType: string;
-  public educationType: string;
-  public educationStatusType: string;
-  public employmentStatusType: string;
-  public sportsActivityType: string;
-  public eatingHabitsType: string;
-  public clotheStyleType: string;
-  public bodyArtType: string;
-
   constructor(private profileService: ProfileService, private dialog: MatDialog, private readonly translocoService: TranslocoService) { }
 
   ngOnInit(): void {
     this.subs.push(
       this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
     );
-
-    if (this.profile.smokingHabits != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('BodyTypes.' + this.profile.body).subscribe(value => this.bodyType = value)
-      );
-    }
-
-    if (this.profile.smokingHabits != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('SmokingHabitsType.' + this.profile.smokingHabits).subscribe(value => this.smokingHabitsType = value)
-      );
-    }
-
-    if (this.profile.hasChildren != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('HasChildrenType.' + this.profile.hasChildren).subscribe(value => this.hasChildrenType = value)
-      );
-    }
-
-    if (this.profile.wantChildren != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('WantChildrenType.' + this.profile.wantChildren).subscribe(value => this.wantChildrenType = value)
-      );
-    }
-
-    if (this.profile.hasPets != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('HasPetsType.' + this.profile.hasPets).subscribe(value => this.hasPetsType = value)
-      );
-    }
-
-    if (this.profile.livesIn != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('LivesInType.' + this.profile.livesIn).subscribe(value => this.livesInType = value)
-      );
-    }
-
-    if (this.profile.education != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('EducationType.' + this.profile.education).subscribe(value => this.educationType = value)
-      );
-    }
-
-    if (this.profile.educationStatus != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('EducationStatusType.' + this.profile.educationStatus).subscribe(value => this.educationStatusType = value)
-      );
-    }
-
-    if (this.profile.employmentStatus != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('EmploymentStatusType.' + this.profile.employmentStatus).subscribe(value => this.employmentStatusType = value)
-      );
-    }
-
-    if (this.profile.sportsActivity != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('SportsActivityType.' + this.profile.sportsActivity).subscribe(value => this.sportsActivityType = value)
-      );
-    }
-
-    if (this.profile.eatingHabits != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('EatingHabitsType.' + this.profile.eatingHabits).subscribe(value => this.eatingHabitsType = value)
-      );
-    }
-
-    if (this.profile.clotheStyle != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('ClotheStyleType.' + this.profile.clotheStyle).subscribe(value => this.clotheStyleType = value)
-      );
-    }
-
-    if (this.profile.bodyArt != 'NotChosen') {
-      this.subs.push(
-        this.translocoService.selectTranslate('BodyArtType.' + this.profile.bodyArt).subscribe(value => this.bodyArtType = value)
-      );
-    }
   }
 
   ngOnDestroy(): void {

@@ -50,15 +50,15 @@
     </div>
 
     <div>
-      <label>{{'Age'| transloco}}</label>{{profile.age}}
+      <label>{{'Age'| transloco}}</label> {{profile.age}}
     </div>
 
     <div *ngIf="profile.height > 0">
-      <label>{{'Height'| transloco}}</label>{{profile.height}}
+      <label>{{'Height'| transloco}}</label> {{profile.height}}
     </div>
 
     <div *ngIf="profile.description != null">
-      <label>{{'Description'| transloco}}</label>{{profile.description}}
+      <label>{{'Description'| transloco}}</label> {{profile.description}}
     </div>
 
     <div *ngIf="profile.tags.length > 0">
