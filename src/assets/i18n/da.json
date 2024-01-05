@@ -124,6 +124,7 @@
   "GetProfilesWhoBookmarkedMe": "Kunne ikke hente profiler som har bookmarket mig",
   "GetProfilesWhoLikesMe": "Kunne ikke hente profiler som har liked mig",
   "GetProfilesWhoVisitedMe": "Kunne ikke hente profiler som har beøgt mig",
+  "GetAdminProfiles": "Kunne ikke hente Admin profiler",
   "GoToDashboard": "Gå til Dashboard",
   "Group": "Chat Gruppe",
   "GroupBlocked": "Du er blevet blokeret for gruppen",
@@ -143,6 +144,7 @@
   "Like": "Like",
   "Likes": "Likes",
   "LikesMe": "Likes mig",
+  "AdminProfiles": "Admin profiles",
   "ListView": "Listevisning",
   "LivesInType": "Bor i",
   "loadMessageHistoryPlaceholder": "Load gamle beskeder",
@@ -236,7 +238,8 @@
   },
   "GenderTypes": {
     "Female": "Kvinde",
-    "Male": "Mand"
+    "Male": "Mand",
+    "NonBinary": "Non-Binary"
   },
   "ClotheStyleTypes": {
     "Casual": "Afslappet",

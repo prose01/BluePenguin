@@ -152,6 +152,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getProfilesWhoLikesMe(orderBy, event.pageIndex, event.pageSize);
         break;
       }
+      case ViewFilterTypeEnum.AdminProfiles: {
+        this.getAdminProfiles(orderBy, event.pageIndex, event.pageSize);
+        break;
+      }
       default: {
         this.getLatestProfiles(orderBy, event.pageIndex, event.pageSize);
         break;
@@ -305,6 +309,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
           complete: () => { this.getProfileImages(this.currentProfiles); },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('GetProfilesWhoLikesMe'), null); this.loading = false;
+          }
+        })
+    );
+  }
+
+  // Get Admin Profiles.
+  private getAdminProfiles(selectedOrderBy: OrderByType = OrderByType.LastActive, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+    this.subs.push(
+      this.profileService.getAdminProfiles(selectedOrderBy, pageIndex, pageSize)
+        .subscribe({
+          next: (response: any) => {
+
+            this.currentProfiles = new Array;
+
+            this.currentProfiles.push(...response.profiles);
+
+            this.length = response.total;
+          },
+          complete: () => { this.getProfileImages(this.currentProfiles); },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('GetAdminProfiles'), null); this.loading = false;
           }
         })
     );

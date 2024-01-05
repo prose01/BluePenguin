@@ -124,6 +124,7 @@
   "GetProfilesWhoBookmarkedMe": "Could not get profiles that have bookmarked me",
   "GetProfilesWhoLikesMe": "Could not get profiles that have liked me",
   "GetProfilesWhoVisitedMe": "Could not get profiles that have visited me",
+  "GetAdminProfiles": "Could not get Admin profiles",
   "GoToDashboard": "Go to Dashboard",
   "Group": "Chat Group",
   "GroupBlocked": "You have been blocked from group",
@@ -143,6 +144,7 @@
   "Like": "Like",
   "Likes": "Likes",
   "LikesMe": "Likes me",
+  "AdminProfiles": "Admin profiles",
   "ListView": "ListView",
   "LivesInType": "Lives in",
   "loadMessageHistoryPlaceholder": "Load older messages",
@@ -236,7 +238,8 @@
   },
   "GenderTypes": {
     "Female": "Female",
-    "Male": "Male"
+    "Male": "Male",
+    "NonBinary": "Non-Binary"
   },
   "ClotheStyleTypes": {
     "Casual": "Casual",

@@ -172,6 +172,15 @@ export class ProfileService {
     return this.http.post<string>(`${this.avalonUrl}RemoveAdmin`, `\"${profileId}\"`, { headers: this.headers });
   }
 
+  getAdminProfiles(orderByType: OrderByType, pageIndex: number, pageSize: number): Observable<Profile[]> {
+    const params = new HttpParams()
+      .set('OrderByType', orderByType)
+      .set('PageIndex', pageIndex)
+      .set('PageSize', pageSize);
+
+    return this.http.get<Profile[]>(`${this.avalonUrl}GetAdminProfiles`, { headers: this.headers, params: params });
+  }
+
   blockBookmarks(profileIds: string[]): Observable<{}>{ 
     return this.http.post<Profile[]>(`${this.avalonUrl}BlockBookmarks`, profileIds, { headers: this.headers });
   }
