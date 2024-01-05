@@ -1,6 +1,7 @@
 export enum GenderType {
   "Female" = "Female",
-  "Male" = "Male"
+  "Male" = "Male",
+  "NonBinary" = "NonBinary"
 }
 
 export enum ClotheStyleType {

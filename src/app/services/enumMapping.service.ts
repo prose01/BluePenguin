@@ -34,6 +34,7 @@ export class EnumMappingService {
   // GenderTypes
   FemaleText: string;
   MaleText: string;
+  NonBinaryText: string;
 
   // ClotheStyleTypes
   CasualText: string;
@@ -109,6 +110,7 @@ export class EnumMappingService {
     // GenderType
     this.translocoService.selectTranslate('GenderTypes.Female').subscribe(value => this.FemaleText = value);
     this.translocoService.selectTranslate('GenderTypes.Male').subscribe(value => this.MaleText = value);
+    this.translocoService.selectTranslate('GenderTypes.NonBinary').subscribe(value => this.NonBinaryText = value);
     // ClotheStyleType
     this.translocoService.selectTranslate('ClotheStyleTypes.Casual').subscribe(value => this.CasualText = value);
     this.translocoService.selectTranslate('ClotheStyleTypes.Dressy').subscribe(value => this.DressyText = value);
@@ -169,7 +171,8 @@ export class EnumMappingService {
   get genderTypesMap(): ReadonlyMap<string, string> {
     return new Map<string, string>([
       [GenderType.Female, this.FemaleText],
-      [GenderType.Male, this.MaleText]
+      [GenderType.Male, this.MaleText],
+      [GenderType.NonBinary, this.NonBinaryText]
     ]);
   }
 

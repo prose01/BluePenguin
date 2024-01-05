@@ -54,6 +54,10 @@
           <span class="material-icons">favorite</span>
         </button>
 
+        <button mat-flat-button color="primary" *ngIf="currentUserSubject != null && currentUserSubject?.admin" (click)="getData('AdminProfiles');" attr.aria-label="{{'AdminProfiles'| transloco}}" matTooltip="{{'AdminProfiles'| transloco}}">
+          <span class="material-icons">admin_panel_settings</span>
+        </button>
+
         <button mat-flat-button color="primary" (click)="toggleOrderBy()" attr.aria-label="{{matButtonOrderByText}}" matTooltip={{matButtonOrderByText}}>
           <span class="material-icons">{{matButtonOrderByIcon}}</span>
         </button>
