@@ -28,6 +28,7 @@
       <!--<span class="material-icons icon-orange-left" *ngIf="currentUserSubject?.bookmarks.filter(p => p.profileId === profile.profileId)" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>-->
       <span class="material-icons icon-orange-left" *ngIf="bookmarkedMe(profile.profileId) && profile!=='ad'" matTooltip="{{'BookmarkedMe'| transloco}}">bookmark_added</span>
       <span class="material-icons icon-orange-right" *ngIf="!profile.contactable && profile!=='ad'" matTooltip="{{'NotContactable'| transloco}}">person_off</span>
+      <span class="material-icons icon-orange-right" *ngIf="currentUserSubject.admin && profile.admin" matTooltip="{{'AdminName'| transloco}}">verified_user</span>
 
       <div *ngIf="profile!=='ad'" class="imageOverlay">
 
