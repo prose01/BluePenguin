@@ -6,83 +6,48 @@
     </div>
   </div>
 
-  <div *ngIf="dataSource" class="mat-elevation-z8">
+  <div class="menu-buttons">
+    <button mat-flat-button color="accent" (click)="openCreateGroupDialog()" attr.aria-label="{{'CreateGroup'| transloco}}" matTooltip="{{'CreateGroup'| transloco}}">
+      <span class="material-icons icon-white-square">group_add</span>
+    </button>
+  </div>
 
-    <div class="menu-buttons">
-      <button mat-flat-button color="accent" (click)="openCreateGroupDialog()" attr.aria-label="{{'CreateGroup'| transloco}}" matTooltip="{{'CreateGroup'| transloco}}">
-        <span class="material-icons icon-white-square">group_add</span>
+  <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
+
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput maxlength="50" placeholder="{{'NameOrDescription'| transloco}}" formControlName="searchfield">
+      </mat-form-field>
+
+      <button type="submit" mat-flat-button color="primary" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
+        <span class="material-icons">search</span>
       </button>
+
     </div>
+  </form>
 
+  <div *ngIf="noResult" class="noResults">
+    <p>
+      {{'NoResultsText'| transloco}}
+    </p>
+  </div>
 
+  <div class="profile-list-grid"
+       infinite-scroll
+       [infiniteScrollDistance]="scrollDistance"
+       [infiniteScrollUpDistance]="scrollUpDistance"
+       [infiniteScrollThrottle]="throttle"
+       [scrollWindow]="true"
+       (scrolled)="onScrollDown()">
+    <div *ngFor="let group of currentGroups; let i = index" [ngClass]="imageSize[i]">
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
-
-      <div class="form-container">
-        <mat-form-field>
-          <input matInput maxlength="50" placeholder="{{'NameOrDescription'| transloco}}" formControlName="searchfield">
-        </mat-form-field>
-
-        <button type="submit" mat-flat-button color="primary" attr.aria-label="{{'Search'| transloco}}" matTooltip="{{'Search'| transloco}}">
-          <span class="material-icons">search</span>
-        </button>
-
+      <ad-tile *ngIf="group==='ad'"></ad-tile>
+      <div *ngIf="group!=='ad'" class="groupTiles" (click)="openGroupDetailsDialog(group)" [ngStyle]="{'background-color':  group.avatar.circleColour }">
+        <span class="imageLabel" [ngStyle]="{'color':  group.avatar.initialsColour }">{{group.name}}</span>
+        <span class="material-icons icon-orange-right" *ngIf="joinedGroup(group?.groupId)" attr.aria-label="{{'GroupJoined'| transloco}}" matTooltip="{{'GroupJoined'| transloco}}">groups</span>
+        <span class="material-icons icon-white-right" *ngIf="!joinedGroup(group?.groupId)" attr.aria-label="{{'GroupNotJoined'| transloco}}" matTooltip="{{'GroupNotJoined'| transloco}}">groups</span>
       </div>
-    </form>
-
-
-    <table mat-table #table [dataSource]="dataSource" multiTemplateDataRows matSort>
-
-      <!-- Avatar Column -->
-      <ng-container matColumnDef="avatar">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="avatar.initials"> </th>
-        <td mat-cell *matCellDef="let element" class="square" [ngStyle]="{'background-color':  element.avatar.circleColour }">
-          <div class="initials" [ngStyle]="{'color':  element.avatar.initialsColour }">{{element.avatar.initials}}</div>
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Name'| transloco}} </th>
-        <td mat-cell *matCellDef="let element">
-          {{element.name}}
-        </td>
-      </ng-container>
-
-      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
-          <div class="element-detail"
-               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div>{{element.description}}</div>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Joined Column -->
-      <ng-container matColumnDef="joined">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="groupId"> {{'Groups'| transloco}} </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button aria-label="expand row" (click)="toggleGroupJoin(element?.groupId); $event.stopPropagation()">
-            <span class="material-icons icon-orange" *ngIf="joinedGroup(element?.groupId)" attr.aria-label="{{'GroupJoin'| transloco}}" matTooltip="{{'GroupJoin'| transloco}}">groups</span>
-            <span class="material-icons icon-white" *ngIf="!joinedGroup(element?.groupId)" attr.aria-label="{{'GroupLeave'| transloco}}" matTooltip="{{'GroupLeave'| transloco}}">groups</span>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand "></tr>
-      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
-          class="element-row"
-          [class.expanded-row]="expandedElement === element"
-          (click)="expandedElement = expandedElement === element ? null : element">
-      </tr>
-
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
-
-    </table>
-
-    <mat-paginator [length]="length" [pageSize]="defaultPageSize" [pageSizeOptions]="[5, 10, 20]" (page)="pageChanged($event)"></mat-paginator>
-
+    </div>
   </div>
 
 </div>

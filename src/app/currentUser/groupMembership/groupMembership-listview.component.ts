@@ -14,7 +14,7 @@ import { Profile } from '../../models/profile';
 import { GroupModel } from '../../models/groupModel';
 import { ProfileService } from '../../services/profile.service';
 import { ImageService } from '../../services/image.service';
-import { GroupMembersDialog } from '../../groups/groupMembers-dialog/groupMembers-dialog.component';
+import { GroupMembersDialog } from '../../groups/group-members-dialog/group-members-dialog.component';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({

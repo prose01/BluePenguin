@@ -17,7 +17,7 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'groupMembers-dialog',
-  templateUrl: './groupMembers-dialog.component.html'
+  templateUrl: './group-members-dialog.component.html'
 })
 
 export class GroupMembersDialog implements OnInit, OnDestroy {

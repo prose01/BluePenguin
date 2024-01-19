@@ -130,6 +130,8 @@
   "GroupBlocked": "You have been blocked from group",
   "GroupJoin": "Join group",
   "GroupLeave": "Leave group",
+  "GroupJoined": "Joined group",
+  "GroupNotJoined": "Group not joined",
   "Groups": "Chat Groups",
   "HasChildrenType": "Has children",
   "HasPetsType": "Has pets",

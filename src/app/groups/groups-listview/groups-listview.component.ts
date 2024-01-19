@@ -1,10 +1,6 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
@@ -14,6 +10,7 @@ import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
 import { GroupModel } from '../../models/groupModel';
 import { CreateGroupDialog } from '../create-group-dialog/create-group-dialog';
+import { GroupDescriptionDialog } from '../group-description-dialog/group-description-dialog';
 import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 
 @Component({
@@ -31,39 +28,58 @@ import { ErrorDialog } from '../../error-dialog/error-dialog.component';
 export class GroupsListviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private currentUserSubject: CurrentUser;
-  private groups: GroupModel[];
 
   private defaultPageSize: number;
   private length: number;
 
-  public displayedColumns: string[] = ['avatar', 'name', 'joined'];
-  private columnsToDisplayWithExpand = [...this.displayedColumns];
-  private selection = new SelectionModel<GroupModel>(true, []);
-  public dataSource: MatTableDataSource<GroupModel>;
-  public expandedElement: GroupModel[] | null;
-
-
   public groupForm: FormGroup;
+  private byFilter: boolean = false;
+  private filter: string;
 
   public loading: boolean = true;
+  
+  private _groups: any[];
+  private currentPage: number = 0;
+  public throttle = 150;
+  public scrollDistance = 2;
+  public scrollUpDistance = 2;
+  public noResult: boolean = false;
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  public currentGroups: any[] = [];
+  private imageSize: string[] = []
+  private randomImagePlace: number;
+  private adGroup: number;
 
+  @Input() set groups(values: any[]) {
+    this._groups = values;
+    this.updateGroups();
+  }
+  get groups(): any[] {
+    return this._groups;
+  }
+  
 
   constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
+    this.adGroup = this.configurationLoader.getConfiguration().adGroup;
     this.createForm();
   }
 
   ngOnInit(): void {
     this.subs.push(
-      this.profileService.currentUserSubject
-        .subscribe(currentUserSubject => {
-          this.currentUserSubject = currentUserSubject;
-          this.getGroups();
-        })
+      this.profileService.currentUserSubject.subscribe(currentUserSubject => this.currentUserSubject = currentUserSubject)
     );
+    this.groups = new Array;
+    this.currentGroups = new Array;
+    this.getGroups();
+    //this.subs.push(
+    //  this.profileService.currentUserSubject
+    //    .subscribe(currentUserSubject => {
+    //      this.currentUserSubject = currentUserSubject;
+    //      this.getGroups();
+    //    })
+    //);
   }
 
   ngOnDestroy(): void {
@@ -71,6 +87,67 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.subs = [];
   }
 
+  private updateGroups(): void {
+
+    // Add random ad-tile.
+    for (let index = 0; index < this.groups?.length; index++) {
+
+      // Group list of Group by AdGroup.
+      if (index != 0 && index % this.adGroup === 0) {
+        // Select random index within group and apply ad-tile.
+        var i = this.randomIntFromInterval(index - this.adGroup, index);
+        this.groups?.splice(i, 0, 'ad');
+      }
+    }
+
+    // Set random image size.
+    for (var i = 0, len = this.groups?.length; i < len; i++) {
+      this.imageSize.push(this.randomSize());
+    }
+
+    // In case we only have small images set at leas one.
+    if (this.groups?.length > 0 && !this.imageSize.includes('big')) {
+      this.imageSize[this.randomImagePlace] = 'big'
+    }
+
+    if (this.groups?.length > 0) {
+      this.currentGroups.push(...this.groups);
+    }
+
+    this.groups?.length <= 0 ? this.noResult = true : this.noResult = false;
+    this.loading = false;
+  }
+
+  async resetCurrentGroups(): Promise<void> {
+    this.groups = new Array;
+    this.currentGroups = new Array;
+  }
+
+  onScrollDown(): void {
+    var pageIndex = (this.currentGroups?.length - this.currentPage) / this.defaultPageSize;
+
+    if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
+      this.currentPage = Math.floor(pageIndex);
+      //this.getGroups(Math.floor(pageIndex));
+      if (this.byFilter) {
+        this.getGroupsByFilter(this.filter);
+      }
+      else {
+        this.getGroups();
+      }
+      this.loading = true;
+    }
+  }
+
+  //private getNextGroups(filter: string): void {
+  //  if (this.byFilter) {
+  //    this.getGroupsByFilter(filter);
+  //  }
+  //  else {
+  //    this.getGroups();
+  //  }
+  //}
+  
   private createForm(): void {
     this.groupForm = this.formBuilder.group({
       searchfield: null
@@ -78,19 +155,17 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.resetCurrentGroups();
+    this.byFilter = true;
     const formModel = this.groupForm.value;
-    const filter = formModel.searchfield as string;
-    this.getGroupsByFilter(filter);
-  }
-
-  reset(): void {
-    this.createForm();
+    this.filter = formModel.searchfield as string;
+    this.getGroupsByFilter(this.filter);
   }
 
   // Get Groups by filter. 
-  private getGroupsByFilter(filter: string, currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getGroupsByFilter(filter: string, pageIndex: number = 0): void {
     this.subs.push(
-      this.profileService.getGroupsByFilter(filter, pageIndex, pageSize)
+      this.profileService.getGroupsByFilter(filter, pageIndex, this.defaultPageSize)
         .subscribe({
           next: (response: any) => {
 
@@ -100,7 +175,10 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
             this.length = response.total;
           },
-          complete: () => { this.setDataSource(); this.loading = false; },
+          complete: () => {
+            this.updateGroups();
+            this.loading = false;
+          },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('GetGroupsByFilter'), null); this.loading = false;
           }
@@ -108,57 +186,9 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateCurrentUserSubject() {
-    this.profileService.updateCurrentUserSubject().then(res => {
-      this.getGroups();
-    });
-  }
-
-  private setDataSource(): void {
-    this.loading = false;
-    this.dataSource = new MatTableDataSource<GroupModel>(this.groups);
-
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'avatar.initials': return item.avatar.initials;
-        case 'groupId': return this.joinedGroup(item[property]);
-        default: return item[property];
-      }
-    };
-
-    this.dataSource._updateChangeSubscription();
-
-    this.cdr.detectChanges(); // Needed to get pagination & sort working.
-    //this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  private isAllSelected(): boolean {
-    return this.selection.selected.length === this.dataSource.data.length;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  private masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  pageChanged(event) {
-    this.loading = true;
-
-    let pageIndex = event.pageIndex;
-    let pageSize = event.pageSize;
-    let currentSize = pageSize * pageIndex;
-
-    this.getGroups(currentSize, pageIndex, pageSize);
-  }
-
-
-  private getGroups(currentSize: number = 0, pageIndex: number = 0, pageSize: number = this.defaultPageSize): void {
+  private getGroups(pageIndex: number = 0): void {
     this.subs.push(
-      this.profileService.getGroups(pageIndex, pageSize)
+      this.profileService.getGroups(pageIndex, this.defaultPageSize)
         .subscribe({
           next: (response: any) => {
 
@@ -168,7 +198,10 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
             this.length = response.total;
           },
-          complete: () => { this.setDataSource(); this.loading = false; },
+          complete: () => {
+            this.updateGroups();
+            this.loading = false;
+          },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotGetGroups'), null); this.loading = false;
           }
@@ -176,7 +209,34 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     );
   }
 
-  private async openCreateGroupDialog(): Promise<void> {
+  private createGroup(group: GroupModel): void {
+    this.subs.push(
+      this.profileService.createGroup(group)
+        .subscribe({
+          next: () => {
+            this.profileService.updateCurrentUserSubject();
+            this.addNewGroup();
+          },
+          complete: () => { },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotCreateGroup'), null);
+          }
+        })
+    );
+  }
+
+  private addNewGroup() {
+    this.resetCurrentGroups();
+
+    if (this.byFilter) {
+      this.getGroupsByFilter(this.filter);
+    }
+    else {
+      this.getGroups();
+    }
+  }
+
+  public async openCreateGroupDialog(): Promise<void> {
 
     const dialogRef = this.dialog.open(CreateGroupDialog, {});
 
@@ -188,21 +248,6 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
           }
         }
       )
-    );
-  }
-
-  private createGroup(group: GroupModel): void {
-    this.subs.push(
-      this.profileService.createGroup(group)
-        .subscribe({
-          next: () => { },
-          complete: () => {
-            this.updateCurrentUserSubject();
-          },
-          error: () => {
-            this.openErrorDialog(this.translocoService.translate('CouldNotCreateGroup'), null);
-          }
-        })
     );
   }
 
@@ -222,10 +267,10 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.joinGroup(groupId)
         .subscribe({
-          next: () => { },
-          complete: () => {
-            this.updateCurrentUserSubject();
+          next: () => {
+            this.profileService.updateCurrentUserSubject()
           },
+          complete: () => { },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotJoinGroup'), null);
           }
@@ -240,15 +285,32 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.profileService.removeGroupsFromCurrentUserAndCurrentUserFromGroups(selcetedGroupIds)
         .subscribe({
-          next: () => { },
-          complete: () => {
-            this.updateCurrentUserSubject();
+          next: () => {
+            this.profileService.updateCurrentUserSubject()
           },
+          complete: () => { },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotLeaveGroup'), null);
           }
         })
     );
+  }
+
+  public async openGroupDetailsDialog(group: GroupModel): Promise<void> {
+    const dialogRef = this.dialog.open(GroupDescriptionDialog, {
+      data: {
+        group: group,
+        joinedGroup: this.joinedGroup(group.groupId)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(
+      res => {
+        if (res === true) {
+          this.toggleGroupJoin(group.groupId);
+        }
+      }
+    )
   }
 
   private joinedGroup(groupId: string): boolean {
@@ -257,6 +319,21 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     }
 
     return false;
+  }
+
+  // Set random tilesize for images.
+  private randomSize(): string {
+    var randomInt = this.randomIntFromInterval(1, this.randomImagePlace);
+
+    if (randomInt === 1) {
+      return 'big';
+    }
+
+    return 'small';
+  }
+
+  private randomIntFromInterval(min, max): number { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   private openErrorDialog(title: string, error: any): void {

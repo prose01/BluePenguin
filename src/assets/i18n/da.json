@@ -130,6 +130,8 @@
   "GroupBlocked": "Du er blevet blokeret for gruppen",
   "GroupJoin": "Tilmelde gruppe",
   "GroupLeave": "Forlad gruppe",
+  "GroupJoined": "Tilmeldt group",
+  "GroupNotJoined": "Ikke tilmeldt gruppe",
   "Groups": "Chat Grupper",
   "HasChildrenType": "Har børn",
   "HasPetsType": "Har husdyr",

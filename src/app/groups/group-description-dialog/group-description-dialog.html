@@ -1,0 +1,20 @@
+<div mat-dialog-content class="container">
+  <h1 mat-dialog-title>{{matDialogTitle}}</h1>
+  <div mat-dialog-content>
+    {{matDialogContent}}
+  </div>
+  <br />
+  <div mat-dialog-actions>
+    <button mat-flat-button color="accent" mat-dialog-close (click)="onCloseClick()" attr.aria-label="{{'Ok'| transloco}}">
+      {{'Ok'| transloco}}
+    </button>
+
+    <button mat-flat-button color="accent" *ngIf="joined" (click)="toggleGroupJoin()" attr.aria-label="{{'GroupJoined'| transloco}}" matTooltip="{{'GroupJoined'| transloco}}">
+      <span class="material-icons icon-orange-square">groups</span>
+    </button>
+    <button mat-flat-button color="accent" *ngIf="!joined" (click)="toggleGroupJoin()" attr.aria-label="{{'GroupNotJoined'| transloco}}" matTooltip="{{'GroupNotJoined'| transloco}}">
+      <span class="material-icons icon-white-square">groups</span>
+    </button>
+
+  </div>
+</div>

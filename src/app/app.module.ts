@@ -71,8 +71,9 @@ import { ProfileChatSearchComponent } from './profile-details/profile-chat-searc
 import { MessageDialog } from './profile-details/profile-chat-message-dialog/profile-chat-message-dialog';
 
 import { GroupsListviewComponent } from './groups/groups-listview/groups-listview.component';
+import { GroupDescriptionDialog } from './groups/group-description-dialog/group-description-dialog';
 import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
-import { GroupMembersDialog } from './groups/groupMembers-dialog/groupMembers-dialog.component';
+import { GroupMembersDialog } from './groups/group-members-dialog/group-members-dialog.component';
 
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { AboutComponent } from './about/about.component';
@@ -136,6 +137,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     CurrentUserImagesComponent,
     CallbackComponent,
     ProfileListviewComponent,
+    GroupDescriptionDialog,
     GroupMembersDialog,
     ProfileTileviewComponent,
     AdTileComponent,
