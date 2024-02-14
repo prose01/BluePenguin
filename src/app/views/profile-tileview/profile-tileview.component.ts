@@ -22,7 +22,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   private subs: Subscription[] = [];
   private _profiles: any[];
   private currentUserSubject: CurrentUser;
-  private pageSize: number;
+  private defaultPageSize: number;
   private currentPage: number = 0;
   public throttle = 150;
   public scrollDistance = 2;
@@ -52,7 +52,7 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(private profileService: ProfileService, private dialog: MatDialog, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
-    this.pageSize = this.configurationLoader.getConfiguration().defaultPageSize;
+    this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
     this.randomImagePlace = this.configurationLoader.getConfiguration().randomImagePlace;
     this.adGroup = this.configurationLoader.getConfiguration().adGroup;
     //this.imageMaxWidth = this.configurationLoader.getConfiguration().imageMaxWidth;
@@ -109,11 +109,11 @@ export class ProfileTileviewComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown(): void {
-    var pageIndex = (this.currentProfiles?.length - this.currentPage) / this.pageSize;
+    var pageIndex = (this.currentProfiles?.length - this.currentPage) / this.defaultPageSize;
 
     if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
       this.currentPage = Math.floor(pageIndex);
-      this.getNextData.emit({ pageIndex: Math.floor(pageIndex), pageSize: this.pageSize });
+      this.getNextData.emit({ pageIndex: Math.floor(pageIndex), pageSize: this.defaultPageSize });
       this.loading = true;
     }
   }

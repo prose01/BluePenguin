@@ -126,14 +126,14 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
   onScrollDown(): void {
     var pageIndex = (this.currentGroups?.length - this.currentPage) / this.defaultPageSize;
 
-    if (this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
+    if (this.currentGroups?.length > this.defaultPageSize && this.currentPage == 0 || Math.floor(pageIndex) == (this.currentPage + 1)) {
       this.currentPage = Math.floor(pageIndex);
-      //this.getGroups(Math.floor(pageIndex));
+
       if (this.byFilter) {
-        this.getGroupsByFilter(this.filter);
+        this.getGroupsByFilter(this.filter, Math.floor(pageIndex));
       }
       else {
-        this.getGroups();
+        this.getGroups(Math.floor(pageIndex));
       }
       this.loading = true;
     }
