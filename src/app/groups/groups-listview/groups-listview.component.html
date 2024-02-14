@@ -42,8 +42,8 @@
     <div *ngFor="let group of currentGroups; let i = index" [ngClass]="imageSize[i]">
 
       <ad-tile *ngIf="group==='ad'"></ad-tile>
-      <div *ngIf="group!=='ad'" class="groupTiles" (click)="openGroupDetailsDialog(group)" [ngStyle]="{'background-color':  group.avatar.circleColour }">
-        <span class="imageLabel" [ngStyle]="{'color':  group.avatar.initialsColour }">{{group.name}}</span>
+      <div *ngIf="group!=='ad'" class="groupTiles" (click)="openGroupDetailsDialog(group)">
+        <span class="imageLabel">{{group.name}}</span>
         <span class="material-icons icon-orange-right" *ngIf="joinedGroup(group?.groupId)" attr.aria-label="{{'GroupJoined'| transloco}}" matTooltip="{{'GroupJoined'| transloco}}">groups</span>
         <span class="material-icons icon-white-right" *ngIf="!joinedGroup(group?.groupId)" attr.aria-label="{{'GroupNotJoined'| transloco}}" matTooltip="{{'GroupNotJoined'| transloco}}">groups</span>
       </div>
