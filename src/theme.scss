@@ -40,7 +40,8 @@ $fontConfig: (
     input: mat.define-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
 );
 
-$dark-text: #607D8B;
+/*$dark-text: #607D8B;*/
+$dark-text: #DA3141;
 $dark-primary-text: rgba($dark-text, 0.87);
 $dark-accent-text: rgba($dark-primary-text, 0.54);
 $dark-disabled-text: rgba($dark-primary-text, 0.38);
@@ -115,7 +116,8 @@ mat.$dark-theme-foreground-palette: (
 $mat-primary: (
       main: #eeeeee,
       lighter: #cfd8dc,
-      darker: #44606e,
+      /*darker: #44606e,*/
+      darker: #DA3141,
       200: #cfd8dc, // For slide toggle,
       contrast : (
         main: $dark-primary-text,
@@ -154,9 +156,11 @@ $theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
 );*/
 
 $mat-accent: (
-    main: #607D8B,
+    /*main: #607D8B,*/
+    main: #DA3141,
     lighter: #cfd8dc,
-    darker: #44606e,
+    /*darker: #44606e,*/
+    darker: #DA3141,
     200: #cfd8dc, // For slide toggle,
     contrast: (
       main: $light-primary-text,
@@ -176,9 +180,12 @@ $mat-accent: (
 }
 
 body {
-  --accent-color: #266b95;
-  --accent-lighter-color: #bed3df;
-  --accent-darker-color: #174e78;
+  /*--accent-color: #266b95;*/
+  --accent-color: #DA3141;
+  /*--accent-lighter-color: #bed3df;*/
+  --accent-lighter-color: #EB8840;
+  /*--accent-darker-color: #174e78;*/
+  --accent-darker-color: #DA3141;
   --text-accent-color: #{$light-primary-text};
   --text-accent-lighter-color: #{$dark-primary-text};
   --text-accent-darker-color: #{$light-primary-text};
@@ -189,7 +196,7 @@ $theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
 /*#endregion Accent*/
 
 /*#region warn*/
-// The warn palette is optional (defaults to red).
+// The warn palette is optional (defaults to red). // TODO: Find another colour than Orange!!!!
 $mat-warn: (
     main: #f07537,
     lighter: #fbd6c3,
