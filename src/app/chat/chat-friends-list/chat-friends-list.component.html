@@ -1,6 +1,6 @@
 <div *ngIf="shouldDisplay" id="chat-people" [ngClass]="{'primary-outline-color': true, 'primary-background': true, 'chat-people-collapsed': isCollapsed}">
   <a href="javascript:void(0);" class="chat-title secondary-background shadowed" (click)="onChatTitleClicked()">
-    <span>
+    <span class="chatTitle">
       {{localization.title}}
     </span>
   </a>

@@ -1,3 +1,7 @@
+.chatTitle {
+  color: #ffffff;
+}
+
 #chat-people {
   position: relative;
   width: 240px;

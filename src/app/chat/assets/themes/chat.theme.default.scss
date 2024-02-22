@@ -15,7 +15,9 @@ $text-color: #5C5C5C;
   }
 
   .secondary-background {
-    background-color: #FAFAFA;
+    /*background-color: #FAFAFA;*/
+    background-color: #DA3141;
+    background-image: linear-gradient(to bottom right, #DA3141, #EB8840);
   }
 
   .primary-outline-color {
