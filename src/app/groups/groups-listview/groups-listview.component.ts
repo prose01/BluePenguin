@@ -300,7 +300,8 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(GroupDescriptionDialog, {
       data: {
         group: group,
-        joinedGroup: this.joinedGroup(group.groupId)
+        joinedGroup: this.joinedGroup(group.groupId),
+        currentUserProfileId: this.currentUserSubject.profileId
       }
     });
 
