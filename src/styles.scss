@@ -179,7 +179,7 @@ body {
   text-align: center;
 }
 
-.imageBoadButtonToggle {
+.imageLoadButtonToggle {
   margin-bottom: 10px;
 }
 
@@ -352,6 +352,9 @@ button.mat-mdc-unelevated-button {
   padding: 5px;
   /*background: #44606e;*/
   background: #FFFFFF;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #DA3141;
   border-radius: 50%;
 }
 
@@ -362,6 +365,9 @@ button.mat-mdc-unelevated-button {
   /*background: #44606e;*/
   background-color: #DA3141;
   background-image: linear-gradient(to bottom right, #DA3141, #EB8840);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFFFFF;
   border-radius: 50%;
 }
 
@@ -375,6 +381,9 @@ button.mat-mdc-unelevated-button {
   /*background: #44606e;*/
   background-color: #DA3141;
   background-image: linear-gradient(to bottom right, #DA3141, #EB8840);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFFFFF;
   border-radius: 50%;
 }
 
@@ -388,6 +397,9 @@ button.mat-mdc-unelevated-button {
   /*background: #44606e;*/
   background-color: #DA3141;
   background-image: linear-gradient(to bottom right, #DA3141, #EB8840);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFFFFF;
   border-radius: 50%;
 }
 
