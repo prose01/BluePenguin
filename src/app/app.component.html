@@ -172,7 +172,7 @@
       </div>
 
       <div *ngIf="pageView === 'Groups'">
-        <groups-listview></groups-listview>
+        <groups-listview (loadProfileDetails)="loadDetails($event)"></groups-listview>
       </div>
 
     </mat-sidenav-content>

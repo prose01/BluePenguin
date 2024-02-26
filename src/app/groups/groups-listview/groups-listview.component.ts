@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ConfigurationLoader } from '../../configuration/configuration-loader.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
+import { Profile } from '../../models/profile';
 import { GroupModel } from '../../models/groupModel';
 import { CreateGroupDialog } from '../create-group-dialog/create-group-dialog';
 import { GroupDescriptionDialog } from '../group-description-dialog/group-description-dialog';
@@ -58,6 +59,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     return this._groups;
   }
   
+  @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
@@ -307,11 +309,22 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(
       res => {
-        if (res === true) {
+        console.log('groups-listview res');
+        console.log(res);
+        if (res === 'toggleGroupJoin') {
           this.toggleGroupJoin(group.groupId);
+        }
+        if (res instanceof Profile) {
+          console.log('res is a Profile!'); //// TODO: NOT WORKING!!!!!
+          this.loadProfileDetails(res);
         }
       }
     )
+  }
+  
+  private loadProfileDetails(profile: Profile): void {
+    console.log('groups-listview loadProfileDetails');
+    this.loadDetails.emit(profile);
   }
 
   private joinedGroup(groupId: string): boolean {

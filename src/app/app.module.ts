@@ -72,7 +72,6 @@ import { MessageDialog } from './profile-details/profile-chat-message-dialog/pro
 
 import { GroupsListviewComponent } from './groups/groups-listview/groups-listview.component';
 import { GroupDescriptionDialog } from './groups/group-description-dialog/group-description-dialog';
-import { GroupMembershipListviewComponent } from './currentUser/groupMembership/groupMembership-listview.component';
 import { GroupMembersDialog } from './groups/group-members-dialog/group-members-dialog.component';
 
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
@@ -151,7 +150,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ChatWrapperComponent,
     BookmarksListviewComponent,
     CreateGroupDialog,
-    GroupMembershipListviewComponent,
     Chat,
     EmojifyPipe,
     LinkfyPipe,

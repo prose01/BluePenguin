@@ -27,7 +27,8 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
   private currentGroup: GroupModel;
   private groupMember: Profile[];
   private displayedColumns: string[] = ['avatar', 'name'];
-
+  private complainedaboutProfileIds: string[] = [];
+  
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -61,7 +62,7 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
   }
 
   toggleGroupJoin(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close('toggleGroupJoin');
   }
 
   private setDataSource(): void {
@@ -86,7 +87,7 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
         .subscribe({
           next: () => { },
           complete: () => {
-            // TODO: Do we need to notify user that a complain has been made. No, if too many complains user is blocked.
+            this.complainedaboutProfileIds.push(profileId);
           },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotComplainAboutGroupMember'), null);
@@ -95,10 +96,32 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
     );
   }
 
-  //// Load Detalails page
-  //private loadDetails(profile: Profile) {
-  //  //this.loadProfileDetails.emit(profile);
-  //}
+  // Load Detalails page
+  private loadDetails(profileId: string) {
+    console.log('group-description-dialog');
+
+    var profile: Profile;
+
+    this.subs.push(
+      this.profileService.getProfileById(profileId)
+        .subscribe({
+          next: (response: any) => {
+            profile = response; 
+          },
+          complete: () => {
+            console.log(profile);
+            this.dialogRef.close(profile);
+          },
+          error: () => {
+            this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
+          }
+        })
+    );
+
+
+    
+
+  }
 
   private openErrorDialog(title: string, error: any): void {
     const dialogRef = this.dialog.open(ErrorDialog, {
