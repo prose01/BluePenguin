@@ -250,7 +250,7 @@ body {
   display: none !important;
 }
 
-table {
+/*table {
   width: 100%;
 }
 
@@ -273,7 +273,7 @@ tr.element-row:not(.expanded-row):active {
 .element-detail {
   overflow: hidden;
   display: flex;
-}
+}*/
 
 
 
@@ -441,7 +441,7 @@ button.mat-mdc-unelevated-button {
 /*Form containers - create, edit and search*/
 .form-container {
   padding: 10px;
-  display: flex;
+  /*display: flex;*/
   flex-direction: column;
   overflow: hidden;
 }
