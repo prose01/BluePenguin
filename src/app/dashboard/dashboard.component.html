@@ -6,6 +6,6 @@
     </div>
   </div>
 
-  <div><app-profile-tileview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)"></app-profile-tileview></div>
+  <app-profile-tileview [profiles]="currentProfiles" [viewFilterType]="viewFilterType" (getNextData)="getNextData($event)" (getBookmarkedProfiles)="getBookmarkedProfiles($event)" (loadProfileDetails)="loadProfileDetails($event)"></app-profile-tileview>
   
 </div>
