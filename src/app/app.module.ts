@@ -72,7 +72,6 @@ import { MessageDialog } from './profile-details/profile-chat-message-dialog/pro
 
 import { GroupsListviewComponent } from './groups/groups-listview/groups-listview.component';
 import { GroupDescriptionDialog } from './groups/group-description-dialog/group-description-dialog';
-import { GroupMembersDialog } from './groups/group-members-dialog/group-members-dialog.component';
 
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { AboutComponent } from './about/about.component';
@@ -137,7 +136,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     CallbackComponent,
     ProfileListviewComponent,
     GroupDescriptionDialog,
-    GroupMembersDialog,
     ProfileTileviewComponent,
     AdTileComponent,
     AdRowComponent,
