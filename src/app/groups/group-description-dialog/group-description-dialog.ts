@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslocoService } from '@ngneat/transloco';
@@ -96,9 +96,8 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
     );
   }
 
-  // Load Detalails page
-  private loadDetails(profileId: string) {
-    console.log('group-description-dialog');
+  // Load Profile Detalails page
+  private loadProfileDetails(profileId: string) {
 
     var profile: Profile;
 
@@ -109,18 +108,13 @@ export class GroupDescriptionDialog implements OnInit, OnDestroy {
             profile = response; 
           },
           complete: () => {
-            console.log(profile);
-            this.dialogRef.close(profile);
+            this.dialogRef.close({ loadProfileDetails: true, profile: profile });
           },
           error: () => {
             this.openErrorDialog(this.translocoService.translate('CouldNotLoadDetails'), null);
           }
         })
     );
-
-
-    
-
   }
 
   private openErrorDialog(title: string, error: any): void {

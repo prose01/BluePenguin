@@ -8,7 +8,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ProfileService } from '../../services/profile.service';
 import { CurrentUser } from '../../models/currentUser';
-import { Profile } from '../../models/profile';
 import { GroupModel } from '../../models/groupModel';
 import { CreateGroupDialog } from '../create-group-dialog/create-group-dialog';
 import { GroupDescriptionDialog } from '../group-description-dialog/group-description-dialog';
@@ -59,7 +58,7 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     return this._groups;
   }
   
-  @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
+  @Output("loadProfileDetails") loadProfileDetails: EventEmitter<any> = new EventEmitter();
 
   constructor(private profileService: ProfileService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private formBuilder: FormBuilder, private configurationLoader: ConfigurationLoader, private readonly translocoService: TranslocoService) {
     this.defaultPageSize = this.configurationLoader.getConfiguration().defaultPageSize;
@@ -75,13 +74,6 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
     this.groups = new Array;
     this.currentGroups = new Array;
     this.getGroups();
-    //this.subs.push(
-    //  this.profileService.currentUserSubject
-    //    .subscribe(currentUserSubject => {
-    //      this.currentUserSubject = currentUserSubject;
-    //      this.getGroups();
-    //    })
-    //);
   }
 
   ngOnDestroy(): void {
@@ -140,15 +132,6 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
       this.loading = true;
     }
   }
-
-  //private getNextGroups(filter: string): void {
-  //  if (this.byFilter) {
-  //    this.getGroupsByFilter(filter);
-  //  }
-  //  else {
-  //    this.getGroups();
-  //  }
-  //}
   
   private createForm(): void {
     this.groupForm = this.formBuilder.group({
@@ -309,22 +292,14 @@ export class GroupsListviewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(
       res => {
-        console.log('groups-listview res');
-        console.log(res);
         if (res === 'toggleGroupJoin') {
           this.toggleGroupJoin(group.groupId);
         }
-        if (res instanceof Profile) {
-          console.log('res is a Profile!'); //// TODO: NOT WORKING!!!!!
-          this.loadProfileDetails(res);
+        if (res.loadProfileDetails === true) {
+          this.loadProfileDetails.emit(res.profile);
         }
       }
     )
-  }
-  
-  private loadProfileDetails(profile: Profile): void {
-    console.log('groups-listview loadProfileDetails');
-    this.loadDetails.emit(profile);
   }
 
   private joinedGroup(groupId: string): boolean {
