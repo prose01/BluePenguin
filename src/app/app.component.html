@@ -21,13 +21,6 @@
         </button>
       </div>
 
-      <!--ViewToggle button-->
-      <!--<div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
-        <button mat-flat-button color="primary" (click)="toggleViewDisplay()" attr.aria-label="{{matButtonViewToggleText}}" matTooltip={{matButtonViewToggleText}}>
-          <span class="material-icons">{{matButtonViewToggleIcon}}</span>
-        </button>
-      </div>-->
-
       <!--Dashboard menu-->
       <div *ngIf="pageView === 'Dashboard'" class="menu-buttons">
         <button mat-flat-button color="primary" (click)="getData('LatestProfiles');" attr.aria-label="{{'All'| transloco}}" matTooltip="{{'All'| transloco}}">
@@ -163,7 +156,7 @@
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Edit'">
-        <currentUserBoard (loadDetails)="loadDetails($event)" [tabIndex]="CurrentUserBoardTabIndex"><edit-profile></edit-profile></currentUserBoard>
+        <currentUserBoard [tabIndex]="CurrentUserBoardTabIndex"><edit-profile></edit-profile></currentUserBoard>
       </div>
 
       <div *ngIf="isProfileCreated && pageView === 'Details'">

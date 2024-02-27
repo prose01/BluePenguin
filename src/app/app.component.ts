@@ -224,13 +224,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  private toggleViewDisplay(): void {
-    this.isTileView = !this.isTileView;
-    this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
-    this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
-    this.dashboardComponent.toggleViewDisplay();
-    this.getData();
-  }
+  //private toggleViewDisplay(): void {
+  //  this.isTileView = !this.isTileView;
+  //  this.matButtonViewToggleText = (this.isTileView ? this.translocoService.translate('ListView') : this.translocoService.translate('TileView'));
+  //  this.matButtonViewToggleIcon = (this.isTileView ? 'line_style' : 'collections');
+  //  this.dashboardComponent.toggleViewDisplay();
+  //  this.getData();
+  //}
 
   private toggleOrderBy(): void {
     switch (this.orderBy) {
@@ -375,7 +375,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = PageViewEnum.Dashboard;
-      this.toggleViewDisplay();
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }
@@ -394,7 +393,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     else {
       this.pageView = PageViewEnum.Dashboard;
-      this.toggleViewDisplay();
       this.matButtonToggleText = this.translocoService.translate('Search');
       this.matButtonToggleIcon = 'search';
     }

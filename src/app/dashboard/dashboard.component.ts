@@ -33,19 +33,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private orderBy: OrderByType = OrderByType.LastActive;
   private viewFilterType: ViewFilterTypeEnum = ViewFilterTypeEnum.LatestProfiles;
-
-  private previousProfiles: Profile[];
+  
   private currentProfiles: Profile[];
-  private nextProfiles: Profile[];
   private filter: ProfileFilter = new ProfileFilter();
 
   private defaultPageSize: number;
   private pinacothecaUrl: string;
 
-  private displayedColumns: string[] = ['select', 'name', 'lastActive', 'visit/book', 'favorites', 'likes', 'contactable']; // TODO: Add columns after user's choise or just default?
-
   public loading: boolean = false;
-  public isTileView = true;
   public isProfileCreated = false;
 
   @Output("loadDetails") loadDetails: EventEmitter<any> = new EventEmitter();
@@ -364,11 +359,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private randomIntFromInterval(min, max): number { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
-
-  toggleViewDisplay(): void {
-    this.isTileView = !this.isTileView;
-  }
-
+  
   resetSelectionPagination(): void {
     this.listviewComponent?.resetSelectionPagination();
   }
